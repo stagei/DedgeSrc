@@ -56,6 +56,32 @@ pwsh.exe -File .\Install-CursorCli.ps1
 pwsh.exe -File .\Test-CursorDocIndexQuery.ps1
 ```
 
+## 4. Add folders to be indexed (optional)
+
+The Cursor CLI does not have an “add folder to index” command. Indexing happens when you **open a workspace** in the Cursor IDE. This script creates a **multi-root workspace file** (`.code-workspace`) that lists the folders you want indexed; when you open that file in Cursor, all listed roots are indexed.
+
+From this folder:
+
+```powershell
+# Create workspace that includes CursorDocIndexQuery + parent DedgeSrc (default)
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1
+
+# Create workspace and open it in Cursor so indexing starts
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1 -OpenInCursor
+
+# Custom folders (e.g. this project and c:\opt\src)
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1 -FoldersToIndex "C:\opt\src\DedgeSrc\CursorDocIndexQuery","C:\opt\src" -OpenInCursor
+
+# List folders currently in the workspace file
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1 -List
+
+# Remove one or more folders from the workspace file
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1 -RemovePaths "C:\opt\src\DedgeSrc\CursorDocIndexQuery"
+pwsh.exe -File .\Add-FoldersToCursorWorkspace.ps1 -RemovePaths "C:\opt\src\DedgeSrc\CursorDocIndexQuery","C:\opt\src" -OpenInCursor
+```
+
+Then in Cursor: **File → Open Workspace from File** and choose `DedgeSrc-Indexed.code-workspace` (or the path you set with `-WorkspaceFilePath`). With `-OpenInCursor`, Cursor opens that workspace for you. The “cursor” shell command must be installed (Cursor: Command Palette → **Shell Command: Install 'cursor' command**).
+
 ## Files
 
 | File | Purpose |
@@ -63,6 +89,8 @@ pwsh.exe -File .\Test-CursorDocIndexQuery.ps1
 | `Install-CursorCli.ps1` | Downloads and installs Cursor CLI (Windows) via official endpoint. |
 | `Test-CursorDocIndexQuery.ps1` | Runs `agent -p "<query>"` from the given workspace and writes the result to a Markdown file. |
 | `Run-Test.ps1` | Runs install (if needed) then runs the test query. |
+| `Add-FoldersToCursorWorkspace.ps1` | Creates/updates a multi-root `.code-workspace`; use `-List` to list indexed folders, `-RemovePaths` to remove them, or default to add/set folders; optional `-OpenInCursor`. |
+| `DedgeSrc-Indexed.code-workspace` | Generated workspace file (after running Add-FoldersToCursorWorkspace.ps1). |
 | `output\` | Default directory for result `.md` files (created on first run). |
 
 ## Notes
