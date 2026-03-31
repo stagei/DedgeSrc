@@ -1,0 +1,80 @@
+---
+description: Factory pattern and database-agnostic architecture
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Factory Pattern Usage (CRITICAL - DATABASE AGNOSTIC)
+
+## MANDATORY Rule: NEVER Directly Instantiate Provider Classes
+
+**FORBIDDEN - Direct Instantiation:**
+```csharp
+// WRONG! Do NOT do this ANYWHERE except in factory classes
+var connectionManager = new DB2ConnectionManager(connection);
+var metadataService = new DB2MetadataService();
+```
+
+**REQUIRED - Use Factory Pattern:**
+```csharp
+// CORRECT! Always use factories
+var connectionManager = ConnectionManagerFactory.CreateConnectionManager(connection);
+var metadataService = MetadataServiceFactory.CreateMetadataService(connectionManager);
+```
+
+## Factory Classes (THE ONLY PLACE for Provider References)
+
+**Only these files may reference provider-specific classes:**
+1. `Data/ConnectionManagerFactory.cs` - Creates connection managers
+2. `Services/MetadataServiceFactory.cs` - Creates metadata services
+
+## Correct Patterns for All Other Code
+
+**Services:**
+```csharp
+// CORRECT - Accept interface in constructor
+public class MyService
+{
+    private readonly IConnectionManager _connectionManager;
+    
+    public MyService(IConnectionManager connectionManager)
+    {
+        _connectionManager = connectionManager; // Works with ANY provider
+    }
+}
+```
+
+## Namespace Import Rules
+
+**FORBIDDEN in all files except factories:**
+```csharp
+using DbExplorer.Data.Providers.DB2;
+using DbExplorer.Services.Providers.DB2;
+```
+
+**ALWAYS use agnostic imports:**
+```csharp
+using DbExplorer.Data;           // Contains IConnectionManager
+using DbExplorer.Services;       // Contains factories
+using DbExplorer.Models;         // Provider-agnostic models
+```
+
+## Verification Commands
+
+```powershell
+# Find direct DB2ConnectionManager instantiation (should return 0 results except factories)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | 
+    Select-String "new DB2ConnectionManager" | Where-Object { $_.Path -notmatch "Factory" }
+
+# Find provider namespace imports (should return 0 results except factories)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | 
+    Select-String "using.*Providers\.DB2" | Where-Object { $_.Path -notmatch "Factory" }
+```
+
+## Why This Matters
+
+**Benefits of Factory Pattern:**
+- Add PostgreSQL support by updating 2 factory files (not 50+ service files)
+- Test with mock connections easily
+- Swap providers at runtime without code changes
+- Future-proof architecture

@@ -1,0 +1,52 @@
+---
+description: HTML presentation structure and Reveal.js patterns
+globs: Presentation-HTML/**/*.html
+alwaysApply: false
+---
+
+# NorDug Presentation - HTML Structure
+
+## Primary Delivery
+
+The main presentation is **Presentation-HTML/index.html** – a Reveal.js 4.3.1 slideshow. Open it in a browser for presentation mode.
+
+## Slide Structure
+
+Each slide is a `<section>` inside `<div class="slides">`:
+
+```html
+<!-- SLIDE N: Title -->
+<section>
+    <img src="images/dEdge.png" class="logo">
+    <h2>Slide Title</h2>
+    <!-- content -->
+</section>
+```
+
+## Layout Classes
+
+| Class | Use |
+|-------|-----|
+| `title-slide` | Centered title slide (slide 1, 25) |
+| `section-slide` | Section divider (centered heading) |
+| `grid-2`, `grid-3`, `grid-4` | Multi-column layouts |
+| `card` | Content block; add `.orange`, `.red`, `.green` for emphasis |
+| `stat` | Metric box (number + label) |
+| `timeline` / `timeline-item` | Sequential items |
+| `diagram` | Wraps diagram images |
+| `center` | Center text |
+| `small` | Smaller font |
+
+## Diagram Slides
+
+Diagrams live in `Presentation-HTML/diagrams/` as `.mmd` (Mermaid) → `.svg`. Reference in HTML:
+
+```html
+<div class="diagram">
+    <img src="diagrams/name.svg" alt="Description">
+</div>
+```
+
+## Slide Numbering
+
+Slides are numbered 1–25. Comments like `<!-- SLIDE N: Title -->` must match the logical order.

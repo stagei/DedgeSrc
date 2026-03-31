@@ -1,0 +1,256 @@
+---
+description: Project goals and context for NorDug DB2 migration presentation
+alwaysApply: true
+---
+
+# NorDug Presentation Project Goals
+
+## Project Overview
+
+This project contains background documents and research materials for a technical presentation on **DB2 Database Migration Pathways to Microsoft Azure**.
+
+**Presentation Date:** February 12, 2026  
+**Duration:** 1.5 hours  
+**Audience:** Technical professionals (NorDug event)
+
+## Project Goals
+
+### Primary Objective
+Document and present an alternative migration pathway for DB2 databases from legacy Windows Server environments to Microsoft Azure, comparing this approach with a previous project that used Windows Server 2025.
+
+### Key Goals
+
+1. **Research and Document Azure DB2 Offerings**
+   - Understand IBM Db2 as a Service (SaaS) for OLTP workloads
+   - Understand IBM Db2 Warehouse SaaS for analytics workloads
+   - Document technical architecture and operational mechanics
+   - Explain the Bring Your Own Cloud (BYOC) deployment model
+
+2. **Migration Strategy Documentation**
+   - Document migration path from DB2 9.7 (legacy Windows Server) to DB2 12.1 (Azure)
+   - Explain automated upgrade capabilities
+   - Provide implementation guidance for both Azure DB2 offerings
+   - Include step-by-step procedures and best practices
+
+3. **Comparative Analysis**
+   - Compare Azure DB2 SaaS pathway with Windows Server 2025 pathway
+   - Highlight differences in management, scaling, and operations
+   - Document benefits and trade-offs of each approach
+   - Provide recommendations based on workload types
+
+4. **Presentation Preparation**
+   - Create comprehensive background documents
+   - Structure content for 1.5-hour technical presentation
+   - Include technical details, architecture diagrams, and implementation guides
+   - Prepare for Q&A and technical discussions
+
+## Project Context
+
+### Customer
+- **Customer:** Felleskjøpet AGRI
+- **Project Type:** Real-world migration project performed on behalf of the customer
+
+### Project Team
+- **Geir Helge Starholm** - Dedge AS (Project lead/presenter)
+- **Svein Morten Erikstad** - PrototypeLabs AS (Technical consultant)
+- **Internal Resources** - Felleskjøpet AGRI (Customer team members)
+
+### Migration Scenario
+- **Source:** DB2 version 9.7 running on legacy Windows Server (on-premises)
+- **Target:** DB2 version 12.1 on Microsoft Azure
+- **Challenge:** End-of-life DB2 9.7 requires upgrade to supported version
+- **Requirement:** Automated upgrade path from 9.7 to 12.1
+
+### Historical Context
+This project emulates a different pathway compared to a project completed last year that used Windows Server 2025. The presentation will explore Azure-managed DB2 services as an alternative to self-managed Windows Server deployments.
+
+### Customer PowerShell Library Structure
+The customer (Felleskjøpet AGRI) uses a PowerShell library (`FKMenyPSH`) for automation and infrastructure management. The codebase structure includes:
+
+- **`@FKMenyPSH/DevTools/DatabaseTools`** - Tools to configure and maintain all DB2 instances on all servers
+- **`@FKMenyPSH/DevTools/InfrastructureTools`** - Tools to set up servers automatically
+- **`@FKMenyPSH/_Modules`** - Common modules containing most functionality abstracted from the other two folders into specific modules, for example:
+  - `@FKMenyPSH/_Modules/Db2-Handler/Db2-Handler.psm1` - DB2-specific functionality module
+
+This PowerShell library represents the automation infrastructure used in the migration project and demonstrates the customer's approach to infrastructure-as-code and database management automation.
+
+## Document Structure
+
+### Core Documents
+
+1. **00_Conversation_Summary.md**
+   - Initial research and conversation summary
+   - Key findings and questions answered
+
+2. **01_Azure_DB2_Offerings_Overview.md**
+   - Executive overview of both Azure DB2 offerings
+   - Capabilities, use cases, and comparison
+   - Deployment model explanation
+
+3. **02_How_Azure_DB2_Offerings_Work.md**
+   - Technical architecture deep dive
+   - Operational mechanics and management
+   - Integration with Azure services
+   - Detailed technical explanations
+
+4. **03_DB2_9.7_to_12.1_Migration_Implementation.md**
+   - Complete migration implementation guide
+   - Phase-by-phase procedures
+   - Automated upgrade strategy
+   - Comparison with Windows Server 2025 pathway
+
+5. **04_IBM_DB2_9.7_Licensing_Background.md**
+   - Background material on IBM licensing requirements and cost drivers
+   - Sub-capacity vs. full-capacity licensing mechanisms
+   - Case study: Felleskjøpet AGRI cost impact analysis
+   - Strategic rationale for migration project
+   - Presentation introduction versions and email templates
+
+6. **05_Presentation_Evolution_Plan.md**
+   - Comprehensive plan for evolving presentation from documents to delivery
+   - Content development and storytelling guidance
+   - Visual aids and slide creation checklist
+   - Audience engagement strategies
+   - Practice and refinement plan
+   - Final presentation checklist
+
+7. **06_Presentation_Disposition.md**
+   - Complete presentation structure with headings only
+   - 15 main sections covering all presentation topics
+   - Logical flow from problem to solution to lessons learned
+   - Structured for 1.5-hour technical presentation
+   - Ready for content development
+
+8. **07_DB2_SSO_NTLM_Authentication_Changes.md**
+   - Background document on SSO/NTLM authentication changes
+   - Microsoft NTLM deprecation context
+   - DB2 9.7 to 12.1 authentication changes
+   - Security plug-in architecture
+   - Project-specific sections to be filled with actual experience
+
+9. **08_PowerShell_Automation_Codebase_Analysis.md**
+   - Comprehensive analysis of the PowerShell automation codebase
+   - Code statistics by category (server setup, database creation, backup/restore, maintenance)
+   - Detailed breakdown of 30,544 lines of code across 248 PowerShell files
+   - Technical architecture insights and design patterns
+   - Comparison with manual approach
+   - Lessons learned and best practices
+
+10. **README.md**
+   - Project index and navigation
+   - Presentation structure suggestions
+   - Key topics and references
+
+## Technical Focus Areas
+
+### Azure DB2 Offerings
+- IBM Db2 as a Service (SaaS) - OLTP workloads
+- IBM Db2 Warehouse SaaS - Analytics workloads
+- Bring Your Own Cloud (BYOC) model
+- High availability and scalability features
+- Backup and recovery capabilities
+
+### Migration Topics
+- Assessment and planning procedures
+- Data migration methods (backup/restore, export/import, Azure Data Factory)
+- Version upgrade path (9.7 → 12.1)
+- Automated upgrade capabilities
+- Network connectivity and security
+- Post-migration validation and optimization
+
+### Comparison Points
+- Management overhead (self-managed vs IBM-managed)
+- Upgrade complexity (manual vs automated)
+- High availability (manual setup vs built-in)
+- Scaling capabilities (manual vs automated)
+- Backup management (self-managed vs automated)
+- Cost models and compliance
+
+## Writing Guidelines
+
+### Technical Accuracy
+- All technical information must be accurate and verifiable
+- Reference official Microsoft Azure and IBM documentation
+- Include version numbers and specific capabilities
+- Document assumptions and limitations
+
+### Clarity and Structure
+- Use clear headings and subheadings
+- Include code examples and command snippets where relevant
+- Use tables for comparisons
+- Include diagrams and architecture descriptions
+- Provide step-by-step procedures
+
+### Presentation Readiness
+- Documents should support a 1.5-hour technical presentation
+- Include enough detail for deep technical discussions
+- Structure content for easy navigation during presentation
+- Prepare for Q&A scenarios
+
+## Key Research Sources
+
+- Microsoft Azure Marketplace documentation
+- IBM Db2 SaaS technical documentation
+- Azure Logic Apps DB2 connector documentation
+- IBM Db2 migration guides
+- Azure networking and storage documentation
+- DB2 version compatibility matrices
+
+## Target Audience
+
+- Database administrators
+- Cloud architects
+- IT decision makers
+- Technical professionals evaluating DB2 migration options
+- Teams considering Azure-managed database services
+
+## Success Criteria
+
+### Documentation Quality
+- [ ] Comprehensive coverage of both Azure DB2 offerings
+- [ ] Clear explanation of technical architecture
+- [ ] Detailed migration implementation guide
+- [ ] Meaningful comparison with Windows Server 2025 pathway
+- [ ] Accurate technical information with proper references
+
+### Presentation Readiness
+- [ ] Content structured for 1.5-hour presentation
+- [ ] Technical depth appropriate for audience
+- [ ] Clear visual aids and diagrams (where applicable)
+- [ ] Prepared for Q&A and technical discussions
+- [ ] Actionable recommendations provided
+
+## Future Enhancements
+
+Potential additions as the project evolves:
+- Cost analysis and TCO comparisons
+- Performance benchmarks
+- Real-world case studies
+- Demo scripts and walkthroughs
+- Troubleshooting guides
+- FAQ document
+
+## Notes
+
+- DB2 9.7 is end-of-life and requires upgrade
+- DB2 12.1 is the target version for Azure deployments
+- Both Azure offerings support automated upgrades managed by IBM
+- Migration requires coordination with IBM support for upgrade scheduling
+- The BYOC model ensures data residency within customer's Azure subscription
+- Project performed for Felleskjøpet AGRI with team from Dedge AS and PrototypeLabs AS
+- Case study includes real-world cost impact analysis (40 MNOK/year licensing risk scenario)
+
+## Project Status
+
+**Current Phase:** Documentation and research  
+**Next Steps:** 
+- Review and refine documents
+- Add visual diagrams if needed
+- Prepare presentation slides
+- Practice presentation delivery
+
+---
+
+**Last Updated:** January 2026  
+**Maintained By:** Presentation Author  
+**Project Type:** Technical Presentation Documentation

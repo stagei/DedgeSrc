@@ -1,0 +1,21 @@
+---
+description: Markdown documentation must be placed in the docs folder
+alwaysApply: true
+---
+
+# Documentation Placement
+
+All markdown documentation (`.md` / `.mdc` files that are project docs, specs, or guides) must be placed under **`.\docs`** (project root `docs` folder).
+
+## Rules
+
+- **New docs**: Create new markdown files in `.\docs` or an appropriate subfolder (e.g. `.\docs\API.md`, `.\docs\Deployment.md`).
+- **Moving docs**: When adding or relocating documentation, use `.\docs` as the target; do not create new doc folders at repo root (e.g. avoid `.\SomeNewDoc.md` at root).
+- **Exceptions**: Cursor rules in `.cursor/rules\` (`.mdc`) and repo root files like `README.md` stay where they are. Schema or DB-specific docs may remain in a schema folder if tied to that folder.
+
+## Examples
+
+- ✅ `.\docs\MyNewGuide.md`
+- ✅ `.\docs\Deployment.md`
+- ❌ `.\MyNewGuide.md` (root-level doc)
+- ❌ `.\NewFolder\SomeDoc.md` (new doc folder at root instead of under docs)

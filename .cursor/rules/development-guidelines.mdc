@@ -1,0 +1,52 @@
+---
+description: Code style, testing, and best practices
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Development Guidelines
+
+## Backend (C# .NET)
+1. Always use **async/await** for I/O operations
+2. Implement **proper exception handling** with custom exception types
+3. Use **FluentValidation** or Data Annotations for input validation
+4. Return **proper HTTP status codes** (200, 201, 400, 401, 404, 500)
+
+## Frontend (HTML/CSS/JavaScript)
+1. Use **semantic HTML5** elements
+2. Follow **BEM naming convention** for CSS: `.block__element--modifier`
+3. Use **CSS Variables** for theming
+4. Implement **responsive design** with mobile-first approach
+5. Use **vanilla JavaScript** - no frameworks or libraries
+6. Use **async/await** for fetch requests
+
+## LLM Integration
+1. Abstract **LLM client logic** into separate service classes
+2. Use **factory pattern** for creating LLM clients
+3. Implement **retry logic** with exponential backoff
+4. Handle **timeouts** gracefully
+5. Log **token usage** for cost tracking
+
+## Error Handling
+1. Create **custom exception types** for different scenarios
+2. Log **all exceptions** with context (user ID, request ID, timestamp)
+3. Return **user-friendly error messages** to frontend
+4. Implement **global exception handler** in ASP.NET
+
+## Logging
+- Use **NLog** for structured logging
+- Log important events: User registration, login, API calls, errors
+- Use appropriate log levels: Debug, Information, Warning, Error, Critical
+- Don't log sensitive information (passwords, API keys)
+
+## Testing
+- Write **unit tests** for business logic
+- Use **xUnit** testing framework
+- Mock **external dependencies**
+- Aim for **at least 70% code coverage**
+
+## Code Style
+- Use **PascalCase** for classes, methods, properties
+- Use **camelCase** for local variables and parameters
+- Keep **methods short** - max 20-30 lines
+- Add **XML comments** to public APIs

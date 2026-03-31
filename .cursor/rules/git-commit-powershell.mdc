@@ -1,0 +1,27 @@
+---
+description: Git commit message format for PowerShell environments
+alwaysApply: true
+---
+
+# Git Commit in PowerShell
+
+PowerShell does not support heredoc syntax (`<<'EOF'`). Use multiple `-m` flags for multi-line commit messages.
+
+## Correct Format
+
+```powershell
+git commit -m "Main commit title" -m "- Detail point 1" -m "- Detail point 2" -m "- Detail point 3"
+```
+
+## Example
+
+```powershell
+git commit -m "Add user authentication feature" -m "- Implement JWT token generation" -m "- Add login and logout endpoints" -m "- Create password hashing with BCrypt"
+```
+
+## Rules
+
+1. **First `-m`**: Short summary (50 chars or less recommended)
+2. **Subsequent `-m`**: Each creates a new paragraph/line in the commit body
+3. **Do NOT use**: Heredoc (`<<'EOF'`), backticks for line continuation, or `@""@` multiline strings in git commands
+4. **Do NOT add**: Co-authored-by lines or Cursor attribution (per prohibited-content.mdc)

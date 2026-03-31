@@ -1,0 +1,47 @@
+---
+description: Keep presentation content in sync across index.html, speaker-notes.md, topic-bullets.md
+globs: Presentation-HTML/index.html, Presentation-HTML/speaker-notes.md, Presentation-HTML/topic-bullets.md
+alwaysApply: false
+---
+
+# NorDug Presentation - Content Sync
+
+## Three Content Sources
+
+| File | Purpose | Format |
+|------|---------|--------|
+| **index.html** | Slide content shown to audience | HTML, concise bullets |
+| **speaker-notes.md** | Full narrative for presenter | Markdown, `## [SLIDE N] Title` sections |
+| **topic-bullets.md** | Quick reference / cheat sheet | Markdown, condensed bullets |
+
+## Sync Rule
+
+When changing slide content (facts, numbers, bullets), update **all three** files.
+
+- **speaker-notes.md** = source of truth for full wording
+- **index.html** = condensed for display (short bullets, stats)
+- **topic-bullets.md** = one-line summary per slide
+
+## Example
+
+Changing "35 servers" to "27 servers" after scope reduction:
+
+1. **index.html**: Update stat `<span class="stat-num">27</span>`
+2. **speaker-notes.md**: Update "27 servers" in the [SLIDE 23] section
+3. **topic-bullets.md**: Update "27 servers" in [SLIDE 23] Project Scale
+
+## Speaker Notes Format
+
+```markdown
+## [SLIDE N] Title
+Full narrative text...
+*[Click to advance]*
+```
+
+## Topic Bullets Format
+
+```markdown
+## [SLIDE N] Title
+- Bullet 1
+- Bullet 2
+```

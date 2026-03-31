@@ -1,0 +1,78 @@
+---
+description: C# coding conventions and naming standards
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Code Style & Naming Conventions
+
+## C# Conventions
+
+- Use C# 13 features when appropriate
+- Enable nullable reference types
+- Use `async`/`await` for DB operations
+- Use `using` statements for disposable resources
+- Follow Microsoft C# coding conventions
+
+## Naming Standards
+
+- Classes: PascalCase (e.g., `DB2ConnectionManager`)
+- Methods: PascalCase (e.g., `ExecuteQuery`)
+- Private fields: _camelCase with underscore (e.g., `_connectionString`)
+- Properties: PascalCase (e.g., `ConnectionStatus`)
+- Local variables: camelCase (e.g., `connectionString`)
+- Constants: PascalCase (e.g., `DefaultTimeout`)
+- Async methods: Suffix with `Async` (e.g., `ExecuteQueryAsync`)
+
+## Exception Handling Pattern
+
+```csharp
+try
+{
+    Logger.Debug("Starting operation");
+    // Operation
+    Logger.Info("Operation completed successfully");
+}
+catch (DB2Exception db2Ex)
+{
+    Logger.Error(db2Ex, "DB2 error - SQL State: {SqlState}", db2Ex.SqlState);
+    MessageBox.Show($"Database error: {db2Ex.Message}", "Error", 
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+}
+catch (Exception ex)
+{
+    Logger.Error(ex, "Unexpected error");
+    MessageBox.Show($"Error: {ex.Message}", "Error",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+}
+```
+
+## XML Documentation
+
+Document all public classes and methods:
+
+```csharp
+/// <summary>
+/// Executes a SQL query and returns the results.
+/// </summary>
+/// <param name="sql">The SQL query to execute</param>
+/// <returns>DataTable containing query results</returns>
+/// <exception cref="DB2Exception">Thrown when database error occurs</exception>
+public DataTable ExecuteQuery(string sql)
+{
+    // Implementation
+}
+```
+
+## Code Review Checklist
+
+Before committing code, verify:
+- [ ] Uses .NET 10 (net10.0-windows)
+- [ ] Uses NLog for logging (not Serilog)
+- [ ] All exceptions are logged
+- [ ] DEBUG-level logging implemented for critical operations
+- [ ] Passwords masked in logs
+- [ ] Parameterized queries used
+- [ ] Using statements for disposables
+- [ ] Dark mode compatible
+- [ ] Uses IBM.Data.DB2.Core (self-contained drivers)

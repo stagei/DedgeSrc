@@ -1,0 +1,50 @@
+---
+description: Mermaid diagram workflow and theme
+globs: Presentation-HTML/diagrams/**/*
+alwaysApply: false
+---
+
+# NorDug Presentation - Diagrams
+
+## Location
+
+`Presentation-HTML/diagrams/` – Mermaid `.mmd` files and generated `.svg` files.
+
+## Theme
+
+**config.json** defines dark theme with orange accent `#FF6B35`:
+
+```json
+{
+  "theme": "dark",
+  "themeVariables": {
+    "primaryColor": "#FF6B35",
+    "primaryTextColor": "#ffffff",
+    ...
+  }
+}
+```
+
+## Workflow
+
+1. Edit `.mmd` (Mermaid syntax)
+2. Export to `.svg` using Mermaid CLI (`mmdc`) or online editor
+3. Reference in HTML: `<img src="diagrams/name.svg" alt="...">`
+
+## CLI (if mmdc installed)
+
+```bash
+mmdc -i diagram.mmd -o diagram.svg -t config.json
+```
+
+## Diagram Names
+
+| File | Slide |
+|------|-------|
+| triple-problem.mmd | 6 |
+| licensing.mmd | 9 |
+| convergence.mmd | 10 |
+| server-migration.mmd | 13 |
+| sso-issue.mmd | 18 |
+| ibm-support.mmd | 19 |
+| final-architecture.mmd | 21 |

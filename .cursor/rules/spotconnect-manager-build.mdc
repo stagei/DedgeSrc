@@ -1,0 +1,56 @@
+---
+description: SpotConnect Manager build, publish, and reinstall workflow
+globs: SpotConnectManager/**/*.cs,SpotConnectManager/**/*.xaml,SpotConnectManager/**/*.csproj,SpotConnectManager/**/*.wixproj,SpotConnectManager/**/*.wxs
+alwaysApply: false
+---
+
+# SpotConnect Manager - Build & Install Workflow
+
+After any code change to the SpotConnect Manager project, always run the full pipeline:
+
+1. **Kill running instances** before building (thorough scan):
+   ```powershell
+   Get-Process | Where-Object { $_.ProcessName -like "*SpotConnect*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+   Start-Sleep -Seconds 1
+   ```
+
+2. **Publish** (framework-dependent, win-x64):
+   ```powershell
+   dotnet publish SpotConnectManager/src/SpotConnectManager/SpotConnectManager.csproj -c Release -r win-x64 --self-contained false -o SpotConnectManager/publish
+   ```
+
+3. **Copy to install directory** (elevated, faster than MSI reinstall):
+   ```powershell
+   Start-Process pwsh.exe -ArgumentList '-Command', "Copy-Item 'D:\opt\src\SpotConnect\SpotConnectManager\publish\*' 'C:\Program Files\SpotConnect Manager\' -Recurse -Force" -Wait -Verb RunAs
+   ```
+
+4. **Launch the app** after install:
+   ```powershell
+   Start-Process "C:\Program Files\SpotConnect Manager\SpotConnectManager.exe"
+   ```
+
+5. **Check logs** after launch (wait 3-4s):
+   ```powershell
+   Start-Sleep -Seconds 3
+   Get-Content "$($env:LOCALAPPDATA)\SpotConnectManager\SpotConnectManager.log" -ErrorAction SilentlyContinue
+   Get-Content "$($env:LOCALAPPDATA)\SpotConnectManager\bootstrap.log" -ErrorAction SilentlyContinue
+   ```
+
+## Full MSI Installer Rebuild (for distribution only)
+
+Only needed when preparing a release MSI:
+
+```powershell
+dotnet build SpotConnectManager/src/SpotConnectManager.Installer/SpotConnectManager.Installer.wixproj -c Release
+```
+
+MSI output: `SpotConnectManager\src\SpotConnectManager.Installer\bin\Release\SpotConnectManager.Installer.msi`
+MSI UpgradeCode: `A7E3B1C4-9F2D-4E8A-B5C6-D1F0E2A3B4C5`
+
+## Log Files
+
+- **Bootstrap log**: `%LOCALAPPDATA%\SpotConnectManager\bootstrap.log` -- earliest startup diagnostics
+- **Application log**: `%LOCALAPPDATA%\SpotConnectManager\SpotConnectManager.log` -- full application lifecycle
+- **spotraop bridge log**: `%LOCALAPPDATA%\SpotConnectManager\spotraop.log` -- native bridge output
+
+Always check both bootstrap.log and SpotConnectManager.log after launch to verify successful startup.

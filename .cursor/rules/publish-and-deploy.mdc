@@ -1,0 +1,52 @@
+---
+description: Publish profiles and deploy conventions for DbExplorer
+globs:
+  - "**/*.pubxml"
+  - "**/Build-And-Publish.ps1"
+  - "**/*.csproj"
+  - "**/*.wixproj"
+alwaysApply: false
+---
+
+# Publish and Deploy Conventions
+
+## Publish Profile
+
+- `Properties/PublishProfiles/WinApp.pubxml` — self-contained win-x64 Release build
+- Output: `bin\Release\net10.0-windows\win-x64\publish\`
+
+## Build Script
+
+`Build-And-Publish.ps1` at project root handles the full pipeline:
+
+```powershell
+pwsh.exe -NoProfile -File "Build-And-Publish.ps1"                  # Patch bump
+pwsh.exe -NoProfile -File "Build-And-Publish.ps1" -VersionPart Minor
+pwsh.exe -NoProfile -File "Build-And-Publish.ps1" -VersionPart Major
+```
+
+## Version Management
+
+All three files are kept in sync:
+
+| File | Property |
+|------|----------|
+| `DbExplorer.csproj` | `<Version>`, `<AssemblyVersion>`, `<FileVersion>` |
+| `DbExplorerTray\DbExplorerTray.csproj` | `<Version>`, `<AssemblyVersion>`, `<FileVersion>` |
+| `DbExplorer.Installer\Package.wxs` | `Version="x.y.z"` on `<Package>` |
+
+## MSI Installer
+
+- WiX project: `DbExplorer.Installer\DbExplorer.Installer.wixproj`
+- Output: `DbExplorer.Installer\bin\x64\Release\DbExplorer.Setup.msi`
+- Consumes published files from `bin\Release\net10.0-windows\win-x64\publish\`
+
+## Deploy Target
+
+MSI is copied to: `\\t-no1fkxtst-app\FkCommon\Software\WindowsApps\DbExplorer`
+
+## Code Signing
+
+- Signing only runs for FK users (username starts with `FK`)
+- Sign script: `\\t-no1fkxtst-app.fknett.fk.no\FkCommon\Software\FkPshApps\FkSign\FkSign.ps1`
+- Both EXE (via csproj PostBuild) and MSI (via wixproj SignMsi target) are signed in Release

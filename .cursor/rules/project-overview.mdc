@@ -1,0 +1,53 @@
+---
+description: Project overview and technology stack
+alwaysApply: true
+---
+
+# DbExplorer - Project Overview
+
+This is a C# WPF application for Windows 11 that provides a DBeaver-like database editor specifically for IBM DB2 databases.
+
+## Framework & Technology Stack
+
+### Required Technologies
+- **Framework**: .NET 10 (net10.0-windows)
+- **UI Framework**: WPF (Windows Presentation Foundation)
+- **Database Driver**: IBM.Data.DB2.Core (native drivers)
+- **Logging**: NLog (NOT Serilog)
+- **SQL Editor**: AvalonEdit
+- **SQL Formatter**: PoorMansTSqlFormatter
+- **UI Theme**: ModernWpfUI
+- **Language**: C# 13
+
+### Key Dependencies
+```xml
+<PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+<PackageReference Include="PoorMansTSqlFormatter" Version="1.4.3.1" />
+<PackageReference Include="ModernWpfUI" Version="0.9.6" />
+<PackageReference Include="NLog" Version="6.0.6" />
+```
+
+### DB2 Client Configuration
+**IMPORTANT**: The application uses **Net.IBM.Data.Db2 9.0.0.400** which provides native DB2 connectivity without requiring external IBM DB2 Client installation.
+
+## Project Goal
+
+Create a professional, offline-capable DB2 database editor for Windows 11 using .NET 10, with enterprise-grade logging (NLog), modern UI (dark mode support), and DBeaver-like functionality.
+
+**Target Users**: Database administrators and developers working with IBM DB2 in offline/air-gapped environments.
+
+**Critical Requirements**: Offline deployment, multiple connections, dark mode, SQL formatting, native DB2 drivers, enterprise logging, role-based access control.
+
+## File Organization
+
+```
+DbExplorer/
+├── Controls/          # UserControls (e.g., ConnectionTabControl)
+├── Data/             # DB2 connection and query logic
+├── Dialogs/          # Dialog windows
+├── Models/           # Data models and DTOs
+├── Services/         # Business logic (LoggingService, SqlFormatterService)
+├── Utils/            # Helper classes
+└── Resources/        # XSHD files, icons, themes
+```

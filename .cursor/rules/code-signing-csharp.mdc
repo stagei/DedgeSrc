@@ -1,0 +1,117 @@
+---
+description: Code signing for C# / .NET projects (Release builds, publish output, and MSI installers)
+globs:
+  - "**/*.csproj"
+  - "**/*.wixproj"
+alwaysApply: false
+---
+
+# Code Signing for C# Projects
+
+All C# / .NET projects that are deployed must sign their assemblies and published executables in **Release** configuration. This rule describes the standard MSBuild pattern for post-build and post-publish signing, including WiX installer MSI signing.
+
+## Required .csproj Pattern
+
+1. **Sign only in Release** — Set `ShouldSign` to `true` only for Release so dev builds are not signed.
+2. **Two signing steps** — Sign the built assembly (PostBuild) and the published executable (PostPublishSign) when publishing.
+3. **Configurable script path** — Use an MSBuild property (e.g. `SignScriptPath`) for the signing script so the path can be set per environment (e.g. Directory.Build.props or CI).
+
+Replace `YourApp.exe` with the project's actual output executable name (e.g. `MyService.exe`, `MyApp.Api.exe`).
+
+```xml
+<!-- Code Signing Configuration -->
+<PropertyGroup>
+  <ShouldSign>false</ShouldSign>
+  <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+  <!-- Set in Directory.Build.props or environment: path to signing script (e.g. FkSign.ps1) -->
+  <SignScriptPath Condition="'$(SignScriptPath)' == ''">\\server\path\to\Sign.ps1</SignScriptPath>
+</PropertyGroup>
+
+<Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+  <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+  <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+</Target>
+
+<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+  <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+</Target>
+
+<Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+  <PropertyGroup>
+    <PublishExePath>$(PublishDir)YourApp.exe</PublishExePath>
+  </PropertyGroup>
+  <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+</Target>
+```
+
+## WiX Installer MSI Signing (.wixproj)
+
+If the solution includes a WiX installer project, the MSI output must also be signed. Add a `SignMsi` target to the `.wixproj` that runs **after Build but before any deploy/copy step**.
+
+```xml
+<!-- Code Signing Configuration -->
+<PropertyGroup>
+  <SignScriptPath Condition="'$(SignScriptPath)' == ''">\\server\path\to\Sign.ps1</SignScriptPath>
+</PropertyGroup>
+
+<Target Name="SignMsi" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup>
+    <MsiPath>$(OutputPath)$(OutputName).msi</MsiPath>
+  </PropertyGroup>
+  <Message Importance="high" Text="Signing MSI installer: $(MsiPath)" />
+  <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(MsiPath)&quot; -Action Add -NoConfirm"
+        Condition="Exists('$(MsiPath)')" />
+</Target>
+```
+
+If the `.wixproj` also has a deploy/copy target, chain it **after** `SignMsi` so the deployed MSI is always signed:
+
+```xml
+<Target Name="CopyMsiToShare" AfterTargets="SignMsi" Condition="'$(Configuration)' == 'Release'">
+  <!-- Copy signed MSI to network share -->
+</Target>
+```
+
+## Restricting Signing to Specific Users
+
+When the signing infrastructure is only available to certain users (e.g. corporate network), add a user detection property to gate signing and deployment. This prevents build failures for users who cannot reach the signing server.
+
+```xml
+<PropertyGroup>
+  <CurrentUser>$([System.Environment]::UserName.ToUpper())</CurrentUser>
+  <!-- Match users whose name starts with a prefix (e.g. FK for Felleskjøpet) -->
+  <IsFkUser>$([System.Text.RegularExpressions.Regex]::IsMatch($(CurrentUser), '^FK'))</IsFkUser>
+</PropertyGroup>
+
+<!-- Gate signing on user detection -->
+<Target Name="PostBuild" AfterTargets="PostBuildEvent"
+        Condition="'$(ShouldSign)' == 'true' AND $(IsFkUser)">
+  ...
+</Target>
+
+<!-- Gate MSI signing on user detection -->
+<Target Name="SignMsi" AfterTargets="Build"
+        Condition="'$(Configuration)' == 'Release' AND $(IsFkUser)">
+  ...
+</Target>
+```
+
+The regex `'^FK'` matches any username starting with "FK" (already uppercased). Change the pattern to match your organization's naming convention.
+
+## Rules
+
+- **Release only** — `ShouldSign` is false for Debug; signing is skipped in dev builds.
+- **Two targets for .csproj** — `PostBuild` signs the assembly DLL; `PostPublishSign` signs the published executable (set `PublishExePath` to match the project output).
+- **One target for .wixproj** — `SignMsi` signs the MSI after build, before any deploy step.
+- **Script path** — Prefer a property (e.g. `SignScriptPath`) so the same project file works in different environments. Set it in `Directory.Build.props`, CI, or a shared targets file.
+- **Sign before deploy** — Always sign before copying to network shares. Chain deploy targets with `AfterTargets="SignMsi"`.
+- **Do not skip signing** — All projects deployed to servers or distributed as installers must be signed.
+
+## Note for FkSign users
+
+If your organization uses FkSign, set `SignScriptPath` to your FkSign.ps1 location (e.g. on the FkCommon share). See FkAuth setup documentation for the canonical path and Step 8 of the integration setup guide.
+
+The canonical FkSign path:
+```
+\\t-no1fkxtst-app.fknett.fk.no\FkCommon\Software\FkPshApps\FkSign\FkSign.ps1
+```

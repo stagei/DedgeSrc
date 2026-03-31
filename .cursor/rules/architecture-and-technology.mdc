@@ -1,0 +1,31 @@
+---
+description: Gatekeeper architecture and technology stack
+alwaysApply: true
+---
+
+# Gatekeeper – Architecture & Technology
+
+## Architecture Overview
+
+- **Gatekeeper.Core**: Models (User, App, AppPermission, Tenant, LoginToken, RefreshToken), AuthConfiguration. No dependencies on Data or Api.
+- **Gatekeeper.Data**: Entity Framework `AuthDbContext`, PostgreSQL via Npgsql. Depends only on Core.
+- **Gatekeeper.Services**: AuthService, JwtTokenService, DatabaseSeeder. Depends on Core and Data.
+- **Gatekeeper.Api**: ASP.NET Core API; registers DbContext, services, JWT auth, controllers. Serves static login UI from wwwroot. Port 5050.
+- **Gatekeeper.Client**: Client library for consumer apps; AddGatekeeper extension, AppRoleAuthorizationHandler, RequireAppPermission attribute. Depends only on Core.
+
+## Technology
+
+| Layer | Technology |
+|-------|------------|
+| Runtime | .NET 10 |
+| API | ASP.NET Core 10, REST |
+| Database | PostgreSQL, Npgsql.EntityFrameworkCore.PostgreSQL |
+| Auth | JWT (Microsoft.IdentityModel.Tokens), BCrypt |
+| Hosting | Kestrel, optional Windows Service |
+
+## Conventions
+
+- **Backend**: New auth features in Services; DB access via AuthDbContext. Use Core models; no EF entities across API boundary.
+- **API**: PascalCase JSON; controllers return DTOs. Auth endpoints under /api/auth; apps, permissions, tenants, users under /api/*.
+- **Database**: Table/column names snake_case; EF migrations in Gatekeeper.Data/Migrations. Log levels and structured logging as needed.
+- **Client library**: Consumer apps use AddGatekeeper(options) and [RequireAppPermission("Role")]; JWT secret must match Gatekeeper server.

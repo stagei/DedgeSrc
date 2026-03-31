@@ -1,0 +1,101 @@
+---
+description: Rules for maintaining Gatekeeper integration documentation
+globs:
+  - "docs/integration/**"
+  - "src/Gatekeeper.Api/Controllers/**"
+  - "src/Gatekeeper.Services/**"
+  - "src/Gatekeeper.Client/**"
+alwaysApply: false
+---
+
+# Integration Documentation Maintenance
+
+## Documentation Location
+
+Gatekeeper integration documentation lives in `docs/integration/`:
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Overview and quick links |
+| `client-integration.md` | How to integrate client apps |
+| `api-reference.md` | Complete API endpoint documentation |
+| `authentication-flow.md` | Auth flow diagrams and explanations |
+| `tenant-configuration.md` | Multi-tenant setup and branding |
+
+## When to Update Documentation
+
+Update the relevant documentation when:
+
+1. **Adding new API endpoints** → Update `api-reference.md`
+2. **Changing authentication flow** → Update `authentication-flow.md`
+3. **Modifying client integration** → Update `client-integration.md`
+4. **Adding tenant features** → Update `tenant-configuration.md`
+5. **Changing JWT claims** → Update `api-reference.md` (JWT section)
+6. **Adding new configuration options** → Update `README.md` and relevant files
+
+## Documentation Standards
+
+### API Endpoints
+
+Document each endpoint with:
+- HTTP method and path
+- Request/response examples (JSON)
+- Required headers
+- Query parameters
+- Error responses
+
+### Code Examples
+
+- Use C# for backend examples
+- Use JavaScript for frontend examples
+- Keep examples minimal but complete
+- Include necessary imports/usings
+
+### Version Updates
+
+Update the version history in `README.md` when:
+- Making breaking changes
+- Adding significant features
+- Fixing important bugs
+
+Format:
+```markdown
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.29 | 2026-02-02 | Description of changes |
+```
+
+## Automatic Triggers
+
+After completing these types of changes, proactively update docs:
+
+1. **Controller changes** (`*Controller.cs`):
+   - New `[HttpGet/Post/Put/Delete]` attributes → Add to `api-reference.md`
+   - Authorization policy changes → Update endpoint docs
+
+2. **AuthService changes**:
+   - New public methods → Document if exposed via API
+   - Flow changes → Update `authentication-flow.md`
+
+3. **Gatekeeper.Client changes**:
+   - Middleware changes → Update `client-integration.md`
+   - Configuration options → Update all relevant docs
+
+4. **Tenant model changes**:
+   - New fields → Update `tenant-configuration.md`
+   - Database schema changes → Update schema documentation
+
+## Formatting Guidelines
+
+- Use Markdown tables for structured data
+- Use code blocks with language tags
+- Use ASCII diagrams for flows (like in `authentication-flow.md`)
+- Include "Last updated" date at bottom of each file
+- Keep line length reasonable for readability
+
+## Cross-References
+
+When updating docs, check for and update cross-references:
+- Links between documentation files
+- References to specific endpoints or methods
+- Configuration property names

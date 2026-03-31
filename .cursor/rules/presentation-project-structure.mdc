@@ -1,0 +1,36 @@
+---
+description: NorDug presentation project layout and what to edit
+alwaysApply: true
+---
+
+# NorDug Presentation - Project Structure
+
+## Active Content (Edit Here)
+
+```
+Presentation-HTML/
+├── index.html          # Main Reveal.js slideshow – primary delivery
+├── speaker-notes.md    # Full narrative per slide
+├── topic-bullets.md    # Quick reference bullets
+├── diagrams/           # Mermaid .mmd → .svg
+│   ├── config.json     # Dark theme, #FF6B35 accent
+│   ├── *.mmd           # Source diagrams
+│   └── *.svg           # Rendered diagrams
+└── images/             # dEdge logo, etc.
+```
+
+## Legacy / Reference
+
+- **_old/** – Archived docs, old PowerPoint, previous versions
+- **create_presentation.py** – Generates PowerPoint (.pptx) from hardcoded Python
+- **Create-Presentation.ps1** – PowerShell version of same
+
+## Ignore
+
+- **Do not** read, edit, search, or reference **\_old/** – treat it as out of scope for all agent and tool actions.
+
+## Primary vs Secondary
+
+- **Primary:** HTML presentation (index.html) – used for NorDug delivery
+- **Secondary:** PowerPoint scripts exist but are not the main output
+- When updating content, prioritize **Presentation-HTML/** files

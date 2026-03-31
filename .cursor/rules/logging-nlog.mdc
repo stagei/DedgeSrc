@@ -1,0 +1,89 @@
+---
+description: NLog logging standards and debug requirements
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Logging Standards (NLog)
+
+## Always Use NLog (Never Serilog)
+
+```csharp
+using NLog;
+
+private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+// Logging examples
+Logger.Info("Application started");
+Logger.Debug("Debug information: {value}", someValue);
+Logger.Error(exception, "Error occurred during operation");
+Logger.Warn("Warning message");
+```
+
+## NLog Configuration
+- Configuration file: `nlog.config` (XML format)
+- Log location: `logs/` directory
+- Log format: `${longdate}|${level:uppercase=true}|${logger}|${message}`
+- Archive daily, keep 30 days
+- Never log passwords or sensitive data (mask connection strings)
+
+## Logging Best Practices
+
+1. Log all DB2 connection attempts (success/failure)
+2. Log query executions with timing
+3. Log all exceptions with full context
+4. Use structured logging with parameters
+5. Mask sensitive data (passwords) in logs
+6. Log application lifecycle events (startup, shutdown)
+7. **ALWAYS implement DEBUG-level logging when encountering ANY issues**
+
+## Debug Logging Requirements
+
+**CRITICAL**: When encountering any issues, errors, or unexpected behavior:
+- Add `Logger.Debug()` statements before and after the operation
+- Log input parameters and state
+- Log intermediate steps and decisions
+- Log timing information
+- Log the full context of the operation
+
+## Debug Logging Pattern
+
+```csharp
+public void ComplexOperation(int id, string data)
+{
+    Logger.Debug("ComplexOperation started - ID: {Id}, Data length: {Length}", id, data?.Length ?? 0);
+    
+    try
+    {
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+        
+        Logger.Debug("Step 1: Fetching entity with ID: {Id}", id);
+        var entity = FetchEntity(id);
+        Logger.Debug("Entity fetched in {Ms}ms - Found: {Found}", stopwatch.ElapsedMilliseconds, entity != null);
+        
+        // ... more steps ...
+        
+        Logger.Info("ComplexOperation completed successfully for ID: {Id}", id);
+    }
+    catch (Exception ex)
+    {
+        Logger.Error(ex, "ComplexOperation failed for ID: {Id}", id);
+        throw;
+    }
+}
+```
+
+## Log File Investigation
+
+**When user reports ANY error, ALWAYS check the log file FIRST**
+
+**Log file location**: `logs\db2editor-YYYY-MM-DD.log`
+
+```powershell
+# Get last 50 lines of today's log
+Get-Content "logs\db2editor-$(Get-Date -Format 'yyyy-MM-dd').log" -Tail 50
+
+# Search for errors in all recent logs
+Get-ChildItem "logs\db2editor-*.log" | Sort-Object LastWriteTime -Descending | 
+    Select-Object -First 3 | ForEach-Object { Select-String -Path $_.FullName -Pattern "ERROR|FATAL" }
+```

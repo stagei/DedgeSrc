@@ -1,0 +1,83 @@
+---
+description: Deploy, commit, and build command workflows
+alwaysApply: true
+---
+
+# Agent Commands
+
+## `--deploy`
+
+Full release build, version bump, MSI creation, sign, and push to network share.
+Runs `Build-And-Publish.ps1` which handles everything:
+
+```powershell
+taskkill /F /IM DbExplorer.exe 2>$null
+taskkill /F /IM DbExplorerTray.exe 2>$null
+pwsh.exe -NoProfile -File "$PSScriptRoot\Build-And-Publish.ps1"
+```
+
+What it does (in order):
+1. Auto-increment version (Patch by default) in `DbExplorer.csproj`, `DbExplorerTray.csproj`, and `Package.wxs`
+2. Publish DbExplorer (self-contained win-x64 with ReadyToRun)
+3. Build WiX MSI installer
+4. Sign MSI (FK users only)
+5. Copy MSI to `\\t-no1fkxtst-app\FkCommon\Software\WindowsApps\DbExplorer`
+6. Verify artifacts and report summary
+
+For minor/major bumps:
+```powershell
+pwsh.exe -NoProfile -File "Build-And-Publish.ps1" -VersionPart Minor
+pwsh.exe -NoProfile -File "Build-And-Publish.ps1" -VersionPart Major
+```
+
+**CRITICAL**: `--deploy` does NOT commit or push to git. Use `--commit` separately.
+
+## `--commit`
+
+Build, verify, then git add + commit + push:
+
+1. **Kill running apps**:
+   ```powershell
+   taskkill /F /IM DbExplorer.exe 2>$null
+   taskkill /F /IM DbExplorerTray.exe 2>$null
+   ```
+
+2. **Build both projects** (must pass before committing):
+   ```powershell
+   dotnet build DbExplorerTray\DbExplorerTray.csproj
+   dotnet build
+   ```
+
+3. **If build fails** — fix errors, do NOT proceed to git
+
+4. **Git add, commit, push**:
+   ```powershell
+   git add -A
+   git commit -m "<descriptive message of what changed>"
+   git push
+   ```
+
+Rules:
+- Commit message must describe what changed, never mention AI/Cursor/Claude
+- No `Co-authored-by:` or `Signed-off-by:` trailers with AI attribution
+- No `--no-verify` or `--no-gpg-sign` unless user explicitly requests
+
+## `--build` (quick dev cycle)
+
+Kill, compile, run — no git, no deploy:
+
+```powershell
+taskkill /F /IM DbExplorer.exe 2>$null
+taskkill /F /IM DbExplorerTray.exe 2>$null
+dotnet build DbExplorerTray\DbExplorerTray.csproj
+dotnet build
+if ($LASTEXITCODE -eq 0) { Start-Process "bin\Debug\net10.0-windows\DbExplorer.exe" }
+```
+
+## `--deploy --commit`
+
+When both are requested together, execute in this order:
+1. `--commit` first (build, verify, commit, push)
+2. `--deploy` second (version bump, publish, MSI, sign, deploy to share)
+
+This ensures the commit captures the current state, then deploy bumps version for the release.

@@ -1,0 +1,21 @@
+---
+description: When user says /deploy or /publish, run Build-And-Publish.ps1 then git add/commit/push
+alwaysApply: true
+---
+
+# Deploy / Publish
+
+When the user requests **/deploy** or **/publish**, perform the following in order:
+
+## 1. Run Build-And-Publish.ps1
+
+- From the project root, run: `.\Build-And-Publish.ps1`
+- The script handles: stopping Gatekeeper.Api, version bump (Patch by default), publish to C:\opt\FkWinApps\Gatekeeper, starting Gatekeeper.Api, and opening the login page.
+- **Version:** Use the lowest level (Patch) unless the user explicitly asks for Major or Minor (e.g. `.\Build-And-Publish.ps1 -VersionPart Minor`).
+- If the build or script fails, resolve errors before proceeding to git.
+
+## 2. Git add, commit, and push
+
+- **git add** – Stage all relevant changes.
+- **git commit** – Commit with a message that describes what has changed. Do **not** add Co-authored-by or Cursor attribution lines to commit messages.
+- **git push** – Push to the remote.

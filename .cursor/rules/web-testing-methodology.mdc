@@ -1,0 +1,51 @@
+---
+description: Web page testing methodology using browser MCP
+alwaysApply: false
+---
+
+# Web Page Testing Methodology
+
+## Overview
+
+Use the **cursor-browser-extension** MCP server to perform automated Chrome browser testing of web applications.
+
+## MCP Browser Tools
+
+| Tool | Purpose |
+|------|---------|
+| `browser_navigate` | Navigate to a URL |
+| `browser_click` | Click elements by ref ID |
+| `browser_fill_form` | Fill form inputs |
+| `browser_type` | Type text into focused element |
+| `browser_wait_for` | Wait for time or element |
+| `browser_snapshot` | Get current page state |
+| `browser_take_screenshot` | Capture visual screenshot |
+| `browser_console_messages` | Check for JS errors |
+
+## Gatekeeper URLs
+
+- Login page: `http://localhost:5050/login.html`
+- Health: `http://localhost:5050/health`
+- API base: `http://localhost:5050/api`
+
+## Testing Workflow
+
+1. Navigate to page (e.g. login.html)
+2. Use refs from snapshot to interact (click, fill form)
+3. Wait after dynamic content
+4. Verify snapshot / console for errors
+5. Take screenshot when needed
+
+## Test Categories
+
+- **Page load**: Login page, health endpoint
+- **Interactive**: Login form, tabs (password / magic link)
+- **API**: Auth endpoints (login, refresh, me)
+- **Console**: No JS errors
+
+## Best Practices
+
+- Use refs from the most recent snapshot
+- Wait after clicks for dynamic content
+- Check console for JS errors
+- Document PASS/FAIL per test

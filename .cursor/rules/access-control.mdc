@@ -1,0 +1,82 @@
+---
+description: User permission levels and access control
+alwaysApply: true
+---
+
+# Security & Access Control
+
+## User Permission Levels
+
+After establishing a DB2 connection, query `SYSCAT.DBAUTH` to determine user's permission level:
+
+```sql
+SELECT * FROM SYSCAT.DBAUTH 
+WHERE GRANTEE = '<username_without_domain>'
+```
+
+**Access Levels:**
+
+1. **DBA Level** - User has DBA authority in DBAUTH table
+   - Full access to all functionality
+   - Can execute DDL, DML, DCL
+   - Can view all monitoring panels
+   - Can modify database objects
+
+2. **Middle Level** - User is present in DBAUTH but not DBA
+   - Standard DML operations (SELECT, INSERT, UPDATE, DELETE)
+   - Can view most monitoring panels
+   - Cannot execute DDL (CREATE, DROP, ALTER)
+   - Cannot force disconnect sessions
+
+3. **Low Level** - User NOT present in DBAUTH table
+   - Read-only access only
+   - Can execute SELECT statements only
+   - Can view table properties (read-only)
+   - Cannot modify any data
+
+## Feature Categories
+
+**DBA Only:**
+- Lock Monitor (force disconnect)
+- Active Session Manager (force disconnect)
+- RUNSTATS execution
+- DDL generation and execution
+- CDC management (ALTER TABLE)
+- Unused object cleanup (DROP statements)
+
+**Middle Level:**
+- Database Load Monitor (view only)
+- Query execution (DML allowed)
+- Export functionality
+- Source code browser (view only)
+
+**Low Level (Read-Only):**
+- Query execution (SELECT only)
+- Table properties (view only)
+- Export query results
+- View metadata
+
+## Username Parsing
+
+```csharp
+// Remove domain prefix from username
+// Example: "DOMAIN\username" -> "username"
+private string GetUsernameWithoutDomain(string fullUsername)
+{
+    if (fullUsername.Contains("\\"))
+        return fullUsername.Split('\\')[1];
+    if (fullUsername.Contains("@"))
+        return fullUsername.Split('@')[0];
+    return fullUsername;
+}
+```
+
+## Implementation Requirements
+
+1. Query DBAUTH immediately after successful connection
+2. Parse username from connection (remove domain prefix if present)
+3. Determine and store user's access level
+4. Show/hide menu items based on access level
+5. Validate access level before executing operations
+6. Log access level in connection logs
+7. Display access level indicator in UI (e.g., "READ-ONLY USER")

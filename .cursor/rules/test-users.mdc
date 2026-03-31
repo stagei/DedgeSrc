@@ -1,0 +1,79 @@
+---
+description: Test user creation restrictions
+globs:
+  - "**/DatabaseSeeder.cs"
+  - "**/AuthService.cs"
+  - "**/*.http"
+alwaysApply: false
+---
+
+# Test User Policy
+
+## Restricted Test User
+
+The following test user exists for development and testing purposes only:
+
+| Field | Value |
+|-------|-------|
+| Email | `test.service@felleskjopet.no` |
+| Password | `TestPass123!` |
+| Display Name | Test Service User |
+| Access Level | Admin (3) |
+| Purpose | Automated testing, browser automation, API testing |
+
+## Creation Restrictions
+
+**IMPORTANT**: This test user may ONLY be created or used when the Windows username is one of:
+
+- `FKGEISTA`
+- `FKSVEERI`
+
+### Verification
+
+Before creating or seeding this test user, verify the current Windows username:
+
+```powershell
+# PowerShell
+$env:USERNAME
+
+# Or
+[System.Environment]::UserName
+```
+
+```csharp
+// C#
+Environment.UserName
+```
+
+### Implementation Example
+
+If adding test user seeding to code, include a check:
+
+```csharp
+private async Task SeedTestUserAsync()
+{
+    var allowedUsers = new[] { "FKGEISTA", "FKSVEERI" };
+    var currentUser = Environment.UserName;
+    
+    if (!allowedUsers.Contains(currentUser, StringComparer.OrdinalIgnoreCase))
+    {
+        _logger.LogDebug("Test user seeding skipped - not an authorized developer machine");
+        return;
+    }
+    
+    // Create test.service@felleskjopet.no user...
+}
+```
+
+## Why This Restriction?
+
+1. **Security**: Test users with known passwords should never exist in production
+2. **Audit Trail**: Limits who can create backdoor accounts
+3. **Development Only**: These usernames correspond to authorized developers
+
+## Never Do
+
+- Create this user in production environments
+- Commit code that unconditionally creates this user
+- Share test credentials outside the development team
+- Use this account for anything other than automated testing

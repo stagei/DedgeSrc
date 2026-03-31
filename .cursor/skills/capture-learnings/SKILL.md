@@ -1,0 +1,66 @@
+# Capture Learnings as Reusable Rules
+
+When you research, debug, or discover something non-trivial during a task, create a new `.cursor/rules/*.mdc` rule to preserve that knowledge for future projects.
+
+## When to Capture
+
+Create a new rule when ANY of these occur:
+
+- You had to **web search** to figure out how something works
+- You hit an **error** and found the fix through investigation
+- You discovered a **platform quirk** or **gotcha** (hosting, API, framework)
+- You built a **repeatable pattern** that could apply to similar projects
+- You learned a **best practice** that wasn't obvious beforehand
+- The user corrected you or provided insight that changed your approach
+
+## What to Capture
+
+Each rule should include:
+
+1. **The problem or goal** — one sentence on what you were trying to do
+2. **The pitfall or discovery** — what went wrong or what wasn't obvious
+3. **The solution** — concrete fix with code examples where applicable
+4. **Why it works** — brief explanation so future context understands the reasoning
+
+## Rule Format
+
+Save to `.cursor/rules/` with a descriptive kebab-case filename:
+
+```markdown
+---
+description: Short description of the learning
+globs:              # Add file pattern if it only applies to specific files
+alwaysApply: false  # Set true only for universal learnings
+---
+
+# Title of the Learning
+
+## Problem
+What you were trying to do and what went wrong.
+
+## Solution
+The fix or correct approach, with code examples.
+
+## Why
+Brief explanation of the underlying cause.
+```
+
+## Examples of Learnings Worth Capturing
+
+- "WordPress themes MUST have index.php or installation fails"
+- "PowerShell Compress-Archive includes the folder name in the ZIP — no extra nesting needed"
+- "wp_nav_menu Walker's $args->menu is empty string at walk time — use wp_nav_menu_objects filter instead"
+- "Defining the same PHP function in two required files causes fatal error"
+- "one.com File Manager is at filemanager.one.com, WP_DEBUG goes in wp-config.php"
+- "PHP return type declarations (: void) break on hosts running PHP < 7.1"
+
+## Rules for the Rules
+
+- Keep each rule **under 50 lines** — concise and scannable
+- **One concern per rule** — don't combine unrelated learnings
+- Use `alwaysApply: false` unless the learning is universally relevant
+- Set appropriate `globs:` if the learning only applies to specific file types (e.g. `**/*.php` for PHP gotchas)
+- Include **concrete code examples** showing the wrong way and the right way
+- Name the file descriptively: `wp-theme-index-required.mdc`, not `learning-1.mdc`
+- Do NOT create rules for trivial or widely-known facts
+

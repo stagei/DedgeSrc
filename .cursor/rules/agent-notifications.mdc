@@ -1,0 +1,45 @@
+---
+description: Long-running operations SMS notification (from FKMenyPSH)
+alwaysApply: true
+---
+
+# Long-Running Operations Notification
+
+When an agent operation takes more than **5 minutes**, automatically send SMS to the current user after it completes (success or failure).
+
+## User / SMS lookup
+
+Use `$env:USERNAME` to get the SMS number. Same lookup as FKMenyPSH (single source of truth):
+
+```powershell
+$smsNumber = switch ($env:USERNAME) {
+    "FKGEISTA" { "+4797188358" }
+    "FKSVEERI" { "+4795762742" }
+    "FKMISTA"  { "+4799348397" }
+    "FKCELERI" { "+4745269945" }
+    default    { "+4797188358" }
+}
+```
+
+## Sending SMS
+
+Assume **GlobalFunctions** is on PsModulePath (same as FKMenyPSH). Before sending:
+
+```powershell
+Import-Module GlobalFunctions -Force
+Send-Sms -Receiver $smsNumber -Message "<summary>"
+```
+
+Alternatively, call the FKMenyPSH script if available: `C:\opt\src\FKMenyPSH\DevTools\UtilityTools\Send-Sms\Send-Sms.ps1` with arguments `$smsNumber` and the message string.
+
+## SMS message format
+
+- Keep under **160 characters**
+- Include: **operation type**, **files/scope affected**, and **status** (success/failure)
+
+Example: `Gatekeeper: PostgreSQL migration + per-app roles. 8 files. Success.`
+
+## When to send
+
+- **Send:** After the long-running operation completes (success or failure)
+- **Do NOT send:** Operations under 5 minutes; purely interactive or question-only turns

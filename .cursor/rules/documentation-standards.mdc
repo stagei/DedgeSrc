@@ -1,0 +1,73 @@
+---
+description: Documentation standards and token economy
+alwaysApply: true
+---
+
+# Documentation Standards
+
+## Markdown Documentation Location
+
+**CRITICAL**: All markdown documentation files MUST be placed in the `.\Docs` folder.
+
+**Rules:**
+- All new `.md` files (except README.md at project root) should be created in `.\Docs`
+- Only `README.md` stays in the project root
+- Subfolder READMEs (e.g. `Tests\README.md`) stay with their folder
+
+## Documentation Token Economy (CRITICAL)
+
+**ABSOLUTE RULE**: Do NOT waste tokens on non-permanent/temporary documentation.
+
+**FORBIDDEN - Non-Permanent Documents:**
+- Progress summaries (use brief shell output instead)
+- Interim status reports
+- "FIXES.md" files that just describe what was fixed
+- Duplicate documentation explaining what the code already shows
+- Verbose implementation logs
+
+**ALLOWED - Permanent/Reference Documents:**
+- Architecture documentation
+- User guides and tutorials
+- API reference documentation
+- Design specifications that inform future development
+- Troubleshooting guides
+
+**Token Saving Guidelines:**
+1. **Instead of creating "FIXES.md"** → Add comments in code explaining the fix
+2. **Instead of progress summaries** → Use brief shell Write-Host output
+3. **Instead of verbose change logs** → Use git commit messages
+4. **Instead of interim reports** → Report completion only
+5. **Only create .md files that will be referenced long-term**
+
+**When in doubt:** Ask "Will this document be useful 3 months from now?" If no, don't create it.
+
+## Architecture Documentation Maintenance (MANDATORY)
+
+**CRITICAL**: Keep `Docs/APPLICATION_ARCHITECTURE.md` updated with ALL major changes.
+
+**When to update APPLICATION_ARCHITECTURE.md:**
+- Adding new services, factories, or major components
+- Creating new configuration files in `ConfigFiles/`
+- Adding new dialogs or controls with significant functionality
+- Changing data flow or component relationships
+- Adding new database provider support
+- Modifying the folder structure
+- Adding new interfaces or design patterns
+
+**What to update:**
+- Mermaid diagrams showing component relationships
+- Configuration file descriptions and their purposes
+- Data flow sequences
+- Provider support matrix
+- Technology stack changes
+
+**Update frequency:**
+- After completing any feature that affects architecture
+- When adding new specification documents (link them from architecture doc)
+- During major refactoring efforts
+
+**Example trigger scenarios:**
+- Created `GlobalMetadataCache` → Add to architecture diagram and describe caching layer
+- Added new `ConfigFiles/*.json` → Document in Configuration Files section
+- New CLI commands category → Update CLI Architecture section
+- New provider support → Update Provider Support Matrix

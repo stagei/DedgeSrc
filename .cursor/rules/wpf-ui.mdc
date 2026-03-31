@@ -1,0 +1,67 @@
+---
+description: WPF UI standards and theme support
+globs: ["*.xaml", "*.xaml.cs"]
+alwaysApply: false
+---
+
+# WPF & UI Standards
+
+## XAML Conventions
+
+- Use ModernWpfUI theme system
+- Support both Dark and Light themes
+- Use dynamic resources for theme-aware colors
+- Follow Material Design principles
+- Use data binding over code-behind when possible
+
+## Theme Support
+
+- Default theme: Dark
+- Toggle via Ctrl+D or View menu
+- Use `ModernWpf.ThemeManager` for theme switching
+- All colors must support both themes
+
+## AvalonEdit Integration
+
+- Syntax highlighting: Custom DB2 SQL (DB2SQL.xshd)
+- Line numbers: Always enabled
+- Font: Consolas, size 14
+- Features: Code folding, find/replace, multiple cursors
+- Keyboard shortcuts: Standard VS Code bindings
+
+## TabControl Pattern
+
+- Each connection = separate tab
+- Tab header shows: `{Database} @ {Host}` with close button
+- Support Ctrl+N (new tab), Ctrl+W (close tab)
+- Each tab is a `ConnectionTabControl` UserControl
+
+## Keyboard Shortcuts (Must Implement)
+
+- F5: Execute query
+- Ctrl+Enter: Execute current statement
+- Ctrl+Shift+F: Format SQL
+- Ctrl+N: New connection tab
+- Ctrl+W: Close current tab
+- Ctrl+S: Save script
+- Ctrl+O: Open script
+- Ctrl+D: Toggle dark mode
+- Ctrl+F: Find
+- Ctrl+H: Replace
+
+## UI Performance
+
+- Use virtualization for large DataGrid results
+- Implement pagination for > 10,000 rows
+- Use background threads for DB operations
+- Keep UI thread responsive
+
+## Logical User Scenario Walkthrough (MANDATORY)
+
+**BEFORE completing ANY user interface:**
+
+1. **Think through ALL possible user actions**
+2. **Identify missing elements** (error cases, edge cases)
+3. **Check for missing features** (Help, Refresh, Export buttons)
+4. **Verify user flow completeness**
+5. **Document missing elements** in TASKLIST.md

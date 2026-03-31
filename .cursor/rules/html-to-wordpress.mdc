@@ -1,0 +1,308 @@
+---
+description: Convert a static HTML/CSS/JS website into a custom WordPress theme with editable content
+globs: 
+alwaysApply: false
+---
+
+# Static HTML/JS Site to WordPress Theme Conversion
+
+## Strategy Overview
+
+Convert a single- or multi-page static site into a self-contained WordPress theme where ALL content is editable through wp-admin by a non-technical user. No page builders, no ACF, no premium plugins.
+
+## Step 1: Analyse the Static Site
+
+- Inventory every section/page, noting: headings, text blocks, images, forms, repeating content (staff cards, FAQ items, testimonials, pricing cards).
+- Classify each piece of content:
+  - **Global text** (hero, about, prices, contact info) → WordPress Customizer settings
+  - **Repeating items** (staff, FAQ, portfolio, testimonials) → Custom Post Types (CPTs)
+  - **Forms** (contact, booking) → Contact Form 7 plugin with HTML fallback
+  - **Navigation** → `register_nav_menus()` + custom Walker if needed
+  - **Static assets** (images, fonts, JS) → `assets/` subfolder inside theme
+
+## Step 2: Scaffold the Theme
+
+Required file structure:
+
+```
+theme-name/
+├── style.css              # Must start with WP theme header comment
+├── functions.php          # Setup, enqueues, walker, helpers
+├── index.php              # REQUIRED fallback template
+├── front-page.php         # Static front page template (if one-page)
+├── header.php             # <head>, nav
+├── footer.php             # Footer, wp_footer()
+├── assets/
+│   ├── js/                # Copy original JS here
+│   └── images/            # Copy ALL original images here
+├── inc/
+│   ├── customizer.php     # Customizer panels, sections, settings, controls
+│   ├── post-types.php     # CPT registrations + meta boxes
+│   └── theme-setup.php    # Theme activation hook: seed pages, menus, CPTs, CF7
+└── template-parts/
+    └── section-*.php      # One file per page section
+```
+
+### Critical: index.php is REQUIRED
+
+WordPress will refuse to install a theme without `index.php`. Even if `front-page.php` handles the homepage, `index.php` must exist as a fallback. Copy the same include logic from `front-page.php`.
+
+### Critical: style.css Header
+
+```css
+/*
+Theme Name: My Theme
+Theme URI: https://example.com/
+Author: Author Name
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Text Domain: my-theme
+*/
+```
+
+The `Text Domain` must match the folder name and be used in ALL translation functions.
+
+## Step 3: functions.php Patterns
+
+```php
+// 1. Constants
+define( 'THEME_VERSION', '1.0.0' );
+
+// 2. Theme setup (after_setup_theme)
+// - add_theme_support: title-tag, post-thumbnails, custom-logo, html5
+// - register_nav_menus
+
+// 3. Enqueue assets (wp_enqueue_scripts)
+// - Google Fonts, icon libraries via wp_enqueue_style
+// - Theme style.css via get_stylesheet_uri()
+// - Theme JS via wp_enqueue_script with jquery dependency, in footer
+
+// 4. Include files
+require_once get_template_directory() . '/inc/post-types.php';
+require_once get_template_directory() . '/inc/customizer.php';
+require_once get_template_directory() . '/inc/theme-setup.php';
+
+// 5. Custom nav walker (if original nav needs specific classes)
+// 6. Helper function: theme_get_option() wrapper around get_theme_mod()
+```
+
+### CRITICAL: No Duplicate Functions
+
+Never define the same function in multiple files. If a helper like `get_option()` is in `functions.php`, do NOT also define it in `customizer.php` or elsewhere. **Duplicate function definitions cause fatal errors.**
+
+## Step 4: Customizer Settings
+
+For each text block on the static site:
+
+```php
+$wp_customize->add_setting( 'prefix_setting_key', array(
+    'default'           => 'Original static text here',
+    'sanitize_callback' => 'sanitize_text_field', // or wp_kses_post for HTML
+) );
+$wp_customize->add_control( 'prefix_setting_key', array(
+    'label'   => __( 'Human label', 'text-domain' ),
+    'section' => 'prefix_section',
+    'type'    => 'textarea', // or 'text', 'url', 'email'
+) );
+```
+
+- Pre-populate ALL defaults with the original static text so the site looks identical on first activation.
+- Use `sanitize_text_field` for plain text, `wp_kses_post` for HTML, `esc_url_raw` for URLs.
+
+### Make EVERYTHING Editable
+
+- **Every visible text** must be a Customizer setting — section labels, headings, paragraphs, button texts, badge texts, notes, copyright, etc. Zero `esc_html_e()` calls in templates; all text comes from `lo_get_option()` with defaults.
+- **Section headers**: each section should have at minimum a `_label` (small text above heading) and `_title` (h2 heading) setting.
+- **Comma-separated lists** (e.g. insurance companies) are OK for simple lists, but for items with icons, use individual fields per item instead.
+
+### Icon Fields as Dropdowns
+
+For every element that displays a Font Awesome icon, add a paired icon Customizer setting:
+
+```php
+// Define a helper function returning all available icons
+function my_get_icon_choices() {
+    return array(
+        ''             => '— Ingen ikon —',
+        'fa-heart'     => 'Hjerte (fa-heart)',
+        'fa-user-md'   => 'Lege (fa-user-md)',
+        // ... 150+ icons organized by category with human-readable labels
+    );
+}
+
+// Use 'select' type with choices instead of 'text'
+$wp_customize->add_setting( 'prefix_icon', array( 'default' => 'fa-heart', 'sanitize_callback' => 'sanitize_text_field' ) );
+$wp_customize->add_control( 'prefix_icon', array( 'label' => 'Ikon', 'section' => '...', 'type' => 'select', 'choices' => my_get_icon_choices() ) );
+```
+
+- Include ALL icons from the original static site in the choices array.
+- Add many extras from the same icon library, organized by category (healthcare, business, navigation, etc.).
+- Use the same helper function for both Customizer controls and CPT meta box dropdowns.
+- The "— Ingen ikon —" (empty string) option lets users remove an icon entirely.
+
+## Step 5: Custom Post Types
+
+For repeating content (staff, FAQ, testimonials, **and content cards like treatments**):
+
+```php
+add_action( 'init', 'register_my_cpts' );
+function register_my_cpts() {
+    register_post_type( 'staff', array(
+        'labels'        => array( /* Norwegian or English labels */ ),
+        'public'        => true,
+        'show_in_rest'  => true,
+        'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
+        'menu_icon'     => 'dashicons-businessperson',
+        'has_archive'   => false,
+    ) );
+}
+```
+
+- Use `page-attributes` support for sort order via `menu_order`.
+- Add meta boxes for extra fields (professional title, education, etc.) with nonce verification.
+- **Do NOT use PHP return type declarations** (`: void`, `: int`) or scalar type hints (`int $id`) for maximum hosting compatibility.
+
+### CPT Meta Box Icon Dropdowns
+
+When a CPT has an icon field (e.g. treatment card icon), use a `<select>` dropdown in the meta box instead of a text input:
+
+```php
+function render_icon_meta_box( $post ) {
+    wp_nonce_field( 'save_icon', 'icon_nonce' );
+    $icon = get_post_meta( $post->ID, '_my_icon', true );
+    $choices = function_exists( 'my_get_icon_choices' ) ? my_get_icon_choices() : array();
+    echo '<select name="_my_icon" style="width:100%">';
+    foreach ( $choices as $value => $label ) {
+        printf( '<option value="%s"%s>%s</option>', esc_attr( $value ), selected( $icon, $value, false ), esc_html( $label ) );
+    }
+    echo '</select>';
+}
+```
+
+This reuses the same icon choices helper function as the Customizer, giving users a consistent icon selection experience across CPTs and Customizer settings.
+
+### When to Use CPTs vs Customizer for Content Cards
+
+- **Use CPTs** when items are naturally repeatable (variable count) and share a structure (title + content + icon + order). Users add/delete entries in wp-admin → Custom Post Type menu. Examples: treatments, staff, FAQ items.
+- **Use Customizer** when items are fixed in number (e.g. exactly 3 hero badges, exactly 6 process steps) and unlikely to grow. Each gets its own settings for text + icon.
+
+## Step 6: Template Parts
+
+Convert each static HTML section into `template-parts/section-name.php`:
+
+```php
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php $text = theme_get_option( 'prefix_key', 'Default text' ); ?>
+
+<section class="original-class" id="original-id">
+    <div class="container">
+        <h2><?php echo esc_html( $text ); ?></h2>
+    </div>
+</section>
+```
+
+- Preserve ALL original CSS classes and IDs exactly.
+- Use `esc_html()` for text output, `esc_url()` for URLs, `esc_attr()` for attributes, `wp_kses_post()` for rich HTML.
+- For CPT sections, use `WP_Query` with `wp_reset_postdata()` after the loop.
+
+### Conditional Rendering (Hide-When-Empty)
+
+**Every** configurable element must be wrapped in a conditional check so that if the text content is empty, the entire element (including its icon) is hidden:
+
+```php
+<?php
+$text = lo_get_option( 'prefix_card_text', 'Default' );
+$icon = lo_get_option( 'prefix_card_icon', 'fa-heart' );
+if ( ! empty( trim( $text ) ) ) : ?>
+    <div class="card">
+        <?php if ( ! empty( $icon ) ) : ?>
+            <i class="fas <?php echo esc_attr( $icon ); ?>"></i>
+        <?php endif; ?>
+        <span><?php echo esc_html( $text ); ?></span>
+    </div>
+<?php endif; ?>
+```
+
+- The outer `if` checks the **text** (the primary content). If text is empty, the entire block including the icon is hidden.
+- The inner `if` checks the **icon**. If the icon dropdown is set to "— Ingen ikon —" (empty string) but text is present, the icon alone is hidden while the text still renders.
+- This pattern applies to badges, cards, process steps, benefit items, stats, CTA buttons — everything configurable.
+
+### CSS Grid Auto-Reflow
+
+When elements can be hidden dynamically, use `auto-fit` grids so the layout reorganizes automatically:
+
+```css
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+```
+
+- **Never** use a fixed column count (e.g. `repeat(3, 1fr)`) for grids with conditionally rendered items.
+- Use `auto-fit` with `minmax(Xpx, 1fr)` where X is the minimum card width.
+- This ensures that hiding 1 of 3 cards makes the remaining 2 expand, hiding 2 of 3 makes the last one full-width, etc.
+- Apply the same pattern in responsive media queries.
+
+## Step 7: Theme Activation Setup
+
+Hook into `after_switch_theme` to auto-populate:
+- Create a front page and set Settings > Reading to static page
+- Create the nav menu with all section anchors
+- Create initial CPT posts with full content from the static site
+- Create CF7 form if plugin is active (with defensive checks)
+
+All creation must be **idempotent** — check for existing content before creating.
+
+## Step 8: Contact Form
+
+- Use Contact Form 7 plugin for form handling.
+- In the template, check for CF7 with `shortcode_exists('contact-form-7')`.
+- Include a static HTML fallback form (e.g. FormSubmit.co) if CF7 is not installed.
+
+## Step 9: Nav Walker (if needed)
+
+If the original site uses specific CSS classes on nav items:
+
+```php
+// Use a filter to flag special items BEFORE the walker runs
+add_filter( 'wp_nav_menu_objects', 'flag_last_item', 10, 2 );
+
+// Then check $item->classes in the walker's start_el()
+```
+
+**Do NOT** try to access `$args->menu` inside the walker's `start_el()` — it is an empty string at that point. Use a `wp_nav_menu_objects` filter instead.
+
+## Step 10: Packaging & Deployment
+
+```powershell
+Compress-Archive -Path "theme-folder" -DestinationPath "theme-folder.zip"
+```
+
+Upload via wp-admin: Utseende → Temaer → Legg til ny → Last opp tema.
+
+### Naming Conflicts
+
+If a theme with the same folder name already exists on the server, WordPress will show a conflict. Use a unique folder name (e.g. append `-v2`). Update ALL references: folder name, style.css `Text Domain`, all translation function calls, deploy scripts, and documentation.
+
+## Checklist Before Deployment
+
+- [ ] `index.php` exists (WordPress refuses install without it)
+- [ ] `style.css` has valid theme header with `Text Domain` matching folder name
+- [ ] No duplicate function definitions across files
+- [ ] No PHP return type declarations (`: void`) for hosting compatibility
+- [ ] All Customizer defaults populated with original content
+- [ ] All images copied to `assets/images/`
+- [ ] `wp_head()` in header, `wp_footer()` before `</body>`
+- [ ] All output escaped (`esc_html`, `esc_attr`, `esc_url`, `wp_kses_post`)
+- [ ] CF7 integration has fallback and defensive null checks
+- [ ] Theme activation hook is idempotent
+- [ ] ZIP structure: `theme-name/style.css` (one level of nesting)
+- [ ] **Every** visible text is a Customizer setting — no hardcoded strings in templates
+- [ ] **Every** icon is a Customizer dropdown or CPT meta box dropdown
+- [ ] Icon helper function is defined in ONE place (`functions.php`) and reused everywhere
+- [ ] Conditional rendering: empty text hides entire element including icon
+- [ ] CSS grids use `auto-fit` + `minmax` for layouts with conditionally rendered items
+- [ ] CPTs for repeating content are seeded on theme activation with original site data
+- [ ] User guide (BRUKERVEILEDNING.md) covers all Customizer settings and CPT editing
