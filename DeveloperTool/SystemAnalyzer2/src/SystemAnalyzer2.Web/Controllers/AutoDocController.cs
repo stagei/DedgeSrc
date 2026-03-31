@@ -36,6 +36,7 @@ public sealed class AutoDocController : ControllerBase
     /// When <paramref name="alias"/> is set, resolves <c>{AnalysisResultsRoot}/{alias}/autodoc/</c> and <c>{DataRoot}/{alias}/autodoc/</c> before the central <see cref="SystemAnalyzerOptions.AutoDocJsonPath"/>.
     /// </summary>
     [HttpGet("{fileName}")]
+    [HttpHead("{fileName}")]
     public IActionResult GetFile(string fileName, [FromQuery] string? alias = null)
     {
         var safeName = Path.GetFileName(fileName);

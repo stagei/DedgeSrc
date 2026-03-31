@@ -2467,7 +2467,7 @@ function buildContextMenuItems(nodeData) {
     items.push({ icon: "\u{1F4E5}", label: "Collapse Flowchart", action: () => collapseProgramFlowchart(progName) });
     const m = masterIndex[progName];
     const adFile = progName + ".CBL.json";
-    items.push({ icon: "\u{1F4D6}", label: "Open AutoDoc", action: () => window.open(`doc.html?file=${encodeURIComponent(adFile)}`, "_blank") });
+    items.push({ icon: "\u{1F4D6}", label: "Open AutoDoc", action: () => window.open(`doc.html?file=${encodeURIComponent(adFile)}${alias ? '&alias=' + encodeURIComponent(alias) : ''}`, "_blank") });
     items.push({ type: "sep" });
 
   } else if (type && type.startsWith("program")) {
@@ -2500,7 +2500,7 @@ function buildContextMenuItems(nodeData) {
 
     items.push({ type: "sep" });
     const adFile = name + ".CBL.json";
-    items.push({ icon: "\u{1F4D6}", label: "Open AutoDoc", action: () => window.open(`doc.html?file=${encodeURIComponent(adFile)}`, "_blank"), disabled: m?.autoDocExists === false });
+    items.push({ icon: "\u{1F4D6}", label: "Open AutoDoc", action: () => window.open(`doc.html?file=${encodeURIComponent(adFile)}${alias ? '&alias=' + encodeURIComponent(alias) : ''}`, "_blank"), disabled: m?.autoDocExists === false });
     if (type === "program") {
       items.push({ icon: "\u{1F4F9}", label: "Business Docs (slides)", action: () => window.open(`present.html?alias=${encodeURIComponent(alias)}`, "_blank", "noopener") });
     }
