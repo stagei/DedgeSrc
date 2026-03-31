@@ -1,0 +1,30 @@
+{
+  "id": "competitor-research",
+  "description": "Research top competitors for a Dedge product and produce structured JSON + narrative markdown",
+  "model": "claude-sonnet-4-20250514",
+  "mode": "ask",
+  "outputFormat": "text",
+  "noMcp": false,
+  "force": false,
+  "promptTemplate": "competitor-research.prompt.md",
+  "placeholders": {
+    "ProductName": "from all-projects.json .name",
+    "ProductDescription": "from all-projects.json .description",
+    "ProductCategory": "from all-projects.json .category",
+    "ProductStack": "from all-projects.json .stack"
+  },
+  "contextFiles": [],
+  "contextFolder": null,
+  "workspacePath": null,
+  "validation": {
+    "responseFormat": "json",
+    "requiredFields": ["product", "category", "searchDate", "competitors"],
+    "minArrayLength": { "competitors": 3 }
+  },
+  "output": {
+    "jsonPath": "_BusinessDocs/competitors/{{ProductName}}-competitors.json",
+    "markdownPath": "_BusinessDocs/competitors/{{ProductName}}-competitors.md",
+    "markdownFromJson": true,
+    "skipIfExists": true
+  }
+}

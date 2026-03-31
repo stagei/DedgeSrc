@@ -1,0 +1,232 @@
+{
+  "program": "GMAPLDG",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:07:08",
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program GMAPLDG constructs WW-FILNAVN by combining a dynamic userid with a date and a .CSV extension, likely for generating report files.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:08"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMAPLDG",
+    "program": "GMAPLDG",
+    "copyElements": [
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMARANDO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPLID.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASQLL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMACURT",
+      "GMACOCO",
+      "GMASQLB",
+      "GMACNCT",
+      "GMAPRTR",
+      "GMAOSNT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "VARSL-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program GMAPLDG constructs WW-FILNAVN by combining a dynamic userid with a date and a .CSV extension, likely for generating report files."
+      }
+    ],
+    "extractedAt": "2026-03-28T19:07:08"
+  }
+}

@@ -1,0 +1,151 @@
+﻿- Change from dictionary to object array with similar like pwsh pscustomobject.
+
+- Remove the key for the dictionary, and only create lookup from application and environment and version, but also support instance name as part of the lookup.
+
+- Read the json file and create a object array with the same structure as the json file, but add the main elements to each element in accesspoints. The only element that should be renamed is IsActive on primary and rename it to IsServerActive.
+
+- So if the json element looks lik this:
+```json
+{
+    "Database": "FKMRAP",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "RAP",
+    "Version": "2.0",
+    "PrimaryCatalogName": "FKMRAP",
+    "IsActive": true,
+    "ServerName": "p-no1fkmrap-db",
+    "Description": "Report-database for FKM-application.",
+    "NorwegianDescription": "Rapport-database for FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "InstanceName": "DB2",
+        "CatalogName": "FKMRAP",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "ServiceName": "DB2C_1",
+        "NodeName": "NODE1",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "InstanceName": "DB2",
+        "CatalogName": "BASISRAP",
+        "AccessPointType": "Alias",
+        "Port": "3700",
+        "ServiceName": "DB2C_2",
+        "NodeName": "NODE2",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "InstanceName": "DB2FED",
+        "CatalogName": "XFKMRAP",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "ServiceName": "DB2FED",
+        "NodeName": "NODEFED",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  }
+```
+
+Then the object array should look like this:
+```json
+{
+  "ResultingObjects": [
+    {
+      "Database": "FKMRAP",
+      "Provider": "DB2",
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "2.0",
+      "PrimaryCatalogName": "FKMRAP",
+      "IsServerActive": true,
+      "ServerName": "p-no1fkmrap-db",
+      "Description": "Report-database for FKM-application.",
+      "NorwegianDescription": "Rapport-database for FKM-applikasjonen.",
+      "InstanceName": "DB2",
+      "CatalogName": "FKMRAP",
+      "AccessPointType": "PrimaryDb",
+      "Port": "50000",
+      "ServiceName": "DB2C_1",
+      "NodeName": "NODE1",
+      "AuthenticationType": "Kerberos",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "IsActive": true
+    },
+    {
+      "Database": "FKMRAP",
+      "Provider": "DB2",
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "2.0",
+      "PrimaryCatalogName": "FKMRAP",
+      "IsServerActive": true,
+      "ServerName": "p-no1fkmrap-db",
+      "Description": "Report-database for FKM-application.",
+      "NorwegianDescription": "Rapport-database for FKM-applikasjonen.",
+          "InstanceName": "DB2",
+      "CatalogName": "BASISRAP",
+      "AccessPointType": "Alias",
+      "Port": "3700",
+      "ServiceName": "DB2C_2",
+      "NodeName": "NODE2",
+      "AuthenticationType": "Kerberos",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "IsActive": true
+    },
+    {
+      "Database": "FKMRAP",
+      "Provider": "DB2",
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "2.0",
+      "PrimaryCatalogName": "FKMRAP",
+      "IsServerActive": true,
+      "ServerName": "p-no1fkmrap-db",
+      "Description": "Report-database for FKM-application.",
+      "NorwegianDescription": "Rapport-database for FKM-applikasjonen.",
+          "InstanceName": "DB2FED",
+      "CatalogName": "XFKMRAP",
+      "AccessPointType": "FederatedDb",
+      "Port": "50010",
+      "ServiceName": "DB2FED",
+      "NodeName": "NODEFED",
+      "AuthenticationType": "Ntlm",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "IsActive": true
+    }
+  ]
+}
+
+
+- Change the current versions array/dictionary to be dynamic and generated from the json file, but it must contain the instance name in addition to the application and environment and version. Change it to be a object array instead of a dictionary.
+
+- Now make sure there are methods to lookup the connection string by application, environment and version, and instance name, but diff the function name if it returns more than one element.
+
+- Deprecate the methods that takes use the old key in dictionary, but make them still work for backwards compatibility. The default version is 2.0, and if no instance name is provided default to "DB2" for those where provider is DB2.
+
+
+- Now build and run the C:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler to verify that functionality still works. Do not change the files in C:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler, but change the DedgeConnection.cs class to work with this to verify backward compaility
+dotnet nuget remove source "DedgeFeed"
+dotnet nuget remove source "Dedge"
+
+
+dotnet nuget add source "https://pkgs.dev.azure.com/Dedge/Dedge/_packaging/Dedge/nuget/v3/index.json" `
+ --name "Dedge" `
+ --username "geir.helge.starholm@Dedge.no" `
+ --password "3Yj49fT4dhmPi8h9ZTsywKliAKUDy2gfHe3n6zQVrw9uKbppF4MKJQQJ99BLACAAAAAMSOigAAASAZDOWnlD" `
+ --store-password-in-clear-text

@@ -1,0 +1,22 @@
+﻿# IIS-DeployApp Logging
+
+## Log File Location
+
+The IIS-DeployApp scripts write to a dedicated log file on the target server:
+
+```
+C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log
+```
+
+- **Date format:** `YYYYMMDD` using current date (e.g., `FkLog_20260217.log`)
+- **UNC path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\`
+- **Local path on server:** `E:\opt\data\IIS-DeployApp\`
+- **Format:** Pipe-delimited: `timestamp|server|level|type|pid|script|function|line|user|message`
+
+## Reading the Log
+
+When asked to check the IIS-DeployApp log:
+
+1. Compute the filename: `FkLog_{date}.log` (default: today)
+2. Copy from UNC to local before searching (see general remote-log-reading rule)
+3. Look for `IIS-RedeployAll`, `IIS-DeployApp`, `Deploy-IISSite`, `ERROR`, `FATAL`, `JOB_FAILED`, `JOB_STARTED`, `JOB_COMPLETED`

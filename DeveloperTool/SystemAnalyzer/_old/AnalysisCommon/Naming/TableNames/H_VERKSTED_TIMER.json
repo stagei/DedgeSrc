@@ -1,0 +1,100 @@
+{
+  "tableName": "H_VERKSTED_TIMER",
+  "futureName": "WorkshopTimer",
+  "namespace": "Workshops",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "WorkshopNumber",
+      "description": "Unique workshop identification number",
+      "foreignKey": "VTIH_AVDORDRE"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "VTIH_AVDORDRE"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FunctionNumber",
+      "description": "Function or service identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "MEKANIKERNR",
+      "futureName": "MechanicNumber",
+      "description": "Mechanic identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "TIMER",
+      "futureName": "TimeSpent",
+      "description": "Total time spent on the task or service",
+      "foreignKey": "VERKSTED_TIMER"
+    },
+    {
+      "name": "PRIS",
+      "futureName": "Price",
+      "description": "Amount charged for the service or product",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTOKODE",
+      "futureName": "AccountCode",
+      "description": "Account code associated with the financial transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "RABATT",
+      "futureName": "DiscountAmount",
+      "description": "Discount applied to the price or service cost",
+      "foreignKey": null
+    },
+    {
+      "name": "AARMND",
+      "futureName": "ArmNumber",
+      "description": "Unique arm identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "KOSTPRIS",
+      "futureName": "CostPrice",
+      "description": "Cost price of the product or service",
+      "foreignKey": null
+    },
+    {
+      "name": "STATTIMER",
+      "futureName": "ActualTimeSpent",
+      "description": "Actual time spent on the task or service",
+      "foreignKey": "VERKSTED_TIMER"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the action was performed",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User or operator who performed the task",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRELINJENR",
+      "futureName": "OrderLineNumber",
+      "description": "Unique line item number within the order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:36:02"
+}

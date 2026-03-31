@@ -1,0 +1,118 @@
+﻿# COBOL Program Classification
+
+## Purpose
+
+Classify a COBOL program by its architectural role in the Dedge system. The classification is used in the web UI to color-code and filter nodes in the dependency graph.
+
+## Current Implementation: Rule-Based
+
+Classification is currently performed by `Classify-ProgramByRules` using deterministic heuristics. No AI model is called. The rules are documented here so they can serve as the basis for a future AI-enhanced classification.
+
+## Classification Values
+
+| Classification | Description |
+|----------------|-------------|
+| `main-ui` | Primary Dialog System screen (user-facing) |
+| `validation-ui` | Validation subprogram for a screen |
+| `secondary-ui` | Secondary/helper screen (Dialog System) |
+| `batch-processing` | Batch job with no Dialog System interaction |
+| `webservice` | Web service endpoint (GMADBBA/GMASOAL pattern) |
+| `common-utility` | Shared utility program |
+| `unknown` | No matching rule found |
+
+## Rule: Third Character Convention
+
+The third character of the program name indicates its role in the Dedge naming convention:
+
+| 3rd Char | Classification | Confidence | Evidence Pattern |
+|----------|---------------|------------|------------------|
+| `H` | `main-ui` | high if Dialog System copybooks present, else medium | `3rd-letter=H` |
+| `V` | `validation-ui` | high if DSUSRVAL.CPY present, else medium | `3rd-letter=V` |
+| `F` | `secondary-ui` | high if Dialog System copybooks present, else medium | `3rd-letter=F` |
+| `B` | `batch-processing` | high if no Dialog System copybooks, else low | `3rd-letter=B` |
+| `S` | `webservice` | high if GMADBBA/GMASOAL present, else medium | `3rd-letter=S` |
+| `A` | `common-utility` | high if no Dialog System copybooks, else medium | `3rd-letter=A` |
+
+## Rule: Copybook Fallback
+
+When the third character doesn't match any rule above:
+
+| Copybook Present | Classification |
+|------------------|---------------|
+| `DSRUNNER.CPY`, `DSSYSINF.CPY`, or `DS-CNTRL.MF` | `main-ui` (Dialog System) |
+| `DSUSRVAL.CPY` | `validation-ui` |
+| `GMADBBA.CPY` or `GMASOAL.CPY` | `webservice` |
+| None of the above | `unknown` |
+
+## Confidence Levels
+
+| Level | Meaning |
+|-------|---------|
+| `high` | Strong evidence from both naming convention and copybook presence |
+| `medium` | Naming convention match but no confirming copybook, or copybook without naming match |
+| `low` | Contradictory signals (e.g. batch naming but has Dialog System copybooks) |
+
+## Cache Key
+
+Stored in `AnalysisCommon/Objects/{PROGRAM}.cbl.json` under `classification`.
+
+```json
+{
+  "classification": {
+    "value": "main-ui",
+    "confidence": "high",
+    "evidence": "3rd-letter=H, has Dialog System copybooks",
+    "model": "rule-based",
+    "protocol": "Cbl-ProgramClassification",
+    "analyzedAt": "2026-03-24T00:05:52"
+  }
+}
+```
+
+## Future: AI-Enhanced Classification
+
+When AI models are used (Claude Opus or similar), the prompt should include:
+- The program name and its naming convention context
+- The list of copybooks included by the program
+- The list of CALL targets
+- The SQL operations performed
+- A summary of the program's data flow
+
+### Proposed Prompt Template (future)
+
+```
+Classify this COBOL program's architectural role in the Dedge system.
+
+Program: {ProgramName}
+Copybooks: {CopyList}
+CALL targets: {CallTargets}
+SQL operations: {SqlOperations}
+
+Dedge naming convention:
+- 3rd letter H = main UI screen
+- 3rd letter V = validation subprogram
+- 3rd letter F = secondary UI screen
+- 3rd letter B = batch processing
+- 3rd letter S = web service
+- 3rd letter A = common utility
+
+Respond with EXACTLY one JSON object:
+{"classification":"main-ui|validation-ui|secondary-ui|batch-processing|webservice|common-utility|unknown","confidence":"high|medium|low","evidence":"explanation"}
+```
+
+### Proposed Response Format (future)
+
+```json
+{
+  "classification": "batch-processing",
+  "confidence": "high",
+  "evidence": "3rd letter B, no Dialog System copybooks, performs DB2 batch updates"
+}
+```
+
+## Model Guidance
+
+- **Current**: Rule-based only — no AI model needed
+- **Future minimum**: Claude Sonnet — for programs where rules produce `unknown` or `low` confidence
+- **Future ideal**: Claude Opus — for comprehensive classification with source-level understanding
+- Rule-based results should not be overwritten by AI unless confidence is higher

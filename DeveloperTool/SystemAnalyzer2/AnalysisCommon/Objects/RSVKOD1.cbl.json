@@ -1,0 +1,144 @@
+{
+  "program": "RSVKOD1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:1cdfcb58a6d7d3060b354ac0ec480f85955c1f1fdc2070d612e0ff0f40668eac",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RSVKOD1.CBL",
+    "actualName": "RSVKOD1",
+    "program": "RSVKOD1",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDK1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSHKOD1.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTROLLDYRKING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ARTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SORTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMADATO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

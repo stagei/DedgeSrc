@@ -1,0 +1,2 @@
+. $PSScriptRoot\AddFkUserAsLocalAdmin.ps1
+

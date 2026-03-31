@@ -1,0 +1,89 @@
+{
+  "tableName": "P_LAGERLEIE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Lagerleie - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KODE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Behandlingskode"
+      },
+      {
+        "colNo": 2,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kornsesong (1/7 - 30/6)"
+      },
+      {
+        "colNo": 3,
+        "name": "UKE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Øre pr. kg."
+      },
+      {
+        "colNo": 5,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_BEHKODE",
+        "childColumn": "KODE",
+        "parentTable": "BEHKODER",
+        "parentSchema": "DBM",
+        "parentColumn": "KODE"
+      }
+    ]
+  }
+}

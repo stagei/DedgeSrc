@@ -1,0 +1,52 @@
+{
+  "program": "GMACURT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T23:38:36",
+  "extraction": {
+    "sourceHash": "sha256:a53a6b12860583b9737fd6070acd4659ec50669d4e267785f8b8efd6ddc56994",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACURT.CBL",
+    "actualName": "GMACURT",
+    "program": "GMACURT",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-28T23:38:36"
+  },
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:52:51"
+    },
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path for PRINTFIL is constructed using WW-FILNAVN",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:52:54"
+    }
+  }
+}

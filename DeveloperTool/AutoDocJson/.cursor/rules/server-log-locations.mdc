@@ -1,0 +1,64 @@
+﻿---
+description: Server log file locations and procedures for investigating server issues
+alwaysApply: true
+---
+
+# Server Log Locations & Investigation Procedure
+
+## Golden Rule
+
+**ALWAYS copy log files locally before reading or searching them.** Never search UNC paths directly -- it's slow and unreliable. Copy first, then analyze.
+
+```powershell
+$localLogDir = "C:\opt\data\AutoDocJson\server-logs"
+New-Item $localLogDir -ItemType Directory -Force | Out-Null
+Copy-Item "\\server\path\logfile.log" "$localLogDir\logfile.log" -Force
+Get-Content "$localLogDir\logfile.log" -Encoding utf8
+```
+
+## Server: dedge-server
+
+### AutoDocJson Web App (IIS stdout logs)
+- **Server path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\DedgeWinApps\AutoDocJson\logs\stdout_*.log`
+- **Local copy to:** `C:\opt\data\AutoDocJson\server-logs\`
+- **Contains:** ASP.NET Core startup, DedgeAuth token exchange, unhandled exceptions
+
+### AutoDocJson Batch Runner (NLog application logs)
+- **Server path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\AutoDocJson\`
+- **Local copy to:** `C:\opt\data\AutoDocJson\server-logs\`
+- **Contains:** Parser output, file processing, errors during batch generation
+- **Note:** Path uses `%OptPath%` on server which is `E:\opt` (not `C:\opt`)
+
+### IIS-DeployApp (deployment logs)
+- **Server path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log`
+- **Local copy to:** `C:\opt\data\AutoDocJson\server-logs\`
+- **Contains:** Full IIS deployment lifecycle (teardown, install, health check)
+
+### IIS-AutoDeploy (auto-deploy state)
+- **Server path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-AutoDeploy\`
+- **Files:** `templates-state.json`, `DedgeWinApps-state.json`
+- **Contains:** Timestamps of last detected changes per app
+
+### Global PowerShell Logs
+- **Server path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\AllPwshLog\<hostname>_YYYYMMDD.log`
+- **Contains:** All Write-LogMessage output from scheduled tasks and scripts
+
+## Web.config Environment Variables
+
+The deployed `web.config` at `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\DedgeWinApps\AutoDocJson\web.config` must include:
+```xml
+<environmentVariables>
+  <environmentVariable name="ASPNETCORE_URLS" value="http://localhost:5280" />
+  <environmentVariable name="OptPath" value="E:\opt" />
+</environmentVariables>
+```
+
+**Warning:** `Build-And-Publish.ps1` publishes to the staging folder, which triggers IIS-AutoDeploy. The auto-deploy does a full teardown/reinstall and regenerates web.config from the deploy template. Manual web.config edits must be reflected in the deploy template to survive redeployments.
+
+## Investigation Checklist
+
+1. Copy relevant log files locally first
+2. Check IIS stdout logs for startup errors
+3. Check batch runner logs for parser/generation errors
+4. Check IIS-DeployApp logs if deployment issues suspected
+5. Verify web.config has correct `OptPath` environment variable

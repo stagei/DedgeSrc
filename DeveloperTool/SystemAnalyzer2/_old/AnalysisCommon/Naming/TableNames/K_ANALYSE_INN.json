@@ -1,0 +1,191 @@
+{
+  "tableName": "K_ANALYSE_INN",
+  "futureName": "KornAnalyseInn",
+  "namespace": "Data.Models",
+  "columns": [
+    {
+      "name": "SESONG",
+      "futureName": "Season",
+      "description": "The season number or code",
+      "foreignKey": null
+    },
+    {
+      "name": "ANLEGGSNR",
+      "futureName": "InstallationNumber",
+      "description": "Unique identifier for the installation",
+      "foreignKey": "SILO_BEVEGELSER"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartiNumber",
+      "description": "Identifier for the batch or lot of goods",
+      "foreignKey": [
+        "A_ORDRELINJER",
+        "AH_ORDRELINJER",
+        "ANLEGG"
+      ]
+    },
+    {
+      "name": "PARTI_LNR",
+      "futureName": "PartiLine",
+      "description": "The line number within a batch or lot of goods",
+      "foreignKey": null
+    },
+    {
+      "name": "VAREART",
+      "futureName": "ProductType",
+      "description": "Type of product being analyzed",
+      "foreignKey": [
+        "K_FORHANDSPROVE"
+      ]
+    },
+    {
+      "name": "LAGERKVALITET",
+      "futureName": "StorageQuality",
+      "description": "The quality level of storage",
+      "foreignKey": null
+    },
+    {
+      "name": "HLVEKT",
+      "futureName": "HighWeight",
+      "description": "Weight measurement for high-quality goods",
+      "foreignKey": [
+        "AVREGNING",
+        "MOTTAK_ANALYSE",
+        "K_FORHANDSPROVE"
+      ]
+    },
+    {
+      "name": "VANNPROSENT",
+      "futureName": "WaterContentPercent",
+      "description": "Percentage of water content in the goods",
+      "foreignKey": [
+        "AVREGNING",
+        "MOTTAK_ANALYSE",
+        "K_FORHANDSPROVE"
+      ]
+    },
+    {
+      "name": "FALLTALL",
+      "futureName": "DefectCount",
+      "description": "Number of defects found in the goods",
+      "foreignKey": [
+        "AVREGNING",
+        "MOTTAK"
+      ]
+    },
+    {
+      "name": "PROTEIN_PROS",
+      "futureName": "ProteinPercent",
+      "description": "Percentage of protein content in the goods",
+      "foreignKey": null
+    },
+    {
+      "name": "KVF1_NR",
+      "futureName": "QualityFactor1",
+      "description": "First quality factor number or code",
+      "foreignKey": [
+        "AVREGNING"
+      ]
+    },
+    {
+      "name": "KVF2_NR",
+      "futureName": "QualityFactor2",
+      "description": "Second quality factor number or code",
+      "foreignKey": [
+        "AVREGNING"
+      ]
+    },
+    {
+      "name": "KVF3_NR",
+      "futureName": "QualityFactor3",
+      "description": "Third quality factor number or code",
+      "foreignKey": [
+        "AVREGNING"
+      ]
+    },
+    {
+      "name": "STJERNE",
+      "futureName": "StarRating",
+      "description": "Rating given to the goods, typically on a star scale",
+      "foreignKey": null
+    },
+    {
+      "name": "ANALYSEDATO",
+      "futureName": "AnalysisDate",
+      "description": "The date when the analysis was conducted",
+      "foreignKey": null
+    },
+    {
+      "name": "LABNR",
+      "futureName": "LaboratoryNumber",
+      "description": "Identifier for the laboratory conducting the analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "FILREF",
+      "futureName": "FileReference",
+      "description": "Reference number for the file or record",
+      "foreignKey": null
+    },
+    {
+      "name": "AVRENSPROSENT",
+      "futureName": "DegradationPercent",
+      "description": "Percentage of degradation in the goods",
+      "foreignKey": null
+    },
+    {
+      "name": "AVVIK",
+      "futureName": "Deviation",
+      "description": "Any deviation from standard or expected values",
+      "foreignKey": [
+        "A_KORRIGERINGER"
+      ]
+    },
+    {
+      "name": "BEHANDLET",
+      "futureName": "Processed",
+      "description": "Indicates whether the goods have been processed or not",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserIdentifier",
+      "description": "Unique identifier for the user who performed the analysis",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "BEH_TIDSPUNKT",
+      "futureName": "BehaviorTimestamp",
+      "description": "The timestamp when behavior or process occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The exact time and date of the analysis",
+      "foreignKey": [
+        "A_BESTHODE"
+      ]
+    },
+    {
+      "name": "TUSENKORNVEKT",
+      "futureName": "TotalSunkenKernelWeight",
+      "description": "Weight of sunken kernels in total",
+      "foreignKey": null
+    },
+    {
+      "name": "DON_ANALYSE",
+      "futureName": "AnalysisDonation",
+      "description": "Amount donated for the analysis process",
+      "foreignKey": [
+        "AVREGNING"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:46:55"
+}

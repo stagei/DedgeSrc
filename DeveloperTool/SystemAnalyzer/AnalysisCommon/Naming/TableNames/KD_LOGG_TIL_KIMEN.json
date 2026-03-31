@@ -1,0 +1,74 @@
+{
+  "tableName": "KD_LOGG_TIL_KIMEN",
+  "futureName": "LogisticGroup",
+  "namespace": "Logistics",
+  "columns": [
+    {
+      "name": "RECNO",
+      "futureName": "RecordNumber",
+      "description": "Unique record identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTNR",
+      "futureName": "ArticleNumber",
+      "description": "Article or product number",
+      "foreignKey": [
+        "KD_FRO_JOURNAL"
+      ]
+    },
+    {
+      "name": "SORTNR",
+      "futureName": "SortNumber",
+      "description": "Sorting number for articles",
+      "foreignKey": [
+        "KD_FRO_JOURNAL"
+      ]
+    },
+    {
+      "name": "ARTGRUPPE",
+      "futureName": "ArticleGroup",
+      "description": "Article group identifier",
+      "foreignKey": [
+        "KD_FRO_JOURNAL",
+        "KD_FRO_SPIREANALYS",
+        "KD_FRO_URENH_TYPE"
+      ]
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "Party or vendor number",
+      "foreignKey": [
+        "A_ORDRELINJER",
+        "AH_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "PROVENR",
+      "futureName": "ProvenanceNumber",
+      "description": "Source of supply number",
+      "foreignKey": [
+        "KD_ANALYCEN",
+        "KD_FRO_JOURNAL"
+      ]
+    },
+    {
+      "name": "SETTNR",
+      "futureName": "SetNumber",
+      "description": "Set or configuration identifier",
+      "foreignKey": [
+        "KD_FRO_JOURNAL"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the log entry",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:16:06"
+}

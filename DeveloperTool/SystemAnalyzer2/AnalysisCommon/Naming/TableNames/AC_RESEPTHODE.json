@@ -1,0 +1,76 @@
+{
+  "tableName": "AC_RESEPTHODE",
+  "futureName": "ReceptFromOptimeringToAlfracim",
+  "namespace": "Pharmacy",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_PRODUKT",
+      "futureName": "ProductFK",
+      "description": "Foreign key to product",
+      "foreignKey": "AC_NARINGSSTOFF"
+    },
+    {
+      "name": "VERSJON",
+      "futureName": "Version",
+      "description": "Version number",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKTNR",
+      "futureName": "ProductCode",
+      "description": "Product code",
+      "foreignKey": "D365_PRODUKTER"
+    },
+    {
+      "name": "FABRIKKNR",
+      "futureName": "ManufacturerNumber",
+      "description": "Manufacturer number",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKTNAVN",
+      "futureName": "ProductName",
+      "description": "Product name",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event",
+      "foreignKey": null
+    },
+    {
+      "name": "RESEPT_DATO",
+      "futureName": "ReceptionDate",
+      "description": "Date of reception",
+      "foreignKey": "AC_NARINGSSTOFF"
+    },
+    {
+      "name": "OVERFORT",
+      "futureName": "Transmitted",
+      "description": "Indicator for transmission status",
+      "foreignKey": null
+    },
+    {
+      "name": "DEKLARERT_PROTEIN",
+      "futureName": "DeclaredProteinAmount",
+      "description": "Declared protein amount",
+      "foreignKey": null
+    },
+    {
+      "name": "DEKLARERT_FETT",
+      "futureName": "DeclaredFatAmount",
+      "description": "Declared fat amount",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:21:06"
+}

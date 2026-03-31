@@ -1,0 +1,251 @@
+{
+  "program": "RKVTVPA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:31:11",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "RKVTVPA",
+    "program": "RKVTVPA",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TPF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKFTVPA.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RSFF053.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFVGSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFPOSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RKHSPBE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TIL",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "IFRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHVPVE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "LOUT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMHLOUT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RKADELP.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_VANNPROSENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LOKAL_UTVALG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "KOMMUNENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_KOMMUNER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KOMMUNENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OVFNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "TIL_MONITOR",
+      "SJEKK_RKFILE",
+      "SQLDBS",
+      "SQLEXEC",
+      "BEHANDLE_FILE",
+      "DELOPP_ANALYCEN",
+      "DELOPP_SOFTKORN",
+      "DELOPP_LABNETT",
+      "GMACURT",
+      "GMAPATH"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-28T20:31:11"
+  }
+}

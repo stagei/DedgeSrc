@@ -1,0 +1,190 @@
+﻿# DB2 Access Conversion (ODBC to IBM.Data.Db2)
+
+## Purpose
+
+Convert PowerShell ODBC-based DB2 database access patterns to C# using the `Net.IBM.Data.Db2` NuGet package (`using IBM.Data.Db2;`). Handles DQL (SELECT), DML (INSERT/UPDATE/DELETE), and DDL (CREATE/ALTER/DROP) patterns.
+
+## When to Use
+
+For these AI tags in the converted C# scaffold:
+- `AI:DB2_CONNECTION` — ODBC/DSN-based DB2 connection that needs IBM.Data.Db2 conversion
+- `AI:DB2_QUERY` — DB2 DQL/DML/DDL query execution pattern
+
+## Detection Markers in PowerShell Source
+
+- `New-Object System.Data.Odbc.OdbcConnection("DSN=...")`
+- `Invoke-Db2Query`, `Invoke-Db2QueryAny`, `Invoke-McpDb2Query`
+- `$db2Conn`, `$conn.Open()`, `$conn.CreateCommand()`
+- `CursorDb2McpServer` references
+- SQL strings: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `CREATE`, `ALTER`, `DROP`
+
+## Prompt Template
+
+```
+Convert the following DB2 database access code from PowerShell ODBC patterns to C# using IBM.Data.Db2.
+
+NuGet package: Net.IBM.Data.Db2
+Namespace: using IBM.Data.Db2;
+
+CONVERSION RULES:
+
+CONNECTION:
+- PowerShell: New-Object System.Data.Odbc.OdbcConnection("DSN=$dbAlias")
+- C#: await using var connection = new DB2Connection($"Database={databaseAlias};");
+       await connection.OpenAsync(cancellationToken);
+
+DQL (SELECT / WITH ... SELECT):
+- Use DB2Command + ExecuteReaderAsync
+- Map rows to Dictionary<string, string?> or typed model
+- Always use parameterized queries for user input
+- Pattern:
+  await using var cmd = connection.CreateCommand();
+  cmd.CommandText = sqlQuery;
+  cmd.CommandTimeout = 60;
+  await using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
+  var results = new List<Dictionary<string, string?>>();
+  while (await reader.ReadAsync(cancellationToken))
+  {
+      var row = new Dictionary<string, string?>();
+      for (var i = 0; i < reader.FieldCount; i++)
+          row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetString(i);
+      results.Add(row);
+  }
+
+DML (INSERT / UPDATE / DELETE):
+- Use DB2Command + ExecuteNonQueryAsync
+- Always use DB2Parameter for values
+- Pattern:
+  await using var cmd = connection.CreateCommand();
+  cmd.CommandText = "INSERT INTO SCHEMA.TABLE (COL1, COL2) VALUES (@p1, @p2)";
+  cmd.Parameters.Add(new DB2Parameter("@p1", value1));
+  cmd.Parameters.Add(new DB2Parameter("@p2", value2));
+  var affected = await cmd.ExecuteNonQueryAsync(cancellationToken);
+
+DDL (CREATE / ALTER / DROP):
+- Use DB2Command + ExecuteNonQueryAsync (no parameters typically)
+- Pattern:
+  await using var cmd = connection.CreateCommand();
+  cmd.CommandText = ddlStatement;
+  await cmd.ExecuteNonQueryAsync(cancellationToken);
+
+ERROR HANDLING:
+- Catch DB2Exception first (has SqlState, ErrorCode properties)
+- Then catch generic Exception as fallback
+- Log SqlState and ErrorCode for DB2 errors
+- Pattern:
+  catch (DB2Exception dbEx)
+  {
+      Logger.Error($"DB2 error SqlState={dbEx.SqlState} Code={dbEx.ErrorCode}: {dbEx.Message}");
+      throw;
+  }
+
+MCP FALLBACK (optional dual-path):
+- If the PowerShell source has Invoke-McpDb2Query / CursorDb2McpServer fallback:
+- Create an IDb2QueryService interface with ADO.NET and MCP HTTP implementations
+- ADO.NET path uses DB2Connection as above
+- MCP path uses HttpClient with JSON-RPC to http://dedge-server/CursorDb2McpServer/
+- Dispatcher tries ADO.NET first, falls back to MCP on DB2Exception
+
+=== ORIGINAL POWERSHELL DB2 CODE ===
+{Ps1DbCode}
+
+=== TAGGED C# (resolve DB2 tags) ===
+{CsDbCode}
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{Ps1DbCode}` | The DB2-related section from the original PowerShell source |
+| `{CsDbCode}` | The tagged C# code containing `AI:DB2_CONNECTION` or `AI:DB2_QUERY` markers |
+
+## Response Format
+
+```csharp
+// Connection setup
+await using var connection = new DB2Connection($"Database={databaseAlias};");
+await connection.OpenAsync(cancellationToken);
+
+// Query execution
+await using var cmd = connection.CreateCommand();
+cmd.CommandText = "SELECT COL1, COL2 FROM SCHEMA.TABLE WHERE COL3 = @p1";
+cmd.Parameters.Add(new DB2Parameter("@p1", filterValue));
+// ... reader pattern ...
+```
+
+The response should be the converted DB2 access code block (not a full file), ready to be inserted into the class.
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. Validate that the result contains `DB2Connection` or `DB2Command`
+3. Verify no `OdbcConnection` or `DSN=` references remain
+4. Insert into the appropriate location in the output C# file
+
+## Required Using Statements
+
+When DB2 access is present, these usings must be added:
+```
+using IBM.Data.Db2;
+using System.Threading;
+using System.Threading.Tasks;
+```
+
+## NuGet Package
+
+```xml
+<PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+```
+
+## Model Guidance
+
+- **Ollama minimum**: `qwen2.5:32b` — needs to understand ADO.NET patterns and IBM DB2 provider specifics
+- **Cursor CLI**: `claude-sonnet-4-20250514` — reliable for complex query patterns with JOINs and subqueries
+- The IBM DB2 provider API mirrors standard ADO.NET but uses `DB2*` prefixed classes
+- `DB2Connection` does NOT support `Integrated Security` on IBM i / LUW catalog aliases — use `Database=alias;` only
+
+## Examples
+
+### PowerShell Input (DQL)
+
+```powershell
+$conn = New-Object System.Data.Odbc.OdbcConnection("DSN=$Db2Dsn")
+$conn.Open()
+$cmd = $conn.CreateCommand()
+$cmd.CommandText = "SELECT TABSCHEMA, TABNAME FROM SYSCAT.TABLES WHERE TYPE = 'T' FETCH FIRST 100 ROWS ONLY"
+$cmd.CommandTimeout = 60
+$reader = $cmd.ExecuteReader()
+$results = @()
+while ($reader.Read()) {
+    $results += [ordered]@{
+        Schema = $reader['TABSCHEMA'].ToString().Trim()
+        Table  = $reader['TABNAME'].ToString().Trim()
+    }
+}
+$reader.Close()
+$conn.Close()
+```
+
+### C# Output (DQL)
+
+```csharp
+await using var connection = new DB2Connection($"Database={db2Dsn};");
+await connection.OpenAsync(cancellationToken);
+
+await using var cmd = connection.CreateCommand();
+cmd.CommandText = "SELECT TABSCHEMA, TABNAME FROM SYSCAT.TABLES WHERE TYPE = 'T' FETCH FIRST 100 ROWS ONLY";
+cmd.CommandTimeout = 60;
+
+await using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
+var results = new List<CatalogEntry>();
+while (await reader.ReadAsync(cancellationToken))
+{
+    results.Add(new CatalogEntry
+    {
+        Schema = reader.GetString(reader.GetOrdinal("TABSCHEMA")).Trim(),
+        Table = reader.GetString(reader.GetOrdinal("TABNAME")).Trim()
+    });
+}
+```

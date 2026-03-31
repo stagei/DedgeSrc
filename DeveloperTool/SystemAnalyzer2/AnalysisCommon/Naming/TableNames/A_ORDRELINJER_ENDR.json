@@ -1,0 +1,70 @@
+{
+  "tableName": "A_ORDRELINJER_ENDR",
+  "futureName": "OrderLine",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "RelatedDocumentNumber",
+      "description": "Number of related document (e.g., invoice, purchase order)",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERES_NAA",
+      "futureName": "DeliveryDueDate",
+      "description": "Delivery due date for the item in ISO 8601 format",
+      "foreignKey": null
+    },
+    {
+      "name": "KOSTPRIS",
+      "futureName": "CostPrice",
+      "description": "Cost price of the item",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CustomerIdentifier",
+      "description": "Unique identifier for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record creation or modification",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKK_SEDDEL",
+      "futureName": "PackReceiptIndicator",
+      "description": "Indicator for pack receipt (Y/N)",
+      "foreignKey": null
+    },
+    {
+      "name": "UTLEVERINGNR",
+      "futureName": "DeliveryOrderNumber",
+      "description": "Number of delivery order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:16:23"
+}

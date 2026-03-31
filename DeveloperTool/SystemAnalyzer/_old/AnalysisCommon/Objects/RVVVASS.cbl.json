@@ -1,0 +1,83 @@
+{
+  "program": "RVVVASS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:2ebbe74e1d55a4b468f41b7965b7b0c9aff98dce18f10593cb5758adf818c20b",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RVVVASS.CBL",
+    "actualName": "RVVVASS",
+    "program": "RVVVASS",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ASS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RVHVASS.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAGNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ARTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SORTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

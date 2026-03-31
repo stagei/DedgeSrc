@@ -1,0 +1,84 @@
+{
+  "program": "GMXNUMM",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:58add4f23acd87168a110ea914bc1bcadf24807188e0c01a238ed1356e02c45c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\gmxnumm.cbl",
+    "actualName": "GMXNUMM",
+    "program": "GMXNUMM",
+    "copyElements": [
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "VIHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VIHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORRIGERINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_KORRIGERINGER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "D01B998",
+      "GMACURT",
+      "GMAPATH",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PNUMBRUDD",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

@@ -1,0 +1,8 @@
+select h.ordrenr, h.ordredato,h.levnr, l.levvarenr,
+   l.varenavn, l.pris, l.linjestatus as ls,
+   l.bestant, l.mottant, l.bruttobelop
+from dbm.ah_besthode h, dbm.ah_bestlin l
+where h.ordrenr = l.ordrenr
+and l.aar = h.aar
+and h.aar = 2009
+and h.ordrenr in(744761, 744762)

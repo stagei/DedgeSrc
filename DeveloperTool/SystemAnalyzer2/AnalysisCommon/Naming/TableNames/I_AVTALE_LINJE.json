@@ -1,0 +1,64 @@
+{
+  "tableName": "I_AVTALE_LINJE",
+  "futureName": "OrderLine",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVTALEID",
+      "futureName": "AgreementId",
+      "description": "Unique identifier for the agreement",
+      "foreignKey": "I_AVTALE_HODE"
+    },
+    {
+      "name": "FKNR_H",
+      "futureName": "LineNumberHeader",
+      "description": "Line number header (may refer to a specific line in an agreement)",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALE_KVANTUM",
+      "futureName": "AgreementQuantum",
+      "description": "Quantum related to the agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTILT_KVANTUM",
+      "futureName": "OrderedQuantum",
+      "description": "Quantum that was ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTATT_KVANTUM",
+      "futureName": "ReceivedQuantum",
+      "description": "Quantum that has been received",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User associated with the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the record was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "VARSLING_KVANTUM",
+      "futureName": "NotificationQuantum",
+      "description": "Quantum related to a notification",
+      "foreignKey": null
+    },
+    {
+      "name": "VARSLING_ANTALL",
+      "futureName": "NotificationCount",
+      "description": "Count of notifications",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:40:57"
+}

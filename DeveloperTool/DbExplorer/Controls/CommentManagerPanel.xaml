@@ -1,0 +1,44 @@
+<UserControl x:Class="DbExplorer.Controls.CommentManagerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Schema:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="SchemaComboBox" Width="150" SelectionChanged="SchemaComboBox_SelectionChanged"/>
+            <Button x:Name="RefreshButton" Content="🔄 Refresh" Click="RefreshButton_Click" Padding="10,5" Margin="20,0,0,0"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" x:Name="CommentsDataGrid" AutoGenerateColumns="False" SelectionMode="Extended"
+                  MouseRightButtonUp="CommentsDataGrid_MouseRightButtonUp">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Binding="{Binding ObjectType}" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Schema" Binding="{Binding Schema}" Width="100" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Table" Binding="{Binding TableName}" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Column" Binding="{Binding ColumnName}" Width="120" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="GridContextMenu">
+                    <MenuItem Header="📝 Add Column Comment" x:Name="AddColumnCommentMenuItem">
+                        <!-- Populated dynamically with column names -->
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Margin="0,0,20,0" Text="Ready"/>
+            <Button x:Name="GenerateScriptButton" Content="📝 Generate COMMENT Script" Click="GenerateScript_Click" Padding="10,5" Margin="5,0"/>
+            <Button x:Name="ExportButton" Content="📊 Export" Click="ExportButton_Click" Padding="10,5" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

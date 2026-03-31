@@ -1,0 +1,88 @@
+﻿---
+description: Custom commands - /deploy, /publish workflow
+alwaysApply: true
+---
+
+## Deployment Workflow
+
+1. `Build-And-Publish.ps1` compiles and pushes code to a network location
+2. The tray icon apps (Agent and Dashboard) detect this change via trigger files
+3. Tray apps start a PowerShell reinstall script in a separate thread
+4. That script kills the processes and reinstalls the agent/dashboard + their tray apps
+
+This is automatic - no manual service restart needed. The tray apps handle it.
+
+---
+
+# IMPORTANT: Installation Script Locations
+
+The agent install script is **MAINTAINED** in DedgePsh, NOT in the ServerMonitor repo:
+
+- **Agent:** `C:\opt\src\DedgePsh\DevTools\InfrastructureTools\ServerMonitorAgent\ServerMonitorAgent.ps1`
+
+The script in the build output folder is a **BACKUP COPY** only.
+When modifying installation logic, edit the DedgePsh source file, not the copy.
+
+**IMPORTANT: After modifying the agent script, run its _deploy.ps1:**
+
+```powershell
+# After changing ServerMonitorAgent.ps1:
+pwsh -NoProfile -ExecutionPolicy Bypass -File "C:\opt\src\DedgePsh\DevTools\InfrastructureTools\ServerMonitorAgent\_deploy.ps1"
+```
+
+This deploys the updated installation script to all target servers.
+
+**NOTE: ServerMonitorDashboard is deployed via IIS-DeployApp — there is no install script for it.**
+
+---
+
+# Commands: /deploy and /publish
+
+**Trigger**: User types `/deploy` or `/publish` (only when that is the only text in the message).
+
+**Behavior**: Both commands do the same thing. Execute the following steps in order:
+
+1. **Kill existing running apps** (main app, job app, tray app)
+   ```powershell
+   Stop-Process -Name "ServerMonitor" -Force -ErrorAction SilentlyContinue
+   Stop-Process -Name "ServerMonitorTrayIcon" -Force -ErrorAction SilentlyContinue
+   Stop-Process -Name "ServerMonitorDashboard" -Force -ErrorAction SilentlyContinue
+   Stop-Process -Name "ServerMonitorDashboard.Tray" -Force -ErrorAction SilentlyContinue
+   Start-Sleep -Seconds 2
+   ```
+
+2. **Compile all apps** (from ServerMonitor repository root)
+   ```powershell
+   cd C:\opt\src\ServerMonitor
+   .\Build-And-Publish.ps1
+   ```
+   If the build fails, **fix errors** using the compilation log, then re-run the build until it succeeds.
+
+3. **Git add**
+   ```powershell
+   git add -A
+   ```
+
+4. **Git commit** (use a descriptive message based on changes made in the session)
+   ```powershell
+   git commit -m "<descriptive message>"
+   ```
+
+5. **Git push**
+   ```powershell
+   git push
+   ```
+
+6. **Open the Dashboard in the browser**
+   - Open the IIS-hosted dashboard:
+     ```powershell
+     Start-Process "msedge" -ArgumentList "http://localhost/ServerMonitorDashboard"
+     ```
+   - Dashboard URL: `http://localhost/ServerMonitorDashboard` (Scalar: `http://localhost/ServerMonitorDashboard/scalar`).
+
+## Publishing (IMPORTANT)
+
+- **"PUBLISH" MEANS `Build-And-Publish.ps1`**: When the user says "publish", always run `.\Build-And-Publish.ps1` from the repository root
+- Do NOT use `Quick-Build.ps1` unless explicitly requested
+- Do NOT manually bump version numbers - `Build-And-Publish.ps1` handles version incrementing automatically
+- Do NOT automatically run publish after making changes - wait for user to say "publish"

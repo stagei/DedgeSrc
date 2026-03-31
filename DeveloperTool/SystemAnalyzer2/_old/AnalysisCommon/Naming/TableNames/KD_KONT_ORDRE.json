@@ -1,0 +1,46 @@
+{
+  "tableName": "KD_KONT_ORDRE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "KONTRAKT_RECNO",
+      "futureName": "ContractRecNo",
+      "description": "Unique contract record number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTILLINGS_RECNO",
+      "futureName": "BestillingRecNo",
+      "description": "Unique bestilling record number",
+      "foreignKey": "KD_BESTILLING"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within the order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:11:06"
+}

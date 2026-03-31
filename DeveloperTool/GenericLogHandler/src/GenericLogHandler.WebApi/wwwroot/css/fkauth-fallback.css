@@ -1,0 +1,261 @@
+﻿/* ═══════════════════════════════════════════════════════════════════
+   DedgeAuth Tenant Fallback Theme
+   Used when tenant theme.css is empty or unreachable.
+   Matches Dedge default (DatabaseSeeder) for consistent branding.
+   Load via api/DedgeAuth/ui/tenant-fallback.css or inject from DedgeAuth-user.js.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Light Theme ─────────────────────────────────────────────────── */
+:root {
+    /* Brand Colors - FK Green */
+    --primary-color: #008942;
+    --primary-hover: #00b359;
+
+    /* Backgrounds (shared across all apps) */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    --bg-input: #ffffff;
+
+    /* Text */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    /* Borders */
+    --border-color: #cbd5e1;
+    --border-focus: #008942;
+    --card-border: 1px solid #e2e8f0;
+
+    /* Accent */
+    --accent-color: #0369a1;
+    --accent-hover: #0284c7;
+
+    /* Status */
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --error-color: #dc2626;
+    --info-color: #0284c7;
+    --danger-color: #dc2626;
+    --critical-color: #dc2626;
+
+    /* Shadows */
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    /* Shape */
+    --radius: 8px;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+    /* ServerMonitor: gauge, panels */
+    --gauge-bg: #e2e8f0;
+    --panel-header-bg: linear-gradient(135deg, #f8fafc, #f1f5f9);
+
+    /* Config/form editors: selection */
+    --selection-bg: #0369a1;
+    --selection-text: #ffffff;
+
+    /* DocView: tree, code blocks */
+    --tree-hover: #f0f0f5;
+    --code-bg: #f6f8fa;
+}
+
+/* ── Dark Theme ──────────────────────────────────────────────────── */
+[data-theme="dark"] {
+    --primary-color: #00b359;
+    --primary-hover: #00cc66;
+
+    --bg-primary: #1f1f1f;
+    --bg-secondary: #2a2a2a;
+    --bg-tertiary: #333333;
+    --bg-card: #000000;
+    --bg-hover: #333333;
+    --bg-input: #333333;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #e4e4e7;
+    --text-muted: #d4d4d8;
+
+    --border-color: #444444;
+    --border-focus: #60a5fa;
+    --card-border: 1px solid #444444;
+
+    --accent-color: #60a5fa;
+    --accent-hover: #3b82f6;
+
+    --success-color: #34d399;
+    --warning-color: #fbbf24;
+    --error-color: #f87171;
+    --info-color: #38bdf8;
+    --danger-color: #f87171;
+    --critical-color: #f87171;
+
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+
+    --gauge-bg: #333333;
+    --panel-header-bg: linear-gradient(135deg, #2a2a2a, #333333);
+
+    --selection-bg: #60a5fa;
+    --selection-text: #ffffff;
+
+    --tree-hover: #2d2d30;
+    --code-bg: #24292e;
+}
+
+/* ── Utility Classes ────────────────────────────────────────────── */
+
+.tenant-logo {
+    max-width: 200px;
+    height: auto;
+}
+
+/* ── Search / Modal Dialog (shared pattern) ────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+.modal-overlay.hidden {
+    display: none;
+}
+.modal-container {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.modal-header h2,
+.modal-header .modal-title {
+    margin: 0;
+    font-size: 1.1rem;
+}
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    line-height: 1;
+}
+.modal-close:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+.modal-sm { max-width: 400px; }
+.modal-md { max-width: 600px; }
+.modal-lg { max-width: 900px; }
+.modal-fullscreen { max-width: calc(100vw - 2rem); max-height: calc(100vh - 2rem); }
+
+.search-history-container {
+    position: relative;
+    display: inline-block;
+}
+.search-history-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.25rem;
+    min-width: 280px;
+    max-width: 400px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.search-history-dropdown.hidden {
+    display: none;
+}
+.search-history-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+.search-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.search-history-item:hover {
+    background: var(--bg-tertiary);
+}
+.search-history-item:last-of-type {
+    border-bottom: none;
+}
+.search-history-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.search-history-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+    white-space: nowrap;
+}
+.search-history-clear {
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    color: var(--error-color);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-top: 1px solid var(--border-color);
+}
+.search-history-clear:hover {
+    background: var(--bg-tertiary);
+}

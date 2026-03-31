@@ -1,0 +1,154 @@
+{
+  "program": "PAHVETO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:52:02",
+  "extraction": {
+    "sourceHash": "sha256:182acd76b9731627765946646d17cda09c5d2b4fff86c00abdfcf85cdd3ff204",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAHVETO.CBL",
+    "actualName": "PAHVETO",
+    "program": "PAHVETO",
+    "copyElements": [
+      {
+        "name": "KUFI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRIO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHVETO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TREKKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TREKKTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKTYPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKERNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKMOTTAKERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TREKKTYPE_TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "PAVVETO",
+      "GMACURT",
+      "GMADATO",
+      "PAFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:52:02"
+  }
+}

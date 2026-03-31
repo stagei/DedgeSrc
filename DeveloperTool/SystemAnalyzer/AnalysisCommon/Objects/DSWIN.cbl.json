@@ -1,0 +1,223 @@
+{
+  "program": "DSWIN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:58:26",
+  "variableFilenames": {
+    "PARAM": {
+      "logicalName": "PARAM",
+      "physicalVariable": "PARFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path for PARAM file construction",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:19"
+    },
+    "LOGGFILE": {
+      "logicalName": "LOGGFILE",
+      "physicalVariable": "LOGGFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Log file constructed from LOGGFIL in DSBPRDB.CBL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:22"
+    },
+    "RCFILE": {
+      "logicalName": "RCFILE",
+      "physicalVariable": "RCFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "RCFILE variable is constructed to be 'DSBPRDB.RC'",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:26"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DSWIN",
+    "program": "DSWIN",
+    "copyElements": [
+      {
+        "name": "DSLANG.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DDEXSX.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSHBURH.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CALL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BR-MEM.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFKART.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMHTOTO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "FAFFASC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GLHSESI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAHRAGR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFTRSH.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFSAKU.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFLOOL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "FAFLEFS.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "HKHKALK.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "DOARAPP",
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "GMACURT",
+      "AXALBEL",
+      "GMACOCO",
+      "GMAMEXT",
+      "GMFFELL",
+      "GMVBVFK",
+      "BLVVBVI",
+      "GMVSAKU",
+      "DSRUN",
+      "AAVM021",
+      "DSFUNKS",
+      "GIVANOR",
+      "RKVTVPA",
+      "RKVREGP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PARAM",
+        "physicalName": "PARFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path for PARAM file construction"
+      },
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Log file constructed from LOGGFIL in DSBPRDB.CBL"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "RCFILE variable is constructed to be 'DSBPRDB.RC'"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:58:26"
+  }
+}

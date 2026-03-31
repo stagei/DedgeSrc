@@ -1,0 +1,14 @@
+erDiagram
+    LØNNSMOTTAKER {
+        DECIMAL LØPENR PK
+        VARCHAR FØDSELSNR
+        VARCHAR FORNAVN
+        VARCHAR ETTERNAVN
+        DECIMAL BELØP
+    }
+    UTBETALING {
+        DECIMAL BELØP
+        DATE DATO
+        VARCHAR MOTTAKER_ID FK
+    }
+    LØNNSMOTTAKER ||--o{ UTBETALING : "har"

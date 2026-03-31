@@ -1,0 +1,100 @@
+{
+  "tableName": "ORDRE_VARER_VENT",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "WorkshopNumber",
+      "description": "Unique workshop number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "VTYPE",
+      "futureName": "OrderType",
+      "description": "Type of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENR",
+      "futureName": "ProductCode",
+      "description": "Product code or reference number",
+      "foreignKey": "Product"
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Quantity of the product ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "SupplierNumber",
+      "description": "Supplier number",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "OrderLineId",
+      "description": "Unique order line identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED",
+      "futureName": "WarehouseLocation",
+      "description": "Warehouse location where the product is stored or ordered from",
+      "foreignKey": null
+    },
+    {
+      "name": "PRBE_SW",
+      "futureName": "PriceStatus",
+      "description": "Price status indicator (Sw: Switch)",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "OrderStatus",
+      "description": "Current order status",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CustomerID",
+      "description": "Customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the order or line item creation",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN_NY",
+      "futureName": "ProductName",
+      "description": "Product name (new)",
+      "foreignKey": null
+    },
+    {
+      "name": "FINNES_SW",
+      "futureName": "ExistsStatus",
+      "description": "Existence status indicator (Sw: Switch)",
+      "foreignKey": null
+    },
+    {
+      "name": "OPPHAV",
+      "futureName": "Source",
+      "description": "Source of the data or order line",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:54:35"
+}

@@ -1,0 +1,45 @@
+---
+description: DB2 SQL query reference for Db2InstanceDataCollector
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# DB2 SQL Query Reference Files
+
+When writing or modifying DB2 SQL queries in the ServerMonitorAgent (especially in `Db2InstanceDataCollector.cs`), consult these reference files for correct column names, table structures, and query patterns:
+
+## DB2 12.1 System Metadata
+```
+C:\opt\src\WindowsDb2Editor\ConfigFiles\db2_12.1_system_metadata.json
+```
+Contains comprehensive documentation of DB2 system catalog tables (SYSCAT, SYSIBM, SYSIBMADM):
+- Column names and data types
+- Table relationships
+- Type code definitions (e.g., table types, constraint types)
+- Common query patterns
+
+## DB2 12.1 SQL Statements
+```
+C:\opt\src\WindowsDb2Editor\ConfigFiles\db2_12.1_sql_statements.json
+```
+Contains working SQL statements for DB2 12.1 operations:
+- Monitoring queries (MON_GET_* functions)
+- Session and lock queries (SYSIBMADM.SNAPAPPL_INFO, SNAPLOCK)
+- Table activity queries
+- Best practices for DB2 SQL
+
+## Key DB2 12.1 Monitoring Views/Functions
+
+- `TABLE(MON_GET_CONNECTION(NULL, -2))` - Active connections
+- `TABLE(MON_GET_ACTIVITY(NULL, -2))` - Current activities
+- `TABLE(MON_GET_TABLE('', '', -2))` - Table activity metrics
+- `TABLE(MON_GET_TABLESPACE('', -2))` - Tablespace usage
+- `TABLE(MON_GET_BUFFERPOOL('', -2))` - Buffer pool stats
+- `SYSIBMADM.SNAPAPPL_INFO` - Application snapshot info
+- `SYSIBMADM.SNAPLOCK` - Lock information
+
+## IMPORTANT DB2 12.1 Compatibility Notes
+
+- `MON_GET_CONNECTION` does NOT have `CONNECTION_STATE` column
+- `MON_GET_APPL_LOCKWAIT` does NOT have `TABSCHEMA`/`TABNAME` columns
+- Always verify column existence in the metadata file before using

@@ -1,0 +1,59 @@
+---
+description: Documentation standards and user guide requirements
+alwaysApply: true
+---
+
+# Documentation Standards
+
+## Avoid Creating Temporary Markdown Files
+
+**DO NOT create these types of files (they waste tokens and clutter the repo):**
+- Session summaries (*_SUMMARY.md, *_COMPLETE.md, *_IMPLEMENTATION.md)
+- Fix summaries after each bug fix
+- Deployment status reports
+- Step-by-step implementation logs
+- Temporary TODO files that duplicate main TODO
+
+**Exception:** ONE release notes file per major version (RELEASE_NOTES_vX.Y.Z.md)
+
+## What TO Create/Update Instead
+
+1. **README.md** - Keep updated with functionality overview (WHAT it does, not HOW)
+2. **RELEASE_NOTES_vX.Y.Z.md** - ONE file per version with features and usage examples
+3. **Permanent TODO files** - For tracking ongoing work
+4. **Architecture docs** - Only for complex design decisions requiring explanation
+5. **Class User Guides** - Per-class usage documentation
+
+## Documentation Content Rules
+
+- **Focus on WHAT and WHY**, not implementation details
+- **Show usage examples**, not code listings
+- **Keep it concise** - quality over quantity
+- **Update existing docs** rather than creating new ones
+
+## Class User Guide Standards
+
+**REQUIRED for these class types:**
+- Public API classes
+- Core utility classes
+- Complex classes with multiple interactions
+
+**File Naming Convention:** `<ClassBaseName>UserGuide.md`
+
+**Each User Guide MUST include:**
+1. Header - Class name, version, purpose
+2. Quick Start - Minimal working example
+3. Usage Patterns - Common scenarios with code examples
+4. Class Interactions - Mermaid diagram showing dependencies
+5. Complete Example - Real-world usage scenario
+6. Properties/Methods - Key members with descriptions
+7. Error Handling - Common errors and solutions
+
+## Include User Guides in NuGet Package (if applicable)
+
+```xml
+<ItemGroup>
+  <None Include="README.md" Pack="true" PackagePath="\" />
+  <None Include="*UserGuide.md" Pack="true" PackagePath="docs\" />
+</ItemGroup>
+```

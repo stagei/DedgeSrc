@@ -1,0 +1,105 @@
+{
+  "tableName": "EGETBRUK_LINJE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "INNKJØP EGET BRUK",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "ORDRENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "LINJENR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "VARENR",
+        "typeName": "CHARACTER",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "VARENAVN",
+        "typeName": "CHARACTER",
+        "length": 35,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "ANTALL",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "RABATT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "PRIS",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "EB_AVDORDRE",
+        "childColumn": "AVDNR",
+        "parentTable": "EGETBRUK_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "AVDNR"
+      },
+      {
+        "constraintName": "EB_AVDORDRE",
+        "childColumn": "ORDRENR",
+        "parentTable": "EGETBRUK_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "ORDRENR"
+      }
+    ]
+  }
+}

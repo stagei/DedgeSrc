@@ -1,0 +1,314 @@
+CONNECT TO BASISHST 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+ 
+
+connect to BASISHST
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\TRU\AH_ORDREH2012.ixf OF IXF INSERT INTO DBM.AH_ORDREHODE      NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\AH_ORDREH2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.47.28.989170".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "122518".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\AH_ORDREH2012.ixf", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "2994751" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "2994751".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.48.11.276145".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.48.11.292856".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.50.44.653680".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "13.11.2022 
+12.50.44.856120".
+
+SQL3509W  The utility has deleted "45" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "13.11.2022 
+12.50.45.144720".
+
+
+Number of rows read         = 2994751
+Number of rows skipped      = 0
+Number of rows loaded       = 2994751
+Number of rows rejected     = 0
+Number of rows deleted      = 45
+Number of rows committed    = 2994751
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.AH_ORDREHODE CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\TRU\AH_ORDREL2012.ixf OF IXF INSERT INTO DBM.AH_ORDRELINJER      NONRECOVERABLE
+SQL3039W  The memory available to LOAD for DATA BUFFER prohibits full LOAD 
+parallelism.  Load parallelism of "3" will be used
+
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\AH_ORDREL2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.50.46.558940".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "123051".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\AH_ORDREL2012.ixf", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "6966653" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "6966653".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.51.37.668944".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.51.37.682281".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.54.55.726192".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "13.11.2022 
+12.54.55.880790".
+
+SQL3509W  The utility has deleted "704" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "13.11.2022 
+12.54.56.386090".
+
+
+Number of rows read         = 6966653
+Number of rows skipped      = 0
+Number of rows loaded       = 6966653
+Number of rows rejected     = 0
+Number of rows deleted      = 704
+Number of rows committed    = 6966653
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.AH_ORDRELINJER CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\TRU\AH_VERKSTEDHODE2012.ixf OF IXF INSERT INTO DBM.H_VERKSTEDHODE      NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\AH_VERKSTEDHODE2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.54.57.175768".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "123705".
+
+SQL3153N  The T record in the PC/IXF file has name 
+"P:\tru\AH_VERKSTEDHODE2012.ixf", qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "53441" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "53441".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.55.09.285354".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.55.09.300982".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.55.12.171390".
+
+
+Number of rows read         = 53441
+Number of rows skipped      = 0
+Number of rows loaded       = 53441
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 53441
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_VERKSTEDHODE CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\TRU\AH_VERKSTED_TIMER2012.ixf OF IXF INSERT INTO DBM.H_VERKSTED_TIMER      NONRECOVERABLE
+SQL3039W  The memory available to LOAD for DATA BUFFER prohibits full LOAD 
+parallelism.  Load parallelism of "3" will be used
+
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\AH_VERKSTED_TIMER2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.55.12.742532".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "123732".
+
+SQL3153N  The T record in the PC/IXF file has name 
+"P:\tru\AH_VERKSTED_TIMER2012.ixf", qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "69220" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "69220".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.55.13.727016".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.55.13.742777".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.55.17.431014".
+
+
+Number of rows read         = 69220
+Number of rows skipped      = 0
+Number of rows loaded       = 69220
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 69220
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_VERKSTED_TIMER CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\TRU\AH_VERKSTEDTEKST2012.ixf OF IXF INSERT INTO DBM.H_VERKSTEDTEKST      NONRECOVERABLE
+SQL3039W  The memory available to LOAD for DATA BUFFER prohibits full LOAD 
+parallelism.  Load parallelism of "3" will be used
+
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\AH_VERKSTEDTEKST2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.55.17.979010".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "123735".
+
+SQL3153N  The T record in the PC/IXF file has name 
+"P:\tru\AH_VERKSTEDTEKST2012.ixf", qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "225367" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "225367".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.55.18.646965".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.55.18.660041".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.55.27.697950".
+
+
+Number of rows read         = 225367
+Number of rows skipped      = 0
+Number of rows loaded       = 225367
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 225367
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_VERKSTEDTEKST CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

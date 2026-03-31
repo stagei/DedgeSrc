@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <AssemblyName>ServerMonitorDashboard.Tray</AssemblyName>
+    <RootNamespace>ServerMonitorDashboard.Tray</RootNamespace>
+    <Company>Dedge</Company>
+    <Product>ServerMonitor Dashboard Tray</Product>
+    <Description>System tray application for ServerMonitor Dashboard - launches web UI and shows alert notifications</Description>
+    <Copyright>Copyright © Dedge 2026</Copyright>
+    <VersionPrefix>1.0.304</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+    <InformationalVersion>$(VersionPrefix)</InformationalVersion>
+    <ApplicationIcon>dedge.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.1.25080.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0-preview.1.25080.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.1.25080.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="appsettings.*.json" Condition="Exists('appsettings.*.json')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <!-- Copy icon file for shortcuts and branding -->
+    <Content Include="dedge.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+  <!-- Code Signing Configuration -->
+  <PropertyGroup>
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+  </PropertyGroup>
+
+  <!-- Debug configuration to verify what's happening -->
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+  </Target>
+
+  <!-- Sign the assembly after build in Release mode using DedgeSign.ps1 -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+    <Message Importance="high" Text="Signing assembly with DedgeSign.ps1..." />
+    <Message Importance="high" Text="Target: $(TargetPath)" />
+    
+    <!-- Use DedgeSign.ps1 for code signing -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+
+  <!-- Sign the published executable after Publish -->
+  <Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <PublishExePath>$(PublishDir)ServerMonitorDashboard.Tray.exe</PublishExePath>
+    </PropertyGroup>
+    
+    <Message Importance="high" Text="Signing published executable: $(PublishExePath)" />
+    
+    <!-- Use DedgeSign.ps1 to sign the published EXE -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+  </Target>
+
+</Project>

@@ -1,0 +1,82 @@
+{
+  "tableName": "P_OPPGJORSBREV_LIN",
+  "futureName": "OppgjorsbrevLine",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "oppgjbrevNr",
+      "futureName": "OppgjorsbrevNumber",
+      "description": "The unique identifier for the oppgjorsbrev.",
+      "foreignKey": "FK_OPPGJBR"
+    },
+    {
+      "name": "journalnr",
+      "futureName": "JournalNumber",
+      "description": "A number identifying a journal entry.",
+      "foreignKey": "FK_OPPGJBR"
+    },
+    {
+      "name": "produsentnr",
+      "futureName": "ProducerNumber",
+      "description": "The unique identifier for the producer of the oppgjorsbrev.",
+      "foreignKey": null
+    },
+    {
+      "name": "linjenr",
+      "futureName": "LineNumber",
+      "description": "The line number within the oppgjorsbrev.",
+      "foreignKey": null
+    },
+    {
+      "name": "plasseringsKode",
+      "futureName": "PlacingCode",
+      "description": "The code indicating where the item is placed or positioned.",
+      "foreignKey": null
+    },
+    {
+      "name": "trekktypeKode",
+      "futureName": "WithdrawalTypeCode",
+      "description": "The type of withdrawal associated with this line in the oppgjorsbrev.",
+      "foreignKey": null
+    },
+    {
+      "name": "referansenr",
+      "futureName": "ReferenceNumber",
+      "description": "A reference number for additional identification purposes.",
+      "foreignKey": null
+    },
+    {
+      "name": "tekst",
+      "futureName": "Text",
+      "description": "The textual description or remarks associated with this line.",
+      "foreignKey": null
+    },
+    {
+      "name": "belop",
+      "futureName": "Amount",
+      "description": "The financial amount related to this line in the oppgjorsbrev.",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "The unique identifier for the user associated with this transaction.",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when this line was last modified or created.",
+      "foreignKey": null
+    },
+    {
+      "name": "trekkOppdragNr",
+      "futureName": "WithdrawalOrderNumber",
+      "description": "The number of the withdrawal order associated with this line.",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:13:20"
+}

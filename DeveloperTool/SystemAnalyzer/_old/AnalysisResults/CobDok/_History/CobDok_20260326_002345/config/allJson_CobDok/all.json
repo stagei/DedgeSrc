@@ -1,0 +1,35 @@
+{
+  "title": "CobDok — COBOL programs using DBM.MODUL in the COBDOK documentation database",
+  "originalTitle": "CobDok — programmer som bruker DBM.MODUL i COBDOK-databasen",
+  "generated": "2026-03-23",
+  "analysisNote": "In DB2/COBDOK the module registry table is DBM.MODUL (singular), not DBM.MODULES. These programs were found by scanning C:\\opt\\data\\VisualCobol\\Sources\\cbl for SQL referencing DBM.MODUL (excluding DBM.MODUL_LINJER). Primary loader: DOHSCAN.",
+  "entries": [
+    {
+      "type": "program",
+      "menuChoice": "CD01",
+      "area": "CobDok",
+      "descriptionNorwegian": "Scanner COBOL-kilde og laster COBDOK (INSERT/UPDATE/DELETE mot DBM.MODUL bl.a.)",
+      "description": "Scans COBOL sources and loads COBDOK — inserts/updates/deletes DBM.MODUL among other catalog tables",
+      "program": "DOHSCAN",
+      "filetype": "cbl"
+    },
+    {
+      "type": "program",
+      "menuChoice": "CD02",
+      "area": "CobDok",
+      "descriptionNorwegian": "Kontroll / uttrekk med join mot DBM.MODUL",
+      "description": "COBDOK check program — queries joining DBM.MODUL",
+      "program": "DOHCHK",
+      "filetype": "cbl"
+    },
+    {
+      "type": "program",
+      "menuChoice": "CD03",
+      "area": "CobDok",
+      "descriptionNorwegian": "Bygg/uttrekk fra DBM.MODUL og relaterte tabeller",
+      "description": "COBDOK build/report — heavy use of DBM.MODUL joins",
+      "program": "DOHCBLD",
+      "filetype": "cbl"
+    }
+  ]
+}

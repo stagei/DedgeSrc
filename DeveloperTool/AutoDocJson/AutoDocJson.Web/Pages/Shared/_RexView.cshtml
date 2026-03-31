@@ -1,0 +1,93 @@
+﻿@model AutoDocNew.Models.RexResult
+
+@if (Model == null) { return; }
+
+<div class="main-container">
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <div class="info-card">
+            <table class="info-table">
+                <tr><td data-i18n="label.filename">Filename</td><td><a href="https://Dedge.visualstudio.com/Dedge/_search?action=contents&text=@(Model.SourceFile)&type=code&filters=ProjectFilters%7BDedge%7D">@DisplayHelpers.ToTitleCase(Model.SourceFile)</a></td></tr>
+                <tr><td data-i18n="label.description">Description</td><td>@Model.Description</td></tr>
+                <tr><td data-i18n="label.usesSql">Uses SQL</td><td><input type="checkbox" @(Model.Metadata.UsesSql ? "checked" : "") onclick="return false" /></td></tr>
+                <tr><td data-i18n="label.usesFtp">Uses FTP</td><td><input type="checkbox" @(Model.Metadata.UsesFtp ? "checked" : "") onclick="return false" /></td></tr>
+                <tr><td data-i18n="label.created">Created</td><td>@Model.Metadata.Created</td></tr>
+                <tr><td data-i18n="label.generated">Generated</td><td>@Model.GeneratedAt</td></tr>
+            </table>
+        </div>
+
+        @if (Model.CalledScripts?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-terminal"></i> <span data-i18n="section.calledScripts">Called Scripts</span> (@Model.CalledScripts.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.module">Module</th></tr>
+                    @foreach (var s in Model.CalledScripts)
+                    {
+                        <tr><td><a href="/Doc?file=@(s.Link?.Replace("./","").Replace(".html",".json"))">@DisplayHelpers.ToTitleCase(s.Name)</a></td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.CalledPrograms?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-code-square"></i> <span data-i18n="section.calledCobolPrograms">Called COBOL Programs</span> (@Model.CalledPrograms.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.program">Program</th><th data-i18n="table.description">Description</th><th data-i18n="table.type">Type</th><th data-i18n="table.system">System</th></tr>
+                    @foreach (var c in Model.CalledPrograms)
+                    {
+                        <tr>
+                            <td><a href="/Doc?file=@(c.Link?.Replace("./","").Replace(".html",".json"))">@DisplayHelpers.ToTitleCase(c.Module)</a></td>
+                            <td>@c.Description</td>
+                            <td>@c.Type</td>
+                            <td>@c.System</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.ChangeLog?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-clock-history"></i> <span data-i18n="section.changeLog">Change Log</span> (@Model.ChangeLog.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.date">Date</th><th data-i18n="table.user">User</th><th data-i18n="table.comment">Comment</th></tr>
+                    @foreach (var e in Model.ChangeLog)
+                    {
+                        <tr><td>@e.Date</td><td>@e.User</td><td>@e.Comment</td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @await Html.PartialAsync("_GitHistorySection", Model.GitHistory)
+    </div>
+
+    <!-- Diagram Panel -->
+    <div class="diagram-panel">
+        <div class="diagram-tabs">
+            <button class="diagram-tab active">
+                <i class="bi bi-diagram-2"></i> <span data-i18n="diagram.flow">Flow Diagram</span>
+            </button>
+        </div>
+
+        <div class="diagram-content active" id="flow-content">
+            @await Html.PartialAsync("_DiagramToolbar", "flow")
+            <div class="diagram-container diagram-wrapper" id="flow-container" data-diagram-type="flow" data-node-count="@MermaidNodeCounter.CountNodes(Model.Diagrams?.FlowMmd)">
+                @if (!string.IsNullOrEmpty(Model.Diagrams?.FlowMmd))
+                {
+                    <pre class="mermaid-source" style="display:none">@Html.Raw(Model.Diagrams.FlowMmd)</pre>
+                    <pre class="mermaid" id="flowDiagram" data-diagram-type="flow">@Html.Raw(Model.Diagrams.FlowMmd)</pre>
+                    <div class="diagram-render-target" id="flow-render-target"></div>
+                }
+                else
+                {
+                    <div class="empty-state"><i class="bi bi-diagram-3"></i><p data-i18n="diagram.noFlowDiagram">No flow diagram available.</p></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

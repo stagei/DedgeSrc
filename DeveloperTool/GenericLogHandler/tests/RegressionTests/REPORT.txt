@@ -1,0 +1,226 @@
+=======================================================================
+  GenericLogHandler Regression Test Report
+=======================================================================
+  Date:     2026-02-19 21:43:25
+  Duration: 00:03:59
+  Result:   ALL PASS (53/53 passed, 0 failed)
+=======================================================================
+
+Detailed Results:
+-----------------------------------------------------------------------
+  [OK]   db_reset
+           Expected: success
+           Actual:   success
+
+  [OK]   schema_tables
+           Expected: 13
+           Actual:   13
+
+  [OK]   file_import_count
+           Expected: 50
+           Actual:   50
+
+  [OK]   api_ingest_count
+           Expected: 20
+           Actual:   20
+
+  [OK]   stress_total_requests
+           Expected: 210
+           Actual:   210
+
+  [OK]   stress_success_rate
+           Expected: >=95%
+           Actual:   100%
+
+  [OK]   stress_no_500_errors
+           Expected: 0 server errors
+           Actual:   0 failures
+
+  [OK]   stress_requests_per_sec
+           Expected: >=10
+           Actual:   258.7
+
+  [OK]   stress_queue_drained
+           Expected: 0
+           Actual:   0
+
+  [OK]   stress_entries_persisted
+           Expected: 720
+           Actual:   720
+
+  [OK]   total_log_entries
+           Expected: 820
+           Actual:   820
+
+  [OK]   test_server_entries
+           Expected: 62
+           Actual:   62
+
+  [OK]   prod_db01_entries
+           Expected: 20
+           Actual:   20
+
+  [OK]   alert_trigger_entries
+           Expected: 18
+           Actual:   18
+
+  [OK]   level_distribution
+           Expected: DEBUG,INFO,WARN,ERROR,FATAL
+           Actual:   DEBUG,ERROR,FATAL,INFO,WARN
+
+  [OK]   ordrenr_extracted
+           Expected: 28
+           Actual:   28
+
+  [OK]   avdnr_extracted
+           Expected: 26
+           Actual:   26
+
+  [OK]   alertid_extracted
+           Expected: 42
+           Actual:   42
+
+  [OK]   job_executions
+           Expected: 7
+           Actual:   7
+
+  [OK]   ingest_queue_drained
+           Expected: 0
+           Actual:   0
+
+  [OK]   filter_create_alert-below-threshold
+           Expected: created
+           Actual:   ID: 73a0bba4-7ac8-419a-803c-63d06558cd43
+
+  [OK]   filter_create_alert-cooldown-test
+           Expected: created
+           Actual:   ID: 6954c0ed-df6a-4384-978a-2a190bfcc2b6
+
+  [OK]   filter_create_alert-filter-db-conn
+           Expected: created
+           Actual:   ID: 02ceb92f-b1ab-4f09-a267-9e7f8f59e5ec
+
+  [OK]   filter_create_alert-filter-order-sync
+           Expected: created
+           Actual:   ID: 408752d5-f46b-43f9-8e0a-0d2bfd92db9a
+
+  [OK]   filter_create_alert-time-window
+           Expected: created
+           Actual:   ID: 64eab07b-4ffa-4ca0-b113-fbf67da87216
+
+  [OK]   filter_create_alert-webhook-payload
+           Expected: created
+           Actual:   ID: 66b6343c-0c5c-4208-8341-5b6be731d613
+
+  [OK]   alert_filters_in_db
+           Expected: 6
+           Actual:   6
+
+  [OK]   alert_history_records
+           Expected: 10
+           Actual:   10
+
+  [OK]   successful_alerts
+           Expected: 7
+           Actual:   7
+
+  [OK]   order_sync_fail_alert
+           Expected: 3
+           Actual:   3
+
+  [OK]   order_sync_fail_match_count
+           Expected: 20
+           Actual:   20
+
+  [OK]   db_conn_lost_alert
+           Expected: 3
+           Actual:   3
+
+  [OK]   db_conn_lost_match_count
+           Expected: 16
+           Actual:   16
+
+  [OK]   filters_evaluated
+           Expected: 6
+           Actual:   6
+
+  [OK]   filters_triggered
+           Expected: 3
+           Actual:   3
+
+  [OK]   below_threshold_no_trigger
+           Expected: 0
+           Actual:   0
+
+  [OK]   below_threshold_was_evaluated
+           Expected: 1
+           Actual:   1
+
+  [OK]   below_threshold_not_triggered
+           Expected: 1
+           Actual:   1
+
+  [OK]   time_window_no_trigger
+           Expected: 0
+           Actual:   0
+
+  [OK]   time_window_was_evaluated
+           Expected: 1
+           Actual:   1
+
+  [OK]   time_window_not_triggered
+           Expected: 1
+           Actual:   1
+
+  [OK]   cooldown_triggered_cycle1
+           Expected: 1
+           Actual:   1
+
+  [OK]   cooldown_no_retrigger_cycle2
+           Expected: 1
+           Actual:   1
+
+  [OK]   failed_webhook_recorded
+           Expected: 3
+           Actual:   3
+
+  [OK]   failed_webhook_has_error_msg
+           Expected: 3
+           Actual:   3
+
+  [OK]   webhook_payload_succeeded
+           Expected: true
+           Actual:   True
+
+  [OK]   webhook_payload_match_count
+           Expected: 20
+           Actual:   20
+
+  [OK]   webhook_payload_action_type
+           Expected: webhook
+           Actual:   webhook
+
+  [OK]   webhook_payload_action_taken
+           Expected: non-empty
+           Actual:   Triggered webhook to http://localhost:8110/api/Logs/ingest
+
+  [OK]   webhook_payload_has_response
+           Expected: non-empty
+           Actual:   has response
+
+  [OK]   webhook_payload_has_sample_ids
+           Expected: non-empty
+           Actual:   has IDs
+
+  [OK]   webhook_payload_sample_id_count
+           Expected: 5
+           Actual:   5
+
+  [OK]   cooldown_webhook_succeeded
+           Expected: 1
+           Actual:   1
+
+-----------------------------------------------------------------------
+  Summary: 53 passed, 0 failed out of 53 checks
+  Overall: ALL PASS
+=======================================================================

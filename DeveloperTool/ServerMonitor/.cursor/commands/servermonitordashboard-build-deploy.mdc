@@ -1,0 +1,47 @@
+﻿---
+description: When user says /publish, run Build-And-Publish.ps1 then IIS-DeployApp for ServerMonitorDashboard
+alwaysApply: true
+---
+
+# ServerMonitorDashboard Build and Deploy
+
+## Command /publish
+
+When the user requests **`/publish`** (or "command /publish", "publish", "build and deploy"), perform these two steps in order:
+
+1. **Build and publish:** From this project root, run `.\Build-And-Publish.ps1`.
+2. **IIS deploy (this app only):** Run `pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName ServerMonitorDashboard`.
+
+Do not run Build-And-Publish-ALL.ps1, IIS-RedeployAll.ps1, or git add/commit/push unless the user explicitly asks for them.
+
+---
+
+For **this solution only**, use the following. Do not run Build-And-Publish-ALL.ps1 or IIS-RedeployAll.ps1 unless the user explicitly requests it.
+
+## 1. Build and publish
+
+Run from this project root only:
+
+```powershell
+.\Build-And-Publish.ps1
+```
+
+- Do **not** run `Build-And-Publish-ALL.ps1` or any other repo's publish script for routine deploys of ServerMonitorDashboard.
+
+## 2. IIS deploy (this app only)
+
+After a successful publish, run IIS-DeployApp **only for ServerMonitorDashboard**:
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName ServerMonitorDashboard
+```
+
+- Do **not** run `IIS-RedeployAll.ps1` for routine deploys of this solution.
+- This deploys only the ServerMonitorDashboard virtual application from staging to the IIS install path and recycles its app pool.
+
+## Summary
+
+| Step   | Command |
+|--------|---------|
+| Publish | `.\Build-And-Publish.ps1` (from repo root) |
+| Deploy  | `IIS-DeployApp.ps1 -SiteName ServerMonitorDashboard` |

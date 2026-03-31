@@ -1,0 +1,91 @@
+﻿---
+description: DedgeAuth authentication integration for consumer apps
+globs:
+  - "**/Program.cs"
+  - "**/*.csproj"
+  - "**/wwwroot/**/*.html"
+  - "**/appsettings*.json"
+alwaysApply: true
+---
+
+# DedgeAuth Integration
+
+This project uses **DedgeAuth** for authentication. DedgeAuth is the central auth server for all FK web applications.
+
+DedgeAuth source: `C:\opt\src\DedgeAuth` | Full integration docs: `C:\opt\src\DedgeAuth\docs\integration\`
+
+## Server Portability
+
+All apps are designed to run on **any server** without code changes. When deploying to a new environment:
+
+1. Update `appsettings.json` -> `DedgeAuth:AuthServerUrl` to the new DedgeAuth URL
+2. Register the app in DedgeAuth database on the new server (via `DedgeAuth-AddAppSupport.ps1`)
+3. Run `IIS-DeployApp.ps1` on the new server to create the IIS virtual application
+4. No HTML, JavaScript, or C# code changes needed
+
+**NEVER hardcode server hostnames** in runtime code (C#, HTML, JS). Hostnames belong ONLY in `appsettings.json` and build/deploy infrastructure (`.pubxml`, `Build-And-Publish.ps1`).
+
+## Backend (Program.cs)
+
+```csharp
+builder.Services.AddDedgeAuth(options =>
+{
+    options.AuthServerUrl = builder.Configuration["DedgeAuth:AuthServerUrl"]!;
+    options.JwtSecret = builder.Configuration["DedgeAuth:JwtSecret"]!;
+});
+
+app.UseDedgeAuth();          // Registers all auth middleware in correct order
+app.MapDedgeAuthProxy();     // Proxies UI assets from auth server
+```
+
+- Do NOT call `UseAuthentication()` or `UseAuthorization()` separately -- `UseDedgeAuth()` handles both.
+- Do NOT add `builder.Services.AddHttpClient()` -- `AddDedgeAuth()` registers it.
+
+## HTML Pages
+
+All FK apps run as IIS virtual applications (e.g. at `/MyApp`). **ALL** `href` and `src` references in HTML must use **relative paths** (no leading `/`) -- this applies to DedgeAuth proxy assets AND the app's own CSS/JS. Absolute paths like `/css/app.css` resolve from the site root and 404 under a virtual path.
+
+DedgeAuth assets are served through a local proxy (`MapDedgeAuthProxy()`) -- do NOT hardcode server URLs, do NOT copy files locally:
+
+```html
+<!-- DedgeAuth proxy assets (relative paths, no leading /) -->
+<link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+<style id="DedgeAuth-tenant-css"></style>
+<link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+
+<!-- App's own CSS (also relative) -->
+<link rel="stylesheet" href="css/site.css">
+
+<!-- DedgeAuth user menu container -->
+<div id="DedgeAuthUserMenu"></div>
+
+<!-- DedgeAuth user script (loads last) -->
+<script src="api/DedgeAuth/ui/user.js"></script>
+```
+
+The proxy fetches from `AuthServerUrl` and caches for 1 hour. Relative paths ensure correct resolution under IIS virtual application paths.
+
+## Configuration (appsettings.json)
+
+```json
+{
+  "DedgeAuth": {
+    "Enabled": true,
+    "AuthServerUrl": "http://servername/DedgeAuth",
+    "JwtSecret": "<must match DedgeAuth server>",
+    "JwtIssuer": "DedgeAuth",
+    "JwtAudience": "DedgeAuthUsers",
+    "AppId": "YourAppName"
+  }
+}
+```
+
+Default proxy route prefix: `/api/DedgeAuth` (PascalCase F and A -- must match).
+
+## Authorization
+
+Use `[RequireAppPermission("Admin")]` for role-based access or standard `[Authorize]`.
+
+## Code Signing
+
+The `.csproj` must include DedgeSign targets for Release builds. See `DedgeAuth-code-signing.mdc`.

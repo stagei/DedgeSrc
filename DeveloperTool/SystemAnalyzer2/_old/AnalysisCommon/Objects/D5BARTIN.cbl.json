@@ -1,0 +1,588 @@
+{
+  "program": "D5BARTIN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:38",
+  "extraction": {
+    "sourceHash": "sha256:8524557414f2286e5fc16e255060ef8565bc20f1a97637c12dc1281f7e6aa970",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\d5bartin.cbl",
+    "actualName": "D5BARTIN",
+    "program": "D5BARTIN",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVAGR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D3A.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GROS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMAL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MVAS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VATS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LOGI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADRI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TMVF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ERS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKAT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EANF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LVNR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D3VA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEVM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VFAK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OTID.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER_DEL2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVVARENR_EKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_KONV_PRODCA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_KONV_SENHET",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_KONV_IENHET",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ADR_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_LEVNR_UTTREKK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "LOG",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VAREDIV_TRIGGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "U",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_MANGLER_I_D365",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "EANKODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EAN_FLERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREMAAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "HOVED_LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PAKKE_VARER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VAREDIV_TRIGGER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_UTTREKK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TIMESTAMPDIFF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_BASISMIG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARESTATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_UTTREKK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_UTTREKK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_MANGLER_I_D365",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VAREDIV_TRIGGER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE_NIVAA1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "I_LINJERABATTGRUPPE_D365FO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "IAVTALE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VARE_AVTALE_SPERRE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "D365_FKAT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_KONV_FKAT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KIT_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_BATCH_FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_BATCH_FKNR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "K_FAKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VARE_FAKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SYSTEM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_VARE2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ID_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTIN_FEIL_LOGG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "D5BARTIN.rc",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D5BARTIN.rc",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "ART-FIL",
+        "physicalName": "ww-filnavn1",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "ART-FILB",
+        "physicalName": "ww-filnavn1b",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRO-FIL",
+        "physicalName": "ww-filnavn2",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "LEV-FIL",
+        "physicalName": "ww-filnavn3",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "KAT-FIL",
+        "physicalName": "ww-filnavn4",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRI-FIL",
+        "physicalName": "ww-filnavn5",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "BAR-FIL",
+        "physicalName": "ww-filnavn6",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "IEN-FIL",
+        "physicalName": "ww-filnavn7",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "IENB-FIL",
+        "physicalName": "ww-filnavn8",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "LVNR-FIL",
+        "physicalName": "ww-filnavn9",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RELE-FIL",
+        "physicalName": "ww-filnavn10",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PHDI-FIL",
+        "physicalName": "ww-filnavn11",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "PRVA-FIL",
+        "physicalName": "ww-filnavn12",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RPVA-FIL",
+        "physicalName": "ww-filnavn13",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "ww-filnavn14",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "DANG-FIL",
+        "physicalName": "ww-filnavn15",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "GTIN-FIL",
+        "physicalName": "ww-filnavn16",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:38"
+  }
+}

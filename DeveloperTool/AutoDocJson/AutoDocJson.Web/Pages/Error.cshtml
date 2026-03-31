@@ -1,0 +1,14 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="text-center py-5">
+    <h1 class="text-danger"><i class="bi bi-exclamation-triangle"></i> <span data-i18n="error.title">Error</span></h1>
+    <h2 data-i18n="error.message">An error occurred while processing your request.</h2>
+    @if (Model.ShowRequestId)
+    {
+        <p><span data-i18n="error.requestId">Request ID:</span> <code>@Model.RequestId</code></p>
+    }
+</div>

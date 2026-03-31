@@ -1,0 +1,69 @@
+---
+description: C# coding conventions and naming standards for Windows desktop applications
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Code Style & Naming Conventions
+
+## C# Conventions
+
+- Use latest C# features when appropriate
+- Enable nullable reference types
+- Use `async`/`await` for I/O and database operations
+- Use `using` statements for disposable resources
+- Follow Microsoft C# coding conventions
+
+## Naming Standards
+
+- Classes: PascalCase (e.g., `ConnectionManager`)
+- Methods: PascalCase (e.g., `ExecuteQuery`)
+- Private fields: _camelCase with underscore (e.g., `_connectionString`)
+- Properties: PascalCase (e.g., `ConnectionStatus`)
+- Local variables: camelCase (e.g., `connectionString`)
+- Constants: PascalCase (e.g., `DefaultTimeout`)
+- Async methods: Suffix with `Async` (e.g., `ExecuteQueryAsync`)
+
+## Exception Handling Pattern
+
+```csharp
+try
+{
+    await PerformOperationAsync();
+}
+catch (SpecificException ex)
+{
+    Logger.Error(ex, "Specific error during {Operation}", operationName);
+    throw;
+}
+catch (Exception ex)
+{
+    Logger.Error(ex, "Unexpected error during {Operation}", operationName);
+    throw;
+}
+```
+
+## XML Documentation
+
+Document all public classes and methods:
+
+```csharp
+/// <summary>
+/// Brief description of the class/method purpose.
+/// </summary>
+/// <param name="paramName">Description of the parameter.</param>
+/// <returns>Description of the return value.</returns>
+public async Task<DataTable> ExecuteQueryAsync(string sql)
+```
+
+## Code Review Checklist
+
+Before committing code, verify:
+- [ ] Target framework is current (.NET 10+)
+- [ ] Structured logging is used consistently
+- [ ] All exceptions are logged with context
+- [ ] DEBUG-level logging implemented for critical operations
+- [ ] Sensitive data (passwords) masked in logs
+- [ ] Parameterized queries used for all database access
+- [ ] Using statements for all disposables
+- [ ] Theme support (dark/light mode) if applicable

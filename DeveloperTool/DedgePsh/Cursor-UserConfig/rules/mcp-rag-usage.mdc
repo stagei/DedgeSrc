@@ -1,0 +1,75 @@
+﻿---
+description: "User rule (global) — Use RAG MCP tools for documentation questions; cite sources and report fallback"
+alwaysApply: true
+---
+
+# Use RAG MCP for Documentation Questions
+
+**User rule (global):** `%USERPROFILE%\.cursor\rules\mcp-rag-usage.mdc` — applies across all repos.
+
+> **Canonical source (Dedge):** `C:\opt\src\DedgePsh\.cursor\rules\mcp-rag-usage.mdc`
+
+When the user asks about any of the following topics, **call the appropriate RAG tool first** (each RAG is a separate MCP server with a `query_docs` tool), then base your answer on the returned excerpts and cite the source file:
+
+- **DB2/LUW**: Use `db2-docs` — SQL error codes (e.g. SQL30082N, reason codes), security, connection errors, authentication, configuration, commands.
+- **Visual COBOL / Rocket COBOL**: Use `visual-cobol-docs` — Compiler messages (e.g. COBCH0779, COBCH1051), language reference, build, deployment, JVM COBOL.
+- **Dedge source code**: Use `Dedge-code` — Function locations, module structure, DB2 schemas, COBOL programs, PowerShell scripts.
+
+Do not use `db2-docs` for Visual COBOL questions or `visual-cobol-docs` for DB2 questions.
+
+## How to Call
+
+Use the tool with a clear query (e.g. `SQL30082N reason code 36 UNEXPECTED CLIENT ERROR` or `COBCH0779 Visual COBOL`). Include the source file names in your answer.
+
+## Fallback
+
+Only fall back to web search or local workspace files if the RAG tool is unavailable or returns no relevant results (e.g. `SSL`, `index not found`, `Cannot send a request, as the client has been closed`).
+
+**When producing a markdown doc or FAQ-style answer without RAG**, include a **RAG MCP access summary** table:
+
+| RAG MCP | Result |
+|---------|--------|
+| Attempted | Failed (client closed / not reachable) |
+| Answers sourced from | Local FAQ and related workspace files (and web search where noted) |
+
+## Source Attribution
+
+1. **Cite sources** — Name the file path, RAG source name (e.g. `db2_sec_guide_1213.md`), or URL.
+2. **Version and product** — Mention version when relevant (e.g. Db2 12.1 LUW, Visual COBOL 11, Micro Focus / Rocket).
+
+## Setup
+
+If RAG MCP tools are not available, the developer needs to run the setup script once:
+
+```powershell
+pwsh.exe -File "<git-root>\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1"
+```
+
+> **Canonical path (Dedge):** `C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1`
+
+Or from deployed location:
+
+```powershell
+pwsh.exe -File "$env:OptPath\DedgePshApps\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1"
+```
+
+Then restart Cursor.
+
+## Architecture
+
+RAG services run as Python HTTP servers directly on the app server (ports 8484-8486). Cursor connects via a local MCP stdio proxy that forwards queries over HTTP to these Python services. No authentication is required — the Python services are unauthenticated internal network services.
+
+```
+Developer Machine                          <app-server>
+┌──────────────────┐                      ┌──────────────────┐
+│ Cursor IDE       │                      │ Python HTTP RAGs  │
+│  └─ MCP proxy ───┼── HTTP :8484-8486 ──►│  db2-docs         │
+│     (stdio)      │                      │  visual-cobol-docs│
+│                  │                      │  Dedge-code      │
+│ PowerShell       │                      │                   │
+│  └─ Ask-Rag ─────┼── HTTP :8484-8486 ──►│  (ChromaDB +      │
+│     + Ollama     │                      │   ONNX embedding) │
+└──────────────────┘                      └──────────────────┘
+```
+
+> **FK app server:** `dedge-server` — Registry endpoint: `http://dedge-server:8484/rags`

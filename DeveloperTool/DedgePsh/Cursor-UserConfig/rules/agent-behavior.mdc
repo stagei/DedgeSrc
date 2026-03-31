@@ -1,0 +1,37 @@
+---
+description: AI agent must act decisively — apply the obvious fix before deep investigation
+alwaysApply: true
+---
+
+# Agent Behavior: Action-First
+
+## Core Principle
+
+**Fix the obvious thing first. Test. Only investigate deeper if it's still broken.**
+
+## Anti-Patterns (NEVER do these)
+
+- Reading 5+ files to "understand" before making a single edit
+- Checking server paths when the user said "local only"
+- Reading model classes when the symptom is clearly a config issue
+- Testing multiple endpoints when one test would confirm the hypothesis
+- Long thinking blocks exploring edge cases before trying the simple fix
+
+## Decision Order
+
+1. **Config wrong?** Fix config, test, done.
+2. **Missing file?** Create/copy it, test, done.
+3. **Code bug?** Fix the code, test, done.
+4. Only if steps 1-3 fail: investigate deeper.
+
+## When the User Says Something, Listen
+
+- "should not have anything to do with servers" → stop checking server paths immediately
+- "just fix it" → one edit, one test, report result
+- If the user describes the symptom clearly, the first fix attempt should target the most obvious cause — not the fifth most likely one
+
+## Time Budget
+
+- Simple config fix: under 1 minute, max 3 tool calls
+- Feature addition: proportional to scope, no unnecessary reads
+- Bug fix: reproduce → fix → verify, no detours

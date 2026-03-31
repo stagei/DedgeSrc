@@ -1,0 +1,82 @@
+{
+  "tableName": "FRAVR_TONN_RATER",
+  "futureName": "TonnageRate",
+  "namespace": "Freight",
+  "columns": [
+    {
+      "name": "TRANSPORTOR",
+      "futureName": "TransportorId",
+      "description": "Identifies the transport provider",
+      "foreignKey": null
+    },
+    {
+      "name": "FRAKTTYPE_NR",
+      "futureName": "FreightTypeCode",
+      "description": "Code identifying the type of freight",
+      "foreignKey": "H_TURLASS, H_TURSTED, TRANSP_FRAKTTYPE, TURLASS, TURSTED, Z_FRAKTTYPE"
+    },
+    {
+      "name": "KOMMUNENR",
+      "futureName": "MunicipalityCode",
+      "description": "Code of the municipality",
+      "foreignKey": "KD_EIENDOM_LOGG, KD_EIENDOM, KUNDER, P_SONE, P_SPESIALKONTRAKT_KOMMUNE, PRODUSENTREGISTER"
+    },
+    {
+      "name": "POSTNR",
+      "futureName": "PostCode",
+      "description": "Postal code of the delivery address",
+      "foreignKey": "D365_SALGSOMR, FIRMA, H_XE_KUNDE, ISYS_AVD, KD_KONTROLLOR, KOMMUNE_REFORM, KUNDEKONTO_TEST, KUNDEKONTO"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentCode",
+      "description": "Code of the department or division",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "EffectiveDate",
+      "description": "The date from which the rate is effective",
+      "foreignKey": null
+    },
+    {
+      "name": "RATE",
+      "futureName": "RateAmount",
+      "description": "The amount of the rate",
+      "foreignKey": null
+    },
+    {
+      "name": "RETUR_RATE",
+      "futureName": "ReturnRateAmount",
+      "description": "The return rate amount",
+      "foreignKey": null
+    },
+    {
+      "name": "KSTOPP",
+      "futureName": "PickupPointCode",
+      "description": "Code of the pickup point",
+      "foreignKey": null
+    },
+    {
+      "name": "KSTOPP_RETUR",
+      "futureName": "ReturnPickupPointCode",
+      "description": "Code of the return pickup point",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Identifier for the user who created or modified the record",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:29:43"
+}

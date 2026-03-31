@@ -1,0 +1,106 @@
+{
+  "tableName": "TELL_BEHOLDNING",
+  "futureName": "TellBeholding",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "avdNr",
+      "futureName": "AvdNumber",
+      "description": "The unique identifier for the department",
+      "foreignKey": "TELL_HODE"
+    },
+    {
+      "name": "tellEnr",
+      "futureName": "TellEnrollmentNumber",
+      "description": "The enrollment number of the tell (counting device)",
+      "foreignKey": "TELL_HODE"
+    },
+    {
+      "name": "fKnr",
+      "futureName": "FkNumber",
+      "description": "The foreign key reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "lagerSted",
+      "futureName": "Lagersted",
+      "description": "The location of the warehouse",
+      "foreignKey": null
+    },
+    {
+      "name": "levNr",
+      "futureName": "LevNumber",
+      "description": "The level number, likely related to storage levels or tiers",
+      "foreignKey": null
+    },
+    {
+      "name": "levVareEnr",
+      "futureName": "LevelWareNumber",
+      "description": "The unique identifier for the ware at a specific level",
+      "foreignKey": null
+    },
+    {
+      "name": "plassNr",
+      "futureName": "PlaceNumber",
+      "description": "The placement number, indicating where on the shelf or in the warehouse an item is stored",
+      "foreignKey": null
+    },
+    {
+      "name": "kurAnsgradAvd",
+      "futureName": "KuransGradeAvd",
+      "description": "The grade or level of curvature for the department",
+      "foreignKey": null
+    },
+    {
+      "name": "beholdning",
+      "futureName": "StockLevel",
+      "description": "The current stock level in units or volume, representing the quantity of a particular item in storage",
+      "foreignKey": "A_VAREAVD"
+    },
+    {
+      "name": "beholdningTellet",
+      "futureName": "StockCounted",
+      "description": "The number of items counted during the last stock count or verification process",
+      "foreignKey": "TELL_HT_BEHOLDNING"
+    },
+    {
+      "name": "avvik",
+      "futureName": "Deviation",
+      "description": "The difference between the actual stock level and the expected or recorded stock level, indicating discrepancies",
+      "foreignKey": null
+    },
+    {
+      "name": "arSak",
+      "futureName": "ReasonCode",
+      "description": "A code representing the reason for any deviations or issues in stock management",
+      "foreignKey": null
+    },
+    {
+      "name": "komentar",
+      "futureName": "Comment",
+      "description": "Any additional comments or notes related to the stock keeping process, such as observations or instructions",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The exact time when the last update or action regarding the stock level was performed",
+      "foreignKey": null
+    },
+    {
+      "name": "bruker",
+      "futureName": "User",
+      "description": "The user who performed the latest operation on the stock, such as a count or adjustment",
+      "foreignKey": null
+    },
+    {
+      "name": "signatur",
+      "futureName": "Signature",
+      "description": "The signature of the person responsible for the last update or action related to the stock level",
+      "foreignKey": "SIGNATUR"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:50:57"
+}

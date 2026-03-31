@@ -1,0 +1,16 @@
+--Ekstra delete ordrehode 24/11-2024 pga nyere tidspunkt 
+--Kjørt     24/11-2024
+--select count(*)
+--CONNECT TO BASISPRO; Endret til BASISREG kjøring 02.12.2018
+CONNECT TO BASISREG;
+      delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 2 years)
+  and h.avdnr = 2852
+  and month(h.tidspunkt) between 01 and 12
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+--select count(*)
+//

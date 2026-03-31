@@ -1,0 +1,322 @@
+{
+  "program": "DELOPP_LABNETT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T18:51:34",
+  "variableFilenames": {
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-INNFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File INN-FIL is constructed using WW-INNFIL, but specific construction details are not provided.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:51:31"
+    },
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-UTFIL",
+      "basePath": "\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\<dynamic>.CSV",
+      "description": "File path dynamic, no base path specified",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:51:34"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DELOPP_LABNETT",
+    "program": "DELOPP_LABNETT",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAHVETM.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OAASPRE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GXAFVMO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHANKO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAZPR13.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKERNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKMOTTAKERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMAQVER",
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "AAADATO",
+      "GMACOCO",
+      "GMVMAL2",
+      "GMFFELL",
+      "AAAMLEV",
+      "GMAPATH"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File INN-FIL is constructed using WW-INNFIL, but specific construction details are not provided."
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path dynamic, no base path specified"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABPIMPH.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPIMPH.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "UT-PIM-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T18:51:34"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "tableName": "KONTOKODE",
+  "futureName": "Kontokode",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "KONTOKODE",
+      "futureName": "Kontokode",
+      "description": "Account code for the store/order",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "Description or text related to the account code",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "LevelNumber",
+      "description": "Level number for the account code",
+      "foreignKey": null
+    },
+    {
+      "name": "INTERN_KONTERING",
+      "futureName": "InternalPosting",
+      "description": "Indicates internal posting status",
+      "foreignKey": null
+    },
+    {
+      "name": "INTERN_BELASTNING",
+      "futureName": "InternalCharge",
+      "description": "Indicates internal charge status",
+      "foreignKey": "INTERN_GODKJENNING"
+    },
+    {
+      "name": "TIMESATS",
+      "futureName": "TimeSat",
+      "description": "Time rate or factor for the account code",
+      "foreignKey": null
+    },
+    {
+      "name": "REKL_KOPIER",
+      "futureName": "AdCopy",
+      "description": "Indicates if ad copy should be used",
+      "foreignKey": null
+    },
+    {
+      "name": "SLETTET",
+      "futureName": "Deleted",
+      "description": "Indicates if the record has been deleted",
+      "foreignKey": null
+    },
+    {
+      "name": "PURRES",
+      "futureName": "PurgeRes",
+      "description": "Purge status or reservation for the account code",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:31:41"
+}

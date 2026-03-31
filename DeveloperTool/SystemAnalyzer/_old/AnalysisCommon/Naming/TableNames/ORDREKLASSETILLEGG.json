@@ -1,0 +1,124 @@
+{
+  "tableName": "ORDREKLASSETILLEGG",
+  "futureName": "OrderTilleggsData",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ordresystem",
+      "futureName": "OrderSystem",
+      "description": "The system from which the order originates (B=Butikk, O=Optima)",
+      "foreignKey": null
+    },
+    {
+      "name": "ordreklasse",
+      "futureName": "OrderClass",
+      "description": "The class of the order",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "betformannet",
+      "futureName": "PaymentFormAnnet",
+      "description": "Indicates if the payment form is financing (F=Finansiering)",
+      "foreignKey": null
+    },
+    {
+      "name": "avdnr",
+      "futureName": "AreaNumber",
+      "description": "The area number associated with the order",
+      "foreignKey": "A_BESTHODE"
+    },
+    {
+      "name": "fravargruppe",
+      "futureName": "FromVaregruppe",
+      "description": "The starting varegruppe (category) for the order",
+      "foreignKey": "TILLEGGSRABATT_KUNDE"
+    },
+    {
+      "name": "tilvaregruppe",
+      "futureName": "ToVaregruppe",
+      "description": "The ending varegruppe (category) for the order",
+      "foreignKey": "TILLEGGSRABATT_KUNDE"
+    },
+    {
+      "name": "sendespr",
+      "futureName": "SendingPrice",
+      "description": "The price used for sending, 99 indicates all",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "kvantum",
+      "futureName": "Quantity",
+      "description": "Quantum of the order",
+      "foreignKey": "AVDKOST_LOGG"
+    },
+    {
+      "name": "kategori",
+      "futureName": "Category",
+      "description": "The category type (B=Bulk, S=Sekk/Stykk)",
+      "foreignKey": "H_ORDREHODE"
+    },
+    {
+      "name": "antalliperiode",
+      "futureName": "QuantityInPeriod",
+      "description": "Number of items in the specified period",
+      "foreignKey": "ORDREKLASSE_TILLEGG"
+    },
+    {
+      "name": "fradato",
+      "futureName": "FromDate",
+      "description": "Start date for the order",
+      "foreignKey": "FRAKT_TABNR_AVD"
+    },
+    {
+      "name": "tildato",
+      "futureName": "ToDate",
+      "description": "End date for the order",
+      "foreignKey": "K_GROV_PLAN"
+    },
+    {
+      "name": "fknr",
+      "futureName": "FunctionNumber",
+      "description": "The function number associated with the order line",
+      "foreignKey": "A_BESTLIN"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "pris",
+      "futureName": "Price",
+      "description": "The price of the item or service",
+      "foreignKey": "A_BESTLIN"
+    },
+    {
+      "name": "avvikfraktkvant",
+      "futureName": "DeliveryQuantityDeviation",
+      "description": "Used to choose the delivery quantity with the highest rate",
+      "foreignKey": "ORDREKLASSE_TILLEGG"
+    },
+    {
+      "name": "rabatter",
+      "futureName": "Discounts",
+      "description": "Indicates if there are no discounts for this order class/category (N=No discount)",
+      "foreignKey": "ORDREKLASSE_TILLEGG"
+    },
+    {
+      "name": "prosent",
+      "futureName": "Percentage",
+      "description": "The percentage value",
+      "foreignKey": "KD_FRO_URENHET"
+    },
+    {
+      "name": "helgetillegg",
+      "futureName": "HolidayAddition",
+      "description": "Indicates if the addition should not be included in holiday additions (N=No)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:55:50"
+}

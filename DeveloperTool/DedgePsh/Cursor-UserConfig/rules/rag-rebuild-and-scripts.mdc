@@ -1,0 +1,19 @@
+---
+description: Scripts do RAG setup first; AI does it when scripts cannot (RAG lives in AiDoc)
+alwaysApply: true
+---
+
+# RAG index and scripts -- scripts first, then AI
+
+**Scripts are supposed to do all of this.** Use them first. If a script cannot run or does not cover the case, **the AI must do the equivalent steps.**
+
+The RAG MCP and its scripts live in the **AiDoc** project: `C:\opt\src\AiDoc\mcp-db2-docs\`. When working from another project, run scripts from there or use full paths.
+
+1. **Add a folder to the RAG** -- Run `C:\opt\src\AiDoc\mcp-db2-docs\scripts\Add-RagSource.ps1` (with **pwsh.exe**) with `-Path` and optional `-Name`; it updates `rag_sources.json` and can rebuild the index. If the script fails or is not available, the AI must edit `rag_sources.json` in AiDoc and run `build_index.py` (or instruct the user).
+2. **Rebuild the index** -- Script: run `py -3 build_index.py` from `C:\opt\src\AiDoc\mcp-db2-docs` (or use Add-RagSource.ps1 with `-Rebuild`). If not possible, the AI runs the command or guides the user.
+3. **Register RAG with Cursor** -- Script: `C:\opt\src\AiDoc\mcp-db2-docs\scripts\Register-CursorRagMcp.ps1` updates the global MCP config (`%USERPROFILE%\.cursor\mcp.json`) with the correct Python path and cwd. If the script cannot run, the AI must edit that JSON (use real Python, e.g. from `py -3`, not the Windows Store stub) and tell the user to restart Cursor.
+4. **Backup/distribution** -- See `C:\opt\src\AiDoc\docs\RAG-Backup-and-Distribution.md`. Index is gitignored; scripts or AI can document zip/restore steps.
+
+**Summary:** Prefer scripts for add-source, rebuild, and register-with-Cursor. When scripts are not possible, the AI performs the same actions (edit config, run commands, or document steps).
+
+**Note:** This rule covers RAG **index management** (adding sources, rebuilding). For **Cursor/Ollama MCP registration** (the setup that makes RAG available in Cursor chat), see the `mcp-rag-setup` rule and the setup scripts in `DevTools/CodingTools/McpServers/Setup-RagMcpCursor/`.

@@ -1,0 +1,378 @@
+{
+  "tableName": "P_KORNHANDLER",
+  "futureName": "KornHandler",
+  "namespace": "Agriculture",
+  "columns": [
+    {
+      "name": "kornHandler",
+      "futureName": "KornHandlerId",
+      "description": "Primary key for the KornHandler record",
+      "foreignKey": null
+    },
+    {
+      "name": "navn",
+      "futureName": "Name",
+      "description": "Name of the kornhandler",
+      "foreignKey": [
+        "NAVN"
+      ]
+    },
+    {
+      "name": "adresse",
+      "futureName": "Address",
+      "description": "Address of the kornhandler",
+      "foreignKey": [
+        "ADRESSE"
+      ]
+    },
+    {
+      "name": "postnr",
+      "futureName": "PostalCode",
+      "description": "Postal code of the kornhandler",
+      "foreignKey": [
+        "POSTNR"
+      ]
+    },
+    {
+      "name": "aktiv",
+      "futureName": "Active",
+      "description": "Indicates if the kornhandler is active",
+      "foreignKey": null
+    },
+    {
+      "name": "telefonnr",
+      "futureName": "PhoneNumber",
+      "description": "Phone number of the kornhandler",
+      "foreignKey": [
+        "TELEFONNR"
+      ]
+    },
+    {
+      "name": "organisasjonsnr",
+      "futureName": "OrganizationNumber",
+      "description": "Organizational number of the kornhandler",
+      "foreignKey": [
+        "ORGANISASJONSNR"
+      ]
+    },
+    {
+      "name": "kontoNr",
+      "futureName": "AccountNumber",
+      "description": "Account number associated with the kornhandler",
+      "foreignKey": [
+        "KONTONR"
+      ]
+    },
+    {
+      "name": "renteDgr",
+      "futureName": "InterestRateDays",
+      "description": "Number of days for interest rate calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "renteSats",
+      "futureName": "InterestRatePercentage",
+      "description": "Interest rate percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "gebyrBel",
+      "futureName": "FeeAmount",
+      "description": "Fee amount for direct payment",
+      "foreignKey": null
+    },
+    {
+      "name": "minUtbetBel",
+      "futureName": "MinimumPaymentAmount",
+      "description": "Minimum payment amount",
+      "foreignKey": null
+    },
+    {
+      "name": "utbforsinkDgr",
+      "futureName": "OverdueDaysForPayment",
+      "description": "Number of overdue days for payment calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "remType",
+      "futureName": "RemittanceType",
+      "description": "Type of remittance",
+      "foreignKey": null
+    },
+    {
+      "name": "morarenteDgr",
+      "futureName": "MaturityInterestDays",
+      "description": "Number of days for maturity interest calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "morarenteSats",
+      "futureName": "MaturityInterestRatePercentage",
+      "description": "Maturity interest rate percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "bilagsart",
+      "futureName": "InvoiceType",
+      "description": "Type of invoice",
+      "foreignKey": [
+        "BILAGSART"
+      ]
+    },
+    {
+      "name": "maxTtProsSavare",
+      "futureName": "MaximumAdditionForSAVAREPercentage",
+      "description": "Maximum addition for SAVARE percentage in %",
+      "foreignKey": null
+    },
+    {
+      "name": "kRntftSavare",
+      "futureName": "CreditInterestRateSAVARE",
+      "description": "Credit interest rate for SAVARE after 1/10",
+      "foreignKey": null
+    },
+    {
+      "name": "kRntftUtsSavare",
+      "futureName": "CreditInterestRateForSAAFROUptoDate",
+      "description": "Credit interest rate for SAAFRO from 1/10 to settlement date",
+      "foreignKey": null
+    },
+    {
+      "name": "dRntftSakorn",
+      "futureName": "DebitInterestRateForSAKORNOnFunding",
+      "description": "Debit interest rate for SAKORN on funding",
+      "foreignKey": null
+    },
+    {
+      "name": "dRntftSafro",
+      "futureName": "DebitInterestRateForSAAFROOnFunding",
+      "description": "Debit interest rate for SAARFO on funding",
+      "foreignKey": null
+    },
+    {
+      "name": "nOppgjDatoSakoV",
+      "futureName": "NormalSettlementDateSAKORN",
+      "description": "Normal settlement date for SAKORN",
+      "foreignKey": null
+    },
+    {
+      "name": "nOppgjDatoFro",
+      "futureName": "NormalSettlementDateSAAAFRO",
+      "description": "Normal settlement date for SAAAFRO",
+      "foreignKey": null
+    },
+    {
+      "name": "maxFremKjUtsaed",
+      "futureName": "MaximumForeignWheatInUTSExceedance",
+      "description": "Maximum number of foreign wheat kernels in UTS exceedance",
+      "foreignKey": null
+    },
+    {
+      "name": "maxFremKjSakorn",
+      "futureName": "MaximumForeignWheatInSAKORN",
+      "description": "Maximum number of foreign wheat kernels in SAKORN",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "User ID associated with the kornhandler record",
+      "foreignKey": [
+        "BRUKERID"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": [
+        "TIDSPUNKT"
+      ]
+    },
+    {
+      "name": "knrPnr",
+      "futureName": "KornHandlerProductNumber",
+      "description": "Product number for the kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "telefonnrP",
+      "futureName": "PhoneNumberP",
+      "description": "Phone number of a related party or reference, potentially another kornhandler",
+      "foreignKey": [
+        "KNR_PNR"
+      ]
+    },
+    {
+      "name": "aktivP",
+      "futureName": "ActiveP",
+      "description": "Active status of the related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "organisasjonsnrP",
+      "futureName": "OrganizationNumberP",
+      "description": "Organizational number of a related party or reference, potentially another kornhandler",
+      "foreignKey": [
+        "ORGANISASJONSNR"
+      ]
+    },
+    {
+      "name": "kontoNrP",
+      "futureName": "AccountNumberP",
+      "description": "Account number associated with the related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "renteDgrP",
+      "futureName": "InterestRateDaysP",
+      "description": "Interest rate days for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "renteSatsP",
+      "futureName": "InterestRatePercentageP",
+      "description": "Interest rate percentage for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "gebyrBelP",
+      "futureName": "FeeAmountP",
+      "description": "Fee amount for direct payment of a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "minUtbetBelP",
+      "futureName": "MinimumPaymentAmountP",
+      "description": "Minimum payment amount for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "utbforsinkDgrP",
+      "futureName": "OverdueDaysForPaymentP",
+      "description": "Number of overdue days for payment calculation of a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "remTypeP",
+      "futureName": "RemittanceTypeP",
+      "description": "Type of remittance for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "morarenteDgrP",
+      "futureName": "MaturityInterestDaysP",
+      "description": "Number of days for maturity interest calculation of a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "morarenteSatsP",
+      "futureName": "MaturityInterestRatePercentageP",
+      "description": "Maturity interest rate percentage for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "bilagsartP",
+      "futureName": "InvoiceTypeP",
+      "description": "Type of invoice for a related party or reference, potentially another kornhandler",
+      "foreignKey": [
+        "BILAGSART"
+      ]
+    },
+    {
+      "name": "maxTtProsSavareP",
+      "futureName": "MaximumAdditionForSAVAREPercentageP",
+      "description": "Maximum addition for SAVARE percentage in % for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "kRntftSavareP",
+      "futureName": "CreditInterestRateSAVAREP",
+      "description": "Credit interest rate for SAVARE after 1/10 for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "kRntftUtsSavareP",
+      "futureName": "CreditInterestRateForSAAFROUptoDateP",
+      "description": "Credit interest rate for SAAFRO from 1/10 to settlement date for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "dRntftSakornP",
+      "futureName": "DebitInterestRateForSAKORNOnFundingP",
+      "description": "Debit interest rate for SAKORN on funding for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "dRntftSafroP",
+      "futureName": "DebitInterestRateForSAAFROOnFundingP",
+      "description": "Debit interest rate for SAARFO on funding for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "nOppgjDatoSakoVP",
+      "futureName": "NormalSettlementDateSAKORNP",
+      "description": "Normal settlement date for SAKORN for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "nOppgjDatoFroP",
+      "futureName": "NormalSettlementDateSAAAFROP",
+      "description": "Normal settlement date for SAAAFRO for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "maxFremKjUtsaedP",
+      "futureName": "MaximumForeignWheatInUTSExceedanceP",
+      "description": "Maximum number of foreign wheat kernels in UTS exceedance for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "maxFremKjSakornP",
+      "futureName": "MaximumForeignWheatInSAKORNP",
+      "description": "Maximum number of foreign wheat kernels in SAKORN for a related party or reference, potentially another kornhandler",
+      "foreignKey": null
+    },
+    {
+      "name": "oppgjBrevNr",
+      "futureName": "RemittanceNoteNumber",
+      "description": "Number of the remittance note",
+      "foreignKey": [
+        "OPPGJBREV_NR"
+      ]
+    },
+    {
+      "name": "trekkOppdragNr",
+      "futureName": "PaymentInstructionNumber",
+      "description": "Number of the payment instruction",
+      "foreignKey": [
+        "TREKKOPPDRAG_NR"
+      ]
+    },
+    {
+      "name": "venteDagerAvregning",
+      "futureName": "WaitingDaysForReconciliation",
+      "description": "Number of waiting days for reconciliation",
+      "foreignKey": [
+        "VENTE_DAGER_AVREGNING"
+      ]
+    },
+    {
+      "name": "redusertTermintillegg",
+      "futureName": "ReducedTermExtension",
+      "description": "Indicates if the term has been reduced with an extension",
+      "foreignKey": null
+    },
+    {
+      "name": "tilDataflyt",
+      "futureName": "TransferToDataFlux",
+      "description": "Indicates if data should be transferred to a data flux system",
+      "foreignKey": [
+        "TIL_DATAFLYT"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:09:14"
+}

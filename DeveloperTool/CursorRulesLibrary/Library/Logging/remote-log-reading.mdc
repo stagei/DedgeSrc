@@ -1,0 +1,25 @@
+---
+description: Copy remote log files locally before reading or searching
+alwaysApply: true
+---
+
+# Remote Log File Reading
+
+When asked to check, read, or search a log file that resides on a remote server (UNC path):
+
+## Rules
+
+1. **Always copy to local first** - Do NOT use `Select-String`, `Get-Content`, or any search tool directly on a UNC path. Large remote files over SMB cause timeouts and broken pipe parsing.
+2. **Copy procedure:**
+   ```powershell
+   $localCopy = Join-Path $env:TEMP "RemoteLog_$(Split-Path $remotePath -Leaf)"
+   Copy-Item -Path $remotePath -Destination $localCopy -Force
+   ```
+3. **Then search/read the local copy** using `Get-Content`, `Select-String`, `Read` tool, or `Grep` tool.
+4. **Clean up** is optional -- temp files are transient.
+
+## Why
+
+- `Select-String` on UNC paths with pipe `|` characters in patterns breaks PowerShell parsing
+- Large log files (10-30 MB) over SMB cause timeouts when streamed through pipelines
+- Local file operations are 10-100x faster and reliable

@@ -1,0 +1,41 @@
+---
+description: MANDATORY — Prevent MapFallbackToFile from breaking CSS under IIS virtual apps
+globs: ["**/Program.cs"]
+alwaysApply: true
+---
+
+# NEVER Use MapFallbackToFile in Multi-Page Applications
+
+## Prohibition
+
+**NEVER add `MapFallbackToFile`, `MapFallback`, or any SPA-style catch-all fallback** to a multi-page application.
+
+Multi-page applications have separate HTML files (index.html, search.html, status.html, etc.). They are **NOT** Single-Page Applications (SPA). There is no client-side router.
+
+## Technical Root Cause
+
+Apps running as **IIS virtual applications** (e.g., `/MyApp`) use relative paths for CSS/JS:
+
+```html
+<link rel="stylesheet" href="css/dashboard.css">
+```
+
+IIS automatically redirects `/MyApp` → `/MyApp/` (302) to ensure relative paths resolve correctly. `MapFallbackToFile` intercepts this request and returns `index.html` with 200 OK instead, preventing the redirect. The browser URL stays without trailing slash, and every relative CSS/JS path resolves to the wrong location.
+
+## Correct Static File Configuration
+
+```csharp
+app.UseDefaultFiles();    // Rewrites / → /index.html
+app.UseStaticFiles();     // Serves wwwroot/* files
+// That's it. No fallback. No catch-all.
+```
+
+## What To Do Instead
+
+- Need a new page? Create a new `.html` file in `wwwroot/` and link to it.
+- Need a 404 page? Use `app.UseStatusCodePages()` or `app.UseStatusCodePagesWithReExecute()`.
+- Need an API catch-all? Use `app.MapFallback()` with a controller action that returns proper HTTP status codes.
+
+## Applies To
+
+This rule applies to **all** web applications deployed as IIS virtual applications where the frontend is multi-page HTML.

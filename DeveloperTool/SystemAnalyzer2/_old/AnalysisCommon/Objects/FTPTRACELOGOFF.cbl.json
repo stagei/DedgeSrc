@@ -1,0 +1,182 @@
+{
+  "program": "FTPTRACELOGOFF",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:00:51",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTPTRACELOGOFF",
+    "program": "FTPTRACELOGOFF",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFLOG2.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFLOGI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FRDG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMFLOGI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SFANETS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FAFFASC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFLOOL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAHRAGR.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LOGISTIKK_GRP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_GRUPPE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "GMACOCO",
+      "GMAPLDG",
+      "SQLDB2",
+      "SQLEXEC",
+      "GMAMOMS",
+      "GMACURT",
+      "GMAPATH",
+      "GMFFELL"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LOG-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "OKBFNCO.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBFNCO.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:00:51"
+  }
+}

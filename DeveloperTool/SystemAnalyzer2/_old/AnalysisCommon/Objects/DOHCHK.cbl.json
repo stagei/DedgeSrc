@@ -1,0 +1,129 @@
+{
+  "program": "DOHCHK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T21:42:59",
+  "extraction": {
+    "sourceHash": "sha256:b4d25e936fba76c17884cccb12556bf39726f4ce4a024d29069f750f7da22fb1",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHCHK.CBL",
+    "actualName": "DOHCHK",
+    "program": "DOHCHK",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DOHC.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PGM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILTP_LOG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "CALL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "CALL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FUNKSJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COBDOK_MENY",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PROGRAM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "B_PROGRAMMER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "MODUL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEMP_KALLES",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL_LINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FEILHANDTERT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEMP_ANTALL1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEMP_ANTALL2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LINJENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DOHCHK",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DOHCHK",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T21:42:59"
+  }
+}

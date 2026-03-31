@@ -1,0 +1,58 @@
+{
+  "tableName": "KD_SAF_RESEPT",
+  "futureName": "ReceptDetails",
+  "namespace": "Pharmacy",
+  "columns": [
+    {
+      "name": "receptNumber",
+      "futureName": "ReceptNumber",
+      "description": "Unique receipt identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "fkNumber",
+      "futureName": "FkNumber",
+      "description": "Foreign key reference number",
+      "foreignKey": "A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "languageName",
+      "futureName": "LanguageName",
+      "description": "Name in the specified language",
+      "foreignKey": null
+    },
+    {
+      "name": "shortName",
+      "futureName": "ShortName",
+      "description": "Abbreviated name or code",
+      "foreignKey": null
+    },
+    {
+      "name": "registrationDate",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration or creation",
+      "foreignKey": null
+    },
+    {
+      "name": "registrationUser",
+      "futureName": "RegistrationUser",
+      "description": "User who registered or created the entry",
+      "foreignKey": null
+    },
+    {
+      "name": "lastModificationDate",
+      "futureName": "LastModificationDate",
+      "description": "Date of last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "lastModifierUser",
+      "futureName": "LastModifierUser",
+      "description": "User who made the last modification",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:24:03"
+}

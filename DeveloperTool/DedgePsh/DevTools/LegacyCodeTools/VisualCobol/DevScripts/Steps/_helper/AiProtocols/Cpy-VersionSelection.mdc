@@ -1,0 +1,67 @@
+# COBOL Copybook Version Selection Protocol
+
+## Purpose
+
+Given multiple candidate versions of the same COBOL copybook from `cpy_uncertain`,
+determine which version is compatible with the programs that reference it.
+
+## Input Format
+
+A JSON object provided as the prompt body:
+
+```json
+{
+  "copybookName": "RSHKORN.CPY",
+  "candidates": [
+    {
+      "filename": "RSHKORN_20120301.CPY",
+      "fileDate": "2012-03-15T10:00:00",
+      "content": "full copybook content..."
+    }
+  ],
+  "referencingPrograms": [
+    {
+      "programName": "RSHKORN.CBL",
+      "copyContext": "~20 lines around the COPY statement in the program"
+    }
+  ]
+}
+```
+
+## Analysis Rules
+
+1. **Field usage match**: The copybook whose field definitions (01/05/10 level items)
+   match fields actually USED in the referencing programs is the correct version.
+   Look for MOVE, IF, COMPUTE, DISPLAY, STRING, INSPECT, or EVALUATE statements
+   that reference the copybook's field names.
+
+2. **Completeness**: Among compatible candidates, prefer the one with MORE fields
+   (more complete / more recent version).
+
+3. **Date evidence**: Change history comments in copybooks use the same date formats
+   as CBL files (DD.MM.YY, DD.MM.YYYY, YYYY.MM.DD — NEVER month-first).
+
+4. **Fallback**: If no referencing programs are available, pick the newest by file date
+   and number of fields.
+
+## Required Response
+
+Respond with EXACTLY ONE JSON object, no surrounding text:
+
+```json
+{
+  "selectedFile": "RSHKORN_20120301.CPY",
+  "confidence": "high",
+  "matchingFields": 12,
+  "reasoning": "Defines WS-KORNTYPE and WS-KORNPRIS used in RSHKORN.CBL COMPUTE statements"
+}
+```
+
+### Field definitions
+
+| Field | Type | Values |
+|-------|------|--------|
+| `selectedFile` | string | Exact filename of the chosen candidate |
+| `confidence` | string | `high` / `medium` / `low` |
+| `matchingFields` | integer | Count of copybook fields matched in referencing programs |
+| `reasoning` | string | Brief explanation (1-2 sentences) |

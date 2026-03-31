@@ -1,0 +1,94 @@
+{
+  "tableName": "PROD_INPUT",
+  "futureName": "ProdInput",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Document number",
+      "foreignKey": null
+    },
+    {
+      "name": "LOPENR",
+      "futureName": "Lopenr",
+      "description": "Open order number",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_PRODUKT",
+      "futureName": "ProductFKNr",
+      "description": "Product master record number",
+      "foreignKey": "AC_NARINGSSTOFF"
+    },
+    {
+      "name": "VERSJON",
+      "futureName": "Version",
+      "description": "Version number",
+      "foreignKey": "AC_RESEPTHODE, BANKTERM_ID"
+    },
+    {
+      "name": "PRODUKSJONS_DATO",
+      "futureName": "ProductionDate",
+      "description": "Production date",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSFORBRUK",
+      "futureName": "TimeConsumption",
+      "description": "Time consumption",
+      "foreignKey": null
+    },
+    {
+      "name": "RESEPT_NUMMER",
+      "futureName": "ReceptionNumber",
+      "description": "Reception number",
+      "foreignKey": null
+    },
+    {
+      "name": "RESEPT_KVANTUM",
+      "futureName": "ReceptionQuantum",
+      "description": "Reception quantum",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Status code",
+      "foreignKey": "ARTSORT"
+    },
+    {
+      "name": "FKNR_RAAVARE",
+      "futureName": "RawMaterialFKNr",
+      "description": "Raw material master record number",
+      "foreignKey": "KD_KONT_LIN_LOGG, KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "KVANTUM",
+      "futureName": "Quantum",
+      "description": "Quantity",
+      "foreignKey": "AVDKOST_LOGG, K_EKVIVKVANT, K_GJKOST_NY"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserIdentifier",
+      "description": "User identifier",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC"
+    },
+    {
+      "name": "RESEPT_RAAVARE",
+      "futureName": "ReceptionRawMaterial",
+      "description": "Reception raw material number",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:33:05"
+}

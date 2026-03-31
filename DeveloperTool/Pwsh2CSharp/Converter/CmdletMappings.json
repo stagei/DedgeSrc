@@ -1,0 +1,187 @@
+{
+  "Write-LogMessage": {
+    "emit": "delegate",
+    "using": ["NLog"],
+    "notes": "Maps -Level param to NLog method name (Info/Warn/Error/Debug)"
+  },
+  "Write-Host": {
+    "emit": "simple",
+    "pattern": "Console.WriteLine({0})",
+    "using": []
+  },
+  "Write-Output": {
+    "emit": "simple",
+    "pattern": "Console.WriteLine({0})",
+    "using": []
+  },
+  "Write-Warning": {
+    "emit": "simple",
+    "pattern": "Logger.Warn({0})",
+    "using": ["NLog"]
+  },
+  "Write-Error": {
+    "emit": "simple",
+    "pattern": "Logger.Error({0})",
+    "using": ["NLog"]
+  },
+  "Write-Verbose": {
+    "emit": "simple",
+    "pattern": "Logger.Debug({0})",
+    "using": ["NLog"]
+  },
+  "Get-Content": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Raw, -Encoding, -LiteralPath variants"
+  },
+  "Set-Content": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Value, -Encoding, -LiteralPath variants"
+  },
+  "Out-File": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Similar to Set-Content"
+  },
+  "Test-Path": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -PathType Leaf/Container"
+  },
+  "Join-Path": {
+    "emit": "simple",
+    "pattern": "Path.Combine({0})",
+    "using": ["System.IO"]
+  },
+  "Split-Path": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Parent, -Leaf, -Extension"
+  },
+  "Resolve-Path": {
+    "emit": "simple",
+    "pattern": "Path.GetFullPath({0})",
+    "using": ["System.IO"]
+  },
+  "New-Item": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -ItemType Directory vs File"
+  },
+  "Remove-Item": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Recurse, -Force, -LiteralPath"
+  },
+  "Copy-Item": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Recurse, -Force"
+  },
+  "Get-ChildItem": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Filter, -Recurse, -File, -Directory"
+  },
+  "Get-Item": {
+    "emit": "simple",
+    "pattern": "new FileInfo({0})",
+    "using": ["System.IO"]
+  },
+  "ConvertFrom-Json": {
+    "emit": "simple",
+    "pattern": "JsonSerializer.Deserialize<JsonElement>({0})",
+    "using": ["System.Text.Json"]
+  },
+  "ConvertTo-Json": {
+    "emit": "delegate",
+    "using": ["System.Text.Json"],
+    "notes": "Handles -Depth"
+  },
+  "Invoke-RestMethod": {
+    "emit": "delegate",
+    "using": ["System.Net.Http"],
+    "notes": "Handles -Method, -Uri, -Headers, -Body, -ContentType"
+  },
+  "Invoke-WebRequest": {
+    "emit": "delegate",
+    "using": ["System.Net.Http"],
+    "notes": "Similar to Invoke-RestMethod but returns full response"
+  },
+  "Start-Sleep": {
+    "emit": "delegate",
+    "using": ["System.Threading.Tasks"],
+    "notes": "Handles -Seconds and -Milliseconds"
+  },
+  "Get-Process": {
+    "emit": "simple",
+    "pattern": "Process.GetProcesses()",
+    "using": ["System.Diagnostics"]
+  },
+  "Stop-Process": {
+    "emit": "delegate",
+    "using": ["System.Diagnostics"],
+    "notes": "Handles -Id, -Name, -Force"
+  },
+  "Get-Date": {
+    "emit": "simple",
+    "pattern": "DateTime.Now",
+    "using": []
+  },
+  "Get-CimInstance": {
+    "emit": "delegate",
+    "using": ["System.Management"],
+    "notes": "Maps -ClassName to ManagementObjectSearcher"
+  },
+  "Import-Csv": {
+    "emit": "delegate",
+    "using": ["System.IO"],
+    "notes": "Handles -Delimiter, -Header"
+  },
+  "Import-Module": {
+    "emit": "comment",
+    "pattern": "// PS Import-Module: {0}",
+    "using": []
+  },
+  "Out-Null": {
+    "emit": "discard",
+    "pattern": "",
+    "using": []
+  },
+  "ForEach-Object": {
+    "emit": "pipeline",
+    "using": ["System.Linq"],
+    "notes": "Handled by pipeline converter as .Select()"
+  },
+  "Where-Object": {
+    "emit": "pipeline",
+    "using": ["System.Linq"],
+    "notes": "Handled by pipeline converter as .Where()"
+  },
+  "Sort-Object": {
+    "emit": "pipeline",
+    "using": ["System.Linq"],
+    "notes": "Handled by pipeline converter as .OrderBy()"
+  },
+  "Select-Object": {
+    "emit": "pipeline",
+    "using": ["System.Linq"],
+    "notes": "Handled by pipeline converter as .Select() or .First()/.Take()"
+  },
+  "Measure-Object": {
+    "emit": "pipeline",
+    "using": ["System.Linq"],
+    "notes": "Handled as .Count() or .Sum()"
+  },
+  "Read-Host": {
+    "emit": "simple",
+    "pattern": "Console.ReadLine()",
+    "using": []
+  },
+  "Exit": {
+    "emit": "simple",
+    "pattern": "Environment.Exit({0})",
+    "using": []
+  }
+}

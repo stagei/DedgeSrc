@@ -1,0 +1,191 @@
+﻿{
+  "program": "RSAF001",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:52:09",
+  "variableFilenames": {
+    "STRFILE": {
+      "logicalName": "STRFILE",
+      "physicalVariable": "ww-arkiv-bak",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPDATA\\STREAMSERVE\\INPUT_VEIEUTSKRIFT_2",
+      "filenamePattern": "<userid>MMDD_TTMMSS_veieutsk.dat",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPDATA\\STREAMSERVE\\INPUT_VEIEUTSKRIFT_2\\<userid>MMDD_TTMMSS_veieutsk.dat",
+      "description": "File path and pattern for veieutskrift (SMS) file",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:52:09"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:3d331365322ca265628018d11e45e39b3f1facde2853b9ba126574e6a401b098",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rsaf001.cbl",
+    "actualName": "RSAF001",
+    "program": "RSAF001",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SMSA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KKDY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDF1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDF3.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDF4.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDFA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KONT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "B",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_KVAL_VURD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DYRKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_KASSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_FRO_PARTI",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SIGNATUR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMACNCT",
+      "GMAPRTR",
+      "GMASMSS",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "STRFILE",
+        "physicalName": "ww-arkiv-bak",
+        "path": "\\\\DEDGE.FK.NO\\ERPDATA\\STREAMSERVE\\INPUT_VEIEUTSKRIFT_2",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPDATA\\STREAMSERVE\\INPUT_VEIEUTSKRIFT_2\\<userid>MMDD_TTMMSS_veieutsk.dat",
+        "filenamePattern": "<userid>MMDD_TTMMSS_veieutsk.dat",
+        "filenameDescription": "File path and pattern for veieutskrift (SMS) file"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:52:09"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "program": "OLFVECK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:47",
+  "extraction": {
+    "sourceHash": "sha256:fa64c74f803dba8c42035c124f35f5448488122bd59c24d199d72a28d5cdb175",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OLFVECK.CBL",
+    "actualName": "OLFVECK",
+    "program": "OLFVECK",
+    "copyElements": [
+      {
+        "name": "OLFVECK.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ERS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOL.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NYTTFKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ERSTATNINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "DSRUN",
+      "GEFDSFE",
+      "GMFFELL",
+      "GMACOCO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:47"
+  }
+}

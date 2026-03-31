@@ -1,0 +1,48 @@
+-- 27.07.2023 MEH Jobb for "enkeltordre" som er eldre enn 5 år
+--
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL, AVDNR og ORDRENRFILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+--delete from dbm.ah_ordre_til_hist;
+--CONNECT TO BASISPRO;  Byttet til BASISREG v. kjøring 01.12.2018 - ny server
+CONNECT TO BASISREG;
+--
+  EXPORT TO P:\tru\AH_ORDREHGML.ixf OF IXF
+      SELECT 2004, H.*
+       FROM DBM.A_ORDREHODE H
+       WHERE H.AVDNR = 1320
+       AND   H.ORDRENR in(500659, 500660);
+  EXPORT TO P:\tru\AH_ORDRELGML.ixf OF IXF
+      SELECT 2004, L.*
+      FROM DBM.A_ORDRELINJER L 
+       WHERE L.AVDNR = 1320
+       AND   L.ORDRENR in(500659, 500660);
+  EXPORT TO P:\tru\AH_VERKSTEDHODEGML.ixf OF IXF
+      SELECT 2004, M.*
+      FROM DBM.VERKSTEDHODE M
+       WHERE M.AVDNR = 1320
+       AND   M.ORDRENR in(500659, 500660);
+  EXPORT TO P:\tru\AH_VERKSTED_TIMER2012.ixf OF IXF
+      SELECT 2004, M.*
+      FROM DBM.VERKSTED_TIMER M
+       WHERE M.AVDNR = 1320
+       AND   M.ORDRENR in(500659, 500660);
+  EXPORT TO P:\tru\AH_VERKSTEDTEKST2012.ixf OF IXF
+      SELECT 2004, M.*
+      FROM DBM.VERKSTEDTEKST M
+       WHERE M.AVDNR = 1320
+       AND   M.ORDRENR in(500659, 500660);
+  EXPORT TO P:\tru\H_KASS_TRANSERGML.ixf OF IXF
+      SELECT 2004, K.*
+      FROM DBM.kass_transer k,  dbm.ah_ordre_til_hist T
+      WHERE k.AVDNR = 1320
+        AND k.bilagNR in(500659, 500660);
+  EXPORT TO P:\tru\mek_tidreg_trans2012.IXF OF IXF
+  SELECT 2004, a.*
+    FROM DBM.MEK_TIDSREG_TRANS A
+       , dbm.ah_ordre_til_hist h
+           WHERE a.avdnr = 1320
+         and   A.ORDRENR in(500659, 500660);
+//

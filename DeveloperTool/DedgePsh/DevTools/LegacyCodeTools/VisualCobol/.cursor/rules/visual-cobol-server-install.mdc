@@ -1,0 +1,511 @@
+﻿---
+description: Visual COBOL Server installation, compilation infrastructure, and runtime discoveries
+globs:
+  - DevTools/LegacyCodeTools/VisualCobol/**
+alwaysApply: false
+---
+
+# Visual COBOL Server — Installation & Compilation Knowledge Base
+
+This rule captures empirical discoveries from the COBOL Server installation and recompilation project. **Updated as new findings emerge during testing.**
+
+## File Organization
+
+| Location | Contents | Runs Where |
+|----------|----------|:----------:|
+| `VisualCobol\` (project root) | `_deploy.ps1`, `.gitignore` | — |
+| `VisualCobol\DevScripts\` | Scripts run on the **developer machine** (compilation, bind, transfer) | Local |
+| `VisualCobol\DevScripts\Steps\` | Pipeline step scripts (Step10–Step80, x10 numbering), called by orchestrator | Local |
+| `VisualCobol\DevScripts\Steps\_helper\` | Shared helpers (compile, env switch, reports, step tracker, cleanup) | Local |
+| `VisualCobol\DevScripts\Steps\steps-config.json` | Step definitions (number, script, Mode, description) | — |
+| `VisualCobol\DevScripts\Steps\current-step.json` | Live pipeline state (auto-generated, gitignored) | — |
+| `VisualCobol\DevScripts\OneTime\` | Utility scripts run once or ad-hoc | Local |
+| `VisualCobol\ServerScripts\` | Scripts run on **t-no1fkmvct-app** (install, configure runtime) | Server |
+| `VisualCobol\Reports\` | Per-run report archives (`<ScriptName>-<Timestamp>\`) — gitignored | — |
+| `VisualCobol\docs\` | All analysis and documentation markdown files (`AnalysisResult-*.md`) | — |
+| `VisualCobol\.cursor\rules\` | Cursor rules for this project | — |
+
+**Rules:**
+- All `.md` documentation and analysis files MUST be placed in `docs\`.
+- Scripts that need the COBOL compiler go in `DevScripts\`. Scripts that run on the server go in `ServerScripts\`.
+- `_deploy.ps1` deploys only `ServerScripts\` to `t-no1fkmvct-app`.
+
+## Report Archives
+
+Each pipeline run copies key JSON reports into `Reports\<ScriptName>-<Timestamp>\`. This provides a historical record without polluting the data folder.
+
+**Collected reports (JSON only):**
+
+| File Pattern | Source | Content |
+|-------------|--------|---------|
+| `CollectAll-*.json` | Step10 | Source file inventory and collection summary |
+| `FileIndex-*.json` | Step10 | File index with hashes |
+| `MissingCopybooks-*.json` | Step20 | Missing copybook analysis |
+| `PipelineReport-*.json` | Full pipeline | Compilation summary (success/fail counts, duration) |
+| `BindReport-*.json` | Step50 | DB2 bind results |
+| `MigrationStatusReport-*.json` | Step60 | Unified migration status per program |
+| `cbl-uncertain-files-moved.json` | Step15 | Ollama analysis log for uncertain CBL resolution |
+| `cpy-uncertain-files-moved.json` | Step25 | Ollama analysis log for uncertain CPY resolution |
+
+**How it works:**
+- `Steps\_helper\CollectReports.ps1` provides `Copy-VcReportsToArchive`
+- Entry-point scripts call it after producing their final reports
+- It scans the data folder and VCPATH for the latest matching JSON and copies them
+- The `Reports\` folder is gitignored — local only
+
+**To add new report patterns**, update the `$patterns` array in `Steps\_helper\CollectReports.ps1`.
+
+## Environment Auto-Switching (Dev Machine)
+
+The local developer machine runs **Micro Focus Net Express** as the default COBOL environment. All entry-point scripts in `DevScripts\` automatically switch to **Visual COBOL** at start and **back to Micro Focus** when they finish (success or failure).
+
+**How it works:**
+1. Entry-point scripts dot-source `Steps\_helper\VcEnvironmentSwitch.ps1`
+2. Call `Switch-ToVisualCobol` — saves current machine env vars, sets VC environment
+3. Main logic runs inside a `try { ... } finally { Switch-ToMicroFocus }` block
+4. `Switch-ToMicroFocus` restores the saved env vars (exact state before the switch)
+
+**Entry-point scripts** (have switching):
+- `Invoke-VcFullPipeline.ps1`, `Invoke-VcCodeMigration.ps1`, `Test-VcSingleCompile.ps1`
+
+**Sub-scripts** (inherit environment from parent, no own switching):
+- `Steps\_helper\Invoke-VcCompile.ps1`, all `Steps\*.ps1`
+
+**Pattern for new dev scripts in `DevScripts\`:**
+```powershell
+. (Join-Path $PSScriptRoot 'Steps\_helper\VcEnvironmentSwitch.ps1')
+$vcSwitched = Switch-ToVisualCobol
+if (-not $vcSwitched) { Write-LogMessage 'VC switch failed' -Level ERROR; exit 1 }
+
+try {
+    # ... main logic ...
+} finally {
+    Switch-ToMicroFocus
+}
+```
+
+**Pattern from `DevScripts\OneTime\`:**
+```powershell
+. (Join-Path (Split-Path $PSScriptRoot -Parent) 'Steps\_helper\VcEnvironmentSwitch.ps1')
+```
+
+**Server scripts do NOT need switching** — the server has COBOL Server as its only COBOL environment.
+
+## SAFETY: Limited Test Pipeline — DO NOT Touch Production
+
+**This is a restricted test pipeline. The following constraints are ABSOLUTE and MUST NEVER be violated:**
+
+| Resource | Allowed | FORBIDDEN |
+|----------|---------|-----------|
+| **App server** | `t-no1fkmvct-app` ONLY | All other app servers (especially `p-no1fkm*`) |
+| **DB server** | `t-no1fkmvct-db` ONLY | All other DB servers |
+| **Database** | `BASISVCT` / `FKMVCT` ONLY | All other databases (BASISTST, BASISPRO, BASISRAP, etc.) |
+| **Deploy target** | `t-no1fkmvct-app` ONLY | `*-app` wildcard, production servers |
+
+**Rules:**
+- `_deploy.ps1` MUST target `@("t-no1fkmvct-app")` — never `@("*-app")` or any wildcard
+- All compilation and DB2 bind operations MUST target `BASISVCT` / `FKMVCT` on `t-no1fkmvct-db`
+- No scripts, modules, or files may be deployed to production servers (`p-*`) from this project
+- No queries, binds, or connections may target production databases
+- This restriction remains until the pipeline is fully tested and explicitly approved for wider rollout
+
+---
+
+## Architecture Decision: Compile Locally, Run Remotely
+
+**COBOL Server (`cs_110.exe`) does NOT include the compiler (`cobol.exe`).**
+It is a runtime-only product providing `run.exe`, `runw.exe`, `dswin.exe`, `cobrun.exe`.
+
+The compiler is only available in:
+- **Visual COBOL Build Tools** (`vcbt_110.exe`) — headless compiler, no IDE needed
+- **Visual COBOL for Visual Studio** (`vcvs2022_110.exe`) — requires VS 2022
+
+Since Build Tools (`vcbt_110.exe`) is not currently available and COBOL Server cannot compile, the agreed workflow is:
+
+1. **Compile locally** on the developer machine (which has Visual COBOL for VS 2022 installed)
+2. **Transfer compiled output** (`.int`, `.gnt`, `.dll`, `.bnd` files) to `t-no1fkmvct-app` via UNC
+3. **Run/execute on the server** using COBOL Server runtime (`run.exe`, `runw.exe`, `cobrun.exe`)
+4. **DB2 bind** can be done from any machine with DB2 client catalogued to the target database
+
+If `vcbt_110.exe` becomes available (download from Rocket Electronic Product Delivery portal, same license), it can be installed on the server for direct server-side compilation. It **can coexist** with COBOL Server but **cannot coexist** with the full Visual COBOL IDE.
+
+## Servers (Test Pipeline Only)
+
+| Server | Role | In Scope? |
+|--------|------|:---------:|
+| `t-no1fkmvct-app` | COBOL runtime + install target | **YES** |
+| `t-no1fkmvct-db` | DB2 database `BASISVCT` / `FKMVCT` | **YES** |
+| Local dev machine | Compilation (Visual COBOL for VS) | **YES** |
+| All other servers | — | **NO — forbidden** |
+
+## Rocket Product Map (confirmed via RAG 2026-03-10)
+
+| Product | Installer | Has compiler? | Has runtime? | Needs VS? |
+|---------|-----------|:------------:|:------------:|:---------:|
+| COBOL Server | `cs_110.exe` | No | Yes | No |
+| Build Tools | `vcbt_110.exe` | **Yes** | Yes | No |
+| Visual COBOL for VS | `vcvs2022_110.exe` | Yes | Yes | **Yes** |
+| Development Hub | N/A | Yes | Yes | Linux only |
+
+## Installation Discoveries (t-no1fkmvct-app)
+
+### cs_110.exe behaviour (confirmed 2026-03-10)
+
+- `cs_110.exe` is the **32+64 bit** installer. Use this, not `csx64_110.exe`.
+- The installer **includes License Manager automatically** — no need for `lmsetupx64.msi` from the SDK.
+- Default install path: `C:\Program Files (x86)\Rocket Software\COBOL Server\`
+  (note: "COBOL Server", not "Visual COBOL" — this differs from the IDE installer)
+- The license ZIP must be **unzipped before** opening License Administration.
+- `/quiet` flag works for silent install. Exit code `3010` = success, reboot recommended.
+- Verified publisher in UAC: "Rocket Software, Inc."
+- **Does NOT contain `cobol.exe` or `cobrun.exe`** — runtime only.
+
+### Executables present after COBOL Server install
+
+| Executable | Present? | Location | Purpose |
+|-----------|:--------:|----------|---------|
+| `run.exe` | Yes | `bin\` + `bin64\` | Console runtime executor |
+| `runw.exe` | Yes | `bin\` + `bin64\` | Windowed runtime executor |
+| `dswin.exe` | Yes | `bin\` | Data File Editor |
+| `cobol.exe` | **No** | — | Compiler (needs Build Tools or IDE) |
+| `cobrun.exe` | **No** | — | Intermediate code runner (needs Build Tools or IDE) |
+| `cesadmintool.exe` | Yes | License Manager path | License activation CLI |
+
+### Uninstall before reinstall
+
+When doing a clean install, uninstall ALL existing Rocket/Micro Focus software first:
+- Use `Get-Package -Name '*Rocket*','*Micro Focus*','*COBOL*'` to find installed packages
+- `Uninstall-Package` or MSI GUID from registry for removal
+- Clean up leftover directories under `C:\Program Files (x86)\Rocket Software\` and `Micro Focus\`
+
+### Deployment SDK (cs_110_deployment_sdk.zip)
+
+The SDK is for **repackaging COBOL Server in custom installers** (InstallShield/WiX). For standard server installs, only two items from the SDK are useful:
+
+| File | Needed? | Why |
+|------|---------|-----|
+| `VC_redist.x64.exe` / `x86.exe` | Yes | VC++ Redistributable prerequisite |
+| `lmsetupx64.msi` | **No** | License Manager is bundled in `cs_110.exe` |
+| `cobolserver_110x64.msi` / `.msm` | No | Only for MSI-based repackaging |
+| `NetworkDeploy_*.bat` | No | Interactive legacy scripts |
+
+### License file
+
+- ZIP: `AMC-COBS-LT-100-11.0.0-VCPU-670000127709.zip`
+- Contains XML files for COBOL Server SOA Server vCPU + Docker Server vCPU
+- 45 vCPU capacity, expires 2027-12-17, any IP (`*.*.*.*`)
+- **Must unzip before importing** — License Administration cannot read ZIPs directly
+- Silent activation: `cesadmintool.exe -term install -f "<path_to.xml>"`
+
+## Licensing Architecture (confirmed via RAG + web 2026-03-10)
+
+### Decision: Local licensing on each machine — no central server needed
+
+Visual COBOL 11.0 uses **RocketPass** (rebranded from AutoPass). Two modes are supported:
+
+| Mode | Description | Our Choice |
+|------|------------|:----------:|
+| **Local** | Import license XML directly on each machine via `cesadmintool.exe` or IDE | **YES** |
+| **Centralized** | RocketPass License Server on dedicated machine, products check out licenses at runtime | Not now |
+
+A centralized license server is **optional** ("if your site is using one" — Rocket docs). For our scale (< 11 developers, < 5 servers), local licensing is simpler and has no single point of failure.
+
+### Two license models
+
+| SKU | Model | Capacity | What It Covers |
+|-----|:-----:|:--------:|---------------|
+| `AMC-VCDR-LT-100` | **Named User** | 11 users | Developer IDE, Build Tools, Eclipse, Dev Hub |
+| `AMC-COBS-LT-100` | **vCPU** | 45 vCPU | Application server runtime (COBOL Server) |
+
+- **Named User** = per-person, not per-machine. One person can install on multiple machines.
+- **vCPU** = per virtual CPU core on the server. Track total across all servers (max 45).
+- **Expiration:** Both expire 2027-12-17.
+
+### License file distribution
+
+Store license XMLs securely on the config share (NOT in git):
+```
+C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\VisualCobol\Licenses\
+├── AMC-VCDR-LT-100\   (5 developer license XMLs)
+└── AMC-COBS-LT-100\   (2 server license XMLs)
+```
+
+### License technology lineage
+- SafeNet Sentinel (VC 1.0–5.x) → AutoPass (VC 6.0–10.0) → **RocketPass (VC 11.0+)**
+- RocketPass is backward-compatible with AutoPass licenses, NOT with SafeNet Sentinel.
+
+See [AnalysisResult-LicenseServerArchitecture.md](../docs/AnalysisResult-LicenseServerArchitecture.md) for full analysis.
+
+## Compilation Discoveries
+
+### Source file encoding
+
+All COBOL source files (`.cbl`, `.cpy`, `.dcl`) are **ANSI/Windows-1252** encoded.
+
+```powershell
+$ansiEncoding = [System.Text.Encoding]::GetEncoding(1252)
+$content = Get-Content -Path $file -Encoding $ansiEncoding
+```
+
+PowerShell 7 defaults to UTF-8; always specify encoding explicitly when reading COBOL files.
+
+### Source format detection
+
+Programs use two source formats:
+- **Fixed format** (columns 1-6 seq, 7 indicator, 8-72 code, 73-80 comment) — majority
+- **Free format** — some newer programs
+
+Heuristic: if first 6 chars of most lines are digits/spaces → fixed format → use `sourceformat(fixed)`
+
+### Compiler directives
+
+Two directive files are needed:
+
+1. **Standard** (`VcCompilerDirectivesStd.dir`):
+   ```
+   sourceformat(fixed)
+   mf
+   ans85
+   flag-chip
+   anim
+   list()
+   ```
+
+2. **SQL/DB2** (`VcCompilerDirectivesSql.dir`):
+   ```
+   sourceformat(fixed)
+   mf
+   ans85
+   flag-chip
+   anim
+   list()
+   DB2(DB=FKAVDNT)
+   DB2(COLLECTION=DBM)
+   DB2(UDB-VERSION=V9)
+   DB2(BIND)
+   DB2(BINDDIR=%VCPATH%\bnd)
+   ```
+
+### DB2 database for compilation
+
+- **FKAVDNT** (DEV, t-no1fkmdev-db) is specified in program `$SET` headers
+- Authentication: Kerberos SSO — do NOT pass username/password to `db2 connect`
+- Bind options: `BLOCKING ALL GRANT PUBLIC`
+
+### VCPATH structure
+
+The compilation workspace must follow this layout:
+
+```
+%VCPATH%\            (default: C:\fkavd\Dedge2)
+├── bnd\             Bind files (.bnd) output
+├── cfg\             Directive files (.dir)
+├── int\             Compiled intermediate files (.int)
+├── lst\             Listing files (.lst)
+├── log\             Compilation logs
+├── src\cbl\         COBOL source programs (.cbl)
+│   └── cpy\         Copybooks (.cpy, .dcl)
+│       └── sys\cpy\ System copybooks
+└── tmp\             Temporary files
+```
+
+### Source file inventory
+
+| Location | Type | Count |
+|----------|------|------:|
+| `C:\opt\data\VisualCobol\Step1-Copy-VcSourceFiles\Sources\cbl` | CBL programs | 3,471 |
+| `C:\opt\data\VisualCobol\Step1-Copy-VcSourceFiles\Sources\cpy` | Copybooks | 17 |
+| `C:\opt\data\VisualCobol\Step1-Copy-VcSourceFiles\Sources\cpy_uncertain` | Copybooks (to verify) | 9,626 |
+| `C:\opt\data\VisualCobol\Step1-Copy-VcSourceFiles\Sources\cbl_uncertain` | Programs (to verify) | 7,652 |
+
+### Known compilation issues
+
+| Issue | Resolution |
+|-------|-----------|
+| Missing copybooks (COBCH0008) | Include `cpy_uncertain` in COBCPY path |
+| Illegal level number (COBCH0219) | Remove trailing sequence numbers from data declarations |
+| Norwegian characters (Æ Ø Å) garbled | Use ANSI-1252 encoding, not UTF-8 |
+| Programs starting with DOH prefix | Skip list — utility programs with special dependencies |
+
+## Local Compile → Server Transfer Workflow
+
+Since the server only has COBOL Server (runtime), compilation happens locally:
+
+```
+Developer Machine                              t-no1fkmvct-app
+═══════════════════                            ═══════════════════
+Visual COBOL (compiler)                        COBOL Server (runtime)
+                                               
+VCPATH\src\cbl\*.cbl ─► cobol.exe             
+                ↓                              
+VCPATH\int\*.int  ──┐                          
+VCPATH\gs\*.gnt   ──┼── UNC copy ──►          FkCblApps\FKMVCT\Objects\
+VCPATH\bnd\*.bnd  ──┘                          FkCblApps\FKMVCT\Objects\bnd\
+                                               
+Sources\cbl\*.cbl ───── UNC copy ──►           FkCblApps\FKMVCT\Source\cbl\
+Sources\cpy\*.cpy ───── UNC copy ──►           FkCblApps\FKMVCT\Source\cpy\
+```
+
+**UNC base path:** `\\t-no1fkmvct-app\opt\FkCblApps\FKMVCT\`
+
+The `*_uncertain` source collections are **never** transferred.
+
+### Server directory structure
+
+```
+\\t-no1fkmvct-app\opt\FkCblApps\FKMVCT\
+├── Objects\              .int and .gnt compiled files (COBPATH points here)
+│   └── bnd\              .bnd bind files (optional)
+└── Source\
+    ├── cbl\              .cbl COBOL source programs (reference + COBDIR)
+    └── cpy\              .cpy copybook files (COBCPY points here)
+```
+
+### Server runtime environment variables
+
+Set by `Configure-VcServerRuntime.ps1` (run once on the server via `/autocur`):
+
+| Variable | Value |
+|----------|-------|
+| `COBDIR` | `<COBOL Server base>;<OptPath>\FkCblApps\FKMVCT\Objects;<OptPath>\FkCblApps\FKMVCT\Source\cbl` |
+| `COBPATH` | `<OptPath>\FkCblApps\FKMVCT\Objects;<OptPath>\FkCblApps\FKMVCT\Source\cbl` |
+| `COBCPY` | `<OptPath>\FkCblApps\FKMVCT\Source\cpy;<OptPath>\FkCblApps\FKMVCT\Source\cbl` |
+| `COBMODE` | `32` |
+| `LIB` | `<COBOL Server base>\lib` |
+| `MFVSSW` | `/c /f` |
+| `PATH` | includes `<COBOL Server base>\bin`, `lib`, `IBM\SQLLIB\BIN` |
+
+### Pipeline workflow — step tracker
+
+The orchestrator (`Invoke-VcCodeMigration.ps1`) reads `steps-config.json` and iterates steps in config order. Progress is tracked in `current-step.json`. Steps use **x10 numbering** (10, 20, ... 80) to leave gaps for future steps.
+
+```
+Step 10–60: AUTOMATIC (run sequentially without stopping)
+  Step10  Collect sources (.cbl, .cpy)
+  Step15  Resolve uncertain CBL via Ollama AI      ← NEW
+  Step20  Check missing copybooks
+  Step25  Resolve uncertain CPY via Ollama AI      ← NEW
+  Step30  Initialize VC environment
+  Step40  Batch compile all programs
+  Step50  DB2 bind (.bnd → BASISVCT)
+  Step60  Generate migration status report
+          ↓
+  ══════ PIPELINE PAUSES (ManualRestart) ══════
+  Review reports in Reports\ folder
+  Rerun script to continue
+          ↓
+Step 70–80: MANUAL RESTART (pipeline pauses before each)
+  Step70  Deploy compiled objects + sources to t-no1fkmvct-app
+  Step80  Copy raw sources to server data folder (optional)
+```
+
+**Cleanup:** Before each step runs, output from that step and all later steps is deleted.
+
+```powershell
+# Full pipeline (starts at Step10, pauses before Step70)
+.\DevScripts\Invoke-VcCodeMigration.ps1
+
+# Resume after reviewing reports (continues from paused step)
+.\DevScripts\Invoke-VcCodeMigration.ps1
+
+# Force restart from a specific step (cleans output from that step onward)
+.\DevScripts\Invoke-VcCodeMigration.ps1 -StartFromStep 40
+
+# Full clean run (deletes current-step.json, starts from Step10)
+.\DevScripts\Invoke-VcCodeMigration.ps1 -Fresh
+
+# Quick single-program compile test
+.\DevScripts\OneTime\Test-VcSingleCompile.ps1
+.\DevScripts\OneTime\Test-VcSingleCompile.ps1 -ProgramName 'GMSTART'
+
+# Server configuration (one-time, via /autocur)
+.\ServerScripts\Configure-VcServerRuntime.ps1
+.\ServerScripts\Configure-VcServerRuntime.ps1 -DryRun
+```
+
+**Adding a new step:** Add an entry to `steps-config.json` with a number between existing steps (e.g. Step15 between 10 and 20), create the script, and add cleanup targets in `Clear-VcStepOutput.ps1`. No orchestrator code changes needed.
+
+## Scripts Reference
+
+### DevScripts\ (run on developer machine)
+
+| Script | Purpose | Auto-switch? |
+|--------|---------|:------------:|
+| `Invoke-VcFullPipeline.ps1` | Full compile + bind pipeline (all 3400+ programs) | **Yes** |
+| `Invoke-VcCodeMigration.ps1` | Config-driven steps orchestrator (Step10–Step80) with step tracker | **Yes** |
+| `Test-VcSingleCompile.ps1` | Quick single-program compile test | **Yes** |
+| `Steps\Step10` – `Step60` | Automated pipeline steps (source collect → Ollama resolve → compile → bind → report) | No (inherits) |
+| `Steps\Step15` | Resolve uncertain CBL files via Ollama AI | No (inherits) |
+| `Steps\Step25` | Resolve uncertain CPY files via Ollama AI | No (inherits) |
+| `Steps\Step70` | Deploy compiled objects + sources to server (**ManualRestart**) | No (inherits) |
+| `Steps\Step80` | Copy raw sources to server data folder (**ManualRestart**) | No (inherits) |
+
+### Steps\_helper\AiProtocols\ (Ollama prompt protocols)
+
+| File | Purpose |
+|------|---------|
+| `Cbl-VersionSelection.mdc` | System prompt for selecting best CBL candidate from uncertain files |
+| `Cpy-VersionSelection.mdc` | System prompt for selecting best CPY candidate by field usage matching |
+
+### ServerScripts\ (deployed to t-no1fkmvct-app)
+
+| Script | Purpose |
+|--------|---------|
+| `Install-RocketCobolServer.ps1` | Clean install: uninstall → VC++ → cs_110.exe → license → patch |
+| `Install-RocketVisualCobol.ps1` | Install IDE/Server packages via Install-WindowsApps |
+| `Configure-VcServerRuntime.ps1` | Set COBDIR/COBPATH/COBCPY/PATH on the server (run once via /autocur) |
+
+### Steps\_helper\ (shared utilities, never run directly)
+
+| Script | Purpose |
+|--------|---------|
+| `Invoke-VcCompile.ps1` | Single-file compilation (called by Step40, Test-VcSingleCompile) |
+| `VcEnvironmentSwitch.ps1` | Switch between Visual COBOL and Micro Focus environments |
+| `CollectReports.ps1` | Copies key JSON reports into `Reports\<ScriptName>-<Timestamp>\` |
+| `Switch-CobolEnvironment.ps1` | Older env switch used by Step30 |
+| `StepTracker.ps1` | Read/Write pipeline state (current-step.json, steps-config.json) |
+| `Clear-VcStepOutput.ps1` | Cleanup helper — deletes output from a step and all subsequent steps |
+
+### Root
+
+| Script | Purpose |
+|--------|---------|
+| `_deploy.ps1` | Deploy `ServerScripts\` to `t-no1fkmvct-app` ONLY |
+
+## Ollama Uncertain File Resolution (Step15 + Step25)
+
+Steps 15 and 25 use local Ollama AI to resolve uncertain source files — COBOL programs and copybooks with multiple candidate versions in `cbl_uncertain` and `cpy_uncertain`.
+
+### Dynamic / Incremental Behavior
+
+- **Step15 scans live**: reads `cbl_uncertain\` and `cbl\` each run. New files added between runs are picked up. Programs already in `cbl\` are skipped.
+- **Step25 scans live**: reads the fresh `MissingCopybooks-*.json` from Step20 and checks `cpy_uncertain\` each run.
+- **`syscat_packages.json`** is loaded at runtime — update it and re-run.
+- **`cbl-uncertain-files-moved.json`** is blanked only when Step15 runs (cleanup), not when earlier steps restart.
+- **`cpy-uncertain-files-moved.json`** is blanked only when Step25 runs (cleanup).
+- **No hardcoded file lists** — everything is discovered by scanning folders and JSON configs at runtime.
+
+### Ollama Integration
+
+- Module: `Import-Module OllamaHandler -Force` → `Invoke-OllamaGenerate`
+- API: `http://localhost:11434` (local Ollama)
+- Default model: `qwen2.5:7b`
+- Temperature: `0.2` (deterministic selection)
+- Protocols: `Steps\_helper\AiProtocols\Cbl-VersionSelection.mdc` and `Cpy-VersionSelection.mdc`
+
+### Optimization
+
+- Single-candidate programs/copybooks are copied directly without calling Ollama (logged as `confidence: "only-candidate"`)
+- Periodic saves every 25 programs protect against interruption
+- Step15: ~607 programs, ~225 single-candidate → ~382 Ollama calls at ~3-5s each ≈ 20-30 minutes
+- Step25: depends on Step20 output (typically much smaller)
+
+## Autocur Project Slug
+
+When using `/autocur` for this project:
+- **Project:** `vc-install` (for installation tasks — ServerScripts)
+- **Project:** `vc-compile` (for compilation tasks — DevScripts)
+- **Project:** `vc-configure` (for server runtime configuration — ServerScripts)
+- **Project:** `vc-configure` (for server runtime configuration)
+- **Server:** `t-no1fkmvct-app` ONLY — never any other server
+- **Database:** `BASISVCT` on `t-no1fkmvct-db` ONLY — never any other database

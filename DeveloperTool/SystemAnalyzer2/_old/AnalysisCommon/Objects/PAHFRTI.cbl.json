@@ -1,0 +1,129 @@
+{
+  "program": "PAHFRTI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:40:51",
+  "extraction": {
+    "sourceHash": "sha256:ee0cacedcc507fc27b3d40c9815f25429d9d7f224170874e94fd01061301b391",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAHFRTI.CBL",
+    "actualName": "PAHFRTI",
+    "program": "PAHFRTI",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FRTS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SONE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAHFRTI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "F",
+        "tableName": "OKOLOGISK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKTTILSKUDD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_SONE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKTTILSKUDD",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKTTILSKUDD",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKTTILSKUDD",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "PAVFRTI",
+      "GMACNCT",
+      "GMACURT",
+      "GMADATO",
+      "PAFTRAP",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:40:51"
+  }
+}

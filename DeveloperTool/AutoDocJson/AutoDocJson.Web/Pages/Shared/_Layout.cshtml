@@ -1,0 +1,132 @@
+﻿@inject IConfiguration Configuration
+@inject Microsoft.Extensions.Options.IOptions<DedgeAuth.Client.Options.DedgeAuthOptions> DedgeAuthOptions
+@{
+    var DedgeAuthEnabled = DedgeAuthOptions.Value.Enabled;
+}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="@Url.Content("~/")" />
+    <title>@ViewData["Title"] - AutoDoc</title>
+    <link rel="icon" href="~/images/dedge.ico" type="image/x-icon" />
+
+    <!-- Local Dedge fallback CSS (always loaded for theme variables) -->
+    <link rel="stylesheet" href="~/css/DedgeAuth-fallback.css" />
+
+    @if (DedgeAuthEnabled)
+    {
+        <!-- DedgeAuth (shared) - load first so app CSS and tenant can override -->
+        <link rel="stylesheet" href="~/api/DedgeAuth/ui/common.css" />
+        <link rel="stylesheet" href="~/api/DedgeAuth/ui/user.css" />
+    }
+
+    <!-- App CSS (theme and layout) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/autodoc-shared.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @if (DedgeAuthEnabled)
+    {
+        <link rel="stylesheet" href="~/css/tenant-fallback.css" />
+        <style id="DedgeAuth-tenant-css"></style>
+    }
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @RenderBody()
+
+    <script>window.__basePath = '@Url.Content("~/")';</script>
+
+    <!-- Scripts: load in correct order matching old AutoDoc -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gojs@3/release/go.js"></script>
+
+    <script>
+        window.MERMAID_MAX_NODES = @(Configuration.GetValue<int>("AutoDocJson:MermaidMaxNodes", 500));
+        window.DEFAULT_RENDERER = '@(Configuration.GetValue<string>("AutoDocJson:DefaultRenderer") ?? "gojs")';
+    </script>
+
+    <!-- Mermaid config (theme variables, suppressErrorRendering) - must load before Mermaid -->
+    <script src="~/js/autodoc-mermaid-config.js"></script>
+
+    <!-- Mermaid 11 ESM Module -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Use theme config from autodoc-mermaid-config.js
+        const theme = window.getMermaidTheme ? window.getMermaidTheme() : 'dark';
+        const themeVars = window.getThemeVariables ? window.getThemeVariables() : {
+            fontFamily: '"Courier New", Courier, monospace',
+            fontSize: '14px'
+        };
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: theme,
+            securityLevel: 'loose',
+            suppressErrorRendering: true,
+            maxTextSize: 5000000,
+            maxEdges: 5000,
+            themeVariables: themeVars,
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            sequence: { useMaxWidth: true },
+            classDiagram: { useMaxWidth: true }
+        });
+
+        // Make mermaid available globally for theme switching
+        window.mermaidInstance = mermaid;
+    </script>
+
+    <!-- Diagram controls (pan-zoom, fullscreen, theme toggle, dark mode fixes) -->
+    <script src="~/js/autodoc-diagram-controls.js"></script>
+
+    <!-- Dual renderer: Mermaid / GoJS switcher -->
+    <script src="~/js/autodoc-renderer.js"></script>
+
+    <!-- Search functionality -->
+    <script src="~/js/autodoc-search.js"></script>
+
+    <!-- Scheduler management -->
+    <script src="~/js/autodoc-scheduler.js"></script>
+
+    @if (DedgeAuthEnabled)
+    {
+        <!-- DedgeAuth user menu -->
+        <script src="~/api/DedgeAuth/ui/user.js"></script>
+        <script src="~/api/DedgeAuth/ui/i18n.js"></script>
+        <script src="~/api/DedgeAuth/ui/header.js" defer></script>
+    }
+    else
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('#DedgeAuthHeader').forEach(function (el) {
+                    var title = el.getAttribute('data-app-title') || 'AutoDoc';
+                    var home = el.getAttribute('data-home-url') || '/';
+                    el.innerHTML = '<a href="' + home + '" style="text-decoration:none;color:var(--text-primary);font-weight:600;font-size:1.1rem;">' + title + '</a>';
+                });
+                document.querySelectorAll('#DedgeAuthUserMenu').forEach(function (el) { el.style.display = 'none'; });
+                document.querySelectorAll('#DedgeAuthThemePill').forEach(function (el) {
+                    el.innerHTML = '<button onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === \'dark\' ? \'light\' : \'dark\'" style="background:none;border:1px solid var(--border-color);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--text-secondary);font-size:0.8rem;" title="Toggle Theme"><i class="bi bi-circle-half"></i></button>';
+                });
+            });
+        </script>
+    }
+
+    <script>window.__DedgeAuthEnabled = @(DedgeAuthEnabled ? "true" : "false");</script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

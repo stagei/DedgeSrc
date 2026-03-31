@@ -1,0 +1,86 @@
+{
+  "program": "ILBFULMA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:419cd6f236700ff358580bd83e7f07324444823433b93ca569544497cdd20e96",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbfulma.cbl",
+    "actualName": "ILBFULMA",
+    "program": "ILBFULMA",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFPOSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LKTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMADIR",
+      "GMAVHTM"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

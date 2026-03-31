@@ -1,0 +1,67 @@
+{
+  "program": "GMAOPPS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:08",
+  "extraction": {
+    "sourceHash": "sha256:6441f5574bf96e75d8d3f99566852d99024f765c3e55bf013303e19435cd2fdd",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAOPPS.CBL",
+    "actualName": "GMAOPPS",
+    "program": "GMAOPPS",
+    "copyElements": [
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPPS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKERNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELEPHONE_NUMBER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AD_BRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPSTART",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:08"
+  }
+}

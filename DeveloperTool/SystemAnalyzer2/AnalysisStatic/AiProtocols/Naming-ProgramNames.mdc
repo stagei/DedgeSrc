@@ -1,0 +1,108 @@
+# Program Name Modernization
+
+## Purpose
+
+Generate a modern descriptive C# project/class name for a legacy COBOL program, using classification, COBDOK metadata, table usage, call graph, and source context.
+
+## When to Use
+
+During Phase 8f of the analysis pipeline. For each program in the master, check if `Naming/ProgramNames/{PROGRAM}.json` exists. If missing, invoke Ollama with this protocol.
+
+## Prompt Template
+
+```
+You are analyzing a legacy COBOL program for modernization to C#.
+Your task is to suggest a descriptive C# project/class name and namespace.
+
+PROGRAM: {ProgramName}
+CLASSIFICATION: {Classification} (confidence: {Confidence})
+COBDOK SYSTEM: {CobdokSystem}
+COBDOK SUBSYSTEM: {CobdokDelsystem}
+COBDOK DESCRIPTION (Norwegian): {CobdokDescription}
+IS DEPRECATED: {IsDeprecated}
+
+TABLES USED ({TableCount}):
+{TableList}
+
+CALL TARGETS ({CallCount}):
+{CallTargets}
+
+CALLED BY ({CallerCount}):
+{CallerList}
+
+COBOL SOURCE SUMMARY (from source code):
+{RagSnippet}
+
+Based on ALL the context above, suggest:
+1. A descriptive PascalCase C# class/project name
+2. A C# namespace (e.g. "Agriculture.Grain", "Orders.Processing")
+3. A one-sentence English description of what the program does
+
+IMPORTANT:
+- The name should describe the BUSINESS FUNCTION, not just translate the abbreviation
+- Use standard C# naming conventions (PascalCase, no abbreviations)
+- Norwegian COBDOK description is the strongest hint
+- Tables used reveal the data domain
+- Classification reveals the program type (UI, batch, utility, etc.)
+
+Respond with EXACTLY one JSON object (no markdown, no explanation):
+{"futureProjectName":"GrainStockMaintenance","futureNamespace":"Agriculture.Grain","description":"Manages grain stock levels and pricing calculations"}
+
+JSON:
+{"futureProjectName":
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{ProgramName}` | The COBOL program name (e.g. `RUHBEHK`) |
+| `{Classification}` | From Objects cache: `main-ui`, `batch-processing`, etc. |
+| `{Confidence}` | Classification confidence: `high`, `medium`, `low` |
+| `{CobdokSystem}` | COBDOK system code (e.g. `FKAVDNT`) or "Unknown" |
+| `{CobdokDelsystem}` | COBDOK subsystem code (e.g. `RU`) or "Unknown" |
+| `{CobdokDescription}` | Norwegian description from modul.csv, or "No description" |
+| `{IsDeprecated}` | `true` or `false` |
+| `{TableCount}` | Number of tables used |
+| `{TableList}` | List: `A_ORDREHODE (OrderHeader) [SELECT, UPDATE]` |
+| `{CallCount}` | Number of call targets |
+| `{CallTargets}` | Comma-separated list of called programs |
+| `{CallerCount}` | Number of programs calling this one |
+| `{CallerList}` | Comma-separated list of callers |
+| `{RagSnippet}` | RAG code excerpt, or "No source available" |
+
+## Response Format
+
+```json
+{
+  "futureProjectName": "GrainStockMaintenance",
+  "futureNamespace": "Agriculture.Grain",
+  "description": "Manages grain stock levels, pricing calculations, and inventory adjustments"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `futureProjectName` | string | Yes | PascalCase C# project/class name |
+| `futureNamespace` | string | Yes | Dot-separated namespace path |
+| `description` | string | Yes | One-sentence English description |
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. Extract the first `{...}` JSON object
+3. If response doesn't start with `{`, prepend `{"futureProjectName":`
+4. Parse as JSON
+5. Validate `futureProjectName` is PascalCase
+
+## Cache Location
+
+Stored in `AnalysisCommon/Naming/ProgramNames/{PROGRAMNAME}.json` with provenance metadata.
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` (Ollama) — adequate when COBDOK description is available
+- **Better model**: Claude Sonnet/Opus — better at inferring purpose from table usage and call graph alone
+- Norwegian COBDOK description is the single strongest signal
+- Programs with no COBDOK data rely on table names + classification for naming
+- Deprecated programs should still get meaningful names for documentation

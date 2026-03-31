@@ -1,0 +1,600 @@
+{
+  "program": "BLVVBVI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:24:10",
+  "variableFilenames": {
+    "LOGGFILE": {
+      "logicalName": "LOGGFILE",
+      "physicalVariable": "LOGGFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-280723.CSV",
+      "description": "Program generates log file with date appended, likely user-specific.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:23:48"
+    },
+    "UTFILE": {
+      "logicalName": "UTFILE",
+      "physicalVariable": "IMPORTF",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "BLFVBVI program for oppslag på varebevegelser constructs the filename using user ID and date, without specific values determined.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:23:51"
+    },
+    "INNSAL5": {
+      "logicalName": "INNSAL5",
+      "physicalVariable": "INNSAL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Vis dbm.telle_beholdning (avvik)",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:23:55"
+    },
+    "INTRAX10": {
+      "logicalName": "INTRAX10",
+      "physicalVariable": "INTRAX",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231005.CSV",
+      "description": "BLFVBVI program uses a filename pattern with userid and date, typically for CSV files",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:23:59"
+    },
+    "INNKLA11": {
+      "logicalName": "INNKLA11",
+      "physicalVariable": "INNKLA",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "File path constructed using userid and date, extension is .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:24:02"
+    },
+    "INNPAS12": {
+      "logicalName": "INNPAS12",
+      "physicalVariable": "INNPAS",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "BLVVBVI program uses INNPAS for file handling, but the exact construction is not clear from provided source. Filename pattern seems to follow a dynamic userid and date.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:24:06"
+    },
+    "INNTMS13": {
+      "logicalName": "INNTMS13",
+      "physicalVariable": "INNTMS",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Program constructs INNTMS filename using userid and date, then appends .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:24:10"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "BLVVBVI",
+    "program": "BLVVBVI",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TELB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TELH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLHFLYT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFSIGN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLFVITB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VSFSOVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BDHSASV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BDHSAST.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OPVA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLAKOKV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKORR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DS-CALL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "IFRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHVPVE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "MAS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KT-MEM-WS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLATLIS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_BEHOLDNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AH_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EGETBRUK_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EGETBRUK_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERANDØR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SIGNATUR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_VANNPROSENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ENHETSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MASKINKARTOTEK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "AA",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_LINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ALFRA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FEILFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LOGGFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RCFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UTFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INNSAL5",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INTRAX10",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INNKLA11",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INNPAS12",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INNTMS13",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMACURT",
+      "GMAPRTR"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "X-LOGG-FIL",
+        "physicalName": "BLDVBVI.TXT",
+        "path": "C:\\DARITRC",
+        "fullPath": "C:\\DARITRC\\BLDVBVI.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-280723.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program generates log file with date appended, likely user-specific."
+      },
+      {
+        "logicalName": "UTFILE",
+        "physicalName": "IMPORTF",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "BLFVBVI program for oppslag på varebevegelser constructs the filename using user ID and date, without specific values determined."
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INNSAL5",
+        "physicalName": "INNSAL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Vis dbm.telle_beholdning (avvik)"
+      },
+      {
+        "logicalName": "INTRAX10",
+        "physicalName": "INTRAX",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231005.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "BLFVBVI program uses a filename pattern with userid and date, typically for CSV files"
+      },
+      {
+        "logicalName": "INNKLA11",
+        "physicalName": "INNKLA",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path constructed using userid and date, extension is .CSV"
+      },
+      {
+        "logicalName": "INNPAS12",
+        "physicalName": "INNPAS",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "BLVVBVI program uses INNPAS for file handling, but the exact construction is not clear from provided source. Filename pattern seems to follow a dynamic userid and date."
+      },
+      {
+        "logicalName": "INNTMS13",
+        "physicalName": "INNTMS",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs INNTMS filename using userid and date, then appends .CSV extension"
+      }
+    ],
+    "extractedAt": "2026-03-28T20:24:10"
+  }
+}

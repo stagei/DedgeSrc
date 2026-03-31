@@ -1,0 +1,110 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <AssemblyName>ServerMonitorTrayIcon</AssemblyName>
+    <RootNamespace>ServerMonitorTrayIcon</RootNamespace>
+    <Company>Dedge</Company>
+    <Product>Server Monitor Tray Icon</Product>
+    <Description>System tray application for monitoring and controlling the ServerMonitor Windows service</Description>
+    <Copyright>Copyright © Dedge 2026</Copyright>
+    <!-- Version must be 4-part for AssemblyVersion/FileVersion to work correctly -->
+    <VersionPrefix>1.0.304</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+    <InformationalVersion>$(VersionPrefix)</InformationalVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>dedge.ico</ApplicationIcon>
+    
+    <!-- Code Signing Configuration - Uses DedgeSign.ps1 -->
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+    
+    <!-- Deployment Configuration -->
+    <DeploymentPath>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\ServerMonitorTrayIcon</DeploymentPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.0" />
+    <PackageReference Include="System.Management" Version="10.0.0" />
+    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="appsettings.*.json" Condition="Exists('appsettings.*.json')">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <!-- Copy icon file for shortcuts and branding -->
+    <Content Include="dedge.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+  <!-- Debug configuration to verify what's happening -->
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+  </Target>
+
+  <!-- Sign the assembly after build in Release mode using DedgeSign.ps1 -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+    <Message Importance="high" Text="Signing assembly with DedgeSign.ps1..." />
+    <Message Importance="high" Text="Target: $(TargetPath)" />
+    
+    <!-- Use DedgeSign.ps1 for code signing -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+
+  <!-- Sign the published executable after Publish -->
+  <Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <PublishExePath>$(PublishDir)ServerMonitorTrayIcon.exe</PublishExePath>
+    </PropertyGroup>
+    
+    <Message Importance="high" Text="Signing published executable: $(PublishExePath)" />
+    
+    <!-- Use DedgeSign.ps1 to sign the published EXE -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+  </Target>
+
+  <!-- Deploy to DedgeWinApps after publish and signing (Release only) -->
+  <Target Name="DeployToDedgeWinApps" AfterTargets="PostPublishSign" Condition="'$(Configuration)' == 'Release' AND '$(PublishDir)' != ''">
+    <Message Importance="high" Text="========================================" />
+    <Message Importance="high" Text="Deploying to: $(DeploymentPath)" />
+    <Message Importance="high" Text="========================================" />
+    
+    <!-- Create deployment directory if it doesn't exist -->
+    <MakeDir Directories="$(DeploymentPath)" Condition="!Exists('$(DeploymentPath)')" />
+    
+    <!-- Copy all published files to deployment path -->
+    <ItemGroup>
+      <PublishedFiles Include="$(PublishDir)**\*.*" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(PublishedFiles)" 
+          DestinationFolder="$(DeploymentPath)\%(RecursiveDir)" 
+          OverwriteReadOnlyFiles="true"
+          SkipUnchangedFiles="false" />
+    
+    <Message Importance="high" Text="✅ Deployment complete: $(DeploymentPath)" />
+  </Target>
+
+</Project>

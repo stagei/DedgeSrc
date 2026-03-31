@@ -1,0 +1,46 @@
+{
+  "tableName": "BESTLIN",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "FunctionKey",
+      "description": "Unique key for the function or record",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "VAREGR",
+      "futureName": "ProductGroup",
+      "description": "Group to which the product belongs",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "SupplierNumber",
+      "description": "Unique number of the supplier",
+      "foreignKey": "LEVERANDOR.LEVNR"
+    },
+    {
+      "name": "LEVNAVN",
+      "futureName": "SupplierName",
+      "description": "Name of the supplier",
+      "foreignKey": null
+    },
+    {
+      "name": "BEST_FKNR",
+      "futureName": "BestOrderNumber",
+      "description": "Unique key for the best order or record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:47:33"
+}

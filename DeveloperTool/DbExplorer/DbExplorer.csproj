@@ -1,0 +1,143 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    
+    <!-- EXE icon -->
+    <ApplicationIcon>Resources\dEdge.ico</ApplicationIcon>
+    
+    <!-- Assembly Information -->
+    <AssemblyName>DbExplorer</AssemblyName>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
+    <Version>1.0.2</Version>
+    <Copyright>Copyright © 2025</Copyright>
+    <Company>Internal Use</Company>
+    <Product>DbExplorer</Product>
+    <Description>Modern DB2 Database Editor for Windows 11</Description>
+    <Authors>Development Team</Authors>
+    
+    <!-- Application Information -->
+    <NeutralLanguage>en-US</NeutralLanguage>
+    
+    <!-- DPI Awareness Manifest -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- Exclude test projects and tray project from compilation -->
+  <ItemGroup>
+    <Compile Remove="DbExplorer.AutoTests\**" />
+    <EmbeddedResource Remove="DbExplorer.AutoTests\**" />
+    <None Remove="DbExplorer.AutoTests\**" />
+    <Page Remove="DbExplorer.AutoTests\**" />
+    <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="Tests\**" />
+    <Page Remove="Tests\**" />
+    <Compile Remove="DbExplorerTray\**" />
+    <EmbeddedResource Remove="DbExplorerTray\**" />
+    <None Remove="DbExplorerTray\**" />
+    <Page Remove="DbExplorerTray\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2535.41" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+    <PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
+    <PackageReference Include="Npgsql" Version="9.0.1" />
+    <PackageReference Include="NLog" Version="6.0.6" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.0.6" />
+    <PackageReference Include="NLog.Schema" Version="6.0.6" />
+    <PackageReference Include="PoorMansTSQLFormatter" Version="1.4.3.1" />
+    <PackageReference Include="SqlMermaidErdTools" Version="0.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\SyntaxHighlighting\DB2SQL.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\MermaidDesigner.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Resources\dEdge.ico" />
+    <Resource Include="Resources\Providers\db2.png" />
+    <Resource Include="Resources\Providers\postgresql.png" />
+    <Resource Include="Resources\Providers\sqlite.png" />
+    <None Include="Resources\dEdge.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ConfigFiles\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Docs\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Docs\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+  
+  <!-- SqlMermaidErdTools v0.3.1+ auto-deploys Python scripts via build targets -->
+
+  <!-- Code Signing Configuration -->
+  <PropertyGroup>
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+    <SignScriptPath Condition="'$(SignScriptPath)' == ''">dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1</SignScriptPath>
+    <CurrentUser>$([System.Environment]::UserName.ToUpper())</CurrentUser>
+    <IsFkUser>$([System.Text.RegularExpressions.Regex]::IsMatch($(CurrentUser), '^FK'))</IsFkUser>
+  </PropertyGroup>
+
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign), FK user: $(IsFkUser)" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true' AND $(IsFkUser)">
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+
+  <Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND $(IsFkUser) AND '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <PublishExePath>$(PublishDir)DbExplorer.exe</PublishExePath>
+    </PropertyGroup>
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+  </Target>
+
+  <!-- Copy DbExplorerTray files to output directory after build -->
+  <Target Name="CopyTrayApp" AfterTargets="Build">
+    <PropertyGroup>
+      <TrayAppDir>$(MSBuildProjectDirectory)\DbExplorerTray\bin\$(Configuration)\$(TargetFramework)\</TrayAppDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <TrayAppFiles Include="$(TrayAppDir)DbExplorerTray.exe" />
+      <TrayAppFiles Include="$(TrayAppDir)DbExplorerTray.dll" />
+      <TrayAppFiles Include="$(TrayAppDir)DbExplorerTray.deps.json" />
+      <TrayAppFiles Include="$(TrayAppDir)DbExplorerTray.runtimeconfig.json" />
+      <TrayAppFiles Include="$(TrayAppDir)DbExplorerTray.pdb" Condition="Exists('$(TrayAppDir)DbExplorerTray.pdb')" />
+    </ItemGroup>
+    <Copy SourceFiles="@(TrayAppFiles)" DestinationFolder="$(OutputPath)" Condition="Exists('$(TrayAppDir)DbExplorerTray.exe')" SkipUnchangedFiles="true" />
+    <Message Text="Copied DbExplorerTray files to output directory" Importance="high" Condition="Exists('$(TrayAppDir)DbExplorerTray.exe')" />
+    <Warning Text="DbExplorerTray not found at $(TrayAppDir) - tray icon will not work" Condition="!Exists('$(TrayAppDir)DbExplorerTray.exe')" />
+  </Target>
+
+</Project>

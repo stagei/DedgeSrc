@@ -1,0 +1,259 @@
+{
+  "program": "OSFILVA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:14",
+  "variableFilenames": {
+    "EKSPORTFIL": {
+      "logicalName": "EKSPORTFIL",
+      "physicalVariable": "WW-EKSPORTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:22:50"
+    },
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:23:14"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:7b0239b2a2b51911bb72111acc9ebb148912f974b45823f1c5b4f50c5e93ad40",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OSFILVA.CBL",
+    "actualName": "OSFILVA",
+    "program": "OSFILVA",
+    "copyElements": [
+      {
+        "name": "GMALIKE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVATV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OSFILVA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEPR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RABNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRDK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VATS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OSFILVA.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "V",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "S",
+        "tableName": "EGENSKAP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VARE_AVTALE_SPERRE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_KUNDE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_BRING_VARER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_BRING_FRIGO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KONV_OPT_BUT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVERINGSKODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORDEL_BRING_KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TONNVARERAB1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KOMMUNENR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMACOMP",
+      "GMAPATH",
+      "GMALOKC",
+      "GMAPRTR",
+      "GMAVATV",
+      "GMAOSNT",
+      "GMACNCT",
+      "D01B912",
+      "GMALIKE",
+      "GMAAKTI",
+      "GMATEPR",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "EKSPORTFIL",
+        "physicalName": "WW-EKSPORTFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRTFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:23:14"
+  }
+}

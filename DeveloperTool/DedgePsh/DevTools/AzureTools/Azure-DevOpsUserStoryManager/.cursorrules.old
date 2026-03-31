@@ -1,0 +1,169 @@
+﻿# Azure-DevOpsUserStoryManager Local Rules
+
+## Overview
+
+This folder contains the Azure DevOps work item management script and supporting files.
+
+**Main Script:** `Azure-DevOpsUserStoryManager.ps1`
+
+---
+
+## Available Actions
+
+| Action | Purpose | Required Parameters |
+|--------|---------|-------------------|
+| `Get` | Retrieve work item details | `-WorkItemId` |
+| `Update` | Modify work item description | `-WorkItemId`, `-Description` |
+| `Comment` | Add discussion comment | `-WorkItemId`, `-Comment` |
+| `Attach` | Upload file attachment | `-WorkItemId`, `-FilePath` |
+| `Link` | Add repository link or hyperlink | `-WorkItemId`, `-Url`, `-Title` |
+| `Status` | Change work item state | `-WorkItemId`, `-State` |
+| `Subtask` | Create child task | `-WorkItemId`, `-Title`, `-Description` |
+| `AddTags` | Add tags to work item | `-WorkItemId`, `-Tags` (semicolon-separated) |
+
+---
+
+## Language Standards
+
+- **Titles and descriptions for new work items**: Use **Norwegian** (Bokmål)
+- **Comments**: Can be English or Norwegian, prefer Norwegian for consistency
+- **Tags**: Use English for technical tags (e.g., `BugFix`, `Tested`, `ReadyForReview`)
+
+---
+
+## State Transitions (Authoritative)
+
+**Valid state transitions:**
+```
+New → Active          (when starting work)
+Active → Resolved     (work complete, pending review)
+Resolved → Closed     (reviewed and approved)
+Active → Closed       (work cancelled or rejected)
+Any → Removed         (if cancelled)
+```
+
+**Always validate** before changing state. Use the most appropriate state for current work status.
+
+---
+
+## Norwegian Templates
+
+**User Story (Brukerhistorie):**
+```
+Title: "Implementer [funksjon]"
+Description: "Implementert [funksjon] med [detaljer]."
+```
+
+**Task (Oppgave):**
+```
+Title: "Opprett [komponent/funksjon]"
+Description: "Opprettet [komponent] som [formål]."
+```
+
+**Bug (Feil):**
+```
+Title: "Fikset [problem]"
+Description: "Fikset feil hvor [problembeskrivelse]. Løsning: [løsningsdetaljer]."
+```
+
+**Feature (Funksjonalitet):**
+```
+Title: "Ny funksjon: [funksjonsnavn]"
+Description: "Implementert ny funksjon for å [formål]."
+```
+
+**Automatic Title Generation:**
+- New function: `"Implementer funksjonen [FunctionName]"`
+- Bug fix: `"Fikset feil: [ProblemDescription]"`
+- Refactoring: `"Refaktorert [ComponentName]"`
+- New script: `"Opprettet skript: [ScriptName]"`
+- Configuration update: `"Oppdatert konfigurasjon for [System]"`
+
+---
+
+## Usage Examples
+
+**Get work item details:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action Get
+```
+
+**Update description:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action Update `
+    -Description "Updated requirements based on stakeholder feedback"
+```
+
+**Add comment:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action Comment `
+    -Comment "Implementation completed and tested"
+```
+
+**Link code file:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action Link `
+    -Url "DevTools/AdminTools/NewFeature/Implementation.ps1" `
+    -Title "Implementation: Implementation.ps1"
+```
+
+**Change status:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action Status -State "Resolved"
+```
+
+**Add tags:**
+```powershell
+.\Azure-DevOpsUserStoryManager.ps1 -WorkItemId 12345 -Action AddTags `
+    -Tags "Implemented;Tested;ReadyForReview"
+```
+
+---
+
+## Context Detection
+
+**Auto-detect work item ID from:**
+- Branch names: `feature/12345-feature-name` → ID: 12345
+- Commit messages: `"Fix #12345: Bug description"` → ID: 12345
+- File comments: `# Related to work item 12345`
+- User mentions: "This fixes story 12345"
+
+**Auto-detect actions based on:**
+- File changes: Link modified files to work item
+- New documentation: Attach PDF/MD files
+- Test files created: Create testing subtask
+- README updates: Add documentation comment
+
+---
+
+## Best Practices
+
+1. **Always link code files** when updating work items related to code changes
+2. **Update status promptly** - Keep work item status current (Active during work, Resolved when done)
+3. **Add context in comments** - Explain what was done and why, not just "done"
+4. **Attach documentation** - Any specifications, designs, or documentation should be attached
+5. **Create subtasks** - Break down large stories into manageable subtasks
+6. **Tag appropriately** - Use tags for easy filtering and reporting
+
+---
+
+## Error Handling
+
+If any command fails:
+1. Report the error clearly with context
+2. Suggest manual intervention if needed
+3. Continue with remaining operations if applicable
+4. Provide the work item URL for manual updates:
+   `https://dev.azure.com/Dedge/Dedge/_workitems/edit/{WorkItemId}`
+
+---
+
+## Configuration
+
+Uses GlobalFunctions configuration:
+- `Get-AzureDevOpsOrganization` → "Dedge"
+- `Get-AzureDevOpsProject` → "Dedge"
+- `Get-AzureDevOpsPat` → PAT token (user-specific)
+- `Get-AzureDevOpsRepository` → "DedgePsh"
+
+**PAT Manager Location:** `DevTools/AzureTools/Azure-DevOpsPAT-Manager/`

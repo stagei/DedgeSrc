@@ -1,0 +1,176 @@
+# Pipeline-to-LINQ Conversion
+
+## Purpose
+
+Convert complex PowerShell pipeline expressions into equivalent C# LINQ chains or explicit loops. The AST converter handles simple pipelines (Where-Object, ForEach-Object, Sort-Object with single properties) but tags complex multi-stage or non-standard pipeline patterns for AI resolution.
+
+## When to Use
+
+For `AI:PIPELINE_COMPLEX` tags in the converted C# scaffold. These appear when:
+- A pipeline step has no direct LINQ equivalent (e.g. `Tee-Object`, `Out-String`)
+- Multi-property Sort-Object (`Sort-Object Name, Date -Descending`)
+- Group-Object with complex key expressions
+- Measure-Object with multiple aggregation switches
+- ForEach-Object with multi-statement bodies that need explicit loops
+- Chained pipelines with side effects that cannot be expressed as pure LINQ
+
+## Prompt Template
+
+```
+Convert the following PowerShell pipeline expression to C# LINQ or an explicit loop.
+
+MAPPING RULES:
+- Where-Object { condition }  →  .Where(item => condition)
+- ForEach-Object { body }     →  .Select(item => body)  OR explicit foreach when body has side effects
+- Sort-Object Prop            →  .OrderBy(item => item.Prop)
+- Sort-Object Prop -Desc      →  .OrderByDescending(item => item.Prop)
+- Sort-Object P1, P2          →  .OrderBy(x => x.P1).ThenBy(x => x.P2)
+- Select-Object -Property A,B →  .Select(x => new { x.A, x.B })
+- Select-Object -First N      →  .Take(N)
+- Select-Object -Skip N       →  .Skip(N)
+- Select-Object -Unique        →  .Distinct()
+- Select-Object -ExpandProperty P → .Select(x => x.P)
+- Group-Object Prop            →  .GroupBy(x => x.Prop)
+- Measure-Object               →  .Count()
+- Measure-Object -Sum          →  .Sum()  or .Sum(x => x.Prop)
+- Measure-Object -Average      →  .Average()  or .Average(x => x.Prop)
+- Measure-Object -Maximum      →  .Max()  or .Max(x => x.Prop)
+- Measure-Object -Minimum      →  .Min()  or .Min(x => x.Prop)
+- Out-Null                      →  discard (no LINQ equivalent needed)
+- Tee-Object -Variable X       →  assign to variable mid-chain, then continue
+- Out-String                    →  string.Join(Environment.NewLine, ...)
+
+SIDE EFFECT RULE:
+If the pipeline body modifies external state (writes to console, appends to a list, modifies a variable outside the lambda), convert to an explicit `foreach` loop instead of LINQ `.Select()`.
+
+MATERIALIZATION:
+- If the result is iterated multiple times, add `.ToList()` to materialize
+- If only the first/last element is needed, use `.First()` / `.Last()` / `.FirstOrDefault()`
+
+=== ORIGINAL POWERSHELL PIPELINE ===
+{PipelineSource}
+
+=== CURRENT BEST-EFFORT C# ===
+{BestEffortCs}
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{PipelineSource}` | The original PowerShell pipeline expression (from the `Source:` line in the AI tag) |
+| `{BestEffortCs}` | The best-effort C# code emitted alongside the tag (may be partial or empty) |
+
+## Response Format
+
+A C# expression or statement block. Not a full file — just the LINQ chain or loop.
+
+```csharp
+var result = items
+    .Where(item => item.Status == "Active")
+    .OrderBy(item => item.Name)
+    .Select(item => new { item.Name, item.Total })
+    .ToList();
+```
+
+Or for side-effect pipelines:
+
+```csharp
+foreach (var item in items.Where(x => x.IsValid))
+{
+    Logger.Info($"Processing: {item.Name}");
+    processedItems.Add(item);
+}
+```
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. The response replaces the `/* AI:PIPELINE_COMPLEX ... */` comment and any best-effort code
+3. Ensure `using System.Linq;` is present in the file
+
+## Model Guidance
+
+- **Ollama minimum**: `qwen2.5:7b` — sufficient for single-stage pipeline conversions
+- **Better**: `qwen2.5:32b` for multi-stage pipelines with GROUP BY + aggregation
+- **Cursor CLI**: any model works, this is a focused local transformation
+- Most pipeline conversions are straightforward LINQ mappings
+- The main complexity is deciding between `.Select()` (pure) and `foreach` (side effects)
+
+## Examples
+
+### Simple multi-stage pipeline
+
+**PowerShell:**
+```powershell
+$active = $users | Where-Object { $_.Status -eq 'Active' } | Sort-Object LastName | Select-Object -First 10
+```
+
+**C#:**
+```csharp
+var active = users
+    .Where(user => user.Status == "Active")
+    .OrderBy(user => user.LastName)
+    .Take(10)
+    .ToList();
+```
+
+### Pipeline with side effects
+
+**PowerShell:**
+```powershell
+$files | Where-Object { $_.Length -gt 1MB } | ForEach-Object {
+    Write-LogMessage "Large file: $($_.Name)" -Level WARN
+    $largeFiles += $_
+}
+```
+
+**C#:**
+```csharp
+foreach (var file in files.Where(f => f.Length > 1_048_576))
+{
+    Logger.Warn($"Large file: {file.Name}");
+    largeFiles.Add(file);
+}
+```
+
+### Group + Aggregate
+
+**PowerShell:**
+```powershell
+$summary = $orders | Group-Object Department | ForEach-Object {
+    [PSCustomObject]@{
+        Department = $_.Name
+        Count = $_.Count
+        Total = ($_.Group | Measure-Object Amount -Sum).Sum
+    }
+}
+```
+
+**C#:**
+```csharp
+var summary = orders
+    .GroupBy(o => o.Department)
+    .Select(g => new
+    {
+        Department = g.Key,
+        Count = g.Count(),
+        Total = g.Sum(o => o.Amount)
+    })
+    .ToList();
+```
+
+### Multi-property Sort
+
+**PowerShell:**
+```powershell
+$sorted = $items | Sort-Object Category, @{Expression='Price'; Descending=$true}
+```
+
+**C#:**
+```csharp
+var sorted = items
+    .OrderBy(x => x.Category)
+    .ThenByDescending(x => x.Price)
+    .ToList();
+```

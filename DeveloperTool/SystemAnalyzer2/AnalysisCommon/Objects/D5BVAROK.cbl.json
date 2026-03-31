@@ -1,0 +1,97 @@
+{
+  "program": "D5BVAROK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:38",
+  "extraction": {
+    "sourceHash": "sha256:858506bd769c3dfb80ac82b8726b257af9b2c24ec097bc5cfbb8edb6433b7799",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\D5BVAROK.CBL",
+    "actualName": "D5BVAROK",
+    "program": "D5BVAROK",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_UTTREKK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_MANGLER_PRIS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3_FKNR_MANGLER_PRIS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKNR_LOG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMADIR",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "D5BVAROK.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D5BVAROK.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:38"
+  }
+}

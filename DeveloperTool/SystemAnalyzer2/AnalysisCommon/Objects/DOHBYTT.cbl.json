@@ -1,0 +1,275 @@
+{
+  "program": "DOHBYTT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:06:05",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DOHBYTT",
+    "program": "DOHBYTT",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHFLYB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "DOARAPP",
+      "GMACOCO",
+      "RKVFLYB",
+      "GMVMAL2",
+      "GMFFELL",
+      "GMAMOMS",
+      "GMACURT",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "DOHBYTT.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\DOHBYTT.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INCBL-FIL",
+        "physicalName": "WW-INCBL-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "UTCBL-FIL",
+        "physicalName": "WW-UTCBL-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "DIR-FIL",
+        "physicalName": "WW-DIR-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "RES-FIL",
+        "physicalName": "WW-RES-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "AMUP-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FILER-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "HIST-FILE",
+        "physicalName": "W-HIST-FILENAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEIL-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "SAMLE-FILE",
+        "physicalName": "ALFRA.DAT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ALFRA.DAT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "STORK-FILE",
+        "physicalName": "STORK.AKK",
+        "path": "H:\\FORSERV",
+        "fullPath": "H:\\FORSERV\\STORK.AKK",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:06:05"
+  }
+}

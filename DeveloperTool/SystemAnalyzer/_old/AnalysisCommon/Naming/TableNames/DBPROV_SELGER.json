@@ -1,0 +1,82 @@
+{
+  "tableName": "DBPROV_SELGER",
+  "futureName": "ProvisionSelection",
+  "namespace": "Sales",
+  "columns": [
+    {
+      "name": "periodeFom",
+      "futureName": "PeriodStart",
+      "description": "The start date of the period",
+      "foreignKey": null
+    },
+    {
+      "name": "selger",
+      "futureName": "SalespersonCode",
+      "description": "Unique code for the salesperson",
+      "foreignKey": "DBPROV_STRUKT"
+    },
+    {
+      "name": "periodeTom",
+      "futureName": "PeriodEnd",
+      "description": "The end date of the period",
+      "foreignKey": null
+    },
+    {
+      "name": "selgerAvtType",
+      "futureName": "SalespersonAgreementType",
+      "description": "Type of salesperson agreement",
+      "foreignKey": "DBPROV_STRUKT"
+    },
+    {
+      "name": "selgerTeam",
+      "futureName": "SalesTeamCode",
+      "description": "Unique code for the sales team",
+      "foreignKey": null
+    },
+    {
+      "name": "ansattPros",
+      "futureName": "EmployeeProvisionCode",
+      "description": "Unique code for the employee's provision",
+      "foreignKey": "DBPROV_STRUKT"
+    },
+    {
+      "name": "ansattNr",
+      "futureName": "EmployeeNumber",
+      "description": "The unique number of the employee",
+      "foreignKey": "PROREGN_PROSJEKT"
+    },
+    {
+      "name": "provGrenseEgen",
+      "futureName": "ProvisionSelfLimit",
+      "description": "The self-imposed provision limit",
+      "foreignKey": null
+    },
+    {
+      "name": "provGrenseTot",
+      "futureName": "TotalProvisionLimit",
+      "description": "The total provision limit",
+      "foreignKey": null
+    },
+    {
+      "name": "forskuddFlg",
+      "futureName": "AdvanceFlag",
+      "description": "Indicator for whether an advance has been given",
+      "foreignKey": null
+    },
+    {
+      "name": "forskuddBel",
+      "futureName": "AdvanceAmount",
+      "description": "The amount of the advance",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when this record was created or last updated",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:07:35"
+}

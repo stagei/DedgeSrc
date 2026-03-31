@@ -1,0 +1,1055 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoDoc - Code Documentation</title>
+  <link rel="icon" type="image/x-icon" href="./_images/dedge.ico">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables Bootstrap 5 -->
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    /* Theme CSS Variables */
+    :root {
+      /* Light Theme (default) */
+      --bg-primary: #f8fafc;
+      --bg-secondary: #e2e8f0;
+      --bg-card: #ffffff;
+      --bg-hover: #f1f5f9;
+      --accent-cobol: #0891b2;
+      --accent-bat: #ea580c;
+      --accent-ps1: #2563eb;
+      --accent-rex: #7c3aed;
+      --accent-sql: #059669;
+      --accent-csharp: #dc2626;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --border-color: #cbd5e1;
+      --shadow-glow: rgba(8, 145, 178, 0.15);
+      --gradient-start: rgba(8, 145, 178, 0.08);
+      --gradient-end: rgba(37, 99, 235, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1a1a2e;
+      --bg-secondary: #252542;
+      --bg-card: #2d2d4a;
+      --bg-hover: #3a3a5c;
+      --accent-cobol: #4fc3f7;
+      --accent-bat: #ffab40;
+      --accent-ps1: #64b5f6;
+      --accent-rex: #b388ff;
+      --accent-sql: #4ade80;
+      --accent-csharp: #f87171;
+      --text-primary: #f5f5f5;
+      --text-secondary: #b0b0c0;
+      --text-muted: #8888a0;
+      --border-color: #4a4a6a;
+      --shadow-glow: rgba(79, 195, 247, 0.2);
+      --gradient-start: rgba(79, 195, 247, 0.1);
+      --gradient-end: rgba(100, 181, 246, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Gradient background effect */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 0%, var(--gradient-start) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, var(--gradient-end) 0%, transparent 50%),
+        var(--bg-primary);
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    .container-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-section img {
+      height: 48px;
+      width: auto;
+    }
+
+    .title-section h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(135deg, var(--accent-cobol), var(--accent-ps1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .title-section p {
+      margin: 0.25rem 0 0 0;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent-cobol);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      display: flex;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 4px;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .theme-toggle-btn.active {
+      background: var(--bg-card);
+      color: var(--accent-cobol);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Tab Navigation */
+    .nav-tabs-custom {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--bg-secondary);
+      padding: 0.5rem;
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .nav-tab-btn.active {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .nav-tab-btn.active.cobol { border-left: 3px solid var(--accent-cobol); }
+    .nav-tab-btn.active.bat { border-left: 3px solid var(--accent-bat); }
+    .nav-tab-btn.active.ps1 { border-left: 3px solid var(--accent-ps1); }
+    .nav-tab-btn.active.rex { border-left: 3px solid var(--accent-rex); }
+    .nav-tab-btn.active.sql { border-left: 3px solid var(--accent-sql); }
+    .nav-tab-btn.active.csharp { border-left: 3px solid var(--accent-csharp); }
+
+    .nav-tab-btn .icon {
+      font-size: 1.1rem;
+    }
+
+    .nav-tab-btn .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-tab-btn.active .badge {
+      background: var(--accent-cobol);
+      color: white;
+    }
+
+    .nav-tab-btn.active.bat .badge { background: var(--accent-bat); }
+    .nav-tab-btn.active.ps1 .badge { background: var(--accent-ps1); }
+    .nav-tab-btn.active.rex .badge { background: var(--accent-rex); }
+    .nav-tab-btn.active.sql .badge { background: var(--accent-sql); }
+    .nav-tab-btn.active.csharp .badge { background: var(--accent-csharp); }
+
+    /* Tab Content */
+    .tab-content-custom {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Filter section */
+    .filter-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Search box */
+    .search-wrapper {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .dataTables_filter {
+      display: none !important;
+    }
+
+    .custom-search {
+      position: relative;
+      max-width: 400px;
+    }
+
+    .custom-search input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .custom-search input:focus {
+      outline: none;
+      border-color: var(--accent-cobol);
+      box-shadow: 0 0 0 3px var(--shadow-glow);
+    }
+
+    .custom-search input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .custom-search .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* DataTable Styling */
+    .table {
+      width: 100% !important;
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      border-top: none;
+    }
+
+    .table tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    .table tbody tr:hover {
+      background: var(--bg-hover) !important;
+    }
+
+    .table tbody td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      color: var(--text-primary);
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Links in table */
+    .table a {
+      color: var(--accent-ps1);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      transition: color 0.15s ease;
+    }
+
+    .table a:hover {
+      color: #90caf9;
+      text-decoration: underline;
+    }
+
+    [data-theme="dark"] .table a {
+      color: #64b5f6;
+    }
+
+    [data-theme="dark"] .table a:hover {
+      color: #90caf9;
+    }
+
+    /* Type badge */
+    .type-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary) !important;
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.15rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: var(--bg-hover) !important;
+      border-color: var(--accent-cobol);
+      color: var(--text-primary) !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+      background: var(--accent-cobol) !important;
+      border-color: var(--accent-cobol);
+      color: white !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+      opacity: 0.5;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding-top: 1rem;
+    }
+
+    /* Ensure DataTables uses full width */
+    .dataTables_wrapper {
+      width: 100%;
+    }
+
+    .dataTables_scroll {
+      width: 100% !important;
+    }
+
+    .dataTables_scrollHead, .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    /* Loading & Empty States */
+    .loading-spinner {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .loading-spinner .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-cobol);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container-main {
+        padding: 1rem;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .header-right {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stats-bar {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .nav-tabs-custom {
+        flex-wrap: wrap;
+      }
+
+      .nav-tab-btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 100px;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.75rem;
+      }
+
+      .nav-tab-btn span:not(.badge) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  
+  <div class="container-main">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-section">
+        <img src="./_images/dedge.svg" alt="Dedge">
+        <div class="title-section">
+          <h1>AutoDoc</h1>
+          <p>Code Documentation & Flowcharts</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value" id="total-count">-</div>
+            <div class="stat-label">Total</div>
+          </div>
+        </div>
+        <!-- Theme Toggle -->
+        <div class="theme-toggle" title="Toggle theme">
+          <button class="theme-toggle-btn" id="theme-light" onclick="setTheme('light')" title="Light mode">
+            <i class="bi bi-sun-fill"></i>
+          </button>
+          <button class="theme-toggle-btn" id="theme-dark" onclick="setTheme('dark')" title="Dark mode">
+            <i class="bi bi-moon-fill"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="nav-tabs-custom" role="tablist">
+      <button class="nav-tab-btn active cobol" data-tab="cobol" role="tab">
+        <i class="bi bi-code-square icon"></i>
+        <span>COBOL</span>
+        <span class="badge" id="cobol-badge">0</span>
+      </button>
+      <button class="nav-tab-btn bat" data-tab="bat" role="tab">
+        <i class="bi bi-terminal icon"></i>
+        <span>BAT</span>
+        <span class="badge" id="bat-badge">0</span>
+      </button>
+      <button class="nav-tab-btn ps1" data-tab="ps1" role="tab">
+        <i class="bi bi-filetype-sh icon"></i>
+        <span>PowerShell</span>
+        <span class="badge" id="ps1-badge">0</span>
+      </button>
+      <button class="nav-tab-btn rex" data-tab="rex" role="tab">
+        <i class="bi bi-file-code icon"></i>
+        <span>REXX</span>
+        <span class="badge" id="rex-badge">0</span>
+      </button>
+      <button class="nav-tab-btn sql" data-tab="sql" role="tab">
+        <i class="bi bi-database icon"></i>
+        <span>SQL</span>
+        <span class="badge" id="sql-badge">0</span>
+      </button>
+      <button class="nav-tab-btn csharp" data-tab="csharp" role="tab">
+        <i class="bi bi-braces icon"></i>
+        <span>C#</span>
+        <span class="badge" id="csharp-badge">0</span>
+      </button>
+    </nav>
+
+    <!-- Tab Content -->
+    <div class="tab-content-custom">
+      <!-- COBOL Tab -->
+      <div class="tab-pane active" id="cobol" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="cobol-search" placeholder="Search COBOL programs...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="cobol-loading">
+          <div class="spinner"></div>
+          <span>Loading COBOL programs...</span>
+        </div>
+        <table id="cobolTable" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 25%">Program</th>
+              <th style="width: 40%">Description</th>
+              <th style="width: 20%">System</th>
+              <th style="width: 15%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- BAT Tab -->
+      <div class="tab-pane" id="bat" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="bat-search" placeholder="Search batch scripts...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="bat-loading">
+          <div class="spinner"></div>
+          <span>Loading batch scripts...</span>
+        </div>
+        <table id="batTable" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 70%">Script</th>
+              <th style="width: 30%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- PS1 Tab -->
+      <div class="tab-pane" id="ps1" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="ps1-search" placeholder="Search PowerShell scripts...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="ps1-loading">
+          <div class="spinner"></div>
+          <span>Loading PowerShell scripts...</span>
+        </div>
+        <table id="ps1Table" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 70%">Script</th>
+              <th style="width: 30%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- REX Tab -->
+      <div class="tab-pane" id="rex" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="rex-search" placeholder="Search REXX scripts...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="rex-loading">
+          <div class="spinner"></div>
+          <span>Loading REXX scripts...</span>
+        </div>
+        <table id="rexTable" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 70%">Script</th>
+              <th style="width: 30%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- SQL Tab -->
+      <div class="tab-pane" id="sql" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="sql-search" placeholder="Search tables...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="sql-loading">
+          <div class="spinner"></div>
+          <span>Loading SQL tables...</span>
+        </div>
+        <table id="sqlTable" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 30%">Table Name</th>
+              <th style="width: 50%">Description</th>
+              <th style="width: 20%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- C# Tab -->
+      <div class="tab-pane" id="csharp" role="tabpanel">
+        <div class="filter-section">
+          <div class="search-wrapper">
+            <div class="custom-search">
+              <i class="bi bi-search search-icon"></i>
+              <input type="text" id="csharp-search" placeholder="Search C# projects...">
+            </div>
+          </div>
+        </div>
+        <div class="loading-spinner" id="csharp-loading">
+          <div class="spinner"></div>
+          <span>Loading C# projects...</span>
+        </div>
+        <table id="csharpTable" class="table" style="display:none;">
+          <thead>
+            <tr>
+              <th style="width: 30%">Project</th>
+              <th style="width: 50%">Description</th>
+              <th style="width: 20%">Type</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>AutoDoc &copy; Dedge AS &bull; Generated documentation for legacy code systems</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+    // Theme management
+    function getPreferredTheme() {
+      const stored = localStorage.getItem('autodoc-theme');
+      if (stored) return stored;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('autodoc-theme', theme);
+      updateThemeButtons(theme);
+    }
+
+    function updateThemeButtons(theme) {
+      document.getElementById('theme-light').classList.toggle('active', theme === 'light');
+      document.getElementById('theme-dark').classList.toggle('active', theme === 'dark');
+    }
+
+    // Initialize theme
+    setTheme(getPreferredTheme());
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('autodoc-theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        
+        // Update buttons
+        document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Update panes
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // DataTable configurations
+    const tableConfig = {
+      paging: true,
+      pageLength: 25,
+      lengthChange: false,
+      info: true,
+      ordering: true,
+      order: [[0, 'asc']],
+      language: {
+        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+        infoEmpty: 'No entries found',
+        emptyTable: 'No data available'
+      }
+    };
+
+    // Initialize tables
+    let cobolTable, batTable, ps1Table, rexTable, sqlTable, csharpTable;
+    let totalCount = 0;
+
+    // Track counts for total
+    const counts = { cobol: 0, bat: 0, ps1: 0, rex: 0, sql: 0, csharp: 0 };
+
+    function updateTotalCount() {
+      // Use || 0 to handle undefined values during async loading
+      totalCount = (counts.cobol || 0) + (counts.bat || 0) + (counts.ps1 || 0) + (counts.rex || 0) + (counts.sql || 0) + (counts.csharp || 0);
+      $('#total-count').text(totalCount);
+    }
+
+    $(document).ready(function() {
+      // Initialize total count to 0
+      updateTotalCount();
+      
+      loadCobolData();
+      loadBatData();
+      loadPs1Data();
+      loadRexData();
+      loadSqlData();
+      loadCSharpData();
+    });
+
+    function loadCobolData() {
+      $.ajax({
+        url: './_json/CblParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#cobol-loading').hide();
+          $('#cobolTable').show();
+          
+          cobolTable = $('#cobolTable').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'programNameLink' },
+              { data: 'description' },
+              { data: 'system' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.cobol = data.length;
+          $('#cobol-badge').text(data.length);
+          updateTotalCount();
+
+          // Custom search
+          $('#cobol-search').on('keyup', function() {
+            cobolTable.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#cobol-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No COBOL data available</p></div>');
+        }
+      });
+    }
+
+    function loadBatData() {
+      $.ajax({
+        url: './_json/BatParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#bat-loading').hide();
+          $('#batTable').show();
+          
+          batTable = $('#batTable').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'scriptNameLink' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.bat = data.length;
+          $('#bat-badge').text(data.length);
+          updateTotalCount();
+
+          $('#bat-search').on('keyup', function() {
+            batTable.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#bat-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No BAT data available</p></div>');
+        }
+      });
+    }
+
+    function loadPs1Data() {
+      $.ajax({
+        url: './_json/Ps1ParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#ps1-loading').hide();
+          $('#ps1Table').show();
+          
+          ps1Table = $('#ps1Table').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'scriptNameLink' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.ps1 = data.length;
+          $('#ps1-badge').text(data.length);
+          updateTotalCount();
+
+          $('#ps1-search').on('keyup', function() {
+            ps1Table.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#ps1-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No PS1 data available</p></div>');
+        }
+      });
+    }
+
+    function loadRexData() {
+      $.ajax({
+        url: './_json/RexParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#rex-loading').hide();
+          $('#rexTable').show();
+          
+          rexTable = $('#rexTable').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'scriptNameLink' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.rex = data.length;
+          $('#rex-badge').text(data.length);
+          updateTotalCount();
+
+          $('#rex-search').on('keyup', function() {
+            rexTable.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#rex-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No REX data available</p></div>');
+        }
+      });
+    }
+
+    function loadSqlData() {
+      $.ajax({
+        url: './_json/SqlParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#sql-loading').hide();
+          $('#sqlTable').show();
+          
+          sqlTable = $('#sqlTable').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'tableNameLink' },
+              { data: 'description' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.sql = data.length;
+          $('#sql-badge').text(data.length);
+          updateTotalCount();
+
+          // Custom search
+          $('#sql-search').on('keyup', function() {
+            sqlTable.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#sql-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No SQL data available</p></div>');
+        }
+      });
+    }
+
+    function loadCSharpData() {
+      $.ajax({
+        url: './_json/CSharpParseResult.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          $('#csharp-loading').hide();
+          $('#csharpTable').show();
+          
+          csharpTable = $('#csharpTable').DataTable({
+            ...tableConfig,
+            data: data,
+            columns: [
+              { data: 'projectNameLink' },
+              { data: 'description' },
+              { data: 'type' }
+            ]
+          });
+
+          counts.csharp = data.length;
+          $('#csharp-badge').text(data.length);
+          updateTotalCount();
+
+          // Custom search
+          $('#csharp-search').on('keyup', function() {
+            csharpTable.search(this.value).draw();
+          });
+        },
+        error: function() {
+          $('#csharp-loading').html('<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>No C# data available</p></div>');
+          counts.csharp = 0;
+          updateTotalCount();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

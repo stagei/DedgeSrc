@@ -1,0 +1,118 @@
+{
+  "snippets": [
+    {
+      "trigger": "seltop",
+      "name": "SELECT LIMIT",
+      "template": "SELECT * FROM ${1:table} LIMIT ${2:100} OFFSET ${3:0}",
+      "description": "Select with LIMIT and OFFSET"
+    },
+    {
+      "trigger": "cte",
+      "name": "Common Table Expression",
+      "template": "WITH ${1:cte_name} AS (\n\tSELECT ${2:*}\n\tFROM ${3:table}\n)\nSELECT * FROM ${1:cte_name}",
+      "description": "Create a CTE query"
+    },
+    {
+      "trigger": "join",
+      "name": "INNER JOIN",
+      "template": "INNER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add an INNER JOIN clause"
+    },
+    {
+      "trigger": "leftjoin",
+      "name": "LEFT OUTER JOIN",
+      "template": "LEFT OUTER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add a LEFT OUTER JOIN clause"
+    },
+    {
+      "trigger": "ins",
+      "name": "INSERT INTO",
+      "template": "INSERT INTO ${1:table} (${2:columns})\nVALUES (${3:values})",
+      "description": "Insert statement"
+    },
+    {
+      "trigger": "upd",
+      "name": "UPDATE SET WHERE",
+      "template": "UPDATE ${1:table}\nSET ${2:column} = ${3:value}\nWHERE ${4:condition}",
+      "description": "Update statement with WHERE clause"
+    },
+    {
+      "trigger": "del",
+      "name": "DELETE WHERE",
+      "template": "DELETE FROM ${1:table}\nWHERE ${2:condition}",
+      "description": "Delete statement with WHERE clause"
+    },
+    {
+      "trigger": "createtable",
+      "name": "CREATE TABLE",
+      "template": "CREATE TABLE ${1:table_name} (\n\t${2:id} INTEGER PRIMARY KEY AUTOINCREMENT,\n\t${3:name} TEXT NOT NULL,\n\t${4:created_at} TEXT DEFAULT (datetime('now'))\n)",
+      "description": "Create a new table (SQLite)"
+    },
+    {
+      "trigger": "case",
+      "name": "CASE WHEN",
+      "template": "CASE \n\tWHEN ${1:condition} THEN ${2:result}\n\tWHEN ${3:condition2} THEN ${4:result2}\n\tELSE ${5:default}\nEND",
+      "description": "CASE expression"
+    },
+    {
+      "trigger": "exists",
+      "name": "EXISTS subquery",
+      "template": "WHERE EXISTS (\n\tSELECT 1\n\tFROM ${1:table}\n\tWHERE ${2:condition}\n)",
+      "description": "EXISTS clause with subquery"
+    },
+    {
+      "trigger": "groupby",
+      "name": "GROUP BY with HAVING",
+      "template": "GROUP BY ${1:column}\nHAVING ${2:condition}",
+      "description": "GROUP BY clause with HAVING"
+    },
+    {
+      "trigger": "window",
+      "name": "Window Function",
+      "template": "ROW_NUMBER() OVER (PARTITION BY ${1:column} ORDER BY ${2:column} ${3:ASC}) AS ${4:row_num}",
+      "description": "Window function with PARTITION BY"
+    },
+    {
+      "trigger": "upsert",
+      "name": "INSERT OR REPLACE (UPSERT)",
+      "template": "INSERT OR REPLACE INTO ${1:target_table} (${2:columns})\nVALUES (${3:values})",
+      "description": "Upsert with INSERT OR REPLACE"
+    },
+    {
+      "trigger": "conflict",
+      "name": "INSERT ON CONFLICT",
+      "template": "INSERT INTO ${1:target_table} (${2:columns})\nVALUES (${3:values})\nON CONFLICT (${4:key}) DO UPDATE SET\n\t${5:column} = excluded.${5:column}",
+      "description": "Upsert with ON CONFLICT (SQLite 3.24+)"
+    },
+    {
+      "trigger": "sqlitemaster",
+      "name": "Query sqlite_master",
+      "template": "SELECT type, name, tbl_name, sql\nFROM sqlite_master\nWHERE type = '${1:table}'\nORDER BY name",
+      "description": "Query sqlite_master for objects"
+    },
+    {
+      "trigger": "pragma",
+      "name": "PRAGMA table_info",
+      "template": "SELECT * FROM pragma_table_info('${1:table_name}')",
+      "description": "Get column info for a table"
+    },
+    {
+      "trigger": "analyze",
+      "name": "ANALYZE",
+      "template": "ANALYZE ${1:table}",
+      "description": "Update table statistics"
+    },
+    {
+      "trigger": "vacuum",
+      "name": "VACUUM",
+      "template": "VACUUM",
+      "description": "Rebuild database file"
+    },
+    {
+      "trigger": "reindex",
+      "name": "REINDEX",
+      "template": "REINDEX ${1:index_name}",
+      "description": "Rebuild index"
+    }
+  ]
+}

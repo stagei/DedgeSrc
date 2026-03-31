@@ -1,0 +1,46 @@
+{
+  "tableName": "KD_WEB_GODKJENT",
+  "futureName": "GodkjentData",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "dykkerRecNo",
+      "futureName": "DykkerRecNo",
+      "description": "Primary key reference to Dykker record",
+      "foreignKey": "KD_DYRKER_INFO, KD_DYRKER_LOGG, KD_DYRKER_STATUS, KD_DYRKER"
+    },
+    {
+      "name": "aar",
+      "futureName": "Year",
+      "description": "The year associated with the data",
+      "foreignKey": "AH_BESTHODE"
+    },
+    {
+      "name": "type",
+      "futureName": "Type",
+      "description": "Type of data or classification",
+      "foreignKey": "BEHKODER, D365_EKSKLUSJON_HIST"
+    },
+    {
+      "name": "godkjent",
+      "futureName": "IsApproved",
+      "description": "Indicates if the data has been approved",
+      "foreignKey": "KD_OVERL_PARTI, KD_RAAVARE_PARTI, KD_SAF_FRO_PARTI, V_VAREMAAL"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "Identifier for the user who performed the action or made the decision",
+      "foreignKey": "A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the data was approved or changed",
+      "foreignKey": "A_BESTHODE, A_BESTLIN"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:29:17"
+}

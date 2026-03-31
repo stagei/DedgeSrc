@@ -1,0 +1,78 @@
+{
+  "program": "GMHQMFV",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:40",
+  "extraction": {
+    "sourceHash": "sha256:4b4361bd3af0b7622982edee9f633603bfba70d035afa44ee33c7e59dcf4ec1f",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GmhQMFV.cbl",
+    "actualName": "GMHQMFV",
+    "program": "GMHQMFV",
+    "copyElements": [
+      {
+        "name": "QRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHQMFV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GRUPPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "QMF_RAPPORTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "QMF_RAPPORTER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "QMF_RAPPORTER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "QMF_RAPPORTER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMVQMFV",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:40"
+  }
+}

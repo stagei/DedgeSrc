@@ -1,0 +1,118 @@
+{
+  "tableName": "PRISHISTORIKK",
+  "futureName": "PriceHistory",
+  "namespace": "DatabaseModels",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "OrderNumber",
+      "description": "Foreign key reference to the product number in the product register",
+      "foreignKey": "DBM.VAREREGISTER.FKNR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the price history record",
+      "foreignKey": null
+    },
+    {
+      "name": "PRISDATO",
+      "futureName": "PriceDate",
+      "description": "Date associated with the price",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Identifier for the user who made the price change",
+      "foreignKey": null
+    },
+    {
+      "name": "SPRIS",
+      "futureName": "PriceAmount",
+      "description": "Price amount of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TERMINPRIS",
+      "futureName": "TermPriceCode",
+      "description": "Code representing the term price",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT1",
+      "futureName": "Timestamp1",
+      "description": "Duplicate timestamp field, possibly redundant or used for specific purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "TERMPRISTABELL",
+      "futureName": "TermPriceTable",
+      "description": "Indicates the term price table associated with the record",
+      "foreignKey": null
+    },
+    {
+      "name": "LASTCHANGED",
+      "futureName": "LastChangedTimestamp",
+      "description": "Timestamp indicating when the record was last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "PROS_AV_TERMPRIS",
+      "futureName": "PercentageOfTermPrice",
+      "description": "Percentage of the term price that this record represents",
+      "foreignKey": null
+    },
+    {
+      "name": "FORSTE_TERMIN",
+      "futureName": "FirstTerm",
+      "description": "Indicates whether this is the first term in a series of terms",
+      "foreignKey": null
+    },
+    {
+      "name": "VALUTA",
+      "futureName": "CurrencyCode",
+      "description": "Code representing the currency of the price",
+      "foreignKey": null
+    },
+    {
+      "name": "PRISGRUPPE",
+      "futureName": "PriceGroup",
+      "description": "Price group to which the record belongs",
+      "foreignKey": null
+    },
+    {
+      "name": "BERITAKDATO",
+      "futureName": "BatchDate",
+      "description": "Date associated with a batch or transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "ENGROS_PRIS",
+      "futureName": "BulkPriceAmount",
+      "description": "Price amount for bulk purchases",
+      "foreignKey": null
+    },
+    {
+      "name": "KALK_ORDREKL",
+      "futureName": "CalculationOrderKey",
+      "description": "Key used in calculations related to order keys",
+      "foreignKey": null
+    },
+    {
+      "name": "KALK_VALUTAKURS",
+      "futureName": "CalculationExchangeRate",
+      "description": "Exchange rate used in calculations, possibly for currency conversion",
+      "foreignKey": null
+    },
+    {
+      "name": "ADBRUKERID",
+      "futureName": "AdminUserId",
+      "description": "User ID of the admin or system user who last modified the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:30:14"
+}

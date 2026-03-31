@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk;Microsoft.NET.Sdk.Publish">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+  </PropertyGroup>
+  <!-- Clear any existing package sources and add only what we need -->
+  <PropertyGroup>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreSources>
+      https://api.nuget.org/v3/index.json
+    </RestoreSources>
+    <ApplicationIcon>dedge.ico</ApplicationIcon>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <StartupObject>DedgeRemoteConnect.Program</StartupObject>
+  </PropertyGroup>
+  <!-- Debug configuration to verify what's happening -->
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+    <Message Importance="high" Text="Signing assembly..." />
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+  <ItemGroup>
+    <Content Include="dedge.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.4.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0-preview.1.25080.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="ComputerInfo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\dedge.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ComputerInfo.json">
+      <LogicalName>DedgeRemoteConnect.ComputerInfo.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

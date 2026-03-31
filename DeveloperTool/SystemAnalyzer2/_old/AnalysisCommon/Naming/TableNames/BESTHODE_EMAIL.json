@@ -1,0 +1,46 @@
+{
+  "tableName": "BESTHODE_EMAIL",
+  "futureName": "BestHodeEmail",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the order",
+      "foreignKey": "BestHode"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID of the person who initiated or is involved in the email",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the email was processed or sent",
+      "foreignKey": null
+    },
+    {
+      "name": "MAIL_FRA",
+      "futureName": "EmailFrom",
+      "description": "Email address from which the message was sent",
+      "foreignKey": null
+    },
+    {
+      "name": "MAIL_TIL",
+      "futureName": "EmailTo",
+      "description": "Email address to which the message was sent",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:46:43"
+}

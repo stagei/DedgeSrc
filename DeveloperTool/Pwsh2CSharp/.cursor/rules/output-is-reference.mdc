@@ -1,0 +1,49 @@
+---
+description: Pwsh2CSharp output files are authoritative reference artifacts for any rewrite
+globs: ["**/*.cs"]
+alwaysApply: true
+---
+
+# Pwsh2CSharp Output Files Are Authoritative Reference Artifacts
+
+## The Rule
+
+When Pwsh2CSharp generates a C# scaffold file with embedded PowerShell source, that output file becomes an **authoritative reference artifact**. Even if the Pwsh2CSharp parser itself is not used for subsequent conversion work, the output **MUST** be consulted by any AI or developer performing a manual or AI-assisted rewrite.
+
+## Why This Exists
+
+A critical bug was introduced when an AI rewrote PowerShell extraction logic to C# without consulting the Pwsh2CSharp-generated reference file. The V1 PowerShell had a `switch -regex` block that normalized SQL operations (`FROM→SELECT`, `JOIN→SELECT`, `INTO→INSERT`). This mapping was **embedded verbatim** in the Pwsh2CSharp output file. The AI wrote the C# normalization from scratch and got it wrong — keeping `FROM` and `JOIN` as separate operations instead of mapping them to `SELECT`.
+
+The reference file had the exact correct answer. It was never consulted.
+
+## Mandatory Process for Any PowerShell-to-C# Conversion
+
+1. **BEFORE writing any C# logic**: Read the Pwsh2CSharp-generated file for the corresponding PowerShell script
+2. **Find the specific function**: Locate the embedded PowerShell function that maps to the C# method being written
+3. **Verify EVERY mapping**: Especially:
+   - `switch` / `switch -regex` blocks (normalization tables)
+   - Regex patterns and their capture groups
+   - Property names in output objects (`[ordered]@{}` blocks)
+   - Dedup keys and case-sensitivity
+   - Filter conditions and boundary logic
+   - Conditional file generation rules
+4. **Cross-reference, don't guess**: If the PowerShell says `FROM → SELECT`, the C# must say `"FROM" => "SELECT"`. No exceptions.
+
+## What "Don't Use Pwsh2CSharp" Means
+
+When a user says "don't use Pwsh2CSharp" or "abandon Pwsh2CSharp", this means:
+
+- **STOP** running the Pwsh2CSharp parser tool for automated code generation
+- **NEVER STOP** consulting the output files it already generated
+- **NEVER STOP** following the AiProtocols and conventions it established
+- The generated output with embedded PowerShell source is a **permanent reference artifact**
+
+## Output File Format
+
+Pwsh2CSharp output files typically contain:
+- A C# class scaffold with `using` statements and namespace
+- The **complete original PowerShell source** embedded as-is (not comments — actual PowerShell code within the C# file)
+- A header comment: `// AUTO-GENERATED SCAFFOLD — CodeConversion could not process this file.`
+- A note: `// The Cursor Agent CLI cleanup pass will convert from the embedded PowerShell source.`
+
+The embedded PowerShell IS the specification. The C# code must implement it faithfully.

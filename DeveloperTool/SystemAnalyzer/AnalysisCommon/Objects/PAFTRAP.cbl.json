@@ -1,0 +1,91 @@
+{
+  "program": "PAFTRAP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:27b4c2544b609b3245a1737f6afdd68b07966f7a1c3d35ddbae3eaaf947af085",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAFTRAP.cbl",
+    "actualName": "PAFTRAP",
+    "program": "PAFTRAP",
+    "copyElements": [
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "GMFTRAP.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PROGRAM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "CC1",
+      "GMFFELL",
+      "GMACOMP",
+      "GMAOSNT",
+      "GMACOCO",
+      "GMALSQL",
+      "DSRUN"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-LOGG-FIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

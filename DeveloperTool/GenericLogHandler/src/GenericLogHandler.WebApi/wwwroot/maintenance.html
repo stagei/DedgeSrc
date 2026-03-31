@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.maintenance">Maintenance - Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <style>
+        .maint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .maint-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+        }
+        .maint-card h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .maint-card p {
+            margin: 0 0 1rem 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .maint-card .btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+        }
+        .btn-danger:hover { background: #b91c1c; }
+        .btn-warning {
+            background: #d97706;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+        }
+        .btn-warning:hover { background: #b45309; }
+        .btn-success {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+        }
+        .btn-success:hover { background: #15803d; }
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .stat-item {
+            background: var(--bg-secondary);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .result-box.show { display: block; }
+        .result-box.success { border-left: 4px solid #16a34a; }
+        .result-box.error { border-left: 4px solid #dc2626; }
+        .table-health {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+        .table-health th, .table-health td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .table-health th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+        .nav-dropdown:hover .nav-dropdown-content,
+        .nav-dropdown-content:hover {
+            display: block;
+        }
+        .nav-dropdown-content a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-dropdown-content a:hover {
+            background: var(--bg-hover);
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .danger-zone {
+            border: 2px solid #dc2626;
+            background: rgba(220, 38, 38, 0.05);
+        }
+        .loading { opacity: 0.6; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" class="active" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" class="active" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 style="margin: 0 0 1.5rem 0;" data-i18n="maintenance.title">🔧 Maintenance Center</h2>
+
+        <!-- Service Control -->
+        <h3 class="section-title" data-i18n="maintenance.serviceControl">🖥️ Service Control</h3>
+        <div class="maint-grid">
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.importService">📥 Import Service</h4>
+                <p data-i18n="maintenance.importServiceDesc">Windows service that imports log files into the database</p>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-label" data-i18n="common.status">Status</div>
+                        <div class="stat-value" id="importStatus">--</div>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="controlService('import', 'start')" data-i18n="button.start">Start</button>
+                <button class="btn btn-danger" onclick="controlService('import', 'stop')" data-i18n="button.stop">Stop</button>
+            </div>
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.alertAgent">🔔 Alert Agent</h4>
+                <p data-i18n="maintenance.alertAgentDesc">Windows service that monitors logs and triggers alerts</p>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-label" data-i18n="common.status">Status</div>
+                        <div class="stat-value" id="agentStatus">--</div>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="controlService('agent', 'start')" data-i18n="button.start">Start</button>
+                <button class="btn btn-danger" onclick="controlService('agent', 'stop')" data-i18n="button.stop">Stop</button>
+            </div>
+        </div>
+
+        <!-- Database Health -->
+        <h3 class="section-title" data-i18n="maintenance.dbHealth">🗄️ Database Health</h3>
+        <div class="maint-card">
+            <div class="stats-row" id="dbStats">
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.dbSize">Database Size</div>
+                    <div class="stat-value" id="dbSize">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.totalEntries">Total Entries</div>
+                    <div class="stat-value" id="totalEntries">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.protected">Protected</div>
+                    <div class="stat-value" id="protectedEntries">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.autovacuum">Autovacuum</div>
+                    <div class="stat-value" id="autovacuum">--</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="loadDbHealth()" data-i18n="button.refreshHealth">Refresh Health</button>
+            <div id="tableHealthContainer"></div>
+        </div>
+
+        <!-- Database Maintenance -->
+        <h3 class="section-title" data-i18n="maintenance.dbMaintenance">🔧 Database Maintenance</h3>
+        <div class="maint-grid">
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.updateStats">📊 Update Statistics (ANALYZE)</h4>
+                <p data-i18n="maintenance.updateStatsDesc">Update query planner statistics. Fast, no locks. Run after large imports.</p>
+                <button class="btn btn-primary" onclick="runMaintenance('analyze')" data-i18n="button.runAnalyze">Run ANALYZE</button>
+                <div class="result-box" id="analyzeResult"></div>
+            </div>
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.vacuumAnalyze">🧹 Vacuum & Analyze</h4>
+                <p data-i18n="maintenance.vacuumAnalyzeDesc">Reclaim dead tuples and update statistics. Medium speed.</p>
+                <button class="btn btn-primary" onclick="runMaintenance('vacuum-analyze')" data-i18n="button.runVacuumAnalyze">Run VACUUM ANALYZE</button>
+                <button class="btn btn-warning" onclick="runMaintenance('vacuum-analyze', true)" data-i18n="button.runVacuumFull">Run VACUUM FULL</button>
+                <div class="result-box" id="vacuum-analyzeResult"></div>
+            </div>
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.rebuildIndexes">🔄 Rebuild Indexes (REINDEX)</h4>
+                <p data-i18n="maintenance.rebuildIndexesDesc">Rebuild all indexes on log_entries table. Use after large deletes.</p>
+                <button class="btn btn-primary" onclick="runMaintenance('reindex')" data-i18n="button.reindexConcurrent">REINDEX (Concurrent)</button>
+                <button class="btn btn-warning" onclick="runMaintenance('reindex', false)" data-i18n="button.reindexLocking">REINDEX (Locking)</button>
+                <div class="result-box" id="reindexResult"></div>
+            </div>
+            <div class="maint-card">
+                <h4 data-i18n="maintenance.backupDb">💾 Backup Database</h4>
+                <p data-i18n="maintenance.backupDbDesc">Create a full PostgreSQL backup using pg_dump. Saved to server disk.</p>
+                <button class="btn btn-primary" id="backupBtn" onclick="runBackup()" data-i18n="button.createBackup">Create Backup</button>
+                <div class="result-box" id="backupResult"></div>
+                <div id="backupList" style="margin-top: 1rem;"></div>
+            </div>
+        </div>
+
+        <!-- Sanitation -->
+        <h3 class="section-title" data-i18n="maintenance.logSanitation">🗑️ Log Sanitation</h3>
+        <div class="maint-card">
+            <p data-i18n="maintenance.logSanitationDesc">Delete old log entries based on retention policy. Protected entries are never deleted.</p>
+            <div class="stats-row" id="sanitationStats">
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.toDelete">To Delete</div>
+                    <div class="stat-value" id="toDeleteCount">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.protectedSafe">Protected (Safe)</div>
+                    <div class="stat-value" id="protectedSafe">--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label" data-i18n="maintenance.retentionDays">Retention Days</div>
+                    <div class="stat-value" id="retentionDays">90</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="previewSanitation()" data-i18n="button.preview">Preview</button>
+            <button class="btn btn-warning" onclick="runSanitation()" data-i18n="button.runSanitation">Run Sanitation</button>
+            <div class="result-box" id="sanitationResult"></div>
+        </div>
+
+        <!-- Configuration Links -->
+        <h3 class="section-title" data-i18n="maintenance.configuration">⚙️ Configuration</h3>
+        <div class="maint-grid">
+            <a href="appsettings.html" class="maint-card" style="text-decoration: none; color: inherit;">
+                <h4 data-i18n="maintenance.appSettingsCard">📝 App Settings</h4>
+                <p data-i18n="maintenance.appSettingsCardDesc">Edit appsettings.json - database connection, logging, Kestrel settings</p>
+            </a>
+            <a href="import-sources.html" class="maint-card" style="text-decoration: none; color: inherit;">
+                <h4 data-i18n="maintenance.importSourcesCard">📂 Import Sources</h4>
+                <p data-i18n="maintenance.importSourcesCardDesc">Configure log import sources - file paths, formats, polling, and more</p>
+            </a>
+            <a href="import-level-filters.html" class="maint-card" style="text-decoration: none; color: inherit;">
+                <h4 data-i18n="maintenance.levelFiltersCard">🎚️ Level Filters</h4>
+                <p data-i18n="maintenance.levelFiltersCardDesc">Configure log level filters per file pattern to control what gets imported</p>
+            </a>
+            <a href="import-status.html" class="maint-card" style="text-decoration: none; color: inherit;">
+                <h4 data-i18n="maintenance.importStatusCard">📊 Import Status</h4>
+                <p data-i18n="maintenance.importStatusCardDesc">View last processed file, byte offset, and status per source</p>
+            </a>
+            <a href="saved-filters-maintenance.html" class="maint-card" style="text-decoration: none; color: inherit;">
+                <h4 data-i18n="maintenance.savedFiltersCard">🔍 Saved Filters</h4>
+                <p data-i18n="maintenance.savedFiltersCardDesc">Manage saved search filters and alert configurations</p>
+            </a>
+        </div>
+
+        <!-- Danger Zone -->
+        <h3 class="section-title" style="color: #dc2626;" data-i18n="maintenance.dangerZone">⚠️ Danger Zone</h3>
+        <div class="maint-grid">
+            <div class="maint-card danger-zone">
+                <h4 data-i18n="maintenance.truncateTitle">🗑️ Truncate Log Entries</h4>
+                <p data-i18n="maintenance.truncateDesc">Delete ALL log entries. Keeps saved_filters. This cannot be undone!</p>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; cursor: pointer; font-size: 0.9rem;">
+                    <input type="checkbox" id="resetImportTracking">
+                    <span data-i18n="maintenance.resetImportTracking">Also reset import tracking (Import Service will re-import all files)</span>
+                </label>
+                <button class="btn btn-danger" onclick="confirmDanger('truncate')" data-i18n="button.truncateAll">Truncate All Logs</button>
+                <div class="result-box" id="truncateResult"></div>
+            </div>
+            <div class="maint-card danger-zone">
+                <h4 data-i18n="maintenance.recreateTitle">💥 Recreate Schema</h4>
+                <p data-i18n="maintenance.recreateDesc">Drop ALL tables and recreate from migrations. Complete data loss!</p>
+                <button class="btn btn-danger" onclick="confirmDanger('recreate')" data-i18n="button.recreateSchema">Recreate Schema</button>
+                <div class="result-box" id="recreateResult"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/loader.js"></script>
+    <!-- Page Script -->
+    <script src="js/maintenance.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

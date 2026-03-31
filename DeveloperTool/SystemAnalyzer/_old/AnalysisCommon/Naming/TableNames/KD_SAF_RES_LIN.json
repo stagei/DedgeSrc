@@ -1,0 +1,123 @@
+{
+  "tableName": "KD_SAF_RES_LIN",
+  "futureName": "KdSaferLine",
+  "namespace": "LegacyDbModels",
+  "columns": [
+    {
+      "name": "verNr",
+      "futureName": "VersionNumber",
+      "description": "Unique version number",
+      "foreignKey": "RESVER"
+    },
+    {
+      "name": "reseptnr",
+      "futureName": "ReceptionNumber",
+      "description": "Identifier for the reception",
+      "foreignKey": [
+        "RESVER"
+      ]
+    },
+    {
+      "name": "linjenumr",
+      "futureName": "LineNumber",
+      "description": "Line number within a document or set of records",
+      "foreignKey": null
+    },
+    {
+      "name": "art",
+      "futureName": "ArticleCode",
+      "description": "Code representing the article or product",
+      "foreignKey": [
+        "ART",
+        "SORT"
+      ]
+    },
+    {
+      "name": "sort",
+      "futureName": "SortCode",
+      "description": "Code for sorting articles",
+      "foreignKey": null
+    },
+    {
+      "name": "prosentAndel",
+      "futureName": "PercentageShare",
+      "description": "Percentage share or proportion",
+      "foreignKey": null
+    },
+    {
+      "name": "spirePros",
+      "futureName": "SpireProportion",
+      "description": "Proportion related to spire (possibly a specific term in the context)",
+      "foreignKey": null
+    },
+    {
+      "name": "regDato",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration or creation",
+      "foreignKey": [
+        "RESVER"
+      ]
+    },
+    {
+      "name": "regBruker",
+      "futureName": "RegistratingUser",
+      "description": "Username or identifier of the user who registered the record",
+      "foreignKey": null
+    },
+    {
+      "name": "sistEndrDato",
+      "futureName": "LastModifiedDate",
+      "description": "Date when the record was last modified",
+      "foreignKey": [
+        "RESVER"
+      ]
+    },
+    {
+      "name": "sistEndrBruker",
+      "futureName": "LastModifiedByUser",
+      "description": "Username or identifier of the user who last modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "renFroBlanding",
+      "futureName": "RenFromBlending",
+      "description": "Indicator for whether it is from blending (1) or not (0)",
+      "foreignKey": null
+    },
+    {
+      "name": "okologisk",
+      "futureName": "Organic",
+      "description": "Indicator if the product is organic (1) or not (0)",
+      "foreignKey": null
+    },
+    {
+      "name": "dyrkingsSystem",
+      "futureName": "CultivationSystem",
+      "description": "Code for the cultivation system",
+      "foreignKey": [
+        "SORT"
+      ]
+    },
+    {
+      "name": "fknr",
+      "futureName": "ArticleNumber",
+      "description": "Article number or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "etikettRekkefolge",
+      "futureName": "LabelSequence",
+      "description": "Sequence number for labels",
+      "foreignKey": null
+    },
+    {
+      "name": "lastChanged",
+      "futureName": "LastModifiedTimestamp",
+      "description": "Timestamp indicating the last modification time of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:23:22"
+}

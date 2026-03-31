@@ -1,0 +1,58 @@
+{
+  "program": "GMAADRR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:c58115198cf9f604d04bbfcca49bfe25ee59e05860c7e8a82ca1aaa1c85ec5e1",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAADRR.CBL",
+    "actualName": "GMAADRR",
+    "program": "GMAADRR",
+    "copyElements": [
+      {
+        "name": "ADRI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADRR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ID_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ADR_ID",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

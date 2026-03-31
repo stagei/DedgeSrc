@@ -1,0 +1,150 @@
+{
+  "program": "FTP_LOGOFF",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:31:17",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "BSASPRT-DIVRAPP-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Utgiftsbrev på laser via streamserver",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:31:16"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_LOGOFF",
+    "program": "FTP_LOGOFF",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFAJFU.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ILEGG_HODE",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_FORHANDSPROVE",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASEMA",
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "GMAPLDG",
+      "FTP_SEND_ANALYCEN",
+      "FTP_LOGOFF_ANALYCEN",
+      "FTP_LOGON_ALCONTROL",
+      "TIL_MONITOR",
+      "FTP_SEND_ALCONTROL",
+      "FTP_LOGOFF_ALCONTROL",
+      "FTPSETUSER",
+      "SQLEXEC",
+      "LOGG_FELTER",
+      "SAVEMF",
+      "SQLDB2",
+      "GMASQLB",
+      "LOGOFF",
+      "TEST_RC",
+      "FTP_SEND_BORGSKIP",
+      "FTP_LOGOFF",
+      "FTP_LOGON_BORG_SKIPT",
+      "TIL_BORG_SKIP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-DIVRAPP-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Utgiftsbrev på laser via streamserver"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:31:16"
+  }
+}

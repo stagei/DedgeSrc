@@ -1,0 +1,106 @@
+{
+  "tableName": "VAREREGISTER_DEL2",
+  "futureName": "VareregisterDel2",
+  "namespace": "DataModels",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "VarerRegisterId",
+      "description": "Unique identifier for the vare register entry",
+      "foreignKey": "A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "TOLLTARIFFNR",
+      "futureName": "TollTariffNumber",
+      "description": "Unique identifier for the toll tariff",
+      "foreignKey": "TOLLTARIFFNR, TOLLTARIFFNR, V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Free text comment related to the vare register entry",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of when the vare register entry was last modified or created",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The identifier of the user who last modified or created the vare register entry",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "MIN_SPIRE_PROS",
+      "futureName": "MinimumSurchargePercent",
+      "description": "The minimum surcharge percentage applicable to the vare register entry",
+      "foreignKey": null
+    },
+    {
+      "name": "START_DATO",
+      "futureName": "StartDate",
+      "description": "The start date for the validity period of the vare register entry",
+      "foreignKey": "AGRIPET_FKNR, H_VERKSTEDHODE, V_VARE_ENDRINGER, V_VENTEVARER_DEL2, VISMA_KONTERING"
+    },
+    {
+      "name": "SLUTT_DATO",
+      "futureName": "EndDate",
+      "description": "The end date for the validity period of the vare register entry",
+      "foreignKey": "AGRIPET_FKNR, SERVICEAVTALE, V_VARE_ENDRINGER, V_VENTEVARER_DEL2, VISMA_KONTERING"
+    },
+    {
+      "name": "RELEX_SORTIMENT",
+      "futureName": "RelExCategory",
+      "description": "The category or sortiment for the vare register entry in RelEx system",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "RELEX_SESONG_FRA",
+      "futureName": "RelExSeasonStart",
+      "description": "The start date of the season for the vare register entry in RelEx system",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "RELEX_SESONG_TIL",
+      "futureName": "RelExSeasonEnd",
+      "description": "The end date of the season for the vare register entry in RelEx system",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "TOLLTARIFFNR_LEV",
+      "futureName": "LeviedTollTariffNumber",
+      "description": "The toll tariff number for levied purposes related to the vare register entry",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "OPPR_LAND",
+      "futureName": "OriginCountry",
+      "description": "The country of origin for the vare register entry",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "SDS",
+      "futureName": "SdsCode",
+      "description": "The SDS (Safety Data Sheet) code related to the vare register entry",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "PARTISTYRING_D365FO",
+      "futureName": "PartistyringD365fo",
+      "description": "The partistyring indicator for the vare register entry in D365FO system",
+      "foreignKey": "D365_VAREAVD_HIST, V_VENTEVARER_DEL2"
+    },
+    {
+      "name": "PRODUKTEIER",
+      "futureName": "ProductOwner",
+      "description": "The product owner for the vare register entry",
+      "foreignKey": "V_VARE_ENDRINGER, V_VENTEVARER_DEL2"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:24:28"
+}

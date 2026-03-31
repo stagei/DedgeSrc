@@ -1,0 +1,201 @@
+{
+  "program": "VDBTIMS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:50",
+  "extraction": {
+    "sourceHash": "sha256:47fac112cb1dd540cffedc0110dade7cb496cd5411dedfcb7a91d63e889ff25f",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\vdbtims.cbl",
+    "actualName": "VDBTIMS",
+    "program": "VDBTIMS",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TIF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TIMM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TIMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TIMK.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_MEK",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_AVD",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_KAP",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KODER_TIMER_AAR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KODER_TIMER_AAR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KODER_TIMER_IF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_MEK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DEC",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_IKKEF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AH_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_AVD",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_MEK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_KAP",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MEKANIKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_RESERVE",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIMER_RESERVE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "T",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MEK_TIDSREG_TRANS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "V",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VERKSTED_TIMER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TIL_KONTERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "INTERN_GODKJENNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "T_AVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEMP",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "VDBTIMS.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\VDBTIMS.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:41:50"
+  }
+}

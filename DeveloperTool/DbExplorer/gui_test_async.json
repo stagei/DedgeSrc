@@ -1,0 +1,169 @@
+{
+  "formName": "TableDetailsDialog",
+  "fullTableName": "Table Details",
+  "extractedAt": "2025-12-13T20:01:34.0340234+01:00",
+  "tabs": {
+    "columns": {
+      "rowCount": 9,
+      "rows": [
+        {
+          "COLUMNNAME": "FIRMA",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "6",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "KUNDEKONTO",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "6",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "KONTOTYPE",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "3",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "OPPRETTET_DATO",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "8",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "OPPSAGT_DATO",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "8",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "MERKNAD",
+          "DATATYPE": "VARCHAR",
+          "LENGTH": "256",
+          "NULLABLE": "Yes",
+          "DEFAULTVALUE": "-",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "SALDO",
+          "DATATYPE": "DECIMAL",
+          "LENGTH": "13",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "0.0",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "TIDSPUNKT",
+          "DATATYPE": "TIMESTAMP",
+          "LENGTH": "10",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "CURRENT TIMESTAMP",
+          "REMARKS": ""
+        },
+        {
+          "COLUMNNAME": "BRUKERID",
+          "DATATYPE": "CHARACTER",
+          "LENGTH": "8",
+          "NULLABLE": "No",
+          "DEFAULTVALUE": "\u0027 \u0027",
+          "REMARKS": ""
+        }
+      ]
+    },
+    "foreignKeys": {
+      "rowCount": 5,
+      "rows": [
+        {
+          "FKNAME": "KONTO_FIR",
+          "FKCOLUMN": "FIRMA",
+          "PKTABLE": "INL.FIRMA",
+          "PKCOLUMN": "FIRMA",
+          "DELETERULE": "R",
+          "UPDATERULE": "A"
+        },
+        {
+          "FKNAME": "KONTO_KTO_TYPE",
+          "FKCOLUMN": "FIRMA",
+          "PKTABLE": "INL.KONTOTYPE",
+          "PKCOLUMN": "FIRMA",
+          "DELETERULE": "R",
+          "UPDATERULE": "A"
+        },
+        {
+          "FKNAME": "KONTO_KTO_TYPE",
+          "FKCOLUMN": "KONTOTYPE",
+          "PKTABLE": "INL.KONTOTYPE",
+          "PKCOLUMN": "KONTOTYPE",
+          "DELETERULE": "R",
+          "UPDATERULE": "A"
+        },
+        {
+          "FKNAME": "KONTO_KUN_KTO",
+          "FKCOLUMN": "FIRMA",
+          "PKTABLE": "INL.KUNDEKONTO",
+          "PKCOLUMN": "FIRMA",
+          "DELETERULE": "R",
+          "UPDATERULE": "A"
+        },
+        {
+          "FKNAME": "KONTO_KUN_KTO",
+          "FKCOLUMN": "KUNDEKONTO",
+          "PKTABLE": "INL.KUNDEKONTO",
+          "PKCOLUMN": "KUNDEKONTO",
+          "DELETERULE": "R",
+          "UPDATERULE": "A"
+        }
+      ]
+    },
+    "indexes": {
+      "rowCount": 1,
+      "rows": [
+        {
+          "INDEXNAME": "SQL160628090827110",
+          "INDEXTYPE": "Regular",
+          "ISUNIQUE": "Primary Key",
+          "COLUMNS": "FIRMA, KUNDEKONTO, KONTOTYPE"
+        }
+      ]
+    },
+    "ddlScript": {
+      "text": "-- DDL for table INL.KONTO\r\n\r\nCREATE TABLE INL.KONTO (\r\n    FIRMA DECIMAL(6,0) NOT NULL DEFAULT 0.0,\r\n    KUNDEKONTO DECIMAL(6,0) NOT NULL DEFAULT 0.0,\r\n    KONTOTYPE DECIMAL(3,0) NOT NULL DEFAULT 0.0,\r\n    OPPRETTET_DATO DECIMAL(8,0) NOT NULL DEFAULT 0.0,\r\n    OPPSAGT_DATO DECIMAL(8,0) NOT NULL DEFAULT 0.0,\r\n    MERKNAD VARCHAR(256),\r\n    SALDO DECIMAL(13,2) NOT NULL DEFAULT 0.0,\r\n    TIDSPUNKT TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP,\r\n    BRUKERID CHARACTER NOT NULL DEFAULT \u0027 \u0027\r\n);\r\n",
+      "length": 495,
+      "lineCount": 14
+    },
+    "statistics": {
+      "rowCount": "Error",
+      "columnCount": "9",
+      "fkCount": "5",
+      "indexCount": "1",
+      "tableType": "-",
+      "tablespace": "-"
+    },
+    "incomingFK": {
+      "rowCount": 0,
+      "rows": []
+    },
+    "usedByPackages": {
+      "rowCount": 0,
+      "rows": []
+    },
+    "usedByViews": {
+      "rowCount": 0,
+      "rows": []
+    },
+    "usedByRoutines": {
+      "rowCount": 0,
+      "rows": []
+    }
+  }
+}

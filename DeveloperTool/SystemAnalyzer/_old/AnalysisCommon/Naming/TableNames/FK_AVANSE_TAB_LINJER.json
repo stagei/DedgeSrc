@@ -1,0 +1,64 @@
+{
+  "tableName": "FK_AVANSE_TAB_LINJER",
+  "futureName": "FKAvanseline",
+  "namespace": "DatabaseModels",
+  "columns": [
+    {
+      "name": "tabellnr",
+      "futureName": "TableNumber",
+      "description": "Unique table identifier",
+      "foreignKey": "FK_AVANSE_TAB"
+    },
+    {
+      "name": "fraBelop",
+      "futureName": "StartingAmount",
+      "description": "The starting amount for the advancement line item",
+      "foreignKey": null
+    },
+    {
+      "name": "fkAvanse",
+      "futureName": "FkAvasance",
+      "description": "Foreign key reference to FK_AVASANCE table",
+      "foreignKey": "FK_AVASANCE_TAB"
+    },
+    {
+      "name": "fkAvanseSimuler",
+      "futureName": "FkAvasanceSimulated",
+      "description": "Simulated foreign key reference to FK_AVASANCE table",
+      "foreignKey": "FK_AVASANCE_TAB"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "User identifier who made the entry",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "avrunding",
+      "futureName": "Rounding",
+      "description": "Rounding indicator for the advancement line item",
+      "foreignKey": null
+    },
+    {
+      "name": "veilinn",
+      "futureName": "PreviewIndicator",
+      "description": "Indicates if this is a preview record",
+      "foreignKey": null
+    },
+    {
+      "name": "tabellslut",
+      "futureName": "TableEnd",
+      "description": "Indicates the end of the table for this advancement line item",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:23:11"
+}

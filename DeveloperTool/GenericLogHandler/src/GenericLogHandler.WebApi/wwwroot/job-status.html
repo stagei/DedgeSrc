@@ -1,0 +1,559 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.jobStatus">Job Status - Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <style>
+        .job-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .job-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .job-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .job-card .label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .job-card.started .value { color: var(--info-color, #3b82f6); }
+        .job-card.completed .value { color: var(--success-color, #22c55e); }
+        .job-card.failed .value { color: var(--error-color, #ef4444); }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-badge.started { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .status-badge.completed { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .status-badge.failed { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .status-badge.running { background: rgba(234, 179, 8, 0.15); color: #eab308; }
+        .status-badge.timedout { background: rgba(249, 115, 22, 0.15); color: #f97316; }
+        .status-badge.unknown { background: rgba(156, 163, 175, 0.15); color: #9ca3af; }
+        
+        .job-card.timedout .value { color: #f97316; }
+        
+        .view-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .view-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+        }
+        .view-tab.active {
+            color: var(--primary-color);
+        }
+        .view-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        .view-tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+        .view-section {
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
+        .duration-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .orphan-warning {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #f97316;
+        }
+        
+        .job-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .job-table th, .job-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .job-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        .job-table tr:hover {
+            background: var(--bg-hover);
+        }
+        .job-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar select, .filter-bar input {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+        
+        .job-history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .job-history-modal.show {
+            display: flex;
+        }
+        .job-history-content {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 900px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .job-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        
+        .db-stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            align-items: center;
+        }
+        .db-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .db-stat-icon {
+            font-size: 1.5rem;
+        }
+        .db-stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .db-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .db-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .db-stats-updated {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Expandable job rows */
+        .job-row-parent {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .job-row-parent:hover {
+            background: var(--bg-hover);
+        }
+        .job-row-parent td:first-child {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .job-row-parent td:first-child::before {
+            content: '▸';
+            position: absolute;
+            left: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: transform 0.2s;
+        }
+        .job-row-parent.expanded td:first-child::before {
+            transform: rotate(90deg);
+        }
+        .job-row-child {
+            display: none;
+        }
+        .job-row-child.visible {
+            display: table-row;
+        }
+        .job-row-child td {
+            padding-left: 2.5rem !important;
+            background: var(--bg-secondary);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .job-row-child td:first-child {
+            color: var(--text-secondary);
+        }
+
+        /* Progress bar */
+        .job-progress {
+            width: 100%;
+            max-width: 180px;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .job-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        .job-progress-fill.completed {
+            width: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+        }
+        .job-progress-fill.failed {
+            width: 100%;
+            background: linear-gradient(90deg, #b91c1c, #ef4444);
+            animation: pulse-fail 1.5s ease-in-out infinite;
+        }
+        .job-progress-fill.in-progress {
+            width: 65%;
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            animation: progress-slide 2s ease-in-out infinite;
+        }
+        @keyframes progress-slide {
+            0% { width: 30%; opacity: 0.8; }
+            50% { width: 75%; opacity: 1; }
+            100% { width: 30%; opacity: 0.8; }
+        }
+        @keyframes pulse-fail {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Failed row heavy styling */
+        .job-row-parent.job-failed {
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 4px solid #ef4444;
+        }
+        .job-row-parent.job-failed:hover {
+            background: rgba(239, 68, 68, 0.14);
+        }
+        .job-row-parent.job-failed .job-name {
+            color: #ef4444;
+        }
+        .job-row-parent.job-failed .status-badge.failed {
+            background: rgba(239, 68, 68, 0.25);
+            font-size: 0.8rem;
+            padding: 0.3rem 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        /* In-progress row subtle glow */
+        .job-row-parent.job-in-progress {
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* Completed row */
+        .job-row-parent.job-completed {
+            border-left: 4px solid #22c55e;
+        }
+
+        /* Duration display */
+        .job-duration {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .job-duration.slow {
+            color: #f97316;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" class="active" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="db-stats-bar" id="dbStatsBar">
+            <div class="db-stat">
+                <span class="db-stat-icon">&#128421;</span>
+                <div class="db-stat-content">
+                    <span class="db-stat-value" id="dbServerValue">--</span>
+                    <span class="db-stat-label" data-i18n="jobStatus.databaseServer">Database Server</span>
+                </div>
+            </div>
+            <div class="db-stat">
+                <span class="db-stat-icon">&#128451;</span>
+                <div class="db-stat-content">
+                    <span class="db-stat-value" id="dbSizeValue">--</span>
+                    <span class="db-stat-label" data-i18n="jobStatus.databaseSize">Database Size (GB)</span>
+                </div>
+            </div>
+            <div class="db-stat">
+                <span class="db-stat-icon">&#128196;</span>
+                <div class="db-stat-content">
+                    <span class="db-stat-value" id="logCountValue">--</span>
+                    <span class="db-stat-label" data-i18n="jobStatus.totalLogEntries">Total Log Entries</span>
+                </div>
+            </div>
+            <span class="db-stats-updated" id="dbStatsUpdated">Loading...</span>
+        </div>
+
+        <div class="filter-bar">
+            <input type="datetime-local" id="fromDate" title="From date">
+            <input type="datetime-local" id="toDate" title="To date">
+            <select id="statusFilter">
+                <option value="" data-i18n="jobStatus.allStatuses">All Statuses</option>
+                <option value="Started" data-i18n="jobStatus.started">Started</option>
+                <option value="Running" data-i18n="jobStatus.running">Running</option>
+                <option value="Completed" data-i18n="jobStatus.completed">Completed</option>
+                <option value="Failed" data-i18n="jobStatus.failed">Failed</option>
+            </select>
+            <input type="text" id="jobNameFilter" placeholder="Filter by job name..." data-i18n-placeholder="placeholder.filterByJobName">
+            <button id="refreshBtn" class="btn btn-primary" data-i18n="button.refresh">Refresh</button>
+        </div>
+
+        <div class="job-cards" id="summaryCards">
+            <div class="job-card">
+                <div class="value" id="totalJobs">-</div>
+                <div class="label" data-i18n="jobStatus.totalJobEvents">Total Job Events</div>
+            </div>
+            <div class="job-card started">
+                <div class="value" id="startedCount">-</div>
+                <div class="label" data-i18n="jobStatus.started">Started</div>
+            </div>
+            <div class="job-card completed">
+                <div class="value" id="completedCount">-</div>
+                <div class="label" data-i18n="jobStatus.completed">Completed</div>
+            </div>
+            <div class="job-card failed">
+                <div class="value" id="failedCount">-</div>
+                <div class="label" data-i18n="jobStatus.failed">Failed</div>
+            </div>
+            <div class="job-card timedout">
+                <div class="value" id="timedoutCount">-</div>
+                <div class="label" data-i18n="jobStatus.timedOut">Timed Out</div>
+            </div>
+        </div>
+
+        <div class="view-tabs">
+            <button class="view-tab active" data-view="events" data-i18n="jobStatus.jobEvents">Job Events</button>
+            <button class="view-tab" data-view="executions" data-i18n="jobStatus.jobExecutions">Job Executions</button>
+            <button class="view-tab" data-view="orphaned" data-i18n="jobStatus.orphanedJobs">Orphaned Jobs</button>
+        </div>
+
+        <div id="eventsView" class="view-section active">
+        <div class="panel">
+            <div class="panel-header">
+                <h2 class="panel-title" data-i18n="jobStatus.jobStatusOverview">Job Status Overview</h2>
+            </div>
+            <div class="panel-body">
+                <table class="job-table" id="jobsTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.jobName">Job Name</th>
+                            <th data-i18n="table.status">Status</th>
+                            <th data-i18n="table.progress">Progress</th>
+                            <th data-i18n="table.duration">Duration</th>
+                            <th data-i18n="table.computer">Computer</th>
+                            <th data-i18n="table.lastSeen">Last Seen</th>
+                            <th data-i18n="table.actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsBody">
+                        <tr><td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
+        <div id="executionsView" class="view-section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title" data-i18n="jobStatus.trackedExecutions">Tracked Job Executions</h2>
+                </div>
+                <div class="panel-body">
+                    <table class="job-table" id="executionsTable">
+                        <thead>
+                            <tr>
+                                <th data-i18n="table.startedAt">Started At</th>
+                                <th data-i18n="table.jobName">Job Name</th>
+                                <th data-i18n="table.status">Status</th>
+                                <th data-i18n="table.duration">Duration</th>
+                                <th data-i18n="table.computer">Computer</th>
+                                <th data-i18n="table.sourceFile">Source File</th>
+                            </tr>
+                        </thead>
+                        <tbody id="executionsBody">
+                            <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="orphanedView" class="view-section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title" data-i18n="jobStatus.orphanedTimedOut">Orphaned / Timed Out Jobs</h2>
+                </div>
+                <div class="panel-body">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;" data-i18n="jobStatus.orphanedDesc">Jobs that started but never completed or failed within the configured timeout period.</p>
+                    <table class="job-table" id="orphanedTable">
+                        <thead>
+                            <tr>
+                                <th data-i18n="table.startedAt">Started At</th>
+                                <th data-i18n="table.jobName">Job Name</th>
+                                <th data-i18n="table.status">Status</th>
+                                <th data-i18n="table.computer">Computer</th>
+                                <th data-i18n="table.error">Error</th>
+                                <th data-i18n="table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orphanedBody">
+                            <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="job-history-modal" id="historyModal">
+        <div class="job-history-content">
+            <div class="job-history-header">
+                <h2 id="historyTitle" data-i18n="modal.jobHistory">Job History</h2>
+                <button class="close-btn" id="closeHistory">&times;</button>
+            </div>
+            <table class="job-table" id="historyTable">
+                <thead>
+                    <tr>
+                        <th data-i18n="table.timestamp">Timestamp</th>
+                        <th data-i18n="table.status">Status</th>
+                        <th data-i18n="table.computer">Computer</th>
+                        <th data-i18n="table.user">User</th>
+                        <th data-i18n="table.message">Message</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <!-- Page Script -->
+    <script src="js/job-status.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

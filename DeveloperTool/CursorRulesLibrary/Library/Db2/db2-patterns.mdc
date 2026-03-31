@@ -1,0 +1,84 @@
+---
+description: DB2 database patterns and SQL standards
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Database & DB2 Standards
+
+## Connection Management
+
+- Always use `using` statements for connections
+- Use Net.IBM.Data.Db2 9.0.0.400 (self-contained, no DB2 client required)
+- Connection string format: `Server=host:port;Database=DBNAME;UID=user;PWD=pass;`
+- Enable connection pooling
+- Log all connection attempts
+- Namespace: `IBM.Data.Db2`
+
+## Query Execution
+
+- Always use parameterized queries (prevent SQL injection)
+- Use `DB2Parameter` for parameters
+- Log query execution with timing
+- Handle `DB2Exception` specifically with SqlState and ErrorCode
+- Implement timeout handling (default 30 seconds)
+
+## Example Pattern
+
+```csharp
+using NLog;
+using IBM.Data.Db2;
+using DB2Conn = IBM.Data.Db2.DB2Connection;
+
+private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+public async Task<DataTable> ExecuteQueryAsync(string sql)
+{
+    Logger.Info("Executing query");
+    Logger.Debug($"SQL: {sql.Substring(0, Math.Min(100, sql.Length))}...");
+    
+    try
+    {
+        using var command = _db2Connection.CreateCommand();
+        command.CommandText = sql;
+        command.CommandTimeout = 30;
+        
+        using var adapter = new DB2DataAdapter(command);
+        var dataTable = new DataTable("Results");
+        await Task.Run(() => adapter.Fill(dataTable));
+        
+        Logger.Info($"Query returned {dataTable.Rows.Count} rows");
+        return dataTable;
+    }
+    catch (DB2Exception db2Ex)
+    {
+        Logger.Error(db2Ex, "DB2 error - SQL State: {SqlState}, Error Code: {ErrorCode}", 
+                     db2Ex.SqlState, db2Ex.ErrorCode);
+        throw;
+    }
+}
+```
+
+## DB2 Syntax Verification Protocol
+
+**When encountering DB2 SQL errors after 2 failed attempts:**
+
+1. **Search IBM DB2 Documentation**:
+   - Use web search: "IBM DB2 12.1 [specific feature/table/column] syntax"
+   - Check version-specific differences (10.5, 11.1, 11.5, 12.1)
+
+2. **Common Issue Sources**:
+   - Column names may differ between DB2 versions
+   - System catalog views (SYSCAT.*) have version-specific schemas
+   - Monitor table functions (MON_GET_*) may require admin privileges
+
+## Security Best Practices
+
+### Connection Strings
+- Never log passwords in plain text
+- Use regex to mask passwords: `PWD=([^;]*)` → `PWD=***`
+
+### SQL Injection Prevention
+- Always use parameterized queries
+- Never concatenate user input into SQL
+- Use `DB2Parameter` with proper data types

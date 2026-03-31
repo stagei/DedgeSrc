@@ -1,0 +1,74 @@
+﻿---
+description: Frontend JavaScript/HTML patterns and conventions
+globs: src/GenericLogHandler.WebApi/wwwroot/**/*.{js,html,css}
+alwaysApply: false
+---
+
+# Web UI Conventions
+
+## File Structure
+
+```
+wwwroot/
+├── index.html          # Dashboard page
+├── log-search.html     # Search page
+├── advanced-search.html # Query builder
+├── css/
+│   └── dashboard.css   # All styles, theme variables
+└── js/
+    ├── api.js          # Shared fetch wrapper
+    ├── dashboard.js    # Dashboard logic
+    ├── log-search.js   # Search page logic
+    └── components/
+        └── logs-renderer.js  # Reusable log table renderer
+```
+
+## API Calls
+
+Always use `api.js` wrapper (handles DedgeAuth token auth):
+
+```javascript
+// GET
+const response = await Api.get('/api/Dashboard/summary');
+
+// POST
+const response = await Api.post('/api/Logs/search', { PageSize: 50 });
+
+// Access data (PascalCase!)
+if (response.Success) {
+    const logs = response.Data.Items;
+    console.log(logs[0].ComputerName);  // PascalCase
+}
+```
+
+## LogsRenderer Component
+
+Reusable log table with expandable rows, modals, copy buttons:
+
+```javascript
+const renderer = new LogsRenderer({
+    maxEntries: 50,
+    showCopyButtons: true,
+    showExpandable: true,
+    onOpenModal: (log) => openLogDetailModal(log)
+});
+renderer.render(document.getElementById('logsBody'), logs);
+```
+
+## Theme Support
+
+CSS variables in `dashboard.css`:
+- `--bg-primary`, `--bg-card`, `--text-primary`
+- Toggle via `data-theme="dark"` on `<html>`
+
+## Toast Notifications
+
+```javascript
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification show';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+```

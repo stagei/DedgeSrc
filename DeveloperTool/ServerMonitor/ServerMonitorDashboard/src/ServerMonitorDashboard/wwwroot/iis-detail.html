@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.iis">IIS Web Server Details</title>
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <style id="DedgeAuth-tenant-css"></style>
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <style>
+        :root {
+            --accent: var(--accent-color);
+            --border: var(--border-color);
+            --warning: var(--warning-color);
+            --critical: var(--error-color);
+            --success: var(--success-color);
+            --info: var(--info-color);
+            --bg-header: var(--bg-tertiary);
+            --bg-hover: var(--bg-tertiary);
+            --warning-bg: rgba(251, 191, 36, 0.15);
+            --critical-bg: rgba(248, 113, 113, 0.15);
+            --info-bg: rgba(56, 189, 248, 0.15);
+        }
+        
+        .popout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .popout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .popout-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .popout-header .status-indicator { font-size: 1.25rem; }
+        
+        .popout-header .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .toggle-label input[type="checkbox"] { width: 16px; height: 16px; }
+        
+        #last-refresh { font-size: 0.85rem; color: var(--text-muted); }
+        
+        .panel {
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .panel-header h3 { margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .panel-body { padding: 1rem; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-card .stat-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
+        .stat-card .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .stat-card.warning .stat-value { color: var(--warning); }
+        .stat-card.critical .stat-value { color: var(--critical); }
+        .stat-card.success .stat-value { color: var(--success); }
+        
+        .badge { background: var(--bg-secondary); color: var(--text-muted); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; }
+        .badge.has-alerts { background: var(--warning-bg); color: var(--warning); }
+        .badge.critical { background: var(--critical-bg); color: var(--critical); }
+        
+        .no-data { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 1rem; }
+        
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { background: var(--bg-header); font-weight: 600; font-size: 0.85rem; color: var(--text-muted); }
+        .data-table tbody tr:hover { background: var(--bg-hover); }
+        
+        .data-table .expandable { cursor: pointer; }
+        .data-table .expandable:hover { background: var(--bg-hover); }
+        .data-table .expand-indicator { display: inline-block; width: 20px; font-size: 0.8rem; color: var(--text-muted); }
+        
+        .detail-row td { padding: 0; }
+        .detail-row .detail-content { padding: 0.75rem 1rem 0.75rem 2.5rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
+        .detail-row .detail-content .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; }
+        .detail-row .detail-content .detail-item { display: flex; flex-direction: column; }
+        .detail-row .detail-content .detail-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .detail-row .detail-content .detail-value { font-size: 0.9rem; color: var(--text-primary); }
+        
+        .hidden { display: none !important; }
+        .status-running { color: var(--success); }
+        .status-stopped { color: var(--critical); }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        .loading-overlay.visible { opacity: 1; pointer-events: auto; }
+        .loading-spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .error-message { background: var(--critical-bg); color: var(--critical); padding: 1rem; border-radius: 6px; margin: 1rem; }
+        
+        .wp-table { margin-top: 0.5rem; }
+        .wp-table th, .wp-table td { padding: 0.35rem 0.5rem; font-size: 0.85rem; }
+        
+        .iis-version-info { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; text-align: right; }
+        
+        .badge-aspnet { display: inline-block; background: var(--info-bg); color: var(--info); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+        .badge-static { display: inline-block; background: var(--bg-secondary); color: var(--text-muted); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="popout-container">
+        <header class="popout-header">
+            <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+            <h1>
+                <span class="status-indicator" id="status-indicator">⏳</span>
+                <span id="iis-title" data-i18n="status.loading">Loading...</span>
+            </h1>
+            <div class="controls">
+                <button id="btn-refresh" class="btn btn-primary"><span>🔄</span> <span data-i18n="button.refresh">Refresh</span></button>
+                <label class="toggle-label">
+                    <input type="checkbox" id="auto-refresh-toggle">
+                    <span data-i18n="iis.autoRefresh">Auto-refresh (10s)</span>
+                </label>
+                <span id="last-refresh" data-i18n="iis.lastUpdated">Last updated: --:--:--</span>
+            </div>
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </header>
+        
+        <!-- Summary Panel -->
+        <section id="summary-panel" class="panel">
+            <div class="panel-header">
+                <h3><span>🌐</span> <span data-i18n="iis.overview">IIS Overview</span></h3>
+            </div>
+            <div class="panel-body">
+                <div class="stats-grid" id="summary-stats">
+                    <div class="stat-card"><div class="stat-value">-</div><div class="stat-label" data-i18n="iis.sites">Sites</div></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- App Pools Panel -->
+        <section id="pools-panel" class="panel">
+            <div class="panel-header">
+                <h3><span>⚙️</span> <span data-i18n="iis.appPools">Application Pools</span></h3>
+                <span class="badge" id="pools-count">0</span>
+            </div>
+            <div class="panel-body" id="pools-body">
+                <div class="no-data" data-i18n="status.loading">Loading...</div>
+            </div>
+        </section>
+        
+        <!-- Sites Panel -->
+        <section id="sites-panel" class="panel">
+            <div class="panel-header">
+                <h3><span>🌍</span> <span data-i18n="iis.sitesHeader">Sites</span></h3>
+                <span class="badge" id="sites-count">0</span>
+            </div>
+            <div class="panel-body" id="sites-body">
+                <div class="no-data" data-i18n="status.loading">Loading...</div>
+            </div>
+        </section>
+        
+        <!-- Alerts Panel -->
+        <section id="alerts-panel" class="panel">
+            <div class="panel-header">
+                <h3><span>🚨</span> <span data-i18n="iis.alerts24h">IIS Alerts (Last 24h)</span></h3>
+                <span class="badge" id="alerts-count">0</span>
+            </div>
+            <div class="panel-body" id="alerts-body">
+                <div class="no-data" data-i18n="message.loadingAlerts">Loading alerts...</div>
+            </div>
+        </section>
+    </div>
+    
+    <script src="js/components/alerts-renderer.js"></script>
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/role-permissions.js"></script>
+    <script src="js/iis-detail.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

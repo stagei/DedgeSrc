@@ -1,0 +1,188 @@
+﻿{
+  "program": "FTP_SEND_ALCONTROL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:59:23",
+  "variableFilenames": {
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "\\<userid>-\\<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+      "description": "File path construction from dynamic components",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:59:23"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_SEND_ALCONTROL",
+    "program": "FTP_SEND_ALCONTROL",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "WINDOWS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "MFOLE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "WINHTTP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFLEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHLEMA.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "MTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPDF1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "X91",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RCFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTIONAL",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMACOCO",
+      "GMASEMA",
+      "GMACNCT",
+      "TIL_MONITOR",
+      "FTPSETUSER",
+      "TIL_BORG_SKIP",
+      "FTP_LOGON_BORG_SKIPT",
+      "GMASQLB",
+      "GMACURT",
+      "FTP_SEND_ANALYCEN",
+      "FTP_LOGOFF_ANALYCEN",
+      "FTP_LOGON_ALCONTROL",
+      "FTP_SEND_ALCONTROL",
+      "FTP_LOGOFF_ALCONTROL",
+      "GMAMOMS"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AAXFIFI8.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AAXFIFI8.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+        "filenamePattern": "\\<userid>-\\<date>.CSV",
+        "filenameDescription": "File path construction from dynamic components"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:59:23"
+  }
+}

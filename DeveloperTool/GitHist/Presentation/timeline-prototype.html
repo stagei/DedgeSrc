@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Prototypes</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+  --text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#1f6feb;
+  --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;
+  --font:'Source Sans 3',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font)}
+h1{padding:24px 32px 8px;font-size:20px}
+h2{padding:16px 32px 8px;font-size:16px;color:var(--text2)}
+.proto-section{margin:0 32px 40px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;overflow-x:auto;position:relative;cursor:grab}
+.proto-section:active{cursor:grabbing}
+.proto-section svg{display:block}
+.tooltip{position:absolute;background:var(--surface2);border:1px solid var(--border);padding:6px 10px;border-radius:6px;font-size:12px;color:var(--text);pointer-events:none;opacity:0;z-index:10;white-space:nowrap}
+.status{padding:8px 32px;font-size:13px;color:var(--text2);font-family:var(--mono)}
+</style>
+</head>
+<body>
+<h1>Timeline Prototypes</h1>
+<div class="status" id="status">Loading data...</div>
+
+<h2>Option A: Curved river lines with commit dots</h2>
+<div class="proto-section" id="protoA"></div>
+
+<h2>Option B: Gradient range bars with commit markers</h2>
+<div class="proto-section" id="protoB"></div>
+
+<h2>Option C: Branching tree (curved drop-down lines from a shared axis)</h2>
+<div class="proto-section" id="protoC"></div>
+
+<script>
+const COLORS = [
+  '#58a6ff','#3fb950','#d29922','#f85149','#bc8cff','#f0883e','#79c0ff',
+  '#56d364','#e3b341','#ff7b72','#d2a8ff','#ffa657','#a5d6ff','#7ee787',
+  '#f2cc60','#ffa198','#e8d5ff','#ffb86c','#39d353','#db61a2'
+];
+
+function esc(s) { return s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+let DATA = null;
+
+async function init() {
+  const ds = await fetch('datasets.json').then(r => r.json());
+  DATA = await fetch(ds.datasets[0].file).then(r => r.json());
+  document.getElementById('status').textContent = `Loaded ${DATA.projects.length} projects. Showing top 30 with most commits.`;
+
+  const projects = DATA.projects
+    .filter(p => p.commits && p.commits.length > 1)
+    .sort((a,b) => b.commits.length - a.commits.length)
+    .slice(0, 30);
+
+  renderOptionA(projects);
+  renderOptionB(projects);
+  renderOptionC(projects);
+
+  document.querySelectorAll('.proto-section').forEach(container => {
+    let isDrag = false, sx = 0, sl = 0;
+    container.addEventListener('mousedown', e => { isDrag = true; sx = e.pageX; sl = container.scrollLeft; container.style.cursor = 'grabbing'; });
+    window.addEventListener('mousemove', e => { if (isDrag) container.scrollLeft = sl - (e.pageX - sx); });
+    window.addEventListener('mouseup', () => { isDrag = false; document.querySelectorAll('.proto-section').forEach(c => c.style.cursor = 'grab'); });
+  });
+}
+
+/* ── OPTION A: Curved river lines ── */
+function renderOptionA(projects) {
+  const container = document.getElementById('protoA');
+  const laneH = 26;
+  const labelW = 220;
+  const margin = {top: 32, right: 30, bottom: 32, left: labelW};
+
+  const sorted = assignLanes(projects);
+  const allDates = [];
+  sorted.forEach(p => p.commits.forEach(c => allDates.push(new Date(c.date))));
+  const ext = d3.extent(allDates);
+  const days = Math.max(1, (ext[1] - ext[0]) / 86400000);
+  const pxPerDay = Math.max(6, Math.min(25, 2000 / days));
+  const chartW = Math.max(days * pxPerDay, 800);
+  const chartH = sorted.length * laneH;
+
+  const svg = d3.select(container).append('svg')
+    .attr('width', chartW + margin.left + margin.right)
+    .attr('height', chartH + margin.top + margin.bottom);
+
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  const x = d3.scaleTime().domain(ext).range([0, chartW]).nice();
+
+  // Subtle lane separators
+  g.selectAll('.lane-sep').data(sorted).join('line')
+    .attr('x1', 0).attr('x2', chartW)
+    .attr('y1', (_, i) => i * laneH + laneH)
+    .attr('y2', (_, i) => i * laneH + laneH)
+    .attr('stroke', 'var(--border)').attr('stroke-width', 0.5).attr('opacity', 0.4);
+
+  // Time axis
+  g.append('g').attr('transform', `translate(0,${chartH + 4})`)
+    .call(d3.axisBottom(x).ticks(d3.timeWeek.every(1)).tickFormat(d3.timeFormat('%d %b')))
+    .selectAll('text').style('font-size', '9px').style('fill', 'var(--text2)');
+
+  const tooltip = d3.select(container).append('div').attr('class', 'tooltip');
+
+  const line = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveMonotoneX);
+
+  sorted.forEach((p, i) => {
+    const color = COLORS[i % COLORS.length];
+    const cy = i * laneH + laneH / 2;
+    const dates = p.commits.map(c => new Date(c.date)).sort((a,b) => a - b);
+    const points = dates.map(d => [x(d), cy]);
+
+    // Curved path
+    if (points.length > 1) {
+      g.append('path')
+        .attr('d', line(points))
+        .attr('stroke', color)
+        .attr('fill', 'none')
+        .attr('stroke-width', 2.5)
+        .attr('opacity', 0.6)
+        .attr('stroke-linecap', 'round')
+        .style('cursor', 'pointer')
+        .on('mouseover', function() { d3.select(this).attr('opacity', 1).attr('stroke-width', 4); })
+        .on('mouseout', function() { d3.select(this).attr('opacity', 0.6).attr('stroke-width', 2.5); })
+        .on('click', () => window.location.href = `index.html#${p.id}`);
+    }
+
+    // Commit dots
+    p.commits.forEach(c => {
+      const cx = x(new Date(c.date));
+      g.append('circle')
+        .attr('cx', cx).attr('cy', cy).attr('r', 3.5)
+        .attr('fill', color).attr('opacity', 0.9)
+        .style('cursor', 'pointer')
+        .on('mouseover', function(event) {
+          d3.select(this).attr('r', 6);
+          tooltip.html(`<strong>${esc(p.name)}</strong><br>${c.date} &middot; ${esc(c.hash)}<br>${esc(c.message)}`)
+            .style('left', (event.offsetX + 12) + 'px')
+            .style('top', (event.offsetY - 45) + 'px')
+            .style('opacity', 1);
+        })
+        .on('mouseout', function() {
+          d3.select(this).attr('r', 3.5);
+          tooltip.style('opacity', 0);
+        })
+        .on('click', () => window.location.href = `index.html#${p.id}`);
+    });
+
+    // Label
+    svg.append('text')
+      .attr('x', labelW - 8)
+      .attr('y', margin.top + cy + 4)
+      .attr('text-anchor', 'end')
+      .attr('fill', color)
+      .attr('font-size', '11px')
+      .attr('font-family', 'var(--mono)')
+      .style('cursor', 'pointer')
+      .text(shortName(p.name))
+      .on('click', () => window.location.href = `index.html#${p.id}`);
+  });
+
+  container.scrollLeft = container.scrollWidth;
+}
+
+/* ── OPTION B: Gradient range bars ── */
+function renderOptionB(projects) {
+  const container = document.getElementById('protoB');
+  const laneH = 22;
+  const labelW = 220;
+  const margin = {top: 32, right: 30, bottom: 32, left: labelW};
+
+  const sorted = assignLanes(projects);
+  const allDates = [];
+  sorted.forEach(p => p.commits.forEach(c => allDates.push(new Date(c.date))));
+  const ext = d3.extent(allDates);
+  const days = Math.max(1, (ext[1] - ext[0]) / 86400000);
+  const pxPerDay = Math.max(6, Math.min(25, 2000 / days));
+  const chartW = Math.max(days * pxPerDay, 800);
+  const chartH = sorted.length * laneH;
+
+  const svg = d3.select(container).append('svg')
+    .attr('width', chartW + margin.left + margin.right)
+    .attr('height', chartH + margin.top + margin.bottom);
+
+  const defs = svg.append('defs');
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  const x = d3.scaleTime().domain(ext).range([0, chartW]).nice();
+
+  g.append('g').attr('transform', `translate(0,${chartH + 4})`)
+    .call(d3.axisBottom(x).ticks(d3.timeWeek.every(1)).tickFormat(d3.timeFormat('%d %b')))
+    .selectAll('text').style('font-size', '9px').style('fill', 'var(--text2)');
+
+  const tooltip = d3.select(container).append('div').attr('class', 'tooltip');
+
+  sorted.forEach((p, i) => {
+    const color = COLORS[i % COLORS.length];
+    const cy = i * laneH + laneH / 2;
+    const dates = p.commits.map(c => new Date(c.date)).sort((a,b) => a - b);
+    const x0 = x(dates[0]), x1 = x(dates[dates.length - 1]);
+    const barH = 10;
+
+    const gradId = `grad-${i}`;
+    const grad = defs.append('linearGradient').attr('id', gradId);
+    grad.append('stop').attr('offset', '0%').attr('stop-color', color).attr('stop-opacity', 0.2);
+    grad.append('stop').attr('offset', '50%').attr('stop-color', color).attr('stop-opacity', 0.5);
+    grad.append('stop').attr('offset', '100%').attr('stop-color', color).attr('stop-opacity', 0.8);
+
+    // Range bar
+    g.append('rect')
+      .attr('x', x0).attr('y', cy - barH/2)
+      .attr('width', Math.max(3, x1 - x0)).attr('height', barH)
+      .attr('rx', 4)
+      .attr('fill', `url(#${gradId})`)
+      .style('cursor', 'pointer')
+      .on('click', () => window.location.href = `index.html#${p.id}`);
+
+    // Commit ticks
+    dates.forEach(d => {
+      g.append('line')
+        .attr('x1', x(d)).attr('x2', x(d))
+        .attr('y1', cy - barH/2).attr('y2', cy + barH/2)
+        .attr('stroke', color).attr('stroke-width', 1.5).attr('opacity', 0.9);
+    });
+
+    // Dots on top
+    p.commits.forEach(c => {
+      g.append('circle')
+        .attr('cx', x(new Date(c.date))).attr('cy', cy).attr('r', 2.5)
+        .attr('fill', '#fff').attr('opacity', 0.8)
+        .style('cursor', 'pointer')
+        .on('mouseover', function(event) {
+          d3.select(this).attr('r', 5);
+          tooltip.html(`<strong>${esc(p.name)}</strong><br>${c.date} &middot; ${esc(c.hash)}<br>${esc(c.message)}`)
+            .style('left', (event.offsetX + 12) + 'px')
+            .style('top', (event.offsetY - 45) + 'px')
+            .style('opacity', 1);
+        })
+        .on('mouseout', function() {
+          d3.select(this).attr('r', 2.5);
+          tooltip.style('opacity', 0);
+        });
+    });
+
+    svg.append('text')
+      .attr('x', labelW - 8)
+      .attr('y', margin.top + cy + 4)
+      .attr('text-anchor', 'end')
+      .attr('fill', color)
+      .attr('font-size', '10px')
+      .attr('font-family', 'var(--mono)')
+      .style('cursor', 'pointer')
+      .text(shortName(p.name))
+      .on('click', () => window.location.href = `index.html#${p.id}`);
+  });
+
+  container.scrollLeft = container.scrollWidth;
+}
+
+/* ── OPTION C: Branching tree with curved drop-downs ── */
+function renderOptionC(projects) {
+  const container = document.getElementById('protoC');
+  const dropH = 28;
+  const margin = {top: 50, right: 30, bottom: 32, left: 30};
+
+  const sorted = assignLanes(projects);
+  const allDates = [];
+  sorted.forEach(p => p.commits.forEach(c => allDates.push(new Date(c.date))));
+  const ext = d3.extent(allDates);
+  const days = Math.max(1, (ext[1] - ext[0]) / 86400000);
+  const pxPerDay = Math.max(6, Math.min(25, 2000 / days));
+  const chartW = Math.max(days * pxPerDay, 800);
+  const chartH = sorted.length * dropH + 40;
+
+  const svg = d3.select(container).append('svg')
+    .attr('width', chartW + margin.left + margin.right)
+    .attr('height', chartH + margin.top + margin.bottom);
+
+  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  const x = d3.scaleTime().domain(ext).range([0, chartW]).nice();
+
+  // Main horizontal axis line
+  g.append('line')
+    .attr('x1', 0).attr('x2', chartW)
+    .attr('y1', 0).attr('y2', 0)
+    .attr('stroke', 'var(--border)').attr('stroke-width', 2);
+
+  g.append('g').attr('transform', 'translate(0,-20)')
+    .call(d3.axisTop(x).ticks(d3.timeWeek.every(1)).tickFormat(d3.timeFormat('%d %b')))
+    .selectAll('text').style('font-size', '9px').style('fill', 'var(--text2)');
+
+  const tooltip = d3.select(container).append('div').attr('class', 'tooltip');
+
+  sorted.forEach((p, i) => {
+    const color = COLORS[i % COLORS.length];
+    const dates = p.commits.map(c => new Date(c.date)).sort((a,b) => a - b);
+    const firstX = x(dates[0]);
+    const lastX = x(dates[dates.length - 1]);
+    const yDrop = (i + 1) * dropH;
+
+    // Curved drop-down from axis to lane
+    const dropPath = d3.path();
+    dropPath.moveTo(firstX, 0);
+    dropPath.bezierCurveTo(firstX, yDrop * 0.5, firstX, yDrop * 0.8, firstX + 10, yDrop);
+    g.append('path')
+      .attr('d', dropPath.toString())
+      .attr('stroke', color).attr('fill', 'none')
+      .attr('stroke-width', 2).attr('opacity', 0.7)
+      .attr('stroke-linecap', 'round');
+
+    // Horizontal line at lane depth
+    g.append('line')
+      .attr('x1', firstX + 10).attr('x2', lastX)
+      .attr('y1', yDrop).attr('y2', yDrop)
+      .attr('stroke', color).attr('stroke-width', 2).attr('opacity', 0.5)
+      .attr('stroke-linecap', 'round')
+      .style('cursor', 'pointer')
+      .on('click', () => window.location.href = `index.html#${p.id}`);
+
+    // Dot on axis at start
+    g.append('circle')
+      .attr('cx', firstX).attr('cy', 0).attr('r', 4)
+      .attr('fill', color).attr('stroke', 'var(--bg)').attr('stroke-width', 1.5);
+
+    // Commit dots along lane
+    p.commits.forEach(c => {
+      const cx = x(new Date(c.date));
+      g.append('circle')
+        .attr('cx', cx).attr('cy', yDrop).attr('r', 3)
+        .attr('fill', color).attr('opacity', 0.85)
+        .style('cursor', 'pointer')
+        .on('mouseover', function(event) {
+          d3.select(this).attr('r', 6);
+          tooltip.html(`<strong>${esc(p.name)}</strong><br>${c.date} &middot; ${esc(c.hash)}<br>${esc(c.message)}`)
+            .style('left', (event.offsetX + 12) + 'px')
+            .style('top', (event.offsetY - 45) + 'px')
+            .style('opacity', 1);
+        })
+        .on('mouseout', function() {
+          d3.select(this).attr('r', 3);
+          tooltip.style('opacity', 0);
+        });
+    });
+
+    // Label at lane end
+    g.append('text')
+      .attr('x', lastX + 8)
+      .attr('y', yDrop + 4)
+      .attr('fill', color)
+      .attr('font-size', '10px')
+      .attr('font-family', 'var(--mono)')
+      .style('cursor', 'pointer')
+      .text(shortName(p.name))
+      .on('click', () => window.location.href = `index.html#${p.id}`);
+  });
+
+  container.scrollLeft = container.scrollWidth;
+}
+
+/* ── Helpers ── */
+function shortName(name) {
+  const parts = name.replace(/\\/g, '/').split('/');
+  const last = parts[parts.length - 1] || parts[parts.length - 2] || name;
+  return last.length > 30 ? last.slice(0, 28) + '\u2026' : last;
+}
+
+function assignLanes(projects) {
+  return projects
+    .map(p => {
+      const dates = (p.commits || []).map(c => new Date(c.date));
+      const start = d3.min(dates), end = d3.max(dates);
+      const span = end - start;
+      return {...p, _start: start, _end: end, _span: span};
+    })
+    .sort((a, b) => b._span - a._span || a._start - b._start);
+}
+
+init();
+</script>
+</body>
+</html>

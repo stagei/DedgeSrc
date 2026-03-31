@@ -1,0 +1,34 @@
+{
+  "tableName": "TMS_KVITTERING",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "externalId",
+      "futureName": "ExternalId",
+      "description": "Unique external identifier for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "timestampToTms",
+      "futureName": "TimestampToTms",
+      "description": "Timestamp when the record was processed by TMS system",
+      "foreignKey": null
+    },
+    {
+      "name": "timestampKvittert",
+      "futureName": "TimestampKvittert",
+      "description": "Timestamp when the order has been confirmed or completed",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status of the order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:02:31"
+}

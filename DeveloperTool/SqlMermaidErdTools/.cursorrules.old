@@ -1,0 +1,287 @@
+# SqlMermaidErdTools - Project Rules and Guidelines
+
+## Project Overview
+- **Name**: SqlMermaidErdTools
+- **Type**: C# NuGet Package
+- **Target Framework**: .NET 10.0
+- **Purpose**: Bidirectional conversion between SQL DDL and Mermaid Entity Relationship Diagrams (ERD)
+
+## Core Functionality
+1. **SQL to MMD Conversion**: Parse SQL CREATE TABLE statements and generate Mermaid ERD syntax
+2. **MMD to SQL Conversion**: Parse Mermaid ERD diagrams and generate SQL CREATE TABLE statements
+
+## Project Structure
+```
+SqlMermaidErdTools/
+├── src/
+│   └── SqlMermaidErdTools/
+│       ├── Converters/
+│       │   ├── SqlToMmdConverter.cs
+│       │   └── MmdToSqlConverter.cs
+│       ├── Models/
+│       │   ├── TableDefinition.cs
+│       │   ├── ColumnDefinition.cs
+│       │   └── RelationshipDefinition.cs
+│       ├── Parsers/
+│       │   ├── SqlParser.cs
+│       │   └── MmdParser.cs
+│       └── SqlMermaidErdTools.csproj
+├── tests/
+│   └── SqlMermaidErdTools.Tests/
+│       └── SqlMermaidErdTools.Tests.csproj
+├── samples/
+│   └── SqlMermaidErdTools.Samples/
+│       └── SqlMermaidErdTools.Samples.csproj
+├── README.md
+├── LICENSE
+└── .cursorrules
+```
+
+## Coding Standards
+
+### C# Conventions
+- Use C# 13 features where appropriate (.NET 10)
+- Follow Microsoft C# naming conventions
+- Use nullable reference types
+- Prefer `record` types for immutable data models
+- Use pattern matching and modern C# syntax
+- XML documentation comments for all public APIs
+
+### Code Organization
+- One class per file
+- Namespace matches folder structure: `SqlMermaidErdTools.Converters`, `SqlMermaidErdTools.Models`, etc.
+- Keep methods focused and single-purpose
+- Use dependency injection where appropriate
+
+### Error Handling
+- Use custom exceptions for domain-specific errors:
+  - `SqlParseException`
+  - `MmdParseException`
+  - `ConversionException`
+- Provide detailed error messages with context
+- Use `Result<T>` pattern or throw exceptions based on use case
+
+### Testing
+- Unit tests for all converters and parsers
+- Integration tests for end-to-end conversion scenarios
+- Test both valid and invalid inputs
+- Use xUnit as testing framework
+- Aim for >80% code coverage
+
+#### Automated Test Fixtures
+- **Reference Test Data**: Create a 3-table SQL structure with relationships (e.g., Customer, Order, OrderItem)
+- **Pre-generated Files**:
+  - `reference.sql` - Valid SQL DDL with all supported features
+  - `reference.mmd` - Correct Mermaid ERD corresponding to reference.sql
+- **Automated Comparison Tests**:
+  - SQL → MMD: Compare generated MMD against `reference.mmd`
+  - MMD → SQL: Compare generated SQL against `reference.sql` (semantic equivalence)
+  - Round-trip tests: SQL → MMD → SQL should produce equivalent schema
+- **Test Runner**: Automatically open and compare both files (generated vs. expected) for visual inspection
+- **Validation**: Use diff tools and semantic comparison (not just text matching)
+
+## SQL Support
+
+### Initial SQL Dialect Support
+- Start with ANSI SQL standard
+- Support common data types:
+  - Numeric: INT, BIGINT, DECIMAL, NUMERIC, FLOAT, REAL
+  - String: VARCHAR, NVARCHAR, CHAR, NCHAR, TEXT
+  - Date/Time: DATE, TIME, DATETIME, TIMESTAMP
+  - Binary: BINARY, VARBINARY
+  - Other: BOOLEAN, UUID/UNIQUEIDENTIFIER
+
+### SQL Features to Support
+- CREATE TABLE statements
+- Column definitions with data types
+- PRIMARY KEY constraints
+- FOREIGN KEY constraints with relationships
+- UNIQUE constraints
+- NOT NULL constraints
+- DEFAULT values
+- Column comments (if supported by dialect)
+
+### Future SQL Dialect Extensions
+- Microsoft SQL Server (T-SQL)
+- PostgreSQL
+- MySQL
+- SQLite
+- Oracle
+
+## Mermaid ERD Support
+
+### Mermaid Syntax Version
+- Target Mermaid ERD syntax (entity-relationship diagrams)
+- Support `erDiagram` block syntax
+
+### Mermaid Features
+- Entity definitions
+- Attribute definitions with types
+- Relationship cardinality:
+  - One-to-one (||--||)
+  - One-to-many (||--o{)
+  - Zero-or-one (||--o|)
+  - Zero-or-many (||--o{)
+  - Many-to-many (}o--o{)
+- Primary keys (PK)
+- Foreign keys (FK)
+- Unique constraints (UK)
+- Comments/descriptions
+
+### Example Mermaid ERD
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    CUSTOMER {
+        int id PK
+        string name
+        string email UK
+    }
+    ORDER {
+        int id PK
+        int customer_id FK
+        date order_date
+    }
+```
+
+## NuGet Package Configuration
+
+### Package Metadata
+- **PackageId**: SqlMermaidErdTools
+- **Authors**: [To be determined]
+- **Description**: Bidirectional converter between SQL DDL and Mermaid ERD diagrams
+- **Tags**: sql, mermaid, erd, diagram, converter, database, schema
+- **License**: MIT or Apache-2.0
+- **Repository**: GitHub (URL TBD)
+- **Icon**: Consider adding package icon
+- **ReadMe**: Include README.md in package
+
+### Versioning
+- Use Semantic Versioning (SemVer): MAJOR.MINOR.PATCH
+- Start at 0.1.0 for initial preview
+- Update version in .csproj file
+
+### Installation & Prerequisites
+- **Auto-Install Dependencies**: NuGet package installation automatically handles all prerequisites
+- **Bundled Runtimes**: Package includes portable Python and Node.js runtimes for the target platform
+  - Python Embeddable Distribution (~10 MB) with SQLGlot pre-installed
+  - Node.js Portable Binary (~30 MB) with little-mermaid-2-the-sql pre-installed
+  - Total package size: ~50 MB per platform (acceptable trade-off for zero-config experience)
+- **Platform-Specific Packages**: Separate packages for win-x64, linux-x64, osx-x64
+- **No Manual Setup**: Users install via `dotnet add package SqlMermaidErdTools` - everything works immediately
+- **Runtime Detection**: Package detects platform and uses appropriate bundled runtime
+- **Fallback**: Can detect and use system-installed Python/Node.js if available and compatible
+- **Implementation Details**: See BUNDLING_STRATEGY.md for complete technical details
+
+### Dependencies
+- Minimize external dependencies where possible
+- Required runtime dependencies (Phase 1 - External Tools):
+  - Python 3.8+ (for SQLGlot)
+  - Node.js 16+ (for little-mermaid-2-the-sql)
+- Dependency Management:
+  - **Auto-download on Install**: NuGet package should include install scripts that download/bundle prerequisites
+  - **Bundled Runtimes**: Consider embedding portable Python and Node.js runtimes
+  - **Alternative**: Provide standalone installers or use tools like PyInstaller/pkg to create executables
+  - **Detection**: Check for existing Python/Node.js installations before downloading
+- .NET Dependencies:
+  - System.Text.Json for JSON processing
+  - System.Diagnostics.Process for external tool execution (Phase 1)
+  - Future: Microsoft.SqlServer.TransactSql.ScriptDom, ANTLR4, Sprache (Phase 2)
+
+## Public API Design
+
+### Main Entry Points
+```csharp
+// SQL to Mermaid
+public interface ISqlToMmdConverter
+{
+    string Convert(string sqlDdl);
+    Task<string> ConvertAsync(string sqlDdl, CancellationToken cancellationToken = default);
+}
+
+// Mermaid to SQL
+public interface IMmdToSqlConverter
+{
+    string Convert(string mermaidErd, SqlDialect dialect = SqlDialect.AnsiSql);
+    Task<string> ConvertAsync(string mermaidErd, SqlDialect dialect = SqlDialect.AnsiSql, CancellationToken cancellationToken = default);
+}
+
+// Combined facade
+public static class SqlMermaidErdTools
+{
+    public static string ToMermaid(string sql);
+    public static string ToSql(string mermaid, SqlDialect dialect = SqlDialect.AnsiSql);
+}
+```
+
+### Configuration Options
+- Support configuration for:
+  - SQL dialect selection
+  - Formatting preferences (indentation, case)
+  - Include/exclude constraints
+  - Schema name handling
+
+## Documentation Requirements
+- README.md with:
+  - Quick start guide
+  - Installation instructions
+  - Basic usage examples
+  - Supported SQL features
+  - Supported Mermaid syntax
+  - Limitations and known issues
+- XML documentation for IntelliSense
+- Sample projects demonstrating usage
+- API reference (generated from XML docs)
+
+## Build and CI/CD
+- Use .NET CLI for builds
+- GitHub Actions or Azure DevOps for CI/CD
+- Automated testing on PR
+- Automated package publishing to NuGet.org on release tags
+- Primary target: net10.0
+- Optional multi-targeting for broader compatibility (net8.0, net9.0, net10.0)
+
+## Quality Gates
+- No build warnings
+- All tests passing
+- Code coverage >80%
+- No critical security vulnerabilities
+- Pass .NET analyzers with default ruleset
+
+## Development Workflow
+
+### Automated Agent-Driven Development
+- **Autonomous Implementation**: Cursor agent implements tasks continuously without user interaction
+- **Task-Based Approach**: All work is broken down into discrete, verifiable tasks
+- **Automated Code Review**: Before marking a task complete, agent verifies:
+  1. All functionality from related spec is implemented
+  2. Code follows project coding standards
+  3. Tests are written and passing
+  4. Documentation is updated
+  5. No linter errors introduced
+- **Specification-Driven**: Each task links to its specification document
+- **Continuous Validation**: Agent validates implementation against specs before completion
+- **Exception Handling**: Agent only pauses for user input when encountering unsolvable situations
+
+### Manual Workflow (when needed)
+1. Create feature branch
+2. Implement feature with tests
+3. Ensure all tests pass
+4. Update documentation
+5. Create PR
+6. Merge to main
+7. Tag release
+8. Publish to NuGet
+
+## Notes
+- Keep the initial implementation simple and extensible
+- Focus on common use cases first
+- Design for extensibility (support for multiple SQL dialects)
+- Consider performance for large schemas
+- Handle edge cases gracefully with clear error messages
+
+## Related Documentation
+- **BACKEND_COMPONENTS.md**: Overview of external tools (SQLGlot, little-mermaid-2-the-sql) and integration strategies
+- **BUNDLING_STRATEGY.md**: Complete guide to bundling Python and Node.js runtimes in the NuGet package
+- **TESTING_STRATEGY.md**: Automated testing approach with reference data and file comparison
+

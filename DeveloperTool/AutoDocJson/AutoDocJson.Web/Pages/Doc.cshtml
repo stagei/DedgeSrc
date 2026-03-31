@@ -1,0 +1,108 @@
+﻿@page
+@model DocModel
+@{
+    ViewData["Title"] = Model.DocTitle ?? "Document";
+    
+    // Per-type accent color and badge text (matching old AutoDoc templates)
+    var (accentLight, accentDark, badgeText) = Model.FileType switch
+    {
+        "CBL"    => ("#0ea5e9", "#22d3ee", "COBOL"),
+        "PS1"    => ("#ea580c", "#ff6b35", "PowerShell"),
+        "SQL"    => ("#2563eb", "#5c9eff", "SQL"),
+        "BAT"    => ("#7c3aed", "#a78bfa", "Batch"),
+        "REX"    => ("#059669", "#10b981", "Object-Rexx"),
+        "CSharp" => ("#2563eb", "#60a5fa", "C#"),
+        _        => ("#0ea5e9", "#22d3ee", Model.FileType)
+    };
+}
+
+@section Styles {
+<style>
+    :root { --accent-primary: @accentLight; }
+    [data-theme="dark"] { --accent-primary: @accentDark; }
+    
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .detail-table th { background: var(--bg-secondary); padding: 0.5rem; text-align: left; font-weight: 500; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+    .detail-table td { padding: 0.5rem; border-bottom: 1px solid var(--border-color); }
+    .detail-table tr:last-child td { border-bottom: none; }
+    input[type="checkbox"] { accent-color: var(--accent-primary); }
+    .empty-state { padding: 3rem; text-align: center; color: var(--text-muted); }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+</style>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div style="max-width: 800px; margin: 3rem auto; padding: 2rem;">
+        <div class="alert alert-danger" style="background: var(--bg-card); border: 1px solid #dc2626; color: var(--text-primary);">
+            <i class="bi bi-exclamation-triangle"></i> @Model.ErrorMessage
+        </div>
+        <a href="~/" style="color: var(--accent-primary);"><i class="bi bi-arrow-left"></i> <span data-i18n="nav.backToDashboard">Back to Dashboard</span></a>
+    </div>
+    return;
+}
+
+@if (Model.DocBase == null)
+{
+    <div style="max-width: 800px; margin: 3rem auto; padding: 2rem;">
+        <div class="alert alert-warning" data-i18n="empty.noDocData">No document data available.</div>
+        <a href="~/" style="color: var(--accent-primary);"><i class="bi bi-arrow-left"></i> <span data-i18n="nav.backToDashboard">Back to Dashboard</span></a>
+    </div>
+    return;
+}
+
+<!-- Header (matching old AutoDoc template) -->
+<header class="header">
+    <div class="logo-section">
+        <div id="DedgeAuthHeader" data-app-title="AutoDoc" data-home-url="/AutoDocJson/"></div>
+        <h4>@Model.DocBase.Title</h4>
+        <span class="badge">@badgeText</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div id="DedgeAuthUserMenu"></div>
+        <div id="DedgeAuthThemePill"></div>
+    </div>
+</header>
+
+@switch (Model.FileType)
+{
+    case "CBL":
+        @await Html.PartialAsync("_CblView", Model.Cbl)
+        break;
+    case "BAT":
+        @await Html.PartialAsync("_BatView", Model.Bat)
+        break;
+    case "PS1":
+        @await Html.PartialAsync("_Ps1View", Model.Ps1)
+        break;
+    case "REX":
+        @await Html.PartialAsync("_RexView", Model.Rex)
+        break;
+    case "SQL":
+        @await Html.PartialAsync("_SqlView", Model.Sql)
+        break;
+    case "CSharp":
+        @await Html.PartialAsync("_CSharpView", Model.CSharp)
+        break;
+    default:
+        <div class="alert alert-info" style="margin: 2rem;"><span data-i18n="empty.noViewerForType">No viewer available for type:</span> @Model.FileType</div>
+        break;
+}
+
+<!-- Fullscreen Overlay (shared across all diagram types) -->
+<div class="diagram-fullscreen-overlay" id="fullscreen-overlay">
+    <div class="diagram-fullscreen-header">
+        <span class="diagram-fullscreen-title" id="fullscreen-title" data-i18n="diagram.fullscreen">Diagram</span>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <div class="diagram-btn-group">
+                <button class="diagram-btn" onclick="zoomInFullscreen()" data-i18n-title="diagram.zoomIn" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+                <button class="diagram-btn" onclick="zoomOutFullscreen()" data-i18n-title="diagram.zoomOut" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+                <button class="diagram-btn" onclick="resetZoomFullscreen()" data-i18n-title="diagram.resetZoom" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="fullscreen-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreenFullscreen()" data-i18n-title="diagram.fitToScreen" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+            <button class="diagram-btn" onclick="closeFullscreen()" data-i18n-title="diagram.close" title="Close"><i class="bi bi-x-lg"></i></button>
+        </div>
+    </div>
+    <div class="diagram-fullscreen-content" id="fullscreen-content"></div>
+</div>

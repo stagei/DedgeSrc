@@ -1,0 +1,124 @@
+{
+  "tableName": "KD_DELPARTI",
+  "futureName": "DelParti",
+  "namespace": "ContractSystem",
+  "columns": [
+    {
+      "name": "ravPartinr",
+      "futureName": "RawMaterialPartNumber",
+      "description": "Unique number identifying the raw material part",
+      "foreignKey": "DBM.KD_RAAVARE_PARTI.RAAV_PARTINR"
+    },
+    {
+      "name": "delpartinr",
+      "futureName": "DeliveryPartyNumber",
+      "description": "Unique number identifying the delivery party",
+      "foreignKey": null
+    },
+    {
+      "name": "kontraktrRecno",
+      "futureName": "ContractRecordNumber",
+      "description": "Record number of the contract",
+      "foreignKey": null
+    },
+    {
+      "name": "kontraktLinRecno",
+      "futureName": "ContractLineRecordNumber",
+      "description": "Record number of the contract line",
+      "foreignKey": null
+    },
+    {
+      "name": "arealnr",
+      "futureName": "AreaNumber",
+      "description": "Number identifying the area",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status of the delivery party",
+      "foreignKey": null
+    },
+    {
+      "name": "hektolitervekt",
+      "futureName": "HectoliterWeight",
+      "description": "Weight in hectoliters",
+      "foreignKey": null
+    },
+    {
+      "name": "tusenKornVekt",
+      "futureName": "ThousandCornWeight",
+      "description": "Weight in thousand corns",
+      "foreignKey": null
+    },
+    {
+      "name": "vannProsToerr",
+      "futureName": "WaterPercentageError",
+      "description": "Percentage error of water content",
+      "foreignKey": null
+    },
+    {
+      "name": "delpartiVekt",
+      "futureName": "DeliveryPartyWeight",
+      "description": "Weight of the delivery party",
+      "foreignKey": null
+    },
+    {
+      "name": "tilgjengeligVekt",
+      "futureName": "AvailableWeight",
+      "description": "Available weight",
+      "foreignKey": null
+    },
+    {
+      "name": "ikkePakketVekt",
+      "futureName": "UnpackedWeight",
+      "description": "Weight that is not packed",
+      "foreignKey": null
+    },
+    {
+      "name": "toemt",
+      "futureName": "Emptied",
+      "description": "Indicates if the delivery party has been emptied",
+      "foreignKey": null
+    },
+    {
+      "name": "regDato",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration",
+      "foreignKey": null
+    },
+    {
+      "name": "regBruker",
+      "futureName": "RegistratingUser",
+      "description": "User who registered the record",
+      "foreignKey": null
+    },
+    {
+      "name": "sistEndrDato",
+      "futureName": "LastModifiedDateTime",
+      "description": "Date and time of the last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "sistEndrBruker",
+      "futureName": "LastModifyingUser",
+      "description": "User who last modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "renseDato",
+      "futureName": "CleaningDate",
+      "description": "Date of cleaning",
+      "foreignKey": null
+    },
+    {
+      "name": "avrForrVekt",
+      "futureName": "PreviousWeight",
+      "description": "Previous weight measurement",
+      "foreignKey": "KD_SAF_FRO_PARTI"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:59:41"
+}

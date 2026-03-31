@@ -1,0 +1,414 @@
+{
+  "program": "D01B916",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:04:46",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "D01B916",
+    "program": "D01B916",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RPB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OSARETB.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHFLYB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "SIKF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFFULL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHMARE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "V006.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EANF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LVNR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFM001.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFLOOL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KAMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFM024.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "VDHTIME.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFSAKU.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAFM033.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GLHSESI.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "RETURPLAST_BEH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KONTO_FRA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SIGN_KTO_FORR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "D01B916",
+      "GMACOCO",
+      "GMVMAL2",
+      "GMFFELL",
+      "AAAMLEV",
+      "GMAMEXT",
+      "RKVFLYB",
+      "GMVSAKU"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFIL",
+        "physicalName": "D3BCDSIN.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D3BCDSIN.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL-TEST",
+        "physicalName": "WW-FILNAVN-TEST",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-UT-FIL-TEST-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File UT-FIL-TEST is dynamically named with userid and date"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "D3BPROD.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D3BPROD.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "D3BPROD-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\U\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\U\\D3BPROD.TXT",
+        "filenamePattern": "D3BPROD.TXT",
+        "filenameDescription": "File path for AVVIK-FIL"
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "D3BPROD.TXT",
+        "path": "U:\\",
+        "fullPath": "U:\\D3BPROD.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "HEAD-FIL",
+        "physicalName": "ww-filnavn1",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program converts loadfiles for loading table DBM.DREG19B in the financial system, with filenames to be adjusted before each run."
+      },
+      {
+        "logicalName": "LINE-FIL",
+        "physicalName": "ww-filnavn2",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and naming pattern not explicitly defined in provided code snippets."
+      },
+      {
+        "logicalName": "VERS-FIL",
+        "physicalName": "ww-filnavn3",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231001.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Construction of filename based on userid and date, file extension is .CSV"
+      },
+      {
+        "logicalName": "FAKTV-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and pattern not explicitly defined in the provided code snippets."
+      },
+      {
+        "logicalName": "FAKTV-ITD-FIL",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date from working storage, no specific path mentioned"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:04:46"
+  },
+  "variableFilenames": {
+    "UT-FIL-TEST": {
+      "logicalName": "UT-FIL-TEST",
+      "physicalVariable": "WW-FILNAVN-TEST",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-UT-FIL-TEST-<date>.CSV",
+      "description": "File UT-FIL-TEST is dynamically named with userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:25"
+    },
+    "D3BPROD-FIL": {
+      "logicalName": "D3BPROD-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\U\\",
+      "filenamePattern": "D3BPROD.TXT",
+      "resolvedPath": "\\\\U\\D3BPROD.TXT",
+      "description": "File path for AVVIK-FIL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:29"
+    },
+    "HEAD-FIL": {
+      "logicalName": "HEAD-FIL",
+      "physicalVariable": "ww-filnavn1",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Program converts loadfiles for loading table DBM.DREG19B in the financial system, with filenames to be adjusted before each run.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:32"
+    },
+    "LINE-FIL": {
+      "logicalName": "LINE-FIL",
+      "physicalVariable": "ww-filnavn2",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and naming pattern not explicitly defined in provided code snippets.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:36"
+    },
+    "VERS-FIL": {
+      "logicalName": "VERS-FIL",
+      "physicalVariable": "ww-filnavn3",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231001.CSV",
+      "description": "Construction of filename based on userid and date, file extension is .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:39"
+    },
+    "FAKTV-FIL": {
+      "logicalName": "FAKTV-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and pattern not explicitly defined in the provided code snippets.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:43"
+    },
+    "FAKTV-ITD-FIL": {
+      "logicalName": "FAKTV-ITD-FIL",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using userid and date from working storage, no specific path mentioned",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:04:46"
+    }
+  }
+}

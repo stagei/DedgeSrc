@@ -1,0 +1,190 @@
+{
+  "tableName": "KD_KONT_LIN_LOGG",
+  "futureName": "ContractLineLog",
+  "namespace": "WebRegistrations",
+  "columns": [
+    {
+      "name": "TYPE_ENDRING",
+      "futureName": "TypeEndring",
+      "description": "Type of change",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTRAKT_RECNO",
+      "futureName": "ContractRecordNumber",
+      "description": "Unique record identifier for contract line",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJE_RECNO",
+      "futureName": "LineRecordNumber",
+      "description": "Unique record identifier for line within a contract",
+      "foreignKey": "KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "ART",
+      "futureName": "Type",
+      "description": "Type of item or service",
+      "foreignKey": null
+    },
+    {
+      "name": "SORT",
+      "futureName": "SortOrder",
+      "description": "Sorting order for the line within a contract",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_RAAVARE",
+      "futureName": "MaterialNumber",
+      "description": "Material number or code",
+      "foreignKey": "KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "KLASSE",
+      "futureName": "Class",
+      "description": "Classification of the item or service",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status or condition",
+      "foreignKey": "KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "GARDSNR",
+      "futureName": "GuardNumber",
+      "description": "Number associated with the guard or security measure",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKSNR",
+      "futureName": "UserNumber",
+      "description": "Number assigned to a user or operator",
+      "foreignKey": null
+    },
+    {
+      "name": "AREAL",
+      "futureName": "Area",
+      "description": "Area of application or usage",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR1_ART",
+      "futureName": "FirstSubTypeArt",
+      "description": "First subtype of item or service type 1",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR1_SORT",
+      "futureName": "FirstSubTypeSort",
+      "description": "First subtype sorting order for type 1",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR1_AREAL",
+      "futureName": "FirstSubTypeArea",
+      "description": "First subtype area of application or usage for type 1",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR2_ART",
+      "futureName": "SecondSubTypeArt",
+      "description": "Second subtype of item or service type 2",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR2_SORT",
+      "futureName": "SecondSubTypeSort",
+      "description": "Second subtype sorting order for type 2",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR2_AREAL",
+      "futureName": "SecondSubTypeArea",
+      "description": "Second subtype area of application or usage for type 2",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR3_ART",
+      "futureName": "ThirdSubTypeArt",
+      "description": "Third subtype of item or service type 3",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR3_SORT",
+      "futureName": "ThirdSubTypeSort",
+      "description": "Third subtype sorting order for type 3",
+      "foreignKey": null
+    },
+    {
+      "name": "FORGR3_AREAL",
+      "futureName": "ThirdSubTypeArea",
+      "description": "Third subtype area of application or usage for type 3",
+      "foreignKey": null
+    },
+    {
+      "name": "FORVENTET_AVLING",
+      "futureName": "ExpectedDeliveryQuantity",
+      "description": "Expected quantity to be delivered",
+      "foreignKey": null
+    },
+    {
+      "name": "KVANTUM",
+      "futureName": "Quantum",
+      "description": "Quantitative value or measure",
+      "foreignKey": "KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "LEV_STED",
+      "futureName": "LocationCode",
+      "description": "Location code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LEV_UKE",
+      "futureName": "WeekNumber",
+      "description": "Week number for a specific period",
+      "foreignKey": null
+    },
+    {
+      "name": "LEV_TIDSPUNKT",
+      "futureName": "TimeSlot",
+      "description": "Time slot or timestamp",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration or record creation",
+      "foreignKey": "KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegisteredByUser",
+      "description": "User who registered the record",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "LastChangedDate",
+      "description": "Date of last change or modification",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "LastChangedByUser",
+      "description": "User who made the last change",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_HALVFABR",
+      "futureName": "HalfFabricationNumber",
+      "description": "Number associated with half fabrication",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:10:33"
+}

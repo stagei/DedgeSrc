@@ -1,0 +1,75 @@
+{
+  "provider": "POSTGRESQL",
+  "version": "18",
+  "description": "PostgreSQL SQL keywords and reserved words for intellisense and syntax highlighting",
+  "keywords": {
+    "statements": [
+      "SELECT", "INSERT", "UPDATE", "DELETE", "MERGE",
+      "CREATE", "ALTER", "DROP", "TRUNCATE",
+      "BEGIN", "END", "COMMIT", "ROLLBACK",
+      "GRANT", "REVOKE",
+      "CALL", "RETURN",
+      "DECLARE", "SET",
+      "FETCH", "OPEN", "CLOSE",
+      "EXPLAIN", "ANALYZE", "VACUUM", "REINDEX"
+    ],
+    "clauses": [
+      "FROM", "WHERE", "GROUP BY", "HAVING", "ORDER BY",
+      "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "CROSS JOIN",
+      "ON", "USING",
+      "UNION", "UNION ALL", "INTERSECT", "EXCEPT",
+      "WITH", "AS",
+      "INTO", "VALUES",
+      "LIMIT", "OFFSET", "FETCH FIRST", "ROWS ONLY"
+    ],
+    "datatypes": [
+      "INTEGER", "INT", "SMALLINT", "BIGINT",
+      "DECIMAL", "NUMERIC", "DEC",
+      "REAL", "DOUBLE", "FLOAT",
+      "CHAR", "CHARACTER", "VARCHAR", "TEXT",
+      "BYTEA",
+      "DATE", "TIME", "TIMESTAMP", "TIMESTAMPTZ", "INTERVAL",
+      "JSON", "JSONB", "XML",
+      "BOOLEAN", "BOOL", "SERIAL", "BIGSERIAL", "SMALLSERIAL",
+      "UUID", "OID"
+    ],
+    "functions": [
+      "COUNT", "SUM", "AVG", "MIN", "MAX",
+      "SUBSTR", "SUBSTRING", "TRIM", "BTRIM", "RTRIM", "LTRIM",
+      "UPPER", "LOWER", "LENGTH", "CHAR_LENGTH",
+      "COALESCE", "NULLIF", "CASE", "WHEN", "THEN", "ELSE",
+      "CAST", "::",
+      "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP",
+      "EXTRACT", "DATE_TRUNC", "AGE",
+      "STRING_AGG", "ARRAY_AGG", "JSON_AGG", "JSONB_AGG",
+      "ROW_NUMBER", "RANK", "DENSE_RANK"
+    ],
+    "operators": [
+      "AND", "OR", "NOT",
+      "IN", "NOT IN", "EXISTS", "NOT EXISTS",
+      "BETWEEN", "LIKE", "ILIKE", "IS NULL", "IS NOT NULL",
+      "DISTINCT", "ALL", "ANY", "SOME"
+    ],
+    "system_tables": [
+      "information_schema.schemata", "information_schema.tables", "information_schema.columns",
+      "information_schema.views", "information_schema.routines", "information_schema.parameters",
+      "information_schema.table_constraints", "information_schema.key_column_usage",
+      "information_schema.referential_constraints", "information_schema.sequences",
+      "information_schema.triggers",
+      "pg_catalog.pg_class", "pg_catalog.pg_namespace", "pg_catalog.pg_proc",
+      "pg_catalog.pg_roles", "pg_catalog.pg_tables", "pg_catalog.pg_views",
+      "pg_catalog.pg_indexes"
+    ],
+    "constraints": [
+      "PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK",
+      "NOT NULL", "DEFAULT",
+      "REFERENCES", "CONSTRAINT",
+      "ON CONFLICT", "DO UPDATE", "DO NOTHING"
+    ],
+    "modifiers": [
+      "ASC", "DESC",
+      "NULLS FIRST", "NULLS LAST",
+      "FOR UPDATE", "FOR SHARE", "FOR NO KEY UPDATE", "FOR KEY SHARE"
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "tableName": "KD_LEVERANSE",
+  "futureName": "Leverance",
+  "namespace": "Kontraktdyrkersystemet",
+  "columns": [
+    {
+      "name": "RAAV_PARTINR",
+      "futureName": "RawMaterialPartNumber",
+      "description": "Unique identifier for raw material part",
+      "foreignKey": "KHD_RAAVARE_PARTI.RAAV_PARTINR"
+    },
+    {
+      "name": "LEVERANSENR",
+      "futureName": "SupplyOrderNumber",
+      "description": "Number identifying the supply order",
+      "foreignKey": null
+    },
+    {
+      "name": "VEIENR",
+      "futureName": "WaybillNumber",
+      "description": "Number of the waybill document",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTRAKT_RECNO",
+      "futureName": "ContractRecordNumber",
+      "description": "Unique identifier for contract record",
+      "foreignKey": "H_ORDREHODE.RECNO"
+    },
+    {
+      "name": "KONTRAKT_LIN_RECNO",
+      "futureName": "ContractLineRecordNumber",
+      "description": "Unique identifier for contract line record",
+      "foreignKey": null
+    },
+    {
+      "name": "AREALNR",
+      "futureName": "AreaNumber",
+      "description": "Identifier for the area where material is received",
+      "foreignKey": null
+    },
+    {
+      "name": "ANALYSE_NR",
+      "futureName": "AnalysisNumber",
+      "description": "Number of the analysis performed",
+      "foreignKey": null
+    },
+    {
+      "name": "DEL_ANALYSE_NR",
+      "futureName": "DetailAnalysisNumber",
+      "description": "Detailed number for specific analysis within a group",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERINGS_DATO",
+      "futureName": "DeliveryDate",
+      "description": "Date of the delivery",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERINGS_UKE",
+      "futureName": "DeliveryWeek",
+      "description": "Week number when the delivery occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERINGS_DAG",
+      "futureName": "DeliveryDay",
+      "description": "Day of the week for the delivery date",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERINGS_TIME",
+      "futureName": "DeliveryTime",
+      "description": "Time of day when the delivery was scheduled or occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "INNTAK",
+      "futureName": "ReceiptAmount",
+      "description": "Quantity of material received",
+      "foreignKey": null
+    },
+    {
+      "name": "BILNR",
+      "futureName": "VehicleNumber",
+      "description": "Identifier for the vehicle used in delivery",
+      "foreignKey": null
+    },
+    {
+      "name": "HEKTOLITERVEKT",
+      "futureName": "HectoliterWeight",
+      "description": "Weight in hectoliters of material received",
+      "foreignKey": null
+    },
+    {
+      "name": "VANN_PROS_MOTTAK",
+      "futureName": "WaterContentAtReceipt",
+      "description": "Water content percentage at the time of receipt",
+      "foreignKey": null
+    },
+    {
+      "name": "VANN_PROS_ENDELIG",
+      "futureName": "FinalWaterContent",
+      "description": "Final water content percentage after processing",
+      "foreignKey": null
+    },
+    {
+      "name": "SILONR",
+      "futureName": "SilageNumber",
+      "description": "Identifier for silage batch or unit",
+      "foreignKey": null
+    },
+    {
+      "name": "VEKTNR",
+      "futureName": "WeightCode",
+      "description": "Code representing the type of weight measurement used",
+      "foreignKey": null
+    },
+    {
+      "name": "INNVEID_VEKT",
+      "futureName": "ReceivedWeight",
+      "description": "Total weight received at the facility",
+      "foreignKey": null
+    },
+    {
+      "name": "VENTETID",
+      "futureName": "ExpectedTime",
+      "description": "Scheduled time for expected delivery or processing",
+      "foreignKey": null
+    },
+    {
+      "name": "DIV_TILLEGG",
+      "futureName": "DivisionAddition",
+      "description": "Additional information related to division",
+      "foreignKey": null
+    },
+    {
+      "name": "TUSEN_KORN_VEKT",
+      "futureName": "ThousandCornWeight",
+      "description": "Weight in thousand corn units of the material received",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALT_TREKK",
+      "futureName": "AgreedExtraction",
+      "description": "Quantity agreed for extraction or processing",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the supply order",
+      "foreignKey": null
+    },
+    {
+      "name": "SUGEBIL",
+      "futureName": "SugarBeetCar",
+      "description": "Identifier for sugar beet transport vehicle",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUTTO_INNVEID",
+      "futureName": "TotalReceivedWeight",
+      "description": "Total weight received, including any additional material",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUTTO_PROEVE_GR",
+      "futureName": "TotalSampleAmount",
+      "description": "Total amount of samples taken for analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "NETTO_PROEVE_GR",
+      "futureName": "NetSampleAmount",
+      "description": "Net amount of samples remaining after initial distribution",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:15:03"
+}

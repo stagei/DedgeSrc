@@ -1,0 +1,46 @@
+{
+  "tableName": "KIT_HODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "FKNR_KIT",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE_KIT",
+      "futureName": "KitType",
+      "description": "Type of the kit",
+      "foreignKey": null
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "StartDate",
+      "description": "Start date for the order or kit validity period",
+      "foreignKey": "K_GROV_PLAN"
+    },
+    {
+      "name": "TIL_DATO",
+      "futureName": "EndDate",
+      "description": "End date for the order or kit validity period",
+      "foreignKey": "K_GROV_PLAN"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CustomerID",
+      "description": "Identifier for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating when the record was created or last updated",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:29:41"
+}

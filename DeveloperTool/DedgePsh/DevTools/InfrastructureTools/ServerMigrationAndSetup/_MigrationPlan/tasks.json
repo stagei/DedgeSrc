@@ -1,0 +1,1444 @@
+﻿{
+  "generalTasks": [
+    {
+      "taskname": "GenerateDbCatalogScripts",
+      "description": "Generer alle katalogskript for databasen ved hjelp av DbCatalog-GenerateAll.ps1",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "VerifyKerberosAuthFkx",
+      "prerequisiteComment": "Katalogskript må være generert først",
+      "description": "Kjør Db2Kerberos-OrderToSystemAdmin.ps1",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": ["GenerateDbCatalogScripts"]
+    },
+    {
+      "taskname": "LocalKerberosConfigLaptop",
+      "prerequisiteComment": "Krever at alle servere har fullført Kerberos-konfigurasjonen først",
+      "description": "Kjør alle katalogskript i lokal Db2 Clp Admin for hver maskin fra katalog: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<servernavn>\\",
+      "comment": "Dette lar utviklerne koble til databasen fra sine egne maskiner via Kerberos",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-VerifyKerberosConfig",
+        "t-no1fkmdev-db-VerifyKerberosConfig",
+        "t-no1inldev-db-VerifyKerberosConfig",
+        "t-no1inltst-db-VerifyKerberosConfig",
+        "t-no1fkmtst-db-VerifyKerberosConfig",
+        "t-no1inldev-app-VerifyKerberosConfig",
+        "t-no1inltst-app-VerifyKerberosConfig",
+        "t-no1fkmtst-app-VerifyKerberosConfig",
+        "t-no1fkmtst-soa-VerifyKerberosConfig"
+      ]
+    }
+  ],
+  "serverTasks": [
+    {
+      "server": "p-no1fkxprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1fkxprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1fkxprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkxprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1fkxprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkxprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkxprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkxprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "dedge-server",
+      "tasks": [
+        {
+          "taskname": "dedge-server-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "dedge-server-VerifyDb2Client",
+          "description": "Verifiser at IBM DB2 klient er installert. Hvis ikke, bruk pwsh.exe kommando 'Get-App' og installer den",
+          "comment": "DB2 klient er nødvendig for databasetilkobling",
+          "default": false,
+          "prerequisiteTasks": ["dedge-server-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "dedge-server-ConfigureKerberosClient",
+          "description": "Kjør pwsh.exe på Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp klienten",
+          "comment": "Dette konfigurerer klienten for Kerberos-autentisering mot databasen",
+          "default": false,
+          "prerequisiteTasks": ["dedge-server-VerifyDb2Client", "p-no1fkxprd-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "DB2 klient må være installert og Kerberos må være konfigurert på databaseserveren"
+        },
+        {
+          "taskname": "dedge-server-VerifyDbConnection",
+          "description": "Verifiser tilkobling til p-no1fkxprd-db ved bruk av db2 clp",
+          "comment": "Test at klienten kan koble til databasen",
+          "default": false,
+          "prerequisiteTasks": ["dedge-server-ConfigureKerberosClient"],
+          "prerequisiteComment": "Kerberos-klient må være konfigurert først"
+        },
+        {
+          "taskname": "dedge-server-VerifyRunExe",
+          "description": "Verifiser at applikasjonen kan kjøre run.exe og wrun.exe",
+          "comment": "Dette er nødvendig for å kjøre COBOL-applikasjoner",
+          "default": false,
+          "prerequisiteTasks": ["dedge-server-VerifyDbConnection"],
+          "prerequisiteComment": "Databasetilkobling må være bekreftet først"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmdev-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmdev-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmdev-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmdev-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "t-no1fkmdev-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmdev-db",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "t-no1fkmdev-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmdev-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "t-no1inldev-db",
+      "tasks": [
+        {
+          "taskname": "t-no1inldev-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1inldev-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1inldev-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1inldev-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "t-no1inldev-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1inldev-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "t-no1inldev-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "t-no1inldev-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1inldev-db",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "t-no1inldev-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "t-no1inldev-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "t-no1inldev-app",
+      "tasks": [
+        {
+          "taskname": "t-no1inldev-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1inldev-app-VerifyDb2Client",
+          "description": "Verifiser at IBM DB2 klient er installert. Hvis ikke, bruk pwsh.exe kommando 'Get-App' og installer den",
+          "comment": "DB2 klient er nødvendig for databasetilkobling",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-app-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1inldev-app-ConfigureKerberosClient",
+          "description": "Kjør pwsh.exe på Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp klienten",
+          "comment": "Dette konfigurerer klienten for Kerberos-autentisering mot databasen",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-app-VerifyDb2Client", "t-no1inldev-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "DB2 klient må være installert og Kerberos må være konfigurert på databaseserveren"
+        },
+        {
+          "taskname": "t-no1inldev-app-VerifyDbConnection",
+          "description": "Verifiser tilkobling til t-no1inldev-db ved bruk av db2 clp",
+          "comment": "Test at klienten kan koble til databasen",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-app-ConfigureKerberosClient"],
+          "prerequisiteComment": "Kerberos-klient må være konfigurert først"
+        },
+        {
+          "taskname": "t-no1inldev-app-VerifyCobolRuntime",
+          "description": "Verifiser at vi kan starte fra cmd.exe run.exe og wrun.exe som er kjøretidsmiljø for Microfocus COBOL",
+          "comment": "Dette er nødvendig for applikasjonsservere",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-app-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1inldev-app-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "Verifiser tilkobling fra appserver til database",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inldev-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "Kerberos-oppsett på databaseserveren må være fullført og verifisert"
+        }
+      ]
+    },
+    {
+      "server": "t-no1inltst-db",
+      "tasks": [
+        {
+          "taskname": "t-no1inltst-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1inltst-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1inltst-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1inltst-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "t-no1inltst-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1inltst-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "t-no1inltst-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "t-no1inltst-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1inltst-db",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "t-no1inltst-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "t-no1inltst-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "t-no1inltst-app",
+      "tasks": [
+        {
+          "taskname": "t-no1inltst-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1inltst-app-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "Verifiser tilkobling fra appserver til database",
+          "default": false,
+          "prerequisiteTasks": ["t-no1inltst-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "Kerberos-oppsett på databaseserveren må være fullført og verifisert"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmtst-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmtst-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmtst-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmtst-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "t-no1fkmtst-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmtst-db",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "t-no1fkmtst-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmtst-app",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmtst-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmtst-app-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "Verifiser tilkobling fra appserver til database",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "Kerberos-oppsett på databaseserveren må være fullført og verifisert"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmtst-soa",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmtst-soa-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmtst-soa-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "Verifiser tilkobling fra SOA-server til database",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmtst-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "Kerberos-oppsett på databaseserveren må være fullført og verifisert"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmfsp-app",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmfsp-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmvft-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmvft-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmvft-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvft-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmvft-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvft-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmvft-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvft-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmvfk-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmvfk-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmvfk-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvfk-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmvfk-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvfk-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmvfk-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmvfk-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmsit-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmsit-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmsit-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmsit-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmsit-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmsit-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmsit-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmsit-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkmprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1fkmprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1fkmprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Standard Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkmprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1fkmprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkmprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkmprd-app",
+      "tasks": [
+        {
+          "taskname": "p-no1fkmprd-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkmprd-soa",
+      "tasks": [
+        {
+          "taskname": "p-no1fkmprd-soa-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "p-no1hstprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1hstprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1hstprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1hstprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1hstprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1hstprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1hstprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1hstprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1hstprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1hstprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1hstprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1hstprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1hstprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1hstprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1hstprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1hstprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1inlprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1inlprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1inlprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1inlprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1inlprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1inlprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1inlprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1inlprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1inlprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1inlprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1inlprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1inlprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1inlprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1inlprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1inlprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1inlprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1inlprd-app",
+      "tasks": [
+        {
+          "taskname": "p-no1inlprd-app-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmmig-db",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmmig-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "t-no1fkmmig-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmmig-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "t-no1fkmmig-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmmig-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "t-no1fkmmig-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["t-no1fkmmig-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        }
+      ]
+    },
+    {
+      "server": "t-no1fkmtst-web",
+      "tasks": [
+        {
+          "taskname": "t-no1fkmtst-web-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkmprd-web",
+      "tasks": [
+        {
+          "taskname": "p-no1fkmprd-web-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkmrap-db",
+      "tasks": [
+        {
+          "taskname": "p-no1fkmrap-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1fkmrap-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkmrap-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1fkmrap-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1fkmrap-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1fkmrap-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkmrap-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1visprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1visprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1visprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1visprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1visprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1visprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1visprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1visprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1visprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1visprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1visprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1visprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1visprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1visprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1visprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1visprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1docprd-db",
+      "tasks": [
+        {
+          "taskname": "p-no1docprd-db-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1docprd-db-VerifyDb2",
+          "description": "Verifiser automatisert IBM Db2 12.1 Community Edition",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1docprd-db-RunDb2TemplateEngine",
+          "description": "Kjør Db2TemplateEngine\\Db2TemplateEngine.ps1 med parameterene: -DbFunction 'CreateTemporaryProductionDatabase'",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-VerifyDb2"],
+          "prerequisiteComment": "Db2 må være installert og fungere"
+        },
+        {
+          "taskname": "p-no1docprd-db-RunGenerateScripts",
+          "description": "Kjør alle script på F:\\Db2Restore\\GenScripts i admin Db2 Clp konsoll. Filer med suffix .sql kjøres med db2 -tvf og filer med suffix .bat kjøres direkte i db2 konsoll med filnavn <filnavn>.bat",
+          "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-RunDb2TemplateEngine"],
+          "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+        },
+        {
+          "taskname": "p-no1docprd-db-CreateTestDatabase",
+          "description": "Opprett en testdatabase ved hjelp av script generert av Db2TemplateEngine\\Db2TemplateEngine.ps1",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1docprd-db-RestoreBackup",
+          "description": "Gjenopprett tidlig produksjonsavbildning til databasen",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-RunGenerateScripts"],
+          "prerequisiteComment": "Skriptene må være generert først"
+        },
+        {
+          "taskname": "p-no1docprd-db-VerifyDbConnection",
+          "description": "Verifiser utdata til konsoll med en select fra databasen ved hjelp av DB2 CLP",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-RestoreBackup"],
+          "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+        },
+        {
+          "taskname": "p-no1docprd-db-OrderDb2Key",
+          "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+          "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1docprd-db\\DB2_Kerberos_Forespørsel.txt",
+          "default": false,
+          "prerequisiteTasks": ["VerifyKerberosAuthFkx", "p-no1docprd-db-VerifyDbConnection"],
+          "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+        },
+        {
+          "taskname": "p-no1docprd-db-MoveKeytabFile",
+          "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen",
+          "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1docprd-db",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-OrderDb2Key"],
+          "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+        },
+        {
+          "taskname": "p-no1docprd-db-ConfigureKerberos",
+          "description": "Kjør $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1 for å fullføre Kerberos-oppsettet",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-MoveKeytabFile"],
+          "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+        },
+        {
+          "taskname": "p-no1docprd-db-VerifyKerberosConfig",
+          "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp og velg fra en tabell",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": ["p-no1docprd-db-ConfigureKerberos"],
+          "prerequisiteComment": "Kerberos-oppsett må være fullført"
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkx-soa01",
+      "tasks": [
+        {
+          "taskname": "p-no1fkx-soa01-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1fkx-soa01-VerifyDb2Client",
+          "description": "Verifiser at IBM DB2 klient er installert. Hvis ikke, bruk pwsh.exe kommando 'Get-App' og installer den",
+          "comment": "DB2 klient er nødvendig for databasetilkobling",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-soa01-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkx-soa01-ConfigureKerberosClient",
+          "description": "Kjør pwsh.exe på Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp klienten",
+          "comment": "Dette konfigurerer klienten for Kerberos-autentisering mot databasen",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-soa01-VerifyDb2Client", "p-no1fkxprd-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "DB2 klient må være installert og Kerberos må være konfigurert på databaseserveren"
+        },
+        {
+          "taskname": "p-no1fkx-soa01-VerifyDbConnection",
+          "description": "Verifiser tilkobling til p-no1fkxprd-db ved bruk av db2 clp",
+          "comment": "Test at klienten kan koble til databasen",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-soa01-ConfigureKerberosClient"],
+          "prerequisiteComment": "Kerberos-klient må være konfigurert først"
+        },
+        {
+          "taskname": "p-no1fkx-soa01-VerifyEnterpriseServer",
+          "description": "Verifiser at 'Enterprise server' finnes i startmenyen",
+          "comment": "Dette er nødvendig for SOA-servere",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-soa01-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkx-soa01-VerifyCobolRuntime",
+          "description": "Verifiser at vi kan starte fra cmd.exe run.exe og wrun.exe som er kjøretidsmiljø for Microfocus COBOL",
+          "comment": "Dette er nødvendig for SOA-servere",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-soa01-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        }
+      ]
+    },
+    {
+      "server": "p-no1fkx-web01",
+      "tasks": [
+        {
+          "taskname": "p-no1fkx-web01-InitServer",
+          "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "comment": "",
+          "default": false,
+          "prerequisiteTasks": [],
+          "prerequisiteComment": ""
+        },
+        {
+          "taskname": "p-no1fkx-web01-VerifyDb2Client",
+          "description": "Verifiser at IBM DB2 klient er installert. Hvis ikke, bruk pwsh.exe kommando 'Get-App' og installer den",
+          "comment": "DB2 klient er nødvendig for databasetilkobling",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-web01-InitServer"],
+          "prerequisiteComment": "Server må være initialisert først"
+        },
+        {
+          "taskname": "p-no1fkx-web01-ConfigureKerberosClient",
+          "description": "Kjør pwsh.exe på Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp klienten",
+          "comment": "Dette konfigurerer klienten for Kerberos-autentisering mot databasen",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-web01-VerifyDb2Client", "p-no1fkxprd-db-VerifyKerberosConfig"],
+          "prerequisiteComment": "DB2 klient må være installert og Kerberos må være konfigurert på databaseserveren"
+        },
+        {
+          "taskname": "p-no1fkx-web01-VerifyDbConnection",
+          "description": "Verifiser tilkobling til p-no1fkxprd-db ved bruk av db2 clp",
+          "comment": "Test at klienten kan koble til databasen",
+          "default": false,
+          "prerequisiteTasks": ["p-no1fkx-web01-ConfigureKerberosClient"],
+          "prerequisiteComment": "Kerberos-klient må være konfigurert først"
+        }
+      ]
+    }
+  ]
+}

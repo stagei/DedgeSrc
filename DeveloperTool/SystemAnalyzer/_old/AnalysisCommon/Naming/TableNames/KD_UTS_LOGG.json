@@ -1,0 +1,34 @@
+{
+  "tableName": "KD_UTS_LOGG",
+  "futureName": "UtsendelsesLogg",
+  "namespace": "KontraktdyrkerSystemet",
+  "columns": [
+    {
+      "name": "utsRecno",
+      "futureName": "UtsRecNo",
+      "description": "Unique record number for the log entry",
+      "foreignKey": null
+    },
+    {
+      "name": "dyrkRecno",
+      "futureName": "DyrkerRecNo",
+      "description": "Reference to the Dyrker record",
+      "foreignKey": "KD_DYRKER.DYRKER_RECNO"
+    },
+    {
+      "name": "utsendelseRecno",
+      "futureName": "UtsendelseRecNo",
+      "description": "Reference to the Utsendelse record",
+      "foreignKey": "KD_UTSENDELSE.UTSENDELSES_RECNO"
+    },
+    {
+      "name": "kontraktRecno",
+      "futureName": "KontraktRecNo",
+      "description": "Reference to the Kontrakt record",
+      "foreignKey": "H_ORDREHODE.KONTRAKT_RECNO, KD_BESTILLING.KONTRAKT_RECNO, etc."
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:26:55"
+}

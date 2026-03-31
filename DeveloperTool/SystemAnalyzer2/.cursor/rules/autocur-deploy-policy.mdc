@@ -1,0 +1,63 @@
+﻿---
+description: "Always use _deploy.ps1 for deployment — never manual file copy. One _deploy.ps1 handles everything."
+alwaysApply: true
+---
+
+# Deploy Policy — Use _deploy.ps1, Not Manual Copy
+
+## Core Rule
+
+**Every sub-project folder has a `_deploy.ps1`.** Running it is the **only** way to deploy. It handles **everything**:
+
+1. **Scripts** in the sub-project folder
+2. **All dependent modules** from `_Modules/` (auto-resolved by `Deploy-Handler`)
+3. **Code signing** of all `.ps1` and `.psm1` files
+4. **Multi-server distribution** to all servers in `ComputerNameList`
+5. **Version tracking** via `.version` marker files
+6. **Archiving** and deployment history
+
+**One `_deploy.ps1` = scripts + modules + signing + distribution. Nothing else needed.**
+
+## NEVER Do This
+
+- **NEVER** `Copy-Item` individual files to UNC paths
+- **NEVER** run `_Modules\_deploy.ps1` separately — the sub-project `_deploy.ps1` already deploys modules
+- **NEVER** force-copy a `.psm1` module file to a server — unsigned modules are rejected
+- **NEVER** assume you need to deploy modules and scripts in separate steps
+
+## Correct Pattern
+
+```powershell
+# This single command deploys BOTH the scripts AND all modules they depend on
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\DatabaseTools\Db2-FederationHandler\_deploy.ps1"
+```
+
+Each `_deploy.ps1` reads its own `ComputerNameList` (hardcoded or from `config.*.json`). `Deploy-Handler` automatically:
+- Scans `Import-Module` statements in the scripts
+- Finds matching modules in `_Modules/`
+- Signs, stages, and deploys the modules alongside the scripts
+- Creates version marker files on each target server
+
+## "No New Files to Deploy" for Modules
+
+If `Deploy-Handler` reports "No new files to deploy" for CommonModules, it means the module hash matches the local staging area (`C:\opt\DedgePshApps\CommonModules\`). This can happen if:
+- The source file was saved but the staging area already has the same content
+- A previous deploy already staged the module
+
+**If you changed a module and it is not being picked up:** re-run the same `_deploy.ps1` — do NOT fall back to manual copy.
+
+## When _deploy.ps1 Fails (Breakpoint or Error)
+
+If `_deploy.ps1` hits a debugger breakpoint or import error, do NOT fall back to manual copy. Instead:
+
+1. Check for `Set-PSBreakpoint` or `$DebugPreference` in the module chain
+2. Run with `-NoProfile` to skip user profile breakpoints
+3. If the deploy script itself is broken, fix and retry
+
+## Emergency Exception
+
+Manual `Copy-Item` to a UNC path is only acceptable as a **last resort** when:
+- `_deploy.ps1` is genuinely broken and cannot be fixed quickly
+- AND the fix is time-critical (e.g. production is down)
+
+Even then, follow up by fixing `_deploy.ps1` and redeploying properly.

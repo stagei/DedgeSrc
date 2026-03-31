@@ -1,0 +1,75 @@
+{
+  "program": "RVVBEHK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:c35e992c4e09ff07cdaa32c15df2bc2da93011fe9f639250a1b8e731ca2d7751",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RVVBEHK.CBL",
+    "actualName": "RVVBEHK",
+    "program": "RVVBEHK",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RVHBEHK.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BILNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_BILER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

@@ -1,0 +1,1096 @@
+/**
+ * AutoDoc Shared Stylesheet
+ * Author: Geir Helge Starholm, www.dEdge.no
+ * Description: Unified CSS for all AutoDoc generated documentation
+ * Supports: COBOL, PowerShell, Object-Rexx, Batch, SQL, C# parsers
+ */
+
+/* ========================================
+   CSS VARIABLES - Theme System
+   ======================================== */
+:root {
+  /* Light Theme */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-hover: #f1f5f9;
+  --accent-primary: #0891b2;
+  --accent-secondary: #2563eb;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #cbd5e1;
+  --table-border: #0891b2;
+  --diagram-bg: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-primary: #0f1419;
+  --bg-secondary: #1a1f2e;
+  --bg-card: #1e2433;
+  --bg-hover: #252d3d;
+  --accent-primary: #00d4aa;
+  --accent-secondary: #5c9eff;
+  --accent-success: #34d399;
+  --accent-warning: #fbbf24;
+  --accent-danger: #f87171;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --border-color: #30363d;
+  --table-border: #00d4aa;
+  --diagram-bg: #1e2433;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 1.25rem;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--accent-secondary);
+}
+
+code, pre, .mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-section a {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.logo-section a:hover img {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.logo-section img {
+  height: 36px;
+  width: auto;
+}
+
+.logo-section h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--accent-primary);
+}
+
+.logo-section .badge {
+  display: inline-block;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 0.5rem;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ========================================
+   THEME TOGGLE
+   ======================================== */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  padding: 0.25rem;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+.theme-toggle-btn.active {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+.main-container {
+  display: flex;
+  gap: 1.5rem;
+  min-height: calc(100vh - 140px);
+  height: calc(100vh - 140px);
+}
+
+.info-panel {
+  flex: 0 0 320px;
+  max-width: 320px;
+  overflow-y: auto;
+}
+
+.diagram-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Single column layout for SQL/simple pages */
+.main-container.single-column {
+  display: block;
+  max-width: 1000px;
+}
+
+/* ========================================
+   CARDS
+   ======================================== */
+.card, .info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover, .info-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.info-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.info-table tr:last-child td {
+  border-bottom: none;
+}
+
+.info-table td:first-child {
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: 140px;
+  white-space: nowrap;
+}
+
+.info-table a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+/* Data Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.data-table th {
+  background: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--accent-primary);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.data-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.data-table tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* Column table for SQL */
+.column-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.column-table th {
+  background: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.column-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.column-table tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* ========================================
+   DETAILS / ACCORDION
+   ======================================== */
+details {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  transition: background 0.2s ease;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: '▶';
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+summary:hover {
+  background: var(--bg-hover);
+}
+
+details[open] summary {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.details-content {
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   TABS
+   ======================================== */
+.diagram-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.diagram-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.diagram-tab:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.diagram-tab.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* C# template: 8 diagram tabs – wrap into rows for readable layout (also match existing pages via :has) */
+.diagram-panel:has(.diagram-tab:nth-child(8)) .diagram-tabs,
+.csharp-diagram-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.diagram-panel:has(.diagram-tab:nth-child(8)) .diagram-tab,
+.csharp-diagram-panel .csharp-diagram-tabs .diagram-tab {
+  white-space: nowrap;
+  flex: 0 0 auto;
+  min-width: 0;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+}
+.csharp-diagram-panel .csharp-diagram-tabs .diagram-tab span {
+  display: inline;
+}
+
+.diagram-content {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.diagram-content.active {
+  display: flex;
+}
+
+/* ========================================
+   DIAGRAMS & MERMAID
+   ======================================== */
+.diagram-container, .mermaid-container {
+  background: var(--diagram-bg);
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: hidden;
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.diagram-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+.diagram-controls {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.diagram-controls-left {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.diagram-controls-right {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.diagram-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.diagram-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.diagram-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.diagram-btn-group {
+  display: flex;
+  gap: 0;
+}
+
+.diagram-btn-group .diagram-btn {
+  border-radius: 0;
+}
+
+.diagram-btn-group .diagram-btn:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.diagram-btn-group .diagram-btn:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.diagram-btn-group .diagram-btn:not(:first-child) {
+  margin-left: -1px;
+}
+
+.zoom-indicator {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: 0 0.5rem;
+  min-width: 50px;
+  text-align: center;
+}
+
+.diagram-control-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-right: 4px;
+  white-space: nowrap;
+  user-select: none;
+  align-self: center;
+}
+
+.diagram-renderer-select,
+.diagram-layout-select {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.diagram-renderer-select {
+  margin-right: 10px;
+}
+
+.diagram-renderer-select:hover,
+.diagram-layout-select:hover {
+  border-color: var(--accent-primary);
+}
+
+.diagram-renderer-select:focus,
+.diagram-layout-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.2);
+}
+
+.diagram-layout-select {
+  margin-right: 10px;
+}
+
+.mermaid {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.mermaid svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Fullscreen modal for diagrams */
+.diagram-fullscreen-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-primary);
+  z-index: 10000;
+  flex-direction: column;
+}
+
+.diagram-fullscreen-overlay.active {
+  display: flex;
+}
+
+.diagram-fullscreen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.diagram-fullscreen-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.diagram-fullscreen-content {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.diagram-fullscreen-content .mermaid,
+.diagram-fullscreen-content svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================================
+   BADGES & TAGS
+   ======================================== */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.badge-primary {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.badge-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.badge-success {
+  background: var(--accent-success);
+  color: #fff;
+}
+
+.badge-warning {
+  background: var(--accent-warning);
+  color: #000;
+}
+
+.badge-danger {
+  background: var(--accent-danger);
+  color: #fff;
+}
+
+/* Type badges for SQL */
+.type-badge {
+  display: inline-block;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.type-varchar { background: #dbeafe; color: #1e40af; }
+.type-integer { background: #dcfce7; color: #166534; }
+.type-decimal { background: #fef3c7; color: #92400e; }
+.type-date { background: #fce7f3; color: #9d174d; }
+.type-timestamp { background: #e0e7ff; color: #3730a3; }
+
+[data-theme="dark"] .type-varchar { background: #1e3a5f; color: #93c5fd; }
+[data-theme="dark"] .type-integer { background: #064e3b; color: #6ee7b7; }
+[data-theme="dark"] .type-decimal { background: #78350f; color: #fcd34d; }
+[data-theme="dark"] .type-date { background: #831843; color: #f9a8d4; }
+[data-theme="dark"] .type-timestamp { background: #312e81; color: #a5b4fc; }
+
+/* ========================================
+   LISTS
+   ======================================== */
+.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-list li {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s ease;
+}
+
+.item-list li:last-child {
+  border-bottom: none;
+}
+
+.item-list li:hover {
+  background: var(--bg-hover);
+}
+
+.item-list a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+/* Class/Project lists for C# */
+.class-list, .project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.class-card, .project-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.class-card:hover, .project-card:hover {
+  border-left-color: var(--accent-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.class-name, .project-name {
+  font-weight: 600;
+  color: var(--accent-primary);
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.class-namespace, .project-framework {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ========================================
+   STATS GRID (C# pages)
+   ======================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-header h2, .section-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.section-header i {
+  color: var(--accent-primary);
+}
+
+/* ========================================
+   UTILITIES
+   ======================================== */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-accent { color: var(--accent-primary); }
+
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-card { background: var(--bg-card); }
+
+.border { border: 1px solid var(--border-color); }
+.border-top { border-top: 1px solid var(--border-color); }
+.border-bottom { border-bottom: 1px solid var(--border-color); }
+
+.rounded { border-radius: var(--radius-md); }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-lg { border-radius: var(--radius-lg); }
+
+.shadow { box-shadow: var(--shadow-md); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+  }
+  
+  .info-panel {
+    flex: none;
+    max-width: 100%;
+  }
+  
+  .diagram-panel {
+    flex: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0.75rem;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .diagram-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+  }
+  /* C# (8-tab panel): keep wrapping so tabs form 2–4 rows instead of one long scroll */
+  .diagram-panel:has(.diagram-tab:nth-child(8)) .diagram-tabs,
+  .csharp-diagram-tabs {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .class-list, .project-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+  }
+  
+  .header, .theme-toggle, .diagram-controls {
+    display: none;
+  }
+  
+  .main-container {
+    display: block;
+  }
+  
+  .diagram-container {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* =============================================
+   Mermaid Dark Mode Line Overrides
+   Force bright blue lines for better visibility
+   Target: pre.mermaid svg elements
+   ============================================= */
+[data-theme="dark"] pre.mermaid svg path.flowchart-link,
+[data-theme="dark"] pre.mermaid svg .edge-thickness-normal,
+[data-theme="dark"] pre.mermaid svg .edge-pattern-solid,
+[data-theme="dark"] .mermaid svg path.flowchart-link,
+[data-theme="dark"] .mermaid svg .edge-thickness-normal,
+[data-theme="dark"] .mermaid svg .edge-pattern-solid,
+[data-theme="dark"] svg path.flowchart-link,
+[data-theme="dark"] svg .flowchart-link {
+  stroke: #7cc4fa !important;
+  stroke-width: 2px !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .arrowMarkerPath,
+[data-theme="dark"] .mermaid svg .arrowMarkerPath,
+[data-theme="dark"] svg .arrowMarkerPath {
+  stroke: #7cc4fa !important;
+  fill: #7cc4fa !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .edgeLabel,
+[data-theme="dark"] .mermaid svg .edgeLabel {
+  background-color: #1a2940 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .node rect,
+[data-theme="dark"] pre.mermaid svg .node polygon,
+[data-theme="dark"] pre.mermaid svg .basic.label-container,
+[data-theme="dark"] .mermaid svg .node rect,
+[data-theme="dark"] .mermaid svg .node polygon {
+  stroke: #7cc4fa !important;
+  stroke-width: 2px !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .cluster rect,
+[data-theme="dark"] .mermaid svg .cluster rect {
+  stroke: #7cc4fa !important;
+  fill: #1a2940 !important;
+}
+
+/* Sequence diagram lines */
+[data-theme="dark"] pre.mermaid svg .messageLine0,
+[data-theme="dark"] pre.mermaid svg .messageLine1,
+[data-theme="dark"] .mermaid svg .messageLine0,
+[data-theme="dark"] .mermaid svg .messageLine1 {
+  stroke: #7cc4fa !important;
+  stroke-width: 1.5px !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .sequenceNumber,
+[data-theme="dark"] .mermaid svg .sequenceNumber {
+  fill: #ffffff !important;
+}
+
+[data-theme="dark"] pre.mermaid svg .actor-line,
+[data-theme="dark"] .mermaid svg .actor-line {
+  stroke: #7cc4fa !important;
+}
+
+/* Dark node fills in dark mode - high contrast deep blue */
+[data-theme="dark"] svg .node rect,
+[data-theme="dark"] svg .node polygon,
+[data-theme="dark"] svg .node circle,
+[data-theme="dark"] svg .node ellipse,
+[data-theme="dark"] svg .basic rect,
+[data-theme="dark"] svg .basic polygon {
+  fill: #2a3a52 !important;
+  stroke: #7cc4fa !important;
+  stroke-width: 2px !important;
+}
+
+/* ALL text bright white in dark mode for maximum readability */
+[data-theme="dark"] svg text,
+[data-theme="dark"] svg tspan,
+[data-theme="dark"] svg .nodeLabel,
+[data-theme="dark"] svg .label,
+[data-theme="dark"] svg .labelText,
+[data-theme="dark"] pre.mermaid svg text,
+[data-theme="dark"] .mermaid svg text {
+  fill: #ffffff !important;
+}
+
+/* foreignObject content - bright white text */
+[data-theme="dark"] svg foreignObject,
+[data-theme="dark"] svg foreignObject div,
+[data-theme="dark"] svg foreignObject span,
+[data-theme="dark"] svg foreignObject p {
+  color: #ffffff !important;
+}
+
+/* Sequence diagram actor boxes and text */
+[data-theme="dark"] svg .actor rect,
+[data-theme="dark"] pre.mermaid svg .actor rect,
+[data-theme="dark"] .mermaid svg .actor rect {
+  fill: #2a3a52 !important;
+  stroke: #7cc4fa !important;
+  stroke-width: 2px !important;
+}
+
+[data-theme="dark"] svg .actor text,
+[data-theme="dark"] pre.mermaid svg .actor text,
+[data-theme="dark"] .mermaid svg .actor text {
+  fill: #ffffff !important;
+}
+
+/* Edge labels - ensure readable background */
+[data-theme="dark"] svg .edgeLabel,
+[data-theme="dark"] svg .edgeLabel rect,
+[data-theme="dark"] svg .edgeLabel span,
+[data-theme="dark"] svg .labelBkg {
+  fill: #1a2940 !important;
+  background-color: #1a2940 !important;
+  color: #ffffff !important;
+}

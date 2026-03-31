@@ -1,0 +1,28 @@
+{
+  "tableName": "D365_FKNR_LOG",
+  "futureName": "OrderHeaderLog",
+  "namespace": "DataModels",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "OrderHeaderId",
+      "description": "Unique identifier for the order header",
+      "foreignKey": "VAREREGISTER"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the log entry",
+      "foreignKey": null
+    },
+    {
+      "name": "D365FO_VARENR",
+      "futureName": "ItemNumber",
+      "description": "Item number in D365FO system",
+      "foreignKey": "VAREREGISTER"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:57:51"
+}

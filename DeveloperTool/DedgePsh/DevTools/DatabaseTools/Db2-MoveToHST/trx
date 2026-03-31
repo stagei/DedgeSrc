@@ -1,0 +1,55 @@
+CREATE TABLE DBM.H_INNGANG_FAKO (
+  AAR                            DECIMAL     (4,0)     NOT NULL WITH DEFAULT 0.0,
+  ORDRENR                        DECIMAL     (7,0)     NOT NULL WITH DEFAULT 0.0,
+  AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  LEVNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  LEVFAKTNR                      CHARACTER   (15)      NOT NULL WITH DEFAULT ' ',
+  INNGNR                         DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  PAKKSEDDEL                     CHARACTER   (15)      NOT NULL WITH DEFAULT ' ',
+  BTO_BELOP                      DECIMAL     (14,2)    NOT NULL WITH DEFAULT 0.0,
+  NTO_BELOP                      DECIMAL     (14,2)    NOT NULL WITH DEFAULT 0.0,
+  FORF_DATO                      DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  INNG_DATO                      DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  GODKJ_DATO                     DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  HOVEDVGR                       CHARACTER   (3)       NOT NULL WITH DEFAULT ' ',
+  VALUTA                         CHARACTER   (3)       NOT NULL WITH DEFAULT ' ',
+  BREKKASJE                      CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  FAKO_STATUS                    CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  OKO_STATUS                     CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  INIT_ORDRENR                   DECIMAL     (7,0)     NOT NULL WITH DEFAULT 0.0,
+  BRUKERID                       CHARACTER   (8)       NOT NULL WITH DEFAULT ' ',
+  SYSTEM                         CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  TIDSPUNKT                      TIMESTAMP             NOT NULL WITH DEFAULT CURRENT TIMESTAMP,
+  FAKO                           CHARACTER   (1)       NOT NULL WITH DEFAULT ' '
+  )   ;
+CREATE TABLE DBM.INNGANG_FAKO (
+  ORDRENR                        DECIMAL     (7,0)     NOT NULL WITH DEFAULT 0.0,
+  AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  LEVNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  LEVFAKTNR                      CHARACTER   (15)      NOT NULL WITH DEFAULT ' ',
+  INNGNR                         DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  PAKKSEDDEL                     CHARACTER   (15)      NOT NULL WITH DEFAULT ' ',
+  BTO_BELOP                      DECIMAL     (14,2)    NOT NULL WITH DEFAULT 0.0,
+  NTO_BELOP                      DECIMAL     (14,2)    NOT NULL WITH DEFAULT 0.0,
+  FORF_DATO                      DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  INNG_DATO                      DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  GODKJ_DATO                     DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  HOVEDVGR                       CHARACTER   (3)       NOT NULL WITH DEFAULT ' ',
+  VALUTA                         CHARACTER   (3)       NOT NULL WITH DEFAULT ' ',
+  BREKKASJE                      CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  FAKO_STATUS                    CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  OKO_STATUS                     CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  INIT_ORDRENR                   DECIMAL     (7,0)     NOT NULL WITH DEFAULT 0.0,
+  BRUKERID                       CHARACTER   (8)       NOT NULL WITH DEFAULT ' ',
+  SYSTEM                         CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+  TIDSPUNKT                      TIMESTAMP             NOT NULL WITH DEFAULT CURRENT TIMESTAMP,
+  FAKO                           CHARACTER   (1)       NOT NULL WITH DEFAULT ' '
+  ) IN INNGANG_FAKO  ;
+CREATE INDEX DBM.INNG_FAKO_ORDRE                ON DBM.INNGANG_FAKO
+  (ORDRENR );
+CREATE INDEX DBM.INNG_FAKO_INITOR               ON DBM.INNGANG_FAKO
+  (INIT_ORDRENR );
+CREATE INDEX DBM.INNG_FAKO_INNG                 ON DBM.INNGANG_FAKO
+  (AVDNR , INNGNR );
+COMMENT ON TABLE DBM.INNGANG_FAKO  IS
+    'VAREINNGANGER TIL FAKO';

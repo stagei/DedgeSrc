@@ -1,0 +1,37 @@
+{
+  "tableName": "KD_DYRKER",
+  "futureName": "DyrkerCustomerOrder",
+  "namespace": "Agriculture.Orders",
+  "columns": [
+    {
+      "name": "KUN-KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": {
+        "table": "DBM.KUNDER",
+        "column": "KUNDENR"
+      }
+    },
+    {
+      "name": "KUN-KUNDENAVN",
+      "futureName": "CustomerName",
+      "description": "Name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "KUN-PRODNR",
+      "futureName": "ProductNumber",
+      "description": "Unique product identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "kkdy-debionr",
+      "futureName": "DebtorNumber",
+      "description": "Identifier for the debtor",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:01:27"
+}

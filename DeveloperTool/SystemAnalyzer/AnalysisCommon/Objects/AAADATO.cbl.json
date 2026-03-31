@@ -1,0 +1,595 @@
+{
+  "program": "AAADATO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:17:34",
+  "variableFilenames": {
+    "REXCEL": {
+      "logicalName": "REXCEL",
+      "physicalVariable": "ww-rex-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using userid and date, likely from current system date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:03"
+    },
+    "TM1FIL": {
+      "logicalName": "TM1FIL",
+      "physicalVariable": "ww-tm1-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename from userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:06"
+    },
+    "TM2FIL": {
+      "logicalName": "TM2FIL",
+      "physicalVariable": "ww-tm2-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:09"
+    },
+    "PRTFIL": {
+      "logicalName": "PRTFIL",
+      "physicalVariable": "ww-prt-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:12"
+    },
+    "ANALYCEN": {
+      "logicalName": "ANALYCEN",
+      "physicalVariable": "W-ANALYCEN-NAVN-ny",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Construction of W-ANALYCEN-NAVN-ny is not found in the provided COBOL program snippets.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:16"
+    },
+    "BINIR": {
+      "logicalName": "BINIR",
+      "physicalVariable": "W-BINIR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date, likely for CSV files",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:20"
+    },
+    "PREDIKTOR": {
+      "logicalName": "PREDIKTOR",
+      "physicalVariable": "W-PREDIKTOR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and name construction not found in provided COBOL source.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:23"
+    },
+    "PREDIKTOR2": {
+      "logicalName": "PREDIKTOR2",
+      "physicalVariable": "W-PREDIKTOR2-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Contains construction of W-PREDIKTOR2-NAVN but no specific path or extension is defined",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:27"
+    },
+    "OPTILON": {
+      "logicalName": "OPTILON",
+      "physicalVariable": "W-OPTILON-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-ACC-DATO.CSV",
+      "description": "COBOL program constructs the filename by combining userid and date, then appending .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:31"
+    },
+    "MARKED": {
+      "logicalName": "MARKED",
+      "physicalVariable": "W-MARKED-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:17:34"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "AAADATO",
+    "program": "AAADATO",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFKUPR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LTID.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAHLTID.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "EANK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFM043.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KAMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KAH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFM038.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GLAOINN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFM024.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAASPRE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFM033.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAZPR13.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ALFRA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FEILFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REXCEL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TM1FIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TM2FIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRTFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RECEPT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANALYCEN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BINIR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PREDIKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PREDIKTOR2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTILON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MARKED",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAADATO",
+      "AAAMLEV",
+      "GMVMAL2",
+      "GMFFELL",
+      "GMAPATH"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABSCVA.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABSCVA.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "REXCEL",
+        "physicalName": "ww-rex-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date, likely from current system date"
+      },
+      {
+        "logicalName": "TM1FIL",
+        "physicalName": "ww-tm1-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename from userid and date"
+      },
+      {
+        "logicalName": "TM2FIL",
+        "physicalName": "ww-tm2-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date"
+      },
+      {
+        "logicalName": "PRTFIL",
+        "physicalName": "ww-prt-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      },
+      {
+        "logicalName": "RECEPT",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "ANALYCEN",
+        "physicalName": "W-ANALYCEN-NAVN-ny",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Construction of W-ANALYCEN-NAVN-ny is not found in the provided COBOL program snippets."
+      },
+      {
+        "logicalName": "BINIR",
+        "physicalName": "W-BINIR-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date, likely for CSV files"
+      },
+      {
+        "logicalName": "PREDIKTOR",
+        "physicalName": "W-PREDIKTOR-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and name construction not found in provided COBOL source."
+      },
+      {
+        "logicalName": "PREDIKTOR2",
+        "physicalName": "W-PREDIKTOR2-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Contains construction of W-PREDIKTOR2-NAVN but no specific path or extension is defined"
+      },
+      {
+        "logicalName": "OPTILON",
+        "physicalName": "W-OPTILON-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-ACC-DATO.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "COBOL program constructs the filename by combining userid and date, then appending .CSV extension"
+      },
+      {
+        "logicalName": "MARKED",
+        "physicalName": "W-MARKED-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date"
+      },
+      {
+        "logicalName": "UTFILE",
+        "physicalName": "VDBINGO.DAT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\VDBINGO.DAT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "AVDFILE",
+        "physicalName": "VDBAVD.DAT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\VDBAVD.DAT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:17:34"
+  }
+}

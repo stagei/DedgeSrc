@@ -1,0 +1,285 @@
+﻿---
+description: How DedgeAuth connects to consumer apps, deployment topology, database relationships, and server portability
+alwaysApply: true
+---
+
+# DedgeAuth Ecosystem
+
+## Current Environment
+
+| Component | Server | Details |
+|-----------|--------|---------|
+| **App server (IIS)** | `dedge-server` | All apps as IIS virtual applications on port 80 (see deploy profiles) |
+| **Database server** | `t-no1fkxtst-db` | PostgreSQL on port 8432, database `DedgeAuth` |
+| **Credentials** | `postgres` / `postgres` | Connection string in `appsettings.json` |
+
+This is the **test environment**. All apps are designed to be portable to any server (e.g. `p-no1fkxprd-app` for production) by changing only configuration -- never code. See "Server Portability" section below.
+
+## Consumer Apps
+
+DedgeAuth is the authentication and authorization server. Consumer apps depend on it, plus a static documentation site:
+
+| App | Source Path | Repo Branch | Build Script | AppId | ApiPort |
+|-----|------------|-------------|--------------|-------|---------|
+| **DedgeAuth** | `C:\opt\src\DedgeAuth` | `main` | `.\Build-And-Publish.ps1` | — (server) | 8100 |
+| **DocView** | `C:\opt\src\DocView` | `main` | `.\Build-And-Publish.ps1` | `DocView` | 8282 |
+| **GenericLogHandler** | `C:\opt\src\GenericLogHandler` | `feature/auth-extraction` | `.\Build-And-Publish.ps1` | `GenericLogHandler` | 8110 |
+| **ServerMonitorDashboard** | `C:\opt\src\ServerMonitor` | `feature/auth-extraction` | `.\Build-And-Publish.ps1` | `ServerMonitorDashboard` | 8998 |
+| **AutoDocJson** | `C:\opt\src\AutoDocJson` | `main` | `.\Build-And-Publish.ps1` | `AutoDocJson` | 5280 |
+| **GrainPriceList** | `C:\opt\src\GrainPriceList` | `main` | `.\Build-And-Publish.ps1` | `AgriNxt.GrainDryingDeduction` | 5123 |
+| **AutoDoc** | (static content) | — | — | — | — |
+
+All repos are on Azure DevOps under `Dedge/Dedge`.
+
+**Build-And-Publish-ALL.ps1** (in DedgeAuth root) can rebuild DedgeAuth and all consumer apps that reference `DedgeAuth.Client` in one go. It scans `$env:OptPath\src` for `.csproj` files referencing DedgeAuth.Client, builds DedgeAuth first, then each consumer app sequentially.
+
+## How Apps Connect
+
+```
+Browser
+  |
+  v
+IIS (port 80, Default Web Site)
+  |
+  +-- /DedgeAuth                  --> DedgeAuth.Api (auth server, login UI, JWT tokens)
+  +-- /DocView                 --> DocView (document viewer)
+  +-- /GenericLogHandler       --> GenericLogHandler.WebApi (log aggregation)
+  +-- /ServerMonitorDashboard  --> ServerMonitorDashboard (server monitoring)
+  +-- /AutoDocJson             --> AutoDocJson (documentation tool)
+  +-- /AgriNxt.GrainDryingDeduction --> AgriNxt.GrainDryingDeduction (grain drying deduction)
+  +-- /AutoDoc                 --> AutoDoc (static documentation site)
+```
+
+- All apps run as **IIS virtual applications** under `Default Web Site` on `dedge-server`.
+- Each app has its own **app pool** (same name as virtual path).
+- IIS deployment is managed by the **IIS-DeployApp** system using `.deploy.json` profile templates (see "IIS-DeployApp" section below).
+- Consumer apps reference `DedgeAuth.Client` (project reference) for auth middleware and proxy endpoints.
+- DedgeAuth stores app registrations, user permissions, and tenant routing in PostgreSQL on `t-no1fkxtst-db:8432`.
+
+## Authentication Flow (Auth Code Exchange)
+
+1. User visits consumer app (e.g. `/GenericLogHandler/index.html`)
+2. `DedgeAuthRedirectMiddleware` detects no token, redirects to `/DedgeAuth/login.html?returnUrl=...`
+3. User logs in at DedgeAuth, gets JWT token + short-lived auth code
+4. DedgeAuth redirects back to consumer app with `?code=<authCode>`
+5. `DedgeAuthTokenExtractionMiddleware` exchanges code server-to-server via `POST /api/auth/exchange`
+6. JWT stored in `DedgeAuth_access_token` cookie, browser redirected to clean URL
+7. `DedgeAuthSessionValidationMiddleware` validates session via `GET /api/auth/validate` (cached 30s)
+8. On cache miss, fires-and-forgets `POST /api/visits/record` for visit tracking
+9. `DedgeAuth-user.js` reads token from cookie, fetches `/api/DedgeAuth/me` for user info, renders user menu
+10. Subsequent API calls include `Authorization: Bearer <jwt>` header
+
+## UI Asset Proxy
+
+Consumer apps load DedgeAuth CSS/JS through a **local proxy** (no hardcoded server URLs):
+
+```
+HTML: <link href="api/DedgeAuth/ui/common.css">
+  |
+  v
+DedgeAuth.Client proxy: GET /api/DedgeAuth/ui/common.css
+  |
+  v
+DedgeAuth server: GET {AuthServerUrl}/api/ui/common.css (UIController)
+  |
+  v
+Response cached 1 hour, served to browser
+```
+
+- HTML files use **relative paths** (`api/DedgeAuth/ui/...`, no leading `/`)
+- The proxy is registered by `MapDedgeAuthProxy()` in `Program.cs`
+- Only `appsettings.json` → `DedgeAuth:AuthServerUrl` needs to change per environment
+
+Available proxy assets: `common.css`, `user.css`, `user.js`, `theme.js`, `i18n.js`, `i18n/{lang}.json`
+
+## Tenant CSS Flow
+
+1. `DedgeAuth-user.js` calls `/api/DedgeAuth/me` to get tenant domain
+2. Fetches `{DedgeAuthUrl}/tenants/{domain}/theme.css` (TenantsController endpoint)
+3. CSS is read from `tenants.css_overrides` column in database
+4. Injected into `<style id="DedgeAuth-tenant-css"></style>` element on the page
+
+## Database Relationships
+
+PostgreSQL database `DedgeAuth` on `t-no1fkxtst-db:8432`:
+
+| Table | Key Data | Relationship |
+|-------|----------|--------------|
+| `apps` | `app_id`, `base_url`, `available_roles_json` | One row per consumer app |
+| `tenants` | `domain`, `app_routing_json`, `css_overrides`, `logo_data`, `icon_data` | Multi-app routing + branding |
+| `users` | `email`, `global_access_level`, `tenant_id` | FK to tenants |
+| `app_permissions` | `user_id`, `app_id`, `role` | User's role per app |
+| `user_visits` | `user_id`, `app_id`, `path`, `ip_address`, `visited_at` | Visit tracking (from middleware) |
+
+- `apps.base_url` = the app's full URL (e.g. `http://dedge-server/GenericLogHandler`)
+- `tenants.app_routing_json` = JSON mapping AppId to URL for the user menu app switcher
+- `DatabaseSeeder.cs` creates default apps and tenant; `MigrateLocalhostUrlsAsync()` fixes stale localhost URLs
+
+## Server Portability
+
+Apps are designed to work on **any server** without code changes:
+
+| What changes per environment | Where configured |
+|------------------------------|-----------------|
+| DedgeAuth server URL | `appsettings.json` → `DedgeAuth:AuthServerUrl` |
+| Database connection | `appsettings.json` → `ConnectionStrings:AuthDb` |
+| App base URLs | `apps.base_url` in database (set by IIS-DeployApp from deploy template's DedgeAuth block) |
+| Tenant app routing | `tenants.app_routing_json` in database (updated by seeder or admin UI) |
+| Logo URL | `tenants.logo_url` in database |
+| Publish destination | `.pubxml` → `PublishUrl` / `PublishDir` |
+| DedgeSign script path | `.csproj` → `PostBuild` / `PostPublishSign` target |
+
+**NEVER hardcode server hostnames** in C# code, HTML, or JavaScript. The only exception is build/deploy infrastructure (`.pubxml`, `Build-And-Publish.ps1`, `.csproj` DedgeSign paths).
+
+## DedgePsh Server Scripts
+
+Server-side scripts live in `C:\opt\src\DedgePsh\DevTools\WebSites\`:
+
+```
+DevTools/WebSites/
+├── DedgeAuth/
+│   ├── DedgeAuth-AddAppSupport/       → Register-DedgeAuthApp.ps1 (called by IIS-DeployApp); DedgeAuth-AddAppSupport.ps1 = legacy wizard
+│   │   ├── Register-DedgeAuthApp.ps1  ← used by IIS-DeployApp when template has DedgeAuth block
+│   │   └── _deploy.ps1             → deploys to all servers
+│   └── DedgeAuth-DatabaseSetup/       → PostgreSQL database + role setup
+│       ├── DedgeAuth-DatabaseSetup.ps1
+│       ├── Repair-PostgresInstall.ps1
+│       ├── Test-PostgresSetup.ps1
+│       └── _deploy.ps1             → deploys to *fkxtst-db
+├── GenericLogHandler/
+│   └── GenericLogHandler-DatabaseSetup/  → PostgreSQL setup for GLH
+│       ├── GenericLogHandler-DatabaseSetup.ps1
+│       └── _deploy.ps1
+└── IIS-DeployApp/                  → Generic IIS deployment for ALL apps
+    ├── IIS-DeployApp.ps1           → Deploy/update a virtual app from profile
+    ├── IIS-UninstallApp.ps1        → Remove a virtual app and its app pool
+    ├── IIS-RedeployAll.ps1         → Full teardown + iisreset + rebuild all apps
+    ├── Test-IISSite.ps1            → Diagnostics and health checks
+    ├── Fix-ServerMonitorDashboard.ps1
+    ├── _deploy.ps1                 → deploys to *fkxtst-app
+    └── templates/
+        ├── DedgeAuth_WinApp.deploy.json
+        ├── GenericLogHandler_WinApp.deploy.json
+        ├── DocView_WinApp.deploy.json
+        ├── ServerMonitorDashboard_WinApp.deploy.json
+        ├── AgriNxt.GrainDryingDeduction_WinApp.deploy.json
+        ├── AutoDocJson_WinApp.deploy.json
+        ├── AutoDoc_None.deploy.json
+        ├── DefaultWebSite_None.deploy.json
+        └── DefaultWebSite-index.html
+```
+
+**Note:** The old `DedgeAuth-IISConfig` folder no longer exists. IIS configuration for all apps (including DedgeAuth) is now handled by the generic `IIS-DeployApp` system.
+
+### Key Scripts
+
+| Script | Purpose | Deploy Target |
+|--------|---------|---------------|
+| `DedgeAuth-DatabaseSetup.ps1` | PostgreSQL database + role setup for DedgeAuth | `*fkxtst-db` |
+| `Register-DedgeAuthApp.ps1` | Called by IIS-DeployApp when deploy template has DedgeAuth block — registers app in DB | (via IIS-DeployApp) |
+| `GenericLogHandler-DatabaseSetup.ps1` | PostgreSQL database setup for GenericLogHandler | `*-db` |
+| `IIS-DeployApp.ps1` | Deploy any app as IIS virtual app using `.deploy.json` profile | `*fkxtst-app` |
+| `IIS-UninstallApp.ps1` | Remove an IIS virtual app and its app pool | (on server) |
+| `IIS-RedeployAll.ps1` | Full teardown + iisreset + rebuild all apps from templates | (on server) |
+| `Test-IISSite.ps1` | Run diagnostics: IIS config, web.config, event log, HTTP health | (on server) |
+
+### IIS-DeployApp Deploy Profiles
+
+Each app has a `.deploy.json` template in `IIS-DeployApp\templates\`. Profile naming: `<SiteName>_<InstallSource>.deploy.json`
+
+| Profile | AppType | InstallSource | ApiPort | HealthEndpoint |
+|---------|---------|---------------|---------|----------------|
+| `DedgeAuth_WinApp` | AspNetCore | WinApp | 8100 | /health |
+| `GenericLogHandler_WinApp` | AspNetCore | WinApp | 8110 | /health |
+| `DocView_WinApp` | AspNetCore | WinApp | 8282 | (none) |
+| `ServerMonitorDashboard_WinApp` | AspNetCore | WinApp | 8998 | /api/IsAlive |
+| `AgriNxt.GrainDryingDeduction_WinApp` | AspNetCore | WinApp | 5123 | (none) |
+| `AutoDocJson_WinApp` | AspNetCore | WinApp | 5280 | /health |
+| `AutoDoc_None` | Static | None | — | (none) |
+| `DefaultWebSite_None` | Static (root redirect) | None | — | (none) |
+
+Deploy steps: Teardown → Install files (WinApp/PshApp/None) → Create app pool → Create virtual app → web.config → Permissions → Start → Health check verify
+
+### IIS-DeployApp Log Files
+
+| Method | Path |
+|--------|------|
+| **UNC path** | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+| **Local path** | `$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+
+Use these logs to diagnose IIS deployment failures, `Test-IISSite.ps1` results, and app startup issues.
+
+## Publish Flow (All Apps)
+
+### Per-App Publish (Build-And-Publish.ps1)
+
+Each app's `Build-And-Publish.ps1` runs from its own repo root:
+
+```
+Build-And-Publish.ps1
+  |
+  +-- Version bump (Patch)
+  +-- dotnet publish /p:PublishProfile=WebApp-FileSystem
+  +-- Copy to: \\server\DedgeCommon\Software\DedgeWinApps\<AppName>  (staging)
+  +-- Deploy DedgePsh server scripts via _deploy.ps1
+```
+
+DedgeAuth's `Build-And-Publish.ps1` deploys these DedgePsh scripts:
+- `DedgeAuth-DatabaseSetup\_deploy.ps1` → pushes to `*fkxtst-db`
+- `IIS-DeployApp\_deploy.ps1` → pushes to `*fkxtst-app` (templates + scripts for all apps)
+
+### Build-And-Publish-ALL.ps1 (DedgeAuth + all consumers)
+
+```
+Build-And-Publish-ALL.ps1
+  |
+  +-- Scan $env:OptPath\src for .csproj referencing DedgeAuth.Client
+  +-- Build DedgeAuth first (auth server must be published before consumers)
+  +-- Build each consumer app sequentially via its Build-And-Publish.ps1
+```
+
+### Staging → IIS Install (Server-Side)
+
+After publishing to the staging share, `IIS-DeployApp.ps1` on the server uses `Install-OurWinApp` to copy from the staging share to the local install path, then configures IIS.
+
+| App | Staging (Publish) Folder | IIS Install Path |
+|-----|--------------------------|-----------------|
+| DedgeAuth | `DedgeWinApps\DedgeAuth` | `$env:OptPath\DedgeWinApps\DedgeAuth` |
+| DocView | `DedgeWinApps\DocView` | `$env:OptPath\DedgeWinApps\DocView` |
+| GenericLogHandler | `DedgeWinApps\GenericLogHandler-WebApi` | `$env:OptPath\DedgeWinApps\GenericLogHandler-WebApi` |
+| ServerMonitorDashboard | `DedgeWinApps\ServerMonitorDashboard` | `$env:OptPath\DedgeWinApps\ServerMonitorDashboard` |
+| AutoDocJson | `DedgeWinApps\AutoDocJson` | `$env:OptPath\DedgeWinApps\AutoDocJson` |
+| AgriNxt.GrainDryingDeduction | `DedgeWinApps\AgriNxt.GrainDryingDeduction` | `$env:OptPath\DedgeWinApps\AgriNxt.GrainDryingDeduction` |
+| AutoDoc | (manual / pre-existing) | `$env:OptPath\Webs\AutoDoc` |
+
+Staging share base: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\` (add app's Publish Folder)
+
+## Multi-Language (i18n) Support
+
+DedgeAuth provides a distributed i18n system. Each consumer app owns its own translation files in `wwwroot/i18n/`.
+
+- **Languages**: Norwegian Bokmål (`nb`, default) and English (`en`)
+- **User preference**: Stored in `users.preferred_language` column, distributed via JWT `language` claim and `/me` response
+- **Language selector**: Built into the DedgeAuth user menu dropdown (flag buttons)
+- **Translation loader**: `DedgeAuth-i18n.js` served via proxy at `api/DedgeAuth/ui/i18n.js`
+- **App-local endpoints**: `GET /api/i18n/languages` and `GET /api/i18n/{lang}` auto-registered by `MapDedgeAuthProxy()`
+
+### Adding i18n to a Consumer App
+
+1. Create `wwwroot/i18n/nb.json` and `en.json` with translation keys
+2. Add `<script src="api/DedgeAuth/ui/i18n.js"></script>` before `</body>`
+3. Add `data-i18n="key"` to static text elements
+4. Use `DedgeAuth.t('key', 'fallback')` in JS for dynamic content
+
+See `docs/integration/i18n-guide.md` for full reference and `docs/integration/cursor-rules/i18n-support.mdc` for the distributable cursor rule.
+
+## When Working Across Projects
+
+- **Adding a new consumer app**: Register in `DatabaseSeeder.cs`, create `.deploy.json` template in `IIS-DeployApp\templates\`, add to tenant `app_routing_json`, add DedgeAuth.Client reference, follow `docs/integration/setup-guide.md`
+- **Changing DedgeAuth.Client**: Rebuild and republish ALL consumer apps (use `Build-And-Publish-ALL.ps1`)
+- **Changing UI assets** (CSS/JS in DedgeAuth wwwroot): Only republish DedgeAuth; consumer apps fetch via proxy
+- **Changing tenant branding**: Update `tenants` table in PostgreSQL; no app republish needed
+- **Adding i18n to an app**: Create translation files in the consumer app's `wwwroot/i18n/`, add `data-i18n` attributes to HTML — no DedgeAuth rebuild needed
+- **Moving to new server**: Update `appsettings.json` in each app, run `IIS-DeployApp.ps1` (or `IIS-RedeployAll.ps1`) on the new server — it registers each app from its deploy template's DedgeAuth block
+- **Diagnosing a broken app on IIS**: Run `Test-IISSite.ps1 -SiteName <AppName>` on the server, check IIS-DeployApp logs at `$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log`
+- **Full IIS rebuild**: Run `IIS-RedeployAll.ps1` on the server (tears down all apps, iisreset, redeploys from templates)

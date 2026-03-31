@@ -1,0 +1,1176 @@
+# test
+
+```mermaid
+erDiagram
+    ActionCodes {
+        varchar ActionCode PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AdverseEvents {
+        int EventID PK
+        int TrialID FK "NOT NULL"
+        varchar EventType FK "NOT NULL"
+        datetime EventDate "NOT NULL"
+        datetime DetectedDate "NOT NULL"
+        datetime ReportDate "NOT NULL"
+        int PatientID FK "NOT NULL"
+        varchar EventDescription "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar Seriousness "NOT NULL"
+        varchar Causality "NOT NULL"
+        varchar Outcome "NOT NULL"
+        varchar ActionTaken "NOT NULL"
+        bit ReportedToRegionalEthicsCommittee "NOT NULL"
+        datetime RegionalEthicsCommitteeReportDate "NOT NULL"
+        bit ReportedToSLV "NOT NULL"
+        datetime SLVReportDate "NOT NULL"
+        bit ReportedToSponsor "NOT NULL"
+        datetime SponsorReportDate "NOT NULL"
+        bit FollowUpRequired "NOT NULL"
+        varchar StatusDescription "NOT NULL"
+        datetime ClosedDate "NOT NULL"
+        int ClosedByTrialPersonnelID FK "NOT NULL"
+        varchar Notes "NOT NULL"
+    }
+
+    Authorities {
+        int AuthorityID PK
+        varchar AuthorityType FK "NOT NULL"
+        varchar LegislationCountryCode FK "NOT NULL"
+        int OrganizationID FK "NOT NULL"
+        varchar LongName "NOT NULL"
+        varchar AbbriviationName "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthorityPersonnel {
+        int AuthorityPersonnelID PK
+        int AuthorityID FK "NOT NULL"
+        int PersonID FK "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthoritySteps {
+        int AuthorityStepID PK
+        int AuthorityID FK "NOT NULL"
+        int OrderIndex "NOT NULL"
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        int WindowBeforeDays "NOT NULL"
+        int WindowAfterDays "NOT NULL"
+        bit Required "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthorityTypes {
+        varchar AuthorityType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    CountryCodes {
+        varchar CountryCode PK
+        varchar Name "NOT NULL"
+        varchar PhoneCountryCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    DeviationTypes {
+        varchar DeviationType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Documents {
+        int DocumentID PK
+        int TrialID FK "NOT NULL"
+        varchar DocumentType FK "NOT NULL"
+        varchar DocumentName "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Version "NOT NULL"
+        datetime DocumentDate "NOT NULL"
+        datetime ApprovedDate "NOT NULL"
+        int ApprovedBySponsorPersonnelID FK "NOT NULL"
+        int ApprovedByHospitalPersonnelID FK "NOT NULL"
+        varchar DocumentLocation "NOT NULL"
+        varchar FilePath "NOT NULL"
+        varchar FileFormat "NOT NULL"
+        varchar Status "NOT NULL"
+        bit IsCurrent "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    DocumentTypes {
+        varchar DocumentType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    EventTypes {
+        varchar EventType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    HospitalPersonnel {
+        int HospitalPersonnelID PK
+        int HospitalID FK "NOT NULL"
+        int PersonID FK "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        varchar UserAccessType "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Hospitals {
+        int HospitalID PK
+        int OrganizationID FK "NOT NULL"
+        varchar LegislativeCountryCode FK "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    InspectionLogs {
+        int InspectionLogID PK
+        int InspectionID FK "NOT NULL"
+        varchar Findings "NOT NULL"
+        bit IsCritical "NOT NULL"
+        bit IsFollowUpRequired "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Inspections {
+        int InspectionID PK
+        int TrialID FK "NOT NULL"
+        varchar InspectionType FK "NOT NULL"
+        datetime InspectionDate "NOT NULL"
+        int SponsorTrialRoleID FK "NOT NULL"
+        int TrialPersonnelID FK "NOT NULL"
+        datetime EstimatedStartDateTime "NOT NULL"
+        datetime EstimatedEndDateTime "NOT NULL"
+        datetime ActualStartDateTime "NOT NULL"
+        datetime ActualEndDateTime "NOT NULL"
+        double PlannedDuration "NOT NULL"
+        double ActualDuration "NOT NULL"
+        int FindingsCount "NOT NULL"
+        int MajorFindings "NOT NULL"
+        int MinorFindings "NOT NULL"
+        int CriticalFindings "NOT NULL"
+        bit FollowUpRequired "NOT NULL"
+        datetime FollowUpDate "NOT NULL"
+        bit FollowUpCompleted "NOT NULL"
+        bit ReportReceived "NOT NULL"
+        datetime ReportDate "NOT NULL"
+        varchar ReportLocation "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    InspectionTypes {
+        varchar InspectionType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Milestones {
+        int MilestoneID PK
+        int TrialID FK "NOT NULL"
+        varchar MilestoneName "NOT NULL"
+        varchar MilestoneType FK "NOT NULL"
+        datetime PlannedDate "NOT NULL"
+        datetime ActualDate "NOT NULL"
+        varchar Status "NOT NULL"
+        int InvolvesAuthorityID FK "NOT NULL"
+        int ResponsibleTrialRoleID FK "NOT NULL"
+        bit Critical "NOT NULL"
+        bit Completed "NOT NULL"
+        varchar TransitionPhaseCode FK "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    MilestoneSteps {
+        int MilestoneStepID PK
+        int MilestoneID FK "NOT NULL"
+        varchar ActionCode FK "NOT NULL"
+        int AuthorityStepID FK "NOT NULL"
+        int TrialRoleID FK "NOT NULL"
+        varchar ReferenceNumber "NOT NULL"
+        datetime SubmittedDate "NOT NULL"
+        datetime ApprovedDate "NOT NULL"
+        datetime ExpiryDate "NOT NULL"
+        varchar DocumentationLocation "NOT NULL"
+        varchar Status "NOT NULL"
+        varchar Version "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    MilestoneTypes {
+        varchar MilestoneType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    OrganizationDepartments {
+        int OrganizationDepartmentID PK
+        int OrganizationID FK "NOT NULL"
+        varchar DepartmentName "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Organizations {
+        int OrganizationID PK
+        varchar OrganizationNumber "NOT NULL"
+        varchar OrganizationName "NOT NULL"
+        varchar CountryCode FK "NOT NULL"
+        varchar Address "NOT NULL"
+        varchar PostalCode "NOT NULL"
+        varchar City "NOT NULL"
+        varchar Phone "NOT NULL"
+        varchar Email "NOT NULL"
+        varchar Website "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    PatientSchedules {
+        int PatientScheduleID PK
+        int TrialID FK "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Name "NOT NULL"
+        int OffsetDays "NOT NULL"
+        int WindowBeforeDays "NOT NULL"
+        int WindowAfterDays "NOT NULL"
+        int AffectedByProtocolID FK "NOT NULL"
+        bit Required "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Persons {
+        int PersonID PK
+        varchar FirstName "NOT NULL"
+        varchar LastName "NOT NULL"
+        varchar Title "NOT NULL"
+        varchar CountryCode FK "NOT NULL"
+        varchar Phone "NOT NULL"
+        varchar Mobile "NOT NULL"
+        varchar Email "NOT NULL"
+        varchar Gender "NOT NULL"
+        varchar BirthDate "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    PhaseCodes {
+        varchar PhaseCode PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Protocols {
+        int ProtocolID PK
+        int TrialID FK "NOT NULL"
+        varchar ProtocolReference "NOT NULL"
+        datetime EffectiveDate "NOT NULL"
+        datetime ValidFromDate "NOT NULL"
+        datetime ValidToDate "NOT NULL"
+        varchar ProtocolDescription "NOT NULL"
+        int DocumentID FK "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    QualityManagementReviews {
+        int QualityManagementReviewID PK
+        int TrialID FK "NOT NULL"
+        varchar ActivityType "NOT NULL"
+        datetime ActivityDate "NOT NULL"
+        int PerformedByTrialPersonnelID FK "NOT NULL"
+        varchar Scope "NOT NULL"
+        varchar Findings "NOT NULL"
+        varchar Recommendations "NOT NULL"
+        varchar ActionsRequired "NOT NULL"
+        datetime ActionDueDate "NOT NULL"
+        datetime ActionCompletedDate "NOT NULL"
+        varchar ReportLocationDescription "NOT NULL"
+        int ReportDocumentID FK "NOT NULL"
+        bit IsResolved "NOT NULL"
+        int ResolvedByTrialPersonnelID FK "NOT NULL"
+        datetime ResolvedDate "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    RoleTypes {
+        varchar RoleType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SponsorPersonnel {
+        int SponsorPersonnelID PK
+        int SponsorID FK "NOT NULL"
+        int PersonID FK "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Sponsors {
+        int SponsorID PK
+        int OrganizationID FK "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SystemFieldNameMappings {
+        varchar Name PK
+        varchar TranslationValue "NOT NULL"
+        varchar LanguageCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SystemLogs {
+        varchar UserName "NOT NULL"
+        varchar FormName "NOT NULL"
+        varchar ControlName "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar LogMessage "NOT NULL"
+        varchar LogData "NOT NULL"
+        datetime LogDateTime "NOT NULL, DEFAULT NOW()"
+    }
+
+    SystemTableNameMappings {
+        varchar Name PK
+        varchar TranslationValue "NOT NULL"
+        varchar LanguageCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialDeviations {
+        int DeviationID PK
+        int TrialID FK "NOT NULL"
+        datetime DeviationDate "NOT NULL"
+        datetime DetectedDate "NOT NULL"
+        varchar DeviationType FK "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar ImmediateAction "NOT NULL"
+        varchar RootCause "NOT NULL"
+        varchar CAPA "NOT NULL"
+        datetime CAPADueDate "NOT NULL"
+        datetime CAPACompletedDate "NOT NULL"
+        bit ReportedToRegionalEthicsCommittee "NOT NULL"
+        datetime RegionalEthicsCommitteeReportDate "NOT NULL"
+        bit ReportedToSponsor "NOT NULL"
+        datetime SponsorReportDate "NOT NULL"
+        int ResponsibleTrialRoleID FK "NOT NULL"
+        varchar Status "NOT NULL"
+        datetime ClosedDate "NOT NULL"
+        int ClosedByTrialPersonnelID "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPatients {
+        int PatientID PK
+        int TrialID FK "NOT NULL"
+        varchar PatientCode "NOT NULL"
+        datetime ScreeningDate "NOT NULL"
+        datetime EnrollmentDate "NOT NULL"
+        datetime ApprovalDate "NOT NULL"
+        datetime CompletionDate "NOT NULL"
+        datetime WithdrawalDate "NOT NULL"
+        varchar PatientStatus "NOT NULL"
+        varchar DisqualificationReason "NOT NULL"
+        int AgeAtScreening "NOT NULL"
+        varchar Gender "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPersonnel {
+        int TrialPersonnelID PK
+        int TrialID FK "NOT NULL"
+        varchar TrialPersonnelType FK "NOT NULL"
+        int HospitalPersonnelID FK "NOT NULL"
+        int SponsorPersonnelID FK "NOT NULL"
+        int AuthorityPersonnelID FK "NOT NULL"
+        bit IsPrimary "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPersonnelTypes {
+        varchar TrialPersonnelType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialRoles {
+        int TrialRoleID PK
+        int TrialID FK "NOT NULL"
+        int TrialPersonnelID FK "NOT NULL"
+        varchar RoleType FK "NOT NULL"
+        bit IsPrimary "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Trials {
+        int TrialID PK
+        int HospitalID FK "NOT NULL"
+        int SponsorID FK "NOT NULL"
+        varchar TrialType FK "NOT NULL"
+        varchar TrialTitle "NOT NULL"
+        varchar Indication "NOT NULL"
+        varchar EudraCTNumber "NOT NULL"
+        varchar ClinicalTrialsGovID "NOT NULL"
+        int PlannedEnrollment "NOT NULL"
+        int ActualEnrollment "NOT NULL"
+        int NumberScreened "NOT NULL"
+        int NumberIncluded "NOT NULL"
+        datetime PlannedStartDate "NOT NULL"
+        datetime FirstPatientInDate "NOT NULL"
+        datetime LastPatientOutDate "NOT NULL"
+        datetime DatabaseLockDate "NOT NULL"
+        datetime ReportSentDate "NOT NULL"
+        datetime ArchivingDate "NOT NULL"
+        varchar OverallStatus "NOT NULL"
+        varchar ProtocolVersion "NOT NULL"
+        int CurrentProtocolID FK "NOT NULL"
+        varchar CurrentPhaseCode FK "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialTypes {
+        varchar TrialType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    UserAccessTypes {
+        varchar UserAccessType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPersonnel ||--o{ AdverseEvents : ClosedByTrialPersonnelID
+    EventTypes ||--o{ AdverseEvents : EventType
+    Trials ||--o{ AdverseEvents : TrialID
+    TrialPatients ||--o{ AdverseEvents : PatientID
+    AuthorityTypes ||--o{ Authorities : AuthorityType
+    CountryCodes ||--o{ Authorities : LegislationCountryCode
+    Organizations ||--o{ Authorities : OrganizationID
+    Authorities ||--o{ AuthorityPersonnel : AuthorityID
+    Persons ||--o{ AuthorityPersonnel : PersonID
+    Authorities ||--o{ AuthoritySteps : AuthorityID
+    HospitalPersonnel ||--o{ Documents : ApprovedByHospitalPersonnelID
+    SponsorPersonnel ||--o{ Documents : ApprovedBySponsorPersonnelID
+    DocumentTypes ||--o{ Documents : DocumentType
+    Trials ||--o{ Documents : TrialID
+    Hospitals ||--o{ HospitalPersonnel : HospitalID
+    Persons ||--o{ HospitalPersonnel : PersonID
+    CountryCodes ||--o{ Hospitals : LegislativeCountryCode
+    Organizations ||--o{ Hospitals : OrganizationID
+    Inspections ||--o{ InspectionLogs : InspectionID
+    InspectionTypes ||--o{ Inspections : InspectionType
+    TrialRoles ||--o{ Inspections : SponsorTrialRoleID
+    Trials ||--o{ Inspections : TrialID
+    TrialPersonnel ||--o{ Inspections : TrialPersonnelID
+    Authorities ||--o{ Milestones : InvolvesAuthorityID
+    MilestoneTypes ||--o{ Milestones : MilestoneType
+    TrialRoles ||--o{ Milestones : ResponsibleTrialRoleID
+    PhaseCodes ||--o{ Milestones : TransitionPhaseCode
+    Trials ||--o{ Milestones : TrialID
+    ActionCodes ||--o{ MilestoneSteps : ActionCode
+    AuthoritySteps ||--o{ MilestoneSteps : AuthorityStepID
+    Milestones ||--o{ MilestoneSteps : MilestoneID
+    TrialRoles ||--o{ MilestoneSteps : TrialRoleID
+    Organizations ||--o{ OrganizationDepartments : OrganizationID
+    CountryCodes ||--o{ Organizations : CountryCode
+    Protocols ||--o{ PatientSchedules : AffectedByProtocolID
+    Trials ||--o{ PatientSchedules : TrialID
+    CountryCodes ||--o{ Persons : CountryCode
+    Documents ||--o{ Protocols : DocumentID
+    Trials ||--o{ Protocols : TrialID
+    Documents ||--o{ QualityManagementReviews : ReportDocumentID
+    TrialPersonnel ||--o{ QualityManagementReviews : ResolvedByTrialPersonnelID
+    Trials ||--o{ QualityManagementReviews : TrialID
+    Persons ||--o{ SponsorPersonnel : PersonID
+    Sponsors ||--o{ SponsorPersonnel : SponsorID
+    Organizations ||--o{ Sponsors : OrganizationID
+    DeviationTypes ||--o{ TrialDeviations : DeviationType
+    TrialRoles ||--o{ TrialDeviations : ResponsibleTrialRoleID
+    Trials ||--o{ TrialDeviations : TrialID
+    Trials ||--o{ TrialPatients : TrialID
+    AuthorityPersonnel ||--o{ TrialPersonnel : AuthorityPersonnelID
+    HospitalPersonnel ||--o{ TrialPersonnel : HospitalPersonnelID
+    SponsorPersonnel ||--o{ TrialPersonnel : SponsorPersonnelID
+    Trials ||--o{ TrialPersonnel : TrialID
+    TrialPersonnelTypes ||--o{ TrialPersonnel : TrialPersonnelType
+    RoleTypes ||--o{ TrialRoles : RoleType
+    Trials ||--o{ TrialRoles : TrialID
+    TrialPersonnel ||--o{ TrialRoles : TrialPersonnelID
+    PhaseCodes ||--o{ Trials : CurrentPhaseCode
+    Protocols ||--o{ Trials : CurrentProtocolID
+    Hospitals ||--o{ Trials : HospitalID
+    Sponsors ||--o{ Trials : SponsorID
+    TrialTypes ||--o{ Trials : TrialType
+```
+
+---
+
+===========================================================
+
+DATABASE INDEXES
+
+===========================================================
+
+
+Total Indexes: 95
+
+
+
+AdverseEvents (7 indexes):
+
+- FK_AdverseEvents_ClosedByTrialPersonnel: Index on (ClosedByTrialPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_AdverseEvents_EventType: Index on (EventType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_AdverseEvents_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_AdverseEvents_TrialPatient: Index on (PatientID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_AdverseEvents_EventDate: Index on (EventDate)
+
+- Optimizes queries filtering or sorting by EventDate
+
+- idx_AdverseEvents_EventType: Index on (EventType)
+
+- Optimizes queries filtering or sorting by EventType
+
+- idx_AdverseEvents_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+Authorities (3 indexes):
+
+- FK_Authorities_AuthorityTypes: Index on (AuthorityType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Authorities_LegislationCountry: Index on (LegislationCountryCode)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Authorities_Organizations: Index on (OrganizationID)
+
+- Speeds up foreign key lookups and joins
+
+
+AuthorityPersonnel (2 indexes):
+
+- FK_AuthorityPersonnel_Authority: Index on (AuthorityID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_AuthorityPersonnel_Person: Index on (PersonID)
+
+- Speeds up foreign key lookups and joins
+
+
+AuthoritySteps (1 index):
+
+- FK_AuthoritySteps_Authority: Index on (AuthorityID)
+
+- Speeds up foreign key lookups and joins
+
+
+Documents (7 indexes):
+
+- FK_Documents_ApprovedByHospitalPersonnel: Index on (ApprovedByHospitalPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Documents_ApprovedBySponsorPersonnel: Index on (ApprovedBySponsorPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Documents_DocumentType: Index on (DocumentType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Documents_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_Documents_DocumentType: Index on (DocumentType)
+
+- Optimizes queries filtering or sorting by DocumentType
+
+- idx_Documents_Status: Index on (Status)
+
+- Optimizes queries filtering or sorting by Status
+
+- idx_Documents_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+HospitalPersonnel (2 indexes):
+
+- FK_HospitalPersonnel_Hospitals: Index on (HospitalID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_HospitalPersonnel_Person: Index on (PersonID)
+
+- Speeds up foreign key lookups and joins
+
+
+Hospitals (2 indexes):
+
+- FK_Hospital_CountryCodes: Index on (LegislativeCountryCode)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Hospital_Organizations: Index on (OrganizationID)
+
+- Speeds up foreign key lookups and joins
+
+
+InspectionLogs (1 index):
+
+- FK_InspectionLogs_Inspection: Index on (InspectionID)
+
+- Speeds up foreign key lookups and joins
+
+
+Inspections (7 indexes):
+
+- FK_Inspections_InspectionTypes: Index on (InspectionType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Inspections_SponsorTrialRole: Index on (SponsorTrialRoleID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Inspections_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Inspections_TrialPersonnel: Index on (TrialPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_Inspections_InspectionDate: Index on (InspectionDate)
+
+- Optimizes queries filtering or sorting by InspectionDate
+
+- idx_Inspections_InspectionType: Index on (InspectionType)
+
+- Optimizes queries filtering or sorting by InspectionType
+
+- idx_Inspections_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+MilestoneSteps (4 indexes):
+
+- FK_MilestoneSteps_ActionCodes: Index on (ActionCode)
+
+- Speeds up foreign key lookups and joins
+
+- FK_MilestoneSteps_AuthorityStep: Index on (AuthorityStepID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_MilestoneSteps_Milestone: Index on (MilestoneID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_MilestoneSteps_TrialRole: Index on (TrialRoleID)
+
+- Speeds up foreign key lookups and joins
+
+
+Milestones (9 indexes):
+
+- FK_Milestones_Authority: Index on (InvolvesAuthorityID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Milestones_MilestoneTypes: Index on (MilestoneType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Milestones_ResponsibleTrialRole: Index on (ResponsibleTrialRoleID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Milestones_TransitionPhaseCodes: Index on (TransitionPhaseCode)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Milestones_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_Milestones_MilestoneType: Index on (MilestoneType)
+
+- Optimizes queries filtering or sorting by MilestoneType
+
+- idx_Milestones_PlannedDate: Index on (PlannedDate)
+
+- Optimizes queries filtering or sorting by PlannedDate
+
+- idx_Milestones_Status: Index on (Status)
+
+- Optimizes queries filtering or sorting by Status
+
+- idx_Milestones_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+OrganizationDepartments (1 index):
+
+- FK_OrganizationDepartment_Organizations: Index on (OrganizationID)
+
+- Speeds up foreign key lookups and joins
+
+
+Organizations (2 indexes):
+
+- FK_Organization_CountryCodes: Index on (CountryCode)
+
+- Speeds up foreign key lookups and joins
+
+- idx_Organization_CountryCodes: Index on (CountryCode)
+
+- Optimizes queries filtering or sorting by CountryCode
+
+
+PatientSchedules (2 indexes):
+
+- FK_PatientSchedules_Protocol: Index on (AffectedByProtocolID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_PatientSchedules_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+
+Persons (1 index):
+
+- FK_Persons_CountryCodes: Index on (CountryCode)
+
+- Speeds up foreign key lookups and joins
+
+
+Protocols (2 indexes):
+
+- FK_Protocols_Document: Index on (DocumentID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Protocols_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+
+QualityManagementReviews (6 indexes):
+
+- FK_QualityManagementLogs_ReportDocument: Index on (ReportDocumentID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_QualityManagementLogs_ResolvedByTrialPersonnel: Index on (ResolvedByTrialPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_QualityManagementLogs_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_QualityManagementLogs_TrialPersonnel: Index on (PerformedByTrialPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_QualityManagementLogs_ActivityType: Index on (ActivityType)
+
+- Optimizes queries filtering or sorting by ActivityType
+
+- idx_QualityManagementLogs_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+SponsorPersonnel (2 indexes):
+
+- FK_SponsorPersonnel_Person: Index on (PersonID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_SponsorPersonnel_Sponsor: Index on (SponsorID)
+
+- Speeds up foreign key lookups and joins
+
+
+Sponsors (1 index):
+
+- FK_Sponsors_Organizations: Index on (OrganizationID)
+
+- Speeds up foreign key lookups and joins
+
+
+TrialDeviations (6 indexes):
+
+- FK_TrialDeviations_DeviationTypes: Index on (DeviationType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialDeviations_ResponsibleTrialRole: Index on (ResponsibleTrialRoleID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialDeviations_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_TrialDeviations_DeviationDate: Index on (DeviationDate)
+
+- Optimizes queries filtering or sorting by DeviationDate
+
+- idx_TrialDeviations_Status: Index on (Status)
+
+- Optimizes queries filtering or sorting by Status
+
+- idx_TrialDeviations_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+TrialPatients (3 indexes):
+
+- FK_TrialPatients_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_TrialPatients_PatientStatus: Index on (PatientStatus)
+
+- Optimizes queries filtering or sorting by PatientStatus
+
+- idx_TrialPatients_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+
+TrialPersonnel (7 indexes):
+
+- FK_TrialPersonnel_AuthorityPersonnel: Index on (AuthorityPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialPersonnel_HospitalPersonnel: Index on (HospitalPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialPersonnel_SponsorPersonnel: Index on (SponsorPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialPersonnel_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialPersonnel_TrialPersonnelType: Index on (TrialPersonnelType)
+
+- Speeds up foreign key lookups and joins
+
+- idx_TrialPersonnel_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+- idx_TrialPersonnel_TrialPersonnelType: Index on (TrialPersonnelType)
+
+- Optimizes queries filtering or sorting by TrialPersonnelType
+
+
+TrialRoles (6 indexes):
+
+- FK_TrialRoles_RoleType: Index on (RoleType)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialRoles_Trial: Index on (TrialID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_TrialRoles_TrialPersonnel: Index on (TrialPersonnelID)
+
+- Speeds up foreign key lookups and joins
+
+- idx_TrialRoles_RoleType: Index on (RoleType)
+
+- Optimizes queries filtering or sorting by RoleType
+
+- idx_TrialRoles_TrialID: Index on (TrialID)
+
+- Optimizes queries filtering or sorting by TrialID
+
+- idx_TrialRoles_TrialPersonnelID: Index on (TrialPersonnelID)
+
+- Optimizes queries filtering or sorting by TrialPersonnelID
+
+
+Trials (11 indexes):
+
+- FK_Trials_CurrentPhaseCodes: Index on (CurrentPhaseCode)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Trials_CurrentProtocol: Index on (CurrentProtocolID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Trials_Hospitals: Index on (HospitalID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Trials_Sponsor: Index on (SponsorID)
+
+- Speeds up foreign key lookups and joins
+
+- FK_Trials_TrialTypes: Index on (TrialType)
+
+- Speeds up foreign key lookups and joins
+
+- idx_Trials_CurrentPhaseCodes: Index on (CurrentPhaseCode)
+
+- Optimizes queries filtering or sorting by CurrentPhaseCode
+
+- idx_Trials_HospitalID: Index on (HospitalID)
+
+- Optimizes queries filtering or sorting by HospitalID
+
+- idx_Trials_OverallStatus: Index on (OverallStatus)
+
+- Optimizes queries filtering or sorting by OverallStatus
+
+- idx_Trials_PlannedStartDate: Index on (PlannedStartDate)
+
+- Optimizes queries filtering or sorting by PlannedStartDate
+
+- idx_Trials_SponsorID: Index on (SponsorID)
+
+- Optimizes queries filtering or sorting by SponsorID
+
+- idx_Trials_TrialType: Index on (TrialType)
+
+- Optimizes queries filtering or sorting by TrialType
+
+
+Note: Indexes improve query performance but are not shown in the
+
+visual diagram above. They are maintained automatically by the database.

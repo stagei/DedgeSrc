@@ -1,0 +1,28 @@
+---
+description: Authentication and security rules
+alwaysApply: true
+---
+
+# Security & Authentication
+
+## Password Storage
+- **NEVER** store passwords in plain text - always use **BCrypt** or **Argon2**
+
+## JWT Tokens
+- Use **JWT tokens** for authentication with proper expiration
+- Implement **refresh tokens** for long-lived sessions
+- Store JWT secret in **environment variables** or **Azure Key Vault**, never in code
+
+## Input Validation
+- Validate **all user input** on the server side
+- Implement **rate limiting** to prevent abuse
+- Don't trust user input - always validate and sanitize
+
+## HTTPS & CORS
+- Use **HTTPS** in production (add HSTS header)
+- Implement **CORS** properly - don't use `AllowAnyOrigin` in production
+
+## Email Verification
+- Generate **cryptographically secure** challenge keys
+- Set **expiration time** for verification links (24 hours)
+- Store challenge keys **hashed** in the database

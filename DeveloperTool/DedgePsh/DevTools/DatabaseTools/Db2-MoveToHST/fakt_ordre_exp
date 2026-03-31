@@ -1,0 +1,35 @@
+-- KJШRES MOT  BASISPRO pе SFKERP01 slik: K:\fkavd\basishst>REXX FKSQL KASSTR_EXP BASISPRO log\kasstr_EXP_ееееB.LOG
+-- SIST KJШRT 
+--      KJШRT dd MND   ЕЕЕЕ MEH   Tatt alt < 20210701    (har siste 14 mnd liggende)
+--      Husk е endre dato i utvalget samt filenavn!
+--
+ CONNECT TO BASISPRO USER srv_db2  USING Database1;
+--CREATE TABLE DBM.h_fakt_ordre_TIL_HIST (
+--  AAR                            DECIMAL     (4,0)     NOT NULL WITH DEFAULT 0.0,
+--  AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+--  ORDRENR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+--    PRIMARY KEY(AAR, AVDNR,ORDRENR)
+--  )   ;
+  TRUNCATE TABLE DBM.H_FAKT_ORDRE_TIL_HIST;
+--
+  INSERT INTO DBM.H_FAKT_ORDRE_TIL_HIST
+--   (SELECT int(sentral_faktdato/ 10000)
+   (SELECT int(bestillingsdato/ 10000)   --For rydding av gamle ordre
+   , AVDNR, ordrenr
+   FROM DBM.h_fakt_ordrehode WHERE bestillingsdato between 1 and 20181231 );
+  RUNSTATS ON TABLE DBM.H_FAKT_ORDRE_TIL_HIST AND INDEXES ALL;
+  SELECT count(*) FROM DBM.h_fakt_ordre_TIL_HIST;
+--
+  EXPORT TO  P:\IMPORT\h_fakt_ohode0018.IXF OF IXF
+   SELECT h.aar, f.*
+   FROM DBM.H_FAKT_ORDRE_TIL_HIST h
+      , dbm.h_fakt_ordrehode f where h.avdnr = f.avdnr and h.ordrenr = f.ordrenr;
+--//
+--
+EXPORT TO  P:\IMPORT\h_fakt_olinjer0018.IXF OF IXF
+ SELECT h.AAR, f.*
+   FROM DBM.H_FAKT_ORDRE_TIL_HIST h
+      , dbm.h_fakt_ordrelinjer f where h.avdnr = f.avdnr and h.ordrenr = f.ordrenr;
+--
+//
+//

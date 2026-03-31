@@ -1,0 +1,70 @@
+{
+  "tableName": "TILGBRUKER",
+  "futureName": "UserCredential",
+  "namespace": "Security",
+  "columns": [
+    {
+      "name": "BRUKERID",
+      "futureName": "UserCredentialId",
+      "description": "Unique user identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "PASSORD",
+      "futureName": "Password",
+      "description": "User password",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERNAVN",
+      "futureName": "Username",
+      "description": "User login name",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Employee department number",
+      "foreignKey": "AD_BRUKER, BANKTERM_ID, BANKTERM_MASKIN, FIRMA, FK_LOG, KONTO, KUNDEKONTO_TEST, KUNDEKONTO, KUNDEKONTO"
+    },
+    {
+      "name": "TIDSINTERVALL",
+      "futureName": "TimeInterval",
+      "description": "User access time interval",
+      "foreignKey": null
+    },
+    {
+      "name": "TRANSPORTOR",
+      "futureName": "TransportorNumber",
+      "description": "Transportation company number",
+      "foreignKey": null
+    },
+    {
+      "name": "NETADRESSE",
+      "futureName": "IpAddress",
+      "description": "User network address",
+      "foreignKey": null
+    },
+    {
+      "name": "ILAGNR",
+      "futureName": "LicenseNumber",
+      "description": "User license number",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_PAALOGGET",
+      "futureName": "LastLoggedOnTimestamp",
+      "description": "Timestamp of the last logon event",
+      "foreignKey": null
+    },
+    {
+      "name": "KATEGORI",
+      "futureName": "Category",
+      "description": "User category or role",
+      "foreignKey": "TEKSTER"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:34:34"
+}

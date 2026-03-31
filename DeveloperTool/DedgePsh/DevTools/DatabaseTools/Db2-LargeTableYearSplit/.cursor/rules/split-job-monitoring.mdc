@@ -1,0 +1,84 @@
+﻿# Db2-LargeTableYearSplit — Log Gathering and Monitoring
+
+## When the user asks to check logs, status, or errors
+
+**Always run the status-gathering script first**, then analyze the locally copied files:
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\DatabaseTools\Db2-LargeTableYearSplit\Get-SplitJobStatus.ps1" -ServerName "<server>" -DaysBack <n>
+```
+
+Default server: `t-no1fkmmig-db`. Adjust `-DaysBack` based on the user's request.
+
+## After running the script
+
+Log files are copied to `$env:TEMP\SplitJobStatus\`. Use these local copies for all further analysis:
+
+| File pattern | Content |
+|---|---|
+| `app_YYYYMMDD.log` | App-specific log from `\\<server>\opt\data\Db2-LargeTableYearSplit\` |
+| `central_YYYYMMDD.log` | Central PowerShell log from `\\<server>\opt\data\AllPwshLog\` |
+| `orch_stdout.txt` | Orchestrator live output (if present) |
+| `orch_result.json` | Orchestrator result (if present) |
+
+**Never read UNC paths directly.** Always use the local copies in `$env:TEMP\SplitJobStatus\`.
+
+## Key log patterns to search for
+
+| Pattern | Purpose |
+|---|---|
+| `JOB_STARTED\|JOB_COMPLETED\|JOB_FAILED` | Job boundaries and duration |
+| `\|ERROR\|` | All errors |
+| `RenameAndReload COMPLETE` | Successful R&R completion |
+| `Total rows.*Rows to KEEP` | Pre-split row counts |
+| `New DBM\.` | Post-split row counts |
+| `_TMP.*rows` | TMP table status |
+| `EXPORT complete` | IXF file size and timing |
+| `LOAD complete` | Load timing and row verification |
+| `SQL0104N\|SQL0750N\|SQL1013N\|DB21034E` | Common Db2 errors |
+| `Cannot index into a null` | PowerShell array handling bug |
+
+## Creating ExecLogs reports
+
+Place execution reports in:
+
+```
+DevTools/DatabaseTools/Db2-LargeTableYearSplit/ExecLogs/<servername>_<yyyyMMdd-HHmmss>.md
+```
+
+Use the Shadow Pipeline ExecLog format as a template (see `Db2-ShadowDatabase/ExecLogs/`).
+
+## Deploy and run
+
+Deploy: `pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\DatabaseTools\Db2-LargeTableYearSplit\_deploy.ps1"`
+
+Run via orchestrator:
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+Invoke-ServerCommand -ServerName '<server>' -Command '%OptPath%\DedgePshApps\Db2-LargeTableYearSplit\Db2-LargeTableYearSplit.ps1' -Project 'large-table-split' -Timeout 86400
+```
+
+## Tables and config
+
+Config file: `ArchiveTables.json` — defines tables, timestamp columns, and methods.
+Methods: `ExportLoad` (per-year export+load+delete), `RenameAndReload` (rename original, create new, load kept rows).
+
+## Autonomous run skill
+
+For full autonomous deploy-trigger-monitor-fix cycles, use the agent skill:
+
+```
+.cursor/skills/large-table-split-autocur/SKILL.md
+```
+
+It covers all phases (deploy, trigger, monitor, error handling, validation, SMS) and documents known orchestrator pitfalls.
+
+## Known issues
+
+- **Index/grant recreation bug (SQL0104N) — FIXED (2026-03-23):** Previously, all DDL statements were concatenated into one `db2` command, causing only the first statement to execute. Fixed: each DDL is now executed as an individual `Invoke-Db2MultiStatement` call. The script also throws on any DDL replay failure (no silent partial success).
+- **FK rebuild SQL0206N "INDSCHEMA" — FIXED (2026-03-23):** FK ADD statements used `SYSCAT.KEYCOLUSE` with unqualified `INDSCHEMA`/`INDNAME` join, causing `SQL0206N`. Fixed: uses `SYSCAT.INDEXCOLUSE` with `RTRIM(INDSCHEMA)` and `RTRIM(INDNAME)`.
+- **SQL0750N on RENAME:** If views or FKs still reference the table, RENAME fails. The script now drops all incoming+outgoing FKs (Step 4a) and iterates view drops with retry (Step 4b+5) before RENAME.
+- **View DDL DB21007E:** View DDL files must be UTF-8 no-BOM with a trailing semicolon. `Invoke-ViewDdlViaFile` handles this. Empty view DDL in the replay list now throws immediately.
+- **`-RestoreFromPrd` parameter:** When `$true`, runs `Db2-CreateInitialDatabasesStdAll.ps1` before splitting to restore a fresh database from production. Default: `$true`.
+- **`-ReuseLocalBackup` parameter:** When `$true` with `-RestoreFromPrd:$true`, checks `<DataDisk>\Db2SplitPrdBackupCache` for previously downloaded backup images. If found, seeds the Db2Restore folder from cache and uses `Db2-CreateInitialDatabasesStdAllNoBackupCopy.ps1` (local restore only, no PRD download). After every successful restore, backup images are cached. Default: `$false`.
+- **Orchestrator exit code vs app success:** Orchestrator `COMPLETED / exitCode: 0` does not guarantee all SQL objects were recreated. Always check the app log for `=== RenameAndReload COMPLETE ===` and the `Indexes: N/N OK | Views: N/N OK | Grants: N/N OK | FK: N/N OK` tally.

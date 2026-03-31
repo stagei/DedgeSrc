@@ -1,0 +1,63 @@
+{
+  "program": "RDVPRAN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:d3228581b314bf6b51f619da7e5919989f8394ae9a8902ab953589d2b8827155",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RDVPRAN.CBL",
+    "actualName": "RDVPRAN",
+    "program": "RDVPRAN",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RDHPRAN.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

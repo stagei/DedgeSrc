@@ -1,0 +1,234 @@
+{
+  "program": "GMADIR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:01:18",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMADIR",
+    "program": "GMADIR",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMARANDO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFM017.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "G",
+        "tableName": "ARTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_FRO_JOURNAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRODUSENTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVD_FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALG_ANNEN_KH_KUNDENR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMACURT",
+      "GMACOCO",
+      "GMACNCT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "VARSL-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      }
+    ],
+    "extractedAt": "2026-03-28T20:01:18"
+  },
+  "variableFilenames": {
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:01:14"
+    },
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:01:18"
+    }
+  }
+}

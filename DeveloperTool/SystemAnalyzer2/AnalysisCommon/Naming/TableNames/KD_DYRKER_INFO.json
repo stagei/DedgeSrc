@@ -1,0 +1,34 @@
+{
+  "tableName": "KD_DYRKER_INFO",
+  "futureName": "DyrkerInfo",
+  "namespace": "LegacyTables",
+  "columns": [
+    {
+      "name": "dyrkerRecno",
+      "futureName": "DyrkerRecno",
+      "description": "Unique record identifier for the farmer",
+      "foreignKey": "DYRKER_RECNO -> DBM.KD_DYRKER.DYRKER_RECNO (DYRKER_RECNO)"
+    },
+    {
+      "name": "dyrkerInfRecno",
+      "futureName": "DyrkerInfRecno",
+      "description": "Reference number for farmer information record",
+      "foreignKey": null
+    },
+    {
+      "name": "dato",
+      "futureName": "Date",
+      "description": "Date associated with the entry",
+      "foreignKey": null
+    },
+    {
+      "name": "tekst",
+      "futureName": "Text",
+      "description": "Text description or notes",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:00:30"
+}

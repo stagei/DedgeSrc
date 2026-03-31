@@ -1,0 +1,206 @@
+---
+description: WiX v6 installer rules and patterns
+globs: ["*.wxs", "*.wixproj"]
+alwaysApply: false
+---
+
+# WiX v6 Installer Rules
+
+## Toolchain
+
+| Tool | Version | Install |
+|---|---|---|
+| WiX CLI | 6.x | `dotnet tool install --global wix` |
+| WixToolset.Sdk | 6.x | NuGet (SDK-style `.wixproj`) |
+| WixToolset.UI.wixext | 6.x | PackageReference in `.wixproj` |
+| WixToolset.Util.wixext | 6.x | PackageReference in `.wixproj` |
+
+## Install Path
+
+Use `SetProperty` to override `INSTALLFOLDER` at runtime if the install path must be non-standard:
+
+```xml
+<StandardDirectory Id="ProgramFiles64Folder">
+  <Directory Id="INSTALLFOLDER" Name="AppName" />
+</StandardDirectory>
+
+<SetProperty Id="INSTALLFOLDER"
+             Value="[%MY_ENV_VAR]\Apps\AppName\"
+             Before="AppSearch"
+             Sequence="both" />
+```
+
+## File Inclusion
+
+**Do NOT use `HarvestDirectory` in `.wixproj`** -- it is silently ignored in WiX SDK 6.0.2 and produces empty MSIs.
+
+**Use `<Files>` glob in a dedicated `.wxs` file:**
+
+```xml
+<ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+  <Files Include="..\AppProject\bin\Release\net10.0-windows\win-x64\publish\**\*" />
+</ComponentGroup>
+```
+
+The app **must be published** before the installer is built:
+
+```powershell
+dotnet publish -c Release -r win-x64 --self-contained true
+```
+
+**Always use `--self-contained true`** -- framework-dependent publish produces only 4-5 files and the app won't run on machines without the exact runtime version.
+
+## NuGet Configuration
+
+The installer project needs a local `NuGet.config` that includes all required feeds:
+
+```xml
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+  </packageSources>
+</configuration>
+```
+
+## Platform
+
+Always set `Platform` in the `.wixproj` `PropertyGroup`, not on individual components:
+
+```xml
+<PropertyGroup>
+  <Platform>x64</Platform>
+  <SuppressIces>ICE61;ICE80</SuppressIces>
+</PropertyGroup>
+```
+
+## Custom Dialog Insertion
+
+To insert a custom dialog into `WixUI_InstallDir`, use a **separate `<UI>` block with `Order="2"`**.
+
+Do NOT use child elements inside `<ui:WixUI>` -- WiX v6 does not support it (schema error).
+Do NOT try to override built-in dialogs with `override="yes"` -- WiX v6 Dialog does not support it.
+
+```xml
+<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+<UI>
+  <DialogRef Id="MyCustomDlg" />
+  <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="MyCustomDlg" Order="2" Condition="1" />
+  <Publish Dialog="MyCustomDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Condition="1" />
+  <Publish Dialog="MyCustomDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Condition="1" />
+</UI>
+```
+
+When adding a licence agreement, insert the custom dialog after `LicenseAgreementDlg` instead:
+
+```xml
+<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="MyCustomDlg" Order="2"
+         Condition="LicenseAccepted = &quot;1&quot;" />
+```
+
+## Custom Actions
+
+- **PowerShell scripts** must use `pwsh.exe` (PowerShell 7), never `powershell.exe`
+- **Deferred** actions run elevated; use `Impersonate="yes"` to run as the installing user
+- **Pass properties to deferred actions** with `<SetProperty>` in the execute sequence
+- **Keep command length under 255 chars** -- extract logic to a `.ps1` file installed alongside the app
+- **Launch after install** in `InstallUISequence` with `asyncNoWait` (fire and forget, user context):
+
+```xml
+<CustomAction Id="LaunchApp" Directory="INSTALLFOLDER" Execute="immediate"
+              Return="asyncNoWait"
+              ExeCommand="&quot;[INSTALLFOLDER]App.exe&quot;" />
+<InstallUISequence>
+  <Custom Action="LaunchApp" After="ExecuteAction" Condition="NOT Installed AND NOT REMOVE" />
+</InstallUISequence>
+```
+
+## Kill Running Process on Upgrade
+
+```xml
+<util:CloseApplication Id="CloseExisting"
+                       Target="App.exe"
+                       CloseMessage="yes"
+                       RebootPrompt="no"
+                       TerminateProcess="0"
+                       Timeout="5" />
+```
+
+`TerminateProcess` takes an **integer exit code**, not `"yes"`.
+
+## Product Metadata
+
+Add these properties for Add/Remove Programs info:
+
+```xml
+<Property Id="ARPCOMMENTS"      Value="Description of the app" />
+<Property Id="ARPCONTACT"       Value="IT Support" />
+<Property Id="ARPHELPLINK"      Value="https://example.com" />
+<Property Id="ARPURLINFOABOUT"  Value="https://example.com" />
+```
+
+## Licence Agreement
+
+Add a licence via an RTF file:
+
+```xml
+<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+```
+
+The RTF must use ASCII encoding with special characters as RTF unicode escapes (e.g. `\u248\'f8` for ø).
+
+## Branding Bitmaps
+
+Two bitmaps are required:
+
+| Variable | Size | Content |
+|---|---|---|
+| `WixUIBannerBmp` | 493x58 px | White background. Small app icon (40x40) right-aligned at (445, 9). Left area reserved for WiX title text -- do NOT paint there. |
+| `WixUIDialogBmp` | 493x312 px | Left panel (0-163px): dark branding with icon, product name, version. Right panel (164-493px): plain white -- WiX renders title/description here. |
+
+### Critical: DrawIcon vs DrawImage
+
+**Never use `DrawIcon()`** -- it renders at the icon's native size (often 256x256).
+**Always convert to bitmap and use `DrawImage()` with explicit width/height:**
+
+```powershell
+$ico = New-Object System.Drawing.Icon("app.ico", 48, 48)
+$bmp = $ico.ToBitmap(); $ico.Dispose()
+$g.DrawImage($bmp, x, y, 48, 48)  # Explicit size
+```
+
+### WiX text rendering behaviour
+
+- Built-in WelcomeDlg text uses `Transparent="yes"` and renders directly on the bitmap
+- Font color is **system default** -- black on light-mode, potentially invisible on dark-mode
+- You **cannot change** the font color of built-in dialog text in `WixUI_InstallDir`
+- Safe strategy: paint branding in the left panel only, leave right panel white for WiX text
+
+## Silent Install / Uninstall
+
+```powershell
+# Install (elevated, verbose log)
+Start-Process msiexec -ArgumentList "/i `"Setup.msi`" /quiet /norestart /l*v `"C:\temp\install.log`" MYPROP=value" -Verb RunAs -Wait
+
+# Uninstall
+$prod = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" |
+        Where-Object { $_.DisplayName -like "*My App*" } | Select-Object -First 1
+Start-Process msiexec -ArgumentList "/x $($prod.PSChildName) /quiet /norestart" -Verb RunAs -Wait
+```
+
+## GUIDs
+
+Generate fresh GUIDs with `[System.Guid]::NewGuid()` in PowerShell.
+**Never reuse GUIDs** from another installer -- MSI uses them for component tracking.
+
+## Things That Do NOT Work in WiX v6
+
+| What | Why | Fix |
+|---|---|---|
+| `HarvestDirectory` in `.wixproj` | Silently ignored in SDK 6.0.2 | `<Files Include="...\**\*" />` in `.wxs` |
+| Child elements inside `<ui:WixUI>` | Schema error | Separate `<UI>` block |
+| `Dialog override="yes"` | Not a valid attribute on Dialog | Cannot override built-in dialogs |
+| `TerminateProcess="yes"` | Must be integer | Use `"0"` |
+| `Directory Id="TARGETDIR"` | Conflicts with virtual symbol | Use `StandardDirectory` |
+| `DrawIcon()` in bitmap generation | Renders at native icon size (256px) | `DrawImage()` with explicit w*h |
+| Framework-dependent publish | Only 4 files, app won't run | `--self-contained true` |

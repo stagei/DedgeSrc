@@ -1,0 +1,84 @@
+{
+  "program": "EDBFASJ",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:749f5d523b5240ab7687b85a629375634de705813be2a19ba5940205856b51cb",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\EDBFASJ.cbl",
+    "actualName": "EDBFASJ",
+    "program": "EDBFASJ",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAAUTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "EFFL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EFFA.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FK_LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EDI_FAKT_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EDI_FAKT_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LINNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EDI_FAKT_HODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EDI_FAKT_LINJE",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMASQLB",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "EDBFASJ.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\EDBFASJ.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

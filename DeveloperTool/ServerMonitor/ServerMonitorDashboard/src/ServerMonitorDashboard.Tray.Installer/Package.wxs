@@ -1,0 +1,197 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
+  <Package Name="Server Monitor Dashboard Tray"
+           Language="1033"
+           Version="1.0.304"
+           Manufacturer="Dedge"
+           UpgradeCode="7A3B9C21-D4E5-4F60-A123-8B9C0D1E2F3A"
+           Compressed="yes">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Server Monitor Dashboard Tray is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PRODUCT METADATA (visible in Add/Remove Programs)                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <Property Id="ARPCOMMENTS"      Value="System tray monitor for ServerMonitor Dashboard. For internal use within Dedge AS." />
+    <Property Id="ARPCONTACT"       Value="IT-support, Dedge AS" />
+    <Property Id="ARPHELPLINK"      Value="https://www.Dedge.no" />
+    <Property Id="ARPURLINFOABOUT"  Value="https://www.Dedge.no" />
+    <Property Id="ARPHELPTELEPHONE" Value="+47 22 31 50 00" />
+
+    <!-- Kill any running instance before files are copied so nothing is locked.
+         TerminateProcess="1": force-kill after Timeout if WM_CLOSE is ignored
+         (tray apps often don't respond to WM_CLOSE). See WiX-Icon-Pitfalls.md #1. -->
+    <util:CloseApplication Id="CloseExistingTray"
+                           Target="ServerMonitorDashboard.Tray.exe"
+                           CloseMessage="yes"
+                           RebootPrompt="no"
+                           TerminateProcess="1"
+                           Timeout="5" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PROPERTIES                                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <Property Id="DASHBOARD_SERVER" Value="dedge-server" />
+
+    <!-- Pass DASHBOARD_SERVER into the deferred custom action context -->
+    <SetProperty Id="WriteTrayConfig" Value="[DASHBOARD_SERVER]" Before="WriteTrayConfig" Sequence="execute" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DIRECTORIES                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Directory structure uses ProgramFiles64Folder so WiX can auto-generate component GUIDs.
+         SetProperty then overrides INSTALLFOLDER at runtime to C:\opt\DedgeWinApps\ServerMonitorDashboard.Tray\
+         (AppLocker-approved). OptPath env var = C:\opt. -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="ServerMonitorDashboard.Tray" />
+    </StandardDirectory>
+
+    <SetProperty Id="INSTALLFOLDER"
+                 Value="[%OptPath]\DedgeWinApps\ServerMonitorDashboard.Tray\"
+                 Before="AppSearch"
+                 Sequence="both" />
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="AppMenuFolder" Name="Dedge" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- COMPONENTS                                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <ComponentGroup Id="Shortcuts" Directory="AppMenuFolder">
+      <Component Id="StartMenuShortcut" Guid="B1C2D3E4-F5A6-7890-BCDE-F12345678901">
+        <Shortcut Id="AppStartMenuShortcut"
+                  Name="Server Monitor Dashboard Tray"
+                  Description="System tray monitor for ServerMonitor Dashboard"
+                  Target="[INSTALLFOLDER]ServerMonitorDashboard.Tray.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="TrayIcon" />
+        <RemoveFolder Id="RemoveAppMenuFolder" Directory="AppMenuFolder" On="uninstall" />
+        <RegistryValue Root="HKCU"
+                       Key="Software\Dedge\ServerMonitorDashboardTray"
+                       Name="StartMenuInstalled"
+                       Type="integer" Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="DesktopShortcuts" Directory="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="E4F5A6B7-C8D9-0123-FABC-456789012345">
+        <Shortcut Id="AppDesktopShortcut"
+                  Name="Server Monitor Dashboard Tray"
+                  Description="System tray monitor for ServerMonitor Dashboard"
+                  Target="[INSTALLFOLDER]ServerMonitorDashboard.Tray.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="TrayIcon" />
+        <RegistryValue Root="HKCU"
+                       Key="Software\Dedge\ServerMonitorDashboardTray"
+                       Name="DesktopInstalled"
+                       Type="integer" Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="AutoStart" Directory="INSTALLFOLDER">
+      <!-- HKLM so the tray starts for ALL users, not just the installing user.
+           New GUID required when changing Root per WiX-Icon-Pitfalls.md #3. -->
+      <Component Id="AutoStartEntry" Guid="65D8FA14-1177-40B8-A2E6-866345164712">
+        <RegistryValue Root="HKLM"
+                       Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+                       Name="Server Monitor Dashboard Tray"
+                       Type="string"
+                       Value="[INSTALLFOLDER]ServerMonitorDashboard.Tray.exe"
+                       KeyPath="yes" />
+      </Component>
+      <!-- Ship the config-writer script so the custom action can call it -->
+      <Component Id="WriteTrayConfigScript" Guid="D3E4F5A6-B7C8-9012-EFAB-345678901234">
+        <File Id="WriteTrayConfigPs1"
+              Source="WriteTrayConfig.ps1"
+              Name="WriteTrayConfig.ps1"
+              KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FEATURE                                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <Feature Id="ProductFeature" Title="Server Monitor Dashboard Tray" Level="1">
+      <ComponentGroupRef Id="TrayAppFiles" />
+      <ComponentGroupRef Id="Shortcuts" />
+      <ComponentGroupRef Id="DesktopShortcuts" />
+      <ComponentGroupRef Id="AutoStart" />
+    </Feature>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- CUSTOM ACTION                                                       -->
+    <!-- Writes %APPDATA%\ServerMonitorDashboard.Tray\user-prefs.json       -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- pwsh.exe (PowerShell 7) — required per project conventions -->
+    <CustomAction Id="WriteTrayConfig"
+                  Directory="INSTALLFOLDER"
+                  Execute="deferred"
+                  Impersonate="yes"
+                  Return="ignore"
+                  ExeCommand="pwsh.exe -NonInteractive -ExecutionPolicy Bypass -File &quot;[INSTALLFOLDER]WriteTrayConfig.ps1&quot; -Server &quot;[DASHBOARD_SERVER]&quot;" />
+
+    <!-- Launch the tray app immediately after install, in user context (asyncNoWait = fire and forget) -->
+    <CustomAction Id="LaunchTrayApp"
+                  Directory="INSTALLFOLDER"
+                  Execute="immediate"
+                  Return="asyncNoWait"
+                  ExeCommand="&quot;[INSTALLFOLDER]ServerMonitorDashboard.Tray.exe&quot;" />
+
+    <InstallExecuteSequence>
+      <Custom Action="WriteTrayConfig" After="InstallFiles" Condition="NOT Installed" />
+    </InstallExecuteSequence>
+
+    <!-- Runs in UI sequence (user context, not elevated) — after files are installed -->
+    <InstallUISequence>
+      <Custom Action="LaunchTrayApp" After="ExecuteAction" Condition="NOT Installed AND NOT REMOVE" />
+    </InstallUISequence>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- UI                                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <Icon Id="TrayIcon" SourceFile="..\ServerMonitorDashboard.Tray\dedge.ico" />
+    <Property Id="ARPPRODUCTICON" Value="TrayIcon" />
+
+    <!-- FK branded bitmaps for the installer UI -->
+    <!-- WixUI_Bmp_Banner : 493x58 px - top strip on all inner dialogs      -->
+    <!-- WixUI_Bmp_Dialog : 493x312 px - left panel on Welcome/Finish pages  -->
+    <WixVariable Id="WixUIBannerBmp"   Value="WixBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp"   Value="WixDialog.bmp" />
+    <!-- Custom Dedge licence agreement (RTF) -->
+    <WixVariable Id="WixUILicenseRtf"  Value="License.rtf" />
+
+    <!--
+      Dialog flow with built-in WixUI_InstallDir (Order 1 publishes):
+        WelcomeDlg → LicenseAgreementDlg → InstallDirDlg → VerifyReadyDlg
+
+      We insert ServerConfigDlg between LicenseAgreementDlg and InstallDirDlg
+      using Order="2" so our publishes fire after and override the built-in ones:
+        WelcomeDlg → LicenseAgreementDlg → ServerConfigDlg → InstallDirDlg → VerifyReadyDlg
+    -->
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+    <UI>
+      <DialogRef Id="ServerConfigDlg" />
+      <!-- LicenseAgreementDlg Next normally → InstallDirDlg (Order 1); redirect to ServerConfigDlg -->
+      <Publish Dialog="LicenseAgreementDlg" Control="Next"  Event="NewDialog" Value="ServerConfigDlg" Order="2" Condition="LicenseAccepted = &quot;1&quot;" />
+      <Publish Dialog="ServerConfigDlg"     Control="Back"  Event="NewDialog" Value="LicenseAgreementDlg" Condition="1" />
+      <Publish Dialog="ServerConfigDlg"     Control="Next"  Event="NewDialog" Value="InstallDirDlg"       Condition="1" />
+    </UI>
+
+  </Package>
+
+</Wix>

@@ -1,0 +1,1213 @@
+﻿@echo off
+REM ========================================================================================================
+REM DB2 SSL Server Configuration Script for Kerberos JDBC Client Setup
+REM ========================================================================================================
+REM Purpose: Configure DB2 server for SSL connections with Windows SSO (no keytab required)
+REM Usage: Run this script in db2cmd.exe environment
+REM Requirements: Must be run as DB2 instance owner with admin rights
+REM Note: This script is IDEMPOTENT - safe to run multiple times
+REM Version: 3.0 - Windows SSO optimized version without keytab dependencies
+REM ========================================================================================================
+
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo DB2 SSL Configuration Script  (Windows SSO)
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo.
+
+REM Set variables
+set FUNCTION=ALL
+if "%1"=="ALL" (
+    set FUNCTION=ALL
+) else if "%1"=="ADD" (
+    set FUNCTION=ALL
+) else if "%1"=="TEARDOWN" (
+    set FUNCTION=TEARDOWN
+)
+
+if "%2"=="" (
+    echo ERROR: Missing parameter 2 - DATABASE_NAME
+    exit /b 1
+) else (
+    set DATABASE_NAME=%2
+)
+
+if "%3"=="" (
+    echo ERROR: Missing parameter 3 - DATABASE_PORT
+    exit /b 1
+) else (
+    set DATABASE_PORT=%3
+)
+
+if "%4"=="" (
+    echo ERROR: Missing parameter 4 - SSL_PASSWORD
+    exit /b 1
+) else (
+    set SSL_PASSWORD=%4
+)
+
+if "%5"=="" (
+    echo ERROR: Missing parameter 5 - SSL_PORT
+    exit /b 1
+) else (
+    set SSL_PORT=%5
+)
+
+if "%6"=="" (
+    echo ERROR: Missing parameter 6 - SSL_SVCENAME
+    exit /b 1
+) else (
+    set SSL_SVCENAME=%6
+)
+
+echo.
+echo Parameters:
+echo -----------
+echo FUNCTION: %FUNCTION%
+echo DATABASE_NAME: %DATABASE_NAME%
+echo DATABASE_PORT: %DATABASE_PORT%
+echo SSL_PASSWORD: %SSL_PASSWORD%
+echo SSL_PORT: %SSL_PORT%
+echo SSL_SVCENAME: %SSL_SVCENAME%
+echo.
+echo Press Ctrl+C to cancel, or wait 5 seconds to continue...
+timeout /t 5
+
+
+
+set DB2_INSTALL_PATH=C:\DbInst
+set GSKIT_PATH=C:\Program Files\ibm\gsk8\bin
+
+set SERVER_HOSTNAME=%COMPUTERNAME%.DEDGE.fk.no
+set CERT_LABEL=DB2_SERVER_CERT
+set COMMON_EXPORT_DIR=C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\Db2\ServerConfigurationSSL\%COMPUTERNAME%
+set CLIENT_CONFIG_DIR=%COMMON_EXPORT_DIR%\ClientConfig
+set CLIENT_CONFIG_DIR_DBEAVER=%CLIENT_CONFIG_DIR%\Dbeaver
+set CLIENT_CONFIG_DIR_JAVA=%CLIENT_CONFIG_DIR%\Jdbc
+set CLIENT_CONFIG_DIR_OLEDB=%CLIENT_CONFIG_DIR%\OleDb
+set CERT_SCRIPTS_DIR=%COMMON_EXPORT_DIR%\Certificate
+set LOG_DIR=%COMMON_EXPORT_DIR%\Logs
+set CERT_FILE=%CERT_SCRIPTS_DIR%\db2-server-cert.cer
+set BACKUP_DIR=C:\DB2\backup\ssl
+set KERBEROS_DIR=C:\DB2\kerberos
+set SSL_DIR=C:\DB2\ssl
+set FIREWALL_RULE_NAME="Db2 SSL + Kerberos SSO %COMPUTERNAME%"
+@REM rd /s /q "%LOG_DIR%" >nul 2>&1
+@REM rd /s /q "%BACKUP<_DIR%" >nul 2>&1
+@REM rd /s /q "%KERBEROS_DIR%" >nul 2>&1
+
+rd /s /q "%COMMON_EXPORT_DIR%" >nul 2>&1
+md "%COMMON_EXPORT_DIR%" 
+md "%CLIENT_CONFIG_DIR%" 
+md "%CLIENT_CONFIG_DIR_DBEAVER%" 
+md "%CLIENT_CONFIG_DIR_JAVA%" 
+md "%CLIENT_CONFIG_DIR_OLEDB%" 
+md "%LOG_DIR%" 
+md "%BACKUP_DIR%" 
+md "%KERBEROS_DIR%" 
+md "%CERT_SCRIPTS_DIR%" 
+md "%SSL_DIR%"
+
+echo COMMON_EXPORT_DIR: %COMMON_EXPORT_DIR%
+echo CLIENT_CONFIG_DIR: %CLIENT_CONFIG_DIR%
+echo CLIENT_CONFIG_DIR_DBEAVER: %CLIENT_CONFIG_DIR_DBEAVER%
+echo CLIENT_CONFIG_DIR_JAVA: %CLIENT_CONFIG_DIR_JAVA%
+echo CLIENT_CONFIG_DIR_OLEDB: %CLIENT_CONFIG_DIR_OLEDB%
+echo LOG_DIR: %LOG_DIR%
+echo BACKUP_DIR: %BACKUP_DIR%
+echo KERBEROS_DIR: %KERBEROS_DIR%
+echo CERT_SCRIPTS_DIR: %CERT_SCRIPTS_DIR%
+echo SSL_DIR: %SSL_DIR%
+
+@REM goto :test
+
+set NO_STOP_ON_ERROR=0
+set STEP=0
+REM Enhanced logging
+set LOGFILE=%LOG_DIR%\ssl_config_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.log
+echo %DATE% %TIME% - Starting DB2 SSL Configuration > "%LOGFILE%"
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Configuration Settings
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo.
+echo Configuration Settings:
+echo - DB2 Installation: %DB2_INSTALL_PATH%
+echo - Database Name: %DATABASE_NAME%
+echo - Database Port: %DATABASE_PORT%
+echo - SSL Directory: %SSL_DIR%
+echo - SSL Port: %SSL_PORT%
+echo - SSL Service Name: %SSL_SVCENAME%
+echo - Server Hostname: %SERVER_HOSTNAME%
+echo - SSL Password: %SSL_PASSWORD%
+echo - Certificate Label: %CERT_LABEL%
+echo - GSKit Path: %GSKIT_PATH%
+echo - Log Directory: %LOG_DIR%
+echo - Backup Directory: %BACKUP_DIR%
+echo - Kerberos Directory: %KERBEROS_DIR%
+echo - Client Config Directory: %CLIENT_CONFIG_DIR%
+echo - Authentication Mode: Windows SSO
+echo.
+
+@REM goto :test
+REM Log configuration settings
+echo %DATE% %TIME% - Configuration: DB=%DATABASE_NAME%, SSL_PORT=%SSL_PORT%, SERVER=%SERVER_HOSTNAME%, AUTH=Windows_SSO >> "%LOGFILE%"
+
+REM Check if DB2 installation exists
+if not exist "%DB2_INSTALL_PATH%" (
+    set ERROR_MESSAGE="ERROR: DB2 installation not found at %DB2_INSTALL_PATH%"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: DB2 installation not found at %DB2_INSTALL_PATH% >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+
+REM Check if GSKit tools exist
+if not exist "%GSKIT_PATH%\gsk8capicmd_64.exe" (
+    set ERROR_MESSAGE="ERROR: GSKit tools not found at %GSKIT_PATH%"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: GSKit tools not found >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+
+REM Create backup of existing configuration
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Creating Configuration Backup
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating backup of existing DB2 configuration... -ForegroundColor Yellow"
+db2 get dbm cfg > "%BACKUP_DIR%\dbm_cfg_backup_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%.txt"
+if exist "%SSL_DIR%" (
+    echo Backing up existing SSL directory...
+    xcopy "%SSL_DIR%\*" "%BACKUP_DIR%\ssl_backup_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%\" /E /I /Y >nul 2>&1
+)
+echo %DATE% %TIME% - Configuration backup created >> "%LOGFILE%"
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo  Cleaning Previous SSL Configuration
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Cleaning Previous SSL Configuration. This ensures the script can be run multiple times safely... -ForegroundColor Yellow"
+
+
+REM Set variables (same as configure script)
+set BACKUP_DIR=C:\TEMPFK\Db2SslBackup
+
+echo Teardown Settings:
+echo - DB2 Installation: %DB2_INSTALL_PATH%
+echo - SSL Directory to remove: %SSL_DIR%
+echo - Server Hostname: %SERVER_HOSTNAME%
+echo - Kerberos Directory: %KERBEROS_DIR%
+echo - Backup Directory: %BACKUP_DIR%
+echo - Authentication Mode: Windows SSO
+echo.
+
+
+REM Check if DB2 installation exists
+if not exist "%DB2_INSTALL_PATH%" (
+    set ERROR_MESSAGE="ERROR: DB2 installation not found at %DB2_INSTALL_PATH%"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: DB2 installation not found at %DB2_INSTALL_PATH% >> "%LOGFILE%"
+    exit /b 1
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Displaying current SSL configuration... -ForegroundColor Yellow"
+echo Current SSL settings before removal:
+db2 get dbm cfg | findstr -i ssl
+echo.
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Creating Backup Before Removal
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating backup of current SSL configuration... -ForegroundColor Yellow"
+
+REM Backup DB2 configuration
+db2 get dbm cfg > "%BACKUP_DIR%\dbm_cfg_before_removal_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%.txt"
+
+REM Backup SSL files if they exist
+if exist "%SSL_DIR%" (
+    echo Backing up SSL directory...
+    xcopy "%SSL_DIR%\*" "%BACKUP_DIR%\ssl_files_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%\" /E /I /Y >nul 2>&1
+)
+
+REM Backup Kerberos files if they exist
+if exist "%KERBEROS_DIR%" (
+    echo Backing up Kerberos directory...
+    xcopy "%KERBEROS_DIR%\*" "%BACKUP_DIR%\kerberos_files_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%\" /E /I /Y >nul 2>&1
+)
+
+echo - Backup completed.
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing existing certificate... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -delete -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%" >nul 2>&1
+echo - Removed certificate if it existed
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing DB2 SSL configuration parameters... -ForegroundColor Yellow"
+
+echo - Clearing SSL service name...
+db2 update dbm cfg using ssl_svcename NULL
+
+echo - Clearing SSL keystore database path...
+db2 update dbm cfg using ssl_svr_keydb NULL
+
+echo - Clearing SSL keystore stash file path...
+db2 update dbm cfg using ssl_svr_stash NULL
+
+echo - Clearing SSL certificate label...
+db2 update dbm cfg using ssl_svr_label NULL
+
+echo - Clearing SSL client keystore database...
+db2 update dbm cfg using ssl_clnt_keydb NULL
+
+echo - Clearing SSL client stash file...
+db2 update dbm cfg using ssl_clnt_stash NULL
+
+echo - Clearing enhanced SSL cipher specifications...
+db2 update dbm cfg using SSL_CIPHERSPECS NULL
+
+echo - Clearing SSL versions...
+db2 update dbm cfg using SSL_VERSIONS NULL
+
+db2 terminate 
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Verifying SSL configuration removal... -ForegroundColor Yellow"
+echo SSL settings after removal:
+db2 get dbm cfg | findstr -i ssl
+
+echo.
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Stopping DB2 instance to apply changes... -ForegroundColor Yellow"
+echo - Stopping DB2 instance...
+db2 force applications all
+
+db2stop force
+if errorlevel 1 (
+    set /a STEP+=1
+    echo.
+    powershell -Command "Write-Host Step %STEP% - Secondary attempt to stop DB2 instance to apply changes in 5 seconds... -ForegroundColor Red"
+    timeout /t 5 /nobreak >nul
+    db2 force applications all
+    db2stop force >nul 2>&1
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Starting DB2 instance... -ForegroundColor Yellow"
+echo - Starting DB2 instance...
+db2start >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Failed to start DB2 instance
+    echo You may need to start it manually using: db2start
+    echo %DATE% %TIME% - ERROR: Failed to start DB2 instance >> "%LOGFILE%"
+    exit /b 1
+) else (
+    echo - DB2 instance started successfully
+    
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing SSL certificate files and directory... -ForegroundColor Yellow"
+
+if exist "%SSL_DIR%" (
+    echo - Removing SSL directory and all contents: %SSL_DIR%
+    
+    REM Make files writable before deletion
+    if exist "%SSL_DIR%\server.kdb" (
+        attrib -r "%SSL_DIR%\server.kdb"
+        echo   - Removing server.kdb
+    )
+    
+    if exist "%SSL_DIR%\server.sth" (
+        attrib -r "%SSL_DIR%\server.sth"
+        echo   - Removing server.sth
+    )
+    
+    if exist "%SSL_DIR%\server.rdb" (
+        attrib -r "%SSL_DIR%\server.rdb"
+        echo   - Removing server.rdb
+    )
+    
+    if exist "%SSL_DIR%\server.crl" (
+        attrib -r "%SSL_DIR%\server.crl"
+        echo   - Removing server.crl
+    )
+    
+    REM Remove the entire SSL directory
+    attrib -r "%SSL_DIR%"
+    rmdir /s /q "%SSL_DIR%"
+    if errorlevel 1 (
+        set ERROR_MESSAGE="ERROR: Failed to remove SSL directory %SSL_DIR%. Please remove it manually after stopping any processes using these files."
+        powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+        echo %DATE% %TIME% - ERROR: Failed to remove SSL directory >> "%LOGFILE%"
+        exit /b 1
+    ) else (
+        echo   - SSL directory removed successfully
+        
+    )
+) else (
+    echo - SSL directory %SSL_DIR% does not exist (already removed or never created)
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing minimal Kerberos configuration files... -ForegroundColor Yellow"
+if exist "%KERBEROS_DIR%" (
+    echo - Removing Kerberos directory: %KERBEROS_DIR%
+    rmdir /s /q "%KERBEROS_DIR%"
+    if errorlevel 1 (
+        echo WARNING: Failed to remove Kerberos directory
+    ) else (
+        echo - Kerberos directory removed successfully    
+    )
+) else (
+    echo - Kerberos directory does not exist
+)
+
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Final teardown verification... -ForegroundColor Yellow"
+echo Final SSL TearDown configuration (should show no SSL settings):
+db2 get dbm cfg | findstr -i ssl
+echo.
+
+REM Check if SSL directory was successfully removed
+if not exist "%SSL_DIR%" (
+    set SSL_DIR_STATUS=REMOVED
+) else (
+    set SSL_DIR_STATUS=STILL EXISTS
+)
+
+REM  Check Kerberos directory status
+if not exist "%KERBEROS_DIR%" (
+    set KERBEROS_DIR_STATUS=REMOVED
+) else (
+    set KERBEROS_DIR_STATUS=STILL EXISTS
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing firewall rule... -ForegroundColor Yellow"
+
+echo Remove existing firewall rule if it exists
+netsh advfirewall firewall delete rule localport=%SSL_PORT% >nul 2>&1
+netsh advfirewall firewall delete rule name=%FIREWALL_RULE_NAME% >nul 2>&1
+netsh advfirewall firewall delete rule localport=%SSL_PORT% >nul 2>&1
+netsh advfirewall firewall delete rule name=%FIREWALL_RULE_NAME% >nul 2>&1
+netsh advfirewall firewall list rule name=%FIREWALL_RULE_NAME%
+netsh advfirewall firewall list rule localport=%SSL_PORT%
+echo Does this look correct? Press Ctrl+C to exit.
+timeout /t 5 
+
+
+
+echo Searching for firewall rules on port %SSL_PORT%...
+netsh advfirewall firewall show rule name=%FIREWALL_RULE_NAME%
+
+REM  Remove environment variables if they were set (Windows SSO specific)
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Cleaning Windows SSO environment variables... -ForegroundColor Yellow"
+reg delete "HKCU\Environment" /v "DB2_SSL_SERVER" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "DB2_SSL_PORT" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "DB2_SSL_SVCENAME" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "DB2_INSTALL_PATH" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "SSL_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "SERVER_HOSTNAME" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "CERT_LABEL" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "GSKIT_PATH" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "COMMON_EXPORT_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "LOG_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "BACKUP_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "KERBEROS_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "CLIENT_CONFIG_DIR" /f >nul 2>&1
+reg delete "HKCU\Environment" /v "DB2_DATABASE" /f >nul 2>&1
+echo - Windows SSO environment variables cleaned (if they existed)
+echo - NOTE: No keytab-related variables to clean in Windows SSO mode
+
+
+@REM REM  Clean up client distribution files
+@REM echo.
+@REM set /a STEP+=1
+@REM echo.
+@REM powershell -Command "Write-Host Step %STEP%: Cleaning client distribution files... -ForegroundColor Yellow"
+@REM if exist "%COMMON_EXPORT_DIR%" (
+@REM     echo - Removing client distribution directory: %COMMON_EXPORT_DIR%
+@REM     rd /s /q "%COMMON_EXPORT_DIR%" 2>nul
+@REM     if errorlevel 1 (
+@REM         echo WARNING: Failed to remove client distribution directory
+@REM     ) else (
+@REM         echo   - Client distribution directory removed successfully
+@REM     )
+@REM ) else (
+@REM     echo - Client distribution directory does not exist
+@REM )
+
+
+
+
+echo.
+echo Teardown Summary:
+echo - SSL DB2 configuration parameters: RESET TO DEFAULTS
+echo - SSL certificate files: %SSL_DIR_STATUS%
+echo - Minimal Kerberos configuration files: %KERBEROS_DIR_STATUS%
+echo - DB2 instance: RESTARTED
+echo - Windows SSO environment variables: CLEANED
+echo - Client distribution files: REMOVED
+echo - Authentication mode: Windows SSO (No keytab cleanup needed)
+echo.
+
+REM  Enhanced status reporting
+echo - Configuration backup: CREATED in %BACKUP_DIR%
+
+echo Your DB2 server has been restored to non-SSL configuration.
+echo Windows SSO authentication should continue to work as before.
+echo.
+
+REM  Enhanced connection information for Windows SSO
+echo JDBC Connection Strings (restored to original Windows SSO):
+echo.
+echo 1. Windows SSPI (Recommended):
+echo    jdbc:db2://%SERVER_HOSTNAME%:%DATABASE_PORT%/%DATABASE_NAME%:securityMechanism=15;
+echo.
+echo 2. Kerberos SSO (Alternative):
+echo    jdbc:db2://%SERVER_HOSTNAME%:%DATABASE_PORT%/%DATABASE_NAME%:securityMechanism=11;kerberosServerPrincipal=db2/%SERVER_HOSTNAME%@DEDGE.FK.NO;
+echo.
+echo Notes:
+echo - SSL port %SSL_PORT% is no longer configured
+echo - Standard DB2 port %DATABASE_PORT% should work as before
+echo - Windows SSO authentication continues to work without keytab files
+echo - Firewall rule for SSL port %SSL_PORT% has been removed
+echo - All SSL-related files and configurations have been cleaned
+echo - Your existing primary application should continue working unchanged
+echo.
+
+if exist "%SSL_DIR%" (
+    powershell -Command "Write-Host WARNING: SSL directory still exists at %SSL_DIR%.`nYou may need to remove it manually if files are locked by other processes. -ForegroundColor Red"
+    echo.
+)
+
+if exist "%KERBEROS_DIR%" (
+    powershell -Command "Write-Host WARNING: Kerberos directory still exists at %KERBEROS_DIR%.`nYou may need to remove it manually if files are locked by other processes. -ForegroundColor Red"
+    echo.
+)
+
+echo DB2 SSL Configuration Teardown completed successfully!
+echo.
+
+
+echo.
+echo Your primary application using Kerberos SSO should continue working unchanged. 
+
+echo   - Previous SSL files cleaned (if any existed)
+timeout /t 5 /nobreak >nul
+echo.
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo SSL Configuration Teardown Completed!
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+if "%FUNCTION%"=="TEARDOWN" (
+    goto :eof
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Beginning Fresh SSL Configuration
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Rereating missing directories after Teardown... -ForegroundColor Yellow"
+md "%COMMON_EXPORT_DIR%" >nul 2>&1
+md "%CLIENT_CONFIG_DIR%" >nul 2>&1
+md "%CLIENT_CONFIG_DIR_DBEAVER%" >nul 2>&1
+md "%CLIENT_CONFIG_DIR_JAVA%" >nul 2>&1
+md "%CLIENT_CONFIG_DIR_OLEDB%" >nul 2>&1
+md "%LOG_DIR%" >nul 2>&1
+md "%BACKUP_DIR%" >nul 2>&1
+md "%KERBEROS_DIR%" >nul 2>&1
+md "%CERT_SCRIPTS_DIR%" >nul 2>&1
+md "%SSL_DIR%" >nul 2>&1
+
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating SSL directory... -ForegroundColor Yellow"
+if not exist "%SSL_DIR%" (
+    mkdir "%SSL_DIR%"
+    if errorlevel 1 (
+        powershell -Command "Write-Host ERROR: Failed to create SSL directory %SSL_DIR% -ForegroundColor Red"
+        echo %DATE% %TIME% - ERROR: Failed to create SSL directory >> "%LOGFILE%"
+        if "%NO_STOP_ON_ERROR%"=="0" (
+            pause
+            exit /b 1
+        )
+    )
+    echo - SSL directory created: %SSL_DIR%
+    echo %DATE% %TIME% - SSL directory created >> "%LOGFILE%"
+) else (
+    echo - SSL directory already exists: %SSL_DIR%
+)
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating SSL keystore database... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -keydb -create -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -stash
+if errorlevel 1 (
+    powershell -Command "Write-Host ERROR: Failed to create SSL keystore database -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: Failed to create SSL keystore database >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+echo - SSL keystore database created successfully
+echo %DATE% %TIME% - SSL keystore database created >> "%LOGFILE%"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Removing existing certificate... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -delete -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%" >nul 2>&1
+echo - Existing certificate removed successfully
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating self-signed certificate... -ForegroundColor Yellow"
+REM Enhanced certificate with stronger parameters
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -create -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%" -dn "CN=%SERVER_HOSTNAME%,O=FK,C=NO" -size 2048 -sigalg SHA256WithRSA -expire 365
+if errorlevel 1 (
+    set ERROR_MESSAGE="ERROR: Failed to create self-signed certificate"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: Failed to create certificate >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+echo - Self-signed certificate created successfully
+echo %DATE% %TIME% - Certificate created with enhanced parameters >> "%LOGFILE%"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Setting certificate as default... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -setdefault -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%"
+if errorlevel 1 (
+    set ERROR_MESSAGE="ERROR: Failed to set certificate as default"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo %DATE% %TIME% - ERROR: Failed to set certificate as default >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+echo - Certificate set as default successfully
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Listing Certificates in Keystore
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Listing certificates in keystore... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -list -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%"
+
+
+
+set /a STEP+=1
+powershell -Command "Write-Host Step %STEP% - Adding service name to services file for %SSL_SVCENAME% and tcp port %SSL_PORT%... -ForegroundColor Yellow"
+
+echo.
+findstr /I /C:"%SSL_SVCENAME%" %SystemRoot%\system32\drivers\etc\services >nul 2>&1
+if errorlevel 1 (
+    echo %SSL_SVCENAME%        %SSL_PORT%/tcp                           #Db2 service name for SSL connection to %DATABASE_NAME%>> %SystemRoot%\system32\drivers\etc\services
+) else (
+    echo %SSL_SVCENAME% is already in the services file
+)
+
+echo findstr /I /C:%SSL_SVCENAME% %SystemRoot%\system32\drivers\etc\services
+findstr /I /C:%SSL_SVCENAME% %SystemRoot%\system32\drivers\etc\services 
+
+set /p answer=Does this look correct? (y/n): 
+if /i not "%answer%"=="y" (
+    echo Remove the incorrect services from the services file using command:
+    echo notepad.exe %SystemRoot%\system32\drivers\etc\services
+    timeout /t 2
+    notepad.exe %SystemRoot%\system32\drivers\etc\services
+)
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Configuring DB2 SSL parameters...`nSetting SSL service name SSL_SVCENAME to %SSL_SVCENAME%... -ForegroundColor Yellow"
+db2 update dbm cfg using ssl_svcename %SSL_SVCENAME%
+@REM if errorlevel 1 (
+@REM     powershell -Command "Write-Host ERROR: Failed to set SSL service name -ForegroundColor Red"
+@REM     echo %DATE% %TIME% - ERROR: Failed to set SSL service name >> "%LOGFILE%"
+@REM     if "%NO_STOP_ON_ERROR%"=="0" (
+@REM         pause
+@REM         exit /b 1
+@REM     )
+@REM )
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Setting SSL keystore database path... -ForegroundColor Yellow"
+db2 update dbm cfg using ssl_svr_keydb "%SSL_DIR%\server.kdb"
+@REM if errorlevel 1 (
+@REM     set ERROR_MESSAGE="ERROR: Failed to set SSL keystore database path"
+@REM     powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+@REM     echo %DATE% %TIME% - ERROR: Failed to set SSL keystore database path >> "%LOGFILE%"
+@REM     if "%NO_STOP_ON_ERROR%"=="0" (
+@REM         pause
+@REM         exit /b 1
+@REM     )
+@REM )
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Setting SSL keystore stash file path... -ForegroundColor Yellow"
+db2 update dbm cfg using ssl_svr_stash "%SSL_DIR%\server.sth" 
+@REM if errorlevel 1 (
+@REM     set ERROR_MESSAGE="ERROR: Failed to set SSL keystore stash file path"
+@REM     powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+@REM     echo %DATE% %TIME% - ERROR: Failed to set SSL keystore stash file path >> "%LOGFILE%"
+@REM     if "%NO_STOP_ON_ERROR%"=="0" (
+@REM         pause
+@REM         exit /b 1
+@REM     )
+@REM )
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Setting SSL certificate label... -ForegroundColor Yellow"
+db2 update dbm cfg using ssl_svr_label "%CERT_LABEL%"
+@REM if errorlevel 1 (
+@REM     set ERROR_MESSAGE="ERROR: Failed to set SSL certificate label"
+@REM     powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+@REM     echo %DATE% %TIME% - ERROR: Failed to set SSL certificate label >> "%LOGFILE%"
+@REM     if "%NO_STOP_ON_ERROR%"=="0" (
+@REM         pause
+@REM         exit /b 1
+@REM     )
+@REM )
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Configuring enhanced SSL security... -ForegroundColor Yellow"
+echo - Setting SSL cipher suites for enhanced security (ECDHE_RSA for TLS 1.2 compatibility)...
+REM Verification link: https://www.ibm.com/docs/en/db2/12.1.0?topic=parameters-ssl-cipherspecs-supported-cipher-specifications-server
+db2 update dbm cfg using SSL_CIPHERSPECS "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+
+@REM if errorlevel 1 (
+@REM     set ERROR_MESSAGE="WARNING: Failed to set enhanced SSL cipher suites, using defaults"
+@REM     powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Yellow"
+@REM     echo %DATE% %TIME% - WARNING: Failed to set SSL cipher suites >> "%LOGFILE%"
+@REM )
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Setting SSL versions for security TLS 1.3 with TLS 1.2 fallback... -ForegroundColor Yellow"
+REM Verification link: https://www.ibm.com/docs/en/db2/12.1.0?topic=parameters-ssl-versions-supported-ssl-versions-server
+db2 update dbm cfg using SSL_VERSIONS "TLSV13,TLSV12"
+@REM if errorlevel 1 (
+@REM     set ERROR_MESSAGE="WARNING: Failed to set SSL versions, using defaults"
+@REM     powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Yellow"
+@REM     echo %DATE% %TIME% - WARNING: Failed to set SSL versions >> "%LOGFILE%"
+@REM )
+
+echo.
+echo Running db2 terminate
+db2 terminate
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Displaying current SSL configuration... -ForegroundColor Yellow"
+db2 get dbm cfg | findstr -i ssl
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Stopping and starting DB2 instance... -ForegroundColor Yellow"
+echo - Stopping DB2 instance...
+db2stop force >nul 2>&1
+echo   - DB2 instance stopped (or was not running)
+echo %DATE% %TIME% - DB2 instance stopped >> "%LOGFILE%"
+timeout /t 5 /nobreak >nul
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Starting DB2 instance... -ForegroundColor Yellow"
+db2start
+if errorlevel 1 (
+    set ERROR_MESSAGE="ERROR: Failed to start DB2 instance"
+    powershell -Command "Write-Host %ERROR_MESSAGE% -ForegroundColor Red"
+    echo Try running: db2start
+    echo %DATE% %TIME% - ERROR: Failed to start DB2 instance >> "%LOGFILE%"
+    if "%NO_STOP_ON_ERROR%"=="0" (
+        pause
+        exit /b 1
+    )
+)
+echo   - DB2 instance started successfully
+echo %DATE% %TIME% - DB2 instance started successfully >> "%LOGFILE%"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Adding firewall rule... -ForegroundColor Yellow"
+echo Remove existing firewall rule if it exists
+netsh advfirewall firewall delete rule localport=%SSL_PORT% >nul 2>&1
+netsh advfirewall firewall delete rule name=%FIREWALL_RULE_NAME% >nul 2>&1
+netsh advfirewall firewall delete rule localport=%SSL_PORT% >nul 2>&1
+netsh advfirewall firewall delete rule name=%FIREWALL_RULE_NAME% >nul 2>&1
+
+echo Add new firewall rule
+netsh advfirewall firewall add rule name=%FIREWALL_RULE_NAME% dir=in action=allow protocol=TCP localport=%SSL_PORT%
+
+echo Verify the firewall rule was added successfully on port %SSL_PORT%
+netsh advfirewall firewall show rule name=%FIREWALL_RULE_NAME%
+
+
+set /a STEP+=1
+REM Generate minimal Kerberos configuration for JDBC clients
+echo.
+powershell -Command "Write-Host Step %STEP% - Generating minimal Kerberos configuration... -ForegroundColor Yellow"
+set /a STEP+=1
+echo.
+echo Creating minimal krb5.ini for Windows SSO JDBC clients...
+echo [libdefaults]                                                                                                                                                               > "%KERBEROS_DIR%\krb5.ini"
+echo     default_realm = DEDGE.FK.NO                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo     default_tkt_enctypes = aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96 rc4-hmac                                                                                        >> "%KERBEROS_DIR%\krb5.ini"
+echo     default_tgs_enctypes = aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96 rc4-hmac                                                                                        >> "%KERBEROS_DIR%\krb5.ini"
+echo     permitted_enctypes = aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96 rc4-hmac                                                                                          >> "%KERBEROS_DIR%\krb5.ini"
+echo     clockskew = 300                                                                                                                                                        >> "%KERBEROS_DIR%\krb5.ini"
+echo     ticket_lifetime = 24h                                                                                                                                                  >> "%KERBEROS_DIR%\krb5.ini"
+echo     renew_lifetime = 7d                                                                                                                                                    >> "%KERBEROS_DIR%\krb5.ini"
+echo     forwardable = true                                                                                                                                                     >> "%KERBEROS_DIR%\krb5.ini"
+echo     proxiable = true                                                                                                                                                       >> "%KERBEROS_DIR%\krb5.ini"
+echo     dns_lookup_realm = false                                                                                                                                               >> "%KERBEROS_DIR%\krb5.ini"
+echo     dns_lookup_kdc = false                                                                                                                                                 >> "%KERBEROS_DIR%\krb5.ini"
+echo     allow_weak_crypto = false                                                                                                                                              >> "%KERBEROS_DIR%\krb5.ini"
+echo.                                                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo [realms]                                                                                                                                                                   >> "%KERBEROS_DIR%\krb5.ini"
+echo     DEDGE.FK.NO = {                                                                                                                                                       >> "%KERBEROS_DIR%\krb5.ini"
+echo         kdc = p-no1dc-vm01.DEDGE.fk.no:88                                                                                                                                 >> "%KERBEROS_DIR%\krb5.ini"
+echo         kdc = p-no1dc-vm02.DEDGE.fk.no:88                                                                                                                                 >> "%KERBEROS_DIR%\krb5.ini"
+echo         admin_server = p-no1dc-vm01.DEDGE.fk.no:749                                                                                                                       >> "%KERBEROS_DIR%\krb5.ini"
+echo         default_domain = DEDGE.fk.no                                                                                                                                      >> "%KERBEROS_DIR%\krb5.ini"
+echo         kpasswd_server = p-no1dc-vm01.DEDGE.fk.no:464                                                                                                                     >> "%KERBEROS_DIR%\krb5.ini"
+echo     }                                                                                                                                                                      >> "%KERBEROS_DIR%\krb5.ini"
+echo.                                                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo [domain_realm]                                                                                                                                                             >> "%KERBEROS_DIR%\krb5.ini"
+echo     .DEDGE.fk.no = DEDGE.FK.NO                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo     DEDGE.fk.no = DEDGE.FK.NO                                                                                                                                            >> "%KERBEROS_DIR%\krb5.ini"
+echo     .fk.no = DEDGE.FK.NO                                                                                                                                                  >> "%KERBEROS_DIR%\krb5.ini"
+echo     fk.no = DEDGE.FK.NO                                                                                                                                                   >> "%KERBEROS_DIR%\krb5.ini"
+echo.                                                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo [logging]                                                                                                                                                                  >> "%KERBEROS_DIR%\krb5.ini"
+echo     default = FILE:C:\temp\krb5libs.log                                                                                                                                    >> "%KERBEROS_DIR%\krb5.ini"
+echo     kdc = FILE:C:\temp\krb5kdc.log                                                                                                                                         >> "%KERBEROS_DIR%\krb5.ini"
+echo     admin_server = FILE:C:\temp\kadmind.log                                                                                                                                >> "%KERBEROS_DIR%\krb5.ini"
+echo.                                                                                                                                                                           >> "%KERBEROS_DIR%\krb5.ini"
+echo # NOTE: No [dbms] section or keytab configuration needed for Windows SSO                                                                                                   >> "%KERBEROS_DIR%\krb5.ini"
+echo # Windows integrated authentication will use current user's Kerberos ticket                                                                                                >> "%KERBEROS_DIR%\krb5.ini"
+
+echo - Minimal Kerberos configuration file created: %KERBEROS_DIR%\krb5.ini
+echo %DATE% %TIME% - Minimal Kerberos configuration file created >> "%LOGFILE%"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Preparing Client Configuration Files -ForegroundColor Yellow"
+set /a STEP+=1
+echo.
+
+powershell -Command "Write-Host Step %STEP% - Copying configuration files to client distribution directory... -ForegroundColor Yellow"
+copy "%KERBEROS_DIR%\krb5.ini" "%CLIENT_CONFIG_DIR%\" >nul
+
+REM Create connection test script for SSO
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating connection test script for SSO... -ForegroundColor Yellow"
+echo @echo off                                                                                                                                                                                  > "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo REM ========================================================================================================                                                                              >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo REM Test DB2 SSL + Kerberos SSO Connection                                                                                                                                                >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo REM ========================================================================================================                                                                              >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo echo Testing SSO connection to %SERVER_HOSTNAME%:%SSL_PORT%...                                                                                                                            >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo echo Current user: %%USERNAME%%@%%USERDOMAIN%%                                                                                                                                            >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo.                                                                                                                                                                                          >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo REM Test SSL port connectivity                                                                                                                                                            >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo powershell -Command "Test-NetConnection -ComputerName %SERVER_HOSTNAME% -Port %SSL_PORT%"                                                                                                 >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo.                                                                                                                                                                                          >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo REM Test current Kerberos ticket                                                                                                                                                          >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo echo Testing current Kerberos ticket...                                                                                                                                                   >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo klist                                                                                                                                                                                     >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo.                                                                                                                                                                                          >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+echo echo If you see tickets above, Windows SSO should work with DB2.                                                                                                                          >> "%CLIENT_CONFIG_DIR%\Test-Ssl-Connection-From-Client.bat"
+
+echo - Client configuration files created in: %CLIENT_CONFIG_DIR%
+echo %DATE% %TIME% - Client configuration files created (SSO mode) >> "%LOGFILE%"
+
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Exporting SSL certificate for client import
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo.
+
+
+set SERVER_HOSTNAME=%COMPUTERNAME%.DEDGE.fk.no
+set CERT_SCRIPTS_DIR=%COMMON_EXPORT_DIR%\Certificate
+set LOGFILE=%LOG_DIR%\cert_export_%DATE:~-4,4%%DATE:~-10,2%%DATE:~-7,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.log
+echo %DATE% %TIME% - Starting Certificate Export >> "%LOGFILE%"
+
+REM Create enhanced directory structure
+
+REM Clean certificate scripts directory
+del "%CERT_SCRIPTS_DIR%\*.bat" 2>nul
+del "%CERT_SCRIPTS_DIR%\*.cer" 2>nul
+
+echo Configuration:
+echo - SSL Directory: %SSL_DIR%
+echo - Certificate Label: %CERT_LABEL%
+echo - Server Hostname: %SERVER_HOSTNAME%
+echo - Output Directory: %COMMON_EXPORT_DIR%
+echo - Certificate File: %CERT_FILE%
+echo - Client Config Directory: %CLIENT_CONFIG_DIR%
+echo - Certificate Scripts Directory: %CERT_SCRIPTS_DIR%
+echo - Authentication Mode: Windows SSO 
+echo.
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Listing certificates in keystore... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -list -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%"
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Extracting certificate to file... -ForegroundColor Yellow"
+del "%CERT_FILE%" /f /q 2>nul
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -extract -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%" -target "%CERT_FILE%"  
+if errorlevel 1 (
+    echo ERROR: Failed to extract certificate
+    echo %DATE% %TIME% - ERROR: Failed to extract certificate >> "%LOGFILE%"
+    pause
+    exit /b 1
+)
+
+echo - Certificate extracted successfully to: %CERT_FILE%
+echo %DATE% %TIME% - Certificate extracted successfully >> "%LOGFILE%"
+
+REM Copy certificate to multiple locations for client convenience
+copy "%CERT_FILE%" "%CERT_SCRIPTS_DIR%\" >nul
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Displaying certificate details... -ForegroundColor Yellow"
+"%GSKIT_PATH%\gsk8capicmd_64.exe" -cert -details -db "%SSL_DIR%\server.kdb" -pw "%SSL_PASSWORD%" -label "%CERT_LABEL%" 
+
+
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Certificate Extraction Completed!
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+
+
+
+echo.
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo Creating Enhanced Client Import Scripts 
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo.
+@REM :test
+copy "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Manage-ClientCertificates.ps1" "%CLIENT_CONFIG_DIR_JAVA%"
+copy "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Manage-ClientCertificates.ps1" "%CLIENT_CONFIG_DIR_DBEAVER%"
+copy "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Manage-ClientCertificates.ps1" "%CLIENT_CONFIG_DIR_OLEDB%"
+
+
+
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating enhanced certificate management scripts using PowerShell generator... -ForegroundColor Yellow"
+
+REM Generate Java/JDBC certificate management scripts
+echo Creating Java/JDBC certificate import script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_JAVA%\Install-Db2-SSL-Support-Java.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "add" -Target "java" -Krb5IniPath "%KERBEROS_DIR%\krb5.ini" -SslPort "%SSL_PORT%" -DatabaseName "%DATABASE_NAME%" -DatabasePort "%DATABASE_PORT%"
+
+echo Creating Java/JDBC certificate removal script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_JAVA%\Uninstall-Db2-SSL-Support-Java.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "remove" -Target "java"
+
+REM Generate DBeaver certificate management scripts
+echo Creating DBeaver certificate import script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_DBEAVER%\Install-Db2-SSL-Support-Dbeaver.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "add" -Target "dbeaver" -Krb5IniPath "%KERBEROS_DIR%\krb5.ini" -SslPort "%SSL_PORT%" -DatabaseName "%DATABASE_NAME%" -DatabasePort "%DATABASE_PORT%"
+
+echo Creating DBeaver certificate removal script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_DBEAVER%\Uninstall-Db2-SSL-Support-Dbeaver.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "remove" -Target "dbeaver"
+
+REM Generate OLE DB certificate management scripts
+echo Creating OLE DB certificate import script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_OLEDB%\Install-Db2-SSL-Support-OleDb.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "add" -Target "oledb" -Krb5IniPath "%KERBEROS_DIR%\krb5.ini" -SslPort "%SSL_PORT%" -DatabaseName "%DATABASE_NAME%" -DatabasePort "%DATABASE_PORT%"
+
+echo Creating OLE DB certificate removal script...
+pwsh.exe -ExecutionPolicy Bypass -File "%OptPath%\DedgePshApps\Db2-AddServerSslSupport\Generate-ClientCertificateHandlingScripts.ps1" -OutputFileName "%CLIENT_CONFIG_DIR_OLEDB%\Uninstall-Db2-SSL-Support-OleDb.bat" -ServerHostname "%SERVER_HOSTNAME%" -CertFile "%CERT_FILE%" -Action "remove" -Target "oledb"
+
+echo - Enhanced certificate management scripts created for all client types
+
+echo.
+echo Generated Certificate Management Scripts:
+echo - Java/JDBC: %CLIENT_CONFIG_DIR_JAVA%\Install-Db2-SSL-Support-Java.bat
+echo - Java/JDBC: %CLIENT_CONFIG_DIR_JAVA%\Uninstall-Db2-SSL-Support-Java.bat
+echo - DBeaver: %CLIENT_CONFIG_DIR_DBEAVER%\Install-Db2-SSL-Support-Dbeaver.bat
+echo - DBeaver: %CLIENT_CONFIG_DIR_DBEAVER%\Uninstall-Db2-SSL-Support-Dbeaver.bat
+echo - OLE DB: %CLIENT_CONFIG_DIR_OLEDB%\Install-Db2-SSL-Support-OleDb.bat
+echo - OLE DB: %CLIENT_CONFIG_DIR_OLEDB%\Uninstall-Db2-SSL-Support-OleDb.bat
+
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Step %STEP% - Creating comprehensive Windows SSO setup guide... -ForegroundColor Yellow"
+echo # DB2 SSL Client Setup Guide - Windows SSO                                                                                                                                  > "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"                        
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo **Server:** %SERVER_HOSTNAME%                                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo **Generated:** %DATE% %TIME%                                                                                                                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo **Database:** %DATABASE_NAME%                                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo **SSL Port:** %SSL_PORT%                                                                                                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ---                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🚀 Windows SSO Quick Start                                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 1. **Configure DBeaver:** Installs ini file and Use connection strings from `ClientSetup\Dbeaver\main_setup_dbeaver.bat`                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    
+echo 1. **Install SSL Certificate:** Run `ClientSetup\Dbeaver\Install-Db2-SSL-Support-Dbeaver.bat`                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 2. **Setup Windows SSO:** Run `ClientSetup\Distribute-KRB5-Ini-File-To-Client-Windir.bat`                                                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 4. **Test Connection:** Run `ClientSetup\Test-Ssl-Connection-From-Client.bat`                                                                                                           >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 5. **Leave username/password EMPTY** in DBeaver - uses Windows domain login automatically                                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🔗 JDBC Connection Strings                                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### ✅ Recommended (Windows SSPI)                                                                                                                                           >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo jdbc:db2://%SERVER_HOSTNAME%:%SSL_PORT%/%DATABASE_NAME%:securityMechanism=15;sslConnection=true;                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🔄 Alternative (Kerberos)                                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo jdbc:db2://%SERVER_HOSTNAME%:%SSL_PORT%/%DATABASE_NAME%:securityMechanism=11;sslConnection=true;kerberosServerPrincipal=db2/%SERVER_HOSTNAME%@DEDGE.FK.NO;                 >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🔐 Security Mechanism Explanation                                                                                                                                        >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ^| Mechanism ^| Description ^| Requirements ^|                                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ^|----------^|-------------^|--------------^|                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ^| `securityMechanism=15` ^| Windows SSPI (Simplest) ^| No krb5.ini needed ^|                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ^| `securityMechanism=11` ^| Kerberos Authentication ^| May need krb5.ini for some clients ^|                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 📁 Folder Structure                                                                                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo %COMPUTERNAME%\                                                                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ├── 📄 Client SSO Setup Guide.md                                       # This comprehensive setup guide                                                                     >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ├── 📁 Certificate\                                                    # SSL Certificate Files                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   └── 📄 db2-server-cert.cer                                         # Server SSL certificate for import                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ├── 📁 ClientSetup\                                                    # Client Configuration Files                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📄 db2-server-cert.cer                                         # SSL certificate copy                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📄 krb5.ini                                                    # Kerberos configuration (optional for Windows SSO)                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📄 Distribute-KRB5-Ini-File-To-Client-Windir.bat                                # Windows SSO client setup script                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📄 Test-Ssl-Connection-From-Client.bat                                     # SSO connection testing script                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📁 Dbeaver\                                                    # DBeaver-specific configuration                                                                     >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   ├── 📄 Install-Db2-SSL-Support-Dbeaver.bat    # Import certificate to DBeaver JRE                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   ├── 📄 Uninstall-Db2-SSL-Support-Dbeaver.bat  # Remove certificate from DBeaver JRE                                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   ├── 📄 main_setup_dbeaver.bat                                  # DBeaver connection configuration                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   └── 📄 uninstall_dbeaver_config.bat                            # Complete DBeaver cleanup                                                                           >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   ├── 📁 Java\                                                       # JDBC-specific configuration                                                                        >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   ├── 📄 Install-Db2-SSL-Support-Java.bat    # Import to system Java truststore                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   │   └── 📄 Uninstall-Db2-SSL-Support-Java.bat  # Remove from system Java truststore                                                                 >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │   └── 📁 OleDb\                                                      # OLE DB-specific configuration                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │       ├── 📄 Install-Db2-SSL-Support-OleDb.bat        # Import to Windows certificate store                                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │       ├── 📄 Uninstall-Db2-SSL-Support-OleDb.bat      # Remove from Windows certificate store                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │       ├── 📄 main_setup_oledb.bat                                    # OLE DB connection configuration                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo │       └── 📄 OLE-DB-Connection-Instructions.txt                      # Detailed OLE DB setup instructions                                                                 >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo └── 📁 Logs\                                                           # Configuration and operation logs                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo     ├── 📄 ssl_config_YYYYMMDD_HHMMSS.log                              # SSL configuration log                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo     └── 📄 cert_export_YYYYMMDD_HHMMSS.log                             # Certificate export log                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ```                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🛠️ Installation Scripts                                                                                                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### For DBeaver Users:                                                                                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 1. Run `ClientSetup\Dbeaver\main_setup_dbeaver.bat`                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Distribute-KRB5-Ini-File-To-Client-Windir.bat                                                                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Install-Db2-SSL-Support-Dbeaver.bat                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Show Dbeaver setup instructions and connection strings                                                                                                                 >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 2. Configure DBeaver with the recommended JDBC URL (securityMechanism=15)                                                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 3. Leave username/password empty in DBeaver connection settings                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 4. Test connection using `ClientSetup\Test-Ssl-Connection-From-Client.bat`                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### For OLE DB Applications:                                                                                                                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 1. Run `ClientSetup\OleDb\main_setup_oledb.bat`                                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Distribute-KRB5-Ini-File-To-Client-Windir.bat                                                                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Install-Db2-SSL-Support-OleDb.bat                                                                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Show OLE DB setup instructions and connection strings                                                                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 4. Use the recommended OLE DB connection string in your application                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 5. Refer to `ClientSetup\OleDb\OLE-DB-Connection-Instructions.txt` for detailed setup                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### For Java/JDBC Applications:                                                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 1. Run `ClientSetup\Java\main_setup_jdbc.bat`                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Distribute-KRB5-Ini-File-To-Client-Windir.bat                                                                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo    - Runs Install-Db2-SSL-Support-Java.bat                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 3. Use the JDBC connection strings from this guide                                                                                                                          >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 4. Test connection using `ClientSetup\Test-Ssl-Connection-From-Client.bat`                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 📝 Step-by-Step Setup Process                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 📜 Certificate Installation                                                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Dbeaver\Install-Db2-SSL-Support-Dbeaver.bat` - **Recommended for DBeaver Community Edition**                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Java\Install-Db2-SSL-Support-Java.bat` - For system-wide Java applications                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\OleDb\Install-Db2-SSL-Support-OleDb.bat` - For Windows OLE DB applications                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🔧 Client Configuration                                                                                                                                                 >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Dbeaver\main_setup_dbeaver.bat` - Configure DBeaver for Windows SSO                                                                                          >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\OleDb\main_setup_oledb.bat` - Configure OLE DB applications                                                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Distribute-KRB5-Ini-File-To-Client-Windir.bat` - General Windows SSO setup                                                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🗑️ Removal Scripts                                                                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🧹 Certificate Removal                                                                                                                                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Dbeaver\Uninstall-Db2-SSL-Support-Dbeaver.bat` - Remove from DBeaver JRE                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Java\Uninstall-Db2-SSL-Support-Java.bat` - Remove from system Java                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\OleDb\Uninstall-Db2-SSL-Support-OleDb.bat` - Remove from Windows certificate store                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🔧 Configuration Removal                                                                                                                                                >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Dbeaver\uninstall_dbeaver_config.bat` - Complete DBeaver cleanup (certificates + krb5.ini)                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🧪 Testing Scripts                                                                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - `ClientSetup\Test-Ssl-Connection-From-Client.bat` - Test Windows SSO connection                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 📋 Connection Examples                                                                                                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🔗 DBeaver Connection Examples                                                                                                                                          >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo See `ClientSetup\Dbeaver\main_setup_dbeaver.bat` for detailed DBeaver connection strings and setup instructions                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ### 🔗 OLE DB Connection Examples                                                                                                                                           >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo See `ClientSetup\OleDb\OLE-DB-Connection-Instructions.txt` for detailed OLE DB connection strings and setup instructions                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## ⚠️ Important Notes                                                                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ✅ **Your Windows domain login credentials are used automatically**                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ✅ **Works with existing Kerberos infrastructure without additional setup**                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ✅ **SSL certificate import is required for SSL connections**                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ✅ **Test connection first with `ClientSetup\Test-Ssl-Connection-From-Client.bat`**                                                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ⚠️ **No JAAS.conf file needed for Windows SSO (securityMechanism=15)**                                                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ⚠️ **No DBeaver.ini modifications required for Windows SSO**                                                                                                              >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo - ⚠️ **Leave username/password fields EMPTY in client applications**                                                                                                        >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ## 🆘 Troubleshooting                                                                                                                                                       >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 1. **Certificate Issues:** Verify certificate installation with Windows Certificate Manager (certmgr.msc)                                                                   >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 2. **DBeaver Connection Issues:** Try both securityMechanism=15 and securityMechanism=11 from `ClientSetup\Dbeaver\main_setup_dbeaver.bat`                                  >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 3. **SSO Issues:** Run `ClientSetup\Test-Ssl-Connection-From-Client.bat` to verify Kerberos tickets and domain authentication                                                           >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 4. **OLE DB Issues:** Check `ClientSetup\OleDb\OLE-DB-Connection-Instructions.txt` for detailed troubleshooting                                                             >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 5. **Clean Installation:** Use removal scripts first, then reinstall using setup scripts                                                                                    >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo 6. **Log Analysis:** Check `Logs\` directory for detailed configuration and error logs                                                                                      >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo ---                                                                                                                                                                         >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo.                                                                                                                                                                            >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+echo **Generated by DB2 SSL Configuration Script**                                                                                                                               >> "%COMMON_EXPORT_DIR%\Client SSO Setup Guide.md"
+
+
+
+echo.
+echo Certificate file location: %CERT_FILE%
+echo Client configuration directory: %CLIENT_CONFIG_DIR%
+echo Certificate import scripts: %CERT_SCRIPTS_DIR%
+echo.
+echo Enhanced Features :
+echo - Windows SSO integration
+echo - Multiple certificate import options with auto-detection
+echo - Simplified client setup for Windows integrated authentication
+echo - Connection testing tools for SSO validation
+echo - Detailed Windows SSO setup documentation
+echo.
+
+echo Next steps for Windows SSO clients:
+echo 1. Navigate to: %COMMON_EXPORT_DIR%
+echo 2. Read Client SSO Setup Guide.txt for Windows SSO instructions
+echo 3. Run ClientConfig\Distribute-KRB5-Ini-File-To-Client-Windir.bat
+echo 4. Import certificate using scripts from Certificate\ directory
+echo 5. Test SSO connection using ClientConfig\Test-Ssl-Connection-From-Client.bat
+echo 6. Configure DBeaver with RECOMMENDED JDBC URL (securityMechanism=15)
+echo.
+
+echo %DATE% %TIME% - Certificate export and Windows SSO client setup completed >> "%LOGFILE%"
+echo.
+set /a STEP+=1
+echo.
+powershell -Command "Write-Host Opening %COMMON_EXPORT_DIR% using explorer in 5 seconds -ForegroundColor Cyan"
+
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+echo SSL Configuration Completed Successfully!
+powershell -Command "Write-Host ========================================================================== -ForegroundColor Cyan"
+
+timeout /t 5 /nobreak >nul
+explorer "%COMMON_EXPORT_DIR%" 
+
+
+echo %DATE% %TIME% - SSL Configuration completed successfully (SSO mode) >> "%LOGFILE%"
+
+REM ========================================================================================================
+REM Final completion and exit
+REM ========================================================================================================
+echo.
+echo ✅ SSL and Kerberos SSO Configuration Completed Successfully!
+echo.
+echo 📁 Generated files are available in: %COMMON_EXPORT_DIR%
+echo 📋 Read the "Client SSO Setup Guide.md" for complete setup instructions
+echo.
+pause
+goto :eof
+

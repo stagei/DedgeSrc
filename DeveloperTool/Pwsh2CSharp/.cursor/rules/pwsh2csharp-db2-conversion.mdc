@@ -1,0 +1,259 @@
+﻿---
+description: DB2 ODBC to IBM.Data.Db2 conversion rules for PowerShell-to-C# post-processing
+globs: ["*.cs"]
+alwaysApply: true
+---
+
+# DB2 Post-Conversion Rules — ODBC to Net.IBM.Data.Db2
+
+When converting PowerShell scripts that access DB2 databases, the Cursor Agent CLI
+cleanup pass MUST replace all `System.Data.Odbc` patterns with the native IBM DB2
+ADO.NET driver (`Net.IBM.Data.Db2`).
+
+## Detection Heuristic
+
+Scan both the original `.ps1` source and the converted `.cs` for these markers:
+
+**PowerShell source markers:**
+- `System.Data.Odbc`, `OdbcConnection`, `DSN=`
+- `Invoke-Db2Query`, `Invoke-McpDb2Query`, `Invoke-Db2QueryAny`
+- `db2Conn`, `ExecuteReader`
+- `query_db2`, `CursorDb2McpServer`
+
+If any are found, apply the full conversion pattern below.
+
+## NuGet Package
+
+```xml
+<PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+```
+
+Namespace: `using IBM.Data.Db2;`
+
+## Connection Pattern Conversion
+
+### PowerShell Source (ODBC DSN)
+
+```powershell
+$db2Conn = New-Object System.Data.Odbc.OdbcConnection("DSN=$effectiveDsn")
+$db2Conn.Open()
+# ... use connection ...
+$db2Conn.Close()
+$db2Conn.Dispose()
+```
+
+### C# Target (IBM.Data.Db2)
+
+```csharp
+await using var connection = new DB2Connection($"Database={databaseAlias};");
+await connection.OpenAsync(cancellationToken);
+```
+
+Key differences:
+- Replace `OdbcConnection` with `DB2Connection`
+- Replace `"DSN=xxx"` with `"Database=xxx;"`
+- Use `await using` for automatic disposal
+- Use `OpenAsync` with `CancellationToken`
+
+## Query Execution Conversion
+
+### PowerShell Source
+
+```powershell
+function Invoke-Db2Query {
+    param([string]$Sql, [System.Data.Odbc.OdbcConnection]$Conn)
+    $cmd = $Conn.CreateCommand()
+    $cmd.CommandText = $Sql
+    $cmd.CommandTimeout = 60
+    $reader = $cmd.ExecuteReader()
+    $results = [System.Collections.ArrayList]::new()
+    while ($reader.Read()) {
+        $row = [ordered]@{}
+        for ($i = 0; $i -lt $reader.FieldCount; $i++) {
+            $row[$reader.GetName($i)] = if ($reader.IsDBNull($i)) { $null }
+                                        else { "$($reader.GetValue($i))".Trim() }
+        }
+        [void]$results.Add($row)
+    }
+    @($results)
+}
+```
+
+### C# Target
+
+```csharp
+public async Task<List<Dictionary<string, string?>>> ExecuteDb2QueryAsync(
+    string sql,
+    DB2Connection connection,
+    CancellationToken cancellationToken = default)
+{
+    await using var command = connection.CreateCommand();
+    command.CommandText = sql;
+    command.CommandTimeout = 60;
+
+    await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+    var results = new List<Dictionary<string, string?>>();
+
+    while (await reader.ReadAsync(cancellationToken))
+    {
+        var row = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+        for (int i = 0; i < reader.FieldCount; i++)
+        {
+            row[reader.GetName(i)] = reader.IsDBNull(i)
+                ? null
+                : reader.GetValue(i).ToString()?.Trim();
+        }
+        results.Add(row);
+    }
+
+    return results;
+}
+```
+
+## Error Handling Conversion
+
+### PowerShell Source
+
+```powershell
+try { ... }
+catch { Write-Warning "DB2 query failed: $($_.Exception.Message)" }
+```
+
+### C# Target
+
+```csharp
+try
+{
+    // ... DB2 operations
+}
+catch (DB2Exception db2Ex)
+{
+    _logger.Error(db2Ex, "DB2 error - SqlState: {SqlState}, ErrorCode: {ErrorCode}",
+        db2Ex.SqlState, db2Ex.ErrorCode);
+    return new List<Dictionary<string, string?>>();
+}
+catch (Exception ex)
+{
+    _logger.Warn(ex, "DB2 query failed: {Message}", ex.Message);
+    return new List<Dictionary<string, string?>>();
+}
+```
+
+Always catch `DB2Exception` specifically before generic `Exception`.
+Log `SqlState` and `ErrorCode` for DB2-specific diagnostics.
+
+## Dual-Path Pattern (ADO.NET + MCP HTTP Fallback)
+
+The PowerShell source uses a dispatcher pattern with ODBC primary and MCP HTTP fallback:
+
+```powershell
+function Invoke-Db2QueryAny {
+    param([string]$Sql, [string]$DatabaseName = 'BASISMIG')
+    if ($db2Conn -and $db2Conn.State -eq 'Open') {
+        return Invoke-Db2Query -Sql $Sql -Conn $db2Conn
+    }
+    return Invoke-McpDb2Query -Sql $Sql -DatabaseName $DatabaseName
+}
+```
+
+### C# Target — Interface + Two Implementations
+
+```csharp
+public interface IDb2QueryService
+{
+    Task<List<Dictionary<string, string?>>> QueryAsync(
+        string sql, string databaseName, CancellationToken ct = default);
+}
+
+public class Db2AdoNetQueryService : IDb2QueryService { /* DB2Connection path */ }
+public class Db2McpHttpQueryService : IDb2QueryService { /* HttpClient to MCP */ }
+
+public class Db2QueryDispatcher : IDb2QueryService
+{
+    private readonly Db2AdoNetQueryService _adoNet;
+    private readonly Db2McpHttpQueryService _mcpHttp;
+
+    public async Task<List<Dictionary<string, string?>>> QueryAsync(
+        string sql, string databaseName, CancellationToken ct = default)
+    {
+        try { return await _adoNet.QueryAsync(sql, databaseName, ct); }
+        catch (DB2Exception)
+        {
+            return await _mcpHttp.QueryAsync(sql, databaseName, ct);
+        }
+    }
+}
+```
+
+## MCP HTTP Fallback Conversion
+
+### PowerShell Source
+
+```powershell
+function Invoke-McpDb2Query {
+    param([string]$Sql, [string]$DatabaseName = 'BASISMIG')
+    $mcpUrl = 'http://dedge-server/CursorDb2McpServer/'
+    $initBody = @{ jsonrpc = '2.0'; id = 1; method = 'initialize'; ... }
+    $queryBody = @{ jsonrpc = '2.0'; id = 2; method = 'tools/call'; params = @{
+        name = 'query_db2'; arguments = @{ databaseName = $DatabaseName; query = $Sql }
+    }}
+}
+```
+
+### C# Target
+
+```csharp
+public class Db2McpHttpQueryService : IDb2QueryService
+{
+    private readonly HttpClient _httpClient;
+    private readonly string _mcpUrl = "http://dedge-server/CursorDb2McpServer/";
+
+    public async Task<List<Dictionary<string, string?>>> QueryAsync(
+        string sql, string databaseName, CancellationToken ct = default)
+    {
+        var initPayload = new {
+            jsonrpc = "2.0", id = 1, method = "initialize",
+            @params = new {
+                protocolVersion = "2024-11-05",
+                capabilities = new { },
+                clientInfo = new { name = "SystemAnalyzer-CSharp", version = "1.0" }
+            }
+        };
+
+        var initResponse = await _httpClient.PostAsJsonAsync(_mcpUrl, initPayload, ct);
+        var sessionId = initResponse.Headers.TryGetValues("Mcp-Session-Id", out var vals)
+            ? vals.FirstOrDefault() : null;
+
+        var request = new HttpRequestMessage(HttpMethod.Post, _mcpUrl)
+        {
+            Content = JsonContent.Create(new {
+                jsonrpc = "2.0", id = 2, method = "tools/call",
+                @params = new {
+                    name = "query_db2",
+                    arguments = new { databaseName, query = sql }
+                }
+            })
+        };
+        if (sessionId != null)
+            request.Headers.Add("Mcp-Session-Id", sessionId);
+
+        var response = await _httpClient.SendAsync(request, ct);
+        // Parse SSE or JSON response, extract rows from result.content[].text
+    }
+}
+```
+
+## Validation Checklist
+
+After conversion, verify:
+
+1. No `System.Data.Odbc` references remain in any `.cs` file
+2. No `OdbcConnection`, `OdbcCommand`, `OdbcDataReader` types remain
+3. No `"DSN="` connection string patterns remain
+4. Every `Invoke-Db2Query` call site in the PS1 has a corresponding `QueryAsync` call in C#
+5. Every `Invoke-McpDb2Query` call site has a corresponding MCP HTTP implementation
+6. Every `Invoke-Db2QueryAny` call site uses the dispatcher pattern
+7. `DB2Exception` is caught explicitly with `SqlState` and `ErrorCode` logging
+8. All DB2 operations use `async/await` with `CancellationToken`
+9. `.csproj` contains `<PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />`
+10. Connection disposal uses `await using` pattern

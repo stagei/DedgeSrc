@@ -1,0 +1,97 @@
+{
+  "program": "RKHPNUM",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:41:07",
+  "extraction": {
+    "sourceHash": "sha256:7a3c5c6336a6fe0349bbfb72e27d090d5f5243da77b8f14d8d11b9381225efba",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\Rkhpnum.cbl",
+    "actualName": "RKHPNUM",
+    "program": "RKHPNUM",
+    "copyElements": [
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHPNUM.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PARTINR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SILO_BEVEGELSER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RKVPNUM",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMAPATH",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PNUMBRUDD",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:41:07"
+  }
+}

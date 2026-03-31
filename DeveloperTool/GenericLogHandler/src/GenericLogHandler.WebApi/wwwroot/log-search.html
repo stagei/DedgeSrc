@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.logSearch">Log Search – Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+        <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" class="active" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            <div class="auth-badge" id="authBadge" style="display: none;">
+                <span class="auth-badge-icon">⏳</span>
+                <span class="auth-badge-text">Loading...</span>
+                <span class="auth-badge-role"></span>
+            </div>
+            <button id="shortcutsBtn" class="theme-btn" title="Keyboard Shortcuts (?)">
+                <span>⌨️</span>
+            </button>
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filters Bar -->
+        <div class="controls-bar">
+            <div class="filter-row">
+                <label data-i18n="logSearch.fromDate">From date</label>
+                <input type="datetime-local" id="fromDate" />
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.toDate">To date</label>
+                <input type="datetime-local" id="toDate" />
+            </div>
+            <div class="filter-row date-presets">
+                <label data-i18n="logSearch.quick">Quick</label>
+                <div class="preset-buttons">
+                    <button type="button" class="btn btn-sm btn-preset" data-preset="1h" title="Last hour" data-i18n="preset.1h">1h</button>
+                    <button type="button" class="btn btn-sm btn-preset" data-preset="today" title="Today" data-i18n="preset.today">Today</button>
+                    <button type="button" class="btn btn-sm btn-preset" data-preset="24h" title="Last 24 hours" data-i18n="preset.24h">24h</button>
+                    <button type="button" class="btn btn-sm btn-preset" data-preset="7d" title="Last 7 days" data-i18n="preset.7d">7d</button>
+                    <button type="button" class="btn btn-sm btn-preset" data-preset="30d" title="Last 30 days" data-i18n="preset.30d">30d</button>
+                </div>
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.level">Level</label>
+                <select id="levels" multiple size="1" title="Hold Ctrl to select multiple">
+                    <option value="" data-i18n="logSearch.levelAny">Any</option>
+                    <option value="Error">Error</option>
+                    <option value="Warn">Warn</option>
+                    <option value="Info">Info</option>
+                    <option value="Debug">Debug</option>
+                    <option value="Trace">Trace</option>
+                </select>
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.computer">Computer</label>
+                <input type="text" id="computerName" placeholder="Computer name" data-i18n-placeholder="placeholder.computerName" />
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.user">User</label>
+                <input type="text" id="userName" placeholder="User name" data-i18n-placeholder="placeholder.userName" />
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.message">Message</label>
+                <input type="text" id="messageText" placeholder="Message contains" data-i18n-placeholder="placeholder.messageContains" />
+            </div>
+            <div class="filter-row">
+                <label data-i18n="logSearch.regex">Regex</label>
+                <input type="text" id="regexPattern" placeholder="Regex (optional)" data-i18n-placeholder="placeholder.regexOptional" />
+            </div>
+            <div class="refresh-controls">
+                <button id="searchBtn" class="btn btn-primary">🔍 Search</button>
+                <div class="search-history-container">
+                    <button id="searchHistoryBtn" class="btn btn-outline" title="Recent searches">🕐 Recent</button>
+                    <div id="searchHistoryDropdown" class="search-history-dropdown hidden"></div>
+                </div>
+                <button id="searchNewWindowBtn" class="btn btn-outline" title="Open results in new window">🔍 New Window</button>
+                <button id="exportCsvBtn" class="btn btn-outline" title="Export current criteria to CSV">📥 CSV</button>
+                <button id="exportExcelBtn" class="btn btn-outline" title="Export current criteria to Excel">📥 Excel</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsPanel" class="panel">
+            <div class="panel-header">
+                <span class="panel-title" data-i18n="logSearch.results">Results</span>
+                <span id="resultsSummary" class="panel-summary"></span>
+            </div>
+            <div class="panel-body">
+                <table class="data-table logs-table" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 160px;" data-i18n="table.timestamp">Timestamp</th>
+                            <th style="width: 80px;" data-i18n="table.level">Level</th>
+                            <th style="width: 140px;" data-i18n="table.computer">Computer</th>
+                            <th data-i18n="table.message">Message</th>
+                            <th style="width: 180px;" data-i18n="table.context">Context</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody"></tbody>
+                </table>
+                <div id="resultsEmpty" class="empty-state hidden">
+                    <div class="empty-state-icon">🔍</div>
+                    <div class="empty-state-title" data-i18n="empty.readyToSearch">Ready to Search</div>
+                    <div class="empty-state-message" data-i18n-html="empty.readyToSearchDesc">Use the filters above to search log entries. Try the quick date presets to get started.</div>
+                    <div class="empty-state-actions">
+                        <button class="btn btn-sm btn-outline" onclick="document.querySelector('[data-preset=today]').click()">📅 Today's Logs</button>
+                        <button class="btn btn-sm btn-outline" onclick="document.querySelector('[data-preset=24h]').click(); document.getElementById('searchBtn').click();">🕐 Last 24 Hours</button>
+                    </div>
+                </div>
+                <div id="resultsError" class="empty-state hidden" style="color: var(--error-color);"></div>
+                <!-- Pagination -->
+                <div id="paginationBar" class="pagination hidden">
+                    <button id="prevPage" class="btn btn-outline" data-i18n="button.previous">← Previous</button>
+                    <span id="pageInfo"></span>
+                    <button id="nextPage" class="btn btn-outline" data-i18n="button.next">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Detail Modal -->
+    <div id="logModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>
+                    <span id="modalLevelBadge" class="severity-badge"></span>
+                    <span data-i18n="modal.logDetails">Log Details</span>
+                </h3>
+                <div class="modal-actions">
+                    <button class="btn btn-sm btn-copy-markdown" id="modalCopyMd" title="Copy as Markdown">📝 Copy MD</button>
+                    <button class="btn btn-sm btn-copy-json" id="modalCopyJson" title="Copy as JSON">📋 Copy JSON</button>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="log-modal-content">
+                    <div class="log-main-info">
+                        <div class="log-info-row log-id-row">
+                            <span class="log-info-label" data-i18n="modal.logId">Log ID:</span>
+                            <span class="log-info-value log-id-value" id="modalLogId"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.computer">Computer:</span>
+                            <span class="log-info-value" id="modalComputer"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.timestamp">Timestamp:</span>
+                            <span class="log-info-value" id="modalTimestamp"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.user">User:</span>
+                            <span class="log-info-value" id="modalUser"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.function">Function:</span>
+                            <span class="log-info-value" id="modalFunction"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.source">Source:</span>
+                            <span class="log-info-value" id="modalSource"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section" id="modalBusinessIds" style="display: none;">
+                        <h4 data-i18n="modal.businessIds">Business Identifiers</h4>
+                        <div class="metadata-table" id="modalBusinessTable"></div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 data-i18n="modal.message">Message</h4>
+                        <pre class="log-message-display" id="modalMessage"></pre>
+                    </div>
+                    
+                    <div class="modal-section" id="modalExceptionSection" style="display: none;">
+                        <h4 data-i18n="modal.exception">Exception</h4>
+                        <pre class="log-exception-display" id="modalException"></pre>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 data-i18n="modal.rawJson">📄 Raw JSON</h4>
+                        <pre class="json-display" id="modalRawJson"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/loader.js"></script>
+    <script src="js/components/shortcuts.js"></script>
+    <!-- Page Components -->
+    <script src="js/components/logs-renderer.js"></script>
+    <script src="js/log-search.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

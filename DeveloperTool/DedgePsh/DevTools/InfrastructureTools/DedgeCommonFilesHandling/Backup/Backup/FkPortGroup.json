@@ -1,0 +1,268 @@
+﻿[
+  {
+    "Id": "pg-kerberos",
+    "Description": "Kerberos ports",
+    "InternetAccess": false,
+    "ProviderHosts": [
+      { "pattern": "p-no1dc-vm01", "isRegex": false },
+      { "pattern": "p-no1dc-vm02", "isRegex": false }
+    ],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 88,
+          "End": 88
+        },
+        "Protocols": ["TCP", "UDP"],
+        "Description": "Kerberos authentication"
+      }
+    ]
+  },
+  {
+    "Id": "pg-microfocus-licensing",
+    "Description": "Microfocus licensing ports",
+    "InternetAccess": false,
+    "ProviderHosts": [{ "pattern": "sfk-erp-03", "isRegex": false }],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 80,
+          "End": 80
+        },
+        "Protocols": ["TCP"],
+        "Description": "Microfocus licensing"
+      }
+    ]
+  },
+  {
+    "Id": "pg-db2",
+    "Description": "Db2 ports",
+    "InternetAccess": false,
+    "ProviderHosts": [
+      { "pattern": "^.*-db$", "isRegex": true },
+      { "pattern": "^.*-db01$", "isRegex": true },
+      { "pattern": "^.*-db02$", "isRegex": true }
+    ],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 3700,
+          "End": 3720
+        },
+        "Protocols": ["TCP"],
+        "Description": "DB2 legacy port range"
+      },
+      {
+        "Port": {
+          "Start": 25000,
+          "End": 25000
+        },
+        "Protocols": ["TCP"],
+        "Description": "DB2 secondary port"
+      },
+      {
+        "Port": {
+          "Start": 50000,
+          "End": 50000
+        },
+        "Protocols": ["TCP"],
+        "Description": "DB2 primary port"
+      }
+    ]
+  },
+  {
+    "Id": "pg-fileSharing",
+    "Description": "File sharing ports",
+    "InternetAccess": false,
+    "ProviderHosts": [
+      { "pattern": "^.*-db$", "isRegex": true },
+      { "pattern": "^.*-db01$", "isRegex": true },
+      { "pattern": "^.*-db02$", "isRegex": true },
+      { "pattern": "^.*-app$", "isRegex": true },
+      { "pattern": "^.*-web$", "isRegex": true },
+      { "pattern": "^.*-soa$", "isRegex": true }
+    ],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 445,
+          "End": 445
+        },
+        "Protocols": ["TCP"],
+        "Description": "SMB"
+      },
+      {
+        "Port": {
+          "Start": 139,
+          "End": 139
+        },
+        "Protocols": ["TCP"],
+        "Description": "NetBIOS"
+      }
+    ]
+  },
+  {
+    "Id": "pg-soa",
+    "Description": "Dedge SOA ports",
+    "InternetAccess": false,
+    "ProviderHosts": [{ "pattern": "^.*-soa$", "isRegex": true }],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 9003,
+          "End": 9003
+        },
+        "Protocols": ["TCP"],
+        "Description": "SOA main port"
+      },
+      {
+        "Port": {
+          "Start": 86,
+          "End": 86
+        },
+        "Protocols": ["TCP"],
+        "Description": "SOAWeb"
+      }
+    ]
+  },
+  {
+    "Id": "pg-bulk",
+    "Description": "Dedge bulk transfer port",
+    "InternetAccess": false,
+    "ProviderHosts": [{ "pattern": "^.*-soa$", "isRegex": true }],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 80,
+          "End": 80
+        },
+        "Protocols": ["TCP"],
+        "Description": "Bulk transfer"
+      }
+    ]
+  },
+  {
+    "Id": "pg-produsentregisteret",
+    "Description": "Produsentregisteret FTP port",
+    "InternetAccess": true,
+    "ProviderHosts": [{ "pattern": "ftp.prodreg.no", "isRegex": false }],
+    "ConsumerHosts": [
+      { "pattern": "^.*-no1fkm.*-app$", "isRegex": true },
+      { "pattern": "^.*-no1fkm.*-web$", "isRegex": true }
+    ],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 21,
+          "End": 21
+        },
+        "Protocols": ["TCP"],
+        "Description": "FTP connection"
+      }
+    ]
+  },
+  {
+    "Id": "pg-kimen",
+    "Description": "Kimen SQL Server port",
+    "InternetAccess": true,
+    "ProviderHosts": [{ "pattern": "79.160.38.90", "isRegex": false }],
+    "ConsumerHosts": [
+      { "pattern": "^.*-no1fkm.*-app$", "isRegex": true },
+      { "pattern": "^.*-no1fkm.*-web$", "isRegex": true }
+    ],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 41433,
+          "End": 41433
+        },
+        "Protocols": ["TCP"],
+        "Description": "SQL Server connection"
+      }
+    ]
+  },
+  {
+    "Id": "pg-mattilsynet",
+    "Description": "Mattilsynet SQL Server port",
+    "InternetAccess": true,
+    "ProviderHosts": [{ "pattern": "194.19.30.142", "isRegex": false }],
+    "ConsumerHosts": [
+      { "pattern": "^.*-no1fkm.*-app$", "isRegex": true },
+      { "pattern": "^.*-no1fkm.*-web$", "isRegex": true }
+    ],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 1433,
+          "End": 1433
+        },
+        "Protocols": ["TCP"],
+        "Description": "SQL Server connection"
+      }
+    ]
+  },
+  {
+    "Id": "pg-smsProvider",
+    "Description": "SMS Provider port",
+    "InternetAccess": true,
+    "ProviderHosts": [{ "pattern": "sms3.pswin.com", "isRegex": false }],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 80,
+          "End": 80
+        },
+        "Protocols": ["TCP"],
+        "Description": "SMS service"
+      }
+    ]
+  },
+  {
+    "Id": "pg-webserver",
+    "Description": "Dedge Webserver ports",
+    "InternetAccess": false,
+    "ProviderHosts": [{ "pattern": "^.*-web$", "isRegex": true }],
+    "ConsumerHosts": [{ "pattern": "*", "isRegex": false }],
+    "Ports": [
+      {
+        "Port": {
+          "Start": 80,
+          "End": 80
+        },
+        "Protocols": ["TCP"],
+        "Description": "HTTP port"
+      },
+      {
+        "Port": {
+          "Start": 8080,
+          "End": 8080
+        },
+        "Protocols": ["TCP"],
+        "Description": "HTTPS port"
+      },
+      {
+        "Port": {
+          "Start": 8081,
+          "End": 9300
+        },
+        "Protocols": ["TCP"],
+        "Description": "Port range 1"
+      },
+      {
+        "Port": {
+          "Start": 17000,
+          "End": 17300
+        },
+        "Protocols": ["TCP"],
+        "Description": "Port range 2"
+      }
+    ]
+  }
+]

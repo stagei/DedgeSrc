@@ -1,0 +1,130 @@
+{
+  "program": "RKHREGP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:41:07",
+  "extraction": {
+    "sourceHash": "sha256:85a597b6e077e24dfc8f1744f1a9011eb94c32d4512e9e1c88c145cbaa44b056",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RKHREGP.cbl",
+    "actualName": "RKHREGP",
+    "program": "RKHREGP",
+    "copyElements": [
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHREGP.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARTIHIST",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RKVREGP",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMADATO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:41:07"
+  }
+}

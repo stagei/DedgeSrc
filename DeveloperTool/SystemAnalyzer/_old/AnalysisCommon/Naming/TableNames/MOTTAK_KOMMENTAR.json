@@ -1,0 +1,34 @@
+{
+  "tableName": "MOTTAK_KOMMENTAR",
+  "futureName": "MottakKommentar",
+  "namespace": "Kornpartier",
+  "columns": [
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "The year of the comment or event",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Unique identifier for a division within the organization",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "Unique identifier for a party involved in the event or transaction",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Free text comment related to the event or transaction",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:49:48"
+}

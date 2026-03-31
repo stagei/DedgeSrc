@@ -1,0 +1,230 @@
+{
+  "program": "ECBSOUP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:28:49",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "ECBSOUP",
+    "program": "ECBSOUP",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ESOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ESOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ESUH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EC-KEY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ECPU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ECAPIUP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ESRH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ESRL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ECL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KEG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ECUS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DB2018",
+        "type": "copybook"
+      },
+      {
+        "name": "DB.",
+        "type": "copybook"
+      },
+      {
+        "name": "FKSQL.",
+        "type": "copybook"
+      },
+      {
+        "name": "OLAKOKV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "R",
+        "tableName": "ERP_ROWID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_CUSTOMER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_LOG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ERP_ROWID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_SJEKK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KGRUPPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LINJENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORRIGERINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "ECASORE",
+      "GMFTRAP",
+      "ECAKUN1",
+      "TIL_MONITOR",
+      "SJEKK_FKSQL",
+      "COPYMON",
+      "GMACURT",
+      "GMAPRTR",
+      "GMACOCO"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "ECBSOUP1.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ECBSOUP1.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "ECBEXEL2.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ECBEXEL2.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "ECBEXEL.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ECBEXEL.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEIL-FIL",
+        "physicalName": "ECBEXEL.ERR",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ECBEXEL.ERR",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:28:49"
+  }
+}

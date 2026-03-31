@@ -1,0 +1,220 @@
+{
+  "tableName": "KD_KONTROLLOR",
+  "futureName": "Kontrollor",
+  "namespace": "KontraktdyrkerSystem.Kontroller",
+  "columns": [
+    {
+      "name": "KontrollorRecno",
+      "futureName": "KontrollorRecno",
+      "description": "Unique record identifier for the Kontrollor",
+      "foreignKey": null
+    },
+    {
+      "name": "Navn",
+      "futureName": "FullName",
+      "description": "Full name of the Kontrollor",
+      "foreignKey": [
+        "KD_GJENL_KONTR",
+        "KD_VEKSTKONTROLL"
+      ]
+    },
+    {
+      "name": "Fornavn",
+      "futureName": "FirstName",
+      "description": "First name of the Kontrollor",
+      "foreignKey": [
+        "KD_DYRKER"
+      ]
+    },
+    {
+      "name": "Postnr",
+      "futureName": "PostalCode",
+      "description": "Postal code associated with the Kontrollor’s address",
+      "foreignKey": [
+        "KOMMUNE_REFORM",
+        "FIRMA"
+      ]
+    },
+    {
+      "name": "Adresse",
+      "futureName": "Address",
+      "description": "Street address of the Kontrollor",
+      "foreignKey": [
+        "ORDREHODE"
+      ]
+    },
+    {
+      "name": "Epost",
+      "futureName": "Email",
+      "description": "Email address of the Kontrollor",
+      "foreignKey": [
+        "WEBPASSORD"
+      ]
+    },
+    {
+      "name": "Telefon1",
+      "futureName": "PhoneNumber1",
+      "description": "First telephone number of the Kontrollor",
+      "foreignKey": [
+        "D3STAGE_ORDREHODE_HIST",
+        "D3STAGE_ORDREHODE"
+      ]
+    },
+    {
+      "name": "Telefon2",
+      "futureName": "PhoneNumber2",
+      "description": "Second telephone number of the Kontrollor",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "TMS_EKSTRA_ADR"
+      ]
+    },
+    {
+      "name": "Startet",
+      "futureName": "StartedAt",
+      "description": "Date when the Kontrollor started their role",
+      "foreignKey": null
+    },
+    {
+      "name": "Sluttet",
+      "futureName": "EndedAt",
+      "description": "Date when the Kontrollor ended their role",
+      "foreignKey": null
+    },
+    {
+      "name": "Autoristert",
+      "futureName": "Authorized",
+      "description": "Flag indicating if the Kontrollor is authorized",
+      "foreignKey": null
+    },
+    {
+      "name": "RegDato",
+      "futureName": "RegistrationDate",
+      "description": "Date when the Kontrollor was registered",
+      "foreignKey": [
+        "KD_BESTILLING"
+      ]
+    },
+    {
+      "name": "RegBruker",
+      "futureName": "RegisteredBy",
+      "description": "User who registered the Kontrollor",
+      "foreignKey": null
+    },
+    {
+      "name": "SistEndrDato",
+      "futureName": "LastModifiedOn",
+      "description": "Date when the Kontrollor’s record was last modified",
+      "foreignKey": [
+        "KD_BESTILLING"
+      ]
+    },
+    {
+      "name": "SistEndrBruker",
+      "futureName": "LastModifiedBy",
+      "description": "User who last modified the Kontrollor’s record",
+      "foreignKey": null
+    },
+    {
+      "name": "SistAutorisert",
+      "futureName": "LastAuthorizedOn",
+      "description": "Date when the Kontrollor’s authorization was last confirmed",
+      "foreignKey": null
+    },
+    {
+      "name": "Brukerid",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user associated with the Kontrollor",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "Fylke",
+      "futureName": "County",
+      "description": "County where the Kontrollor is registered",
+      "foreignKey": [
+        "AVD_FOMR"
+      ]
+    },
+    {
+      "name": "FoedselsAar",
+      "futureName": "BirthYear",
+      "description": "Year of birth of the Kontrollor",
+      "foreignKey": null
+    },
+    {
+      "name": "FastAnsatt",
+      "futureName": "FullTimeEmployee",
+      "description": "Flag indicating if the Kontrollor is a full-time employee",
+      "foreignKey": [
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "Engfrae",
+      "futureName": "EnglishName",
+      "description": "English name of the Kontrollor (if applicable)",
+      "foreignKey": null
+    },
+    {
+      "name": "Passord",
+      "futureName": "Password",
+      "description": "Password associated with the Kontrollor’s account",
+      "foreignKey": [
+        "WEBPASSORD"
+      ]
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of a specific event related to the Kontrollor",
+      "foreignKey": null
+    },
+    {
+      "name": "Opprettet",
+      "futureName": "CreatedOn",
+      "description": "Date and time when the record was created",
+      "foreignKey": [
+        "D365_FKABETBETKUNDEMAPS_V2"
+      ]
+    },
+    {
+      "name": "FeilForsokTeller",
+      "futureName": "FailedLoginAttempts",
+      "description": "Number of failed login attempts for the Kontrollor’s account",
+      "foreignKey": null
+    },
+    {
+      "name": "FeilForsokTid",
+      "futureName": "LastFailedLoginAttempt",
+      "description": "Timestamp of the last failed login attempt",
+      "foreignKey": null
+    },
+    {
+      "name": "Informert",
+      "futureName": "Notified",
+      "description": "Flag indicating if the Kontrollor has been notified about a specific event",
+      "foreignKey": [
+        "WEBPASSORD"
+      ]
+    },
+    {
+      "name": "SistInnlogget",
+      "futureName": "LastLoggedIn",
+      "description": "Timestamp of the last login by the Kontrollor",
+      "foreignKey": null
+    },
+    {
+      "name": "Komentar",
+      "futureName": "Comment",
+      "description": "Additional comments or notes about the Kontrollor",
+      "foreignKey": [
+        "A_BESTHODE"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:12:46"
+}

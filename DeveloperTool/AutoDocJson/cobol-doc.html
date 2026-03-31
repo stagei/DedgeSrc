@@ -1,0 +1,746 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoDoc Diagrams - Cobol Source File - allrexx.cbl - AutoDoc</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Google Fonts: Outfit + JetBrains Mono (matching old AutoDoc) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- AutoDoc shared CSS (from legacy AutoDoc solution) -->
+    <link rel="stylesheet" href="/css/autodoc-shared.css" />
+
+    <!-- Dashboard / app-level overrides -->
+    <link rel="stylesheet" href="/css/site.css" />
+
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="/css/DedgeAuth-fallback.css" />
+
+    <!-- DedgeAuth CSS -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css" />
+    <style id="DedgeAuth-tenant-css"></style>
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css" />
+
+    
+<style>
+    :root { --accent-primary: #0ea5e9; }
+    [data-theme="dark"] { --accent-primary: #22d3ee; }
+    
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .detail-table th { background: var(--bg-secondary); padding: 0.5rem; text-align: left; font-weight: 500; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+    .detail-table td { padding: 0.5rem; border-bottom: 1px solid var(--border-color); }
+    .detail-table tr:last-child td { border-bottom: none; }
+    input[type="checkbox"] { accent-color: var(--accent-primary); }
+    .empty-state { padding: 3rem; text-align: center; color: var(--text-muted); }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+</style>
+
+</head>
+<body>
+    
+
+
+
+<!-- Header (matching old AutoDoc template) -->
+<header class="header">
+    <div class="logo-section">
+        <div id="DedgeAuthHeader" data-app-title="AutoDoc" data-home-url="/"></div>
+        <h4>AutoDoc Diagrams - Cobol Source File - allrexx.cbl</h4>
+        <span class="badge">COBOL</span>
+    </div>
+    <div class="theme-toggle DedgeAuth-theme-toggle" title="Toggle theme">
+        <button class="theme-toggle-btn" data-theme="light" title="Light mode">
+            <i class="bi bi-sun-fill"></i>
+        </button>
+        <button class="theme-toggle-btn" data-theme="dark" title="Dark mode">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+    </div>
+</header>
+
+
+
+<div class="main-container">
+    <!-- Info Panel (left, 320px) -->
+    <div class="info-panel">
+        <div class="info-card">
+            <table class="info-table">
+                <tr><td>Filename</td><td><a href="https://Dedge.visualstudio.com/Dedge/_search?action=contents&text=allrexx.cbl%20ext%3Acbl&type=code&filters=ProjectFilters%7BDedge%7DRepositoryFilters%7BDedge%7D">allrexx.cbl</a></td></tr>
+                <tr><td>Type</td><td>L</td></tr>
+                <tr><td>Description</td><td>Dummyprog som inneholder diverse SQL som startes fra REXX</td></tr>
+                <tr><td>System</td><td>AL</td></tr>
+                <tr><td>DialogSystem</td><td><input type="checkbox" checked onclick="return false" /></td></tr>
+                <tr><td>Uses SQL</td><td><input type="checkbox"  onclick="return false" /></td></tr>
+                <tr><td>Created</td><td></td></tr>
+                <tr><td>Production</td><td></td></tr>
+                <tr><td>Generated</td><td>2026-02-13T16:27:57.0457894&#x2B;01:00</td></tr>
+            </table>
+        </div>
+
+            <details>
+                <summary><i class="bi bi-database"></i> SQL Tables (58)</summary>
+                <table class="detail-table">
+                    <tr><th>Table</th><th>Op</th><th>Description</th></tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_a_ordrehode.sql.json">DBM.A_ORDREHODE</a></td>
+                            <td>Update</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_a_ordrelinjer.sql.json">DBM.A_ORDRELINJER</a></td>
+                            <td>Update</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_z_avdtab.sql.json">DBM.Z_AVDTAB</a></td>
+                            <td>Update</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_oin_hode.sql.json">DBM.OIN_HODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_wkmonitlog.sql.json">DBM.WKMONITLOG</a></td>
+                            <td>Insert</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_a_ordrehode.sql.json">DBM.A_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_kass_transer.sql.json">DBM.KASS_TRANSER</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_ordrelinjer.sql.json">DBM.H_ORDRELINJER</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_ordrelinjer.sql.json">DBM.ORDRELINJER</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_plukksatshode.sql.json">DBM.PLUKKSATSHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_varebevegelse.sql.json">DBM.VAREBEVEGELSE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tilgbruk_grp_prof.sql.json">DBM.TILGBRUK_GRP_PROF</a></td>
+                            <td>Select</td>
+                            <td>Knytning mellom bruker, gruppe og profil</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tilgbruker.sql.json">DBM.TILGBRUKER</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tilggrp_avd.sql.json">DBM.TILGGRP_AVD</a></td>
+                            <td>Select</td>
+                            <td>Knytning mellom gruppe og z_avdtab</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tilggruppe.sql.json">DBM.TILGGRUPPE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tilgprof_funk.sql.json">DBM.TILGPROF_FUNK</a></td>
+                            <td>Select</td>
+                            <td>Knytning mellom profil og funksjon</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=syscat_useroptions.sql.json">SYSCAT.USEROPTIONS</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_ordrehode.sql.json">DBM.H_XE_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_ordrehode.sql.json">DBM.H_XE_ORDREHODE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_varemot_hode.sql.json">DBM.H_XE_VAREMOT_HODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_varemot_hode.sql.json">DBM.H_XE_VAREMOT_HODE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_kunde.sql.json">DBM.H_XE_KUNDE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_kunde.sql.json">DBM.H_XE_KUNDE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_vare.sql.json">DBM.H_XE_VARE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_vare.sql.json">DBM.H_XE_VARE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xi_ordremot_hode.sql.json">DBM.H_XI_ORDREMOT_HODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xi_ordremot_hode.sql.json">DBM.H_XI_ORDREMOT_HODE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_xe_ordrehode.sql.json">DBM.H_XE_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_innkjop_salg.sql.json">DBM.INNKJOP_SALG</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_innkjop_salg.sql.json">DBM.INNKJOP_SALG</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_mek_tidsreg_trans.sql.json">DBM.MEK_TIDSREG_TRANS</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_mek_tidsreg_trans.sql.json">DBM.MEK_TIDSREG_TRANS</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_kass_transer.sql.json">DBM.KASS_TRANSER</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_kass_transer.sql.json">DBM.KASS_TRANSER</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tell_hode.sql.json">DBM.TELL_HODE</a></td>
+                            <td>Select</td>
+                            <td>Ansattrabatt</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_z_avdtab.sql.json">DBM.Z_AVDTAB</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_kjplan_ikforslag.sql.json">DBM.KJPLAN_IKFORSLAG</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_z_avdtab.sql.json">DBM.Z_AVDTAB</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_wkmonitlog.sql.json">DBM.WKMONITLOG</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_ec_order_head.sql.json">DBM.EC_ORDER_HEAD</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_ec_order_head.sql.json">DBM.EC_ORDER_HEAD</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_ordrelinjer.sql.json">DBM.ORDRELINJER</a></td>
+                            <td>Update</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_tms_kvittering.sql.json">DBM.TMS_KVITTERING</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_besthode.sql.json">DBM.BESTHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_ordrehode.sql.json">DBM.H_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_ah_ordrehode.sql.json">DBM.AH_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_ordrehode.sql.json">DBM.H_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_ordrehode.sql.json">DBM.H_ORDREHODE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_lass.sql.json">DBM.LASS</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_lass.sql.json">DBM.LASS</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_varebevegelse.sql.json">DBM.VAREBEVEGELSE</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_varebevegelse.sql.json">DBM.VAREBEVEGELSE</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_korrigeringer.sql.json">DBM.KORRIGERINGER</a></td>
+                            <td>Select</td>
+                            <td>Beholdnings-korreksjoner</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_korrigeringer.sql.json">DBM.KORRIGERINGER</a></td>
+                            <td>Delete</td>
+                            <td>Beholdnings-korreksjoner</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_fakt_ordrehode.sql.json">DBM.H_FAKT_ORDREHODE</a></td>
+                            <td>Select</td>
+                            <td>Dubl. historikk faktura ordre hode</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_h_fakt_ordrehode.sql.json">DBM.H_FAKT_ORDREHODE</a></td>
+                            <td>Delete</td>
+                            <td>Dubl. historikk faktura ordre hode</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_levdato_log.sql.json">DBM.LEVDATO_LOG</a></td>
+                            <td>Select</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/Doc?file=dbm_levdato_log.sql.json">DBM.LEVDATO_LOG</a></td>
+                            <td>Delete</td>
+                            <td></td>
+                        </tr>
+                </table>
+            </details>
+
+
+
+            <details>
+                <summary><i class="bi bi-clock-history"></i> Change Log (2)</summary>
+                <table class="detail-table">
+                    <tr><th>Date</th><th>User</th><th>Comment</th></tr>
+                        <tr><td>01/01/1970</td><td>vil</td><td>dermed dukke opp i COBDOK Det er ikke meningen at dette skal kunne kompileres !!! ALLREXX.CBL og ALLSQL.CBL genereres av ALLREXX.REX ut fra denne malen. ALLREXX.CBL og ALLSQL.CBL genereres av ALLREXX.REX ut fra denne malen. ALLREXX.CBL og ALLSQL.CBL genereres av ALLREXX.REX ut fra denne malen.</td></tr>
+                        <tr><td>18/11/2010</td><td>-</td><td>TRU</td></tr>
+                </table>
+            </details>
+
+    </div>
+
+    <!-- Diagram Panel (right, flex) -->
+    <div class="diagram-panel">
+        <div class="diagram-tabs">
+                <button class="diagram-tab active" onclick="showDiagram('flow', this)">
+                    <i class="bi bi-diagram-3"></i> Flow Diagram
+                </button>
+                <button class="diagram-tab " onclick="showDiagram('sequence', this)">
+                    <i class="bi bi-list-nested"></i> Sequence Diagram
+                </button>
+        </div>
+
+            <div class="diagram-content active" id="flow-content">
+                <div class="diagram-controls">
+    <div class="diagram-controls-left">
+        <div class="diagram-btn-group">
+            <button class="diagram-btn" onclick="zoomIn('flow')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+            <button class="diagram-btn" onclick="zoomOut('flow')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+            <button class="diagram-btn" onclick="resetZoom('flow')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+        <span class="zoom-indicator" id="flow-zoom">100%</span>
+        <button class="diagram-btn" onclick="fitToScreen('flow')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+    </div>
+    <div class="diagram-controls-right">
+        <button class="diagram-btn" onclick="openInNewWindow('flow')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+        <button class="diagram-btn" onclick="toggleFullscreen('flow')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+    </div>
+</div>
+
+                <div class="diagram-container" id="flow-container">
+                    <pre class="mermaid" id="flowDiagram" data-diagram-type="flow">%%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
+flowchart TD
+allrexx[[allrexx]] --initiated-->procedure_division((procedure_division))
+style allrexx stroke:red,stroke-width:4px
+procedure_division --(#1)-->stop_run(STOP RUN)
+procedure_division--"update [ordrestatus, tilfaktdato]"(#2)-->sql_dbm_a_ordrehode[(dbm.a_ordrehode)]
+procedure_division--"Sub-select related to dbm.a_ordrehode"(#3)-->sql_dbm_a_ordrelinjer[(dbm.a_ordrelinjer)]
+procedure_division--"Sub-select related to dbm.a_ordrehode"(#4)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#5)-->sql_dbm_oin_hode,[(dbm.oin_hode,)]
+procedure_division--"insert"(#6)-->sql_dbm_wkmonitlog[(dbm.wkmonitlog)]
+procedure_division--"select"(#7)-->sql_dbm_a_ordrehode[(dbm.a_ordrehode)]
+procedure_division--"Join or Sub-select related to dbm.a_ordrehode"(#8)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"select"(#9)-->sql_dbm_h_ordrelinjer[(dbm.h_ordrelinjer)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#10)-->sql_dbm_ordrelinjer[(dbm.ordrelinjer)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#11)-->sql_dbm_plukksatshode[(dbm.plukksatshode)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#12)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"select"(#13)-->sql_dbm_tilgbruk_grp_prof[(dbm.tilgbruk_grp_prof)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#14)-->sql_dbm_tilgbruker[(dbm.tilgbruker)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#15)-->sql_dbm_tilggrp_avd[(dbm.tilggrp_avd)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#16)-->sql_dbm_tilggruppe[(dbm.tilggruppe)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#17)-->sql_dbm_tilgprof_funk[(dbm.tilgprof_funk)]
+procedure_division--"select"(#18)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"delete"(#19)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"select"(#20)-->sql_dbm_h_xe_varemot_hode[(dbm.h_xe_varemot_hode)]
+procedure_division--"delete"(#21)-->sql_dbm_h_xe_varemot_hode[(dbm.h_xe_varemot_hode)]
+procedure_division--"select"(#22)-->sql_dbm_h_xe_kunde[(dbm.h_xe_kunde)]
+procedure_division--"delete"(#23)-->sql_dbm_h_xe_kunde[(dbm.h_xe_kunde)]
+procedure_division--"select"(#24)-->sql_dbm_h_xe_vare[(dbm.h_xe_vare)]
+procedure_division--"delete"(#25)-->sql_dbm_h_xe_vare[(dbm.h_xe_vare)]
+procedure_division--"select"(#26)-->sql_dbm_h_xi_ordremot_hode[(dbm.h_xi_ordremot_hode)]
+procedure_division--"delete"(#27)-->sql_dbm_h_xi_ordremot_hode[(dbm.h_xi_ordremot_hode)]
+procedure_division--"select"(#28)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"select"(#29)-->sql_dbm_innkjop_salg[(dbm.innkjop_salg)]
+procedure_division--"delete"(#30)-->sql_dbm_innkjop_salg[(dbm.innkjop_salg)]
+procedure_division--"select"(#31)-->sql_dbm_mek_tidsreg_trans[(dbm.mek_tidsreg_trans)]
+procedure_division--"delete"(#32)-->sql_dbm_mek_tidsreg_trans[(dbm.mek_tidsreg_trans)]
+procedure_division--"select"(#33)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"delete"(#34)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"select"(#35)-->sql_dbm_tell_hode[(dbm.tell_hode)]
+procedure_division--"Join or Sub-select related to dbm.tell_hode"(#36)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#37)-->sql_dbm_kjplan_ikforslag[(dbm.kjplan_ikforslag)]
+procedure_division--"Join or Sub-select related to dbm.kjplan_ikforslag"(#38)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#39)-->sql_dbm_wkmonitlog[(dbm.wkmonitlog)]
+procedure_division--"update [tidspunkt]"(#40)-->sql_dbm_ordrelinjer[(dbm.ordrelinjer)]
+procedure_division--"select"(#41)-->sql_dbm_tms_kvittering[(dbm.tms_kvittering)]
+procedure_division--"select"(#42)-->sql_dbm_h_ordrehode[(dbm.h_ordrehode)]
+procedure_division--"delete"(#43)-->sql_dbm_h_ordrehode[(dbm.h_ordrehode)]
+procedure_division--"select"(#44)-->sql_dbm_lass[(dbm.lass)]
+procedure_division--"delete"(#45)-->sql_dbm_lass[(dbm.lass)]
+procedure_division--"select"(#46)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"delete"(#47)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"select"(#48)-->sql_dbm_korrigeringer[(dbm.korrigeringer)]
+procedure_division--"delete"(#49)-->sql_dbm_korrigeringer[(dbm.korrigeringer)]
+procedure_division--"select"(#50)-->sql_dbm_h_fakt_ordrehode[(dbm.h_fakt_ordrehode)]
+procedure_division--"delete"(#51)-->sql_dbm_h_fakt_ordrehode[(dbm.h_fakt_ordrehode)]
+procedure_division--"select"(#52)-->sql_dbm_levdato_log[(dbm.levdato_log)]
+procedure_division--"delete"(#53)-->sql_dbm_a_ordrehode[(dbm.a_ordrehode)]
+procedure_division--"Sub-select related to dbm.a_ordrehode"(#54)-->sql_dbm_a_ordrelinjer[(dbm.a_ordrelinjer)]
+procedure_division--"Sub-select related to dbm.a_ordrehode"(#55)-->sql_dbm_levdato_log[(dbm.levdato_log)]
+procedure_division--"Sub-select related to dbm.a_ordrehode"(#56)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#57)-->sql_dbm_oin_hode,[(dbm.oin_hode,)]
+procedure_division--"insert"(#58)-->sql_dbm_wkmonitlog[(dbm.wkmonitlog)]
+procedure_division--"select"(#59)-->sql_dbm_a_ordrehode[(dbm.a_ordrehode)]
+procedure_division--"Join or Sub-select related to dbm.a_ordrehode"(#60)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"select"(#61)-->sql_dbm_h_ordrelinjer[(dbm.h_ordrelinjer)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#62)-->sql_dbm_ordrelinjer[(dbm.ordrelinjer)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#63)-->sql_dbm_plukksatshode[(dbm.plukksatshode)]
+procedure_division--"Join or Sub-select related to dbm.h_ordrelinjer"(#64)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"select"(#65)-->sql_dbm_tilgbruk_grp_prof[(dbm.tilgbruk_grp_prof)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#66)-->sql_dbm_tilgbruker[(dbm.tilgbruker)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#67)-->sql_dbm_tilggrp_avd[(dbm.tilggrp_avd)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#68)-->sql_dbm_tilggruppe[(dbm.tilggruppe)]
+procedure_division--"Join or Sub-select related to dbm.tilgbruk_grp_prof"(#69)-->sql_dbm_tilgprof_funk[(dbm.tilgprof_funk)]
+procedure_division--"select"(#70)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"delete"(#71)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"select"(#72)-->sql_dbm_h_xe_varemot_hode[(dbm.h_xe_varemot_hode)]
+procedure_division--"delete"(#73)-->sql_dbm_h_xe_varemot_hode[(dbm.h_xe_varemot_hode)]
+procedure_division--"select"(#74)-->sql_dbm_h_xe_kunde[(dbm.h_xe_kunde)]
+procedure_division--"delete"(#75)-->sql_dbm_h_xe_kunde[(dbm.h_xe_kunde)]
+procedure_division--"select"(#76)-->sql_dbm_h_xe_vare[(dbm.h_xe_vare)]
+procedure_division--"delete"(#77)-->sql_dbm_h_xe_vare[(dbm.h_xe_vare)]
+procedure_division--"select"(#78)-->sql_dbm_h_xi_ordremot_hode[(dbm.h_xi_ordremot_hode)]
+procedure_division--"delete"(#79)-->sql_dbm_h_xi_ordremot_hode[(dbm.h_xi_ordremot_hode)]
+procedure_division--"select"(#80)-->sql_dbm_h_xe_ordrehode[(dbm.h_xe_ordrehode)]
+procedure_division--"select"(#81)-->sql_dbm_innkjop_salg[(dbm.innkjop_salg)]
+procedure_division--"delete"(#82)-->sql_dbm_innkjop_salg[(dbm.innkjop_salg)]
+procedure_division--"select"(#83)-->sql_dbm_mek_tidsreg_trans[(dbm.mek_tidsreg_trans)]
+procedure_division--"delete"(#84)-->sql_dbm_mek_tidsreg_trans[(dbm.mek_tidsreg_trans)]
+procedure_division--"select"(#85)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"delete"(#86)-->sql_dbm_kass_transer[(dbm.kass_transer)]
+procedure_division--"select"(#87)-->sql_dbm_tell_hode[(dbm.tell_hode)]
+procedure_division--"Join or Sub-select related to dbm.tell_hode"(#88)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#89)-->sql_dbm_kjplan_ikforslag[(dbm.kjplan_ikforslag)]
+procedure_division--"Join or Sub-select related to dbm.kjplan_ikforslag"(#90)-->sql_dbm_z_avdtab[(dbm.z_avdtab)]
+procedure_division--"select"(#91)-->sql_dbm_wkmonitlog[(dbm.wkmonitlog)]
+procedure_division--"update [tidspunkt]"(#92)-->sql_dbm_ordrelinjer[(dbm.ordrelinjer)]
+procedure_division--"select"(#93)-->sql_dbm_tms_kvittering[(dbm.tms_kvittering)]
+procedure_division--"select"(#94)-->sql_dbm_h_ordrehode[(dbm.h_ordrehode)]
+procedure_division--"delete"(#95)-->sql_dbm_h_ordrehode[(dbm.h_ordrehode)]
+procedure_division--"select"(#96)-->sql_dbm_lass[(dbm.lass)]
+procedure_division--"delete"(#97)-->sql_dbm_lass[(dbm.lass)]
+procedure_division--"select"(#98)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"delete"(#99)-->sql_dbm_varebevegelse[(dbm.varebevegelse)]
+procedure_division--"select"(#100)-->sql_dbm_korrigeringer[(dbm.korrigeringer)]
+procedure_division--"delete"(#101)-->sql_dbm_korrigeringer[(dbm.korrigeringer)]
+procedure_division--"select"(#102)-->sql_dbm_h_fakt_ordrehode[(dbm.h_fakt_ordrehode)]
+procedure_division--"delete"(#103)-->sql_dbm_h_fakt_ordrehode[(dbm.h_fakt_ordrehode)]
+procedure_division--"select"(#104)-->sql_dbm_levdato_log[(dbm.levdato_log)]
+click allrexx "https://Dedge.visualstudio.com/_git/Dedge?path=/cbl/allrexx.cbl" "allrexx" _blank
+click sql_dbm_a_ordrehode "./dbm_a_ordrehode.sql.html" "dbm.a_ordrehode" _blank
+style sql_dbm_a_ordrehode stroke:dark-blue,stroke-width:4px
+click sql_dbm_a_ordrelinjer "./dbm_a_ordrelinjer.sql.html" "dbm.a_ordrelinjer" _blank
+style sql_dbm_a_ordrelinjer stroke:dark-blue,stroke-width:4px
+click sql_dbm_z_avdtab "./dbm_z_avdtab.sql.html" "dbm.z_avdtab" _blank
+style sql_dbm_z_avdtab stroke:dark-blue,stroke-width:4px
+click sql_dbm_oin_hode, "./dbm_oin_hode,.sql.html" "dbm.oin_hode," _blank
+style sql_dbm_oin_hode, stroke:dark-blue,stroke-width:4px
+click sql_dbm_wkmonitlog "./dbm_wkmonitlog.sql.html" "dbm.wkmonitlog" _blank
+style sql_dbm_wkmonitlog stroke:dark-blue,stroke-width:4px
+click sql_dbm_kass_transer "./dbm_kass_transer.sql.html" "dbm.kass_transer" _blank
+style sql_dbm_kass_transer stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_ordrelinjer "./dbm_h_ordrelinjer.sql.html" "dbm.h_ordrelinjer" _blank
+style sql_dbm_h_ordrelinjer stroke:dark-blue,stroke-width:4px
+click sql_dbm_ordrelinjer "./dbm_ordrelinjer.sql.html" "dbm.ordrelinjer" _blank
+style sql_dbm_ordrelinjer stroke:dark-blue,stroke-width:4px
+click sql_dbm_plukksatshode "./dbm_plukksatshode.sql.html" "dbm.plukksatshode" _blank
+style sql_dbm_plukksatshode stroke:dark-blue,stroke-width:4px
+click sql_dbm_varebevegelse "./dbm_varebevegelse.sql.html" "dbm.varebevegelse" _blank
+style sql_dbm_varebevegelse stroke:dark-blue,stroke-width:4px
+click sql_dbm_tilgbruk_grp_prof "./dbm_tilgbruk_grp_prof.sql.html" "dbm.tilgbruk_grp_prof" _blank
+style sql_dbm_tilgbruk_grp_prof stroke:dark-blue,stroke-width:4px
+click sql_dbm_tilgbruker "./dbm_tilgbruker.sql.html" "dbm.tilgbruker" _blank
+style sql_dbm_tilgbruker stroke:dark-blue,stroke-width:4px
+click sql_dbm_tilggrp_avd "./dbm_tilggrp_avd.sql.html" "dbm.tilggrp_avd" _blank
+style sql_dbm_tilggrp_avd stroke:dark-blue,stroke-width:4px
+click sql_dbm_tilggruppe "./dbm_tilggruppe.sql.html" "dbm.tilggruppe" _blank
+style sql_dbm_tilggruppe stroke:dark-blue,stroke-width:4px
+click sql_dbm_tilgprof_funk "./dbm_tilgprof_funk.sql.html" "dbm.tilgprof_funk" _blank
+style sql_dbm_tilgprof_funk stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_xe_ordrehode "./dbm_h_xe_ordrehode.sql.html" "dbm.h_xe_ordrehode" _blank
+style sql_dbm_h_xe_ordrehode stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_xe_varemot_hode "./dbm_h_xe_varemot_hode.sql.html" "dbm.h_xe_varemot_hode" _blank
+style sql_dbm_h_xe_varemot_hode stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_xe_kunde "./dbm_h_xe_kunde.sql.html" "dbm.h_xe_kunde" _blank
+style sql_dbm_h_xe_kunde stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_xe_vare "./dbm_h_xe_vare.sql.html" "dbm.h_xe_vare" _blank
+style sql_dbm_h_xe_vare stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_xi_ordremot_hode "./dbm_h_xi_ordremot_hode.sql.html" "dbm.h_xi_ordremot_hode" _blank
+style sql_dbm_h_xi_ordremot_hode stroke:dark-blue,stroke-width:4px
+click sql_dbm_innkjop_salg "./dbm_innkjop_salg.sql.html" "dbm.innkjop_salg" _blank
+style sql_dbm_innkjop_salg stroke:dark-blue,stroke-width:4px
+click sql_dbm_mek_tidsreg_trans "./dbm_mek_tidsreg_trans.sql.html" "dbm.mek_tidsreg_trans" _blank
+style sql_dbm_mek_tidsreg_trans stroke:dark-blue,stroke-width:4px
+click sql_dbm_tell_hode "./dbm_tell_hode.sql.html" "dbm.tell_hode" _blank
+style sql_dbm_tell_hode stroke:dark-blue,stroke-width:4px
+click sql_dbm_kjplan_ikforslag "./dbm_kjplan_ikforslag.sql.html" "dbm.kjplan_ikforslag" _blank
+style sql_dbm_kjplan_ikforslag stroke:dark-blue,stroke-width:4px
+click sql_dbm_tms_kvittering "./dbm_tms_kvittering.sql.html" "dbm.tms_kvittering" _blank
+style sql_dbm_tms_kvittering stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_ordrehode "./dbm_h_ordrehode.sql.html" "dbm.h_ordrehode" _blank
+style sql_dbm_h_ordrehode stroke:dark-blue,stroke-width:4px
+click sql_dbm_lass "./dbm_lass.sql.html" "dbm.lass" _blank
+style sql_dbm_lass stroke:dark-blue,stroke-width:4px
+click sql_dbm_korrigeringer "./dbm_korrigeringer.sql.html" "dbm.korrigeringer" _blank
+style sql_dbm_korrigeringer stroke:dark-blue,stroke-width:4px
+click sql_dbm_h_fakt_ordrehode "./dbm_h_fakt_ordrehode.sql.html" "dbm.h_fakt_ordrehode" _blank
+style sql_dbm_h_fakt_ordrehode stroke:dark-blue,stroke-width:4px
+click sql_dbm_levdato_log "./dbm_levdato_log.sql.html" "dbm.levdato_log" _blank
+style sql_dbm_levdato_log stroke:dark-blue,stroke-width:4px
+click procedure_division "https://Dedge.visualstudio.com/_git/Dedge?path=/cbl/allrexx.cbl&version=GBmaster&line=22&lineEnd=23&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents" "procedure_division" _blank</pre>
+                </div>
+            </div>
+
+            <div class="diagram-content " id="sequence-content">
+                <div class="diagram-controls">
+    <div class="diagram-controls-left">
+        <div class="diagram-btn-group">
+            <button class="diagram-btn" onclick="zoomIn('sequence')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+            <button class="diagram-btn" onclick="zoomOut('sequence')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+            <button class="diagram-btn" onclick="resetZoom('sequence')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+        <span class="zoom-indicator" id="sequence-zoom">100%</span>
+        <button class="diagram-btn" onclick="fitToScreen('sequence')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+    </div>
+    <div class="diagram-controls-right">
+        <button class="diagram-btn" onclick="openInNewWindow('sequence')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+        <button class="diagram-btn" onclick="toggleFullscreen('sequence')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+    </div>
+</div>
+
+                <div class="diagram-container" id="sequence-container">
+                    <pre class="mermaid" id="sequenceDiagram" data-diagram-type="sequence">sequenceDiagram
+autonumber
+participant stop_run
+procedure_division-->>stop_run: stop run
+procedure_division-->>dbm.a_ordrehode: sql update [ordrestatus, tilfaktdato]
+procedure_division-->>dbm.a_ordrelinjer: sql Sub-select related to dbm.a_ordrehode
+procedure_division-->>dbm.z_avdtab: sql Sub-select related to dbm.a_ordrehode
+procedure_division-->>dbm.oin_hode,: sql select
+procedure_division-->>dbm.wkmonitlog: sql insert
+procedure_division-->>dbm.a_ordrehode: sql select
+procedure_division-->>dbm.kass_transer: sql Join or Sub-select related to dbm.a_ordrehode
+procedure_division-->>dbm.h_ordrelinjer: sql select
+procedure_division-->>dbm.ordrelinjer: sql Join or Sub-select related to dbm.h_ordrelinjer
+procedure_division-->>dbm.plukksatshode: sql Join or Sub-select related to dbm.h_ordrelinjer
+procedure_division-->>dbm.varebevegelse: sql Join or Sub-select related to dbm.h_ordrelinjer
+procedure_division-->>dbm.tilgbruk_grp_prof: sql select
+procedure_division-->>dbm.tilgbruker: sql Join or Sub-select related to dbm.tilgbruk_grp_prof
+procedure_division-->>dbm.tilggrp_avd: sql Join or Sub-select related to dbm.tilgbruk_grp_prof
+procedure_division-->>dbm.tilggruppe: sql Join or Sub-select related to dbm.tilgbruk_grp_prof
+procedure_division-->>dbm.tilgprof_funk: sql Join or Sub-select related to dbm.tilgbruk_grp_prof
+procedure_division-->>dbm.h_xe_ordrehode: sql select
+procedure_division-->>dbm.h_xe_ordrehode: sql delete
+procedure_division-->>dbm.h_xe_varemot_hode: sql select
+procedure_division-->>dbm.h_xe_varemot_hode: sql delete
+procedure_division-->>dbm.h_xe_kunde: sql select
+procedure_division-->>dbm.h_xe_kunde: sql delete
+procedure_division-->>dbm.h_xe_vare: sql select
+procedure_division-->>dbm.h_xe_vare: sql delete
+procedure_division-->>dbm.h_xi_ordremot_hode: sql select
+procedure_division-->>dbm.h_xi_ordremot_hode: sql delete
+procedure_division-->>dbm.innkjop_salg: sql select
+procedure_division-->>dbm.innkjop_salg: sql delete
+procedure_division-->>dbm.mek_tidsreg_trans: sql select
+procedure_division-->>dbm.mek_tidsreg_trans: sql delete
+procedure_division-->>dbm.kass_transer: sql select
+procedure_division-->>dbm.kass_transer: sql delete
+procedure_division-->>dbm.tell_hode: sql select
+procedure_division-->>dbm.z_avdtab: sql Join or Sub-select related to dbm.tell_hode
+procedure_division-->>dbm.kjplan_ikforslag: sql select
+procedure_division-->>dbm.z_avdtab: sql Join or Sub-select related to dbm.kjplan_ikforslag
+procedure_division-->>dbm.wkmonitlog: sql select
+procedure_division-->>dbm.ordrelinjer: sql update [tidspunkt]
+procedure_division-->>dbm.tms_kvittering: sql select
+procedure_division-->>dbm.h_ordrehode: sql select
+procedure_division-->>dbm.h_ordrehode: sql delete
+procedure_division-->>dbm.lass: sql select
+procedure_division-->>dbm.lass: sql delete
+procedure_division-->>dbm.varebevegelse: sql select
+procedure_division-->>dbm.varebevegelse: sql delete
+procedure_division-->>dbm.korrigeringer: sql select
+procedure_division-->>dbm.korrigeringer: sql delete
+procedure_division-->>dbm.h_fakt_ordrehode: sql select
+procedure_division-->>dbm.h_fakt_ordrehode: sql delete
+procedure_division-->>dbm.levdato_log: sql select
+procedure_division-->>dbm.a_ordrehode: sql delete
+procedure_division-->>dbm.levdato_log: sql Sub-select related to dbm.a_ordrehode</pre>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!-- Fullscreen Overlay (shared across all diagram types) -->
+<div class="diagram-fullscreen-overlay" id="fullscreen-overlay">
+    <div class="diagram-fullscreen-header">
+        <span class="diagram-fullscreen-title" id="fullscreen-title">Diagram</span>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <div class="diagram-btn-group">
+                <button class="diagram-btn" onclick="zoomInFullscreen()" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+                <button class="diagram-btn" onclick="zoomOutFullscreen()" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+                <button class="diagram-btn" onclick="resetZoomFullscreen()" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="fullscreen-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreenFullscreen()" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+            <button class="diagram-btn" onclick="closeFullscreen()" title="Close"><i class="bi bi-x-lg"></i></button>
+        </div>
+    </div>
+    <div class="diagram-fullscreen-content" id="fullscreen-content"></div>
+</div>
+
+
+    <!-- Scripts: load in correct order matching old AutoDoc -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+    <!-- Mermaid config (theme variables, suppressErrorRendering) - must load before Mermaid -->
+    <script src="/js/autodoc-mermaid-config.js"></script>
+
+    <!-- Mermaid 11 ESM Module -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Use theme config from autodoc-mermaid-config.js
+        const theme = window.getMermaidTheme ? window.getMermaidTheme() : 'dark';
+        const themeVars = window.getThemeVariables ? window.getThemeVariables() : {
+            fontFamily: '"Courier New", Courier, monospace',
+            fontSize: '14px'
+        };
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: theme,
+            securityLevel: 'loose',
+            suppressErrorRendering: true,
+            maxTextSize: 5000000,
+            maxEdges: 5000,
+            themeVariables: themeVars,
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            sequence: { useMaxWidth: true },
+            classDiagram: { useMaxWidth: true }
+        });
+
+        // Make mermaid available globally for theme switching
+        window.mermaidInstance = mermaid;
+    </script>
+
+    <!-- Diagram controls (pan-zoom, fullscreen, theme toggle, dark mode fixes) -->
+    <script src="/js/autodoc-diagram-controls.js"></script>
+
+    <!-- DedgeAuth user menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+
+    
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>
+

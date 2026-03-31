@@ -1,0 +1,66 @@
+﻿---
+description: NuGet deployment and script locations
+alwaysApply: true
+---
+
+# NuGet Deployment
+
+## Deployment Script Locations (Search Order)
+
+When deploying DedgeCommon, use Azure-NugetVersionPush script. Search in this order:
+
+1. **Primary Location:**
+   ```
+   C:\opt\src\DedgePsh\DevTools\GitTools\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1
+   ```
+
+2. **Alternative Location (if primary not found):**
+   ```
+   $env:OptPath\DedgePshApps\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1
+   ```
+
+3. **Auto-Install (if neither found):**
+   ```powershell
+   Inst-Psh Azure-NugetVersionPush
+   ```
+
+## Deployment Commands
+
+```powershell
+# Interactive deployment with menu (recommended)
+Azure-NugetVersionPush.ps1
+
+# Automated deployment (if config already saved)
+Azure-NugetVersionPush.ps1 -ProjectFile "C:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj" -Force
+
+# Jump to specific version
+Azure-NugetVersionPush.ps1 -ProjectFile "..." -SpecificVersion "2.0" -Force
+
+# Minor version bump
+Azure-NugetVersionPush.ps1 -ProjectFile "..." -VersionBump Minor -Force
+```
+
+**What the script does:**
+- Auto-bumps version (Patch by default)
+- Builds Release package
+- Loads PAT from `OneDrive\AzureAccessTokens.json`
+- Interactive menu for saved configurations
+- Pushes to configured Azure DevOps feed
+- Opens browser to package page
+
+## Configuration
+
+### NuGet Deployment Config
+**Location:** `%OneDriveCommercial%\AzureAccessTokens.json`
+
+### Database Configuration
+**Location:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\DatabasesV2.json`
+
+## Deployment Checklist
+
+**When using `/deploy` command:**
+- Regression tests run automatically (ALL 5 suites)
+- All tests must pass (0 failures)
+- Build with 0 errors, 0 warnings
+- NuGet deployed automatically
+- Git commit+push automatic

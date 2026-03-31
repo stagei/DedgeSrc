@@ -1,0 +1,191 @@
+﻿{
+  "server": "p-no1fkxprd-db",
+  "relationships": [
+    {
+      "sourceId": "p-no1fkxprd-db-VerifyDb2",
+      "targetId": "p-no1fkxprd-db-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkxprd-db-ConfigureKerberosOnDbServer",
+      "targetId": "p-no1fkxprd-db-MoveKeytabFile",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstation",
+      "targetId": "p-no1fkxprd-db-VerifyKerberosConfigOnDbServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "targetId": "p-no1fkxprd-db-VerifyKerberosConfigOnAppServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkxprd-db-p-no1fkxprd-db-VerifyKerberosAuthFkx",
+      "targetId": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "p-no1fkxprd-db-InitServer",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-InitServer"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyDb2",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-VerifyDb2",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket. Kjør følgende kommando i Db2 Clp i admin konsoll: dir C:\\DbInst\\BIN\\db2.exe",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-VerifyDb2"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-ConfigureKerberosOnDbServer",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-ConfigureKerberosOnDbServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1\n\nPrerequisites Note: Keytab-fil må være tilgjengelig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-MoveKeytabFile",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-ConfigureKerberosOnDbServer"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstation",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.\n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-VerifyKerberosConfigOnDbServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstation"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. \n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-VerifyKerberosConfigOnAppServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-p-no1fkxprd-db-VerifyKerberosAuthFkx",
+      "server": "p-no1fkxprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkxprd-db-p-no1fkxprd-db-VerifyKerberosAuthFkx",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Task for å verifisere Kerberos-autentisering\n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkxprd-db;ServerPart=p-no1fkxprd-db;Template=prod-fkxdb-experiment-kerberos;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkxprd-db-p-no1fkxprd-db-VerifyKerberosAuthFkx"
+    }
+  ],
+  "serverPart": "p-no1fkxprd-db",
+  "templateName": "prod-fkxdb-experiment-kerberos"
+}

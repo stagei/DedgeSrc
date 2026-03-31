@@ -1,0 +1,735 @@
+﻿<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:tns="http://tempuri.org/"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+    xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+    xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+    xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="DedgePosAPI" targetNamespace="http://tempuri.org/">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://tempuri.org/Imports">
+            <xsd:import schemaLocation="http://localhost:18000/DedgePosAPI.svc?xsd=xsd0" namespace="http://tempuri.org/"/>
+            <xsd:import schemaLocation="http://localhost:18000/DedgePosAPI.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="IDedgePosAPI_InitTerminal_InputMessage">
+        <wsdl:part name="parameters" element="tns:InitTerminal"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_InitTerminal_OutputMessage">
+        <wsdl:part name="parameters" element="tns:InitTerminalResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetTerminalReadyStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetTerminalReadyStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetTerminalReadyStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetTerminalReadyStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_CloseTerminal_InputMessage">
+        <wsdl:part name="parameters" element="tns:CloseTerminal"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_CloseTerminal_OutputMessage">
+        <wsdl:part name="parameters" element="tns:CloseTerminalResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetTransactionCacheCount_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetTransactionCacheCount"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetTransactionCacheCount_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetTransactionCacheCountResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetNewTerminalMessages_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetNewTerminalMessages"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetNewTerminalMessages_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetNewTerminalMessagesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqBalanceInquriy_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqBalanceInquriy"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqBalanceInquriy_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqBalanceInquriyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReconciliation_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReconciliation"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReconciliation_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReconciliationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReconciliationReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetReconciliationReport"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReconciliationReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetReconciliationReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqConnectionTest_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqConnectionTest"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqConnectionTest_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqConnectionTestResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPayment_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPayment"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPayment_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPaymentResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqRefund_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqRefund"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqRefund_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqRefundResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReversal_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReversal"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReversal_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReversalResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatusText_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatusText"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatusText_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatusTextResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatusDescription_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatusDescription"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentStatusDescription_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentStatusDescriptionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentBrand_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentBrand"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPaymentBrand_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPaymentBrandResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReceipt_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetReceipt"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReceipt_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetReceiptResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_AbortOperation_InputMessage">
+        <wsdl:part name="parameters" element="tns:AbortOperation"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_AbortOperation_OutputMessage">
+        <wsdl:part name="parameters" element="tns:AbortOperationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqLastReceiptCopy_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqLastReceiptCopy"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqLastReceiptCopy_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqLastReceiptCopyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastReceiptCopy_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastReceiptCopy"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastReceiptCopy_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastReceiptCopyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastTransactionStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastTransactionStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastTransactionStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastTransactionStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastReceiptCopyStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastReceiptCopyStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetLastReceiptCopyStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetLastReceiptCopyStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetConnectionTestStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetConnectionTestStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetConnectionTestStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetConnectionTestStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReconciliationStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetReconciliationStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetReconciliationStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetReconciliationStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetBalanceInquriyStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetBalanceInquriyStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetBalanceInquriyStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetBalanceInquriyStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqSendOfflineTrx_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqSendOfflineTrx"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqSendOfflineTrx_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqSendOfflineTrxResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetSendOfflineTrxStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetSendOfflineTrxStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetSendOfflineTrxStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetSendOfflineTrxStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPrintXReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPrintXReport"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPrintXReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPrintXReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintXReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintXReport"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintXReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintXReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintDocumentStatus_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintDocumentStatus"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintDocumentStatus_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintDocumentStatusResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPrintZReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPrintZReport"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqPrintZReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqPrintZReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintZReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintZReport"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_GetPrintZReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:GetPrintZReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_RequestInput_InputMessage">
+        <wsdl:part name="parameters" element="tns:RequestInput"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_RequestInput_OutputMessage">
+        <wsdl:part name="parameters" element="tns:RequestInputResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReservationCompletion_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReservationCompletion"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqReservationCompletion_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqReservationCompletionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqOneTimeReservation_InputMessage">
+        <wsdl:part name="parameters" element="tns:ReqOneTimeReservation"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_ReqOneTimeReservation_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ReqOneTimeReservationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_CloseAllTerminals_InputMessage">
+        <wsdl:part name="parameters" element="tns:CloseAllTerminals"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_CloseAllTerminals_OutputMessage">
+        <wsdl:part name="parameters" element="tns:CloseAllTerminalsResponse"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_Logger_InputMessage">
+        <wsdl:part name="parameters" element="tns:Logger"/>
+    </wsdl:message>
+    <wsdl:message name="IDedgePosAPI_Logger_OutputMessage">
+        <wsdl:part name="parameters" element="tns:LoggerResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="IDedgePosAPI">
+        <wsdl:operation name="InitTerminal">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/InitTerminal" message="tns:IDedgePosAPI_InitTerminal_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/InitTerminalResponse" message="tns:IDedgePosAPI_InitTerminal_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetTerminalReadyStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetTerminalReadyStatus" message="tns:IDedgePosAPI_GetTerminalReadyStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetTerminalReadyStatusResponse" message="tns:IDedgePosAPI_GetTerminalReadyStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="CloseTerminal">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/CloseTerminal" message="tns:IDedgePosAPI_CloseTerminal_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/CloseTerminalResponse" message="tns:IDedgePosAPI_CloseTerminal_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetTransactionCacheCount">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetTransactionCacheCount" message="tns:IDedgePosAPI_GetTransactionCacheCount_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetTransactionCacheCountResponse" message="tns:IDedgePosAPI_GetTransactionCacheCount_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetNewTerminalMessages">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetNewTerminalMessages" message="tns:IDedgePosAPI_GetNewTerminalMessages_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetNewTerminalMessagesResponse" message="tns:IDedgePosAPI_GetNewTerminalMessages_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqBalanceInquriy">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqBalanceInquriy" message="tns:IDedgePosAPI_ReqBalanceInquriy_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqBalanceInquriyResponse" message="tns:IDedgePosAPI_ReqBalanceInquriy_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReconciliation">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReconciliation" message="tns:IDedgePosAPI_ReqReconciliation_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReconciliationResponse" message="tns:IDedgePosAPI_ReqReconciliation_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetReconciliationReport">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetReconciliationReport" message="tns:IDedgePosAPI_GetReconciliationReport_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetReconciliationReportResponse" message="tns:IDedgePosAPI_GetReconciliationReport_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqConnectionTest">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqConnectionTest" message="tns:IDedgePosAPI_ReqConnectionTest_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqConnectionTestResponse" message="tns:IDedgePosAPI_ReqConnectionTest_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPayment">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPayment" message="tns:IDedgePosAPI_ReqPayment_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPaymentResponse" message="tns:IDedgePosAPI_ReqPayment_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqRefund">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqRefund" message="tns:IDedgePosAPI_ReqRefund_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqRefundResponse" message="tns:IDedgePosAPI_ReqRefund_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReversal">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReversal" message="tns:IDedgePosAPI_ReqReversal_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReversalResponse" message="tns:IDedgePosAPI_ReqReversal_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatus" message="tns:IDedgePosAPI_GetPaymentStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatusResponse" message="tns:IDedgePosAPI_GetPaymentStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatusText">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatusText" message="tns:IDedgePosAPI_GetPaymentStatusText_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatusTextResponse" message="tns:IDedgePosAPI_GetPaymentStatusText_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatusDescription">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatusDescription" message="tns:IDedgePosAPI_GetPaymentStatusDescription_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentStatusDescriptionResponse" message="tns:IDedgePosAPI_GetPaymentStatusDescription_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentBrand">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentBrand" message="tns:IDedgePosAPI_GetPaymentBrand_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPaymentBrandResponse" message="tns:IDedgePosAPI_GetPaymentBrand_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetReceipt">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetReceipt" message="tns:IDedgePosAPI_GetReceipt_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetReceiptResponse" message="tns:IDedgePosAPI_GetReceipt_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="AbortOperation">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/AbortOperation" message="tns:IDedgePosAPI_AbortOperation_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/AbortOperationResponse" message="tns:IDedgePosAPI_AbortOperation_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqLastReceiptCopy">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqLastReceiptCopy" message="tns:IDedgePosAPI_ReqLastReceiptCopy_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqLastReceiptCopyResponse" message="tns:IDedgePosAPI_ReqLastReceiptCopy_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastReceiptCopy">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopy" message="tns:IDedgePosAPI_GetLastReceiptCopy_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopyResponse" message="tns:IDedgePosAPI_GetLastReceiptCopy_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastTransactionStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastTransactionStatus" message="tns:IDedgePosAPI_GetLastTransactionStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastTransactionStatusResponse" message="tns:IDedgePosAPI_GetLastTransactionStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastReceiptCopyStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopyStatus" message="tns:IDedgePosAPI_GetLastReceiptCopyStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopyStatusResponse" message="tns:IDedgePosAPI_GetLastReceiptCopyStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetConnectionTestStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetConnectionTestStatus" message="tns:IDedgePosAPI_GetConnectionTestStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetConnectionTestStatusResponse" message="tns:IDedgePosAPI_GetConnectionTestStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetReconciliationStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetReconciliationStatus" message="tns:IDedgePosAPI_GetReconciliationStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetReconciliationStatusResponse" message="tns:IDedgePosAPI_GetReconciliationStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetBalanceInquriyStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetBalanceInquriyStatus" message="tns:IDedgePosAPI_GetBalanceInquriyStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetBalanceInquriyStatusResponse" message="tns:IDedgePosAPI_GetBalanceInquriyStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqSendOfflineTrx">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqSendOfflineTrx" message="tns:IDedgePosAPI_ReqSendOfflineTrx_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqSendOfflineTrxResponse" message="tns:IDedgePosAPI_ReqSendOfflineTrx_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetSendOfflineTrxStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetSendOfflineTrxStatus" message="tns:IDedgePosAPI_GetSendOfflineTrxStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetSendOfflineTrxStatusResponse" message="tns:IDedgePosAPI_GetSendOfflineTrxStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPrintXReport">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPrintXReport" message="tns:IDedgePosAPI_ReqPrintXReport_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPrintXReportResponse" message="tns:IDedgePosAPI_ReqPrintXReport_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintXReport">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintXReport" message="tns:IDedgePosAPI_GetPrintXReport_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintXReportResponse" message="tns:IDedgePosAPI_GetPrintXReport_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintDocumentStatus">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintDocumentStatus" message="tns:IDedgePosAPI_GetPrintDocumentStatus_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintDocumentStatusResponse" message="tns:IDedgePosAPI_GetPrintDocumentStatus_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPrintZReport">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPrintZReport" message="tns:IDedgePosAPI_ReqPrintZReport_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqPrintZReportResponse" message="tns:IDedgePosAPI_ReqPrintZReport_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintZReport">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintZReport" message="tns:IDedgePosAPI_GetPrintZReport_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/GetPrintZReportResponse" message="tns:IDedgePosAPI_GetPrintZReport_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="RequestInput">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/RequestInput" message="tns:IDedgePosAPI_RequestInput_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/RequestInputResponse" message="tns:IDedgePosAPI_RequestInput_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReservationCompletion">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReservationCompletion" message="tns:IDedgePosAPI_ReqReservationCompletion_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqReservationCompletionResponse" message="tns:IDedgePosAPI_ReqReservationCompletion_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ReqOneTimeReservation">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/ReqOneTimeReservation" message="tns:IDedgePosAPI_ReqOneTimeReservation_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/ReqOneTimeReservationResponse" message="tns:IDedgePosAPI_ReqOneTimeReservation_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="CloseAllTerminals">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/CloseAllTerminals" message="tns:IDedgePosAPI_CloseAllTerminals_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/CloseAllTerminalsResponse" message="tns:IDedgePosAPI_CloseAllTerminals_OutputMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Logger">
+            <wsdl:input wsam:Action="http://tempuri.org/IDedgePosAPI/Logger" message="tns:IDedgePosAPI_Logger_InputMessage"/>
+            <wsdl:output wsam:Action="http://tempuri.org/IDedgePosAPI/LoggerResponse" message="tns:IDedgePosAPI_Logger_OutputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BasicHttpBinding_IDedgePosAPI" type="tns:IDedgePosAPI">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="InitTerminal">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/InitTerminal" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetTerminalReadyStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetTerminalReadyStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="CloseTerminal">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/CloseTerminal" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetTransactionCacheCount">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetTransactionCacheCount" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetNewTerminalMessages">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetNewTerminalMessages" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqBalanceInquriy">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqBalanceInquriy" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReconciliation">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqReconciliation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetReconciliationReport">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetReconciliationReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqConnectionTest">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqConnectionTest" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPayment">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqPayment" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqRefund">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqRefund" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReversal">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqReversal" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPaymentStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatusText">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPaymentStatusText" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentStatusDescription">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPaymentStatusDescription" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPaymentBrand">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPaymentBrand" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetReceipt">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetReceipt" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="AbortOperation">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/AbortOperation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqLastReceiptCopy">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqLastReceiptCopy" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastReceiptCopy">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopy" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastTransactionStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetLastTransactionStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetLastReceiptCopyStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetLastReceiptCopyStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetConnectionTestStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetConnectionTestStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetReconciliationStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetReconciliationStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetBalanceInquriyStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetBalanceInquriyStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqSendOfflineTrx">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqSendOfflineTrx" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetSendOfflineTrxStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetSendOfflineTrxStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPrintXReport">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqPrintXReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintXReport">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPrintXReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintDocumentStatus">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPrintDocumentStatus" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqPrintZReport">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqPrintZReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrintZReport">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/GetPrintZReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="RequestInput">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/RequestInput" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqReservationCompletion">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqReservationCompletion" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="ReqOneTimeReservation">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/ReqOneTimeReservation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="CloseAllTerminals">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/CloseAllTerminals" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Logger">
+            <soap:operation soapAction="http://tempuri.org/IDedgePosAPI/Logger" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="DedgePosAPI">
+        <wsdl:port name="BasicHttpBinding_IDedgePosAPI" binding="tns:BasicHttpBinding_IDedgePosAPI">
+            <soap:address location="http://localhost:18000/DedgePosAPI.svc"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,83 @@
+{
+  "program": "ILBDBCS1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:30",
+  "extraction": {
+    "sourceHash": "sha256:8fca3e78e373805f162c22777e4bc95ea765fea7b3b145a3d090b4c179bdd029",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbdbcs1.cbl",
+    "actualName": "ILBDBCS1",
+    "program": "ILBDBCS1",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "K",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "ILBDBCS1.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ILBDBCS1.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "KVITT",
+        "physicalName": "WW-KVITTNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "DDBFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:30"
+  }
+}

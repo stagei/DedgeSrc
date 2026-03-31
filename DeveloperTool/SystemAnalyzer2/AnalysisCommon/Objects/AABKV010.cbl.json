@@ -1,0 +1,142 @@
+{
+  "program": "AABKV010",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:29",
+  "extraction": {
+    "sourceHash": "sha256:7fd167476fa702760988046834e5ecda2bc1ea8f2bd8c6fe785bb5af3a1e160a",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABKV010.CBL",
+    "actualName": "AABKV010",
+    "program": "AABKV010",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REGION",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DISTR_KOM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FAKTURA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MASKINKARTOTEK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER_M_AKTIV_KONTO",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABKV010.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKV010.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "KUNDER-utenorgnr.TXT",
+        "path": "U:\\",
+        "fullPath": "U:\\KUNDER-utenorgnr.TXT",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:23:29"
+  }
+}

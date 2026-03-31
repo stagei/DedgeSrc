@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.auditLog">Audit Log - Generic Log Handler</title>
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <style>
+        .filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-end;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .filter-group label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .success-badge { color: var(--success-color); }
+        .failure-badge { color: var(--error-color); }
+        .action-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .action-CREATE { background: #22c55e20; color: #22c55e; }
+        .action-UPDATE { background: #3b82f620; color: #3b82f6; }
+        .action-DELETE { background: #ef444420; color: #ef4444; }
+        .action-EXPORT { background: #f59e0b20; color: #f59e0b; }
+        .action-MAINTENANCE { background: #8b5cf620; color: #8b5cf6; }
+        .action-CONFIG_CHANGE { background: #ec489920; color: #ec4899; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 data-i18n="auditLog.title">📋 Audit Log</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;" data-i18n="auditLog.subtitle">
+            Track user actions, configuration changes, and system operations.
+        </p>
+
+        <!-- Statistics Row -->
+        <div class="stats-row" id="statsRow">
+            <div class="stat-card">
+                <div class="stat-value" id="statTotal">--</div>
+                <div class="stat-label" data-i18n="auditLog.totalEvents">Total Events</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value success-badge" id="statSuccess">--</div>
+                <div class="stat-label" data-i18n="auditLog.successful">Successful</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value failure-badge" id="statFailure">--</div>
+                <div class="stat-label" data-i18n="auditLog.failed">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statUsers">--</div>
+                <div class="stat-label" data-i18n="auditLog.uniqueUsers">Unique Users</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label for="fromDate" data-i18n="auditLog.fromDate">From Date</label>
+                <input type="datetime-local" id="fromDate" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="toDate" data-i18n="auditLog.toDate">To Date</label>
+                <input type="datetime-local" id="toDate" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="userFilter" data-i18n="auditLog.user">User</label>
+                <input type="text" id="userFilter" class="form-control" placeholder="Filter by user..." data-i18n-placeholder="placeholder.filterByUser">
+            </div>
+            <div class="filter-group">
+                <label for="actionFilter" data-i18n="auditLog.action">Action</label>
+                <select id="actionFilter" class="form-control">
+                    <option value="" data-i18n="auditLog.allActions">All Actions</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="entityFilter" data-i18n="auditLog.entityType">Entity Type</label>
+                <select id="entityFilter" class="form-control">
+                    <option value="" data-i18n="auditLog.allTypes">All Types</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <button id="searchBtn" class="btn btn-primary" data-i18n="button.search">Search</button>
+                <button id="refreshBtn" class="btn btn-secondary" data-i18n="button.refresh">Refresh</button>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="panel">
+            <table class="data-table" id="auditTable">
+                <thead>
+                    <tr>
+                        <th data-i18n="table.time">Time</th>
+                        <th data-i18n="table.user">User</th>
+                        <th data-i18n="table.action">Action</th>
+                        <th data-i18n="table.entity">Entity</th>
+                        <th data-i18n="table.details">Details</th>
+                        <th data-i18n="table.status">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="auditTableBody">
+                    <tr><td colspan="6">Loading...</td></tr>
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination" style="margin-top: 1rem; display: flex; justify-content: center; gap: 0.5rem;">
+            </div>
+        </div>
+    </main>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        
+        let currentPage = 1;
+        const pageSize = 50;
+        
+        function init() {
+            Theme.init();
+            Toast.init();
+            
+            setDefaultDates();
+            loadFilterOptions();
+            loadStatistics();
+            loadAuditLogs();
+            
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                currentPage = 1;
+                loadAuditLogs();
+            });
+            
+            document.getElementById('refreshBtn').addEventListener('click', () => {
+                loadStatistics();
+                loadAuditLogs();
+            });
+        }
+        
+        function setDefaultDates() {
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            document.getElementById('fromDate').value = formatDateTimeLocal(weekAgo);
+            document.getElementById('toDate').value = formatDateTimeLocal(now);
+        }
+        
+        function formatDateTimeLocal(date) {
+            const pad = n => n.toString().padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        }
+        
+        async function loadFilterOptions() {
+            try {
+                const [actionsRes, entitiesRes] = await Promise.all([
+                    Api.get('/api/audit/actions'),
+                    Api.get('/api/audit/entity-types')
+                ]);
+                
+                if (actionsRes.Success) {
+                    const select = document.getElementById('actionFilter');
+                    actionsRes.Data.forEach(action => {
+                        select.innerHTML += `<option value="${action}">${action}</option>`;
+                    });
+                }
+                
+                if (entitiesRes.Success) {
+                    const select = document.getElementById('entityFilter');
+                    entitiesRes.Data.forEach(entity => {
+                        select.innerHTML += `<option value="${entity}">${entity}</option>`;
+                    });
+                }
+            } catch (e) {
+                console.error('Failed to load filter options:', e);
+            }
+        }
+        
+        async function loadStatistics() {
+            try {
+                const fromDate = document.getElementById('fromDate').value;
+                const toDate = document.getElementById('toDate').value;
+                
+                const res = await Api.get(`/api/audit/statistics?fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}`);
+                
+                if (res.Success) {
+                    document.getElementById('statTotal').textContent = res.Data.TotalCount.toLocaleString();
+                    document.getElementById('statSuccess').textContent = res.Data.SuccessCount.toLocaleString();
+                    document.getElementById('statFailure').textContent = res.Data.FailureCount.toLocaleString();
+                    document.getElementById('statUsers').textContent = res.Data.UniqueUsers.toLocaleString();
+                }
+            } catch (e) {
+                console.error('Failed to load statistics:', e);
+            }
+        }
+        
+        async function loadAuditLogs() {
+            const tbody = document.getElementById('auditTableBody');
+            tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+            
+            try {
+                const params = new URLSearchParams({
+                    fromDate: document.getElementById('fromDate').value,
+                    toDate: document.getElementById('toDate').value,
+                    page: currentPage,
+                    pageSize: pageSize
+                });
+                
+                const userId = document.getElementById('userFilter').value;
+                const action = document.getElementById('actionFilter').value;
+                const entityType = document.getElementById('entityFilter').value;
+                
+                if (userId) params.append('userId', userId);
+                if (action) params.append('action', action);
+                if (entityType) params.append('entityType', entityType);
+                
+                const res = await Api.get(`/api/audit?${params}`);
+                
+                if (res.Success) {
+                    renderTable(res.Data.Items);
+                    renderPagination(res.Data);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6">Error: ${res.Error}</td></tr>`;
+                }
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="6">Error loading audit logs</td></tr>`;
+            }
+        }
+        
+        function renderTable(items) {
+            const tbody = document.getElementById('auditTableBody');
+            
+            if (items.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">No audit entries found.</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = items.map(item => `
+                <tr>
+                    <td>${formatTime(item.Timestamp)}</td>
+                    <td>${escapeHtml(item.UserId)}</td>
+                    <td><span class="action-badge action-${item.Action}">${item.Action}</span></td>
+                    <td>${escapeHtml(item.EntityType)}${item.EntityId ? ` #${escapeHtml(item.EntityId)}` : ''}</td>
+                    <td title="${escapeHtml(item.Details || '')}">${truncate(item.Details || '-', 50)}</td>
+                    <td>${item.Success ? '<span class="success-badge">✓</span>' : '<span class="failure-badge">✗</span>'}</td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderPagination(data) {
+            const container = document.getElementById('pagination');
+            const totalPages = data.TotalPages || 1;
+            
+            container.innerHTML = `
+                <button class="btn btn-sm btn-secondary" ${currentPage <= 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">← Previous</button>
+                <span style="padding: 0.5rem;">Page ${currentPage} of ${totalPages}</span>
+                <button class="btn btn-sm btn-secondary" ${currentPage >= totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Next →</button>
+            `;
+        }
+        
+        window.goToPage = function(page) {
+            currentPage = page;
+            loadAuditLogs();
+        };
+        
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString();
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function truncate(text, maxLen) {
+            if (!text || text.length <= maxLen) return text;
+            return text.substring(0, maxLen) + '...';
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

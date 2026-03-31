@@ -1,0 +1,136 @@
+{
+  "tableName": "LEV_REKL_HODE",
+  "futureName": "LevReklHode",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Unique identifier for the document",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTOKODE",
+      "futureName": "AccountCode",
+      "description": "Account code or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTDATO",
+      "futureName": "FactDate",
+      "description": "Date when the fact was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "REKLNR",
+      "futureName": "ReklNr",
+      "description": "Unique identifier for the advertisement or promotion",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "LevNr",
+      "description": "Unique supplier or vendor identifier",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_ORDRELINJER"
+    },
+    {
+      "name": "ENHETSNR",
+      "futureName": "UnitNumber",
+      "description": "Unique unit identifier",
+      "foreignKey": "A_ORDREHODE, A_ORDRELINJER"
+    },
+    {
+      "name": "LEVDATOMASKIN",
+      "futureName": "LevDateMaskin",
+      "description": "Machine date for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIMER",
+      "futureName": "Timer",
+      "description": "Time value or duration",
+      "foreignKey": "H_VERKSTED_TIMER, MEK_TIDSREG_TRANS"
+    },
+    {
+      "name": "MERKE",
+      "futureName": "Mark",
+      "description": "Brand name or mark of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "Type",
+      "description": "Type code for classification",
+      "foreignKey": null
+    },
+    {
+      "name": "CHNR",
+      "futureName": "ChNr",
+      "description": "Unique identifier or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTORTYPE",
+      "futureName": "MotorType",
+      "description": "Type of the motor",
+      "foreignKey": "MASKIN_SLETTET, MASKINKARTOTEK"
+    },
+    {
+      "name": "MOTORNR",
+      "futureName": "MotorNumber",
+      "description": "Unique identifier for the motor",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Financial amount or value",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVREKLNR",
+      "futureName": "LevReklNr",
+      "description": "Unique identifier for the advertisement associated with the supplier",
+      "foreignKey": null
+    },
+    {
+      "name": "UTSKDATO",
+      "futureName": "IssueDate",
+      "description": "Date when the document was issued or released",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time stamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User or person responsible for the entry",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:41:29"
+}

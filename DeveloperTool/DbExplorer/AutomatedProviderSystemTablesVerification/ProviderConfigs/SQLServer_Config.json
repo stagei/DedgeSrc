@@ -1,0 +1,61 @@
+{
+  "provider": "SQLServer",
+  "version": "2022",
+  "profileName": "MySQLServer",
+  "description": "SQL Server 2022 test configuration template",
+  "testConnection": {
+    "server": "localhost",
+    "port": 1433,
+    "database": "AdventureWorks",
+    "username": "sa"
+  },
+  "testObjects": {
+    "table": "dbo.Customers",
+    "view": "dbo.vCustomerOrders",
+    "procedure": "dbo.uspGetCustomerOrders",
+    "function": "dbo.fnGetCustomerCount",
+    "index": "dbo.IX_Customers_Email",
+    "trigger": "dbo.trg_Customers_Audit",
+    "sequence": "dbo.CustomerIDSeq",
+    "synonym": "dbo.Cust",
+    "type": "dbo.AddressType",
+    "package": "N/A",
+    "user": "sa",
+    "role": "db_owner",
+    "group": "N/A",
+    "schema": "dbo"
+  },
+  "objectCounts": {
+    "tables": 0,
+    "views": 0,
+    "procedures": 0,
+    "functions": 0,
+    "indexes": 0,
+    "triggers": 0,
+    "sequences": 0,
+    "synonyms": 0,
+    "types": 0,
+    "packages": 0
+  },
+  "systemCatalog": {
+    "tablesTable": "INFORMATION_SCHEMA.TABLES",
+    "columnsTable": "INFORMATION_SCHEMA.COLUMNS",
+    "constraintsTable": "INFORMATION_SCHEMA.TABLE_CONSTRAINTS",
+    "foreignKeysTable": "INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS",
+    "indexesTable": "sys.indexes",
+    "viewsTable": "INFORMATION_SCHEMA.VIEWS",
+    "routinesTable": "INFORMATION_SCHEMA.ROUTINES",
+    "packagesTable": "N/A",
+    "usersTable": "sys.database_principals"
+  },
+  "notes": [
+    "SQL Server does not have packages (concept doesn't exist)",
+    "Use INFORMATION_SCHEMA for ANSI-standard views",
+    "Use sys.* catalog views for more detail",
+    "Synonyms are supported (CREATE SYNONYM)",
+    "Types include CLR types and user-defined types",
+    "Sequences introduced in SQL Server 2012+",
+    "Groups are deprecated, use roles instead"
+  ]
+}
+

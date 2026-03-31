@@ -1,0 +1,49 @@
+Statement type: Create
+Statement kind: INDEX
+
+Statement attributes:
+  alias: 
+  alias_column_names: []
+  alias_or_name: 
+  arg_key: None
+  arg_types: {'with_': False, 'this': True, 'kind': True, 'expression': False, 'exists': False, 'properties': False, 'replace': False, 'refresh': False, 'unique': False, 'indexes': False, 'no_schema_binding': False, 'begin': False, 'end': False, 'clone': False, 'concurrently': False, 'clustered': False}
+  args: {'this': Index(
+  this=Identifier(this=idx_test, quoted=False),
+  table=Table(
+    this=Identifier(this=TestTable, quoted=False)),
+  params=IndexParameters(
+    columns=[
+      Ordered(
+        this=Column(
+          this=Identifier(this=name, quoted=False)),
+        nulls_first=True)])), 'kind': 'INDEX', 'replace': None, 'refresh': None, 'unique': None, 'expression': None, 'exists': None, 'properties': None, 'indexes': None, 'no_schema_binding': None, 'begin': None, 'end': None, 'clone': None, 'concurrently': None, 'clustered': None}
+  comments: []
+  ctes: []
+  depth: 0
+  expression: None
+  expressions: []
+  index: None
+  is_int: False
+  is_number: False
+  is_star: False
+  is_string: False
+  key: create
+  kind: INDEX
+  meta: {}
+  name: 
+  named_selects: []
+  output_name: 
+  parent: None
+  parent_select: None
+  required_args: {'kind', 'this'}
+  same_parent: False
+  selects: []
+  this: idx_test ON TestTable(name)
+  type: None
+
+Statement.this: idx_test ON TestTable(name)
+  type: Index
+  this.this: idx_test
+  this.expressions: []
+
+Full SQL: CREATE INDEX idx_test ON TestTable(name)

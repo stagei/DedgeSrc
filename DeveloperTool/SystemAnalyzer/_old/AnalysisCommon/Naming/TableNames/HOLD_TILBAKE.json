@@ -1,0 +1,46 @@
+{
+  "tableName": "HOLD_TILBAKE",
+  "futureName": "HoldTilbake",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "Avdnr",
+      "futureName": "AvdNr",
+      "description": "Unique identifier for the document or record",
+      "foreignKey": null
+    },
+    {
+      "name": "Art",
+      "futureName": "Art",
+      "description": "Article or product code",
+      "foreignKey": null
+    },
+    {
+      "name": "Sort",
+      "futureName": "Sort",
+      "description": "Sorting code or category",
+      "foreignKey": null
+    },
+    {
+      "name": "Fknr",
+      "futureName": "FkNr",
+      "description": "Foreign key reference to a related record",
+      "foreignKey": "A_BESTLIN"
+    },
+    {
+      "name": "Brukerid",
+      "futureName": "BrukerId",
+      "description": "Unique identifier for the user or customer",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Tidspunkt",
+      "description": "Timestamp indicating when the record was created or last modified",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:39:33"
+}

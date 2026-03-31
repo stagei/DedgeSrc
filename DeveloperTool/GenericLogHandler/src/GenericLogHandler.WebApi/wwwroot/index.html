@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.dashboard">Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+        <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" class="active" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            <div class="auth-badge" id="authBadge" style="display: none;">
+                <span class="auth-badge-icon">⏳</span>
+                <span class="auth-badge-text">Loading...</span>
+                <span class="auth-badge-role"></span>
+            </div>
+            <button id="shortcutsBtn" class="theme-btn" title="Keyboard Shortcuts (?)">
+                <span>⌨️</span>
+            </button>
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <div class="refresh-controls">
+                <label for="sourceFilter" class="filter-label" data-i18n="common.source">Source:</label>
+                <select id="sourceFilter" class="interval-select" title="Filter by import source">
+                    <option value="" data-i18n="common.allSources">All sources</option>
+                </select>
+                <button id="refreshBtn" class="btn btn-outline" title="Refresh Now">🔄 Refresh</button>
+                <span id="loadingSpinner" class="spinner hidden">⟳</span>
+                <span id="countdown" class="countdown">--</span>
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" id="autoRefresh" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span data-i18n="common.autoRefresh">Auto-refresh</span>
+                </div>
+                <select id="refreshInterval" class="interval-select">
+                    <option value="10">10s</option>
+                    <option value="30" selected>30s</option>
+                    <option value="60">1m</option>
+                    <option value="120">2m</option>
+                    <option value="300">5m</option>
+                </select>
+            </div>
+            <div class="last-updated" id="lastUpdated">
+                <span class="last-updated-label" data-i18n="common.lastUpdated">Last updated:</span>
+                <span class="last-updated-time" id="lastUpdatedTime">--</span>
+            </div>
+        </div>
+        <p id="dashboardDateNote" class="dashboard-date-note" aria-live="polite" data-i18n-html="dashboard.dateNote">Today&#39;s stats use server local date. Showing all import sources.</p>
+
+        <!-- Summary Cards -->
+        <div id="metricsGrid" class="metrics-grid" aria-describedby="dashboardDateNote">
+            <div class="metric-card">
+                <div class="label" data-i18n="dashboard.totalLogsToday">Total logs today</div>
+                <div class="value" id="totalLogsToday">–</div>
+            </div>
+            <div class="metric-card">
+                <div class="label" data-i18n="dashboard.errorsToday">Errors today</div>
+                <div class="value" id="errorsToday">–</div>
+            </div>
+            <div class="metric-card">
+                <div class="label" data-i18n="dashboard.warningsToday">Warnings today</div>
+                <div class="value" id="warningsToday">–</div>
+            </div>
+            <div class="metric-card">
+                <div class="label" data-i18n="dashboard.activeComputers">Active computers</div>
+                <div class="value" id="activeComputers">–</div>
+            </div>
+        </div>
+
+        <!-- Top Computers Panel -->
+        <div id="topComputersPanel" class="panel">
+            <div class="panel-header">
+                <span class="panel-title" data-i18n="dashboard.topComputers">🖥️ Top computers (today)</span>
+            </div>
+            <div class="panel-body">
+                <table class="data-table" id="topComputersTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.computer">Computer</th>
+                            <th data-i18n="table.totalLogs">Total logs</th>
+                            <th data-i18n="table.errors">Errors</th>
+                            <th data-i18n="table.warnings">Warnings</th>
+                            <th data-i18n="table.lastActivity">Last activity</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="topComputersEmpty" class="empty-state hidden">
+                    <div class="empty-state-icon">🖥️</div>
+                    <div class="empty-state-title" data-i18n="empty.noActivity">No Activity Yet</div>
+                    <div class="empty-state-message" data-i18n-html="empty.noActivityDesc">No computer activity detected today. Check <a href="import-status.html">Import Status</a> to verify log sources are configured.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Errors Panel -->
+        <div id="topErrorsPanel" class="panel">
+            <div class="panel-header">
+                <span class="panel-title" data-i18n="dashboard.topErrors">❌ Top errors (last 24h)</span>
+            </div>
+            <div class="panel-body">
+                <table class="data-table" id="topErrorsTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.errorId">Error ID</th>
+                            <th data-i18n="table.exceptionType">Exception type</th>
+                            <th data-i18n="table.count">Count</th>
+                            <th data-i18n="table.lastOccurrence">Last occurrence</th>
+                            <th data-i18n="table.affectedComputers">Affected computers</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="topErrorsEmpty" class="empty-state hidden">
+                    <div class="empty-state-icon">✅</div>
+                    <div class="empty-state-title" data-i18n="empty.allClear">All Clear!</div>
+                    <div class="empty-state-message" data-i18n-html="empty.allClearDesc">No errors detected in the last 24 hours. Great job keeping things running smoothly!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Logs Panel -->
+        <div id="recentLogsPanel" class="panel">
+            <div class="panel-header">
+                <span class="panel-title" data-i18n="dashboard.recentLogs">📜 Recent logs</span>
+                <span class="panel-summary" id="recentLogsSummary"></span>
+            </div>
+            <div class="panel-body">
+                <table class="data-table logs-table" id="recentLogsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 160px;" data-i18n="table.timestamp">Timestamp</th>
+                            <th style="width: 80px;" data-i18n="table.level">Level</th>
+                            <th style="width: 140px;" data-i18n="table.computer">Computer</th>
+                            <th data-i18n="table.message">Message</th>
+                            <th style="width: 180px;" data-i18n="table.context">Context</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentLogsBody"></tbody>
+                </table>
+                <div id="recentLogsEmpty" class="empty-state hidden">
+                    <div class="empty-state-icon">📜</div>
+                    <div class="empty-state-title" data-i18n="empty.noRecentLogs">No Recent Logs</div>
+                    <div class="empty-state-message" data-i18n-html="empty.noRecentLogsDesc">No log entries found recently. Try <a href="log-search.html">searching with different criteria</a> or check the import configuration.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Details Modal -->
+    <div id="logModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>
+                    <span id="modalLevelBadge" class="severity-badge"></span>
+                    <span data-i18n="modal.logDetails">Log Details</span>
+                </h3>
+                <div class="modal-actions">
+                    <button class="btn btn-sm btn-copy-markdown" id="modalCopyMd" title="Copy as Markdown">📝 Copy MD</button>
+                    <button class="btn btn-sm btn-copy-json" id="modalCopyJson" title="Copy as JSON">📋 Copy JSON</button>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="log-modal-content">
+                    <div class="log-main-info">
+                        <div class="log-info-row log-id-row">
+                            <span class="log-info-label" data-i18n="modal.logId">Log ID:</span>
+                            <span class="log-info-value log-id-value" id="modalLogId"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.computer">Computer:</span>
+                            <span class="log-info-value" id="modalComputer"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.timestamp">Timestamp:</span>
+                            <span class="log-info-value" id="modalTimestamp"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.user">User:</span>
+                            <span class="log-info-value" id="modalUser"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.function">Function:</span>
+                            <span class="log-info-value" id="modalFunction"></span>
+                        </div>
+                        <div class="log-info-row">
+                            <span class="log-info-label" data-i18n="modal.source">Source:</span>
+                            <span class="log-info-value" id="modalSource"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section" id="modalBusinessIds" style="display: none;">
+                        <h4 data-i18n="modal.businessIds">Business Identifiers</h4>
+                        <div class="metadata-table" id="modalBusinessTable"></div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 data-i18n="modal.message">Message</h4>
+                        <pre class="log-message-display" id="modalMessage"></pre>
+                    </div>
+                    
+                    <div class="modal-section" id="modalExceptionSection" style="display: none;">
+                        <h4 data-i18n="modal.exception">Exception</h4>
+                        <pre class="log-exception-display" id="modalException"></pre>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 data-i18n="modal.rawJson">📄 Raw JSON</h4>
+                        <pre class="json-display" id="modalRawJson"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/loader.js"></script>
+    <script src="js/components/shortcuts.js"></script>
+    <!-- Page Components -->
+    <script src="js/components/logs-renderer.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

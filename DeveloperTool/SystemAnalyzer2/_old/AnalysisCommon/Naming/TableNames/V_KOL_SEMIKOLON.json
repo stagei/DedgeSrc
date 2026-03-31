@@ -1,0 +1,28 @@
+{
+  "tableName": "V_KOL_SEMIKOLON",
+  "futureName": "SemiColonColumn",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "KOLONNE",
+      "futureName": "Column",
+      "description": "The specific column name or identifier within the table",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user associated with the record",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last modified",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:16:42"
+}

@@ -1,0 +1,188 @@
+{
+  "program": "OSBOPBU",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:58",
+  "extraction": {
+    "sourceHash": "sha256:94627453a1d172834ad3dc131bcaff03c12ad135205983f657bf3b4419b9d2d8",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OSBOPBU.CBL",
+    "actualName": "OSBOPBU",
+    "program": "OSBOPBU",
+    "copyElements": [
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVASL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOOP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "O",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SEKV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREMERKNAD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KONTR_OPT_AVDSYS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KONTR_OPT_AVDSYS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDRELINJER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREMERKNAD",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREMERKNAD",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "D01B912",
+      "BSAAUTO",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "OSBOPBU.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSBOPBU.RC",
+        "assignType": "literal",
+        "operations": [
+          "READ",
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "OPTIMA-FIL",
+        "physicalName": "OSBOPBU.SAL",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSBOPBU.SAL",
+        "assignType": "literal",
+        "operations": [
+          "WRITE",
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "UPBASIS-FIL",
+        "physicalName": "OSBOPBU.UPB",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSBOPBU.UPB",
+        "assignType": "literal",
+        "operations": [
+          "WRITE",
+          "READ"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:58"
+  }
+}

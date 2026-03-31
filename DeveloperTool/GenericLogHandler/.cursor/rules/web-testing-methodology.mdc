@@ -1,0 +1,194 @@
+﻿---
+description: Web page testing methodology using browser automation MCP tools
+alwaysApply: true
+---
+
+# Web Page Testing Methodology
+
+## Overview
+
+Use the **cursor-browser-extension** MCP server to perform automated Chrome browser testing of web applications. This provides comprehensive UI testing beyond simple API endpoint checks.
+
+## MCP Browser Tools Available
+
+The browser automation tools are located in:
+`C:\Users\FKGEISTA\.cursor\projects\c-opt-src-GenericLogHandler\mcps\cursor-browser-extension\tools\`
+
+### Core Tools
+
+| Tool | Purpose |
+|------|---------|
+| `browser_navigate` | Navigate to a URL |
+| `browser_click` | Click elements by ref ID |
+| `browser_fill_form` | Fill form inputs |
+| `browser_type` | Type text into focused element |
+| `browser_wait_for` | Wait for time or element |
+| `browser_snapshot` | Get current page state |
+| `browser_take_screenshot` | Capture visual screenshot |
+| `browser_console_messages` | Check for JS errors |
+| `browser_evaluate` | Execute JavaScript |
+| `browser_select_option` | Select dropdown options |
+
+## Testing Workflow
+
+### 1. Navigate to Page
+
+```json
+{
+  "server": "cursor-browser-extension",
+  "toolName": "browser_navigate",
+  "arguments": {"url": "http://localhost:5000/"}
+}
+```
+
+The response includes a **Page Snapshot** in YAML format showing:
+- Page URL and Title
+- Element tree with `ref` IDs for interaction
+- Element states (active, checked, disabled, etc.)
+
+### 2. Interact with Elements
+
+Use the `ref` attribute from the snapshot to target elements:
+
+```json
+{
+  "server": "cursor-browser-extension",
+  "toolName": "browser_click",
+  "arguments": {"element": "Refresh button", "ref": "e21"}
+}
+```
+
+### 3. Wait for Dynamic Content
+
+```json
+{
+  "server": "cursor-browser-extension",
+  "toolName": "browser_wait_for",
+  "arguments": {"time": 2000}
+}
+```
+
+### 4. Verify Results
+
+After interactions, the tool returns an updated snapshot showing:
+- Changed element states
+- New content loaded
+- Updated text values
+
+### 5. Check for JavaScript Errors
+
+```json
+{
+  "server": "cursor-browser-extension",
+  "toolName": "browser_console_messages",
+  "arguments": {}
+}
+```
+
+### 6. Capture Screenshots
+
+```json
+{
+  "server": "cursor-browser-extension",
+  "toolName": "browser_take_screenshot",
+  "arguments": {"filename": "test-result.png"}
+}
+```
+
+## Test Categories
+
+### Page Load Tests
+- Verify page loads without errors
+- Check page title is correct
+- Confirm essential elements are present
+
+### Interactive Tests
+- Click buttons and verify state changes
+- Fill forms and submit
+- Test navigation between pages
+- Verify modals open/close
+- Test dropdown selections
+
+### Data Verification
+- Confirm API data displays correctly
+- Check tables populate with expected rows
+- Verify counters and statistics update
+
+### Visual Tests
+- Take screenshots for visual comparison
+- Verify charts render (Chart.js, etc.)
+- Check theme toggle works
+
+## Example Test Sequence
+
+```
+1. Navigate to http://localhost:5000/
+2. Verify page title is "Generic Log Handler"
+3. Click refresh button (ref from snapshot)
+4. Wait 2 seconds for data
+5. Verify data populated (check snapshot for values)
+6. Click theme toggle
+7. Verify theme changed (icon changed from 🌙 to ☀️)
+8. Check console for JS errors
+9. Take screenshot
+10. Navigate to next page
+```
+
+## Reading Large Snapshots
+
+When snapshots are large, they're saved to files:
+```
+Snapshot File: C:\Users\FKGEISTA\.cursor\browser-logs\snapshot-*.log
+```
+
+Use the Read tool to examine specific line ranges of these files.
+
+## Best Practices
+
+1. **Always check refs**: Element refs change between page loads - always use refs from the most recent snapshot
+
+2. **Wait after clicks**: Dynamic content needs time to load - use `browser_wait_for` after interactions
+
+3. **Verify before proceeding**: Check the snapshot after each interaction to confirm expected changes
+
+4. **Check console errors**: Run `browser_console_messages` periodically to catch JS errors
+
+5. **Document test results**: Create a structured report with PASS/FAIL status for each test
+
+6. **Test all interactions**: Don't just verify pages load - test buttons, forms, navigation, modals
+
+## Test Report Format
+
+```
+=== CHROME AUTOMATED TEST REPORT ===
+Date: YYYY-MM-DD HH:mm:ss
+
+== PAGE LOAD TESTS ==
+[PASS/FAIL] Page Name - Description
+
+== INTERACTIVE TESTS ==
+[PASS/FAIL] Feature - Action tested
+
+== DATA VERIFICATION ==
+[PASS/FAIL] Data type - Expected vs Actual
+
+== CONSOLE ERRORS ==
+[PASS/FAIL] Error count or "No errors"
+
+== SUMMARY ==
+Total Tests: N
+Passed: N
+Failed: N
+Success Rate: N%
+```
+
+## DedgeAuth SSO Note
+
+When testing pages with DedgeAuth authentication, the browser extension handles the login redirect automatically if a valid session exists. If not authenticated, the user is redirected to the DedgeAuth login page. The DedgeAuth user menu (`#DedgeAuthUserMenu`) will show authentication status when the user is logged in.
+
+## Limitations
+
+- MCP browser runs in a separate context - some localhost services may need special handling
+- Screenshots are saved to temp directory
+- Large pages may have truncated snapshots (check the saved file)
+- Real-time updates (WebSocket/SSE) may need explicit waits

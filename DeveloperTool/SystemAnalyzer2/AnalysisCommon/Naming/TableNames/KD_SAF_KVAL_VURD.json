@@ -1,0 +1,46 @@
+{
+  "tableName": "KD_SAF_KVAL_VURD",
+  "futureName": "Kvalitetsvurdering",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "RECNO",
+      "futureName": "RecNo",
+      "description": "Record number",
+      "foreignKey": null
+    },
+    {
+      "name": "FRO_PARTINR",
+      "futureName": "FroPartiNr",
+      "description": "Foreign party identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Type code or category",
+      "foreignKey": null
+    },
+    {
+      "name": "EGENSKAP",
+      "futureName": "Egenskap",
+      "description": "Characteristic description",
+      "foreignKey": "KD_SAF_FRO_PARTI"
+    },
+    {
+      "name": "GRAD",
+      "futureName": "Grade",
+      "description": "Quality grade or level",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Comments or remarks",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:22:09"
+}

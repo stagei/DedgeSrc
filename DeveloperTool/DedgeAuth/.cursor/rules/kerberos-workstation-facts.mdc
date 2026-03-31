@@ -1,0 +1,71 @@
+﻿# Kerberos Workstation Facts — Mandatory Reference
+
+## Developer PC: Azure AD (Entra) Joined, NOT Traditional Domain Join
+
+The developer workstation (30237-FK) is **Azure AD / Entra ID joined** via CloudAP. It is NOT traditionally domain-joined.
+
+- Machine account: `WORKGROUP\30237-FK$` (not `DEDGE\30237-FK$`)
+- User sessions: `DEDGE\FKGEISTA` via `CloudAP:Interactive`
+- CloudAP obtains Kerberos TGTs from the on-prem domain controller `p-no1dc-vm02.DEDGE.fk.no`
+
+**The PC DOES have valid Kerberos TGTs** in the Windows SSPI credential cache (LSASS).
+
+## Two `klist` Executables — NEVER Use the Wrong One
+
+| Priority in PATH | Executable | Credential Store | What it shows |
+|---|---|---|---|
+| **1st (WRONG for Windows)** | `C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin\klist.exe` | MIT-style file cache (`krb5cc_FKGEISTA`) | "Not found" — file doesn't exist |
+| **2nd (CORRECT)** | `C:\Windows\system32\klist.exe` | Windows SSPI / LSASS | Valid TGT for `FKGEISTA @ DEDGE.FK.NO` |
+
+**ALWAYS use the full path** when checking Kerberos tickets:
+
+```powershell
+# CORRECT — Windows SSPI cache
+& "$env:WINDIR\System32\klist.exe"
+
+# WRONG — Java/MIT cache (will falsely report "not found")
+klist
+```
+
+## DB2 Kerberos vs Browser Kerberos — Why DB2 Works Without Prompt
+
+| Aspect | DB2 (works silently) | Browser/IIS (shows dialog) |
+|---|---|---|
+| Client | IBM DB2 .NET driver with `KERBEROS_SSPI` | Edge/Chrome with Negotiate |
+| SSPI usage | Direct API call — always uses SSPI, no policy gates | Browser checks AuthServerAllowlist + Intranet zone + 401 challenge first |
+| Ticket request | `db2/<server>` — client initiates directly | `HTTP/<server>` — only after server sends 401 Negotiate |
+| Fallback on failure | Error or password from config | Shows Windows Security credential dialog |
+| Policy gates | None — if configured for KERBEROS_SSPI, it just sends | Multiple: registry policy, zone, browser restart, SPN registration |
+
+**DB2 works because the driver directly calls SSPI with no intermediary policy layer.** Browser Kerberos has multiple gates that must all pass.
+
+## Browser Kerberos Policy Requirements
+
+All currently set correctly on this workstation:
+
+```
+HKLM:\SOFTWARE\Policies\Google\Chrome  → AuthServerAllowlist = dedge-server,*.DEDGE.fk.no
+HKLM:\SOFTWARE\Policies\Microsoft\Edge → AuthServerAllowlist = dedge-server,*.DEDGE.fk.no
+HKLM:\SOFTWARE\Policies\Chromium       → AuthServerAllowlist = dedge-server,*.DEDGE.fk.no
+Intranet zone: http://dedge-server  → Zone 1 (Local Intranet)
+```
+
+**Browser must be fully restarted** (all processes closed) after policy changes.
+
+## IIS Server Configuration (dedge-server)
+
+- App Pool Identity: `DEDGE\t1_srv_fkxtst_app` (domain service account)
+- Windows Authentication: Enabled with `useAppPoolCredentials: true`
+- Anonymous Authentication: Also enabled (required for `[AllowAnonymous]` probe endpoint)
+- `useAppPoolCredentials: true` fixes `SEC_E_WRONG_PRINCIPAL` by letting the app pool identity decrypt Kerberos tickets
+
+## DedgeAuth Windows Auth Endpoints
+
+| Endpoint | Attribute | Triggers Dialog? | Purpose |
+|---|---|---|---|
+| `GET /api/auth/windows-probe` | `[AllowAnonymous]` | **Never** — no 401 challenge sent | Silent auto-login on page load |
+| `GET /api/auth/windows-login` | `[Authorize(Policy = "WindowsAuth")]` | **Yes** if browser can't send ticket silently | Manual "Sign in with Windows" button |
+
+## Discovery Log
+
+Full chronological investigation log: `docs/Windows-Auth-Discovery-Log.md` (append-only, never modify existing entries).

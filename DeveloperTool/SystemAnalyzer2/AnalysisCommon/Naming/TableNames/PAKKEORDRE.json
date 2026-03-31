@@ -1,0 +1,144 @@
+{
+  "tableName": "PAKKEORDRE",
+  "futureName": "PackageOrder",
+  "namespace": "Warehousing",
+  "columns": [
+    {
+      "name": "avdnr",
+      "futureName": "divisionNumber",
+      "description": "Division number",
+      "foreignKey": null
+    },
+    {
+      "name": "pakkeordrenr",
+      "futureName": "packageOrderNumber",
+      "description": "Package order identifier",
+      "foreignKey": [
+        "PAKKEORDRENR"
+      ]
+    },
+    {
+      "name": "fknr_sekk",
+      "futureName": "sekkFreightNumber",
+      "description": "Sekk freight number",
+      "foreignKey": [
+        "FKNR_SEKK",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "fknr_bulk",
+      "futureName": "bulkFreightNumber",
+      "description": "Bulk freight number",
+      "foreignKey": [
+        "FKNR_BULK",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "lagersted_sekk",
+      "futureName": "sekkWarehouseId",
+      "description": "Sekk warehouse identifier",
+      "foreignKey": [
+        "LAGERSTED_SEKK",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "lagersted_bulk",
+      "futureName": "bulkWarehouseId",
+      "description": "Bulk warehouse identifier",
+      "foreignKey": [
+        "LAGERSTED_BULK",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "antall_sekk",
+      "futureName": "sekkQuantity",
+      "description": "Sekk quantity",
+      "foreignKey": [
+        "ANTALL_SEKK",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "ferdig_dato",
+      "futureName": "completionDate",
+      "description": "Completion date",
+      "foreignKey": null
+    },
+    {
+      "name": "planl_start_dato",
+      "futureName": "plannedStartDate",
+      "description": "Planned start date",
+      "foreignKey": [
+        "PLANL_START_DATO",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "virk_start_dato",
+      "futureName": "actualStartDate",
+      "description": "Actual start date",
+      "foreignKey": [
+        "VIRK_START_DATO",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "timestamp",
+      "description": "Timestamp",
+      "foreignKey": [
+        "TIDSPUNKT",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "komentar",
+      "futureName": "comment",
+      "description": "Comment",
+      "foreignKey": null
+    },
+    {
+      "name": "lokasjonid",
+      "futureName": "locationId",
+      "description": "Location identifier",
+      "foreignKey": [
+        "LOKASJONID",
+        "VAREBEVEGELSE"
+      ]
+    },
+    {
+      "name": "tid_siste_pakketrans",
+      "futureName": "lastPackageTransactionTimestamp",
+      "description": "Last package transaction timestamp",
+      "foreignKey": [
+        "TID_SISTE_PAKKETRANS",
+        "KD_PAKKEORDRE"
+      ]
+    },
+    {
+      "name": "overfort",
+      "futureName": "transferred",
+      "description": "Transferred indicator",
+      "foreignKey": [
+        "OVERFORT",
+        null
+      ]
+    },
+    {
+      "name": "lastchanged",
+      "futureName": "lastChanged",
+      "description": "Last changed timestamp",
+      "foreignKey": [
+        "LASTCHANGED",
+        null
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:23:24"
+}

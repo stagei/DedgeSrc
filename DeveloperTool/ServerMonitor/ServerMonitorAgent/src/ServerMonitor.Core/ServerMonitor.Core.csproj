@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <PackageReference Include="System.Management" Version="10.0.2" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.0" />
+    <!-- Required for Windows-1252 encoding support in Db2DiagMonitor -->
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" />
+    <PackageReference Include="TaskScheduler" Version="2.12.2" />
+    <!-- IBM DB2 ADO.NET driver for direct SQL queries -->
+    <PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+    <!-- Required by Microsoft.Web.Administration.dll (IIS) for CheckPermissions -->
+    <PackageReference Include="System.Security.Permissions" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>
+

@@ -1,0 +1,241 @@
+{
+  "program": "GMAOSNT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:07:04",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMAOSNT",
+    "program": "GMAOSNT",
+    "copyElements": [
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLCA.",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMAPLID.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMACNCT",
+      "GMAOSNT",
+      "GMAPRTR"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-160322.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Rapport filename constructed using userid and date, defaulting to 16th March 2022"
+      },
+      {
+        "logicalName": "UT-LOGG-FIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:07:04"
+  },
+  "variableFilenames": {
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-160322.CSV",
+      "description": "Rapport filename constructed using userid and date, defaulting to 16th March 2022",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:04"
+    }
+  }
+}

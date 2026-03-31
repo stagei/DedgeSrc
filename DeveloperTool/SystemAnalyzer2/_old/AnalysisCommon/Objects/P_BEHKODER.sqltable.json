@@ -1,0 +1,135 @@
+{
+  "tableName": "P_BEHKODER",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "BEHANDLINGSKODER",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KODE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "NAVN",
+        "typeName": "CHARACTER",
+        "length": 30,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "AVREGNINGSTYPE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "1=Salgskorn, 3=Såvare"
+      },
+      {
+        "colNo": 3,
+        "name": "KODE_FULL_LAGRING",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "AVVIKENDE_DATO_PRIS",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis IKKE partiets dato skal brukes for å finne basispris settes J"
+      },
+      {
+        "colNo": 5,
+        "name": "RENTER_FORS_OPPGJOR",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis det IKKE skal beregnes forsinkelsesrenter = N"
+      },
+      {
+        "colNo": 6,
+        "name": "AVVIST_V_KVF_M_PRIS",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J=Partier med kv.feil. som gir PRIS får BARE denne + MVA"
+      },
+      {
+        "colNo": 7,
+        "name": "EKSTRA_TEKST_OPPGJBREV",
+        "typeName": "CHARACTER",
+        "length": 80,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "KUN for koder som skal ha overskrift på oppgjørsbrev"
+      },
+      {
+        "colNo": 8,
+        "name": "FORSKUDD",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J Hvis det skal kunne registreres utbetaling av forskudd akt kode"
+      },
+      {
+        "colNo": 9,
+        "name": "VENTE_DAGER_AVREGNING",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J Hvis partier skal ligge et minste antall dager før avregning"
+      },
+      {
+        "colNo": 10,
+        "name": "DAGER_REDUSERT_TERMINTILL",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Ant. dager redusert termintilleggsdato"
+      },
+      {
+        "colNo": 11,
+        "name": "ETTERBETALING",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J Når det er kode for etterbetaling av avtaletillegg"
+      },
+      {
+        "colNo": 12,
+        "name": "TIL_DATAFLYT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J Når oppgjørsbrev med denne koden skal til dataflyt"
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

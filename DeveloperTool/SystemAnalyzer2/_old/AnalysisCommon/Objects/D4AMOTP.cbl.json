@@ -1,0 +1,515 @@
+{
+  "program": "D4AMOTP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:58:15",
+  "variableFilenames": {
+    "ORDRE-FIL": {
+      "logicalName": "ORDRE-FIL",
+      "physicalVariable": "WW-FILNAVN-TMP",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-D4AMOTP-20231001.CSV",
+      "description": "WW-FILNAVN-TMP constructed from userid and date with .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:37"
+    },
+    "UT-FIL1": {
+      "logicalName": "UT-FIL1",
+      "physicalVariable": "WW-FILNAVN1",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "WW-FILNAVN1 is constructed by concatenating <userid> and <date>, followed by .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:40"
+    },
+    "UT-FIL2": {
+      "logicalName": "UT-FIL2",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WW-FILNAVN2 is constructed using userid and date, followed by .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:44"
+    },
+    "UT-FIL3": {
+      "logicalName": "UT-FIL3",
+      "physicalVariable": "WW-FILNAVN3",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WW-FILNAVN3 is constructed from dynamic components and does not have a fixed pattern. The date format is not specified.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:47"
+    },
+    "WRK-FIL": {
+      "logicalName": "WRK-FIL",
+      "physicalVariable": "WW-FILNAVN-WRK",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Contains MOTPART data fetched from bunter on the current running day",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:51"
+    },
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-FILNAVN-CSV",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231010.CSV",
+      "description": "WW-FILNAVN-CSV is constructed using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:54"
+    },
+    "ERR-FIL": {
+      "logicalName": "ERR-FIL",
+      "physicalVariable": "WW-FILNAVN-ERR",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WW-FILNAVN-ERR is constructed using userid and date, with a .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:57:58"
+    },
+    "UT-FIL-TEST": {
+      "logicalName": "UT-FIL-TEST",
+      "physicalVariable": "WW-FILNAVN-TEST",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WW-FILNAVN-TEST constructed using parts from working storage and string operations",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:01"
+    },
+    "UTFILE": {
+      "logicalName": "UTFILE",
+      "physicalVariable": "IMPORTF",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Hente alle rader med MOTPART fra bunter på dagens kjøring",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:05"
+    },
+    "PREDIKTOR2": {
+      "logicalName": "PREDIKTOR2",
+      "physicalVariable": "W-PREDIKTOR2-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-D4AMOTP-20231010.CSV",
+      "description": "COBOL program D4AMOTP to fetch MOTPART from bunter, constructed filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:08"
+    },
+    "OPTILON": {
+      "logicalName": "OPTILON",
+      "physicalVariable": "W-OPTILON-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-2023-10-05.CSV",
+      "description": "W-OPTILON-NAVN constructed from userid and date with .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:12"
+    },
+    "MARKED": {
+      "logicalName": "MARKED",
+      "physicalVariable": "W-MARKED-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Hente alle rader med MOTPART fra bunter på dagens kjøring",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:58:15"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "D4AMOTP",
+    "program": "D4AMOTP",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "D3B.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "DB2016",
+        "type": "copybook"
+      },
+      {
+        "name": "DB.",
+        "type": "copybook"
+      },
+      {
+        "name": "FKSQL.",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DB2017",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "V_VONO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_BUNTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FAKTDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D4BFAKT_DATOER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTIONAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORDRE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "WRK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D4BFAKT_DATOER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VAREAVD_HIST",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RCFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UTFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PREDIKTOR2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTILON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MARKED",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "SQLDB2",
+      "SQLEXEC",
+      "D4AMOTP",
+      "TIL_MONITOR",
+      "SJEKK_FKSQL",
+      "COPYMON",
+      "GMACOCO",
+      "GMVMAL2",
+      "GMFFELL"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "D4BFAKN.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D4BFAKN.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "ORDRE-FIL",
+        "physicalName": "WW-FILNAVN-TMP",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-D4AMOTP-20231001.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN-TMP constructed from userid and date with .CSV extension"
+      },
+      {
+        "logicalName": "RAPPORT-FIL",
+        "physicalName": "D4BFAKN.TXT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D4BFAKN.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL1",
+        "physicalName": "WW-FILNAVN1",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN1 is constructed by concatenating <userid> and <date>, followed by .CSV"
+      },
+      {
+        "logicalName": "UT-FIL2",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN2 is constructed using userid and date, followed by .CSV extension"
+      },
+      {
+        "logicalName": "UT-FIL3",
+        "physicalName": "WW-FILNAVN3",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN3 is constructed from dynamic components and does not have a fixed pattern. The date format is not specified."
+      },
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "D4BVAV.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D4BVAV.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "WRK-FIL",
+        "physicalName": "WW-FILNAVN-WRK",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Contains MOTPART data fetched from bunter on the current running day"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-FILNAVN-CSV",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231010.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN-CSV is constructed using userid and date"
+      },
+      {
+        "logicalName": "ERR-FIL",
+        "physicalName": "WW-FILNAVN-ERR",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN-ERR is constructed using userid and date, with a .CSV extension"
+      },
+      {
+        "logicalName": "RCFIL",
+        "physicalName": "D4BKATRA.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D4BKATRA.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL-TEST",
+        "physicalName": "WW-FILNAVN-TEST",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-FILNAVN-TEST constructed using parts from working storage and string operations"
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UTFILE",
+        "physicalName": "IMPORTF",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Hente alle rader med MOTPART fra bunter på dagens kjøring"
+      },
+      {
+        "logicalName": "PREDIKTOR2",
+        "physicalName": "W-PREDIKTOR2-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-D4AMOTP-20231010.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "COBOL program D4AMOTP to fetch MOTPART from bunter, constructed filename using userid and date"
+      },
+      {
+        "logicalName": "OPTILON",
+        "physicalName": "W-OPTILON-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-2023-10-05.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "W-OPTILON-NAVN constructed from userid and date with .CSV extension"
+      },
+      {
+        "logicalName": "MARKED",
+        "physicalName": "W-MARKED-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Hente alle rader med MOTPART fra bunter på dagens kjøring"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:58:15"
+  }
+}

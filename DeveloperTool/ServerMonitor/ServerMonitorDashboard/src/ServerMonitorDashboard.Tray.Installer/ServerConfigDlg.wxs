@@ -1,0 +1,43 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+  <Fragment>
+    <UI>
+      <Dialog Id="ServerConfigDlg" Width="370" Height="270" Title="Dashboard Server Configuration">
+
+        <Control Id="BannerBitmap" Type="Bitmap"     X="0"   Y="0"   Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="BannerLine"   Type="Line"        X="0"   Y="44"  Width="370" Height="0" />
+        <Control Id="BottomLine"   Type="Line"        X="0"   Y="234" Width="370" Height="0" />
+
+        <Control Id="Title" Type="Text" X="15" Y="15" Width="300" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text Value="{\WixUI_Font_Title}Dashboard Server" />
+        </Control>
+
+        <Control Id="Description" Type="Text" X="25" Y="35" Width="320" Height="30" Transparent="yes" NoPrefix="yes">
+          <Text Value="Enter the name of the server where the ServerMonitor Dashboard is installed." />
+        </Control>
+
+        <Control Id="ServerLabel" Type="Text" X="25" Y="95" Width="320" Height="15" NoPrefix="yes">
+          <Text Value="&amp;Dashboard API server (hostname or IP):" />
+        </Control>
+
+        <!-- Text input — bound directly to the DASHBOARD_SERVER installer property -->
+        <Control Id="ServerEdit" Type="Edit" X="25" Y="112" Width="250" Height="18"
+                 Property="DASHBOARD_SERVER" Indirect="no">
+          <Text Value="{80}" />
+        </Control>
+
+        <Control Id="ServerHint" Type="Text" X="25" Y="135" Width="320" Height="30" Transparent="yes" NoPrefix="yes">
+          <Text Value="Example: dedge-server&#13;&#10;The /ServerMonitorDashboard path is added automatically." />
+        </Control>
+
+        <Control Id="Back"   Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back" />
+        <Control Id="Next"   Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next" />
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes"  Text="Cancel">
+          <Publish Event="SpawnDialog" Value="CancelDlg" Condition="1" />
+        </Control>
+
+      </Dialog>
+    </UI>
+  </Fragment>
+
+</Wix>

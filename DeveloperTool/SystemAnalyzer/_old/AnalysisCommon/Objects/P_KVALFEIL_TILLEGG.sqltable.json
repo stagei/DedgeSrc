@@ -1,0 +1,171 @@
+{
+  "tableName": "P_KVALFEIL_TILLEGG",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Kval.feil/till. - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AVREGNINGSTYPE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "KVALITETSFEIL",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "TEKST",
+        "typeName": "CHARACTER",
+        "length": 80,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "GIR_KVALITET",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "F=For, M=Mat, I=Info"
+      },
+      {
+        "colNo": 6,
+        "name": "PROSENT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "NULLOPPGJOR",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "SAAKORN_TILL",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "SKRIVES_M_0_BELOP",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Ja/Nei - Ja hvis teksten skal på oppgj.brev med 0 i beløp"
+      },
+      {
+        "colNo": 13,
+        "name": "PRIS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Pris v. avvik i kvalitet så normal ber. ikke skjer"
+      },
+      {
+        "colNo": 14,
+        "name": "BARE_BASISPRIS",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis parti KUN skal beregnes til basispris HELT uten øvrige tilegg og trekk"
+      },
+      {
+        "colNo": 15,
+        "name": "FRAKTTILSKUDD",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "For å kunne avregne partier uten at de får frakttilskudd"
+      },
+      {
+        "colNo": 16,
+        "name": "MJOLDROYE",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis kvalitetsfeil er merket med MJOLDROYE=J skal den flyttes til kvf5_nr ved overføring til p_avregning"
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

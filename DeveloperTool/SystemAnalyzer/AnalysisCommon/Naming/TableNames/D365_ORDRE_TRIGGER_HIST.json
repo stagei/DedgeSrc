@@ -1,0 +1,68 @@
+{
+  "tableName": "D365_ORDRE_TRIGGER_HIST",
+  "futureName": "OrderTriggerHistory",
+  "namespace": "Db2Migrations",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "ActivationNumber",
+      "description": "Number indicating the activation of an order record",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique identifier for each order",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the order record",
+      "foreignKey": [
+        "ARTSORT",
+        "D365_ORDRE_TRIGGER",
+        "D3HOLD_TILBAKE_HIST",
+        "D3HOLD_TILBAKE",
+        "DELLEVERTE_ORDRE",
+        "DEMOHODE"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating the time of an event or record update",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "SLETTE_TS",
+      "futureName": "DeletionTimestamp",
+      "description": "Timestamp indicating when the record was marked for deletion",
+      "foreignKey": [
+        "D365_EKSKLUSJON_HIST",
+        "D365_SALGSDATA_HIST",
+        "D3HOLD_TILBAKE_HIST",
+        "D3STAGE_ORDREHODE_HIST",
+        "D3STAGE_ORDRELINJER_HIST"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:59:29"
+}

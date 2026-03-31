@@ -1,0 +1,133 @@
+{
+  "program": "GMHKRAB",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:403e17c98fdbb444b5b3b30719808202bdbfe5f3e5f905254143dacf871f5d4e",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMHKRAB.CBL",
+    "actualName": "GMHKRAB",
+    "program": "GMHKRAB",
+    "copyElements": [
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFTEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFPOSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVRB.DCL.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHKRAB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KVRABNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTSTED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KVANTUMSRABATTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FRA_DATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KVANTUMSRABATTER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KVANTUMSRABATTER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KVANTUMSRABATTER",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMVKRAB",
+      "GMACNCT",
+      "GMADATO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

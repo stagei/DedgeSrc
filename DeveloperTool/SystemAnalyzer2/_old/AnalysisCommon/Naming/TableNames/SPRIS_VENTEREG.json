@@ -1,0 +1,52 @@
+{
+  "tableName": "SPRIS_VENTEREG",
+  "futureName": "Venteregister",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "fknr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "Venteregister.OrderNumber -> A_BESTLIN.OrderNumber"
+    },
+    {
+      "name": "fra_dato",
+      "futureName": "StartDate",
+      "description": "Start date of the registration or event",
+      "foreignKey": null
+    },
+    {
+      "name": "til_dato",
+      "futureName": "EndDate",
+      "description": "End date of the registration or event",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status or condition",
+      "foreignKey": null
+    },
+    {
+      "name": "pris",
+      "futureName": "Price",
+      "description": "Monetary value of the item or service",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating when an event occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "bruker",
+      "futureName": "User",
+      "description": "User associated with the registration or event",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:48:29"
+}

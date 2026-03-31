@@ -1,0 +1,35 @@
+erDiagram
+    Protocols ||--o{ Trials : ProtocolID
+
+    ActionCodes {
+        varchar ActionCode PK
+        varchar Name
+        varchar Description
+    }
+
+    AdverseEvents {
+        int EventID PK
+        int TrialID
+        varchar EventType
+        datetime EventDate
+        int PatientID
+        varchar EventDescription
+        varchar Severity
+    }
+
+    Trials {
+        int TrialID PK
+        varchar TrialNumber
+        varchar TrialTitle
+        int ProtocolID FK
+        int SponsorID
+        datetime StartDate
+        datetime EndDate
+    }
+
+    Protocols {
+        int ProtocolID PK
+        varchar ProtocolNumber
+        varchar Version
+        varchar Title
+    }

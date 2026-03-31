@@ -1,0 +1,94 @@
+{
+  "tableName": "VMAL_IKKE_GODKJ",
+  "futureName": "VmikkeGodkj",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "fknr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "A_BESTLIN, A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER"
+    },
+    {
+      "name": "kode",
+      "futureName": "Code",
+      "description": "Code or identifier",
+      "foreignKey": "BEHKODER, BEHKODER, D3_FKNR_MANGLER_PRIS, D3_FKNR_MANGLER_PRIS, D365_VAREDIV_TRIGGER, D365_VAREDIV_TRIGGER, DAGNR_ORDREFLYT, EDI_FAKT_TILLEGG, EHF_SPES_VARER, MASKIN_TEKST"
+    },
+    {
+      "name": "antall",
+      "futureName": "Quantity",
+      "description": "Number of items",
+      "foreignKey": "A_ORDRELINJER, DEMOHISTORIKK, DEMOLINJE, EDI_FAKT_LINJE, EDI_KONV_KUNDENR, EGETBRUK_LINJE, ERSTATNINGER, FAKTHIST, FAKTHIST, FAKTHIST"
+    },
+    {
+      "name": "vekt",
+      "futureName": "Weight",
+      "description": "Weight measurement",
+      "foreignKey": "KD_KASSE, KD_SAF_BL_P_LIN, KD_SAF_KASSE, TRANSPORTOPPDRAG, V_VAREMAAL, V_VENTEVARER, VAREMAAL"
+    },
+    {
+      "name": "hoyde",
+      "futureName": "Height",
+      "description": "Height measurement",
+      "foreignKey": "TRANSPORTOPPDRAG, V_VAREMAAL, VAREMAAL"
+    },
+    {
+      "name": "bredde",
+      "futureName": "Width",
+      "description": "Width measurement",
+      "foreignKey": "TRANSPORTOPPDRAG, V_VAREMAAL, VAREMAAL"
+    },
+    {
+      "name": "dybde",
+      "futureName": "Depth",
+      "description": "Depth measurement",
+      "foreignKey": "V_VAREMAAL, VAREMAAL"
+    },
+    {
+      "name": "gtin13",
+      "futureName": "GTIN13Code",
+      "description": "Global Trade Item Number (13 digits)",
+      "foreignKey": "LEVVARENR_EKST, V_VAREMAAL, VAREMAAL"
+    },
+    {
+      "name": "aarsak",
+      "futureName": "Reason",
+      "description": "Reason for the action",
+      "foreignKey": "DOHCHK, FEILHANDTERT, K_KORRIGERING, K_KORRIGERING, KD_FRO_IMPORT_FEIL, TMS_FRATREKK_POTT"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Time and date when the action occurred",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "gtin14",
+      "futureName": "GTIN14Code",
+      "description": "Global Trade Item Number (14 digits)",
+      "foreignKey": "V_VAREMAAL, VAREMAAL"
+    },
+    {
+      "name": "innlesing",
+      "futureName": "ImportSource",
+      "description": "Source of the import",
+      "foreignKey": "PAKKE_VARER, V_VARE_ENDRINGER, V_VAREENDR_HODE, V_VAREMAAL"
+    },
+    {
+      "name": "innlesingsnr",
+      "futureName": "ImportNumber",
+      "description": "Import sequence number",
+      "foreignKey": "V_GODKJENNES_AV, V_INNLESINGS_FEIL, V_VAREMAAL, V_VENTEVARE_HODE, V_VENTEVARER_DEL2, V_VENTEVARER"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:34:51"
+}

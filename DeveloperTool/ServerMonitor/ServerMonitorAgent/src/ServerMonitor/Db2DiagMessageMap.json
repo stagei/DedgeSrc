@@ -1,0 +1,477 @@
+{
+  "_meta": {
+    "source": "IBM DB2 Troubleshooting Guide - Appendix D. DB2 Internal Return Codes",
+    "url": "https://public.dhe.ibm.com/ps/products/db2/info/vr6/htm/db2p0/db2p0107.htm",
+    "lastUpdated": "2025-12-11",
+    "description": "Mapping of DB2 ZRC/internal return codes and probe codes to descriptions"
+  },
+  "zrcCodes": {
+    "0x00000036": {
+      "decimal": 54,
+      "description": "Client connection terminated unexpectedly",
+      "category": "Communication"
+    },
+    "0x81A7": {
+      "description": "Invalid alternate",
+      "category": "General"
+    },
+    "0x80D3": {
+      "sqlState": "-4977",
+      "description": "Invalid export directory specified",
+      "category": "Export"
+    },
+    "0x80D4": {
+      "sqlState": "-4978",
+      "description": "Dropped table cannot be accessed",
+      "category": "Table"
+    },
+    "0x80D5": {
+      "sqlState": "-4979",
+      "description": "Unable to export the dropped table data",
+      "category": "Export"
+    },
+    "0x811E": {
+      "sqlState": "-996",
+      "description": "Invalid user-specified directory",
+      "category": "File System"
+    },
+    "0x812F": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is quiesced",
+      "category": "Tablespace"
+    },
+    "0x8130": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is load-pending",
+      "category": "Tablespace"
+    },
+    "0x8131": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is delete-pending",
+      "category": "Tablespace"
+    },
+    "0x8132": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is backup-pending",
+      "category": "Tablespace"
+    },
+    "0x8133": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is rollforward-pending",
+      "category": "Tablespace"
+    },
+    "0x8134": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is rollforward-in-progress",
+      "category": "Tablespace"
+    },
+    "0x8135": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is recovery-pending",
+      "category": "Tablespace"
+    },
+    "0x8136": {
+      "sqlState": "-290",
+      "description": "Access not allowed: table space is disabled",
+      "category": "Tablespace"
+    },
+    "0x8139": {
+      "sqlState": "-294",
+      "description": "Container is already being used",
+      "category": "Container"
+    },
+    "0x813A": {
+      "sqlState": "-295",
+      "description": "Container names are too long",
+      "category": "Container"
+    },
+    "0x813B": {
+      "sqlState": "-297",
+      "description": "Path name is too long",
+      "category": "File System"
+    },
+    "0x813C": {
+      "sqlState": "-298",
+      "description": "Bad container path",
+      "category": "Container"
+    },
+    "0x813D": {
+      "sqlState": "-299",
+      "description": "Duplicate container",
+      "category": "Container"
+    },
+    "0x8201": {
+      "sqlState": "+100",
+      "description": "End of file reached",
+      "category": "I/O"
+    },
+    "0x8203": {
+      "sqlState": "-952",
+      "description": "I/O Interrupt",
+      "category": "I/O"
+    },
+    "0x8303": {
+      "sqlState": "-952",
+      "description": "Interrupt",
+      "category": "Processing"
+    },
+    "0x8383": {
+      "description": "Incompatible release level",
+      "category": "Compatibility"
+    },
+    "0x8384": {
+      "description": "Operation not supported",
+      "category": "Processing"
+    },
+    "0x838A": {
+      "description": "Invalid SQL request",
+      "category": "SQL"
+    },
+    "0x838B": {
+      "description": "Cursor already open",
+      "category": "Cursor"
+    },
+    "0x838C": {
+      "description": "Cursor not open",
+      "category": "Cursor"
+    },
+    "0x838D": {
+      "description": "Syntax error",
+      "category": "SQL"
+    },
+    "0x8403": {
+      "sqlState": "-952",
+      "description": "Interrupt",
+      "category": "Processing"
+    },
+    "0x8404": {
+      "sqlState": "-950",
+      "description": "Active cursor",
+      "category": "Cursor"
+    },
+    "0x8406": {
+      "sqlState": "-508",
+      "description": "Invalid cursor position",
+      "category": "Cursor"
+    },
+    "0x8451": {
+      "sqlState": "-680",
+      "description": "Too many columns",
+      "category": "Table"
+    },
+    "0x8502": {
+      "sqlState": "-911",
+      "description": "Deadlock encountered",
+      "category": "Locking"
+    },
+    "0x8544": {
+      "sqlState": "-911",
+      "description": "Lock timeout with transaction rollback",
+      "category": "Locking"
+    },
+    "0x8550": {
+      "sqlState": "-913",
+      "description": "Lock timeout with statement rollback",
+      "category": "Locking"
+    },
+    "0x8574": {
+      "sqlState": "-1035",
+      "description": "File open error",
+      "category": "File System"
+    },
+    "0x8575": {
+      "sqlState": "-1015",
+      "description": "Database needs recovery",
+      "category": "Recovery"
+    },
+    "0x8576": {
+      "sqlState": "-1042",
+      "description": "Deadlock start error",
+      "category": "Locking"
+    },
+    "0x8578": {
+      "sqlState": "-1034",
+      "description": "Recovery failed",
+      "category": "Recovery"
+    },
+    "0x85A1": {
+      "description": "Backup pending",
+      "category": "Backup"
+    },
+    "0x85A2": {
+      "description": "Recovery pending",
+      "category": "Recovery"
+    },
+    "0x85B3": {
+      "description": "Missing log extent",
+      "category": "Log"
+    },
+    "0x85B8": {
+      "sqlState": "-276",
+      "description": "Restore pending",
+      "category": "Restore"
+    },
+    "0x85BB": {
+      "sqlState": "-4970",
+      "description": "Rollforward is missing log files",
+      "category": "Rollforward"
+    },
+    "0x8905": {
+      "sqlState": "-803",
+      "description": "Duplicate key",
+      "category": "Index"
+    },
+    "0x8719": {
+      "sqlState": "-811",
+      "description": "Non-unique answer",
+      "category": "SQL"
+    },
+    "0x8B10": {
+      "sqlState": "-802",
+      "description": "Math overflow",
+      "category": "Data"
+    },
+    "0x8B17": {
+      "sqlState": "-180",
+      "description": "Time or date syntax error",
+      "category": "Data"
+    },
+    "0x8B18": {
+      "sqlState": "-181",
+      "description": "Time or date range error",
+      "category": "Data"
+    },
+    "0x8B49": {
+      "sqlState": "-801",
+      "description": "Divide by zero operation not allowed",
+      "category": "Data"
+    },
+    "0x8C05": {
+      "sqlState": "-803",
+      "description": "Duplicate key",
+      "category": "Index"
+    },
+    "0x9619": {
+      "description": "Connection refused",
+      "category": "Communication"
+    },
+    "0x962A": {
+      "description": "Connection timed out",
+      "category": "Communication"
+    },
+    "0x962C": {
+      "description": "No connection",
+      "category": "Communication"
+    },
+    "0x9C16": {
+      "sqlState": "-1229",
+      "description": "Node recovery",
+      "category": "Recovery"
+    },
+    "0xA602": {
+      "sqlState": "-901",
+      "description": "Invalid memory address",
+      "category": "Memory"
+    },
+    "0xA603": {
+      "sqlState": "-901",
+      "description": "General memory management error",
+      "category": "Memory"
+    },
+    "0xC201": {
+      "sqlState": "-970",
+      "description": "Access denied",
+      "category": "Security"
+    },
+    "0xC213": {
+      "description": "File not found",
+      "category": "File System"
+    },
+    "0xC214": {
+      "description": "File already exists",
+      "category": "File System"
+    },
+    "0xC215": {
+      "description": "File in use",
+      "category": "File System"
+    },
+    "0xC605": {
+      "sqlState": "-976",
+      "description": "Device not ready",
+      "category": "Device"
+    },
+    "0xC607": {
+      "sqlState": "-986",
+      "description": "File error",
+      "category": "File System"
+    },
+    "0xD121": {
+      "sqlState": "-289",
+      "description": "Container full",
+      "category": "Container"
+    },
+    "0xD123": {
+      "sqlState": "-296",
+      "description": "Table space limit exceeded",
+      "category": "Tablespace"
+    },
+    "0xD20C": {
+      "sqlState": "-968",
+      "description": "Disk full",
+      "category": "Disk"
+    },
+    "0xD40D": {
+      "sqlState": "-912",
+      "description": "Too many locks",
+      "category": "Locking"
+    },
+    "0xD505": {
+      "sqlState": "-930",
+      "description": "Memory allocation failure",
+      "category": "Memory"
+    },
+    "0xD509": {
+      "sqlState": "-964",
+      "description": "Log file full",
+      "category": "Log"
+    },
+    "0xD50A": {
+      "sqlState": "-912",
+      "description": "Lock list full",
+      "category": "Locking"
+    },
+    "0xD601": {
+      "sqlState": "-954",
+      "description": "No memory heap (for application)",
+      "category": "Memory"
+    },
+    "0xD602": {
+      "sqlState": "-956",
+      "description": "No memory heap (for database)",
+      "category": "Memory"
+    },
+    "0xD606": {
+      "sqlState": "-958",
+      "description": "Too many open files",
+      "category": "File System"
+    },
+    "0xD60B": {
+      "sqlState": "-955",
+      "description": "No memory sort heap",
+      "category": "Memory"
+    },
+    "0xD60C": {
+      "sqlState": "-968",
+      "description": "Disk full",
+      "category": "Disk"
+    },
+    "0xD60D": {
+      "sqlState": "-912",
+      "description": "Too many locks",
+      "category": "Locking"
+    },
+    "0xE101": {
+      "sqlState": "-980",
+      "reasonCode": "1",
+      "description": "Bad page",
+      "category": "Data Integrity"
+    },
+    "0xE10A": {
+      "sqlState": "-980",
+      "reasonCode": "10",
+      "description": "File does not exist",
+      "category": "File System"
+    },
+    "0xE119": {
+      "sqlState": "-1034",
+      "description": "Page CHECKSUM error",
+      "category": "Data Integrity"
+    },
+    "0xE513": {
+      "sqlState": "-1260",
+      "description": "Database not recoverable",
+      "category": "Recovery"
+    }
+  },
+  "probeCodes": {
+    "sqlcctcptest:11": {
+      "component": "common communication",
+      "description": "Detected client termination - Client connection was unexpectedly interrupted or terminated",
+      "category": "Communication",
+      "severity": "Error",
+      "possibleCauses": [
+        "Network interruptions",
+        "Client application crash",
+        "Firewall timeout on idle connections"
+      ]
+    },
+    "sqlcctest:50": {
+      "component": "common communication",
+      "description": "Communication test return code - Internal communication test result",
+      "category": "Communication",
+      "severity": "Error"
+    },
+    "sqeAgent::AgentBreathingPoint:10": {
+      "component": "base sys utilities",
+      "description": "Agent breathing point - Agent detected an issue during processing",
+      "category": "Agent",
+      "severity": "Error"
+    },
+    "sqeAgent::AgentBreathingPoint:16": {
+      "component": "base sys utilities",
+      "description": "Agent breathing point with callstack - Agent waiting, may indicate lock contention",
+      "category": "Agent",
+      "severity": "Warning"
+    },
+    "sqlplfrDoScanNext:1015": {
+      "component": "recovery manager",
+      "description": "Log File Reader (LFR) scan operation - Scanning for log records",
+      "category": "Recovery",
+      "severity": "Warning",
+      "possibleCauses": [
+        "Normal LFR activity during database operations",
+        "Log scanning for extent management"
+      ]
+    }
+  },
+  "messagePatterns": {
+    "Detected client termination": {
+      "description": "A client connection to the DB2 server was unexpectedly interrupted",
+      "category": "Communication",
+      "severity": "Error",
+      "recommendation": "Check network stability, client application health, and firewall configurations"
+    },
+    "sqlcctest RC": {
+      "description": "Internal communication test return code",
+      "category": "Communication",
+      "severity": "Error"
+    }
+  },
+  "levelDescriptions": {
+    "Critical": {
+      "priority": 0,
+      "description": "Highest severity level - Critical system failures that require immediate intervention",
+      "action": "Immediate emergency response required"
+    },
+    "Severe": {
+      "priority": 1,
+      "description": "Critical errors that may cause significant disruptions",
+      "action": "Immediate attention required"
+    },
+    "Error": {
+      "priority": 2,
+      "description": "Errors that require attention but are less critical than severe errors",
+      "action": "Investigate and resolve promptly"
+    },
+    "Warning": {
+      "priority": 3,
+      "description": "Potential issues that might not immediately affect operations but could lead to problems",
+      "action": "Monitor and address when possible"
+    },
+    "Info": {
+      "priority": 4,
+      "description": "General information about system operations and events",
+      "action": "For informational purposes only"
+    }
+  }
+}

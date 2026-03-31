@@ -1,0 +1,102 @@
+{
+  "program": "BXBAUTO1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:39",
+  "extraction": {
+    "sourceHash": "sha256:d5a993ef9358b5e6e99a1a47a242e470fa04c6790ef31e5ec3c7abea3004cdf9",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BXBAUTO1.CBL",
+    "actualName": "BXBAUTO1",
+    "program": "BXBAUTO1",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GLAOINN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "A_VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ERSTATNINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_BESTLIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "VICTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GMLFKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "GROSSIST",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "BIAAUTO",
+      "GLAOINN",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:39"
+  }
+}

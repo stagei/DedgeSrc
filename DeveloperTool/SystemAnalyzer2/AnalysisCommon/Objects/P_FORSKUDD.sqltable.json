@@ -1,0 +1,233 @@
+{
+  "tableName": "P_FORSKUDD",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "FORSKUDD TIL UTBETALING OG RENTEBEREGNING",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "RADNR",
+        "typeName": "DECIMAL",
+        "length": 7,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "KODE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "KUNDENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "PRODUSENTNR",
+        "typeName": "DECIMAL",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "KONTRAKTNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "PARTINR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "FORSKUDD_BELOP",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "ONSKET_UTBET_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "UTBET_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "UTBET_JOURNALNR",
+        "typeName": "DECIMAL",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "RENTE_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "RENTE_JOURNALNR",
+        "typeName": "DECIMAL",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "RENTE1_DAGER",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "RENTE1_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "RENTE1_BELOP",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 16,
+        "name": "RENTE2_DAGER",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 17,
+        "name": "RENTE2_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 18,
+        "name": "RENTE2_BELOP",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 19,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 20,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 21,
+        "name": "UTBET_TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 22,
+        "name": "LEVNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_BEHKODE",
+        "childColumn": "KODE",
+        "parentTable": "P_BEHKODER",
+        "parentSchema": "DBM",
+        "parentColumn": "KODE"
+      }
+    ]
+  }
+}

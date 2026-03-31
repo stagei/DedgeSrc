@@ -1,0 +1,27 @@
+-- 7056  ant transer før 2016:      45829
+-- 7056  ant transer før 2016:      45829
+-- import FROM K:\meh\kasse\kasstran_for_2016_2852.ixf  of ixf insert into
+--                        dbm.h_kass_transer;
+--
+EXPORT TO  K:\meh\kasse\kasstran_for_2016_ovrige.ixf  of ixf
+--EXPORT TO  K:\meh\kasse\kasstran_for_2016_2852.ixf  of ixf
+--EXPORT TO  K:\meh\kasse\kasstran_for_2016.ixf  of ixf
+--EXPORT TO  K:\meh\kasse\katran_for_7056.ixf  of ixf
+--EXPORT TO  K:\meh\kasse\katran_for_8559.ixf  of ixf
+SELECT 
+ year(tidspunkt),AVDNR, KASSENR, OPPGJORNR
+, TRANSKODE, BILAGNR, TRANSTYPE, BELOP
+, TIDSPUNKT, BRUKERID, TEKST
+, BANK_TERM_ID, MASKINNAVN, KORTNR
+FROM DBM.KASS_TRANSER
+where tidspunkt < '2016-01-01-00.00.01.000000'
+--and avdnr =  2852
+-- 
+--where tidspunkt < '2018-01-01-00.00.01.000000'
+--and avdnr =  8559
+//
+-- LOAD FROM K:\meh\Kasse\kasstran_for_2016_2852.ixf OF IXF INSERT INTO
+--       DBM.H_kass_transer      NONRECOVERABLE; 
+-- import FROM K:\meh\kasse\katran_for_7056.ixf  of ixf insert into
+ import FROM K:\meh\kasse\katran_for_2016_2852.ixf  of ixf insert into
+                        dbm.h_kass_transer;

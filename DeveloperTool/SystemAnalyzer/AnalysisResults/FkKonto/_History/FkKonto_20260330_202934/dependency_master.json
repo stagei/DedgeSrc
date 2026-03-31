@@ -1,0 +1,1746 @@
+{
+  "title": "COBOL Dependency Master",
+  "generated": "2026-03-30 20:29:34",
+  "programs": [
+    {
+      "program": "ILBDBCS1",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbdbcs1.cbl",
+      "actualName": "ILBDBCS1",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACURT",
+        "GMASQLB"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "RCFILE",
+          "physicalName": "ILBDBCS1.RC",
+          "path": "N:\\COBNT",
+          "fullPath": "N:\\COBNT\\ILBDBCS1.RC",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "KVITT",
+          "physicalName": "WW-KVITTNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "DDBFIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "ILBDBCSV",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbdbcsv.cbl",
+      "actualName": "ILBDBCSV",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACURT",
+        "GMASQLB"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "RCFILE",
+          "physicalName": "ILBDBCSV.RC",
+          "path": "N:\\COBNT",
+          "fullPath": "N:\\COBNT\\ILBDBCSV.RC",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "KVITT",
+          "physicalName": "WW-KVITTNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "DDBFIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "ILBKTAJ",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbktaj.cbl",
+      "actualName": "ILBKTAJ",
+      "copyElements": [
+        {
+          "name": "KUN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "KUNDER_M_AKTIV_KONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "UPDATE"
+        }
+      ],
+      "callTargets": [
+        "GMACURT",
+        "OKALOGG"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "RCFILE",
+          "physicalName": "ILBKTAJ.RC",
+          "path": "N:\\COBNT",
+          "fullPath": "N:\\COBNT\\ILBKTAJ.RC",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "KGR95-FIL",
+          "physicalName": "WW-KGR95-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "ENDRE-FIL",
+          "physicalName": "WW-endra-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE",
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "ILBKTAJGML",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbktajgml.cbl",
+      "actualName": "ILBKTAJGML",
+      "copyElements": [
+        {
+          "name": "KUN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "KUNDER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "UPDATE"
+        }
+      ],
+      "callTargets": [
+        "GMACURT",
+        "OKALOGG"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "RCFILE",
+          "physicalName": "ILBKTAJ.RC",
+          "path": "N:\\COBNT",
+          "fullPath": "N:\\COBNT\\ILBKTAJ.RC",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "KGR95-FIL",
+          "physicalName": "WW-KGR95-FILNAVN",
+          "path": "\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\SERVER\\SHARE\\\u003Cuserid\u003E-25092018.CSV",
+          "filenamePattern": "\u003Cuserid\u003E-\u003Cdate\u003E.CSV",
+          "filenameDescription": "Oppdatere konto med opplysninger fra kunde n\uFFFDr denne er endret"
+        },
+        {
+          "logicalName": "ENDRE-FIL",
+          "physicalName": "WW-ENDRE-FILNAVN",
+          "path": "\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE",
+            "READ"
+          ],
+          "resolvedPath": "\\SERVER\\SHARE\\\u003Cdynamic\u003E.CSV",
+          "filenamePattern": "\u003Cuserid\u003E-\u003Cdate\u003E.CSV",
+          "filenameDescription": "Henter kunde-endringer og oppdatere kontoer basert p\u00E5 endringstidspunkt."
+        }
+      ]
+    },
+    {
+      "program": "ILBSKAE",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILBSKAE.CBL",
+      "actualName": "ILBSKAE",
+      "copyElements": [
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILFI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILBI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "TRANSREG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "FIRMA",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACURT"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "\\\\SFKDC02\\FKKONTO\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKAEN.DAT",
+          "filenamePattern": "\u003Cdynamic\u003E.DAT"
+        }
+      ]
+    },
+    {
+      "program": "ILBSKAN",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILBSKAN.CBL",
+      "actualName": "ILBSKAN",
+      "copyElements": [
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILFI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILBI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "TRANSREG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "FIRMA",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACURT"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "\\\\SFKDC02\\FKKONTO\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKANY.DAT",
+          "filenamePattern": "SKANY.DAT",
+          "filenameDescription": "File path for UT-FIL"
+        }
+      ]
+    },
+    {
+      "program": "ILBSKAT",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbskat.cbl",
+      "actualName": "ILBSKAT",
+      "copyElements": [
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILFI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILBI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "TRANSREG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "FIRMA",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACURT"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "ILHVEKK",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilhvekk.cbl",
+      "actualName": "ILHVEKK",
+      "copyElements": [
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMATEXT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAUTILS.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMFPOSO.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILFI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAVPRT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMFTEXT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "ILHVEKK.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "DSRUNNER.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DSSYSINF.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "BARE_SENTRALT",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "FIRMA",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO",
+        "GMFFELL",
+        "GMAMEXT",
+        "ILVVEKK",
+        "GMACNCT",
+        "GMATEXT",
+        "GMACURT",
+        "GMAPRTR",
+        "GMFSQLF"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "PRTFILE",
+          "physicalName": "WW-PRINTER",
+          "path": "\\\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\\\SERVER\\SHARE\\\u003Cdynamic\u003E.CSV",
+          "filenamePattern": "\u003Cuserid\u003E-\u003Cdate\u003E.CSV",
+          "filenameDescription": "Printer output spool"
+        },
+        {
+          "logicalName": "DISCFILE",
+          "physicalName": "WW-FILNAVN",
+          "path": "\\\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\\\SERVER\\SHARE\\\u003Cdynamic\u003E.CSV",
+          "filenamePattern": "\u003Cuserid\u003E-\u003Cdate\u003E.CSV",
+          "filenameDescription": "WW-FILNAVN is constructed using userid and date in \u0027YYYYMMDD\u0027 format, with file extension .CSV"
+        }
+      ]
+    },
+    {
+      "program": "ILXKTAJ",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilxktaj.cbl",
+      "actualName": "ILXKTAJ",
+      "copyElements": [
+        {
+          "name": "KUN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "KUNDER_M_AKTIV_KONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OVFNR",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO_TEST",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "UPDATE"
+        }
+      ],
+      "callTargets": [
+        "GMACURT",
+        "OKALOGG"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "RCFILE",
+          "physicalName": "ILXKTAJ.RC",
+          "path": "N:\\COBNT",
+          "fullPath": "N:\\COBNT\\ILXKTAJ.RC",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        },
+        {
+          "logicalName": "KGR95-FIL",
+          "physicalName": "WW-KGR95-FILNAVN",
+          "path": "\\\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ],
+          "resolvedPath": "\\\\SERVER\\SHARE\\KGR95-FILNAVN\\\u003Cdynamic\u003E.CSV",
+          "filenamePattern": "KGR95-FILNAVN/\u003Cdate\u003E.CSV",
+          "filenameDescription": "File name constructed using date and dynamic part"
+        },
+        {
+          "logicalName": "ENDRE-FIL",
+          "physicalName": "WW-endra-FILNAVN",
+          "path": "\\\\SERVER\\SHARE\\",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE",
+            "READ"
+          ],
+          "resolvedPath": "\\\\SERVER\\SHARE\\\u003Cdynamic\u003E.CSV",
+          "filenamePattern": "\u003Cuserid\u003E-\u003Cdate\u003E.CSV",
+          "filenameDescription": "short description"
+        }
+      ]
+    },
+    {
+      "program": "TRONP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\TRONp.CBL",
+      "actualName": "TRONP",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "SQLENV.",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [
+        "ILAREBE"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMACNCT",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACNCT.CBL",
+      "actualName": "GMACNCT",
+      "copyElements": [
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMACURT",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACURT.CBL",
+      "actualName": "GMACURT",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMAPRTR",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAPRTR.cbl",
+      "actualName": "GMAPRTR",
+      "copyElements": [
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "GMARMSPC.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMALOGF2.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMAAKTI.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAVPRT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "PRINTERE",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMAAKTI",
+        "GMFFELL",
+        "GMACOCO",
+        "GMFTRAP",
+        "GMALOGF2"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMASQLB",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASQLB.CBL",
+      "actualName": "GMASQLB",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMATEXT",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMATEXT.CBL",
+      "actualName": "GMATEXT",
+      "copyElements": [
+        {
+          "name": "TEK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "LAG.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "GMATEXT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TEKSTER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "LAGERSTED",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO",
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMFFELL",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFFELL.CBL",
+      "actualName": "GMFFELL",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMFFELL.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "DSSYSINF.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "FELLMENY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFMNY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "USR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUKER",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMAOPPS",
+        "GMACNCT",
+        "GMACOCO",
+        "GMAFELL",
+        "GMACOMP",
+        "GMAMASK",
+        "GMASQLD"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "FNK-FILE",
+          "physicalName": "GMFFELL.FNK",
+          "path": "C:\\",
+          "fullPath": "C:\\GMFFELL.FNK",
+          "assignType": "literal",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "GMFSQLF",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFSQLF.CBL",
+      "actualName": "GMFSQLF",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "ILAREBE",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILAREBE.CBL",
+      "actualName": "ILAREBE",
+      "copyElements": [
+        {
+          "name": "GMAPRTR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "CURT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "TRANSREG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "RENTESATSER",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "ELLER",
+        "D01B916",
+        "GMACOCO"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "ILVVEKK",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILVVEKK.CBL",
+      "actualName": "ILVVEKK",
+      "copyElements": [
+        {
+          "name": "SQLENV.",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMATEXT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAUTILS.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "PST.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKK.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILFI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILKT.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "ILTR.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DSUSRVAL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "ILHVEKK.CPB",
+          "type": "copybook-binary"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "INL",
+          "tableName": "KUNDEKONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_PNRTAB",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "KONTO",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "FIRMA",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "INL",
+          "tableName": "TRANSREG",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO",
+        "GMATEXT",
+        "GMAKOPE"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMACOMP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACOMP.CBL",
+      "actualName": "GMACOMP",
+      "copyElements": [
+        {
+          "name": "GMAAKTI.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUKER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMAAKTI",
+        "GMACOCO",
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMAFELL",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAFELL.CBL",
+      "actualName": "GMAFELL",
+      "copyElements": [
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "FELLMENY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TGRP.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TFUN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TPRO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TNIV.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "AVD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TMEN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TFV.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAFELL.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILGPROF_FUNK",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUK_GRP_PROF",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUKER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGGRP_AVD",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_AVDTAB",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGFUNKSJON",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGMENY",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGANALYSE",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILGFAVORITTER",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMALOGF2",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\gmalogf2.cbl",
+      "actualName": "GMALOGF2",
+      "copyElements": [
+        {
+          "name": "BAID.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "BAMA.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "FKLO.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMARMSPC.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMALOGF2.CPB",
+          "type": "copybook-binary"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUKER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "BANKTERM_MASKIN",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "BANKTERM_ID",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "FK_LOG",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMARMSPC",
+        "GMACOCO",
+        "GMFSQLF"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMAOPPS",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAOPPS.CBL",
+      "actualName": "GMAOPPS",
+      "copyElements": [
+        {
+          "name": "ADB.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "OPPS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILGBRUKER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "AD_BRUKER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "OPPSTART",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO",
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMASQLD",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASQLD.CBL",
+      "actualName": "GMASQLD",
+      "copyElements": [
+        {
+          "name": "SQLCA.",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMACNCT",
+        "GMACOCO",
+        "GMACOMP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMFTRAP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFTRAP.CBL",
+      "actualName": "GMFTRAP",
+      "copyElements": [
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "GMFTRAP.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "AVD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_AVDTAB",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "CC1",
+        "GMFFELL",
+        "GMACOMP",
+        "GMAOSNT",
+        "GMACOCO",
+        "GMALSQL",
+        "DSRUN"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-LOGG-FIL",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "GMAAKTI",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAAKTI.CBL",
+      "actualName": "GMAAKTI",
+      "copyElements": [
+        {
+          "name": "AKTI.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "GMAAKTI.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "AKTIVISER",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMACOCO",
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    }
+  ],
+  "database": "FKKONTO",
+  "db2Alias": "FKKONTO",
+  "totalPrograms": 26
+}

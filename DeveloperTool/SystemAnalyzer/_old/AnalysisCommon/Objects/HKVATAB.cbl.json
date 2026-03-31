@@ -1,0 +1,79 @@
+{
+  "program": "HKVATAB",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:31",
+  "extraction": {
+    "sourceHash": "sha256:c726c9c61c78803b3386dda8ff90367ad6ec0216fb6c46fe53c54f7000627922",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\HKVATAB.CBL",
+    "actualName": "HKVATAB",
+    "program": "HKVATAB",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVTH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVAL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HKHATAB.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FK_AVANSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB_LINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "T",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:31"
+  }
+}

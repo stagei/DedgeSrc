@@ -1,0 +1,236 @@
+{
+  "program": "RKAVEKT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:42",
+  "extraction": {
+    "sourceHash": "sha256:a0e1d1e3b2b18db21640df531dac9e1375c9e0cb5633a13fe15ef26feeb9c293",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RKAVEKT.CBL",
+    "actualName": "RKAVEKT",
+    "program": "RKAVEKT",
+    "copyElements": [
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KBEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MOTA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MOTK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "INFV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPLK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMASTLA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OSATISO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKAVEKT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PARTINR2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BESTLIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VANNPROSENT_AVREGN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_VANNPROSENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LASSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_PLANL_KJORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LASS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_PLANL_KJORT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_GROV_PLAN",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORNBEVEGELSE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORNBEHOLDNING",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORNBEHOLDNING",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRANSITT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "INNGANG_FAKO_VENT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK_KOMMENTAR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK_ANALYSE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "OKALOGG",
+      "GMACOCO",
+      "GMASTLA",
+      "OSATISO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:42"
+  }
+}

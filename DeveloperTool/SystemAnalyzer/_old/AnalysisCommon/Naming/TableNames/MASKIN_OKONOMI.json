@@ -1,0 +1,88 @@
+{
+  "tableName": "MASKIN_OKONOMI",
+  "futureName": "MachineEconomics",
+  "namespace": "Finance",
+  "columns": [
+    {
+      "name": "ENHETSNR",
+      "futureName": "UnitNumber",
+      "description": "Unique unit identifier",
+      "foreignKey": "M_ENHET"
+    },
+    {
+      "name": "SALGSNR",
+      "futureName": "SaleNumber",
+      "description": "Sales order number",
+      "foreignKey": "MASKIN_SLETTET, MASKIN_TEKST, MASKINKARTOTEK, MASKINSALG"
+    },
+    {
+      "name": "TRANSKODE",
+      "futureName": "TransactionCode",
+      "description": "Transaction code or type",
+      "foreignKey": "KASS_FEIL, KASS_TRANSER, KASS_TRANSKODER, M_TRANSKODE, VAREBEVEGELSE"
+    },
+    {
+      "name": "BILAGAVD",
+      "futureName": "VoucherNumber",
+      "description": "Voucher number or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "BILAGNR",
+      "futureName": "InvoiceNumber",
+      "description": "Invoice or document number",
+      "foreignKey": "TRANSREG"
+    },
+    {
+      "name": "BILAGSTYPE",
+      "futureName": "DocumentType",
+      "description": "Type of document",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Financial amount or value",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDRELINJER, AVREGNING"
+    },
+    {
+      "name": "DATO",
+      "futureName": "Date",
+      "description": "Date of transaction or event",
+      "foreignKey": "AVREGNING, DATO"
+    },
+    {
+      "name": "PERIODE",
+      "futureName": "Period",
+      "description": "Time period for financial transactions",
+      "foreignKey": "D365_VAREAVD_HIST, FAKTHIST"
+    },
+    {
+      "name": "KOSTVERDI",
+      "futureName": "CostValue",
+      "description": "Cost value or price",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date of transaction or event",
+      "foreignKey": "A_BESTHODE, A_FRAKT_OLINJER"
+    },
+    {
+      "name": "REF_ENHETSNR",
+      "futureName": "ReferenceUnitNumber",
+      "description": "Reference unit number for cross-referencing",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:44:47"
+}

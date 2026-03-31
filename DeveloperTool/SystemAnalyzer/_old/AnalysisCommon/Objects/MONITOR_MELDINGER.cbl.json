@@ -1,0 +1,185 @@
+﻿{
+  "program": "MONITOR_MELDINGER",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:30:22",
+  "variableFilenames": {
+    "IMPFIL": {
+      "logicalName": "IMPFIL",
+      "physicalVariable": "WW-IMP-FILNAVN",
+      "basePath": "xx\\\\DEDGE.fk.no\\erpdata\\HYBRIS_upl\\",
+      "filenamePattern": "FKAPIMEU.CSV",
+      "resolvedPath": "xx\\\\DEDGE.fk.no\\erpdata\\HYBRIS_upl\\FKAPIMEU.CSV",
+      "description": "File path for IMPFIL construction",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:30:14"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "MONITOR_MELDINGER",
+    "program": "MONITOR_MELDINGER",
+    "copyElements": [
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TIL",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2020",
+        "type": "copybook"
+      },
+      {
+        "name": "DB.",
+        "type": "copybook"
+      },
+      {
+        "name": "FKSQL.",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2019",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2019.",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2018",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2017",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2017.",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2021",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2020.",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [],
+    "callTargets": [
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "SQLDBS",
+      "SQLEXEC",
+      "TIL_MONITOR",
+      "BEHANDLE_FILE",
+      "SJEKK_RKFILE",
+      "DELOPP_ANALYCEN",
+      "DELOPP_SOFTKORN",
+      "DELOPP_LABNETT",
+      "SJEKK_FKSQL",
+      "GMACOCO"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-PIM-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-PIM-FIL-TAB",
+        "physicalName": "PIM-NAVN-TAB",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABPIMEU.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPIMEU.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "IMPFIL",
+        "physicalName": "WW-IMP-FILNAVN",
+        "path": "xx\\\\DEDGE.fk.no\\erpdata\\HYBRIS_upl\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "xx\\\\DEDGE.fk.no\\erpdata\\HYBRIS_upl\\FKAPIMEU.CSV",
+        "filenamePattern": "FKAPIMEU.CSV",
+        "filenameDescription": "File path for IMPFIL construction"
+      },
+      {
+        "logicalName": "I-BRUKFIL",
+        "physicalName": "WW-I-BRUK-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "IKKE-I-BRUKFIL",
+        "physicalName": "WW-IKKE-I-BRUK-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:30:22"
+  }
+}

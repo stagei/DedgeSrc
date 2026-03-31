@@ -1,0 +1,1162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DedgeAuth - My Profile</title>
+    <link id="tenant-favicon" rel="icon" href="">
+    <link id="tenant-css" rel="stylesheet" href="">
+    <style>
+        /* Dark mode (default) */
+        :root {
+            --primary-color: #00b359;
+            --primary-hover: #00994d;
+            --error-color: #ff6b6b;
+            --success-color: #51cf66;
+            --background: #1f1f1f;
+            --card-bg: #000000;
+            --text-color: #e8e8e8;
+            --text-muted: #a0a0a0;
+            --input-bg: #1a1a2e;
+            --input-border: #3a3a5c;
+            --tab-border: #3a3a5c;
+            --info-bg: #1a1a2e;
+        }
+
+        /* Light mode */
+        [data-theme="light"] {
+            --primary-color: #008942;
+            --primary-hover: #006d35;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --input-bg: #ffffff;
+            --input-border: #dddddd;
+            --tab-border: #eeeeee;
+            --info-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--background);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 40px 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .profile-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        /* Theme Toggle */
+        .theme {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 10;
+            font-size: 14px;
+        }
+        .theme__fill,
+        .theme__icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .theme__icon,
+        .theme__toggle {
+            z-index: 1;
+        }
+        .theme__icon,
+        .theme__icon-part {
+            position: absolute;
+        }
+        .theme__icon {
+            display: block;
+            top: 0.25em;
+            left: calc(0.25em - 1px);
+            width: 1.2em;
+            height: 1.2em;
+        }
+        .theme__icon-part {
+            border-radius: 50%;
+            box-shadow: 0.3em -0.3em 0 0.4em hsl(0,0%,100%) inset;
+            top: calc(50% - 0.4em);
+            left: calc(50% - 0.4em);
+            width: 0.8em;
+            height: 0.8em;
+            transition:
+                box-shadow 0.3s ease-in-out,
+                opacity 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+            transform: scale(0.5);
+        }
+        .theme__icon-part ~ .theme__icon-part {
+            background-color: hsl(0,0%,100%);
+            border-radius: 0.05em;
+            box-shadow: none;
+            top: 50%;
+            left: calc(50% - 0.04em);
+            transform: rotate(0deg) translateY(0.4em);
+            transform-origin: 50% 0;
+            width: 0.08em;
+            height: 0.16em;
+        }
+        .theme__icon-part:nth-child(3) { transform: rotate(45deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(4) { transform: rotate(90deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(5) { transform: rotate(135deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(6) { transform: rotate(180deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(7) { transform: rotate(225deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(8) { transform: rotate(270deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(9) { transform: rotate(315deg) translateY(0.4em); }
+        .theme__toggle,
+        .theme__toggle-wrap {
+            position: relative;
+        }
+        .theme__toggle,
+        .theme__toggle:before {
+            display: block;
+        }
+        .theme__toggle {
+            background-color: hsl(48,90%,85%);
+            border-radius: 25% / 50%;
+            box-shadow: 0 0 0 0.1em transparent;
+            padding: 0.15em;
+            width: 3.4em;
+            height: 1.7em;
+            border: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            transition:
+                background-color 0.3s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+        }
+        .theme__toggle:before {
+            background-color: hsl(48,90%,55%);
+            border-radius: 50%;
+            content: "";
+            width: 1.4em;
+            height: 1.4em;
+            transition:
+                background-color 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+        }
+        .theme__toggle:focus {
+            box-shadow: 0 0 0 0.1em var(--primary-color);
+            outline: transparent;
+        }
+        .theme__toggle:checked {
+            background-color: hsl(223,50%,20%);
+        }
+        .theme__toggle:checked:before,
+        .theme__toggle:checked ~ .theme__icon {
+            transform: translateX(1.7em);
+        }
+        .theme__toggle:checked:before {
+            background-color: hsl(223,90%,55%);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(1) {
+            box-shadow: 0.15em -0.15em 0 0.15em hsl(0,0%,100%) inset;
+            transform: scale(1);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part ~ .theme__icon-part {
+            opacity: 0;
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(2) { transform: rotate(45deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(3) { transform: rotate(90deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(4) { transform: rotate(135deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(5) { transform: rotate(180deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(6) { transform: rotate(225deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(7) { transform: rotate(270deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(8) { transform: rotate(315deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(9) { transform: rotate(360deg) translateY(0.6em); }
+        .theme__toggle-wrap {
+            margin: 0;
+        }
+        @supports selector(:focus-visible) {
+            .theme__toggle:focus { box-shadow: 0 0 0 0.1em transparent; }
+            .theme__toggle:focus-visible { box-shadow: 0 0 0 0.1em var(--primary-color); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .logo img, .logo .tenant-logo {
+            max-width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .section-icon {
+            font-size: 20px;
+        }
+
+        .user-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 20px;
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+        }
+
+        .user-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-field-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .user-field-value {
+            font-size: 15px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--input-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--info-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--input-border);
+            color: var(--text-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--info-bg);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-approved {
+            background: rgba(81, 207, 102, 0.15);
+            color: var(--success-color);
+        }
+
+        .badge-pending {
+            background: rgba(255, 193, 7, 0.18);
+            color: #ffc107;
+        }
+
+        .badge-rejected {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--error-color);
+        }
+
+        .badge-role {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .app-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+        }
+
+        .app-card {
+            padding: 16px;
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .app-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .app-card-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .app-card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .app-card-role {
+            margin-bottom: 8px;
+        }
+
+        .form-row {
+            margin-bottom: 12px;
+        }
+
+        label.form-label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        select,
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: border-color 0.2s, background 0.3s;
+            font-family: inherit;
+        }
+
+        select:focus,
+        textarea:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            width: auto;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-primary:disabled {
+            background: var(--input-border);
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .inline-form {
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+        }
+
+        .inline-form .form-row:last-of-type {
+            margin-bottom: 8px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .toast-error {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .loading-text {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+        }
+
+        .level-card {
+            padding: 20px;
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+        }
+
+        .current-level {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .current-level-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .current-level-value {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 15px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px 12px;
+            }
+            .profile-container {
+                padding: 24px 16px;
+            }
+            .user-card {
+                grid-template-columns: 1fr;
+            }
+            .app-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <label class="theme" title="Toggle theme">
+            <span class="theme__toggle-wrap">
+                <input id="theme-toggle" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+                <span class="theme__icon">
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                </span>
+            </span>
+        </label>
+
+        <div class="logo">
+            <img id="tenant-logo" src="" alt="Logo" style="display:none;">
+        </div>
+
+        <a class="back-link" id="back-link" href="#">&#8592; Back to Login</a>
+
+        <div id="loading" class="loading-text">Loading profile...</div>
+
+        <div id="profile-content" style="display:none;">
+            <!-- A. User Info Card -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">&#128100;</span>
+                    <h2>User Information</h2>
+                </div>
+                <div class="user-card" id="user-card">
+                    <div class="user-field">
+                        <span class="user-field-label">Display Name</span>
+                        <span class="user-field-value" id="info-name">—</span>
+                    </div>
+                    <div class="user-field">
+                        <span class="user-field-label">Email</span>
+                        <span class="user-field-value" id="info-email">—</span>
+                    </div>
+                    <div class="user-field">
+                        <span class="user-field-label">Access Level</span>
+                        <span class="user-field-value" id="info-level">—</span>
+                    </div>
+                    <div class="user-field">
+                        <span class="user-field-label">Tenant</span>
+                        <span class="user-field-value" id="info-tenant">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. My Applications -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">&#128187;</span>
+                    <h2>My Applications</h2>
+                </div>
+                <div id="my-apps-content">
+                    <div class="loading-text">Loading permissions...</div>
+                </div>
+            </div>
+
+            <!-- C. Available Apps -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">&#10133;</span>
+                    <h2>Request New App Access</h2>
+                </div>
+                <div id="available-apps-content">
+                    <div class="loading-text">Loading apps...</div>
+                </div>
+            </div>
+
+            <!-- D. Request Access Level Change -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">&#9889;</span>
+                    <h2>Request Access Level Change</h2>
+                </div>
+                <div id="level-change-content">
+                    <div class="loading-text">Loading...</div>
+                </div>
+            </div>
+
+            <!-- E. My Requests -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">&#128203;</span>
+                    <h2>My Requests</h2>
+                </div>
+                <div id="my-requests-content">
+                    <div class="loading-text">Loading requests...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const fullPath = window.location.pathname;
+        const basePath = fullPath.substring(0, fullPath.lastIndexOf('/'));
+
+        let currentUser = null;
+        let myPermissions = [];
+        let allApps = [];
+
+        // Theme handling
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const theme = savedTheme || 'dark';
+            applyTheme(theme);
+        }
+
+        function applyTheme(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                if (toggle) toggle.checked = false;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (toggle) toggle.checked = true;
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        initTheme();
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            applyTheme(this.checked ? 'dark' : 'light');
+        });
+
+        // JWT helper
+        function getToken() {
+            const cookies = document.cookie.split(';');
+            for (const c of cookies) {
+                const [name, val] = c.trim().split('=');
+                if (name === 'DedgeAuth_access_token') return val;
+            }
+            return localStorage.getItem('accessToken');
+        }
+
+        async function api(path, options = {}) {
+            const token = getToken();
+            const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+            const res = await fetch(basePath + '/api' + path, { ...options, headers });
+            if (res.status === 401) {
+                window.location.href = basePath + '/login.html';
+                return null;
+            }
+            return res;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        const ACCESS_LEVELS = {
+            0: 'ReadOnly',
+            1: 'User',
+            2: 'PowerUser',
+            3: 'Admin',
+            5: 'TenantAdmin'
+        };
+
+        function getAccessLevelName(level) {
+            return ACCESS_LEVELS[level] || ('Level ' + level);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast toast-' + type + ' show';
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Tenant loading
+        async function initTenant() {
+            try {
+                const response = await fetch(basePath + '/api/tenants/default');
+                if (response.ok) {
+                    const tc = await response.json();
+                    const logo = document.getElementById('tenant-logo');
+                    const effectiveLogoUrl = tc.logoUrl || (tc.hasLogoData && tc.domain ? (basePath + '/tenants/' + tc.domain + '/logo') : null);
+                    if (logo && effectiveLogoUrl) {
+                        logo.src = effectiveLogoUrl;
+                        logo.alt = (tc.displayName || 'DedgeAuth') + ' Logo';
+                        logo.style.display = 'block';
+                    }
+                    const faviconLink = document.getElementById('tenant-favicon');
+                    if (faviconLink && tc.domain) {
+                        faviconLink.href = basePath + '/tenants/' + tc.domain + '/icon';
+                        faviconLink.type = tc.hasIconData ? (tc.iconContentType || 'image/x-icon') : (tc.logoContentType || 'image/svg+xml');
+                    }
+                    const tenantCssLink = document.getElementById('tenant-css');
+                    if (tenantCssLink && tc.domain) {
+                        tenantCssLink.href = basePath + '/tenants/' + tc.domain + '/theme.css';
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading tenant:', e);
+            }
+        }
+
+        // Initialize page
+        async function init() {
+            initTenant();
+            document.getElementById('back-link').href = basePath + '/login.html';
+
+            const res = await api('/auth/me');
+            if (!res) return;
+
+            if (!res.ok) {
+                window.location.href = basePath + '/login.html';
+                return;
+            }
+
+            currentUser = await res.json();
+
+            document.getElementById('info-name').textContent = currentUser.displayName || '—';
+            document.getElementById('info-email').textContent = currentUser.email || '—';
+            document.getElementById('info-level').textContent = getAccessLevelName(currentUser.globalAccessLevel) + ' (' + currentUser.globalAccessLevel + ')';
+            document.getElementById('info-tenant').textContent = currentUser.tenantDomain || currentUser.tenantName || 'Default';
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'block';
+
+            await Promise.all([
+                loadMyApps(),
+                loadAllApps(),
+                loadMyRequests()
+            ]);
+
+            renderAvailableApps();
+            renderAccessLevelChange();
+        }
+
+        // B. My Applications
+        async function loadMyApps() {
+            const res = await api('/permissions/user/' + currentUser.userId);
+            if (!res) return;
+
+            if (res.ok) {
+                myPermissions = await res.json();
+            } else {
+                myPermissions = [];
+            }
+
+            renderMyApps();
+        }
+
+        function renderMyApps() {
+            const container = document.getElementById('my-apps-content');
+
+            if (myPermissions.length === 0) {
+                container.innerHTML = '<div class="empty-state">You don\'t have access to any applications yet. Request access below.</div>';
+                return;
+            }
+
+            let html = '<div class="table-wrap"><table>';
+            html += '<thead><tr><th>Application</th><th>Role</th><th>Granted</th><th>Actions</th></tr></thead>';
+            html += '<tbody>';
+
+            myPermissions.forEach(function(perm, idx) {
+                html += '<tr>';
+                html += '<td>' + escapeHtml(perm.appName || perm.appId) + '</td>';
+                html += '<td><span class="badge badge-role">' + escapeHtml(perm.role) + '</span></td>';
+                html += '<td>' + formatDate(perm.grantedAt) + '</td>';
+                html += '<td><button class="btn btn-outline btn-sm" onclick="toggleRoleChangeForm(' + idx + ')">Request Role Change</button></td>';
+                html += '</tr>';
+                html += '<tr id="role-change-row-' + idx + '" style="display:none;"><td colspan="4">';
+                html += '<div class="inline-form" id="role-change-form-' + idx + '"></div>';
+                html += '</td></tr>';
+            });
+
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }
+
+        function toggleRoleChangeForm(idx) {
+            const row = document.getElementById('role-change-row-' + idx);
+            const formContainer = document.getElementById('role-change-form-' + idx);
+
+            if (row.style.display === 'none') {
+                row.style.display = 'table-row';
+
+                const perm = myPermissions[idx];
+                const app = allApps.find(function(a) { return a.appId === perm.appId; });
+                const roles = (app && app.availableRoles) || [];
+
+                let html = '<div class="form-row">';
+                html += '<label class="form-label">New Role</label>';
+                html += '<select id="role-change-select-' + idx + '">';
+                roles.forEach(function(r) {
+                    const selected = r === perm.role ? ' selected' : '';
+                    html += '<option value="' + escapeHtml(r) + '"' + selected + '>' + escapeHtml(r) + '</option>';
+                });
+                html += '</select></div>';
+                html += '<div class="form-row">';
+                html += '<label class="form-label">Reason (optional)</label>';
+                html += '<textarea id="role-change-reason-' + idx + '" placeholder="Why do you need this role?"></textarea>';
+                html += '</div>';
+                html += '<div style="display:flex;gap:8px;">';
+                html += '<button class="btn btn-primary btn-sm" onclick="submitRoleChange(' + idx + ')">Submit Request</button>';
+                html += '<button class="btn btn-outline btn-sm" onclick="toggleRoleChangeForm(' + idx + ')">Cancel</button>';
+                html += '</div>';
+
+                formContainer.innerHTML = html;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        async function submitRoleChange(idx) {
+            const perm = myPermissions[idx];
+            const role = document.getElementById('role-change-select-' + idx).value;
+            const reason = document.getElementById('role-change-reason-' + idx).value;
+
+            if (role === perm.role) {
+                showToast('Please select a different role than your current one.', 'error');
+                return;
+            }
+
+            const res = await api('/access-requests', {
+                method: 'POST',
+                body: JSON.stringify({
+                    requestType: 'RoleChange',
+                    appId: perm.appId,
+                    requestedRole: role,
+                    reason: reason || null
+                })
+            });
+
+            if (!res) return;
+
+            if (res.ok) {
+                showToast('Role change request submitted!', 'success');
+                document.getElementById('role-change-row-' + idx).style.display = 'none';
+                loadMyRequests();
+            } else {
+                const data = await res.json().catch(function() { return {}; });
+                showToast(data.message || 'Failed to submit request', 'error');
+            }
+        }
+
+        // C. Available Apps
+        async function loadAllApps() {
+            const res = await api('/apps');
+            if (!res) return;
+
+            if (res.ok) {
+                allApps = await res.json();
+            } else {
+                allApps = [];
+            }
+        }
+
+        function renderAvailableApps() {
+            const container = document.getElementById('available-apps-content');
+            const myAppIds = new Set(myPermissions.map(function(p) { return p.appId; }));
+            const available = allApps.filter(function(a) { return !myAppIds.has(a.appId); });
+
+            if (available.length === 0) {
+                container.innerHTML = '<div class="empty-state">You have access to all available applications.</div>';
+                return;
+            }
+
+            let html = '<div class="app-cards">';
+
+            available.forEach(function(app, idx) {
+                const roles = app.availableRoles || [];
+                html += '<div class="app-card">';
+                html += '<div class="app-card-name">' + escapeHtml(app.displayName || app.appId) + '</div>';
+                html += '<div class="app-card-desc">' + escapeHtml(app.description || 'No description available') + '</div>';
+
+                if (roles.length > 0) {
+                    html += '<div class="form-row">';
+                    html += '<label class="form-label">Desired Role</label>';
+                    html += '<select id="avail-role-' + idx + '">';
+                    roles.forEach(function(r) {
+                        html += '<option value="' + escapeHtml(r) + '">' + escapeHtml(r) + '</option>';
+                    });
+                    html += '</select></div>';
+                }
+
+                html += '<div class="form-row">';
+                html += '<label class="form-label">Reason (optional)</label>';
+                html += '<textarea id="avail-reason-' + idx + '" placeholder="Why do you need access?"></textarea>';
+                html += '</div>';
+                html += '<button class="btn btn-primary btn-sm" onclick="submitAppAccess(' + idx + ')" data-app-id="' + escapeHtml(app.appId) + '">Request Access</button>';
+                html += '</div>';
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        async function submitAppAccess(idx) {
+            const myAppIds = new Set(myPermissions.map(function(p) { return p.appId; }));
+            const available = allApps.filter(function(a) { return !myAppIds.has(a.appId); });
+            const app = available[idx];
+
+            if (!app) {
+                showToast('App not found', 'error');
+                return;
+            }
+
+            const roleSelect = document.getElementById('avail-role-' + idx);
+            const role = roleSelect ? roleSelect.value : null;
+            const reason = document.getElementById('avail-reason-' + idx).value;
+
+            if (!role) {
+                showToast('Please select a role', 'error');
+                return;
+            }
+
+            const res = await api('/access-requests', {
+                method: 'POST',
+                body: JSON.stringify({
+                    requestType: 'AppAccess',
+                    appId: app.appId,
+                    requestedRole: role,
+                    reason: reason || null
+                })
+            });
+
+            if (!res) return;
+
+            if (res.ok) {
+                showToast('Access request submitted for ' + (app.displayName || app.appId) + '!', 'success');
+                loadMyRequests();
+                renderAvailableApps();
+            } else {
+                const data = await res.json().catch(function() { return {}; });
+                showToast(data.message || 'Failed to submit request', 'error');
+            }
+        }
+
+        // D. Access Level Change
+        function renderAccessLevelChange() {
+            const container = document.getElementById('level-change-content');
+            const current = currentUser.globalAccessLevel;
+
+            let html = '<div class="level-card">';
+            html += '<div class="current-level">';
+            html += '<span class="current-level-label">Current Level:</span>';
+            html += '<span class="current-level-value">' + escapeHtml(getAccessLevelName(current)) + ' (' + current + ')</span>';
+            html += '</div>';
+            html += '<div class="form-row">';
+            html += '<label class="form-label">Desired Access Level</label>';
+            html += '<select id="level-select">';
+
+            var levelOptions = [
+                { value: 0, name: 'ReadOnly' },
+                { value: 1, name: 'User' },
+                { value: 2, name: 'PowerUser' },
+                { value: 3, name: 'Admin' }
+            ];
+
+            levelOptions.forEach(function(opt) {
+                var disabled = opt.value === current ? ' disabled' : '';
+                var suffix = opt.value === current ? ' (current)' : '';
+                html += '<option value="' + opt.value + '"' + disabled + '>' + opt.name + ' (' + opt.value + ')' + suffix + '</option>';
+            });
+
+            html += '</select></div>';
+            html += '<div class="form-row">';
+            html += '<label class="form-label">Reason</label>';
+            html += '<textarea id="level-reason" placeholder="Why do you need a higher access level?"></textarea>';
+            html += '</div>';
+            html += '<button class="btn btn-primary btn-sm" onclick="submitLevelChange()">Submit Request</button>';
+            html += '</div>';
+
+            container.innerHTML = html;
+
+            var select = document.getElementById('level-select');
+            for (var i = 0; i < select.options.length; i++) {
+                if (parseInt(select.options[i].value) !== current && !select.options[i].disabled) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        async function submitLevelChange() {
+            var level = parseInt(document.getElementById('level-select').value);
+            var reason = document.getElementById('level-reason').value;
+
+            if (level === currentUser.globalAccessLevel) {
+                showToast('Please select a different access level.', 'error');
+                return;
+            }
+
+            var res = await api('/access-requests', {
+                method: 'POST',
+                body: JSON.stringify({
+                    requestType: 'AccessLevelChange',
+                    requestedAccessLevel: level,
+                    reason: reason || null
+                })
+            });
+
+            if (!res) return;
+
+            if (res.ok) {
+                showToast('Access level change request submitted!', 'success');
+                document.getElementById('level-reason').value = '';
+                loadMyRequests();
+            } else {
+                var data = await res.json().catch(function() { return {}; });
+                showToast(data.message || 'Failed to submit request', 'error');
+            }
+        }
+
+        // E. My Requests
+        async function loadMyRequests() {
+            var res = await api('/access-requests/my');
+            if (!res) return;
+
+            var container = document.getElementById('my-requests-content');
+
+            if (!res.ok) {
+                container.innerHTML = '<div class="empty-state">Failed to load requests.</div>';
+                return;
+            }
+
+            var requests = await res.json();
+
+            if (requests.length === 0) {
+                container.innerHTML = '<div class="empty-state">No requests yet. Use the forms above to request access.</div>';
+                return;
+            }
+
+            var html = '<div class="table-wrap"><table>';
+            html += '<thead><tr>';
+            html += '<th>Type</th>';
+            html += '<th>Application</th>';
+            html += '<th>Requested</th>';
+            html += '<th>Status</th>';
+            html += '<th>Date</th>';
+            html += '<th>Admin Note</th>';
+            html += '</tr></thead>';
+            html += '<tbody>';
+
+            requests.forEach(function(req) {
+                var typeLabel = req.requestType;
+                if (typeLabel === 'AppAccess') typeLabel = 'App Access';
+                if (typeLabel === 'RoleChange') typeLabel = 'Role Change';
+                if (typeLabel === 'AccessLevelChange') typeLabel = 'Level Change';
+
+                var requestedValue = '';
+                if (req.requestedRole) {
+                    requestedValue = 'Role: ' + escapeHtml(req.requestedRole);
+                } else if (req.requestedAccessLevel !== null && req.requestedAccessLevel !== undefined) {
+                    requestedValue = 'Level: ' + getAccessLevelName(req.requestedAccessLevel);
+                }
+
+                var statusClass = 'badge-pending';
+                if (req.status === 'Approved') statusClass = 'badge-approved';
+                else if (req.status === 'Rejected') statusClass = 'badge-rejected';
+
+                html += '<tr>';
+                html += '<td>' + escapeHtml(typeLabel) + '</td>';
+                html += '<td>' + escapeHtml(req.appName || '—') + '</td>';
+                html += '<td>' + requestedValue + '</td>';
+                html += '<td><span class="badge ' + statusClass + '">' + escapeHtml(req.status) + '</span></td>';
+                html += '<td>' + formatDate(req.createdAt) + '</td>';
+                html += '<td>' + escapeHtml(req.reviewNote || '—') + '</td>';
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }
+
+        init();
+    </script>
+</body>
+</html>

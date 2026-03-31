@@ -1,0 +1,44 @@
+---
+description: Pwsh2CSharp output is the authoritative reference for V1 logic
+globs: ["src/SystemAnalyzer.Batch/**"]
+alwaysApply: true
+---
+
+# Pwsh2CSharp Output Is the Authoritative V1 Reference
+
+## The Rule
+
+`_old/SystemAnalyzer.Batch.CSharp/FullAnalysisPipeline.cs` contains the **COMPLETE V1 PowerShell source** from `Invoke-FullAnalysis.ps1`, embedded verbatim by the Pwsh2CSharp parser. This file is the **single source of truth** for all V1 pipeline logic. The original V1 PowerShell scripts are also archived in `_old/SystemAnalyzer.Batch/`.
+
+When writing or modifying **ANY** logic in `SystemAnalyzer.Batch`, you **MUST** cross-reference the corresponding PowerShell function in `_old/SystemAnalyzer.Batch.CSharp/FullAnalysisPipeline.cs` before writing C# code.
+
+## What "Abandon Pwsh2CSharp" Means
+
+- **DO NOT** run the Pwsh2CSharp parser tool for automated conversion
+- **ALWAYS** consult the Pwsh2CSharp-generated output as a reference artifact
+- **ALWAYS** consult the AiProtocols in `AnalysisStatic/AiProtocols/`
+- The embedded PowerShell, the AI protocols, and the AI-tagged comments are **never abandoned** — only the parser runtime is
+
+## What Must Be Cross-Referenced
+
+The embedded PowerShell is the source of truth for:
+
+| Category | Example | Reference Location |
+|---|---|---|
+| Regex patterns | `$SqlBlockPattern`, `$SqlTablePattern`, `$CallPattern` | Top of file (lines ~20-50) |
+| Normalization mappings | FROM→SELECT, JOIN→SELECT, INTO→INSERT | `Get-SqlOperations` switch block (lines 712-724) |
+| Filter/boundary logic | `Filter-SqlByBoundary`, strict qualifiedName matching | Lines 454-468 |
+| Dedup keys | `"$schema|$table|$op"` for SQL, case-insensitive HashSet | Inside each `Get-*` function |
+| Output field names | `tableName` not `table`, `schema` not `schemaName` | `[ordered]@{}` blocks in extraction functions |
+| Call exclusion rules | Length < 3, contains hyphen, `$CallExcludeSet`, `^CBL_` prefix | `Test-ExcludeCall` function |
+| File I/O mode mapping | INPUT→READ, OUTPUT→WRITE, I-O→READ-WRITE, EXTEND→WRITE | `Get-FileIO` function |
+| Boundary sweep + orphan cleanup | Package boundary, table boundary, calledBy reverse-index | Post-Phase 6 sweep (lines 2162-2274) |
+| Conditional file generation | `standard_cobol_filtered.json` only when programs have null sourcePath | Phase 7/8 output logic |
+| Naming cache loading | `futureProjectName`, `futureTableName`, `tableNaming` section | Phase 8f naming pipeline |
+
+## Workflow
+
+1. **Before writing any extraction/filter/output logic in V2**: Open `FullAnalysisPipeline.cs` and find the corresponding V1 function
+2. **Compare every mapping**: Especially switch/case blocks, regex patterns, and property names
+3. **Verify dedup behavior**: Check what the dedup key is and whether it uses case-insensitive comparison
+4. **Check conditional logic**: Some output files are only generated under specific conditions

@@ -1,0 +1,76 @@
+{
+  "tableName": "H_VERKSTEDTEKST",
+  "futureName": "VerkstedTekst",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "WorkshopNumber",
+      "description": "Unique workshop identifier",
+      "foreignKey": [
+        "VOTH_AVDORDRE",
+        "RHE_VOTH_AVDORDRE"
+      ]
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": [
+        "VOTH_AVDORDRE",
+        "RHE_VOTH_AVDORDRE"
+      ]
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "Text description or annotation",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTOKODE",
+      "futureName": "AccountCode",
+      "description": "Account code or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User who made the entry or update",
+      "foreignKey": null
+    },
+    {
+      "name": "OPPR_AVDNR",
+      "futureName": "PreviousWorkshopNumber",
+      "description": "Previous workshop identifier for reference",
+      "foreignKey": null
+    },
+    {
+      "name": "OPPR_ORDRENR",
+      "futureName": "PreviousOrderNumber",
+      "description": "Previous order identifier for reference",
+      "foreignKey": null
+    },
+    {
+      "name": "OPPR_SALGSDATO",
+      "futureName": "PreviousSaleDate",
+      "description": "Previous sale date for reference",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:37:19"
+}

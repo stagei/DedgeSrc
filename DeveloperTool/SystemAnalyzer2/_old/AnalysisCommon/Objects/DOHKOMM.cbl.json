@@ -1,0 +1,296 @@
+{
+  "program": "DOHKOMM",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:06:14",
+  "variableFilenames": {
+    "ALFRAST": {
+      "logicalName": "ALFRAST",
+      "physicalVariable": "W-INTREQ-ST-FIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231005.CSV",
+      "description": "Constructs filename based on userid and date, file extension is .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:06:11"
+    },
+    "ALFRA": {
+      "logicalName": "ALFRA",
+      "physicalVariable": "W-INTREQ-FIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File ALFRA's filename is constructed using_userid and_date with .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:06:14"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DOHKOMM",
+    "program": "DOHKOMM",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFORF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEPR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TILL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASONO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KALK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIKV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIKF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFTKOL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFTKOL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KOKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VDHKOKO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPABPLA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREBEVEGELSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "VAREAVD",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BEHOLDNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORRNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAAMLEV",
+      "GMACURT",
+      "GMAPRTR",
+      "GMACNCT",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "ALFRAST",
+        "physicalName": "W-INTREQ-ST-FIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20231005.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename based on userid and date, file extension is .CSV"
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "W-INTREQ-FIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File ALFRA's filename is constructed using_userid and_date with .CSV extension"
+      },
+      {
+        "logicalName": "IAKT-FILE",
+        "physicalName": "OKBLATF.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBLATF.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:06:14"
+  }
+}

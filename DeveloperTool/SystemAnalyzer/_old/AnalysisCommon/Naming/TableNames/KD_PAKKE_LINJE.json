@@ -1,0 +1,202 @@
+{
+  "tableName": "KD_PAKKE_LINJE",
+  "futureName": "KdPakkeLinje",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Branch number",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED",
+      "futureName": "Lagersted",
+      "description": "Warehouse location",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "Fknr",
+      "description": "Order line number",
+      "foreignKey": "ORDRELINJER"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "Partinr",
+      "description": "Part number",
+      "foreignKey": null
+    },
+    {
+      "name": "RAAV_PARTINR",
+      "futureName": "RaavPartinr",
+      "description": "Raw material part number",
+      "foreignKey": "PARTI"
+    },
+    {
+      "name": "DELPARTINR",
+      "futureName": "Delpartinr",
+      "description": "Sub-part number",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKEDATO",
+      "futureName": "Paakedato",
+      "description": "Packaging date",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKE_TIME",
+      "futureName": "PakkeTime",
+      "description": "Packaging time (hours)",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKE_MINUTT",
+      "futureName": "PakkeMinutt",
+      "description": "Packaging minute",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKE_SEKUND",
+      "futureName": "PakkeSekund",
+      "description": "Packaging second",
+      "foreignKey": null
+    },
+    {
+      "name": "INNMELDT_BEH",
+      "futureName": "InnmeldtBeh",
+      "description": "Received batch number",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegDato",
+      "description": "Registration date",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegBruker",
+      "description": "Registered by user",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "SistEndrDato",
+      "description": "Last modified date",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "SistEndrBruker",
+      "description": "Last modified by user",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Tidspunkt",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "Linjenr",
+      "description": "Line number in order",
+      "foreignKey": "ORDRELINJER_ENDR"
+    },
+    {
+      "name": "FORBRUKT_VEKT",
+      "futureName": "ForbruktVekt",
+      "description": "Consumed weight",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_SEKKER_IORDRE",
+      "futureName": "AntSekkerIordre",
+      "description": "Number of packages in order",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKE_ORDRE_DATO",
+      "futureName": "PakkeOrderDato",
+      "description": "Packaging order date",
+      "foreignKey": null
+    },
+    {
+      "name": "PAASLAG_VEKT",
+      "futureName": "PaaslagVekt",
+      "description": "Wrapping weight",
+      "foreignKey": null
+    },
+    {
+      "name": "PAASLAG_KOMMENTAR",
+      "futureName": "PaaslagKommentar",
+      "description": "Wrapping comment",
+      "foreignKey": null
+    },
+    {
+      "name": "VARE_BEV_OK",
+      "futureName": "VareBevOk",
+      "description": "Material condition OK",
+      "foreignKey": null
+    },
+    {
+      "name": "OMPAKKET",
+      "futureName": "Ompakket",
+      "description": "Repackaged",
+      "foreignKey": null
+    },
+    {
+      "name": "OMPAKK_VEKT_OMPAKK",
+      "futureName": "OppakkVektOmpakk",
+      "description": "Weight for repackaging",
+      "foreignKey": null
+    },
+    {
+      "name": "FORB_VEKT_OMPAKK",
+      "futureName": "ForbVektOmpakk",
+      "description": "Excess weight for repackaging",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGER_BEV_OMPAKK",
+      "futureName": "LagerBevOmpakk",
+      "description": "Warehouse condition after repackaging",
+      "foreignKey": null
+    },
+    {
+      "name": "PLUKKET_VEKT",
+      "futureName": "PlukketVekt",
+      "description": "Picked weight",
+      "foreignKey": null
+    },
+    {
+      "name": "KVITTERT",
+      "futureName": "Kvittert",
+      "description": "Acknowledged",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKEORDRENR",
+      "futureName": "Pakkeordrenr",
+      "description": "Packaging order number",
+      "foreignKey": null
+    },
+    {
+      "name": "LOEPENR_FRA",
+      "futureName": "LopenrFra",
+      "description": "Start lot number",
+      "foreignKey": null
+    },
+    {
+      "name": "LOEPENR_TIL",
+      "futureName": "LopenrTil",
+      "description": "End lot number",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:18:09"
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <!-- 
+    SqlMermaidErdTools MSBuild Targets
+    
+    This file ensures that Python scripts and bundled runtimes are copied
+    to the consuming project's output directory during build.
+  -->
+
+  <PropertyGroup>
+    <SqlMermaidErdToolsPackageRoot>$(MSBuildThisFileDirectory)..\</SqlMermaidErdToolsPackageRoot>
+  </PropertyGroup>
+
+  <!-- Copy Python scripts to output directory -->
+  <Target Name="CopySqlMermaidErdToolsScripts" AfterTargets="Build">
+    <Message Text="SqlMermaidErdTools: Deploying Python scripts to output directory..." Importance="high" />
+    
+    <!-- Copy scripts from package scripts/ folder -->
+    <ItemGroup>
+      <SqlMermaidScripts Include="$(SqlMermaidErdToolsPackageRoot)scripts\*.py" />
+    </ItemGroup>
+    
+    <Copy 
+      SourceFiles="@(SqlMermaidScripts)"
+      DestinationFolder="$(OutputPath)scripts" 
+      SkipUnchangedFiles="true"
+      Condition="@(SqlMermaidScripts->Count()) > 0" />
+    
+    <Message Text="SqlMermaidErdTools: Scripts deployed to $(OutputPath)scripts" Importance="high" 
+             Condition="@(SqlMermaidScripts->Count()) > 0" />
+  </Target>
+  
+  <!-- Copy bundled runtimes to output directory -->
+  <Target Name="CopySqlMermaidErdToolsRuntimes" AfterTargets="Build">
+    <Message Text="SqlMermaidErdTools: Deploying bundled runtimes..." Importance="high" />
+    
+    <!-- Determine runtime identifier -->
+    <PropertyGroup>
+      <SqlMermaidRid Condition="$([MSBuild]::IsOSPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'X64'">win-x64</SqlMermaidRid>
+      <SqlMermaidRid Condition="$([MSBuild]::IsOSPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' != 'X64'">win-x86</SqlMermaidRid>
+      <SqlMermaidRid Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</SqlMermaidRid>
+      <SqlMermaidRid Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</SqlMermaidRid>
+    </PropertyGroup>
+    
+    <!-- Copy runtime files -->
+    <ItemGroup>
+      <SqlMermaidRuntimeFiles Include="$(SqlMermaidErdToolsPackageRoot)runtimes\$(SqlMermaidRid)\**\*" />
+    </ItemGroup>
+    
+    <Copy 
+      SourceFiles="@(SqlMermaidRuntimeFiles)"
+      DestinationFiles="@(SqlMermaidRuntimeFiles->'$(OutputPath)runtimes\$(SqlMermaidRid)\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true"
+      Condition="@(SqlMermaidRuntimeFiles->Count()) > 0" />
+    
+    <Message Text="SqlMermaidErdTools: Runtimes deployed to $(OutputPath)runtimes\$(SqlMermaidRid)" Importance="high" 
+             Condition="@(SqlMermaidRuntimeFiles->Count()) > 0" />
+  </Target>
+
+</Project>
+

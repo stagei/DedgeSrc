@@ -1,0 +1,518 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.index">ServerMonitor Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="shortcut icon" href="favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+        <div class="header-controls">
+            <!-- Agent Control Panel Toggle (PowerUser+ for job control) -->
+            <button class="btn btn-header-action btn-control-panel" id="controlPanelBtn" title="Open Agent Control Panel" data-require-role="PowerUser">
+                <span>🎛️</span> <span data-i18n="index.controlPanel">Control Panel</span>
+            </button>
+            <!-- Tools Panel Toggle (Admin only) -->
+            <button class="btn btn-header-action btn-tools" id="toolsPanelBtn" title="Open Tools Panel" data-require-role="Admin">
+                <span>🛠️</span> <span data-i18n="index.tools">Tools</span>
+            </button>
+            
+            <!-- Status Summary -->
+            <span id="statusSummary" style="display: flex; gap: 0.5rem;"></span>
+            
+            <!-- Active Trigger Indicators (shown when files exist) - PowerUser+ interactive -->
+            <div class="active-triggers" id="activeTriggers" data-require-role="PowerUser">
+                <span class="trigger-status-badge badge-disable hidden" id="disableFileIndicator" title="Click to enable agents" data-trigger-control>
+                    <span>⛔</span> <span data-i18n="index.disabled">DISABLED</span>
+                </span>
+                <span class="trigger-status-badge hidden" id="stopFileIndicator" title="Click to remove stop trigger" data-trigger-control>
+                    <span>🛑</span> <span data-i18n="index.stopping">Stopping</span>
+                </span>
+                <span class="trigger-status-badge hidden" id="reinstallFileIndicator" title="Click to remove reinstall trigger" data-trigger-control>
+                    <span>📦</span> <span data-i18n="index.updating">Updating</span>
+                </span>
+                <span class="trigger-status-badge hidden" id="startFileIndicator" title="Click to remove start trigger" data-trigger-control>
+                    <span>▶️</span> <span data-i18n="index.starting">Starting</span>
+                </span>
+            </div>
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <!-- Active Alerts Dropdown -->
+            <div class="alert-dropdown-container hidden" id="alertDropdownContainer">
+                <button class="btn-alert-dropdown" id="alertDropdownBtn" title="Active Alerts">
+                    <span class="alert-icon">&#x26A0;</span>
+                    <span class="alert-label" data-i18n="index.alertLabel">Alerts</span>
+                    <span class="alert-badge" id="alertBadge">0</span>
+                </button>
+                <div class="alert-dropdown-menu hidden" id="alertDropdownMenu">
+                    <div class="alert-dropdown-header">
+                        <span data-i18n="index.activeAlerts">Active Alerts</span>
+                        <span class="alert-dropdown-last-poll" id="alertLastPoll"></span>
+                    </div>
+                    <div class="alert-filter-row">
+                        <label class="alert-filter-toggle" title="Show only production servers">
+                            <input type="checkbox" id="productionOnlyFilter" checked>
+                            <span class="alert-filter-label" data-i18n="index.productionOnly">Production only</span>
+                        </label>
+                    </div>
+                    <div class="alert-dropdown-list" id="alertDropdownList">
+                        <!-- Alert items populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="server-select-container">
+                <label for="serverSelect" data-i18n="label.server">Server:</label>
+                <select id="serverSelect" class="server-select">
+                    <option value="">-- Loading... --</option>
+                </select>
+            </div>
+
+            <div class="refresh-controls">
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" id="autoRefresh" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span data-i18n="label.autoRefresh">Auto-Refresh</span>
+                </div>
+
+                <select id="refreshInterval" class="interval-select">
+                    <option value="5">5s</option>
+                    <option value="10">10s</option>
+                    <option value="15">15s</option>
+                    <option value="30">30s</option>
+                    <option value="60">1m</option>
+                    <option value="120" selected>2m</option>
+                    <option value="300">5m</option>
+                    <option value="600">10m</option>
+                    <option value="900">15m</option>
+                    <option value="1800">30m</option>
+                    <option value="3600">60m</option>
+                </select>
+
+                <span id="refreshSpinner" class="spinner hidden">⟳</span>
+                <span id="countdown" class="countdown">2m</span>
+
+                <button id="refreshBtn" class="btn btn-outline" title="Refresh Now">
+                    <span>🔄</span> <span data-i18n="button.refresh">Refresh</span>
+                </button>
+
+                <button id="reinstallBtn" class="btn btn-danger" style="display: none;" title="Trigger Reinstall" data-require-role="Admin">
+                    <span>⚡</span> <span data-i18n="index.reinstall">Reinstall</span>
+                </button>
+
+                <button id="analysisBtn" class="btn btn-outline" title="Open Snapshot History Analysis" onclick="dashboard.openSnapshotAnalysisWindow()">
+                    <span>📊</span> <span data-i18n="index.analysis">Analysis</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div id="metricsGrid" class="metrics-grid">
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <div class="empty-state-icon">📊</div>
+                <p data-i18n="index.selectServer">Select a server to view metrics</p>
+            </div>
+        </div>
+
+        <!-- Windows Updates Panel (always visible) -->
+        <div id="windowsUpdatesPanel" class="panel updates-panel">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>🔄</span> <span data-i18n="index.windowsUpdates">Windows Updates</span>
+                </span>
+            </div>
+            <div class="panel-body updates-body">
+                <div class="updates-content">
+                    <div class="updates-empty-state">
+                        <span class="updates-icon">📊</span>
+                        <span data-i18n="index.selectServerUpdates">Select a server to view update status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DB2 Diagnostics Panel -->
+        <div id="db2Panel" class="panel db2-panel hidden">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>🗄️</span> <span data-i18n="index.db2Diagnostics">DB2 Diagnostics</span>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="db2-stats"></div>
+            </div>
+        </div>
+
+        <!-- IIS Panel -->
+        <div id="iisPanel" class="panel iis-panel hidden">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>🌐</span> <span data-i18n="index.iisWebServer">IIS Web Server</span>
+                    <span class="iis-summary" style="margin-left: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></span>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="iis-stats"></div>
+            </div>
+        </div>
+
+        <!-- Top Processes Panel -->
+        <div id="processesPanel" class="panel hidden">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>⚙️</span> <span data-i18n="index.topProcesses">Top Processes (CPU)</span>
+                </span>
+            </div>
+            <div class="panel-body">
+            </div>
+        </div>
+
+        <!-- Scheduled Tasks Panel -->
+        <div id="scheduledTasksPanel" class="panel hidden">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>📅</span> <span data-i18n="index.scheduledTasks">Scheduled Tasks</span>
+                    <span class="task-count" style="margin-left: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></span>
+                </span>
+            </div>
+            <div class="panel-body">
+                <table class="tasks-table">
+                    <colgroup>
+                        <col style="width: 18%;">
+                        <col style="width: 25%;">
+                        <col style="width: 12%;">
+                        <col style="width: 15%;">
+                        <col style="width: 15%;">
+                        <col style="width: 15%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.taskName">Task Name</th>
+                            <th data-i18n="table.fullPath">Full Path</th>
+                            <th data-i18n="table.status">Status</th>
+                            <th data-i18n="table.nextRun">Next Run</th>
+                            <th data-i18n="table.lastRun">Last Run</th>
+                            <th data-i18n="table.lastResult">Last Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Alerts Panel -->
+        <div id="alertsPanel" class="panel hidden">
+            <div class="panel-header">
+                <span class="panel-title">
+                    <span>🚨</span> <span data-i18n="index.alertsPanel">Alerts</span>
+                    <span class="severity-badge warning alert-count" style="margin-left: 0.5rem;">0</span>
+                </span>
+            </div>
+            <div class="panel-body">
+                <table class="alerts-table">
+                    <colgroup>
+                        <col style="width: 10%;">
+                        <col style="width: 12%;">
+                        <col style="width: 35%;">
+                        <col style="width: 28%;">
+                        <col style="width: 15%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.severity">Severity</th>
+                            <th data-i18n="table.category">Category</th>
+                            <th data-i18n="table.message">Message</th>
+                            <th data-i18n="table.sourceContext">Source / Context</th>
+                            <th data-i18n="table.time">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Control Panel Modal -->
+    <div class="modal-overlay hidden" id="controlPanelModal">
+        <div class="modal control-panel-modal">
+            <div class="modal-header">
+                <h2><span>🎛️</span> <span data-i18n="cp.title">Agent Control Panel</span></h2>
+                <button class="modal-close" id="closeControlPanel">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Global Enable/Disable Section -->
+                <div class="control-section control-section-primary">
+                    <div class="control-header">
+                        <h3><span>🔌</span> <span data-i18n="cp.globalControl">Global Agent Control</span></h3>
+                        <p class="control-description" data-i18n="cp.globalControlDesc">Master switch to enable or disable all ServerMonitor agents</p>
+                    </div>
+                    <div class="control-content">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="agentsEnabledToggle" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label" id="agentsEnabledLabel" data-i18n="cp.agentsEnabled">Agents Enabled</span>
+                        </label>
+                        <p class="control-hint" id="agentsEnabledHint" data-i18n="cp.agentsEnabledHint">
+                            When disabled, agents cannot start. Running agents will continue until stopped.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Section -->
+                <div class="control-section">
+                    <div class="control-header">
+                        <h3><span>⚡</span> <span data-i18n="cp.quickActions">Quick Actions</span></h3>
+                        <p class="control-description" data-i18n="cp.quickActionsDesc">Common operations for managing all agents at once</p>
+                    </div>
+                    <div class="control-actions">
+                        <div class="action-card" id="actionStopAll">
+                            <div class="action-icon">🛑</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.stopAllAgents">Stop All Agents</strong>
+                                <p data-i18n="cp.stopAllDesc">Gracefully shut down all running agents</p>
+                            </div>
+                            <button class="btn btn-action btn-stop" id="ctrlStopAllBtn" data-i18n="button.stop">Stop</button>
+                        </div>
+                        <div class="action-card" id="actionStartAll">
+                            <div class="action-icon">▶️</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.startAllAgents">Start All Agents</strong>
+                                <p data-i18n="cp.startAllDesc">Start agents on all servers via tray apps</p>
+                            </div>
+                            <button class="btn btn-action btn-start" id="ctrlStartAllBtn" data-i18n="button.start">Start</button>
+                        </div>
+                        <div class="action-card" id="actionUpdateAll">
+                            <div class="action-icon">📦</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.updateAllAgents">Update All Agents</strong>
+                                <p data-i18n="cp.updateAllDesc">Install latest version on all servers</p>
+                            </div>
+                            <button class="btn btn-action btn-update" id="ctrlUpdateAllBtn" data-i18n="button.update">Update</button>
+                        </div>
+                        <div class="action-card" id="actionGlobalStopFile" style="border-left: 3px solid var(--error-color);">
+                            <div class="action-icon">📄</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.globalStopFile">Global Stop File</strong>
+                                <p data-i18n="cp.globalStopFileDesc">Create stop trigger file (failover method)</p>
+                            </div>
+                            <button class="btn btn-action btn-stop" id="ctrlGlobalStopFileBtn" data-i18n="button.create">Create</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Status Section -->
+                <div class="control-section">
+                    <div class="control-header">
+                        <h3><span>📊</span> <span data-i18n="cp.triggerFiles">Current Trigger Files</span></h3>
+                        <p class="control-description" data-i18n="cp.triggerFilesDesc">Active trigger files that affect agent behavior</p>
+                    </div>
+                    <div class="trigger-status-list" id="triggerStatusList">
+                        <div class="trigger-status-item" id="statusDisable">
+                            <span class="status-icon">⛔</span>
+                            <span class="status-name" data-i18n="cp.disableFile">Disable File</span>
+                            <span class="status-value" id="statusDisableValue" data-i18n="status.notPresent">Not present</span>
+                            <button class="btn btn-sm btn-remove hidden" id="removeDisableBtn" data-i18n="button.remove">Remove</button>
+                        </div>
+                        <div class="trigger-status-item" id="statusStop">
+                            <span class="status-icon">🛑</span>
+                            <span class="status-name" data-i18n="cp.stopFile">Stop File</span>
+                            <span class="status-value" id="statusStopValue" data-i18n="status.notPresent">Not present</span>
+                            <button class="btn btn-sm btn-remove hidden" id="removeStopBtn" data-i18n="button.remove">Remove</button>
+                        </div>
+                        <div class="trigger-status-item" id="statusStart">
+                            <span class="status-icon">▶️</span>
+                            <span class="status-name" data-i18n="cp.startFile">Start File</span>
+                            <span class="status-value" id="statusStartValue" data-i18n="status.notPresent">Not present</span>
+                            <button class="btn btn-sm btn-remove hidden" id="removeStartBtn" data-i18n="button.remove">Remove</button>
+                        </div>
+                        <div class="trigger-status-item" id="statusReinstall">
+                            <span class="status-icon">📦</span>
+                            <span class="status-name" data-i18n="cp.reinstallFile">Reinstall File</span>
+                            <span class="status-value" id="statusReinstallValue" data-i18n="status.notPresent">Not present</span>
+                            <button class="btn btn-sm btn-remove hidden" id="removeReinstallBtn" data-i18n="button.remove">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div class="control-section">
+                    <div class="control-header">
+                        <h3><span>🔗</span> <span data-i18n="cp.quickLinks">Quick Links</span></h3>
+                        <p class="control-description" data-i18n="cp.quickLinksDesc">Open configuration folders and files</p>
+                    </div>
+                    <div class="control-actions">
+                        <div class="action-card" id="actionOpenConfigFolder">
+                            <div class="action-icon">📂</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.configFolder">Config Folder</strong>
+                                <p data-i18n="cp.configFolderDesc">Open the ServerMonitor config folder on fkxtst</p>
+                            </div>
+                            <button class="btn btn-action btn-secondary" id="openConfigFolderBtn" data-i18n="button.open">Open</button>
+                        </div>
+                        <div class="action-card" id="actionCreateStopFile">
+                            <div class="action-icon">🛑</div>
+                            <div class="action-details">
+                                <strong data-i18n="cp.createStopFile">Create Stop File</strong>
+                                <p data-i18n="cp.createStopFileDesc">Manually create a stop trigger file</p>
+                            </div>
+                            <button class="btn btn-action btn-stop" id="createStopFileBtn" data-i18n="button.create">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Panel Modal -->
+    <div class="modal-overlay hidden" id="toolsPanelModal">
+        <div class="modal tools-panel-modal">
+            <div class="modal-header">
+                <h2><span>🛠️</span> <span data-i18n="tools.title">Tools</span></h2>
+                <button class="modal-close" id="closeToolsPanel">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Configuration Settings Section -->
+                <div class="control-section">
+                    <div class="control-header">
+                        <h3><span>📝</span> <span data-i18n="tools.configEditors">Configuration Editors</span></h3>
+                        <p class="control-description" data-i18n="tools.configEditorsDesc">Edit agent configuration files with form-based UI</p>
+                    </div>
+                    <div class="control-actions">
+                        <div class="action-card settings-action-card" id="actionEditAlertSettings">
+                            <div class="action-icon">⚙️</div>
+                            <div class="action-details">
+                                <strong data-i18n="tools.agentAlertSettings">Agent Alert Settings</strong>
+                                <p data-i18n="tools.agentAlertSettingsDesc">Edit channels, throttling, export settings, and performance scaling</p>
+                            </div>
+                            <button class="btn btn-action btn-settings" id="ctrlEditAlertSettingsBtn" data-i18n="button.edit">Edit →</button>
+                        </div>
+                        <div class="action-card settings-action-card" id="actionEditNotificationSettings">
+                            <div class="action-icon">📧</div>
+                            <div class="action-details">
+                                <strong data-i18n="tools.notificationSettings">Notification Settings</strong>
+                                <p data-i18n="tools.notificationSettingsDesc">Edit recipients, schedules, environments, and channel overrides</p>
+                            </div>
+                            <button class="btn btn-action btn-settings" id="ctrlEditNotificationSettingsBtn" data-i18n="button.edit">Edit →</button>
+                        </div>
+                        <div class="action-card settings-action-card" id="actionEditDashboardSettings">
+                            <div class="action-icon">🖥️</div>
+                            <div class="action-details">
+                                <strong data-i18n="tools.dashboardSettings">Dashboard Settings</strong>
+                                <p data-i18n="tools.dashboardSettingsDesc">Configure dashboard service and alert polling settings</p>
+                            </div>
+                            <button class="btn btn-action btn-settings" id="ctrlEditDashboardSettingsBtn" data-i18n="button.edit">Edit →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Routing Overview Section -->
+                <div class="control-section">
+                    <div class="control-header">
+                        <h3><span>📊</span> <span data-i18n="tools.analysisOverview">Analysis & Overview</span></h3>
+                        <p class="control-description" data-i18n="tools.analysisOverviewDesc">View consolidated information about alert routing</p>
+                    </div>
+                    <div class="control-actions">
+                        <div class="action-card settings-action-card" id="actionAlertRouting">
+                            <div class="action-icon">📊</div>
+                            <div class="action-details">
+                                <strong data-i18n="tools.alertRouting">Alert Routing Overview</strong>
+                                <p data-i18n="tools.alertRoutingDesc">View which channels are enabled per environment with detailed reasons</p>
+                            </div>
+                            <button class="btn btn-action btn-info" id="ctrlAlertRoutingBtn" data-i18n="button.view">View →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Script Runner Section (Admin only) -->
+                <div class="control-section" id="scriptRunnerSection" style="display: none;">
+                    <div class="control-header">
+                        <h3><span>⚡</span> <span data-i18n="tools.adminTools">Admin Tools</span></h3>
+                        <p class="control-description" data-i18n="tools.adminToolsDesc">Administrative operations</p>
+                    </div>
+                    <div class="control-actions">
+                        <div class="action-card settings-action-card" id="actionScriptRunner">
+                            <div class="action-icon">⚡</div>
+                            <div class="action-details">
+                                <strong data-i18n="tools.scriptRunner">Script Runner</strong>
+                                <p data-i18n="tools.scriptRunnerDesc">Execute predefined scripts on remote servers</p>
+                            </div>
+                            <button class="btn btn-action btn-warning" id="ctrlScriptRunnerBtn" data-i18n="button.openArrow">Open →</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Viewer Modal -->
+    <div class="modal-overlay hidden" id="logViewerModal">
+        <div class="modal log-viewer-modal">
+            <div class="modal-header">
+                <h2><span>📄</span> <span id="logViewerTitle" data-i18n="log.title">Log File</span></h2>
+                <button class="modal-close" id="closeLogViewer">&times;</button>
+            </div>
+            <div class="modal-body log-viewer-body">
+                <div id="monacoContainer" class="monaco-container"></div>
+            </div>
+            <div class="modal-footer log-viewer-footer">
+                <span id="logViewerStatus" class="log-viewer-status"></span>
+                <button class="btn btn-outline" id="logViewerCopyBtn"><span>📋</span> <span data-i18n="button.copyAll">Copy All</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monaco Editor CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    <script>
+        // Configure Monaco loader
+        require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' }});
+    </script>
+
+    <!-- Scripts -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/role-permissions.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

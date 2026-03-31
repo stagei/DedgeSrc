@@ -1,0 +1,116 @@
+# COBOL Variable Filename Resolution
+
+## Purpose
+
+Resolve variable-based ASSIGN filenames in COBOL programs. When a COBOL `SELECT ... ASSIGN TO` statement uses a variable instead of a literal path, the AI analyzes the source to determine the actual file path constructed at runtime.
+
+## When to Use
+
+During dependency extraction (phases 2, 3, 6) when a file I/O entry has `assignType = "variable"` and the physical name is not a literal path. Only invoked when the COBOL source text is available.
+
+## Prompt Template
+
+```
+Analyze this COBOL program ({ProgramName}). Find how the filename variable {PhysicalName} (for file {LogicalName}) is constructed.
+
+Look for:
+- MOVE statements that set {PhysicalName} or parts of it
+- STRING operations building {PhysicalName}
+- VALUE clauses in WORKING-STORAGE for {PhysicalName}
+- Any UNC path (\\server\share\), drive letter (N:\), or folder prefix
+- File extension (.CSV, .DAT, .TXT, .FNK, .RPT, etc.)
+
+IMPORTANT: Use FORWARD SLASHES (/) for all paths in JSON. Never use backslashes.
+
+Respond with EXACTLY one JSON object (no markdown, no explanation, no text before or after):
+{"basePath":"//SERVER/SHARE/","filenamePattern":"<userid>-<date>.CSV","resolvedPath":"//SERVER/SHARE/<dynamic>.CSV","description":"short description"}
+
+Use null for fields you cannot determine. If the variable is a printer (WW-PRINTER), set description to "Printer output spool".
+
+JSON:
+{"basePath":
+
+COBOL SOURCE:
+{SourceText}
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{ProgramName}` | The COBOL program name (e.g. `RUHBEHK`) |
+| `{PhysicalName}` | The variable name from ASSIGN clause (e.g. `WS-KORNRAP-PATH`) |
+| `{LogicalName}` | The logical file name from SELECT clause (e.g. `KORNRAP-FILE`) |
+| `{SourceText}` | Up to 12,000 characters of the COBOL source |
+
+## Response Format
+
+```json
+{
+  "basePath": "//SERVER/SHARE/",
+  "filenamePattern": "<userid>-<date>.CSV",
+  "resolvedPath": "//SERVER/SHARE/<dynamic>.CSV",
+  "description": "short description"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `basePath` | string or null | No | Directory/UNC path prefix |
+| `filenamePattern` | string or null | No | Filename pattern with dynamic parts in angle brackets |
+| `resolvedPath` | string or null | No | Full resolved path (basePath + pattern) |
+| `description` | string or null | No | Human-readable description of the file's purpose |
+
+All paths use forward slashes in the JSON response. The pipeline converts to backslashes for Windows.
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. Extract the first `{...}` JSON object from the response
+3. If response doesn't start with `{`, prepend `{"basePath":`
+4. Parse as JSON
+5. Convert forward slashes to backslashes in path fields
+
+## Cache Key
+
+Stored in `AnalysisCommon/Objects/{PROGRAM}.cbl.json` under `variableFilenames.{LogicalName}`.
+Also included in the `extraction.fileIO` array when extraction caching is active.
+
+## Examples
+
+### Input: Printer variable
+
+Program `RUHBEHK`, physical name `WW-PRINTER`, logical name `PRINTER-OUTPUT`.
+
+### Expected Response
+
+```json
+{"basePath": null, "filenamePattern": null, "resolvedPath": null, "description": "Printer output spool"}
+```
+
+### Input: UNC path with dynamic filename
+
+Program `RSKRPST`, physical name `WS-RAPFIL`, logical name `RAPPORT-FIL`. Source contains:
+```cobol
+01 WS-RAPFIL    PIC X(120) VALUE '\\SRV01\RAPPORTER\'.
+   MOVE WS-RAPFIL TO WS-FULLPATH
+   STRING WS-FULLPATH DELIMITED SPACES
+          WS-USERID  DELIMITED SPACES
+          '-'        DELIMITED SIZE
+          WS-DATO    DELIMITED SPACES
+          '.CSV'     DELIMITED SIZE
+          INTO WS-RAPFIL
+```
+
+### Expected Response
+
+```json
+{"basePath": "//SRV01/RAPPORTER/", "filenamePattern": "<userid>-<date>.CSV", "resolvedPath": "//SRV01/RAPPORTER/<dynamic>.CSV", "description": "CSV report file with userid and date suffix"}
+```
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` (Ollama) — sufficient for most pattern recognition
+- **Better model**: Claude Sonnet/Opus — more reliable for complex STRING operations and multi-step variable construction
+- The prompt ends with a partial JSON to guide the model into completing the object
+- Source text is truncated to 12,000 characters to fit within token limits

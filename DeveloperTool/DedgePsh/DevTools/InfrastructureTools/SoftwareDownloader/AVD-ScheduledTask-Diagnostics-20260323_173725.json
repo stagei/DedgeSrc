@@ -1,0 +1,82 @@
+﻿{
+  "ComputerName": "p-no1avd-vdi024",
+  "UserName": "DEDGE\\FKGEISTA",
+  "IsAvdSessionHost": true,
+  "StartedAt": "2026-03-23T17:37:45",
+  "TestStartTimeValue": "17:42",
+  "Results": [
+    {
+      "CaseName": "NoCreds_HIGHEST",
+      "ExitCode": 1,
+      "Success": false,
+      "DurationMs": 66.0,
+      "Command": "schtasks.exe /Create /SC ONCE /ST 17:42 /TR pwsh.exe -NoProfile -WindowStyle Hidden -Command \"exit 0\" /F /TN \\DevTools\\AVDProbe_NoCreds_Highest_204403f1 /RL HIGHEST",
+      "Output": "ERROR: Access is denied."
+    },
+    {
+      "CaseName": "NoCreds_LIMITED",
+      "ExitCode": 0,
+      "Success": true,
+      "DurationMs": 58.0,
+      "Command": "schtasks.exe /Create /SC ONCE /ST 17:42 /TR pwsh.exe -NoProfile -WindowStyle Hidden -Command \"exit 0\" /F /TN \\DevTools\\AVDProbe_NoCreds_Limited_204403f1 /RL LIMITED",
+      "Output": "SUCCESS: The scheduled task \"\\DevTools\\AVDProbe_NoCreds_Limited_204403f1\" has successfully been created."
+    },
+    {
+      "CaseName": "WithCreds_HIGHEST",
+      "ExitCode": 1,
+      "Success": false,
+      "DurationMs": 64.0,
+      "Command": "schtasks.exe /Create /SC ONCE /ST 17:42 /TR pwsh.exe -NoProfile -WindowStyle Hidden -Command \"exit 0\" /RU DEDGE\\FKGEISTA /RP ***MASKED*** /F /TN \\DevTools\\AVDProbe_WithCreds_Highest_204403f1 /RL HIGHEST",
+      "Output": "ERROR: Access is denied."
+    },
+    {
+      "CaseName": "WithCreds_LIMITED",
+      "ExitCode": 1,
+      "Success": false,
+      "DurationMs": 997.0,
+      "Command": "schtasks.exe /Create /SC ONCE /ST 17:42 /TR pwsh.exe -NoProfile -WindowStyle Hidden -Command \"exit 0\" /RU DEDGE\\FKGEISTA /RP ***MASKED*** /F /TN \\DevTools\\AVDProbe_WithCreds_Limited_204403f1 /RL LIMITED",
+      "Output": "ERROR: The user name or password is incorrect."
+    },
+    {
+      "CaseName": "Module_New-ScheduledTask_RunAsUserTrue",
+      "ExitCode": 0,
+      "Success": true,
+      "DurationMs": 19072.0,
+      "Command": "New-ScheduledTask -TaskName 'AVDProbe_Module_204403f1' -TaskFolder 'DevTools' -Executable '<temp script>' -RunFrequency 'Once' -StartHour 17 -StartMinute 42 -RunAsUser:True -RecreateTask:True",
+      "Output": "New-ScheduledTask call completed."
+    }
+  ],
+  "Cleanup": [
+    {
+      "TaskName": "\\DevTools\\AVDProbe_NoCreds_Highest_204403f1",
+      "ExitCode": 1,
+      "Output": "ERROR: The system cannot find the file specified."
+    },
+    {
+      "TaskName": "\\DevTools\\AVDProbe_WithCreds_Highest_204403f1",
+      "ExitCode": 1,
+      "Output": "ERROR: The system cannot find the file specified."
+    },
+    {
+      "TaskName": "\\DevTools\\AVDProbe_NoCreds_Limited_204403f1",
+      "ExitCode": 0,
+      "Output": "SUCCESS: The scheduled task \"\\DevTools\\AVDProbe_NoCreds_Limited_204403f1\" was successfully deleted."
+    },
+    {
+      "TaskName": "\\DevTools\\AVDProbe_WithCreds_Limited_204403f1",
+      "ExitCode": 1,
+      "Output": "ERROR: The system cannot find the file specified."
+    },
+    {
+      "TaskName": "\\DevTools\\AVDProbe_Module_204403f1",
+      "ExitCode": 0,
+      "Output": "SUCCESS: The scheduled task \"\\DevTools\\AVDProbe_Module_204403f1\" was successfully deleted."
+    }
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create",
+    "https://learn.microsoft.com/en-us/windows/win32/taskschd/security-contexts-for-running-tasks",
+    "https://learn.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/troubleshooting-task-scheduler-access-denied-error",
+    "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-desktop/troubleshoot-agent"
+  ]
+}

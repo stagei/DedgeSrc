@@ -1,0 +1,143 @@
+{
+  "program": "HLBVISP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:49",
+  "extraction": {
+    "sourceHash": "sha256:3134181a3c24498d44a01c34a57780bc61d3ad37b303ffc526117c9369991876",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\hlbvisp.cbl",
+    "actualName": "HLBVISP",
+    "program": "HLBVISP",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HDAFOMR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVSTK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VISP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OTID.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VIKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VTRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VUTP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOBK.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "S",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_SPESTRANS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FOMR_BEHKORR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_KONTERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_TRANSER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_SPESTRANS",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_VISMA_SPESTRANS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_SPESTRANS",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMAVSTK",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:49"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "program": "GMALOGF2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:08",
+  "extraction": {
+    "sourceHash": "sha256:f63840abd3a7e18abbc15d707c9fc78b05da7170473ab8956f30323f9e021ab1",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\gmalogf2.cbl",
+    "actualName": "GMALOGF2",
+    "program": "GMALOGF2",
+    "copyElements": [
+      {
+        "name": "BAID.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BAMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FKLO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMARMSPC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMALOGF2.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "T",
+        "tableName": "NETADRESSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "BI",
+        "tableName": "BANK_TERM_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BANKTERM_MASKIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BANKTERM_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_LOG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMARMSPC",
+      "GMACOCO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:08"
+  }
+}

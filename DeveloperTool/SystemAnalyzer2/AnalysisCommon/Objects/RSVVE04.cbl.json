@@ -1,0 +1,105 @@
+{
+  "program": "RSVVE04",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:10554d033fa70c813d04f2cac3cc267fd9941ff3e23f3da99de5445a858d6a8e",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RSVVE04.CBL",
+    "actualName": "RSVVE04",
+    "program": "RSVVE04",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KDV3.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KONT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSHVE04.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AREALNR_FRA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_AREALNR_SERIE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ARTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SORTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

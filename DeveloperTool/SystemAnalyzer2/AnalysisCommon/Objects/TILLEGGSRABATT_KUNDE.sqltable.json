@@ -1,0 +1,117 @@
+{
+  "tableName": "TILLEGGSRABATT_KUNDE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "I utgangspunktet en rabatt for å kompensere for tidligere silostøtte",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KUNDENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Avdnr brukes kun hvis det skal styres til leveranse fra en gitt avdeling"
+      },
+      {
+        "colNo": 2,
+        "name": "FRA_VAREGRUPPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "TIL_VAREGRUPPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "ENHET",
+        "typeName": "CHARACTER",
+        "length": 5,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis enhet er blank gjelder det alle varar i varegruppen(e)"
+      },
+      {
+        "colNo": 5,
+        "name": "FRA_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "TIL_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "KVRABNR",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Viser til nr i kvantumsrabatter"
+      },
+      {
+        "colNo": 8,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "OVERSTYR_OKT_RAB",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

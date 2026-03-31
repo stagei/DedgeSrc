@@ -1,0 +1,18 @@
+-- Denne skal legges inn i ordre export Kløfta(og øvrige avd) men
+-- kjøres separat første gang
+-- Kjøres for 2015         22/11-2022
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+--  
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL OG FILENAVN 
+--  
+--  Lager grunnlag for load. 
+connect to BASISREG;
+--
+  EXPORT TO P:\tru\mek_tidreg_trans2852_2015.IXF OF IXF
+SELECT 2015, a.*
+    FROM DBM.MEK_TIDSREG_TRANS A
+, dbm.ah_ordre_til_hist_2852 h
+           WHERE a.avdnr = h.avdnr
+         and   A.ORDRENR     = h.ORDRENR;
+//

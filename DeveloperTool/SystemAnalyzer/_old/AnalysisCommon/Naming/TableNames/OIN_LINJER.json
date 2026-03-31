@@ -1,0 +1,158 @@
+{
+  "tableName": "OIN_LINJER",
+  "futureName": "OrderLineItem",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "iordre12",
+      "futureName": "OrderReference",
+      "description": "The reference number of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ordrelin",
+      "futureName": "LineItemSequence",
+      "description": "Sequence number for order line item",
+      "foreignKey": null
+    },
+    {
+      "name": "levnr",
+      "futureName": "SupplierNumber",
+      "description": "Number identifying the supplier",
+      "foreignKey": null
+    },
+    {
+      "name": "varenr",
+      "futureName": "ProductCode",
+      "description": "Code of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "antall",
+      "futureName": "Quantity",
+      "description": "Quantity ordered for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "pris",
+      "futureName": "UnitPrice",
+      "description": "Price per unit of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "varenavn",
+      "futureName": "ProductName",
+      "description": "Name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "plukk_info",
+      "futureName": "PickInfo",
+      "description": "Information related to picking the item",
+      "foreignKey": null
+    },
+    {
+      "name": "enhet",
+      "futureName": "UnitOfMeasure",
+      "description": "Unit of measure for the product quantity",
+      "foreignKey": null
+    },
+    {
+      "name": "l_merknad",
+      "futureName": "LineItemNote",
+      "description": "Note associated with the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "InternalSequenceNumber",
+      "description": "Internal sequence number for order line item",
+      "foreignKey": [
+        "FK_HL_AVDNR",
+        "FK_HL_ORDRENR",
+        "FK_HL_LINJENR"
+      ]
+    },
+    {
+      "name": "fk_hl_avdnr",
+      "futureName": "HeaderDepartmentNumber",
+      "description": "Department number of the order header for hierarchical line items",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_hl_ordrenr",
+      "futureName": "HeaderOrderNumber",
+      "description": "Order number of the order header for hierarchical line items",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_hl_linjernr",
+      "futureName": "HeaderLineItemSequence",
+      "description": "Line item sequence in the order header for hierarchical line items",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_hl_splitt",
+      "futureName": "SplitIndicator",
+      "description": "Indicates whether this is a split line item from an original order",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_i_avdnr",
+      "futureName": "InternalDepartmentNumber",
+      "description": "Department number for internal use in the system",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_i_ordrenr",
+      "futureName": "InternalOrderNumber",
+      "description": "Internal order number for reference",
+      "foreignKey": null
+    },
+    {
+      "name": "fk_i_linjernr",
+      "futureName": "InternalLineItemSequence",
+      "description": "Internal line item sequence for tracking purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "fka_l_status",
+      "futureName": "StatusIndicator",
+      "description": "Status indicator of the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "bestillingsvei",
+      "futureName": "OrderPath",
+      "description": "Path or method through which the order was placed",
+      "foreignKey": null
+    },
+    {
+      "name": "fka_tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the record was last updated or created",
+      "foreignKey": null
+    },
+    {
+      "name": "inkkjoper",
+      "futureName": "Operator",
+      "description": "Operator who made changes to the order line item",
+      "foreignKey": null
+    },
+    {
+      "name": "kundennr",
+      "futureName": "CustomerNumber",
+      "description": "Number identifying the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "levvarenr_ekst",
+      "futureName": "ExternalProductCode",
+      "description": "External product code or identifier used by a third party",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:52:17"
+}

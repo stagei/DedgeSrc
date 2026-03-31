@@ -1,0 +1,40 @@
+{
+  "tableName": "P_SPESIALKONTRAKT_TEKST",
+  "futureName": "SpecialContractText",
+  "namespace": "LegacyDbModels",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "MerchantCode",
+      "description": "Merchant code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "SPESIAL_KONTRAKT",
+      "futureName": "SpecialContractType",
+      "description": "Type of special contract",
+      "foreignKey": "P_SPESIALKONTRAKT"
+    },
+    {
+      "name": "TEKST",
+      "futureName": "TextContent",
+      "description": "Text content related to the special contract",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:17:41"
+}

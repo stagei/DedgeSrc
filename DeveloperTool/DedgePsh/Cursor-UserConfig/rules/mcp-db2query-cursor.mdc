@@ -1,0 +1,126 @@
+﻿---
+description: "User rule (global) — How to use the db2-query MCP tool correctly (Cursor client)"
+alwaysApply: true
+---
+
+# DB2 Query via MCP Tool — Usage Rules
+
+**User rule (global):** `%USERPROFILE%\.cursor\rules\mcp-db2query-cursor.mdc` — applies across all repos that use the DB2 query MCP.
+
+> **Canonical source (Dedge):** `C:\opt\src\DedgePsh\.cursor\rules\mcp-db2query-cursor.mdc`
+
+## CRITICAL: Default Database Warning
+
+When `databaseName` is empty or omitted, the tool defaults to **`BASISRAP` (PRODUCTION)**.
+
+**Always specify `databaseName` explicitly.** When the user does not specify a database, ASK which one before running. Never assume.
+
+## Setup
+
+The `db2-query` MCP server runs on the app server (IIS, Streamable HTTP). Developers register it once:
+
+```powershell
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpCursor\Setup-Db2QueryMcpCursor.ps1"
+```
+
+> **Canonical path (Dedge):** `C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpCursor\Setup-Db2QueryMcpCursor.ps1`
+
+Test / Uninstall:
+
+```powershell
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpCursor\Test-Db2QueryMcpCursor.ps1"
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpCursor\Uninstall-Db2QueryMcpCursor.ps1"
+```
+
+Cursor config (`~/.cursor/mcp.json`):
+
+```json
+{ "mcpServers": { "db2-query": { "url": "http://<app-server>/CursorDb2McpServer/" } } }
+```
+
+> **FK example:** `http://dedge-server/CursorDb2McpServer/`
+
+## Correct Usage
+
+Always read `mcps/user-db2-query/tools/query_db2.json` before calling.
+
+```json
+{ "server": "user-db2-query", "toolName": "query_db2",
+  "arguments": { "databaseName": "BASISTST", "query": "SELECT ..." } }
+```
+
+## Common Mistakes — Detect and Correct
+
+| Mistake | What the agent MUST do |
+|---------|----------------------|
+| No `databaseName` specified | ASK the user which database. Never default silently to BASISRAP. |
+| Using `db2-query` as server name | Use `user-db2-query` (Cursor prefixes user MCP servers with `user-`) |
+| Sending INSERT/UPDATE/DELETE | STOP. The tool is read-only. Tell the user this is not allowed. |
+| Using `url` like `http://...8480/mcp` | The correct URL uses port 80, no `/mcp` suffix |
+| Forgetting `FETCH FIRST n ROWS ONLY` on large tables | WARN the user and add the clause. Unlimited queries can return huge results. |
+| Writing results to file without encoding | Use `-Encoding windows-1252` (PowerShell) or `encoding='cp1252'` (Python) |
+
+## Available Databases (FK environment)
+
+The `databaseName` parameter must use the **Alias** catalog name (not the PrimaryDb name).
+
+### FKM (Dedge) — Main Application
+
+| databaseName | Env | Server | Description |
+|-------------|-----|--------|-------------|
+| `BASISTST` | TST | t-no1fkmtst-db | Test — use for development and testing |
+| `FKAVDNT` | DEV | t-no1fkmdev-db | Development |
+| `BASISVFT` | VFT | t-no1fkmvft-db | Forsprang test |
+| `BASISFUT` | FUT | t-no1fkmfut-db | Functional test |
+| `BASISKAT` | KAT | t-no1fkmkat-db | Customer acceptance test |
+| `BASISPER` | PER | t-no1fkmper-db | Performance test |
+| `BASISMIG` | MIG | t-no1fkmmig-db | Migration test |
+| `BASISVFK` | VFK | t-no1fkmvfk-db | Supply chain acceptance test |
+| `BASISRAP` | RAP | p-no1fkmrap-db | **PRODUCTION** — Report database |
+| `BASISPRO` | PRD | p-no1fkmprd-db | **PRODUCTION** — Main database |
+| `BASISREG` | PRD | p-no1fkmprd-db | **PRODUCTION** — Main database (alt alias) |
+| `BASISHST` | HST | p-no1fkmprd-db | **PRODUCTION** — History |
+
+### INL (Innlan)
+
+| databaseName | Env | Server | Description |
+|-------------|-----|--------|-------------|
+| `FKKTOTST` | TST | t-no1inltst-db | Test |
+| `FKKTODEV` | DEV | t-no1inldev-db | Development |
+| `FKKONTO` | PRD | p-no1inlprd-db | **PRODUCTION** |
+
+### DOC (COBDOK)
+
+| databaseName | Env | Server | Description |
+|-------------|-----|--------|-------------|
+| `COBDOK` | PRD | p-no1docprd-db | **PRODUCTION** |
+
+### VIS (Visma)
+
+| databaseName | Env | Server | Description |
+|-------------|-----|--------|-------------|
+| `VISMABUS` | PRD | p-no1visprd-db | **PRODUCTION** |
+
+**Important:** Servers with `p-` prefix are **PRODUCTION**. Servers with `t-` prefix are **TEST**. Always prefer test databases unless the user explicitly requests production.
+
+## Restrictions
+
+- **Read-only**: SELECT, WITH ... SELECT, VALUES only
+- Forbidden: INSERT, UPDATE, DELETE, DROP, CREATE, ALTER, TRUNCATE, MERGE, GRANT, REVOKE
+- Large results are written to a temp file automatically
+
+## Character Encoding — ANSI-1252
+
+All DB2 databases use **Windows-1252 (ANSI) encoding**:
+
+- Norwegian characters (Æ Ø Å æ ø å) display correctly in Cursor chat
+- When writing results to files, specify encoding explicitly
+- The MCP tool returns raw strings — display them as-is
+
+## Best Practices
+
+1. **Always include `FETCH FIRST n ROWS ONLY`** unless the user specifically wants all rows
+2. **Use column aliases** for readability: `SELECT COUNT(*) AS CNT` not `SELECT COUNT(*)`
+3. **Qualify table names** with schema: `DBM.TABLE_NAME` not just `TABLE_NAME`
+4. **Test queries on BASISTST first** before running on BASISRAP
+5. **Format results as markdown tables** when presenting to the user

@@ -1,0 +1,33 @@
+---
+description: When user says /commit, always git add, commit, and push/sync for the current project
+alwaysApply: true
+---
+
+# Command /commit
+
+When the user requests **`/commit`** (or "command /commit", "commit", "commit and push"), **always** perform all three steps in **this project's root**:
+
+1. **git add** – Stage all changes (`git add -A`).
+2. **git commit** – Commit with a message that describes the changes.
+   - If the user provided a message, use it: `git commit -m "user message"`.
+   - Otherwise, generate a brief message from the changes (e.g. from `git status` / `git diff --staged`).
+   - Do **not** add Co-authored-by, Cursor attribution, or any trailer to the commit message.
+3. **git push** – Push to the remote. A commit without push is incomplete.
+4. **Verify** – Run `git status` after push. Confirm `Your branch is up to date with 'origin/...'`. If not, diagnose and retry.
+
+## Rules
+
+- `/commit` **always means**: add + commit + push. All three steps are mandatory, every time.
+- Run in the **current** (open) project only. Do not run git in other repos.
+- If there are no changes, report that and do not commit.
+- Resolve conflicts or errors before pushing; do not force-push unless explicitly requested.
+- **NEVER skip the push step.**
+
+## Example
+
+```powershell
+git add -A
+git commit -m "Brief description of what changed"
+git push
+git status   # Verify: "Your branch is up to date"
+```

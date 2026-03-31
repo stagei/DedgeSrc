@@ -1,0 +1,28 @@
+{
+  "tableName": "VHG119_BULK_TMS",
+  "futureName": "TmsBildeSign",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Unique identification number for the document or record",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FkNr",
+      "description": "Foreign key reference to another table, possibly related to a contract or order line item",
+      "foreignKey": "A_BESTLIN, A_ORDRELINJER"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or record creation",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:27:32"
+}

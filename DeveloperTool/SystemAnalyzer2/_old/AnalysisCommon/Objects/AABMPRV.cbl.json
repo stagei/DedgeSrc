@@ -1,0 +1,101 @@
+{
+  "program": "AABMPRV",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:29",
+  "extraction": {
+    "sourceHash": "sha256:e764936ef05f22d304e5de1cc8c002541e60d9d555eca6a1330bff6e9b260576",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\aabmprv.cbl",
+    "actualName": "AABMPRV",
+    "program": "AABMPRV",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRVB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRVC.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRV_IMP_LEVVARENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRV_IMP_LEV_KLAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRV_IMP_FEIL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BRYTERE",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:23:29"
+  }
+}

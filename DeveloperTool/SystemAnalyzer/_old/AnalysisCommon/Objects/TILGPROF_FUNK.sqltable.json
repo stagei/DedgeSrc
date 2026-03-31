@@ -1,0 +1,67 @@
+{
+  "tableName": "TILGPROF_FUNK",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:22:11",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "KNYTNING MELLOM PROFIL OG FUNKSJON",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:22:11",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "PROFIL",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "FUNKSJON",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "NIVAA",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "TILG341KEY",
+        "childColumn": "PROFIL",
+        "parentTable": "TILGPROFIL",
+        "parentSchema": "DBM",
+        "parentColumn": "PROFIL"
+      },
+      {
+        "constraintName": "TILG342KEY",
+        "childColumn": "FUNKSJON",
+        "parentTable": "TILGFUNKSJON",
+        "parentSchema": "DBM",
+        "parentColumn": "FUNKSJON"
+      },
+      {
+        "constraintName": "TILG343KEY",
+        "childColumn": "NIVAA",
+        "parentTable": "TILGNIVAA",
+        "parentSchema": "DBM",
+        "parentColumn": "NIVAA"
+      }
+    ]
+  }
+}

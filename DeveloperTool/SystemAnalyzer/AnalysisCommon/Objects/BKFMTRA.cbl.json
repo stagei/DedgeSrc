@@ -1,0 +1,143 @@
+{
+  "program": "BKFMTRA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:39",
+  "extraction": {
+    "sourceHash": "sha256:b60d628334e45c5dc697837e84674185ba639cd6f9f3dc359071af9839c3fe40",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BKFMTRA.CBL",
+    "actualName": "BKFMTRA",
+    "program": "BKFMTRA",
+    "copyElements": [
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KASS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KATK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KATR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KAOP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BKFMTRA.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "T",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASS_TRANSER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASS_OPPGJOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSKODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASS_TRANSKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SISTE_BILAGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SIGNATUR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FORTEGN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASS_TRANSER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASSE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASS_TRANSER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMAMEXT",
+      "BKVMTRA",
+      "GMFFELL",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:39"
+  }
+}

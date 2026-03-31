@@ -1,0 +1,152 @@
+﻿{
+  "server": "t-no1fkmtst-app",
+  "tasks": [
+    {
+      "taskname": "t-no1fkmtst-app-InitServer",
+      "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-VerifyDb2Client",
+      "description": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.",
+      "comment": "IBM Db2 klient må være installert for å kunne koble til databasen",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-ConfigureDb2Client",
+      "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten",
+      "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-VerifyDb2Client",
+        "p-no1fkmprd-db-VerifyKerberosConfig"
+      ],
+      "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db"
+    },
+    {
+      "taskname": "t-no1fkmtst-db-CatalogDb2Kerberos",
+      "description": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMTST_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.",
+      "comment": "Katalogiserer databasen for Kerberos-autentisering",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-db-OrderDb2Key"
+      ],
+      "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+    },
+    {
+      "taskname": "t-no1fkmtst-app-VerifyKerberosConfig",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+      "comment": "Verifiser tilkobling fra appserver til database",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-ConfigureDb2Client"
+      ],
+      "prerequisiteComment": "Db2 klient må være konfigurert"
+    },
+    {
+      "taskname": "t-no1fkmtst-db-CatalogDb2KerberosOnFkWorkstation",
+      "description": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMTST_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.",
+      "comment": "Katalogiserer databasen for Kerberos-autentisering",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-db-OrderDb2Key"
+      ],
+      "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+    },
+    {
+      "taskname": "t-no1fkmtst-app-ConfigureDb2ClientOnFkWorkstation",
+      "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten på FkWorkstation",
+      "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-VerifyDb2Client",
+        "p-no1fkmprd-db-VerifyKerberosConfig"
+      ],
+      "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db"
+    },
+    {
+      "taskname": "t-no1fkmtst-db-VerifyKerberosConfigOnFkWorkstation",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-db-VerifyKerberosConfigOnDbServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    },
+    {
+      "taskname": "t-no1fkmtst-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-db-VerifyKerberosConfigOnAppServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    },
+    {
+      "taskname": "t-no1fkmtst-app-VerifyCobolRuntime",
+      "description": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe",
+      "comment": "Sjekker at run.exe for konsolapplikasjoner fungerer",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-VerifyCobolRuntimeWindows",
+      "description": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe",
+      "comment": "Sjekker at runw.exe for Windows-applikasjoner fungerer",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-InstallRefreshCobolEnvironments",
+      "description": "I pwsh.exe kjør kommandoen: Install-FkPshApp -Name 'Refresh-CobolEnvironments'",
+      "comment": "Installer Refresh-CobolEnvironments",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-RunRefreshCobolEnvironments",
+      "description": "I pwsh.exe kjør kommandoen: cd $env:OptPath\\DedgePshApps\\Refresh-CobolEnvironments\nKjør kommandoen: .\\Refresh-CobolEnvironments.ps1",
+      "comment": "Lager en nytt Cobol-miljø med source fra tilsvarende produksjonsmiljø eller testmiljø",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-InstallRefreshCobolEnvironments"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-TestShortcuts",
+      "description": "Åpne Explorer og gå til katalog: C:\\CobSysMf\\FKM\\XXX\\LNK\nSjekk at Dedge.lnk, Fk-Meny Brukerregister.lnk, Fk-Meny Kt Ordre.lnk og Fk-Meny.lnk eksisterer\nStart så hver av dem å sjekk at de starter",
+      "comment": "Sjekker at lenkene starter applikasjonene",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-RunRefreshCobolEnvironments"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-app-TestShortcutsOnFkWorkstation",
+      "description": "Kopier lenkene fra Explorer og legg dem på skrivebordet på din lokale maskin. Endre path til runtime til C:\\Netexpress\\nStart så hver av dem å sjekk at de starter",
+      "comment": "TODO: Endre script til å lage lenker som kan brukes  på skrivebordet med Micro Focus NetExpress. Muligens batfiler istedenfor",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-RunRefreshCobolEnvironments"
+      ],
+      "prerequisiteComment": ""
+    }
+  ],
+  "serverPart": "t-no1fkmtst"
+}

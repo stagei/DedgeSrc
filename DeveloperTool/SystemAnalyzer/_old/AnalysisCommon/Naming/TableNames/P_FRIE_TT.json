@@ -1,0 +1,64 @@
+{
+  "tableName": "P_FRIE_TT",
+  "futureName": "FreeAdditionPart",
+  "namespace": "Trekk",
+  "columns": [
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer identification number",
+      "foreignKey": "KUNDENR -> A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_SORDRE_LOG, AH_ORDREHODE, AH_ORDREHODE, AVVIST"
+    },
+    {
+      "name": "AAR",
+      "futureName": "YearOfGrinding",
+      "description": "The grinding year (from 1/7 to 30/6)",
+      "foreignKey": null
+    },
+    {
+      "name": "ANLEGGNR",
+      "futureName": "MillNumber",
+      "description": "Mill number, otherwise used as vendor number.",
+      "foreignKey": "ANLEGGNR -> ANLEGG, ANLEGG, AVVIST, K_FORHANDSPROVE, K_FORHANDSPROVE, K_KORRIGERING, K_KORRIGERING, KD_LOVL_ANLEGG, KOM_ANLEGG"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartNumber",
+      "description": "Unique part number",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERANSENR",
+      "futureName": "SupplierNumber",
+      "description": "Supplier number for deliveries",
+      "foreignKey": "LEVERANSENR -> P_AVREGNING, P_AVREGNING, P_FEILMELD, P_RENTER, TMS_SAAK_OPTIMA"
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Type code for the addition or part",
+      "foreignKey": "TYPE -> DBM.P_FRIE_TT_TYPER.TYPE (FK_TYPE)"
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Amount per type per batch in kr",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date of the transaction or event",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:05:41"
+}

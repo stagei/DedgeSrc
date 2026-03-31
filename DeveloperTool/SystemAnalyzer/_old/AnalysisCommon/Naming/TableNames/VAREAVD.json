@@ -1,0 +1,76 @@
+{
+  "tableName": "VAREAVD",
+  "futureName": "AreaData",
+  "namespace": "Warehouses",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "ItemNumber",
+      "description": "Unique item identifier",
+      "foreignKey": {
+        "tableName": "BNV",
+        "columnName": "FKNR"
+      }
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Name of the product or service",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "VARESTATUS",
+      "futureName": "ItemStatus",
+      "description": "Status of the product or service item",
+      "foreignKey": null
+    },
+    {
+      "name": "PRISKODE",
+      "futureName": "PriceCode",
+      "description": "Code indicating the pricing structure for the product or service",
+      "foreignKey": null
+    },
+    {
+      "name": "ENHET",
+      "futureName": "UnitOfMeasure",
+      "description": "Unit of measure for the product or service",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALEID",
+      "futureName": "AgreementId",
+      "description": "Unique identifier for an agreement related to the product or service",
+      "foreignKey": {
+        "tableName": "IAVH",
+        "columnName": "AVTALEID"
+      }
+    },
+    {
+      "name": "LEDETID",
+      "futureName": "LeadTime",
+      "description": "Lead time for the delivery of the product or service",
+      "foreignKey": null
+    },
+    {
+      "name": "TILDATO",
+      "futureName": "UntilDate",
+      "description": "Date until which the agreement is valid",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNumber",
+      "description": "Unique identifier for an internal department or division related to the product or service",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:22:16"
+}

@@ -1,0 +1,171 @@
+{
+  "program": "OSALAPP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:58",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:51:58"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:866f347f3f9749972142b67883226413fd7348f30b824e70b058d66390210947",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OSALAPP.CBL",
+    "actualName": "OSALAPP",
+    "program": "OSALAPP",
+    "copyElements": [
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FPT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SEKV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREMERKNAD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "LE",
+        "tableName": "LASS_SEQ",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "HLE",
+        "tableName": "LASS_SEQ",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "L",
+        "tableName": "BILNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LASS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LAGERSTED",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMAPRTR",
+      "GMACNCT",
+      "GMACOCO",
+      "GMFFELL",
+      "GMAOSNT",
+      "GMASUBST",
+      "GMADATO",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:58"
+  }
+}

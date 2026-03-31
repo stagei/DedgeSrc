@@ -1,0 +1,139 @@
+{
+  "program": "AAHSELG",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:12:23",
+  "extraction": {
+    "sourceHash": "sha256:5df639fdf241b5d2235e1e1f23da37536ff6683e1063cfd7ce188a6f6a842887",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAHSELG.CBL",
+    "actualName": "AAHSELG",
+    "program": "AAHSELG",
+    "copyElements": [
+      {
+        "name": "SLG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "F0001R5.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHSELG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SELGERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SIGNATUR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SIGNATUR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "F0001",
+        "tableName": "R5",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKERNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SELGERE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "A",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SELGERE",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAVSELG",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:12:23"
+  }
+}

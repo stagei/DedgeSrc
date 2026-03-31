@@ -1,0 +1,122 @@
+{
+  "program": "PAHANAV",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:40:47",
+  "extraction": {
+    "sourceHash": "sha256:d24f078e10357831de83d305912d6ae77ebf4e8094e8910e162c6743f455d626",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAHANAV.CBL",
+    "actualName": "PAHANAV",
+    "program": "PAHANAV",
+    "copyElements": [
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ANAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHANAV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ANALYSE_AVREGN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ANALYSE_AVREGN",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ANALYSE_AVREGN",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ANALYSE_AVREGN",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKSOMRAADE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "PAVANAV",
+      "GMACNCT",
+      "GMASESO",
+      "GMADATO",
+      "PAFTRAP",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:40:47"
+  }
+}

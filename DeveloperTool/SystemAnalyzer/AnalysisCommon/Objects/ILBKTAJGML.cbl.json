@@ -1,0 +1,167 @@
+{
+  "program": "ILBKTAJGML",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:38",
+  "variableFilenames": {
+    "KGR95-FIL": {
+      "logicalName": "KGR95-FIL",
+      "physicalVariable": "WW-KGR95-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-25092018.CSV",
+      "description": "Oppdatere konto med opplysninger fra kunde n�r denne er endret",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:20:35"
+    },
+    "ENDRE-FIL": {
+      "logicalName": "ENDRE-FIL",
+      "physicalVariable": "WW-ENDRE-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Henter kunde-endringer og oppdatere kontoer basert på endringstidspunkt.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:20:38"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:32fbf8cccfa256853a8d0424fd750ee1b57b7beafb45681f2a1da6ee5e63fca2",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbktajgml.cbl",
+    "actualName": "ILBKTAJGML",
+    "program": "ILBKTAJGML",
+    "copyElements": [
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO_TEST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDE_ENDRING_TIL_KONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OVFNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OVFNR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO_TEST",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "OKALOGG"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "ILBKTAJ.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ILBKTAJ.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "KGR95-FIL",
+        "physicalName": "WW-KGR95-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<userid>-25092018.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Oppdatere konto med opplysninger fra kunde n�r denne er endret"
+      },
+      {
+        "logicalName": "ENDRE-FIL",
+        "physicalName": "WW-ENDRE-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE",
+          "READ"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Henter kunde-endringer og oppdatere kontoer basert på endringstidspunkt."
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:38"
+  }
+}

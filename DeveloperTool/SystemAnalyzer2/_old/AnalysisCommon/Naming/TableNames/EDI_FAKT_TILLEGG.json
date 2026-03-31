@@ -1,0 +1,124 @@
+{
+  "tableName": "EDI_FAKT_TILLEGG",
+  "futureName": "OrderHeaderFaktTillegg",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "FK_LEVNR",
+      "futureName": "SupplierNumber",
+      "description": "Unique supplier identifier",
+      "foreignKey": "EDI_FAKT_HODE.SupplierNumber"
+    },
+    {
+      "name": "FAKTNR",
+      "futureName": "InvoiceNumber",
+      "description": "Unique invoice identifier",
+      "foreignKey": "EDI_FAKT_HODE.InvoiceNumber"
+    },
+    {
+      "name": "FAKTURADATO",
+      "futureName": "InvoiceDate",
+      "description": "Date of the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Type code for the factoring",
+      "foreignKey": null
+    },
+    {
+      "name": "KODE",
+      "futureName": "Code",
+      "description": "Associated code",
+      "foreignKey": null
+    },
+    {
+      "name": "BESKRIVELSE",
+      "futureName": "Description",
+      "description": "Description of the factoring type",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS",
+      "futureName": "Rate",
+      "description": "Rate or percentage value",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Amount of the factoring",
+      "foreignKey": null
+    },
+    {
+      "name": "GRUNNLAG",
+      "futureName": "BaseAmount",
+      "description": "Base amount for calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJE",
+      "futureName": "LineNumber",
+      "description": "Line number within the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKTKODE",
+      "futureName": "ProductCode",
+      "description": "Code for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "MVA_KODE",
+      "futureName": "VATCode",
+      "description": "Value Added Tax (VAT) code",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKT",
+      "futureName": "ProductName",
+      "description": "Name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKT_DETALJ",
+      "futureName": "ProductDetail",
+      "description": "Detailed description or specification of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKT_OKO",
+      "futureName": "OkCode",
+      "description": "OK code for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKT_TILLEGG_TREKK",
+      "futureName": "ProductAdditionSubtraction",
+      "description": "Additional or subtraction information related to the product",
+      "foreignKey": null
+    },
+    {
+      "name": "KONT_FELT1",
+      "futureName": "Field1",
+      "description": "First field for additional data",
+      "foreignKey": null
+    },
+    {
+      "name": "KONT_FELT2",
+      "futureName": "Field2",
+      "description": "Second field for additional data",
+      "foreignKey": null
+    },
+    {
+      "name": "VAREGR",
+      "futureName": "ProductGroup",
+      "description": "Product group or category",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:15:35"
+}

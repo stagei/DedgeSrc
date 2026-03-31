@@ -1,0 +1,10 @@
+-- 7056  ant transer før 2016:      45829
+-- 7056  ant transer før 2016:      45829
+-- import FROM K:\meh\kasse\kasstran_for_2016_2852.ixf  of ixf insert into
+--                        dbm.h_kass_transer;
+--
+connect to BASISHST;
+ LOAD FROM p:\meh\kasstran_for_2016_ovrige.ixf OF IXF INSERT INTO
+       DBM.H_kass_transer      NONRECOVERABLE; 
+  SET INTEGRITY FOR DBM.H_kass_transer CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED;
+//

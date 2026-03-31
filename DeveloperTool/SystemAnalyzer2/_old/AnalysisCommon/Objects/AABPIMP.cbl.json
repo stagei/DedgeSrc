@@ -1,0 +1,113 @@
+{
+  "program": "AABPIMP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:11:58",
+  "extraction": {
+    "sourceHash": "sha256:a43904ef668b642359fd8f93110beac38e28a0823913498f87f01127637a8cdc",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\aabpimp.cbl",
+    "actualName": "AABPIMP",
+    "program": "AABPIMP",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KAMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PIMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEPR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BMIV.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RTRIM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALGSPRIS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KAMPANJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_PRISER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_PRISER",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "D01B912",
+      "GMATEPR",
+      "GMAMVAS",
+      "GMABMIV",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-PIM-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABPIMP.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPIMP.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:11:58"
+  }
+}

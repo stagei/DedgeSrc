@@ -1,0 +1,30 @@
+erDiagram
+    Customer {
+        int customer_id PK
+        varchar email UK "NOT NULL"
+        varchar first_name "NOT NULL"
+        varchar last_name "NOT NULL"
+        timestamp created_at "DEFAULT CURRENT_TIMESTAMP()"
+        boolean is_active "DEFAULT TRUE"
+    }
+
+    Order {
+        int order_id PK
+        int customer_id FK "NOT NULL"
+        date order_date "NOT NULL"
+        decimal total_amount "NOT NULL"
+        varchar status "DEFAULT 'pending'"
+        text shipping_address
+    }
+
+    OrderItem {
+        int item_id PK
+        int order_id FK "NOT NULL"
+        varchar product_name "NOT NULL"
+        int quantity "NOT NULL"
+        decimal unit_price "NOT NULL"
+        decimal discount_percent "DEFAULT 0.00"
+    }
+
+    Customer ||--o{ Order : customer_id
+    Order ||--o{ OrderItem : order_id

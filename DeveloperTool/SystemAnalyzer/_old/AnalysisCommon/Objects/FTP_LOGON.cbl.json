@@ -1,0 +1,176 @@
+{
+  "program": "FTP_LOGON",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:31:24",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "BSASPRT-ORDRESDL-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt (ordretype 10), where <dynamic> is generated based on userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:31:21"
+    },
+    "WORDFILE": {
+      "logicalName": "WORDFILE",
+      "physicalVariable": "WW-UTFILE",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "User-specific log file for FTP session",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:31:24"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_LOGON",
+    "program": "FTP_LOGON",
+    "copyElements": [
+      {
+        "name": "WINDOWS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "MFOLE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "WINHTTP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAMOMS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FBEL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMASEMA",
+      "AAADATO",
+      "GMAPLDG",
+      "FTP_SEND_ANALYCEN",
+      "FTP_LOGOFF_ANALYCEN",
+      "FTP_LOGON_ALCONTROL",
+      "TIL_MONITOR",
+      "FTP_SEND_ALCONTROL",
+      "FTP_LOGOFF_ALCONTROL",
+      "FTPSETUSER",
+      "SQLEXEC",
+      "SEND_FILE",
+      "FTP_SLUTT",
+      "FTPTRACELOGOFF",
+      "FTPTRACE",
+      "COPYMON",
+      "SAVEMF",
+      "LOG",
+      "LIST_DIRECTORY",
+      "SQLDB2",
+      "FTP_SEND_BORGSKIP",
+      "FTP_LOGOFF",
+      "FTP_LOGON_BORG_SKIPT",
+      "TIL_BORG_SKIP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-ORDRESDL-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt (ordretype 10), where <dynamic> is generated based on userid and date"
+      },
+      {
+        "logicalName": "WORDFILE",
+        "physicalName": "WW-UTFILE",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "User-specific log file for FTP session"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:31:24"
+  }
+}

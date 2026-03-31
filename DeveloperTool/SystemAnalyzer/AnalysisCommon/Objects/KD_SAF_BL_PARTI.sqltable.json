@@ -1,0 +1,213 @@
+{
+  "tableName": "KD_SAF_BL_PARTI",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Blandepartier såfrø",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "BLAND_PARTINR",
+        "typeName": "CHARACTER",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "RESEPTNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "VER_NR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "ONSKET_VEKT",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "PAASLAGS_VEKT",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "PAASLAGS_MERKNAD",
+        "typeName": "VARCHAR",
+        "length": 254,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "TYPE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "ANT_DELBL",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "PAKKE_PRIORITET",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "KLASSE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "BEISENR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "TOEMT",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "REG_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "REG_BRUKER",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "SIST_ENDR_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "SIST_ENDR_BRUKER",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 16,
+        "name": "FORBRUKT_VEKT",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 17,
+        "name": "OMPAKKET",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 18,
+        "name": "SISTE_SALGSDATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 19,
+        "name": "SLETTET",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "RESVER",
+        "childColumn": "RESEPTNR",
+        "parentTable": "KD_SAF_RES_VER",
+        "parentSchema": "DBM",
+        "parentColumn": "RESEPTNR"
+      },
+      {
+        "constraintName": "RESVER",
+        "childColumn": "VER_NR",
+        "parentTable": "KD_SAF_RES_VER",
+        "parentSchema": "DBM",
+        "parentColumn": "VER_NR"
+      }
+    ]
+  }
+}

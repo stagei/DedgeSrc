@@ -1,0 +1,58 @@
+{
+  "program": "GMACOMP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:34",
+  "extraction": {
+    "sourceHash": "sha256:5101f765805f2950d52a69dccf212688f6c413a69619fbc6fb749d9feb422584",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACOMP.CBL",
+    "actualName": "GMACOMP",
+    "program": "GMACOMP",
+    "copyElements": [
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NETADRESSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMAAKTI",
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:34"
+  }
+}

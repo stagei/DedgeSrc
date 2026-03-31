@@ -1,0 +1,88 @@
+{
+  "tableName": "V_VENTEVARER_DEL2",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "innlesingsnr",
+      "futureName": "InnlesingNumber",
+      "description": "Unique number used for identification during the import process",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating the time and date when the record was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "levvarenr_ekst",
+      "futureName": "ExternalProductNumber",
+      "description": "External product number used by another system or vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "relex_seasong_fra",
+      "futureName": "StartSeason",
+      "description": "Start date for the season or period of relevance",
+      "foreignKey": null
+    },
+    {
+      "name": "relex_seasong_til",
+      "futureName": "EndSeason",
+      "description": "End date for the season or period of relevance",
+      "foreignKey": null
+    },
+    {
+      "name": "relex_sortiment",
+      "futureName": "SortimentCode",
+      "description": "Code representing the product range or category",
+      "foreignKey": null
+    },
+    {
+      "name": "tolltariffnr_lev",
+      "futureName": "VendorTariffNumber",
+      "description": "Customs tariff number specific to the vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "gtin13_ekstlevvnr",
+      "futureName": "ExternalGTIN13ProductNumber",
+      "description": "External GTIN-13 product number used by another system or vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "opp_r_land",
+      "futureName": "OriginCountryCode",
+      "description": "Country code indicating the origin of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "status_til",
+      "futureName": "StatusTo",
+      "description": "Target status for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "sds",
+      "futureName": "SdsFlag",
+      "description": "Flag indicating special data storage or handling requirements",
+      "foreignKey": null
+    },
+    {
+      "name": "partistyring_d365fo",
+      "futureName": "D365ProductManagementFlag",
+      "description": "Flag for product management in D365 system",
+      "foreignKey": null
+    },
+    {
+      "name": "produkteier",
+      "futureName": "ProductOwner",
+      "description": "Identifier of the owner or responsible party for the product",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:20:30"
+}

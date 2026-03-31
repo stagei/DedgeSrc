@@ -1,0 +1,129 @@
+{
+  "program": "GMHPRT3",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:38e7994598af51bab9fb67e7b118770ca38080ee959e4a643c6daf718235c3fd",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMHPRT3.CBL",
+    "actualName": "GMHPRT3",
+    "program": "GMHPRT3",
+    "copyElements": [
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMALIKE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHPRT3.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_TYPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ALIAS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINTERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_MASKIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_LOKAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "L",
+        "tableName": "MASKIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_MASKIN",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_LOKAL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_MASKIN",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_LOKAL",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_SELVSTYRT",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMVPRT3",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMALIKE",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

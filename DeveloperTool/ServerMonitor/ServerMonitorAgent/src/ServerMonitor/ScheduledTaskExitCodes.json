@@ -1,0 +1,821 @@
+﻿{
+  "ExitCodes": [
+    {
+      "Code": 0,
+      "Description": "Success - Task completed successfully",
+      "Category": "Success",
+      "Common": true
+    },
+    {
+      "Code": 1,
+      "Description": "Generic error - General failure or unspecified error",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 2,
+      "Description": "Misuse of shell command or script syntax error",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 3,
+      "Description": "Cannot execute command - Permission denied or file not found",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 4,
+      "Description": "Command interrupted or timeout",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 5,
+      "Description": "Invalid argument or parameter",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 10,
+      "Description": "Access denied - Insufficient permissions",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 11,
+      "Description": "File or resource not found",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 12,
+      "Description": "Invalid file format or corrupted file",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 13,
+      "Description": "Invalid data format or parsing error",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 16,
+      "Description": "Cannot use file - File is locked or in use",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 20,
+      "Description": "Invalid function or operation not supported",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 21,
+      "Description": "Device not ready - Network drive unavailable, etc.",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 22,
+      "Description": "Device not recognized or driver issue",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 32,
+      "Description": "The process cannot access the file because it is being used by another process",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 40,
+      "Description": "Custom application error - Check application logs for details",
+      "Category": "Error",
+      "Common": true,
+      "Note": "This is a custom exit code - meaning depends on the specific application/script"
+    },
+    {
+      "Code": 53,
+      "Description": "Network path not found - UNC path unavailable",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 67,
+      "Description": "Network name cannot be found",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 80,
+      "Description": "File already exists",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 87,
+      "Description": "Invalid parameter - Bad argument passed to function",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 6,
+      "Description": "Invalid handle or resource",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 7,
+      "Description": "Storage control blocks destroyed",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 8,
+      "Description": "Not enough storage to process command",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 9,
+      "Description": "Invalid storage control block address",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 14,
+      "Description": "Not enough memory to complete operation",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 15,
+      "Description": "Invalid drive specified",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 18,
+      "Description": "No more files found",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 19,
+      "Description": "Disk is write-protected",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 23,
+      "Description": "Data error - Cyclic redundancy check failed",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 24,
+      "Description": "Program issued command but length incorrect",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 25,
+      "Description": "Cannot find specified sector on disk",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 26,
+      "Description": "Printer out of paper",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 27,
+      "Description": "Write fault - Cannot write to specified device",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 28,
+      "Description": "Read fault - Cannot read from specified device",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 29,
+      "Description": "General failure - Hardware or device error",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 30,
+      "Description": "Sharing violation - File is locked",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 31,
+      "Description": "Lock violation - File is locked by another process",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 33,
+      "Description": "Process cannot access file - Access denied",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 34,
+      "Description": "Incorrect network address",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 36,
+      "Description": "Too many open files",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 38,
+      "Description": "Network request not supported",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 39,
+      "Description": "Remote adapter not compatible",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 50,
+      "Description": "Network request not supported",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 51,
+      "Description": "Remote computer not listening",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 52,
+      "Description": "Duplicate name on network",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 54,
+      "Description": "Network adapter hardware error",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 55,
+      "Description": "Specified network resource no longer available",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 56,
+      "Description": "Network BIOS command limit exceeded",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 57,
+      "Description": "Network adapter hardware error",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 58,
+      "Description": "Specified server cannot perform requested operation",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 59,
+      "Description": "Unexpected network error",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 60,
+      "Description": "Remote adapter not compatible",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 61,
+      "Description": "Print queue full",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 62,
+      "Description": "No space for print file",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 63,
+      "Description": "Print file deleted",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 65,
+      "Description": "Network access denied",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 66,
+      "Description": "Network resource type incorrect",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 68,
+      "Description": "Network name limit exceeded",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 69,
+      "Description": "Network BIOS session limit exceeded",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 70,
+      "Description": "Temporarily paused",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 71,
+      "Description": "Network request not accepted",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 72,
+      "Description": "Print or disk redirection paused",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 82,
+      "Description": "Cannot create directory - Directory may already exist",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 83,
+      "Description": "INT 24 failure - Critical error handler failed",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 84,
+      "Description": "Too many redirections",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 85,
+      "Description": "Duplicate redirection",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 86,
+      "Description": "Invalid password",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 88,
+      "Description": "Network write fault",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 89,
+      "Description": "System cannot join network session",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 100,
+      "Description": "Application-specific error - Check application logs",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 200,
+      "Description": "Application-specific error - Check application logs",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 300,
+      "Description": "Application-specific error - Check application logs",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 1000,
+      "Description": "Application-specific error - Check application logs",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 2000,
+      "Description": "Application-specific error - Check application logs",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 1067,
+      "Description": "The process terminated unexpectedly - Service or process crashed",
+      "Category": "Error",
+      "Common": true
+    },
+    {
+      "Code": 1072,
+      "Description": "The specified service has been marked for deletion",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 1073,
+      "Description": "The specified service does not exist as an installed service",
+      "Category": "Error",
+      "Common": false
+    },
+    {
+      "Code": 2147942405,
+      "Description": "Access is denied (0x80070005)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070005"
+    },
+    {
+      "Code": 2147942414,
+      "Description": "The system cannot find the file specified (0x8007000E)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x8007000E"
+    },
+    {
+      "Code": 2147942402,
+      "Description": "The system cannot find the file specified (0x80070002)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070002"
+    },
+    {
+      "Code": 2147942403,
+      "Description": "The system cannot find the path specified (0x80070003)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070003"
+    },
+    {
+      "Code": 2147942515,
+      "Description": "Element not found (0x80070411)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070411"
+    },
+    {
+      "Code": 2147942592,
+      "Description": "The service did not respond to the start or control request in a timely fashion (0x80070420)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070420"
+    },
+    {
+      "Code": 2147942656,
+      "Description": "Service cannot start - disabled or no enabled devices (0x80070430)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070430"
+    },
+    {
+      "Code": 2147942662,
+      "Description": "The specified service does not exist as an installed service (0x80070436)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070436"
+    },
+    {
+      "Code": 2147942667,
+      "Description": "The service process could not connect to the service controller (0x8007043B)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007043B"
+    },
+    {
+      "Code": 2147942673,
+      "Description": "The service did not start due to a logon failure (0x80070441)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070441"
+    },
+    {
+      "Code": 2147942674,
+      "Description": "The service has not been started (0x80070442)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070442"
+    },
+    {
+      "Code": 2147942675,
+      "Description": "The service process could not connect to the service controller (0x80070443)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070443"
+    },
+    {
+      "Code": 2147942678,
+      "Description": "An instance of the service is already running (0x80070446)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070446"
+    },
+    {
+      "Code": 2147942680,
+      "Description": "Service account differs from other services in same process (0x80070448)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070448"
+    },
+    {
+      "Code": 2147942686,
+      "Description": "Service cannot start - dependency service disabled (0x8007044E)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x8007044E"
+    },
+    {
+      "Code": 2147942690,
+      "Description": "The service did not start due to a logon failure (0x80070452)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070452"
+    },
+    {
+      "Code": 2147942691,
+      "Description": "The service has been disabled (0x80070453)",
+      "Category": "Error",
+      "Common": true,
+      "Hex": "0x80070453"
+    },
+    {
+      "Code": 2147942692,
+      "Description": "The service does not have any valid logon configured (0x80070454)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070454"
+    },
+    {
+      "Code": 2147942693,
+      "Description": "The current service has not been started (0x80070455)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070455"
+    },
+    {
+      "Code": 2147942694,
+      "Description": "The service did not start due to a logon failure (0x80070456)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070456"
+    },
+    {
+      "Code": 2147942695,
+      "Description": "The service has not been started (0x80070457)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070457"
+    },
+    {
+      "Code": 2147942696,
+      "Description": "The service process could not connect to the service controller (0x80070458)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070458"
+    },
+    {
+      "Code": 2147942697,
+      "Description": "The service process could not connect to the service controller (0x80070459)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070459"
+    },
+    {
+      "Code": 2147942698,
+      "Description": "The service process could not connect to the service controller (0x8007045A)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045A"
+    },
+    {
+      "Code": 2147942699,
+      "Description": "The service process could not connect to the service controller (0x8007045B)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045B"
+    },
+    {
+      "Code": 2147942700,
+      "Description": "The service process could not connect to the service controller (0x8007045C)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045C"
+    },
+    {
+      "Code": 2147942701,
+      "Description": "The service process could not connect to the service controller (0x8007045D)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045D"
+    },
+    {
+      "Code": 2147942702,
+      "Description": "The service process could not connect to the service controller (0x8007045E)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045E"
+    },
+    {
+      "Code": 2147942703,
+      "Description": "The service process could not connect to the service controller (0x8007045F)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007045F"
+    },
+    {
+      "Code": 2147942704,
+      "Description": "The service process could not connect to the service controller (0x80070460)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070460"
+    },
+    {
+      "Code": 2147942705,
+      "Description": "The service process could not connect to the service controller (0x80070461)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070461"
+    },
+    {
+      "Code": 2147942706,
+      "Description": "The service process could not connect to the service controller (0x80070462)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070462"
+    },
+    {
+      "Code": 2147942707,
+      "Description": "The service process could not connect to the service controller (0x80070463)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070463"
+    },
+    {
+      "Code": 2147942708,
+      "Description": "The service process could not connect to the service controller (0x80070464)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070464"
+    },
+    {
+      "Code": 2147942709,
+      "Description": "The service process could not connect to the service controller (0x80070465)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070465"
+    },
+    {
+      "Code": 2147942710,
+      "Description": "The service process could not connect to the service controller (0x80070466)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070466"
+    },
+    {
+      "Code": 2147942711,
+      "Description": "The service process could not connect to the service controller (0x80070467)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070467"
+    },
+    {
+      "Code": 2147942712,
+      "Description": "The service process could not connect to the service controller (0x80070468)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070468"
+    },
+    {
+      "Code": 2147942713,
+      "Description": "The service process could not connect to the service controller (0x80070469)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x80070469"
+    },
+    {
+      "Code": 2147942714,
+      "Description": "The service process could not connect to the service controller (0x8007046A)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007046A"
+    },
+    {
+      "Code": 2147942715,
+      "Description": "The service process could not connect to the service controller (0x8007046B)",
+      "Category": "Error",
+      "Common": false,
+      "Hex": "0x8007046B"
+    },
+    {
+      "Code": 41303,
+      "Description": "DB2 database error - Connection or operation failed. Check DB2 logs for details.",
+      "Category": "Error",
+      "Common": false,
+      "Note": "This is a DB2-specific error code. Check DB2 diagnostic logs (db2diag.log) for detailed error information.",
+      "DB2Related": true
+    },
+    {
+      "Code": 267011,
+      "Description": "DB2 database error - Connection or operation failed. Check DB2 logs for details. (0x41303)",
+      "Category": "Error",
+      "Common": false,
+      "Note": "Decimal representation of 0x41303",
+      "DB2Related": true
+    },
+    {
+      "Code": 64,
+      "Description": "Custom application error - Check application logs for details. (0x40)",
+      "Category": "Error",
+      "Common": true,
+      "Note": "Decimal representation of 0x40"
+    }
+  ],
+  "Notes": {
+    "General": "Exit codes can be standard Windows error codes, application-specific codes, or custom script exit codes. Codes > 2147483647 are typically HRESULT error codes (signed 32-bit integers displayed as unsigned).",
+    "HRESULT": "HRESULT codes are 32-bit values where the high bit indicates success (0) or failure (1). Common format: 0x8007XXXX where 8007 indicates a Windows error.",
+    "CustomCodes": "Exit codes like 40, 41303 are application-specific. Check the application's documentation or logs for specific meaning.",
+    "PowerShell": "PowerShell scripts typically use exit codes 0 (success) or 1 (failure), but can use any integer.",
+    "BatchFiles": "Batch files use ERRORLEVEL which is set by the last command. Common values: 0 (success), 1-255 (various errors).",
+    "Interpretation": "To interpret an exit code: 1) Check if it's a standard Windows error code, 2) Check if it's application-specific, 3) Check application logs for context, 4) Convert large numbers to hex to see if it's an HRESULT code."
+  },
+  "CommonExitCodes": [
+    0,
+    1,
+    2,
+    3,
+    10,
+    11,
+    32,
+    40,
+    53,
+    67,
+    87,
+    1067,
+    2147942405,
+    2147942414,
+    2147942402,
+    2147942403,
+    2147942592,
+    2147942673,
+    2147942686,
+    2147942691
+  ],
+  "YourSpecificCodes": {
+    "40": {
+      "Description": "Custom application error - Check DedgeCommonFilesHandling script/application logs for specific details",
+      "Task": "DedgeCommonFilesHandling",
+      "Action": "Review the script or application that runs this task to understand what exit code 40 means in that context"
+    },
+    "41303": {
+      "Description": "DB2 database error - Database connection or operation failed",
+      "Task": "Db2-VerifyDatabaseConnectivity",
+      "Action": "Check DB2 diagnostic logs (db2diag.log) and verify database connectivity, credentials, and network access",
+      "DB2Related": true
+    }
+  }
+}
+

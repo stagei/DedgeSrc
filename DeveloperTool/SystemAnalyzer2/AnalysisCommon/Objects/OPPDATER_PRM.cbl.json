@@ -1,0 +1,222 @@
+{
+  "program": "OPPDATER_PRM",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:11:54",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "OPPDATER_PRM",
+    "program": "OPPDATER_PRM",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OPAMAL2.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RPB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OSARETB.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OPPA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OPOP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPGJ.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "RETURPLAST_BEH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPPGJBREV_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAAMLEV",
+      "GMACOCO",
+      "GMACURT",
+      "DATANAME"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-PIM-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABPIMPU.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPIMPU.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFIL",
+        "physicalName": "OPBINA.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OPBINA.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:11:54"
+  }
+}

@@ -1,0 +1,57 @@
+﻿---
+description: Publish profiles and IIS deployment conventions for .NET apps
+globs:
+  - "**/*.pubxml"
+  - "**/Build-And-Publish.ps1"
+  - "**/*.deploy.json"
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# Publish and IIS Deploy Conventions
+
+## Publish Profiles (.pubxml)
+
+Two standard profiles, always named consistently:
+
+- `WebApp-FileSystem.pubxml` — ASP.NET Core web apps (IIS-hosted)
+- `WinApp-FileSystem.pubxml` — background services / console apps
+
+Always set BOTH `PublishUrl` and `PublishDir` to the same UNC path (Visual Studio uses one, CLI uses the other).
+
+## Publish Destination Paths
+
+Target: `\\<server>\DedgeCommon\Software\DedgeWinApps\<AppName>`
+
+- **Single-project solutions**: folder = solution name (e.g. `\MyApp`)
+- **Multi-project solutions**: folder = `<Solution>-<Component>` (e.g. `\MyApp-WebApi`, `\MyApp-ImportService`)
+
+Each component gets its own isolated folder — no shared parent, no DLL collisions.
+
+## Build Script Pattern
+
+Each app should have a `Build-And-Publish.ps1` at the repo root:
+
+```powershell
+dotnet publish $projectPath -c Release -p:PublishProfile=WebApp-FileSystem -v minimal
+```
+
+The profile handles configuration, runtime, output path, and self-contained mode.
+
+## IIS Deploy Templates
+
+Location: `IIS-DeployApp\templates\<SiteName>_<InstallSource>.deploy.json`
+
+Critical path alignment rule:
+- `InstallAppName` must match the folder name on the staging share
+- `PhysicalPath` must resolve to the same folder after install
+- For multi-project: `InstallAppName` includes component suffix (e.g. `MyApp-WebApi`), but `SiteName`/`VirtualPath` use solution name only
+
+## After Changing IIS-DeployApp Files
+
+Always run `.\IIS-DeployApp\_deploy.ps1` to sync updated scripts/templates to servers.
+
+## Do NOT Use
+
+- **Web Deploy (MSDeploy) profiles** — not used; always use FileSystem method
+- **Remote execution via WinRM/Invoke-Command** — blocked on servers; use file-based deploy

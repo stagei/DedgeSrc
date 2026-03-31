@@ -1,0 +1,178 @@
+{
+  "tableName": "TURSTED",
+  "futureName": "TrustedOrder",
+  "namespace": "Dbm.Orders",
+  "columns": [
+    {
+      "name": "INIT_TURNR",
+      "futureName": "InitialTurnaround",
+      "description": "Initial turnaround time in minutes",
+      "foreignKey": null
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "LasteLocationNumber",
+      "description": "Number identifying the location for loading",
+      "foreignKey": "H_TURLASS, H_TURSTED, TURLASS, TURLINJE, TURLOGG"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number within the company",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "ORDREKILDE",
+      "futureName": "OrderSourceCode",
+      "description": "Code indicating the source of the order",
+      "foreignKey": "H_TURLASS, H_TURSTED, TURLASS, TURLINJE"
+    },
+    {
+      "name": "LASTE_KUNDENR",
+      "futureName": "LasteCustomerNumber",
+      "description": "Number identifying the customer for loading",
+      "foreignKey": "H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LASTE_AVDNR",
+      "futureName": "LoadingDivisionNumber",
+      "description": "Division number for loading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "LASTE_NAVN",
+      "futureName": "LasteLocationName",
+      "description": "Name of the loading location",
+      "foreignKey": "H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LASTE_ADRESSE",
+      "futureName": "LoadingLocationAddress",
+      "description": "Address of the loading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "LASTE_POSTNR",
+      "futureName": "LastePostNumber",
+      "description": "Postal code for the loading location",
+      "foreignKey": "H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LASTE_KOMMNR",
+      "futureName": "LasteCommuneNumber",
+      "description": "Commune number for the loading location",
+      "foreignKey": "H_TURSTED, FRAVR_LOGG"
+    },
+    {
+      "name": "LOSSE_KUNDENR",
+      "futureName": "LossingCustomerNumber",
+      "description": "Number identifying the customer for lossing",
+      "foreignKey": "H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LOSSE_AVDNR",
+      "futureName": "LossingDivisionNumber",
+      "description": "Division number for lossing location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "LOSSE_NAVN",
+      "futureName": "LossingLocationName",
+      "description": "Name of the lossing location",
+      "foreignKey": "H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LOSSE_ADRESSE",
+      "futureName": "LossingLocationAddress",
+      "description": "Address of the lossing location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "LOSSE_POSTNR",
+      "futureName": "LossingPostNumber",
+      "description": "Postal code for the lossing location",
+      "foreignKey": "FRAVR_LOGG, H_TURSTED, TRANSPORTOPPDRAG"
+    },
+    {
+      "name": "LOSSE_KOMMNR",
+      "futureName": "LossingCommuneNumber",
+      "description": "Commune number for the lossing location",
+      "foreignKey": "FRAVR_LOGG, H_TURSTED"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or order entry",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID who created or modified the record",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "FRAKTTYPE_NR",
+      "futureName": "FreightTypeCode",
+      "description": "Code indicating the type of freight",
+      "foreignKey": "FRAVR_TONN_RATER, H_TURLASS, H_TURSTED, TRANSP_FRAKTTYPE, TURLASS, Z_FRAKTTYPE"
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Amount associated with the order or transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "KODE",
+      "futureName": "Code",
+      "description": "Generic code used for various purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "NAVN",
+      "futureName": "Name",
+      "description": "Name or title of the entity (e.g., customer, location)",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR",
+      "futureName": "Address",
+      "description": "Address information for a location or entity",
+      "foreignKey": null
+    },
+    {
+      "name": "KAINR",
+      "futureName": "KainrNumber",
+      "description": "Specific number related to Kainr (a company-specific identifier)",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "SLETT_FERGE_OK",
+      "futureName": "DeleteFerryAllowed",
+      "description": "Flag indicating if the record can be deleted via ferry process",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "FRAKT_BELASTES",
+      "futureName": "FreightBilled",
+      "description": "Flag indicating if freight is billed to this order",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "FORR_OMR",
+      "futureName": "PreviousAreaCode",
+      "description": "Code for the previous area or division",
+      "foreignKey": "H_TURSTED"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:14:52"
+}

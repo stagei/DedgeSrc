@@ -1,0 +1,132 @@
+{
+  "tableName": "DEMOBRUK",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:42:01",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Demomaskiner - utlån og bruk",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:42:01",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "UTTAKNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "BRUKNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "UTLAAN_TIL",
+        "typeName": "CHARACTER",
+        "length": 50,
+        "scale": 0,
+        "nullable": true,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "SELGERID",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "FRADATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "TILDATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "KOMMENTAR",
+        "typeName": "VARCHAR",
+        "length": 256,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "LAGERSTED",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "BRUKER",
+        "typeName": "CHARACTER",
+        "length": 16,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "DEM_NR",
+        "childColumn": "UTTAKNR",
+        "parentTable": "DEMOHODE",
+        "parentSchema": "DBM",
+        "parentColumn": "UTTAKNR"
+      },
+      {
+        "constraintName": "DEM_NR",
+        "childColumn": "AVDNR",
+        "parentTable": "DEMOHODE",
+        "parentSchema": "DBM",
+        "parentColumn": "AVDNR"
+      }
+    ]
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "program": "SJEKK_FKSQL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T18:59:29",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:59:29"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "SJEKK_FKSQL",
+    "program": "SJEKK_FKSQL",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKORR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "TELB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TELH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLHTESL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "FKSQL.",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2026",
+        "type": "copybook"
+      },
+      {
+        "name": "DB.",
+        "type": "copybook"
+      },
+      {
+        "name": "\\\\FKHKBDC\\DRIFTREGN\\DRFILER\\BUD-2000\\DR2000",
+        "type": "copybook"
+      },
+      {
+        "name": "\\\\FKHKBDC\\DRIFTREGN\\DRFILER\\BUD-2000\\DR2000.BKO",
+        "type": "bko"
+      },
+      {
+        "name": "FKSQL.TERVKR",
+        "type": "tervkr"
+      },
+      {
+        "name": "FKSQL.DB2WNT",
+        "type": "db2wnt"
+      },
+      {
+        "name": "DB2018",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2021",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2020",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2019",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2022",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR_8",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KONV_OPT_BUT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AGRIPET_FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FKM_SLUTTBEH",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_FKM_SLUTTBEH",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_BIDRAG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKACOMPANYCHAINMAPS_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKACOUNTERPARTCDSENTITIES_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKACOUNTRYCODEMAPS_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKAFINANCIALDIMCDSENTITIES_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKAFINANCIALDIMWDATECDSENTITIES_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKAFKATCDSENTITIES_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_FKAITEMSALESTAXGROUPCDSENTITIES_STG",
+        "operation": "DDL"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEV_REKL_JD",
+        "operation": "DDL"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "TIL_MONITOR",
+      "SJEKK_FKSQL",
+      "COPYMON",
+      "SKRIV_UT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      }
+    ],
+    "extractedAt": "2026-03-28T18:59:29"
+  }
+}

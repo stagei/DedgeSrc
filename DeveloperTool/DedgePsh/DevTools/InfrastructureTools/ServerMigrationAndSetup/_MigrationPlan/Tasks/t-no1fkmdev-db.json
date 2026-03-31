@@ -1,0 +1,135 @@
+﻿{
+  "server": "t-no1fkmdev-db",
+  "tasks": [
+    {
+      "taskname": "t-no1fkmdev-db-InitServer",
+      "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmdev-db-VerifyDb2",
+      "description": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmdev-db-RunDb2-TemplateEngine",
+      "description": "Installer Db2-TemplateEngine med kommandoen: Install-FkPshApp -Name 'Db2-TemplateEngine'",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-VerifyDb2"
+      ],
+      "prerequisiteComment": "Db2 må være installert og fungere"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-RunDb2-TemplateEngine",
+      "description": "Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2-TemplateEngine\\Db2-TemplateEngine.ps1 -DbFunction 'CreateTemporaryTestDatabase'",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-VerifyDb2"
+      ],
+      "prerequisiteComment": "Db2 må være installert og fungere"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-RunGenerateScriptsStep1",
+      "description": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n01_db2_create_database.*.sql\n01_db2_create_log_and_tablespace_folders*.bat\n02_db2_config_logs.*.sql\n03_db2_config_etc_services.*.bat\n04_db2_config_svcename.*.sql\n05_db2_generate_restore_container.*.bat\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat",
+      "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-RunDb2-TemplateEngine"
+      ],
+      "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-RestoreDatabaseFromBackupFile",
+      "description": "Kjør scriptet 05_db2_restore_container.*.bat. Denne genererer ett skript som kan kjøres for å restore databasen fra en backup-fil",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-RunGenerateScriptsStep1"
+      ],
+      "prerequisiteComment": "Skriptet delere 01 til 05 må kjøres først"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-RunGenerateScriptsStep2",
+      "description": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n06_db2_config_nodes.*.bat\n07_db2_config_nodes.*.sql\n08_create_db_alias.*.sql\n09_db2_stop_start.*.bat\n\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-RestoreDatabaseFromBackupFile"
+      ],
+      "prerequisiteComment": "Det genererte skriptet fra 05 må kjøres først"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-VerifyDbConnection",
+      "description": "Start Db2 Clp i admin konsoll og kjør kommando: db2 connect to <databasenavn> user DB2NT\nKjør deretter: db2 'select * from syscat.tables fetch first 1 row only'",
+      "comment": "Dette verifiserer at databasen er tilgjengelig og at man kan koble seg til den",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-RunGenerateScriptsStep2"
+      ],
+      "prerequisiteComment": "Database må være gjenopprettet og konfigurert først"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-OrderDb2Key",
+      "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+      "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmdev-db\\DB2_Kerberos_Forespørsel.txt",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-VerifyKerberosAuthFkx",
+        "t-no1fkmdev-db-VerifyDbConnection"
+      ],
+      "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-MoveKeytabFile",
+      "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmdev-db",
+      "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmdev-db",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-OrderDb2Key"
+      ],
+      "prerequisiteComment": "DB2-nøkkel må være bestilt først og mailen må være mottatt og filen må være plassert på mappen angitt i beskrivelsen over."
+    },
+    {
+      "taskname": "t-no1fkmdev-db-ConfigureKerberosOnDbServer",
+      "description": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-MoveKeytabFile"
+      ],
+      "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-VerifyKerberosConfigOnFkWorkstation",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-VerifyKerberosConfigOnDbServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    },
+    {
+      "taskname": "t-no1fkmdev-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmdev-db-VerifyKerberosConfigOnAppServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    }
+  ],
+  "serverPart": "t-no1fkmdev"
+}

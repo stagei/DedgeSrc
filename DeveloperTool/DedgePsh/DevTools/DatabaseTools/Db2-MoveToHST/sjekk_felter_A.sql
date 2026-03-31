@@ -1,0 +1,75 @@
+--Sjekk før export/import at det ikke har kommet til nye kolonner i BASISPRO
+--  30.05.2021 MEH La med ah_ordrexxxx også
+--
+--  Alle tabeller, bortsett fra VAREBEVEGELSE skal ha ett felt mer i BASISHST (AAR)
+connect to basispro;
+select 'BASISPRO', substr(TABNAME,1,32), count(*) 
+ from syscat.columns
+--select substr(TABNAME,1,32), substr(COLNAME,1,32) from syscat.columns
+where TABSCHEMA = 'DBM'
+and TABNAME IN (
+'AH_BESTHODE',
+'AH_BESTLIN',
+'H_BESTHODE',
+'H_BESTLIN',
+'AH_VIHODE',
+'AH_VILIN',
+'H_VIHODE',
+'H_VILIN',
+'H_INNGANG_FAKO'
+,'AH_ORDREHODE'
+,'AH_ORDRELINJER'
+,'H_VERKSTEDHODE'
+,'H_VERKSTED_TIMER'
+,'H_VERKSTEDTEKST')
+group by tabname
+order by tabname;
+connect to basishst;
+select 'BASISHST', substr(TABNAME,1,32), count(*) 
+ from syscat.columns
+--select substr(TABNAME,1,32), substr(COLNAME,1,32) from syscat.columns
+where TABSCHEMA = 'DBM'
+and TABNAME IN (
+'AH_BESTHODE',
+'AH_BESTLIN',
+'H_BESTHODE',
+'H_BESTLIN',
+'AH_VIHODE',
+'AH_VILIN',
+'H_VIHODE',
+'H_VILIN',
+'H_INNGANG_FAKO'
+,'AH_ORDREHODE'
+,'AH_ORDRELINJER'
+,'H_VERKSTEDHODE'
+,'H_VERKSTED_TIMER'
+,'H_VERKSTEDTEKST')
+group by tabname
+order by tabname;
+//
+select count(*) 
+ from syscat.columns
+--select substr(TABNAME,1,32), substr(COLNAME,1,32) from syscat.columns
+where TABSCHEMA = 'DBM'
+and TABNAME = 'AH_BESTLIN';
+//
+//
+load FROM P:\IMPORT\BTHI_H15B.ixf OF IXF INSERT INTO DBM.BEST_TIL_HIST NONRECOVERABLE;
+--
+loAD FROM P:\IMPORT\BEHA_H15B.ixf OF IXF INSERT INTO DBM.AH_BESTHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\BELA_H15B.ixf OF IXF insert INTO DBM.AH_BESTLIN NONRECOVERABLE ;
+--
+LOAD FROM P:\IMPORT\BEH_H15B.ixf OF IXF INSERT INTO DBM.H_BESTHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\BEL_H15B.ixf OF IXF INSERT INTO DBM.H_BESTLIN NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIHA_H15B.ixf OF IXF INSERT INTO DBM.AH_viHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VILA_H15B.ixf OF IXF INSERT INTO DBM.AH_viLIN NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIH_H15B.ixf OF IXF INSERT INTO DBM.H_viHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIL_H15B.ixf OF IXF INSERT INTO DBM.H_viLIN NONRECOVERABLE;
+--
+LOAD FRren fksql.RT\INFA_H15B.ixf OF IXF INSERT INTO DBM.H_INNGANG_FAKO NONRECOVERABLE;

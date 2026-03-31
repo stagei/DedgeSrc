@@ -1,0 +1,64 @@
+{
+  "tableName": "INTERN_GODKJENNING",
+  "futureName": "InternGodkjenning",
+  "namespace": "DbModels",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "The department number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "INTERN_BELASTNING",
+      "futureName": "InternalLoading",
+      "description": "Indicates internal loading status or type",
+      "foreignKey": "KONTOKODE"
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "The current status of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BELAST_SELGER",
+      "futureName": "Salesperson",
+      "description": "The salesperson responsible for loading or managing the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "The amount related to the order, possibly a financial value",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating when an action or event occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "The user who performed the action related to the order",
+      "foreignKey": null
+    },
+    {
+      "name": "KLARGJ_DATO",
+      "futureName": "ScheduledDate",
+      "description": "The scheduled date for delivery or completion of the order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:44:22"
+}

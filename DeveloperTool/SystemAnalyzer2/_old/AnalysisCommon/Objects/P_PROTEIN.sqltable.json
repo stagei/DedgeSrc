@@ -1,0 +1,107 @@
+{
+  "tableName": "P_PROTEIN",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Protein - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KODE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "SLAG",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "PROTEIN_PROS_FRA",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 1,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "PROTEIN_PROS_TIL",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 1,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_SLAG",
+        "childColumn": "SLAG",
+        "parentTable": "SLAG",
+        "parentSchema": "DBM",
+        "parentColumn": "SLAG"
+      }
+    ]
+  }
+}

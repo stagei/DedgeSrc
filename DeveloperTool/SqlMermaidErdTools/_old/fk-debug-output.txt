@@ -1,0 +1,26 @@
+Found 1 statements
+
+0: Alter
+  Is Alter: YES
+  stmt.this: AdverseEvents
+  stmt.actions: [AddConstraint(
+  expressions=[
+    Constraint(
+      this=Identifier(this=FK_AdverseEvents_Trial, quoted=False),
+      expressions=[
+        ForeignKey(
+          expressions=[
+            Identifier(this=TrialID, quoted=False)],
+          reference=Reference(
+            this=Schema(
+              this=Table(
+                this=Identifier(this=Trials, quoted=False)),
+              expressions=[
+                Identifier(this=TrialID, quoted=False)]),
+            options=[
+              ON UPDATE NO ACTION,
+              ON DELETE NO ACTION]))])])]
+    Action type: AddConstraint
+    Action: ADD CONSTRAINT FK_AdverseEvents_Trial FOREIGN KEY (TrialID) REFERENCES Trials (TrialID) ON UPDATE NO ACTION ON DELETE NO ACTION
+      action.this: None
+      action.this type: NoneType

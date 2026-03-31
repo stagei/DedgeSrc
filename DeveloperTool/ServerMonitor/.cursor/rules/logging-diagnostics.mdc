@@ -1,0 +1,78 @@
+﻿---
+description: Log file locations, patterns, and diagnostics
+alwaysApply: true
+---
+
+# Logging
+
+- Application logs default to: `C:\opt\data\ServerMonitor\`
+- Always check for logs after running the application
+- Color-code log output:
+  - Red: Errors/Exceptions
+  - Yellow: Warnings
+  - Green: Alerts/Success messages
+  - Cyan: Important info (REST API, Swagger, startup)
+  - White: Normal log lines
+
+## Production Testing and Error Diagnosis
+
+- **IMPORTANT**: The application is tested on a production server, not locally
+- **Log and Snapshot Location**: `\\t-no1inltst-db\opt\data\ServerMonitor`
+  - Log files: `ServerMonitor_*.log` and `ServerMonitor_Alerts_*.log`
+  - Snapshot files: `Snapshots\*.json` and `Snapshots\*.html`
+- **When user reports an error**:
+  1. Get the last modified timestamp of the deployed `ServerMonitor.exe` file from `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\ServerMonitor\ServerMonitor.exe`
+  2. Use this timestamp as the reference point for when the new version was deployed
+  3. Extract log entries and alerts from the server logs (`\\t-no1inltst-db\opt\data\ServerMonitor`) starting from that timestamp
+  4. Analyze the log entries, alerts, and snapshot files to identify what went wrong
+  5. Look for:
+     - Error messages and exceptions in log files
+     - Alert entries in `ServerMonitor_Alerts_*.log`
+     - System state in snapshot JSON files
+     - Any patterns or anomalies in the data
+
+## Remote Log File Access
+
+Agent log files can be retrieved from any server running the ServerMonitor agent:
+- **Log File Location**: `\\<servername>\opt\data\ServerMonitor\`
+- **Log File Pattern**: `ServerMonitor_<date>.log` (e.g., `ServerMonitor_20260115.log`)
+- **Alert Log Pattern**: `ServerMonitor_Alerts_<date>.log`
+- **Newest Log File**: Sort by date descending and use the most recent file
+
+**Quick Access Examples**:
+```powershell
+# Get today's log from a specific server
+$server = "t-no1inltst-db"
+$today = (Get-Date).ToString("yyyyMMdd")
+$logPath = "\\$server\opt\data\ServerMonitor\ServerMonitor_$today.log"
+Get-Content $logPath -Tail 100
+
+# Find the newest log file on a server
+$server = "p-no1fkmprd-db"
+Get-ChildItem "\\$server\opt\data\ServerMonitor\ServerMonitor_*.log" | 
+    Sort-Object LastWriteTime -Descending | 
+    Select-Object -First 1
+```
+
+## Agent Log File Location Pattern
+
+Agent log files follow this pattern and can be accessed via network share:
+
+**Pattern:**
+```
+\\<servername>\opt\data\ServerMonitor\ServerMonitor_<servername>_<yyyy-MM-dd>.log
+```
+
+**Examples:**
+```powershell
+# Today's log from production DB server
+$server = "p-no1fkmprd-db"
+$today = (Get-Date).ToString("yyyy-MM-dd")
+$logPath = "\\$server\opt\data\ServerMonitor\ServerMonitor_${server}_$today.log"
+
+# Quick access - copy to local for analysis
+Copy-Item $logPath -Destination "C:\opt\src\ServerMonitor\logs-prd\" -Force
+
+# Grep for specific patterns
+Select-String -Path $logPath -Pattern "ERROR|WARN|session" | Select-Object -Last 20
+```

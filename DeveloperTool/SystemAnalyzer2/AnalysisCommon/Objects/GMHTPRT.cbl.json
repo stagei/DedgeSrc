@@ -1,0 +1,100 @@
+{
+  "program": "GMHTPRT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:431791fea8fc4978dd800e5b4025c9d6f8b365d87f6f15bb89f5b38ab615691c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMHTPRT.CBL",
+    "actualName": "GMHTPRT",
+    "program": "GMHTPRT",
+    "copyElements": [
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHTPRT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RAPPORTID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINT_DEF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRINTTYPE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMAPLAY",
+      "GMAPRTR",
+      "GMAPATH",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "SKRIVER",
+        "physicalName": "PRINTER",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRTFIL-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ",
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

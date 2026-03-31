@@ -1,0 +1,224 @@
+﻿{
+  "program": "ZZHKUTU",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:47",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "prints sequential file to a CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:50:47"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "ZZHKUTU",
+    "program": "ZZHKUTU",
+    "copyElements": [
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKORR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR24.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR04.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPABPLA.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "CURRENT_TIMESTAMP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "SYSIBM",
+        "tableName": "SYSDUMMY1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FLOG_DedgeAXIA_REGLER_STG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "WS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIMEKSP_ERSTATNINGSVARE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "WW",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAAMLEV",
+      "GMAPATH",
+      "GMACURT",
+      "OKALOGG"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "prints sequential file to a CSV"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "KUNDEPR.CSV",
+        "path": "U:\\",
+        "fullPath": "U:\\KUNDEPR.CSV",
+        "assignType": "literal",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "FEIL-FIL",
+        "physicalName": "KUNDEPR.ERR",
+        "path": "U:\\",
+        "fullPath": "U:\\KUNDEPR.ERR",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:50:47"
+  }
+}

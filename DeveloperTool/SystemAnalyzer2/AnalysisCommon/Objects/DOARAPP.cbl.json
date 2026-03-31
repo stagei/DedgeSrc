@@ -1,0 +1,233 @@
+{
+  "program": "DOARAPP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:28:48",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DOARAPP",
+    "program": "DOARAPP",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OPVA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLAKOKV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKORR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DS-CALL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFRAT2.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "DOARAPP",
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "GMAQVER",
+      "SQLEXEC",
+      "GMACOCO",
+      "AAAMLEV"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RES-FIL",
+        "physicalName": "WW-RES-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "DIR-FIL",
+        "physicalName": "WW-DIR-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FILFAST",
+        "physicalName": "ww-filfast",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "TESTFILE",
+        "physicalName": "oaftull.sql",
+        "path": "C:\\tempfk\\jhk",
+        "fullPath": "C:\\tempfk\\jhk\\oaftull.sql",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:28:48"
+  }
+}

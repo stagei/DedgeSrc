@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business Docs — Presentation</title>
+  <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+  <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+  <style id="DedgeAuth-tenant-css"></style>
+  <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css" />
+  <link rel="stylesheet" href="css/present.css" />
+  <script>
+    function getPreferredTheme(){var s=localStorage.getItem('sa-theme');if(s)return s;return window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('sa-theme',t)}
+    setTheme(getPreferredTheme());
+  </script>
+</head>
+<body class="present-page">
+
+<div class="present-topbar">
+  <a href="index.html" class="present-nav">Home</a>
+  <a href="graph.html" class="present-nav" id="graphFromPresent">Graph</a>
+  <label for="presentAliasSelect" class="present-nav">Analysis</label>
+  <select id="presentAliasSelect"></select>
+  <div style="flex:1"></div>
+  <span id="presentTitleHint" class="present-sub"></span>
+  <div id="DedgeAuthUserMenu"></div>
+</div>
+
+<div class="reveal" id="revealRoot">
+  <div class="slides" id="slidesInner">
+    <section><p>Loading…</p></section>
+  </div>
+</div>
+
+<script src="api/DedgeAuth/ui/user.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+<script type="module" src="js/present.js"></script>
+</body>
+</html>

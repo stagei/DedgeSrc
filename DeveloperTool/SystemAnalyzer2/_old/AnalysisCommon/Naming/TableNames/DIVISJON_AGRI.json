@@ -1,0 +1,46 @@
+{
+  "tableName": "DIVISJON_AGRI",
+  "futureName": "DivisionAgri",
+  "namespace": "Agri",
+  "columns": [
+    {
+      "name": "periodeAr",
+      "futureName": "PeriodYear",
+      "description": "The year of the period",
+      "foreignKey": null
+    },
+    {
+      "name": "divisjon",
+      "futureName": "DivisionCode",
+      "description": "The division code",
+      "foreignKey": [
+        "DIVISJON"
+      ]
+    },
+    {
+      "name": "underDivisjon",
+      "futureName": "SubdivisionCode",
+      "description": "The subdivision code",
+      "foreignKey": [
+        "UNDERDIVISJON"
+      ]
+    },
+    {
+      "name": "navn",
+      "futureName": "Name",
+      "description": "The name of the division or subdivision",
+      "foreignKey": [
+        "NAVN"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:11:37"
+}

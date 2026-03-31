@@ -1,0 +1,107 @@
+---
+description: PowerShell coding standards and deployment rules
+globs: ["*.ps1", "*.psm1", "*.psd1"]
+alwaysApply: false
+---
+
+# PowerShell Coding Standards
+
+## _deploy.ps1 File Standard
+
+Every deployable script folder should include a `_deploy.ps1` that uses a deployment handler module:
+
+```powershell
+Import-Module Deploy-Handler -Force -ErrorAction Stop
+Deploy-Files -FromFolder $PSScriptRoot -ComputerNameList @("*-db", "*-app")
+```
+
+**Rules:**
+- Always use `Import-Module Deploy-Handler -Force -ErrorAction Stop`
+- Always use `Deploy-Files -FromFolder $PSScriptRoot`
+- If recipient computers unknown, skip `-ComputerNameList`
+
+## Deployment Execution Rules
+
+**The agent must NEVER run deployment commands autonomously.**
+
+When the user explicitly requests deployment:
+1. Look for `_deploy.ps1` in the **same folder** as the script being worked on
+2. If the file exists, run it: `pwsh -NoProfile -ExecutionPolicy Bypass -File ".\_deploy.ps1"`
+3. If the file does NOT exist, inform the user and do NOT attempt deployment
+
+**What `_deploy.ps1` handles automatically:**
+- Code signing of all scripts
+- Distribution to target servers
+- Archiving of files
+- Deployment of ALL modules used by the script
+
+**Do NOT deploy when:**
+- User did not explicitly request deployment
+- Just making code fixes or changes
+
+## Module Import Standards
+
+**For .ps1 scripts:**
+```powershell
+Import-Module GlobalFunctions -Force
+```
+
+## Parameter Type Rules
+
+**Switch Parameters:** Use `-Name` (enable) or `-Name:$false` (disable)
+- NEVER use `-Name $true`
+
+**Boolean Parameters:** Use `-Name:$true` or `-Name:$false`
+- NEVER use bare `-Name`
+
+**Resolve types:**
+```powershell
+(Get-Command <cmd>)?.Parameters['Param']?.ParameterType
+```
+
+## String Interpolation
+
+Always wrap variable names in subexpressions when followed by punctuation:
+```powershell
+"X: $($varName): Y"    # Correct
+"X: $varName: Y"       # Wrong
+```
+
+## Logging Standards
+
+Use `Write-LogMessage` from GlobalFunctions:
+```powershell
+Write-LogMessage "Test message" -Level INFO
+Write-LogMessage "Warning" -Level WARN
+Write-LogMessage "Error" -Level ERROR -Exception $_
+```
+
+**Rules:**
+- Do NOT enclose the level with quotes
+- Always add `-Exception $_` in catch statements
+
+## IIS Management
+
+**Always use `appcmd.exe` for IIS configuration.**
+
+The WebAdministration module is not available or does not work in PowerShell 7.
+
+```powershell
+$appcmd = "$env:SystemRoot\System32\inetsrv\appcmd.exe"
+& $appcmd list apppool /name:MyAppPool
+& $appcmd add apppool /name:MyAppPool
+& $appcmd set config MySite /section:windowsAuthentication /enabled:true
+```
+
+## Remoting Restrictions
+
+**NO remoting is allowed to servers.**
+
+Do NOT use:
+- `Invoke-Command -ComputerName`
+- `Enter-PSSession`
+- `New-PSSession`
+- WinRM/PSRemoting
+- Any remote execution methods
+
+All scripts must run locally on the target server via deployment (`_deploy.ps1`).

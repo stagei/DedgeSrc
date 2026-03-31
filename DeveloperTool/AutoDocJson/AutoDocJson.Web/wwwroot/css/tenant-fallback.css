@@ -1,0 +1,20 @@
+﻿/**
+ * Tenant CSS fallback when theme.css is empty or fails to load.
+ *
+ * Priority:
+ * 1. Dedge (or current tenant) override – injected by DedgeAuth user.js from
+ *    GET /tenants/{domain}/theme.css into #DedgeAuth-tenant-css when the API succeeds.
+ * 2. If that response is empty or the fetch fails – this file provides the same
+ *    default as DedgeAuth (Theming.SystemDefaultCss in DedgeAuth appsettings.json).
+ *
+ * Keep this in sync with DedgeAuth.Api appsettings.json "Theming": { "SystemDefaultCss" }.
+ */
+:root {
+  --primary-color: #0369a1;
+  --primary-hover: #0284c7;
+}
+
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+}

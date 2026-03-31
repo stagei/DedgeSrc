@@ -1,0 +1,63 @@
+{
+  "tableName": "ORDREMERKNAD",
+  "futureName": "OrderComment",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number",
+      "foreignKey": [
+        "OHEAD"
+      ]
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": [
+        "OHEAD",
+        "RHE_OHEAD"
+      ]
+    },
+    {
+      "name": "SEKV",
+      "futureName": "SequenceNumber",
+      "description": "Sequence number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMIND1",
+      "futureName": "CommentIndicator1",
+      "description": "First comment indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMIND2",
+      "futureName": "CommentIndicator2",
+      "description": "Second comment indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "CommentText",
+      "description": "Detailed text of the comment",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier who added the comment",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the comment was added",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:57:23"
+}

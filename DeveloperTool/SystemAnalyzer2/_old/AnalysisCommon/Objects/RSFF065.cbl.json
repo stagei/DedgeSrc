@@ -1,0 +1,157 @@
+{
+  "program": "RSFF065",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:54:19",
+  "extraction": {
+    "sourceHash": "sha256:f525343cab268ce2cde73c4716828ba32f4935fe0e67e8f20e76ac56743a78d9",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rsff065.cbl",
+    "actualName": "RSFF065",
+    "program": "RSFF065",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAKOKL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SMSA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAARKON.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KKDY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDFD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF065.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_EGENKONT_SAAK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_EGENKONT_SAAK",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_EGENKONT_SAAK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DATO_KONTROLLERT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORTTEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RSVF065",
+      "DSFUNKS",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMADATO",
+      "GMASMSS",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:54:19"
+  }
+}

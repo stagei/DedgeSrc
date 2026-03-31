@@ -1,0 +1,46 @@
+{
+  "provider": "SQLITE",
+  "version": "3",
+  "description": "SQLite 3 System Catalog Metadata - sqlite_master and pragma_* reference for building and validating SQL statements. NOT loaded by application at runtime.",
+  "last_updated": "2026-01-30",
+  "purpose": "Reference file for building and validating SQL statements in sqlite_3_sql_statements.json. NOT loaded by application at runtime.",
+  "usage_notes": [
+    "This file is a REFERENCE ONLY - used by developers/AI to understand SQLite system catalog structure",
+    "SQLite uses sqlite_master (or sqlite_schema) and PRAGMA table-valued functions",
+    "All application SQL statements must be defined in sqlite_3_sql_statements.json, not here"
+  ],
+  "schemas": {
+    "main": "Default schema - single database file",
+    "temp": "Temporary objects"
+  },
+  "catalog_tables": {
+    "sqlite_master": {
+      "description": "One row per table, index, view, trigger",
+      "key_columns": ["type", "name"],
+      "columns": {
+        "type": { "type": "text", "description": "table, index, view, trigger" },
+        "name": { "type": "text", "description": "Object name" },
+        "tbl_name": { "type": "text", "description": "Table name (for index/trigger)" },
+        "rootpage": { "type": "integer", "description": "Root page number" },
+        "sql": { "type": "text", "description": "DDL SQL" }
+      }
+    },
+    "pragma_table_info(table_name)": {
+      "description": "Table-valued: column info for a table",
+      "columns": {
+        "cid": { "type": "integer", "description": "Column ordinal" },
+        "name": { "type": "text", "description": "Column name" },
+        "type": { "type": "text", "description": "Declared type" },
+        "notnull": { "type": "integer", "description": "0 or 1" },
+        "dflt_value": { "type": "text", "description": "Default value" },
+        "pk": { "type": "integer", "description": "1 if part of PK" }
+      }
+    },
+    "pragma_table_list": {
+      "description": "Table-valued (SQLite 3.37+): list of tables/schemas"
+    },
+    "pragma_foreign_key_list(table_name)": {
+      "description": "Table-valued: foreign keys for a table"
+    }
+  }
+}

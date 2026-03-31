@@ -1,0 +1,265 @@
+{
+  "program": "RSHKOGE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:21:20",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:21:20"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:685cd2079e9130ef5fbb24cffae19b6c9cbc062d5de45e352e24de1617c75f1b",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rshkoge.cbl",
+    "actualName": "RSHKOGE",
+    "program": "RSHKOGE",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAKOKL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFTUVI.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "KKDY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KONT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOLI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KSTA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AEG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSHKOGE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSHKOGE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DYRKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DYRKER_RECNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DYRKER_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT_LIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KONTRAKT_RECNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UTENOM_KONTRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT_STATUS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "STATUS_RECNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT_LIN",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VERDI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART_EGENSKAP",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RSVKOGE",
+      "DSFUNKS",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMAPRTR",
+      "GMAOSNT",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:21:20"
+  }
+}

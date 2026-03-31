@@ -1,0 +1,66 @@
+---
+description: Database schema and Entity Framework patterns
+globs: "**/*.{cs,sql}"
+alwaysApply: false
+---
+
+# Database Conventions
+
+## PostgreSQL Installation (this project)
+
+PostgreSQL is installed at **`C:\Program Files\PostgreSQL\18`**. For scripts or tools that call `psql`, `pg_dump`, or other PostgreSQL CLI tools, ensure the **bin** subfolder is on `PATH`:
+
+- **Add to PATH:** `C:\Program Files\PostgreSQL\18\bin`
+
+Example (PowerShell, current process):  
+`$env:PATH = "C:\Program Files\PostgreSQL\18\bin;" + $env:PATH`
+
+When writing scripts that need PostgreSQL CLI, either set this in the script or document that the user must have `C:\Program Files\PostgreSQL\18\bin` on their system PATH.
+
+## Supported Databases
+
+| Database | Provider | Status |
+|----------|----------|--------|
+| PostgreSQL | `Npgsql.EntityFrameworkCore.PostgreSQL` | Primary |
+| DB2 | `IBM.EntityFrameworkCore` | Supported |
+| SQL Server | `Microsoft.EntityFrameworkCore.SqlServer` | Schema only |
+
+## Key Tables
+
+| Table | Purpose |
+|-------|---------|
+| `log_entries` | All imported log records |
+| `import_status` | Tracks import state per source/file |
+| `saved_filters` | User-saved search queries + alert config |
+| `alert_history` | Triggered alert records |
+
+## Schema Changes
+
+When modifying schema:
+1. Update `LoggingDbContext.OnModelCreating()`
+2. Update model class in `Core/Models/`
+3. Update `DatabaseSchemas/PostgreSQL_Schema.sql`
+4. Update `docs/DataModel.md`
+
+## LogEntry Business Identifiers
+
+Indexed fields for searching:
+- `AlertId` - Alert identifier from source
+- `Ordrenr` - Order number (extracted from message)
+- `Avdnr` - Department number (extracted from message)
+- `JobName` - Job/task name
+
+## Import Status Tracking
+
+For append-only files:
+```sql
+file_creation_date  -- Detect file rotation
+last_processed_line -- Resume from this line
+last_file_size      -- Skip if unchanged
+```
+
+## Naming Conventions
+
+- Table names: `snake_case` (e.g., `log_entries`)
+- Column names: `snake_case` (e.g., `computer_name`)
+- C# properties: `PascalCase` with `[Column("snake_case")]`

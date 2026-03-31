@@ -1,0 +1,64 @@
+{
+  "tableName": "TRANSP_BILEIER",
+  "futureName": "TransportBileier",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "TRANSPNR",
+      "futureName": "TransportNumber",
+      "description": "Unique transport identifier",
+      "foreignKey": "OrderNumber"
+    },
+    {
+      "name": "BILEIER",
+      "futureName": "BileierId",
+      "description": "Identifier for the biler entity",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique user identifier",
+      "foreignKey": "OrderNumber"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the event or record",
+      "foreignKey": null
+    },
+    {
+      "name": "FORFALLSDAG1",
+      "futureName": "DueDate1",
+      "description": "First due date for payment or delivery",
+      "foreignKey": null
+    },
+    {
+      "name": "REGNEARK_RAPPORT",
+      "futureName": "WeatherReport",
+      "description": "Indicator of weather report usage",
+      "foreignKey": null
+    },
+    {
+      "name": "FORFALLSDATO1",
+      "futureName": "DueDate1AsDate",
+      "description": "First due date for payment or delivery (as a date)",
+      "foreignKey": null
+    },
+    {
+      "name": "FORFALLSDAG2",
+      "futureName": "DueDate2",
+      "description": "Second due date for payment or delivery",
+      "foreignKey": null
+    },
+    {
+      "name": "FORFALLSDATO2",
+      "futureName": "DueDate2AsDate",
+      "description": "Second due date for payment or delivery (as a date)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:07:22"
+}

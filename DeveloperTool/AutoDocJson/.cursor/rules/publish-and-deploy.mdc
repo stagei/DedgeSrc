@@ -1,0 +1,53 @@
+﻿---
+description: Publish profiles and IIS deployment conventions for .NET apps
+globs:
+  - "**/*.pubxml"
+  - "**/Build-And-Publish.ps1"
+  - "**/*.deploy.json"
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# Publish and IIS Deploy Conventions
+
+Full docs: `C:\opt\src\DedgeAuth\docs\integration\publish-and-deploy-guide.md`
+
+## Publish Profiles (.pubxml)
+
+- `WebApp-FileSystem.pubxml` -- ASP.NET Core web apps (IIS-hosted)
+- `WinApp-FileSystem.pubxml` -- background services / console apps
+- Always set BOTH `PublishUrl` and `PublishDir` to the same UNC path (VS uses one, CLI uses the other)
+
+## Publish Destination Paths
+
+Target: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\<name>`
+
+- **Single-project solutions**: folder = solution name (e.g. `\DedgeAuth`, `\DocView`)
+- **Multi-project solutions**: folder = `<Solution>-<Component>` (e.g. `\GenericLogHandler-WebApi`, `\GenericLogHandler-ImportService`)
+
+Each component gets its own isolated folder -- no shared parent, no DLL collisions.
+
+## IIS Deploy Templates
+
+Location: `IIS-DeployApp\templates\<SiteName>_<InstallSource>.deploy.json`
+
+Critical path alignment rule:
+- `InstallAppName` must match the folder name on the DedgeCommon share
+- `PhysicalPath` must resolve to the same folder after `Install-OurWinApp` copies it locally
+- For multi-project: `InstallAppName` includes component suffix (e.g. `GenericLogHandler-WebApi`), but `SiteName`/`VirtualPath` use solution name only
+
+## Build Script Pattern
+
+```powershell
+dotnet publish $projectPath /p:PublishProfile=WebApp-FileSystem -v minimal
+```
+
+The profile handles configuration, runtime, output path, and self-contained mode.
+
+## After Changing IIS-DeployApp Files
+
+Always run `.\IIS-DeployApp\_deploy.ps1` to sync updated scripts/templates to servers.
+
+## Code Signing
+
+All `.csproj` files must include DedgeSign targets for Release builds. See `setup-guide.md` Step 8.

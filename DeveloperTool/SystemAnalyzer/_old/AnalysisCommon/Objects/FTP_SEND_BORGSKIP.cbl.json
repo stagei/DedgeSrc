@@ -1,0 +1,208 @@
+{
+  "program": "FTP_SEND_BORGSKIP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:32:03",
+  "variableFilenames": {
+    "PRRFIL": {
+      "logicalName": "PRRFIL",
+      "physicalVariable": "WW-PRRFIL",
+      "basePath": null,
+      "filenamePattern": null,
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:31:59"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_SEND_BORGSKIP",
+    "program": "FTP_SEND_BORGSKIP",
+    "copyElements": [
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": ".\\PROCESSHOLDINGFILES.PS1",
+        "type": "ps1"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRTFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTIONAL",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMASQLB",
+      "SQLDB2",
+      "SQLEXEC",
+      "GMAMOMS",
+      "GMACURT",
+      "FTP_SEND_BORGSKIP",
+      "FTP_LOGOFF",
+      "TIL_MONITOR",
+      "FTPSETUSER",
+      "FTP_LOGON_BORG_SKIPT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-DIVRAPP-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "BIFUTFI.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\BIFUTFI.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "OUTFILE",
+        "physicalName": "WW-OUTFILE",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRRFIL",
+        "physicalName": "WW-PRRFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "VEDFILE",
+        "physicalName": "VEDDELER.TXT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\VEDDELER.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "WORDFILE",
+        "physicalName": "WW-UTFILE",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:32:03"
+  }
+}

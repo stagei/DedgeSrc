@@ -1,0 +1,162 @@
+﻿SVAR: Tilbakemelding på Entra ID App Registration for DedgeAuth
+=============================================================
+
+Fra: Geir Helge Starholm
+Dato: 2026-03-25
+
+Hei,
+
+Takk for raskt svar, og helt forståelig med ressurssituasjonen - vi har ingen hast her. Vi setter pris på at dere tar det når dere har kapasitet.
+
+Angående de 4 punktene dine - alle er gode og vi aksepterer samtlige. Her er vår tilbakemelding punkt for punkt:
+
+
+PUNKT 1: Name -> DedgeAuth_test
+-----------------------------
+
+Enig, det gir god mening. Vi bruker kun ClientId (GUID) i koden vår, så displaynavnet i Azure Portal påvirker ikke noe teknisk.
+
+
+PUNKT 2: HTTPS på Redirect URI
+---------------------------------
+
+Absolutt, vi aksepterer HTTPS-kravet. Microsoft krever dette for alle redirect URI-er (unntatt localhost), og det er fornuftig fra et sikkerhetsperspektiv.
+
+DedgeAuth-koden vår håndterer allerede HTTPS korrekt - cookie-flagg og sikkerhet tilpasser seg automatisk basert på om HTTPS er i bruk.
+
+Vi har allerede en åpen sak for oppsett av SSL/TLS-sertifikater på de aktuelle serverne:
+
+  ServiceNow: INC0273418
+  Tittel:     Bestilling av Azure Key Vault-oppsett for SSL/TLS-sertifikater
+  Status:     On Hold
+
+Denne saken dekker TLS-sertifikater for dedge-server og p-no1fkxprd-app (blant andre), så HTTPS-kravet vil være oppfylt når den saken er ferdigstilt. App-registreringene kan gjerne opprettes før HTTPS er på plass - vi tester med localhost i mellomtiden.
+
+
+PUNKT 3: Bruke FQDN
+---------------------
+
+Godt poeng. Vi oppdaterer alle URI-er til å bruke FQDN med DEDGE.fk.no-suffikset. Dette unngår DNS-problemer for klienter uten riktig default search domain.
+
+Det vil si at vi bruker:
+
+  dedge-server.DEDGE.fk.no    (i stedet for dedge-server)
+  p-no1fkxprd-app.DEDGE.fk.no    (i stedet for p-no1fkxprd-app)
+
+Dette er kun en konfigurasjonsendring på vår side - ingen kodeendringer er nødvendig.
+
+
+PUNKT 4: Separate test og prod miljøer
+----------------------------------------
+
+Helt enig i å rendyrke miljøene. For å unngå en ekstra bestillingsrunde senere, bestiller vi begge registreringene nå. Hver får sin egen ClientId og ClientSecret som vi konfigurerer per miljø i appsettings.json på respektive servere.
+
+
+======================================================================
+BESTILLING: 2 App Registrations (test + produksjon)
+======================================================================
+
+Vi bestiller herved begge miljøene samtidig. Oppsettet er identisk bortsett fra navn og URI-er.
+
+Felles innstillinger for begge:
+
+  Supported account types:  Accounts in this organizational directory only (Single tenant)
+  ID tokens:                Huk av (under Implicit grant and hybrid flows)
+  API-tillatelser:          Microsoft Graph -> User.Read (Delegated)
+                            Ingen ekstra tillatelser er nødvendig.
+
+Hvis App Registration skal knyttes til en tjenestekonto/eier:
+
+  DedgeAuth_test:  FKTSTADM (test-miljøets tjenestekonto)
+  DedgeAuth_prod:  FKPRDADM (produksjons-miljøets tjenestekonto)
+
+
+----------------------------------------------------------------------
+REGISTRERING 1: DedgeAuth_test
+----------------------------------------------------------------------
+
+Steg 1: Opprett App Registration
+
+  Name:                     DedgeAuth_test
+
+Steg 2: Redirect URI-er (Web)
+
+  https://dedge-server.DEDGE.fk.no/DedgeAuth/signin-oidc
+  http://localhost/DedgeAuth/signin-oidc
+
+  Merk: localhost kan forbli HTTP - Microsoft tillater dette som unntak for lokal utvikling.
+
+  Front-channel logout URL: https://dedge-server.DEDGE.fk.no/DedgeAuth/signout-oidc
+
+Steg 3: Client Secret
+
+  Description:  DedgeAuth_test OIDC
+  Expires:      24 måneder (eller iht. organisasjonens policy)
+
+
+----------------------------------------------------------------------
+REGISTRERING 2: DedgeAuth_prod
+----------------------------------------------------------------------
+
+Steg 1: Opprett App Registration
+
+  Name:                     DedgeAuth_prod
+
+Steg 2: Redirect URI-er (Web)
+
+  https://p-no1fkxprd-app.DEDGE.fk.no/DedgeAuth/signin-oidc
+  http://localhost/DedgeAuth/signin-oidc
+
+  Front-channel logout URL: https://p-no1fkxprd-app.DEDGE.fk.no/DedgeAuth/signout-oidc
+
+Steg 3: Client Secret
+
+  Description:  DedgeAuth_prod OIDC
+  Expires:      24 måneder (eller iht. organisasjonens policy)
+
+
+----------------------------------------------------------------------
+SEND OSS DISSE VERDIENE (for hver registrering)
+----------------------------------------------------------------------
+
+For hver av de to registreringene trenger vi:
+
+  Tenant ID       (Directory tenant ID fra Overview - samme for begge)
+  Client ID       (Application client ID fra Overview - unik per registrering)
+  Client Secret   (verdien fra Client Secret-steget - vises kun én gang)
+
+Eksempel på format:
+
+  DedgeAuth_test:
+    TenantId:     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ClientId:     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ClientSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  DedgeAuth_prod:
+    TenantId:     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ClientId:     xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ClientSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Send til geir.helge.starholm@Dedge.no (gjerne kryptert eller via Teams).
+
+Merk angående SPN: For Entra ID OIDC (App Registration) opprettes Service Principal automatisk av Azure - det er ikke behov for egne Kerberos SPN-er for denne løsningen.
+
+Vi har allerede registrert HTTP SPN-er for test-serveren som et forsøk på Windows/Kerberos-autentisering (Negotiate SSO). Dette fungerer teknisk, men gir ikke god nok brukeropplevelse - det er derfor vi nå bestiller Entra ID OIDC i stedet.
+
+  Tjenestekonto:  T1_srv_FKTSTADM
+  SPN-er:         HTTP/dedge-server.DEDGE.fk.no
+                  HTTP/dedge-server
+                  HTTP/dedge-server.DEDGE.fk.no:8998
+                  HTTP/dedge-server:8998
+
+Disse er uavhengig av Entra ID OIDC-flyten og vil ikke være nødvendig når OIDC er på plass. Dere kan fjerne dem eller gjenbruke tjenestekontoen om dere ønsker - vi har ingen avhengighet til dem fremover.
+
+
+KONTAKT
+--------
+
+Ved spørsmål, ta kontakt med:
+
+Geir Helge Starholm
+E-post: geir.helge.starholm@Dedge.no
+Telefon: 971 88 358

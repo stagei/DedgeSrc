@@ -1,0 +1,76 @@
+{
+  "program": "OKBFRTL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:54",
+  "extraction": {
+    "sourceHash": "sha256:d0a645549219eb3f3bc98f6fc233ff3bbd72d67cefad671491d6934420a34480",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OKBFRTL.CBL",
+    "actualName": "OKBFRTL",
+    "program": "OKBFRTL",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "STFL.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRODUSENTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLF_FRAKTTILSKUDD",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLF_FRAKTTILSKUDD",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "D01B998",
+      "OKALOGG"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "IAKT-FILE",
+        "physicalName": "OKBFRTL.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBFRTL.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "SLFFRTL-FIL",
+        "physicalName": "W-SLFFRTL-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:54"
+  }
+}

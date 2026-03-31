@@ -1,0 +1,378 @@
+{
+  "provider": "POSTGRESQL",
+  "version": "18",
+  "description": "SQL statements for PostgreSQL 18 (information_schema and pg_catalog)",
+  "statements": {
+    "GetSchemasStatement": {
+      "sql": "SELECT n.nspname AS SCHEMANAME, (SELECT rolname FROM pg_roles WHERE oid = n.nspowner) AS owner, NULL::timestamp AS create_time, obj_description(n.oid, 'pg_namespace') AS remarks FROM pg_namespace n WHERE n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema' ORDER BY n.nspname",
+      "description": "Get all schemas. Returns schema name, owner, and optional remarks.",
+      "parameters": [],
+      "returns": "List of schemas",
+      "source": "ObjectBrowserService"
+    },
+    "GetSchemasSimple": {
+      "sql": "SELECT nspname FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema' ORDER BY nspname",
+      "description": "Get schema names only.",
+      "parameters": [],
+      "returns": "List of schema names",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetSchemasCount": {
+      "sql": "SELECT COUNT(*) FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema'",
+      "description": "Count schemas.",
+      "parameters": [],
+      "returns": "Count",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesForSchema": {
+      "sql": "SELECT c.relname AS tabname, (SELECT rolname FROM pg_roles WHERE oid = c.relowner) AS owner, NULL::timestamp AS create_time, c.reltuples::bigint AS row_count, obj_description(c.oid, 'pg_class') AS remarks FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relkind IN ('r','p') ORDER BY c.relname",
+      "description": "Get tables in a schema. relkind r=table, p=partitioned.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesForSchemaSimple": {
+      "sql": "SELECT c.relname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relkind IN ('r','p') ORDER BY c.relname",
+      "description": "Get table names only for a schema.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of table names",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetAllTablesSimple": {
+      "sql": "SELECT n.nspname || '.' || c.relname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('r','p') AND n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema' ORDER BY n.nspname, c.relname",
+      "description": "Get all schema.table names.",
+      "parameters": [],
+      "returns": "List of schema.table",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetViewsForSchema": {
+      "sql": "SELECT v.viewname AS viewname, v.viewowner AS definer, obj_description(c.oid, 'pg_class') AS remarks, NULL::timestamp AS alter_time FROM pg_views v JOIN pg_class c ON c.relname = v.viewname JOIN pg_namespace n ON n.oid = c.relnamespace AND n.nspname = v.schemaname WHERE v.schemaname = ? ORDER BY v.viewname",
+      "description": "Get views in a schema.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of views",
+      "source": "ObjectBrowserService"
+    },
+    "GetViewsForSchemaSimple": {
+      "sql": "SELECT viewname FROM pg_views WHERE schemaname = ? ORDER BY viewname",
+      "description": "Get view names only for a schema.",
+      "parameters": ["VIEWSCHEMA"],
+      "returns": "List of view names",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetAllViewsSimple": {
+      "sql": "SELECT schemaname || '.' || viewname FROM pg_views WHERE schemaname NOT LIKE 'pg_%' ORDER BY schemaname, viewname",
+      "description": "Get all schema.view names.",
+      "parameters": [],
+      "returns": "List of schema.view",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetFunctionsForSchema": {
+      "sql": "SELECT p.proname AS routinename, (SELECT rolname FROM pg_roles WHERE oid = p.proowner) AS owner, obj_description(p.oid, 'pg_proc') AS remarks FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.prokind = 'f' ORDER BY p.proname",
+      "description": "Get functions in a schema. prokind f=function.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of functions",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresForSchema": {
+      "sql": "SELECT p.proname AS routinename, (SELECT rolname FROM pg_roles WHERE oid = p.proowner) AS owner, obj_description(p.oid, 'pg_proc') AS remarks FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.prokind = 'p' ORDER BY p.proname",
+      "description": "Get procedures in a schema. prokind p=procedure.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of procedures",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresForSchemaSimple": {
+      "sql": "SELECT p.proname FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.prokind = 'p' ORDER BY p.proname",
+      "description": "Get procedure names only.",
+      "parameters": ["PROCSCHEMA"],
+      "returns": "List of procedure names",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetAllProceduresSimple": {
+      "sql": "SELECT n.nspname || '.' || p.proname FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE p.prokind = 'p' AND n.nspname NOT LIKE 'pg_%' ORDER BY n.nspname, p.proname",
+      "description": "Get all schema.procedure names.",
+      "parameters": [],
+      "returns": "List of schema.procedure",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetSequencesForSchema": {
+      "sql": "SELECT s.sequence_name AS seqname, (SELECT rolname FROM pg_roles r JOIN pg_class c ON c.relowner = r.oid WHERE c.relname = s.sequence_name AND c.relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = s.sequence_schema) LIMIT 1) AS owner, '' AS remarks FROM information_schema.sequences s WHERE s.sequence_schema = ? ORDER BY s.sequence_name",
+      "description": "Get sequences in a schema.",
+      "parameters": ["SEQSCHEMA"],
+      "returns": "List of sequences",
+      "source": "ObjectBrowserService"
+    },
+    "GetTriggersForSchema": {
+      "sql": "SELECT t.trigger_name AS trigname, t.event_object_table AS tabname, t.action_timing AS trigtime, t.event_manipulation AS trigevent FROM information_schema.triggers t WHERE t.trigger_schema = ? ORDER BY t.trigger_name",
+      "description": "Get triggers in a schema.",
+      "parameters": ["TRIGSCHEMA"],
+      "returns": "List of triggers",
+      "source": "ObjectBrowserService"
+    },
+    "GetIndexesForSchema": {
+      "sql": "SELECT indexname AS indname, tablename AS tabname, CASE WHEN indexdef LIKE '%UNIQUE%' THEN 'U' ELSE 'D' END AS uniquerule, 'btree' AS indextype, indexdef AS colnames FROM pg_indexes WHERE schemaname = ? ORDER BY indexname",
+      "description": "Get indexes in a schema.",
+      "parameters": ["INDSCHEMA"],
+      "returns": "List of indexes",
+      "source": "ObjectBrowserService"
+    },
+    "GetTableColumnsForTable": {
+      "sql": "SELECT column_name AS colname, ordinal_position AS colno, data_type AS typename, character_maximum_length AS length, numeric_scale AS scale, CASE is_nullable WHEN 'YES' THEN 'Yes' ELSE 'No' END AS nullable, COALESCE(column_default, '-') AS default_value, '' AS remarks FROM information_schema.columns WHERE table_schema = ? AND table_name = ? ORDER BY ordinal_position",
+      "description": "Get columns for a table.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of columns",
+      "source": "Property Dialogs"
+    },
+    "GetPrimaryKeysForTable": {
+      "sql": "SELECT a.attname AS colname, (array_position(ix.indkey, a.attnum))::int AS colseq FROM pg_index ix JOIN pg_class t ON t.oid = ix.indrelid JOIN pg_namespace n ON n.oid = t.relnamespace JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND a.attisdropped = false WHERE n.nspname = ? AND t.relname = ? AND ix.indisprimary ORDER BY array_position(ix.indkey, a.attnum)",
+      "description": "Get primary key columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of PK columns",
+      "source": "Property Dialogs"
+    },
+    "GetForeignKeysForTable": {
+      "sql": "SELECT tc.constraint_name AS fk_name, ccu.table_schema AS ref_schema, ccu.table_name AS ref_table, string_agg(kcu.column_name, ',' ORDER BY kcu.ordinal_position) AS fk_columns, string_agg(ccu.column_name, ',' ORDER BY kcu.ordinal_position) AS pk_columns, rc.delete_rule AS delete_rule, rc.update_rule AS update_rule FROM information_schema.table_constraints tc JOIN information_schema.referential_constraints rc ON tc.constraint_name = rc.constraint_name AND tc.table_schema = rc.constraint_schema JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema JOIN information_schema.constraint_column_usage ccu ON rc.unique_constraint_name = ccu.constraint_name AND rc.unique_constraint_schema = ccu.table_schema WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = ? AND tc.table_name = ? GROUP BY tc.constraint_name, ccu.table_schema, ccu.table_name, rc.delete_rule, rc.update_rule ORDER BY tc.constraint_name",
+      "description": "Get foreign keys for a table.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of FKs",
+      "source": "Property Dialogs"
+    },
+    "GetIndexesForTable": {
+      "sql": "SELECT indexname AS indname, CASE WHEN indexdef LIKE '%UNIQUE%' THEN 'U' ELSE 'D' END AS uniquerule, 'btree' AS indextype, indexdef AS colnames, NULL::timestamp AS create_time FROM pg_indexes WHERE schemaname = ? AND tablename = ? ORDER BY indexname",
+      "description": "Get indexes for a table.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes",
+      "source": "Property Dialogs"
+    },
+    "GetViewDefinition": {
+      "sql": "SELECT definition AS view_definition FROM pg_views WHERE schemaname = ? AND viewname = ?",
+      "description": "Get view definition SQL.",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View definition",
+      "source": "Property Dialogs"
+    },
+    "GetViewText": {
+      "sql": "SELECT definition FROM pg_views WHERE viewname = ? LIMIT 1",
+      "description": "Get view definition by view name only.",
+      "parameters": ["VIEWNAME"],
+      "returns": "View SQL",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetProcedureDefinition": {
+      "sql": "SELECT pg_get_functiondef(p.oid) AS procedure_definition FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.proname = ? AND p.prokind = 'p'",
+      "description": "Get procedure definition.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure definition",
+      "source": "Property Dialogs"
+    },
+    "GetFunctionDefinition": {
+      "sql": "SELECT pg_get_functiondef(p.oid) AS function_definition FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.proname = ? AND p.prokind = 'f'",
+      "description": "Get function definition.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function definition",
+      "source": "Property Dialogs"
+    },
+    "GetTriggerDefinition": {
+      "sql": "SELECT pg_get_triggerdef(t.oid, true) AS trigger_definition FROM pg_trigger t JOIN pg_class c ON c.oid = t.tgrelid JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND t.tgname = ? AND NOT t.tgisinternal",
+      "description": "Get trigger definition.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger definition",
+      "source": "Property Dialogs"
+    },
+    "GetUserAccessLevel": {
+      "sql": "SELECT rolname AS username, CASE WHEN rolsuper THEN 'Y' ELSE 'N' END AS dbadmauth, CASE WHEN rolcreaterole THEN 'Y' ELSE 'N' END AS secadmauth FROM pg_roles WHERE rolname = ?",
+      "description": "Get user access level from pg_roles. rolsuper=DBA, rolcreaterole=admin. Used for RBAC.",
+      "parameters": ["USERNAME"],
+      "returns": "User authorities",
+      "source": "AccessControlService"
+    },
+    "ExecuteUserQuery": {
+      "sql": "{user_sql}",
+      "description": "User-provided SQL (placeholder).",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "SQL Editor"
+    },
+    "SERVICE_GetTableColumnsBasic": {
+      "sql": "SELECT column_name AS ColumnName, ordinal_position AS COLNO, data_type AS DataType, character_maximum_length AS LENGTH, numeric_scale AS SCALE, is_nullable AS Nullable, COALESCE(column_default, '-') AS DefaultValue, '' AS Remarks FROM information_schema.columns WHERE table_schema = (SELECT current_schema()) AND table_name = ? ORDER BY ordinal_position",
+      "description": "Get columns for a table by table name (current schema). Used by connection manager.",
+      "parameters": ["TABNAME"],
+      "returns": "Columns",
+      "source": "PostgreSQLConnectionManager"
+    },
+    "GetSchemasStatement_ListSchemas": {
+      "sql": "SELECT nspname AS schemaname FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema' ORDER BY nspname",
+      "description": "List schemas for Missing FK / dialogs.",
+      "parameters": [],
+      "returns": "List of schemas",
+      "source": "MissingFKDiscoveryDialog"
+    },
+    "GetTablesForSchema_ListTables": {
+      "sql": "SELECT c.relname AS tabname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relkind IN ('r','p') ORDER BY c.relname",
+      "description": "List tables in schema for Missing FK / dialogs.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables",
+      "source": "MissingFKDiscoveryDialog"
+    },
+    "ListTables": {
+      "sql": "SELECT table_schema AS tabschema, table_name AS tabname, 'T' AS type, (SELECT reltuples::bigint FROM pg_class WHERE relname = table_name AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = table_schema)) AS card, NULL AS npages, NULL AS fpages, NULL AS status, '' AS remarks FROM information_schema.tables WHERE table_schema LIKE ? AND table_type = 'BASE TABLE' ORDER BY table_schema, table_name",
+      "description": "List tables with metadata. Schema filter supports %.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "List of tables",
+      "source": "CliCommandHandlerService"
+    },
+    "ListViews": {
+      "sql": "SELECT schemaname AS viewschema, viewname AS viewname, 'Y' AS valid, 'N' AS readonly FROM pg_views WHERE schemaname LIKE ? ORDER BY schemaname, viewname",
+      "description": "List views. Schema filter supports %.",
+      "parameters": ["VIEWSCHEMA_PATTERN"],
+      "returns": "List of views",
+      "source": "CliCommandHandlerService"
+    },
+    "ListProcedures": {
+      "sql": "SELECT n.nspname AS routineschema, p.proname AS routinename, l.lanname AS language, (SELECT COUNT(*) FROM pg_get_function_arguments(p.oid) x) AS parametercount FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang WHERE n.nspname LIKE ? AND p.prokind = 'p' ORDER BY n.nspname, p.proname",
+      "description": "List procedures. Schema filter supports %.",
+      "parameters": ["ROUTINESCHEMA_PATTERN"],
+      "returns": "List of procedures",
+      "source": "CliCommandHandlerService"
+    },
+    "ListTriggers": {
+      "sql": "SELECT trigger_schema AS trigschema, trigger_name AS trigname, event_object_schema AS tabschema, event_object_table AS tabname, action_timing AS trigtime, event_manipulation AS trigevent, 'Y' AS enabled FROM information_schema.triggers WHERE trigger_schema LIKE ? ORDER BY trigger_schema, trigger_name",
+      "description": "List triggers. Schema filter supports %.",
+      "parameters": ["TRIGSCHEMA_PATTERN"],
+      "returns": "List of triggers",
+      "source": "CliCommandHandlerService"
+    },
+    "ListFunctions": {
+      "sql": "SELECT n.nspname AS routineschema, p.proname AS routinename, l.lanname AS language, (SELECT COUNT(*) FROM pg_get_function_arguments(p.oid) x) AS parametercount FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang WHERE n.nspname LIKE ? AND p.prokind = 'f' ORDER BY n.nspname, p.proname",
+      "description": "List functions. Schema filter supports %.",
+      "parameters": ["ROUTINESCHEMA_PATTERN"],
+      "returns": "List of functions",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableColumns_Display": {
+      "sql": "SELECT column_name AS columnname, data_type AS datatype, CASE is_nullable WHEN 'YES' THEN 'Yes' ELSE 'No' END AS nullable FROM information_schema.columns WHERE table_schema = ? AND table_name = ? ORDER BY ordinal_position",
+      "description": "Get columns for display (CLI table-properties).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Columns",
+      "source": "CliCommandHandlerService"
+    },
+    "GetPrimaryKeyColumns": {
+      "sql": "SELECT kcu.table_schema AS tabschema, kcu.table_name AS tabname, tc.constraint_name AS constname, kcu.column_name AS colname, kcu.ordinal_position AS colseq FROM information_schema.key_column_usage kcu JOIN information_schema.table_constraints tc ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema WHERE tc.constraint_type = 'PRIMARY KEY' AND kcu.table_schema = ? AND kcu.table_name = ? ORDER BY kcu.ordinal_position",
+      "description": "Get primary key columns (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "PK columns",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableForeignKeys_Detailed": {
+      "sql": "SELECT tc.constraint_name AS fkname, kcu.column_name AS fkcolumn, ccu.table_schema||'.'||ccu.table_name AS pktable, ccu.column_name AS pkcolumn, rc.delete_rule AS deleterule, rc.update_rule AS updaterule FROM information_schema.table_constraints tc JOIN information_schema.referential_constraints rc ON tc.constraint_name = rc.constraint_name AND tc.table_schema = rc.constraint_schema JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema JOIN information_schema.constraint_column_usage ccu ON rc.unique_constraint_name = ccu.constraint_name AND rc.unique_constraint_schema = ccu.table_schema WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = ? AND tc.table_name = ? ORDER BY tc.constraint_name, kcu.ordinal_position",
+      "description": "Get foreign keys detailed (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "FK details",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableIndexes_Aggregated": {
+      "sql": "SELECT i.indexname AS indexname, 'btree' AS indextype, CASE WHEN ix.indisunique THEN 'Yes' WHEN ix.indisprimary THEN 'Primary Key' ELSE 'No' END AS isunique, string_agg(a.attname, ', ' ORDER BY array_position(ix.indkey, a.attnum)) AS columns FROM pg_indexes i JOIN pg_class c ON c.relname = i.tablename JOIN pg_namespace n ON n.oid = c.relnamespace AND n.nspname = i.schemaname JOIN pg_index ix ON ix.indrelid = c.oid JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum = ANY(ix.indkey) AND a.attisdropped = false WHERE i.schemaname = ? AND i.tablename = ? GROUP BY i.indexname, ix.indisunique, ix.indisprimary ORDER BY i.indexname",
+      "description": "Get indexes with columns (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Index list",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableStatistics": {
+      "sql": "SELECT c.reltuples::bigint AS rowcount, 0 AS numberofpages, 0 AS formattedpages, 0 AS overflowpages, NULL AS laststatstime, '' AS compression, '' AS tableorganization, 0 AS avgrowsize FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relname = ? AND c.relkind IN ('r','p')",
+      "description": "Get table statistics (approximate).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table stats",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTriggerInfo": {
+      "sql": "SELECT trigger_name AS trigname, trigger_schema AS trigschema, event_object_schema AS tabschema, event_object_table AS tabname, action_timing AS trigtime, event_manipulation AS trigevent, 'Y' AS enabled, 'Y' AS valid, '' AS remarks, action_statement AS text, NULL::timestamp AS create_time FROM information_schema.triggers WHERE trigger_schema = ? AND trigger_name = ?",
+      "description": "Get trigger details (CLI).",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTriggerUsage": {
+      "sql": "SELECT trigger_schema AS trigschema, trigger_name AS trigname, event_object_schema AS tabschema, event_object_table AS tabname, action_timing AS trigtime, event_manipulation AS trigevent, 'Y' AS enabled, 'Y' AS valid FROM information_schema.triggers WHERE trigger_schema = ? ORDER BY trigger_name",
+      "description": "List triggers in schema (CLI).",
+      "parameters": ["TRIGSCHEMA"],
+      "returns": "Triggers",
+      "source": "CliCommandHandlerService"
+    },
+    "GetViewInfo": {
+      "sql": "SELECT viewname AS viewname, schemaname AS viewschema, viewowner AS definer, 'Y' AS valid, 'N' AS readonly, obj_description(c.oid, 'pg_class') AS remarks, NULL::timestamp AS create_time FROM pg_views v JOIN pg_class c ON c.relname = v.viewname JOIN pg_namespace n ON n.oid = c.relnamespace AND n.nspname = v.schemaname WHERE v.schemaname = ? AND v.viewname = ?",
+      "description": "Get view details (CLI).",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetProcedureInfo": {
+      "sql": "SELECT p.proname AS routinename, n.nspname AS routineschema, (SELECT rolname FROM pg_roles WHERE oid = p.proowner) AS definer, l.lanname AS language, 'N' AS deterministic, 'U' AS origin, NULL::timestamp AS create_time FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang WHERE n.nspname = ? AND p.proname = ? AND p.prokind = 'p'",
+      "description": "Get procedure details (CLI).",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetFunctionInfo": {
+      "sql": "SELECT p.proname AS routinename, n.nspname AS routineschema, (SELECT rolname FROM pg_roles WHERE oid = p.proowner) AS definer, l.lanname AS language, 'N' AS deterministic, 'U' AS origin, NULL::timestamp AS create_time FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang WHERE n.nspname = ? AND p.proname = ? AND p.prokind = 'f'",
+      "description": "Get function details (CLI).",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetViewColumns_Display": {
+      "sql": "SELECT column_name AS columnname, data_type AS datatype, CASE is_nullable WHEN 'YES' THEN 'Yes' ELSE 'No' END AS nullable FROM information_schema.columns WHERE table_schema = ? AND table_name = ? ORDER BY ordinal_position",
+      "description": "Get view columns for display.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "View columns",
+      "source": "ViewDetailsPanel"
+    },
+    "GetViewDependencies": {
+      "sql": "SELECT table_schema||'.'||table_name AS dependency FROM information_schema.view_table_usage WHERE view_schema = ? AND view_name = ?",
+      "description": "Get view dependencies (tables the view uses).",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "Dependencies",
+      "source": "ViewDetailsPanel"
+    },
+    "GetRoutineSource": {
+      "sql": "SELECT pg_get_functiondef(p.oid) AS text FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace WHERE n.nspname = ? AND p.proname = ? AND p.prokind = LOWER(TRIM(?))",
+      "description": "Get routine source. prokind: p=procedure, f=function.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME", "ROUTINETYPE"],
+      "returns": "Source",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetRoutineParameters_Display": {
+      "sql": "SELECT p.parameter_name AS parmname, p.data_type AS typename, p.parameter_mode AS parm_mode, NULL::int AS length FROM information_schema.parameters p JOIN information_schema.routines r ON r.specific_schema = p.specific_schema AND r.specific_name = p.specific_name WHERE r.routine_schema = ? AND r.routine_name = ? ORDER BY p.ordinal_position",
+      "description": "Get routine parameters.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Parameters",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetRoutineProperties": {
+      "sql": "SELECT l.lanname AS language, (SELECT COUNT(*) FROM pg_get_function_arguments(p.oid)) AS parm_count, (SELECT rolname FROM pg_roles WHERE oid = p.proowner) AS owner, NULL::timestamp AS create_time, 'Y' AS valid, obj_description(p.oid, 'pg_proc') AS remarks FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace JOIN pg_language l ON l.oid = p.prolang WHERE n.nspname = ? AND p.proname = ? AND p.prokind = LOWER(TRIM(?))",
+      "description": "Get routine properties.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME", "ROUTINETYPE"],
+      "returns": "Properties",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetTriggerSource": {
+      "sql": "SELECT pg_get_triggerdef(t.oid, true) AS text FROM pg_trigger t JOIN pg_class c ON c.oid = t.tgrelid JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND t.tgname = ? AND NOT t.tgisinternal",
+      "description": "Get trigger source.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger source",
+      "source": "ConnectionTabControl"
+    },
+    "GetTablePrivileges": {
+      "sql": "SELECT grantee AS GRANTEE, CASE WHEN grantee IN (SELECT rolname FROM pg_roles WHERE rolcanlogin) THEN 'U' ELSE 'G' END AS GRANTEETYPE, grantor AS GRANTOR, MAX(CASE WHEN privilege_type = 'SELECT' THEN 'Y' ELSE 'N' END) AS SELECTAUTH, MAX(CASE WHEN privilege_type = 'INSERT' THEN 'Y' ELSE 'N' END) AS INSERTAUTH, MAX(CASE WHEN privilege_type = 'UPDATE' THEN 'Y' ELSE 'N' END) AS UPDATEAUTH, MAX(CASE WHEN privilege_type = 'DELETE' THEN 'Y' ELSE 'N' END) AS DELETEAUTH, MAX(CASE WHEN privilege_type = 'REFERENCES' THEN 'Y' ELSE 'N' END) AS REFAUTH, MAX(CASE WHEN privilege_type = 'TRIGGER' THEN 'Y' ELSE 'N' END) AS TRIGGERAUTH, MAX(CASE WHEN privilege_type = 'TRUNCATE' THEN 'Y' ELSE 'N' END) AS TRUNCATEAUTH FROM information_schema.table_privileges WHERE table_schema = ? AND table_name = ? GROUP BY grantee, grantor ORDER BY grantee",
+      "description": "Get table-level privileges for a specific table. Returns privilege flags (Y/N) per grantee, matching DB2 column naming for UI compatibility.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of grantees with privilege details",
+      "source": "TableDetailsPanel"
+    },
+    "GetIncomingForeignKeys": {
+      "sql": "SELECT tc.table_schema AS REFERENCING_SCHEMA, tc.table_name AS REFERENCING_TABLE, tc.constraint_name AS CONSTNAME, string_agg(kcu.column_name, ',' ORDER BY kcu.ordinal_position) AS FK_COLNAMES, string_agg(ccu.column_name, ',' ORDER BY kcu.ordinal_position) AS PK_COLNAMES, rc.delete_rule AS DELETERULE, rc.update_rule AS UPDATERULE FROM information_schema.table_constraints tc JOIN information_schema.referential_constraints rc ON tc.constraint_name = rc.constraint_name AND tc.table_schema = rc.constraint_schema JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema JOIN information_schema.constraint_column_usage ccu ON rc.unique_constraint_name = ccu.constraint_name AND rc.unique_constraint_schema = ccu.table_schema WHERE ccu.table_schema = ? AND ccu.table_name = ? AND tc.constraint_type = 'FOREIGN KEY' GROUP BY tc.table_schema, tc.table_name, tc.constraint_name, rc.delete_rule, rc.update_rule ORDER BY tc.table_schema, tc.table_name",
+      "description": "Get incoming foreign keys (tables that reference this table).",
+      "parameters": ["REFTABSCHEMA", "REFTABNAME"],
+      "returns": "Incoming FKs",
+      "source": "MissingFKDiscoveryDialog"
+    }
+  }
+}

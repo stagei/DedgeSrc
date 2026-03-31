@@ -1,0 +1,196 @@
+﻿{
+  "tableName": "MASKINSALG",
+  "futureName": "SalesRecord",
+  "namespace": "MaskinSales",
+  "columns": [
+    {
+      "name": "enhetsnr",
+      "futureName": "UnitNumber",
+      "description": "The unique number identifying the unit.",
+      "foreignKey": "ENHETSNR -> DBM.MASKINKARTOTEK.ENHETSNR (M_ENHET)"
+    },
+    {
+      "name": "salsnr",
+      "futureName": "SalesNumber",
+      "description": "The unique number identifying the sale.",
+      "foreignKey": "SALGSNR -> also in: M_ORDRELINJER, M_ORDRELINJER, MASKIN_OKONOMI, MASKIN_SLETTET, MASKIN_TEKST, MASKINKARTOTEK, MH_ORDRELINJER"
+    },
+    {
+      "name": "selgavdnr",
+      "futureName": "SalesDivisionNumber",
+      "description": "The number identifying the sales division.",
+      "foreignKey": null
+    },
+    {
+      "name": "inkkjpris",
+      "futureName": "PurchasePrice",
+      "description": "The purchase price of the item.",
+      "foreignKey": "INNKJPRIS -> also in: KAMPANJE, KAMPANJE"
+    },
+    {
+      "name": "salsprix",
+      "futureName": "SalesPrice",
+      "description": "The sales price of the item.",
+      "foreignKey": "SALGSPRIS -> also in: EC_Dedge_KAMPANJER, KAMPANJE, KAMPANJE, M_ORDRELINJER, M_ORDRELINJER, MH_ORDRELINJER, PIM_PRISER"
+    },
+    {
+      "name": "kontraktavdnr",
+      "futureName": "ContractDivisionNumber",
+      "description": "The number identifying the contract division.",
+      "foreignKey": null
+    },
+    {
+      "name": "kontrakttnr",
+      "futureName": "ContractNumber",
+      "description": "The unique number identifying the contract.",
+      "foreignKey": "KONTRAKTNR -> also in: A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, AH_ORDREHODE, AH_ORDREHODE, EDI_FAKT_HODE, EDI_FAKT_HODE, FAKT_ORDREHODE, H_FAKT_ORDREHODE"
+    },
+    {
+      "name": "levdato",
+      "futureName": "ExpiryDate",
+      "description": "The date when the contract expires.",
+      "foreignKey": "LEVDATO -> also in: A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, AH_ORDRELINJER, H_XE_ORDREHODE, H_XE_ORDREHODE, XE_ORDREHODE"
+    },
+    {
+      "name": "kundenr",
+      "futureName": "CustomerNumber",
+      "description": "The unique number identifying the customer.",
+      "foreignKey": "KUNDENR -> also in: A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_SORDRE_LOG, AH_ORDREHODE, AH_ORDREHODE, AVVIST"
+    },
+    {
+      "name": "selgerid",
+      "futureName": "SalesPersonId",
+      "description": "The ID of the salesperson.",
+      "foreignKey": "SELGERID -> also in: ISYS_HODE, KLARGJ_VERKSTED, OIN_HODE"
+    },
+    {
+      "name": "prosjekt",
+      "futureName": "ProjectCode",
+      "description": "The code identifying the project.",
+      "foreignKey": null
+    },
+    {
+      "name": "dispavdnr",
+      "futureName": "DistributionDivisionNumber",
+      "description": "The number identifying the distribution division.",
+      "foreignKey": null
+    },
+    {
+      "name": "dispselger",
+      "futureName": "DistributionSalesPersonId",
+      "description": "The ID of the salesperson for distribution.",
+      "foreignKey": "DISP_SELGER -> also in: DISP_SELGER"
+    },
+    {
+      "name": "disptildato",
+      "futureName": "DistributionUntilDate",
+      "description": "The date until which the item is distributed.",
+      "foreignKey": "DISP_TIL_DATO -> also in: PARTI_HODE, PARTI_HODE"
+    },
+    {
+      "name": "salsstat",
+      "futureName": "SalesStatus",
+      "description": "The status of the sale.",
+      "foreignKey": null
+    },
+    {
+      "name": "ordremnd",
+      "futureName": "OrderMonth",
+      "description": "The month in which the order was placed.",
+      "foreignKey": "ORDRE_MND -> also in: ISYS_HODE, KLARGJ_VERKSTED, OIN_HODE"
+    },
+    {
+      "name": "fakturamnd",
+      "futureName": "InvoiceMonth",
+      "description": "The month in which the invoice was generated.",
+      "foreignKey": null
+    },
+    {
+      "name": "iinkordrenr",
+      "futureName": "InternalOrderNumber",
+      "description": "The internal order number.",
+      "foreignKey": null
+    },
+    {
+      "name": "ilevnr",
+      "futureName": "LevyNumber",
+      "description": "The levy number associated with the sale.",
+      "foreignKey": null
+    },
+    {
+      "name": "ionskedato",
+      "futureName": "InvoiceDate",
+      "description": "The date of the invoice.",
+      "foreignKey": null
+    },
+    {
+      "name": "ibeckrdato",
+      "futureName": "Bekreftedate",
+      "description": "The date when the sale was confirmed.",
+      "foreignKey": null
+    },
+    {
+      "name": "ivingnr",
+      "futureName": "InvoiceNumber",
+      "description": "The invoice number.",
+      "foreignKey": null
+    },
+    {
+      "name": "ivingdato",
+      "futureName": "InvoiceDate",
+      "description": "The date the invoice was created.",
+      "foreignKey": null
+    },
+    {
+      "name": "bcreditfaktnr",
+      "futureName": "CreditFakturaNumber",
+      "description": "The number of the credit facture.",
+      "foreignKey": null
+    },
+    {
+      "name": "bfakturadato",
+      "futureName": "FacturationDate",
+      "description": "The date when the facture was generated.",
+      "foreignKey": null
+    },
+    {
+      "name": "bordrestatus",
+      "futureName": "OrderStatus",
+      "description": "The status of the order.",
+      "foreignKey": "BORDRESTATUS -> also in: ISYS_HODE, KLARGJ_VERKSTED, OIN_HODE"
+    },
+    {
+      "name": "bselgerid",
+      "futureName": "BusinessSalesPersonId",
+      "description": "The ID of the business salesperson.",
+      "foreignKey": "BSELGERID -> also in: ISYS_HODE, KLARGJ_VERKSTED, OIN_HODE"
+    },
+    {
+      "name": "bkjedeenhetsnr",
+      "futureName": "BillingUnitNumber",
+      "description": "The number of the billing unit.",
+      "foreignKey": null
+    },
+    {
+      "name": "kjedesalsnr",
+      "futureName": "KJedeSalesNumber",
+      "description": "The sales number associated with KJede.",
+      "foreignKey": "KJEDE_SALGSNR -> also in: M_ORDRELINJER, M_ORDRELINJER, MH_ORDRELINJER"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "The ID of the user.",
+      "foreignKey": "BRUKERID -> also in: A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the record.",
+      "foreignKey": "TIDSPUNKT -> also in: A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:46:45"
+}

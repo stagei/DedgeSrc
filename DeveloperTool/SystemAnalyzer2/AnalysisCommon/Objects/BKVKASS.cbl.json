@@ -1,0 +1,51 @@
+{
+  "program": "BKVKASS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:39",
+  "extraction": {
+    "sourceHash": "sha256:b38c685dde35c11b8dc1cff2e31fea955f772f2c16c608ee5f3eb16ab0c224af",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BKVKASS.CBL",
+    "actualName": "BKVKASS",
+    "program": "BKVKASS",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KASS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BKHKASS.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KASSE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:39"
+  }
+}

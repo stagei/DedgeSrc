@@ -1,0 +1,130 @@
+{
+  "tableName": "WEBPASSORD",
+  "futureName": "WebPassword",
+  "namespace": "Authentication",
+  "columns": [
+    {
+      "name": "kundenr",
+      "futureName": "CustomerNumber",
+      "description": "The unique customer identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "logTidspunkt",
+      "futureName": "LoginTimestamp",
+      "description": "The timestamp when the login or password action occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "passord",
+      "futureName": "Password",
+      "description": "The encrypted password used for authentication",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the action occurred, possibly related to logging or events",
+      "foreignKey": [
+        "TIDSPUNKT"
+      ]
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "The unique identifier for the user who performed the action",
+      "foreignKey": null
+    },
+    {
+      "name": "opprettet",
+      "futureName": "CreatedTimestamp",
+      "description": "The timestamp when the record was created or updated",
+      "foreignKey": [
+        "OPPRETTET"
+      ]
+    },
+    {
+      "name": "feilForsokTeller",
+      "futureName": "FailedAttemptsCount",
+      "description": "The count of failed attempts for login or password changes",
+      "foreignKey": null
+    },
+    {
+      "name": "feilForsokTid",
+      "futureName": "FailedAttemptsTimestamp",
+      "description": "The timestamp when the last failed attempt occurred",
+      "foreignKey": [
+        "FEIL_FORSOK_TID"
+      ]
+    },
+    {
+      "name": "informert",
+      "futureName": "InformedIndicator",
+      "description": "An indicator showing whether the user has been informed of a certain event",
+      "foreignKey": null
+    },
+    {
+      "name": "sistInnlogget",
+      "futureName": "LastLoginTimestamp",
+      "description": "The timestamp when the user last logged in",
+      "foreignKey": [
+        "SIST_INNLOGGET"
+      ]
+    },
+    {
+      "name": "komentar",
+      "futureName": "Comment",
+      "description": "Additional comments or remarks related to the login or password action",
+      "foreignKey": null
+    },
+    {
+      "name": "prodnr",
+      "futureName": "ProductNumber",
+      "description": "The unique product identification number, possibly used in relation to customer orders",
+      "foreignKey": [
+        "PRODNR"
+      ]
+    },
+    {
+      "name": "kornOppgjorPrMail",
+      "futureName": "ProcessedByEmailIndicator",
+      "description": "An indicator showing whether the process has been handled by email or not",
+      "foreignKey": null
+    },
+    {
+      "name": "tempMailadr",
+      "futureName": "TemporaryEmailAddress",
+      "description": "The temporary email address associated with a customer or user, possibly for password reset purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "ordrebekrPrMail",
+      "futureName": "ConfirmedByEmailIndicator",
+      "description": "An indicator showing whether the order confirmation has been handled by email or not",
+      "foreignKey": null
+    },
+    {
+      "name": "fastOrdrekommensar",
+      "futureName": "FinalOrderComment",
+      "description": "The final comment related to the order, possibly from a customer service representative",
+      "foreignKey": null
+    },
+    {
+      "name": "koblingsKundenr",
+      "futureName": "LinkedCustomerNumber",
+      "description": "The linked customer number for potential multi-customer relations or accounts",
+      "foreignKey": [
+        "KOBLINGS_KUNDENR"
+      ]
+    },
+    {
+      "name": "bekreftetBruker",
+      "futureName": "ConfirmedByUserTimestamp",
+      "description": "The timestamp when the user was confirmed, possibly related to an account activation process",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:35:21"
+}

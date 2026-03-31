@@ -1,0 +1,61 @@
+{
+  "program": "GMAACCE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:b7a3b759bc9962c2cc3431e13b2d748fffb7b6d8ea8bca5012c477391be47f2c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\gmaacce.cbl",
+    "actualName": "GMAACCE",
+    "program": "GMAACCE",
+    "copyElements": [
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMACNCT",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

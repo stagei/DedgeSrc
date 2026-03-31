@@ -1,0 +1,127 @@
+# Column Naming Conflict Resolution
+
+## Purpose
+
+When multiple analysis profiles (CobDok, FkKonto, Vareregister, etc.) encounter the same DB2 column name, they may produce different descriptions of its purpose. This protocol asks Ollama to resolve the conflict by examining all perspectives and producing a unified `finalContext`.
+
+## When to Use
+
+During Phase 8f of the analysis pipeline. After column naming for a table, each column is upserted into the cross-analysis column registry (`ColumnNames/{COLUMN}.json`). If the new description differs significantly from the existing `finalContext`, invoke this protocol to resolve the conflict.
+
+## Conflict Types
+
+| Verdict | Meaning | Action |
+|---------|---------|--------|
+| `keep-both` | Both descriptions are valid perspectives of the same column | Update `finalContext` to a merged description, keep all contexts |
+| `replace-old` | Previous context was wrong or less accurate | Mark old contexts as `superseded`, update `finalContext` |
+| `keep-old` | New context misidentified the column's purpose | Keep existing `finalContext`, add new context as analysis-specific note |
+
+## Prompt Template
+
+```
+You are resolving a naming conflict for a legacy DB2 column used across multiple analysis domains.
+
+COLUMN: {ColumnName}
+CURRENT FUTURE NAME: {FutureName}
+CURRENT FINAL CONTEXT: {FinalContext}
+
+ALL ANALYSIS CONTEXTS:
+{ContextList}
+
+NEW CONTEXT FROM [{AnalysisAlias}]: {NewDescription}
+
+Your task:
+1. Determine if the new context adds valid information or contradicts existing context
+2. Produce a unified finalContext that covers all valid perspectives
+3. If the new analysis reveals the previous context was wrong, say so
+4. If the new context is wrong (e.g. misidentified column purpose), say so
+
+Respond with EXACTLY one JSON object:
+{"verdict":"keep-both","futureName":"DepartmentNumber","finalContext":"Unified description covering all valid perspectives"}
+
+Verdicts: "keep-both" (both valid, merge), "replace-old" (old was wrong), "keep-old" (new is wrong)
+
+JSON:
+{"verdict":
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{ColumnName}` | The legacy DB2 column name (e.g. `AVDNR`) |
+| `{FutureName}` | Current CamelCase C# property name |
+| `{FinalContext}` | Current unified description from previous resolutions |
+| `{ContextList}` | Formatted list: `- [CobDok] Department for documentation` per analysis |
+| `{AnalysisAlias}` | Name of the analysis that triggered the conflict |
+| `{NewDescription}` | The new description from the triggering analysis |
+
+## Response Format
+
+```json
+{
+  "verdict": "keep-both",
+  "futureName": "DepartmentNumber",
+  "finalContext": "Numeric department/branch identifier. Foreign key to Z_AVDTAB. Used across ordering, inventory, and accounting to scope data to a physical location."
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `verdict` | string | Yes | One of: `keep-both`, `replace-old`, `keep-old` |
+| `futureName` | string | Yes | The resolved CamelCase property name (may be updated) |
+| `finalContext` | string | Yes | Unified English description covering all valid perspectives |
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. If response doesn't start with `{`, prepend `{"verdict":`
+3. Extract the first `{...}` JSON object
+4. Parse as JSON
+5. Validate `verdict` is one of the three allowed values
+6. Apply verdict logic to the column registry entry
+
+## Examples
+
+### Example 1: Keep Both (most common)
+
+**AVDNR** — CobDok says "department for documentation module", FkKonto says "department for accounting transactions"
+
+```json
+{
+  "verdict": "keep-both",
+  "futureName": "DepartmentNumber",
+  "finalContext": "Numeric department/branch identifier (AVDNR). References Z_AVDTAB. Used to scope data by physical location — in CobDok for documentation ownership, in FkKonto for cost center allocation."
+}
+```
+
+### Example 2: Replace Old
+
+**STATUS** — CobDok said "record active flag" but FkKonto analysis with deeper JOIN evidence shows it's an order lifecycle status code
+
+```json
+{
+  "verdict": "replace-old",
+  "futureName": "OrderStatus",
+  "finalContext": "Order lifecycle status code (0=draft, 1=confirmed, 2=shipped, 9=cancelled). Not a simple active flag."
+}
+```
+
+### Example 3: Keep Old
+
+**TEKST** — The new analysis says "customer name" but it's actually a generic text/comment field
+
+```json
+{
+  "verdict": "keep-old",
+  "futureName": "Text",
+  "finalContext": "Free-text comment or description field. Content varies by table context."
+}
+```
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` — adequate for most conflicts where contexts are clearly different perspectives
+- **Better model**: Claude Sonnet/Opus — better at nuanced judgment when descriptions overlap or are ambiguous
+- Most conflicts will be `keep-both` since the same column genuinely serves different roles in different subsystems
+- `replace-old` should only be used when there's clear evidence the previous description was factually wrong

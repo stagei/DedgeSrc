@@ -1,0 +1,233 @@
+{
+  "program": "BIFAPRO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:46",
+  "extraction": {
+    "sourceHash": "sha256:3992672a4ca63239d6255780c017b554486e5d927214d9d7c58043231a1df3a8",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BIFAPRO.CBL",
+    "actualName": "BIFAPRO",
+    "program": "BIFAPRO",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GRLPROGN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIFLOGG.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIFAPRO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OPVA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSAPRGN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ERS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BPK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIMF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVSTK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIFAPRO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PERIODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MAN_PROGNOSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GJFRA_MND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BESTPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GMLFKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ERSTATNINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NYTTFKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVVARENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PAKN_KVANT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVD_DIMENSJ",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LAGER_FORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIMENSJ_FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BESTPUNKT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BESTPUNKT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIMENSJ_FKNR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIMENSJ_FKNR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MAN_PROGNOSE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MAN_PROGNOSE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MAN_PROGNOSE",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BESTPUNKT",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "BIVAPRO",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMAVSTK",
+      "BSAPRGN",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:46"
+  }
+}

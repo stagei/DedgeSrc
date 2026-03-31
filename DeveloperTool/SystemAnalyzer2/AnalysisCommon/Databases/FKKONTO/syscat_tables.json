@@ -1,0 +1,1139 @@
+{
+  "database": "FKKONTO",
+  "db2Alias": "FKKONTO",
+  "server": "INLPRD",
+  "description": "FkKonto/Innlan accounting database",
+  "exportedAt": "2026-03-30T21:04:24",
+  "exportedBy": "FKGEISTA",
+  "query": "SELECT\r\n    TRIM(TABNAME)    AS TABNAME,\r\n    TRIM(TABSCHEMA)  AS TABSCHEMA,\r\n    TYPE,\r\n    TRIM(REMARKS)    AS REMARKS,\r\n    COLCOUNT,\r\n    TRIM(TABSCHEMA) || '.' || TRIM(TABNAME) AS QUALIFIED_NAME\r\nFROM SYSCAT.TABLES\r\nWHERE TABSCHEMA NOT LIKE '%SYS%'\r\n  AND TABSCHEMA NOT LIKE '%IBM%'\r\n  AND TABSCHEMA <> 'ROA'\r\nORDER BY TABSCHEMA, TABNAME",
+  "summary": {
+    "totalObjects": 139,
+    "tables": 99,
+    "views": 40,
+    "schemas": [
+      "ASK",
+      "DB2ADMIN",
+      "DBE",
+      "DBM",
+      "INL",
+      "LOG",
+      "Q",
+      "RDBI",
+      "TV"
+    ]
+  },
+  "tables": [
+    {
+      "tabName": "VASK_KUNDER",
+      "tabSchema": "ASK",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "ASK.VASK_KUNDER"
+    },
+    {
+      "tabName": "EXPLAIN_INSTANCE",
+      "tabSchema": "DB2ADMIN",
+      "type": "T",
+      "remarks": null,
+      "colCount": 23,
+      "qualifiedName": "DB2ADMIN.EXPLAIN_INSTANCE"
+    },
+    {
+      "tabName": "EXPLAIN_STATEMENT",
+      "tabSchema": "DB2ADMIN",
+      "type": "T",
+      "remarks": null,
+      "colCount": 16,
+      "qualifiedName": "DB2ADMIN.EXPLAIN_STATEMENT"
+    },
+    {
+      "tabName": "JOBJECT_TABLE",
+      "tabSchema": "DBE",
+      "type": "T",
+      "remarks": "DB2 Forms saved forms (JAVA) table",
+      "colCount": 8,
+      "qualifiedName": "DBE.JOBJECT_TABLE"
+    },
+    {
+      "tabName": "JOBJECT_TABLE_X",
+      "tabSchema": "DBE",
+      "type": "T",
+      "remarks": "DB2 Forms saved forms (JAVA) table",
+      "colCount": 9,
+      "qualifiedName": "DBE.JOBJECT_TABLE_X"
+    },
+    {
+      "tabName": "JOBJECT_VIEW",
+      "tabSchema": "DBE",
+      "type": "V",
+      "remarks": null,
+      "colCount": 8,
+      "qualifiedName": "DBE.JOBJECT_VIEW"
+    },
+    {
+      "tabName": "JOBJECT_VIEW_X",
+      "tabSchema": "DBE",
+      "type": "V",
+      "remarks": null,
+      "colCount": 9,
+      "qualifiedName": "DBE.JOBJECT_VIEW_X"
+    },
+    {
+      "tabName": "OBJECT_TABLE",
+      "tabSchema": "DBE",
+      "type": "T",
+      "remarks": "DB2 Forms saved object table",
+      "colCount": 8,
+      "qualifiedName": "DBE.OBJECT_TABLE"
+    },
+    {
+      "tabName": "OBJECT_TABLE_X",
+      "tabSchema": "DBE",
+      "type": "T",
+      "remarks": "DB2 Forms saved extended object table",
+      "colCount": 9,
+      "qualifiedName": "DBE.OBJECT_TABLE_X"
+    },
+    {
+      "tabName": "OBJECT_VIEW",
+      "tabSchema": "DBE",
+      "type": "V",
+      "remarks": null,
+      "colCount": 8,
+      "qualifiedName": "DBE.OBJECT_VIEW"
+    },
+    {
+      "tabName": "OBJECT_VIEW_X",
+      "tabSchema": "DBE",
+      "type": "V",
+      "remarks": null,
+      "colCount": 9,
+      "qualifiedName": "DBE.OBJECT_VIEW_X"
+    },
+    {
+      "tabName": "AD_BRUKER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 9,
+      "qualifiedName": "DBM.AD_BRUKER"
+    },
+    {
+      "tabName": "AKTIVISER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "PROGRAM ELLER FUNKSJONALITET AV ELLER På",
+      "colCount": 3,
+      "qualifiedName": "DBM.AKTIVISER"
+    },
+    {
+      "tabName": "BANKTERM_ID",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 10,
+      "qualifiedName": "DBM.BANKTERM_ID"
+    },
+    {
+      "tabName": "BANKTERM_MASKIN",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 5,
+      "qualifiedName": "DBM.BANKTERM_MASKIN"
+    },
+    {
+      "tabName": "BARE_SENTRALT",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 1,
+      "qualifiedName": "DBM.BARE_SENTRALT"
+    },
+    {
+      "tabName": "DBQA_APPLICATION_SYSTEM",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "Master table for application system mappings and configurations",
+      "colCount": 3,
+      "qualifiedName": "DBM.DBQA_APPLICATION_SYSTEM"
+    },
+    {
+      "tabName": "FK_LOG",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 13,
+      "qualifiedName": "DBM.FK_LOG"
+    },
+    {
+      "tabName": "KUN_ADR2",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 2,
+      "qualifiedName": "DBM.KUN_ADR2"
+    },
+    {
+      "tabName": "KUNDER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "Dummy KUNDEREGISTER i FKKONTO",
+      "colCount": 109,
+      "qualifiedName": "DBM.KUNDER"
+    },
+    {
+      "tabName": "KUNDER_M_AKTIV_KONTO",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "Dummy tabell i FKKONTO",
+      "colCount": 6,
+      "qualifiedName": "DBM.KUNDER_M_AKTIV_KONTO"
+    },
+    {
+      "tabName": "LAGERSTED",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.LAGERSTED"
+    },
+    {
+      "tabName": "M3_FZLBAL",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 57,
+      "qualifiedName": "DBM.M3_FZLBAL"
+    },
+    {
+      "tabName": "M3_FZLEDG",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 57,
+      "qualifiedName": "DBM.M3_FZLEDG"
+    },
+    {
+      "tabName": "M3_ZACHOL",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 13,
+      "qualifiedName": "DBM.M3_ZACHOL"
+    },
+    {
+      "tabName": "M3_ZCUSAC",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 23,
+      "qualifiedName": "DBM.M3_ZCUSAC"
+    },
+    {
+      "tabName": "OPPSTART",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 8,
+      "qualifiedName": "DBM.OPPSTART"
+    },
+    {
+      "tabName": "OVFNR",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "Dummytabell for å kunne kjøre et program både mot basispro og FKKONTO",
+      "colCount": 18,
+      "qualifiedName": "DBM.OVFNR"
+    },
+    {
+      "tabName": "PRINT_DEF",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 3,
+      "qualifiedName": "DBM.PRINT_DEF"
+    },
+    {
+      "tabName": "PRINT_LOKAL",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 4,
+      "qualifiedName": "DBM.PRINT_LOKAL"
+    },
+    {
+      "tabName": "PRINT_MASKIN",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 3,
+      "qualifiedName": "DBM.PRINT_MASKIN"
+    },
+    {
+      "tabName": "PRINT_SELVSTYRT",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 3,
+      "qualifiedName": "DBM.PRINT_SELVSTYRT"
+    },
+    {
+      "tabName": "PRINT_TYPER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 2,
+      "qualifiedName": "DBM.PRINT_TYPER"
+    },
+    {
+      "tabName": "PRINTERE",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.PRINTERE"
+    },
+    {
+      "tabName": "QMF_RAPPORTER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "QMF RAPPORTPROSEDYRER",
+      "colCount": 11,
+      "qualifiedName": "DBM.QMF_RAPPORTER"
+    },
+    {
+      "tabName": "SQLFEIL",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 11,
+      "qualifiedName": "DBM.SQLFEIL"
+    },
+    {
+      "tabName": "SUPERBRUKER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 3,
+      "qualifiedName": "DBM.SUPERBRUKER"
+    },
+    {
+      "tabName": "TEKSTER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 12,
+      "qualifiedName": "DBM.TEKSTER"
+    },
+    {
+      "tabName": "TILGANALYSE",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "DBM.TILGANALYSE"
+    },
+    {
+      "tabName": "TILGBRUK_GRP_PRO_H",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "HISTORIKK FOR DBM.TILGBRUK_GRP_PROF",
+      "colCount": 6,
+      "qualifiedName": "DBM.TILGBRUK_GRP_PRO_H"
+    },
+    {
+      "tabName": "TILGBRUK_GRP_PROF",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "KNYTNING MELLOM BRUKER, GRUPPE OG PROFIL",
+      "colCount": 4,
+      "qualifiedName": "DBM.TILGBRUK_GRP_PROF"
+    },
+    {
+      "tabName": "TILGBRUKER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 10,
+      "qualifiedName": "DBM.TILGBRUKER"
+    },
+    {
+      "tabName": "TILGBRUKER_HIST",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 12,
+      "qualifiedName": "DBM.TILGBRUKER_HIST"
+    },
+    {
+      "tabName": "TILGFAV_KRITERIER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 2,
+      "qualifiedName": "DBM.TILGFAV_KRITERIER"
+    },
+    {
+      "tabName": "TILGFAVORITTER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.TILGFAVORITTER"
+    },
+    {
+      "tabName": "TILGFUNK_NIVAA",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "KNYTNING MELLOM FUNKSJON OG NIV†",
+      "colCount": 2,
+      "qualifiedName": "DBM.TILGFUNK_NIVAA"
+    },
+    {
+      "tabName": "TILGFUNKSJON",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 3,
+      "qualifiedName": "DBM.TILGFUNKSJON"
+    },
+    {
+      "tabName": "TILGGRP_AVD",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "KNYTNING MELLOM GRUPPE OG Z_AVDTAB",
+      "colCount": 2,
+      "qualifiedName": "DBM.TILGGRP_AVD"
+    },
+    {
+      "tabName": "TILGGRUPPE",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 4,
+      "qualifiedName": "DBM.TILGGRUPPE"
+    },
+    {
+      "tabName": "TILGMENY",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "MENYDEFINISJONER NYTT SYSTEM",
+      "colCount": 8,
+      "qualifiedName": "DBM.TILGMENY"
+    },
+    {
+      "tabName": "TILGNIVAA",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 2,
+      "qualifiedName": "DBM.TILGNIVAA"
+    },
+    {
+      "tabName": "TILGPASSORD",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 3,
+      "qualifiedName": "DBM.TILGPASSORD"
+    },
+    {
+      "tabName": "TILGPROF_FUNK",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "KNYTNING MELLOM PROFIL OG FUNKSJON",
+      "colCount": 3,
+      "qualifiedName": "DBM.TILGPROF_FUNK"
+    },
+    {
+      "tabName": "TILGPROFIL",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": "",
+      "colCount": 2,
+      "qualifiedName": "DBM.TILGPROFIL"
+    },
+    {
+      "tabName": "TRANSPORTØR",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.TRANSPORTØR"
+    },
+    {
+      "tabName": "Z_AVDTAB",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 11,
+      "qualifiedName": "DBM.Z_AVDTAB"
+    },
+    {
+      "tabName": "Z_BILER",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 19,
+      "qualifiedName": "DBM.Z_BILER"
+    },
+    {
+      "tabName": "Z_PNRTAB",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.Z_PNRTAB"
+    },
+    {
+      "tabName": "Z_PNRTAB_20171231",
+      "tabSchema": "DBM",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "DBM.Z_PNRTAB_20171231"
+    },
+    {
+      "tabName": "BILAGNR",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "INL.BILAGNR"
+    },
+    {
+      "tabName": "FASTE_LISTE",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "INL.FASTE_LISTE"
+    },
+    {
+      "tabName": "FASTE_TRANS",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 8,
+      "qualifiedName": "INL.FASTE_TRANS"
+    },
+    {
+      "tabName": "FIRMA",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 15,
+      "qualifiedName": "INL.FIRMA"
+    },
+    {
+      "tabName": "KONTO",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 9,
+      "qualifiedName": "INL.KONTO"
+    },
+    {
+      "tabName": "KONTOTYPE",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "INL.KONTOTYPE"
+    },
+    {
+      "tabName": "KUNDEKONTO",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 27,
+      "qualifiedName": "INL.KUNDEKONTO"
+    },
+    {
+      "tabName": "KUNDEKONTO_TEST",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 27,
+      "qualifiedName": "INL.KUNDEKONTO_TEST"
+    },
+    {
+      "tabName": "KUNDEKTO_M_FEIL_ORGNR",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": "kunder med orgnr som er avviklet/feil",
+      "colCount": 2,
+      "qualifiedName": "INL.KUNDEKTO_M_FEIL_ORGNR"
+    },
+    {
+      "tabName": "MKK_AVSETNING",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": "Hjelpetabell for avsetning til individuell egenkapital",
+      "colCount": 7,
+      "qualifiedName": "INL.MKK_AVSETNING"
+    },
+    {
+      "tabName": "RENTESATSER",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 7,
+      "qualifiedName": "INL.RENTESATSER"
+    },
+    {
+      "tabName": "TRANSREG",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 11,
+      "qualifiedName": "INL.TRANSREG"
+    },
+    {
+      "tabName": "TRANSREG_TEST",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 11,
+      "qualifiedName": "INL.TRANSREG_TEST"
+    },
+    {
+      "tabName": "TRANSTYPE",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 8,
+      "qualifiedName": "INL.TRANSTYPE"
+    },
+    {
+      "tabName": "UTBET_MK",
+      "tabSchema": "INL",
+      "type": "T",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "INL.UTBET_MK"
+    },
+    {
+      "tabName": "KUNDEKONTO",
+      "tabSchema": "LOG",
+      "type": "T",
+      "remarks": null,
+      "colCount": 27,
+      "qualifiedName": "LOG.KUNDEKONTO"
+    },
+    {
+      "tabName": "DSQ_RESERVED_OBJ",
+      "tabSchema": "Q",
+      "type": "V",
+      "remarks": "Default view for QMF control table detection",
+      "colCount": 2,
+      "qualifiedName": "Q.DSQ_RESERVED_OBJ"
+    },
+    {
+      "tabName": "OBJ_ACTIVITY_DTL",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "Detailed object tracking table for QMF",
+      "colCount": 16,
+      "qualifiedName": "Q.OBJ_ACTIVITY_DTL"
+    },
+    {
+      "tabName": "OBJ_ACTIVITY_SUMM",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "Summary object tracking table for QMF",
+      "colCount": 27,
+      "qualifiedName": "Q.OBJ_ACTIVITY_SUMM"
+    },
+    {
+      "tabName": "OBJECT_DATA",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF saved item data table",
+      "colCount": 5,
+      "qualifiedName": "Q.OBJECT_DATA"
+    },
+    {
+      "tabName": "OBJECT_DATA2",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF saved item data table",
+      "colCount": 5,
+      "qualifiedName": "Q.OBJECT_DATA2"
+    },
+    {
+      "tabName": "OBJECT_DIRECTORY",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF saved item directory table",
+      "colCount": 10,
+      "qualifiedName": "Q.OBJECT_DIRECTORY"
+    },
+    {
+      "tabName": "OBJECT_REMARKS",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF saved item comments table",
+      "colCount": 4,
+      "qualifiedName": "Q.OBJECT_REMARKS"
+    },
+    {
+      "tabName": "RAA_OA_DTL_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "Detailed extended object tracking table for QMF",
+      "colCount": 18,
+      "qualifiedName": "Q.RAA_OA_DTL_X"
+    },
+    {
+      "tabName": "RAA_OA_SUMM_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "Summary extended object tracking table for QMF",
+      "colCount": 29,
+      "qualifiedName": "Q.RAA_OA_SUMM_X"
+    },
+    {
+      "tabName": "RAA_OBJ_DATA_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF item extended data table",
+      "colCount": 7,
+      "qualifiedName": "Q.RAA_OBJ_DATA_X"
+    },
+    {
+      "tabName": "RAA_OBJ_DATA2_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF item extended data table",
+      "colCount": 7,
+      "qualifiedName": "Q.RAA_OBJ_DATA2_X"
+    },
+    {
+      "tabName": "RAA_OBJ_DIR_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF item extended directory table",
+      "colCount": 14,
+      "qualifiedName": "Q.RAA_OBJ_DIR_X"
+    },
+    {
+      "tabName": "RAA_OBJ_REM_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF item extended comments table",
+      "colCount": 6,
+      "qualifiedName": "Q.RAA_OBJ_REM_X"
+    },
+    {
+      "tabName": "RAA_OBJECT_VIEW",
+      "tabSchema": "Q",
+      "type": "V",
+      "remarks": "QMF object list view",
+      "colCount": 11,
+      "qualifiedName": "Q.RAA_OBJECT_VIEW"
+    },
+    {
+      "tabName": "RAA_OBJECT_VIEW_X",
+      "tabSchema": "Q",
+      "type": "V",
+      "remarks": "QMF extended object list view",
+      "colCount": 15,
+      "qualifiedName": "Q.RAA_OBJECT_VIEW_X"
+    },
+    {
+      "tabName": "RAA_SERVER_INFO",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF server information table",
+      "colCount": 2,
+      "qualifiedName": "Q.RAA_SERVER_INFO"
+    },
+    {
+      "tabName": "RAA_SQLJ_PROFILES",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF SQLJ profile table",
+      "colCount": 5,
+      "qualifiedName": "Q.RAA_SQLJ_PROFILES"
+    },
+    {
+      "tabName": "RAA_SUBTYPE",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF saved item subtype table",
+      "colCount": 4,
+      "qualifiedName": "Q.RAA_SUBTYPE"
+    },
+    {
+      "tabName": "RC_NODE",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF Report Center public favorites table",
+      "colCount": 7,
+      "qualifiedName": "Q.RC_NODE"
+    },
+    {
+      "tabName": "RC_NODE_AUTH",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF Report Center public favorites authorization table",
+      "colCount": 7,
+      "qualifiedName": "Q.RC_NODE_AUTH"
+    },
+    {
+      "tabName": "RC_NODE_AUTH_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF Report Center public favorites authorization catalog table",
+      "colCount": 8,
+      "qualifiedName": "Q.RC_NODE_AUTH_X"
+    },
+    {
+      "tabName": "RC_NODE_X",
+      "tabSchema": "Q",
+      "type": "T",
+      "remarks": "QMF Report Center public favorites catalog table",
+      "colCount": 8,
+      "qualifiedName": "Q.RC_NODE_X"
+    },
+    {
+      "tabName": "ADMIN_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 1,
+      "qualifiedName": "RDBI.ADMIN_VIEW"
+    },
+    {
+      "tabName": "AUTHID_TABLE",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Secondary authorization ID table for RDBI",
+      "colCount": 2,
+      "qualifiedName": "RDBI.AUTHID_TABLE"
+    },
+    {
+      "tabName": "AUTHID_TABLE_X",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Extended secondary authorization ID table for RDBI",
+      "colCount": 3,
+      "qualifiedName": "RDBI.AUTHID_TABLE_X"
+    },
+    {
+      "tabName": "AUTHID_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "Secondary authorization ID view for RDBI",
+      "colCount": 2,
+      "qualifiedName": "RDBI.AUTHID_VIEW"
+    },
+    {
+      "tabName": "AUTHID_VIEW_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "Extended secondary authorization ID view for RDBI",
+      "colCount": 3,
+      "qualifiedName": "RDBI.AUTHID_VIEW_X"
+    },
+    {
+      "tabName": "CATALOG_DIR_X",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Catalog list table for RDBI",
+      "colCount": 3,
+      "qualifiedName": "RDBI.CATALOG_DIR_X"
+    },
+    {
+      "tabName": "FOREIGN_KEY_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 4,
+      "qualifiedName": "RDBI.FOREIGN_KEY_VIEW"
+    },
+    {
+      "tabName": "PRIMARY_KEY_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 4,
+      "qualifiedName": "RDBI.PRIMARY_KEY_VIEW"
+    },
+    {
+      "tabName": "PROFILE_TABLE",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "RDBI user profile table",
+      "colCount": 16,
+      "qualifiedName": "RDBI.PROFILE_TABLE"
+    },
+    {
+      "tabName": "PROFILE_TABLE_X",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "RDBI extended user profile table",
+      "colCount": 17,
+      "qualifiedName": "RDBI.PROFILE_TABLE_X"
+    },
+    {
+      "tabName": "PROFILE_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "RDBI user profile view",
+      "colCount": 16,
+      "qualifiedName": "RDBI.PROFILE_VIEW"
+    },
+    {
+      "tabName": "PROFILE_VIEW_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "RDBI extended user profile view",
+      "colCount": 17,
+      "qualifiedName": "RDBI.PROFILE_VIEW_X"
+    },
+    {
+      "tabName": "RESERVED",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "RDBI control table",
+      "colCount": 1,
+      "qualifiedName": "RDBI.RESERVED"
+    },
+    {
+      "tabName": "RESOURCE_TABLE",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Resource table for RDBI governor",
+      "colCount": 5,
+      "qualifiedName": "RDBI.RESOURCE_TABLE"
+    },
+    {
+      "tabName": "RESOURCE_TABLE_X",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Extended resource table for RDBI governor",
+      "colCount": 6,
+      "qualifiedName": "RDBI.RESOURCE_TABLE_X"
+    },
+    {
+      "tabName": "RESOURCE_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "RDBI.RESOURCE_VIEW"
+    },
+    {
+      "tabName": "RESOURCE_VIEW_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "Extended resource view for RDBI governor",
+      "colCount": 6,
+      "qualifiedName": "RDBI.RESOURCE_VIEW_X"
+    },
+    {
+      "tabName": "SERVER_INFO",
+      "tabSchema": "RDBI",
+      "type": "T",
+      "remarks": "Server Information table for RDBI",
+      "colCount": 3,
+      "qualifiedName": "RDBI.SERVER_INFO"
+    },
+    {
+      "tabName": "TABLE_VIEW2",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "Table listing view for RDBI",
+      "colCount": 13,
+      "qualifiedName": "RDBI.TABLE_VIEW2"
+    },
+    {
+      "tabName": "TABLE_VIEW2_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "Extended table listing view for RDBI",
+      "colCount": 10,
+      "qualifiedName": "RDBI.TABLE_VIEW2_X"
+    },
+    {
+      "tabName": "USER_ADMIN_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 1,
+      "qualifiedName": "RDBI.USER_ADMIN_VIEW"
+    },
+    {
+      "tabName": "USER_ADMIN_VIEW_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": null,
+      "colCount": 2,
+      "qualifiedName": "RDBI.USER_ADMIN_VIEW_X"
+    },
+    {
+      "tabName": "USER_AUTHID_VIEW",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "User-specific secondary authorization ID view for RDBI",
+      "colCount": 2,
+      "qualifiedName": "RDBI.USER_AUTHID_VIEW"
+    },
+    {
+      "tabName": "USER_AUTHID_VIEW_X",
+      "tabSchema": "RDBI",
+      "type": "V",
+      "remarks": "User-specific extended secondary authorization ID view for RDBI",
+      "colCount": 3,
+      "qualifiedName": "RDBI.USER_AUTHID_VIEW_X"
+    },
+    {
+      "tabName": "V_DBQA_ACTIVE_DB_SESSIONS",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Shows currently active database sessions",
+      "colCount": 7,
+      "qualifiedName": "TV.V_DBQA_ACTIVE_DB_SESSIONS"
+    },
+    {
+      "tabName": "V_DBQA_DB_SET_DATA_CAPTURE_ON",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "TV.V_DBQA_DB_SET_DATA_CAPTURE_ON"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_COLUMN_INFO",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Provides column definitions for tables",
+      "colCount": 6,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_COLUMN_INFO"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_COLUMN_REMARK",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_COLUMN_REMARK"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_CREATE_TABLE",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Generates CREATE TABLE statements for existing tables",
+      "colCount": 9,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_CREATE_TABLE"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_FOREIGN_KEY",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_FOREIGN_KEY"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_INDEX",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 9,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_INDEX"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_PRIMARY_KEY",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Generates DDL statements for primary key constraints. Facilitates schema replication and documentation.",
+      "colCount": 6,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_PRIMARY_KEY"
+    },
+    {
+      "tabName": "V_DBQA_DDL_SOURCE_TABLE_REMARK",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 6,
+      "qualifiedName": "TV.V_DBQA_DDL_SOURCE_TABLE_REMARK"
+    },
+    {
+      "tabName": "V_DBQA_DROP_DB_CODE",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Generates drop statements for database objects",
+      "colCount": 5,
+      "qualifiedName": "TV.V_DBQA_DROP_DB_CODE"
+    },
+    {
+      "tabName": "V_DBQA_GROUP_LOCK_TERMINATE_SCRIPT",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Generates scripts to terminate grouped locks",
+      "colCount": 5,
+      "qualifiedName": "TV.V_DBQA_GROUP_LOCK_TERMINATE_SCRIPT"
+    },
+    {
+      "tabName": "V_DBQA_OBJECT_LOCK_INFO",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Monitors and manages database object locks. Provides detailed information about lock status, type, and resolution options.",
+      "colCount": 15,
+      "qualifiedName": "TV.V_DBQA_OBJECT_LOCK_INFO"
+    },
+    {
+      "tabName": "V_DBQA_OBJECT_LOCK_TERMINATE_SCRIPT",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": null,
+      "colCount": 5,
+      "qualifiedName": "TV.V_DBQA_OBJECT_LOCK_TERMINATE_SCRIPT"
+    },
+    {
+      "tabName": "V_DBQA_PACKAGE_SQL_SOURCE",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Shows SQL statements from recently used packages",
+      "colCount": 4,
+      "qualifiedName": "TV.V_DBQA_PACKAGE_SQL_SOURCE"
+    },
+    {
+      "tabName": "V_DBQA_SCHEMA_NAME",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Lists and manages schemas that are part of the application. Provides centralized schema management and tracking.",
+      "colCount": 3,
+      "qualifiedName": "TV.V_DBQA_SCHEMA_NAME"
+    },
+    {
+      "tabName": "V_DBQA_SOURCE",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Manages database object source code",
+      "colCount": 11,
+      "qualifiedName": "TV.V_DBQA_SOURCE"
+    },
+    {
+      "tabName": "V_DBQA_TABLE_DEPENDENCY",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Shows dependencies between database objects",
+      "colCount": 13,
+      "qualifiedName": "TV.V_DBQA_TABLE_DEPENDENCY"
+    },
+    {
+      "tabName": "V_DBQA_UPDATE_STATISTICS_ON_TABLES",
+      "tabSchema": "TV",
+      "type": "V",
+      "remarks": "Generates RUNSTATS commands for updating table statistics",
+      "colCount": 4,
+      "qualifiedName": "TV.V_DBQA_UPDATE_STATISTICS_ON_TABLES"
+    }
+  ]
+}

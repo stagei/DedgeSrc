@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>13</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>Sql2MermaidErdConverter</PackageId>
+    <Version>0.2.2</Version>
+    <Authors>Geir Helge Starholm</Authors>
+    <Company>Dedge AS</Company>
+    <Product>Sql2MermaidErdConverter</Product>
+    <Description>Convert SQL DDL to Mermaid ERD diagrams automatically. Zero-configuration tool that transforms database schemas (CREATE TABLE statements) into beautiful Mermaid entity-relationship diagrams. Supports 31+ SQL dialects including SQL Server (T-SQL), PostgreSQL, MySQL, Oracle, SQLite, Snowflake, BigQuery, Redshift, Databricks, DuckDB, ClickHouse, Apache Spark, Presto, Trino, and more. Perfect for documentation, visualization, and database design. Generates output compatible with Mermaid.js (https://mermaid.js.org/) - the popular JavaScript diagramming tool. Powered by SQLGlot (https://github.com/tobymao/sqlglot) - a comprehensive SQL parser by Toby Mao. Includes embedded Python runtime - no external dependencies required!</Description>
+    
+    <!-- Keywords for discoverability (semicolon-separated) -->
+    <PackageTags>sql;mermaid;erd;diagram;converter;database;schema;ddl;entity-relationship;sqlglot;sql-to-mermaid;database-schema;schema-visualization;er-diagram;entity-relationship-diagram;sql-parser;database-diagram;database-documentation;schema-converter;mermaid-js;tsql;postgresql;mysql;sqlite;oracle;snowflake;bigquery;redshift;databricks;duckdb;clickhouse;spark;hive;presto;trino;database-tools;developer-tools;documentation;visualization;cloud-database;data-warehouse</PackageTags>
+    
+    <!-- Licensing & Legal -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2025 Dedge AS</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    
+    <!-- Project URLs -->
+    <PackageProjectUrl>https://www.dedge.no</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/geirtul/SqlMmdConverter</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    
+    <!-- Package Icon (128x128 or 256x256 PNG recommended) -->
+    <PackageIcon>icon.png</PackageIcon>
+    
+    <!-- README -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    
+    <!-- Release Notes -->
+    <PackageReleaseNotes>v0.2.2: Corrected README to accurately reflect SQL→Mermaid one-way conversion (Mermaid→SQL planned for v1.0). v0.2.1: Fixed README heading and updated logo. v0.2.0: T-SQL bracket removal, MS Access syntax support. v0.1.1: FK extraction fixes. v0.1.0: Initial release. Powered by SQLGlot v28.0.0.</PackageReleaseNotes>
+    
+    <!-- Build Options -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\THIRD-PARTY-LICENSES.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Include scripts in package -->
+  <ItemGroup>
+    <Content Include="scripts\**\*">
+      <PackagePath>scripts</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Include runtime files in package and output -->
+  <ItemGroup>
+    <Content Include="runtimes\**\*">
+      <PackagePath>runtimes</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>runtimes\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+
+</Project>

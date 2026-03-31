@@ -1,0 +1,152 @@
+{
+  "tableName": "P_BASISPRIS",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Basispriser og verdier for salgskorn og såvare i produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVREGNINGSTYPE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "ANLEGGNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "ART",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Art må fylles ut"
+      },
+      {
+        "colNo": 5,
+        "name": "SORT",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Sort ELLER Slag"
+      },
+      {
+        "colNo": 6,
+        "name": "SLAG",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "BASISPRIS_MAT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Øre pr. kg. Noteringspris-norsk korn MAT.Pris-såvare."
+      },
+      {
+        "colNo": 8,
+        "name": "BASISPRIS_FOR",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Øre pr. kg. Noteringspris-norsk korn FOR."
+      },
+      {
+        "colNo": 9,
+        "name": "PRISTILSKUDD_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr pr. kg."
+      },
+      {
+        "colNo": 10,
+        "name": "KVANTUM_BEGR",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "400 kgs regel, J=Ja, N=nei, V=Vent"
+      },
+      {
+        "colNo": 11,
+        "name": "BEGR_KG",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_ART",
+        "childColumn": "ART",
+        "parentTable": "ART",
+        "parentSchema": "DBM",
+        "parentColumn": "ART"
+      }
+    ]
+  }
+}

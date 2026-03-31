@@ -1,0 +1,130 @@
+{
+  "program": "ILBSKAE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:42",
+  "variableFilenames": {
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SFKDC02\\FKKONTO\\",
+      "filenamePattern": "<dynamic>.DAT",
+      "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKAEN.DAT",
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:20:42"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:feaba95dc76d5e9e0fe03627e266e7995b56bbeb056b9a548a02ad6bc9ed6425",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILBSKAE.CBL",
+    "actualName": "ILBSKAE",
+    "program": "ILBSKAE",
+    "copyElements": [
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILFI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILBI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "PERSON_ORG_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "FIRMANAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTSTED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SFKDC02\\FKKONTO\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKAEN.DAT",
+        "filenamePattern": "<dynamic>.DAT"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:42"
+  }
+}

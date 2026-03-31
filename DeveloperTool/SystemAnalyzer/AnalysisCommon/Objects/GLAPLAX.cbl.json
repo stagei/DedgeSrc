@@ -1,0 +1,217 @@
+{
+  "program": "GLAPLAX",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:12",
+  "extraction": {
+    "sourceHash": "sha256:54937c706cfdc7477e4d250a72da4bb13e38dbc6e0bac4e356594d9ee0f14c09",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GLAPLAX.CBL",
+    "actualName": "GLAPLAX",
+    "program": "GLAPLAX",
+    "copyElements": [
+      {
+        "name": "GXAFORD.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "XEOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BELA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VILA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAKL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AXLI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SESI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLAVIDI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PLAX.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DAGNR_ORDREFLYT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VILIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PAKK_LINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "L",
+        "tableName": "LEVERES_NAA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "LEVERES_NAA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AXIA_LAGERINFO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AX_IKKE_PLUKK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVERES_NAA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KLIENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XE_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XE_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GXAFORD",
+      "GMALBLP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "GLAPLAX.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GLAPLAX.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "UT-DATA-FIL",
+        "physicalName": "GLAPLAX.UT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GLAPLAX.UT",
+        "assignType": "literal",
+        "operations": [
+          "WRITE",
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "SORT-FIL",
+        "physicalName": "GLAPLAX.SRT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GLAPLAX.SRT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:22:12"
+  }
+}

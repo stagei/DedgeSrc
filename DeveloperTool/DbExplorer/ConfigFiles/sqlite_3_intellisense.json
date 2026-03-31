@@ -1,0 +1,85 @@
+{
+  "provider": "SQLITE",
+  "version": "3",
+  "description": "SQLite 3 IntelliSense metadata - keywords, data types, functions, and system catalog",
+
+  "keywords": {
+    "statements": [
+      "SELECT", "INSERT", "UPDATE", "DELETE",
+      "CREATE", "ALTER", "DROP",
+      "BEGIN", "END", "COMMIT", "ROLLBACK", "SAVEPOINT", "RELEASE",
+      "EXPLAIN", "ANALYZE", "REINDEX", "VACUUM",
+      "WITH", "RECURSIVE"
+    ],
+    "clauses": [
+      "FROM", "WHERE", "GROUP BY", "HAVING", "ORDER BY",
+      "JOIN", "INNER JOIN", "LEFT JOIN", "LEFT OUTER JOIN", "CROSS JOIN",
+      "ON", "USING", "NATURAL",
+      "UNION", "UNION ALL", "INTERSECT", "EXCEPT",
+      "LIMIT", "OFFSET",
+      "WITH", "AS", "INTO", "VALUES"
+    ],
+    "operators": [
+      "AND", "OR", "NOT", "IN", "EXISTS", "ANY", "ALL", "SOME",
+      "BETWEEN", "LIKE", "GLOB", "REGEXP", "MATCH",
+      "IS NULL", "IS NOT NULL",
+      "DISTINCT", "UNIQUE"
+    ],
+    "modifiers": [
+      "ASC", "DESC",
+      "DISTINCT", "ALL",
+      "TEMP", "TEMPORARY", "IF NOT EXISTS", "IF EXISTS"
+    ],
+    "constraints": [
+      "PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK", "NOT NULL",
+      "REFERENCES", "ON DELETE", "ON UPDATE",
+      "DEFAULT", "COLLATE", "AUTOINCREMENT",
+      "CONSTRAINT"
+    ]
+  },
+
+  "dataTypes": {
+    "numeric": [
+      "INTEGER", "INT", "TINYINT", "SMALLINT", "MEDIUMINT", "BIGINT",
+      "REAL", "DOUBLE", "FLOAT",
+      "NUMERIC", "DECIMAL"
+    ],
+    "string": [
+      "TEXT", "CHAR", "VARCHAR", "CHARACTER", "VARYING",
+      "NCHAR", "NVARCHAR", "CLOB"
+    ],
+    "binary": [
+      "BLOB"
+    ],
+    "datetime": [
+      "DATE", "DATETIME", "TIME"
+    ],
+    "special": [
+      "BOOLEAN", "NONE"
+    ]
+  },
+
+  "functions": {
+    "aggregate": [
+      "COUNT", "SUM", "AVG", "MIN", "MAX", "TOTAL", "GROUP_CONCAT"
+    ],
+    "scalar": [
+      "ABS", "COALESCE", "NULLIF", "IFNULL",
+      "SUBSTR", "SUBSTRING", "TRIM", "LTRIM", "RTRIM",
+      "UPPER", "LOWER", "LENGTH", "CHAR_LENGTH",
+      "REPLACE", "HEX", "INSTR", "TYPEOF",
+      "DATE", "DATETIME", "TIME", "STRFTIME", "JULIANDAY", "UNIXEPOCH",
+      "RANDOM", "ROUND"
+    ],
+    "window": [
+      "ROW_NUMBER", "RANK", "DENSE_RANK", "NTILE",
+      "LAG", "LEAD", "FIRST_VALUE", "LAST_VALUE"
+    ]
+  },
+
+  "system_catalog": [
+    "sqlite_master", "sqlite_schema",
+    "pragma_table_info", "pragma_table_list", "pragma_foreign_key_list",
+    "pragma_index_list", "pragma_index_info"
+  ]
+}

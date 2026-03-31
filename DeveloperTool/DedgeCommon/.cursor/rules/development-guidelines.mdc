@@ -1,0 +1,59 @@
+﻿---
+description: Code style, logging, and testing guidelines
+globs: ["*.cs"]
+alwaysApply: false
+---
+
+# Development Guidelines
+
+## Code Style
+- Use XML documentation comments for all public classes and methods
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+- Implement IDisposable for database handlers
+- Use async/await for I/O operations where applicable
+
+## Logging Levels
+
+- **TRACE** - Connection details, internal operations (not shown by default)
+- **DEBUG** - Detailed diagnostic information
+- **INFO** - General informational messages
+- **WARN** - Warning conditions
+- **ERROR** - Error events
+- **FATAL** - Critical failures
+
+**Recent Change:** Connection logging moved from INFO to TRACE (v1.5.2+) for cleaner console output.
+
+## Database Operations
+
+- Always use parameterized queries (SQL injection protection)
+- Use `using` statements for handlers (proper disposal)
+- Transactions for multi-statement operations
+- Connection strings via `DedgeConnection.GenerateConnectionString()`
+
+## Testing
+
+- Run `DedgeCommonVerifyFkDatabaseHandler` for comprehensive testing
+- Run `TestEnvironmentReport /test-all-databases` for environment verification
+- All tests must pass before deployment (31/31 databases, 7/7 functionality)
+
+## Testing Commands
+
+```powershell
+# Database handler verification (7 tests)
+cd DedgeCommonVerifyFkDatabaseHandler
+dotnet run
+
+# Environment report with all databases (31 databases)
+cd TestEnvironmentReport
+dotnet run -- /test-all-databases
+```
+
+## Common Tasks
+
+### Add New Database Provider
+1. Create handler class implementing `IDbHandler`
+2. Add enum value to `DedgeConnection.DatabaseProvider`
+3. Update `DedgeConnection.GenerateConnectionString()`
+4. Update `DedgeDbHandler.Create()` factory methods
+5. Add connection logging (use `DedgeNLog.Trace`)
+6. Update README.md with provider information

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Icon Libraries Browser</title>
+
+    <!-- ============================================================
+         ICON LIBRARY CDN INCLUDES
+         Copy any of these into your own HTML <head> to use that library
+         ============================================================ -->
+
+    <!-- Font Awesome 6.6.0 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Bootstrap Icons 1.11.3 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Material Symbols (Google) — Outlined variant -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+    <!-- Remix Icon 4.3.0 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.min.css">
+
+    <!-- Tabler Icons 3.11.0 (webfont) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface-hover: #252836;
+            --border: #2e3244;
+            --text: #e4e6ed;
+            --text-muted: #8b8fa3;
+            --accent: #6c72cb;
+            --accent-hover: #8187d9;
+            --success: #4ade80;
+            --tag-bg: #2a2d3a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2a1e3e 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 2rem 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        header p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 240px;
+            padding: 0.6rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus { border-color: var(--accent); }
+
+        .lib-tabs {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .lib-tab {
+            padding: 0.45rem 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .lib-tab:hover { background: var(--surface-hover); color: var(--text); }
+        .lib-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        .counter {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        main { padding: 1.5rem 2rem 4rem; }
+
+        .library-section {
+            margin-bottom: 3rem;
+        }
+
+        .library-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .library-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .library-header .badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            background: var(--tag-bg);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        .cdn-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .cdn-block code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            color: #a5d6ff;
+            white-space: pre;
+        }
+
+        .cdn-block .copy-cdn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cdn-block .copy-cdn:hover { background: var(--accent); color: #fff; }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0.5rem 0.7rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .icon-card:hover {
+            background: var(--surface-hover);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .icon-card .icon-display {
+            font-size: 1.6rem;
+            height: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .icon-card .icon-name {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-align: center;
+            word-break: break-all;
+            line-height: 1.3;
+        }
+
+        .icon-card .copied-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            background: var(--success);
+            color: #000;
+            border-radius: 3px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .icon-card .copied-badge.show { opacity: 1; }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            max-width: 90vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Free Icon Libraries Browser</h1>
+    <p>Click any icon to copy its HTML code. Includes CDN links for direct use in HTML/JS.</p>
+    <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--text-muted)">
+        Agriculture-specific: <a href="https://github.com/Open-Ag-Tools/font.ag" target="_blank" style="color:var(--accent)">font.ag</a> (open source ag icon font) &middot;
+        <a href="https://github.com/ekylibre/agric" target="_blank" style="color:var(--accent)">Agric</a> (agriculture font based on Font Awesome) &middot;
+        <a href="https://github.com/gisprogrammer/agrofont" target="_blank" style="color:var(--accent)">AgroFont</a> (agriculture icon set) &middot;
+        <a href="https://www.flaticon.com/free-icons/agro" target="_blank" style="color:var(--accent)">Flaticon Agro</a> (55k+ agriculture icons, attribution required)
+    </p>
+</header>
+
+<div class="controls">
+    <input type="text" class="search-box" id="search" placeholder="Search icons..." autofocus>
+    <div class="lib-tabs">
+        <button class="lib-tab active" data-lib="all">All</button>
+        <button class="lib-tab" data-lib="fontawesome">Font Awesome</button>
+        <button class="lib-tab" data-lib="bootstrap">Bootstrap Icons</button>
+        <button class="lib-tab" data-lib="material">Material Symbols</button>
+        <button class="lib-tab" data-lib="remix">Remix Icon</button>
+        <button class="lib-tab" data-lib="tabler">Tabler Icons</button>
+    </div>
+    <div class="lib-tabs" style="border-left:1px solid var(--border);padding-left:0.6rem">
+        <button class="lib-tab tag-filter" data-tag="agriculture" title="Filter: agriculture icons">Agriculture</button>
+        <button class="lib-tab tag-filter" data-tag="animal" title="Filter: animal icons">Animals</button>
+        <button class="lib-tab tag-filter" data-tag="weather" title="Filter: weather icons">Weather</button>
+        <button class="lib-tab tag-filter" data-tag="nature" title="Filter: nature icons">Nature</button>
+    </div>
+    <span class="counter" id="counter"></span>
+</div>
+
+<main id="main"></main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const LIBRARIES = [
+    {
+        id: 'fontawesome',
+        name: 'Font Awesome 6.6.0',
+        url: 'https://fontawesome.com',
+        license: 'Free — CC BY 4.0 / SIL OFL / MIT',
+        cdn: '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">',
+        prefix: 'fa',
+        renderIcon: (cls) => `<i class="${cls}"></i>`,
+        icons: [
+            // Interface & Navigation
+            { name: 'house', cls: 'fa-solid fa-house', tags: 'home' },
+            { name: 'magnifying-glass', cls: 'fa-solid fa-magnifying-glass', tags: 'search find' },
+            { name: 'bars', cls: 'fa-solid fa-bars', tags: 'menu hamburger' },
+            { name: 'xmark', cls: 'fa-solid fa-xmark', tags: 'close remove delete' },
+            { name: 'check', cls: 'fa-solid fa-check', tags: 'ok done confirm' },
+            { name: 'plus', cls: 'fa-solid fa-plus', tags: 'add new create' },
+            { name: 'minus', cls: 'fa-solid fa-minus', tags: 'subtract remove' },
+            { name: 'ellipsis', cls: 'fa-solid fa-ellipsis', tags: 'more dots menu' },
+            { name: 'ellipsis-vertical', cls: 'fa-solid fa-ellipsis-vertical', tags: 'more dots menu vertical' },
+            { name: 'gear', cls: 'fa-solid fa-gear', tags: 'settings config cog' },
+            { name: 'sliders', cls: 'fa-solid fa-sliders', tags: 'settings controls filter' },
+            { name: 'filter', cls: 'fa-solid fa-filter', tags: 'funnel sort' },
+            { name: 'sort', cls: 'fa-solid fa-sort', tags: 'order arrange' },
+            // Arrows
+            { name: 'arrow-left', cls: 'fa-solid fa-arrow-left', tags: 'back previous' },
+            { name: 'arrow-right', cls: 'fa-solid fa-arrow-right', tags: 'next forward' },
+            { name: 'arrow-up', cls: 'fa-solid fa-arrow-up', tags: 'up upload' },
+            { name: 'arrow-down', cls: 'fa-solid fa-arrow-down', tags: 'down download' },
+            { name: 'chevron-left', cls: 'fa-solid fa-chevron-left', tags: 'previous back caret' },
+            { name: 'chevron-right', cls: 'fa-solid fa-chevron-right', tags: 'next forward caret' },
+            { name: 'chevron-up', cls: 'fa-solid fa-chevron-up', tags: 'expand collapse caret' },
+            { name: 'chevron-down', cls: 'fa-solid fa-chevron-down', tags: 'expand collapse caret dropdown' },
+            { name: 'angles-left', cls: 'fa-solid fa-angles-left', tags: 'first rewind' },
+            { name: 'angles-right', cls: 'fa-solid fa-angles-right', tags: 'last forward' },
+            { name: 'rotate', cls: 'fa-solid fa-rotate', tags: 'refresh reload sync' },
+            { name: 'rotate-right', cls: 'fa-solid fa-rotate-right', tags: 'redo forward' },
+            { name: 'arrow-up-right-from-square', cls: 'fa-solid fa-arrow-up-right-from-square', tags: 'external link open' },
+            // Actions
+            { name: 'pen', cls: 'fa-solid fa-pen', tags: 'edit write' },
+            { name: 'pen-to-square', cls: 'fa-solid fa-pen-to-square', tags: 'edit modify' },
+            { name: 'trash', cls: 'fa-solid fa-trash', tags: 'delete remove bin' },
+            { name: 'trash-can', cls: 'fa-solid fa-trash-can', tags: 'delete remove bin' },
+            { name: 'copy', cls: 'fa-solid fa-copy', tags: 'duplicate clone clipboard' },
+            { name: 'paste', cls: 'fa-solid fa-paste', tags: 'clipboard' },
+            { name: 'scissors', cls: 'fa-solid fa-scissors', tags: 'cut clip' },
+            { name: 'download', cls: 'fa-solid fa-download', tags: 'save export' },
+            { name: 'upload', cls: 'fa-solid fa-upload', tags: 'import send' },
+            { name: 'share', cls: 'fa-solid fa-share', tags: 'social forward' },
+            { name: 'share-nodes', cls: 'fa-solid fa-share-nodes', tags: 'social network' },
+            { name: 'bookmark', cls: 'fa-solid fa-bookmark', tags: 'save favorite' },
+            { name: 'heart', cls: 'fa-solid fa-heart', tags: 'love like favorite' },
+            { name: 'star', cls: 'fa-solid fa-star', tags: 'favorite rating' },
+            { name: 'thumbs-up', cls: 'fa-solid fa-thumbs-up', tags: 'like approve' },
+            { name: 'thumbs-down', cls: 'fa-solid fa-thumbs-down', tags: 'dislike reject' },
+            // Status & Alerts
+            { name: 'circle-check', cls: 'fa-solid fa-circle-check', tags: 'success done verified' },
+            { name: 'circle-xmark', cls: 'fa-solid fa-circle-xmark', tags: 'error fail close' },
+            { name: 'circle-info', cls: 'fa-solid fa-circle-info', tags: 'info help about' },
+            { name: 'circle-exclamation', cls: 'fa-solid fa-circle-exclamation', tags: 'warning alert' },
+            { name: 'triangle-exclamation', cls: 'fa-solid fa-triangle-exclamation', tags: 'warning danger alert' },
+            { name: 'bell', cls: 'fa-solid fa-bell', tags: 'notification alert alarm' },
+            { name: 'bell-slash', cls: 'fa-solid fa-bell-slash', tags: 'mute silent notification off' },
+            { name: 'spinner', cls: 'fa-solid fa-spinner', tags: 'loading progress' },
+            { name: 'circle-notch', cls: 'fa-solid fa-circle-notch', tags: 'loading spinner' },
+            // Users & People
+            { name: 'user', cls: 'fa-solid fa-user', tags: 'person account profile' },
+            { name: 'users', cls: 'fa-solid fa-users', tags: 'people group team' },
+            { name: 'user-plus', cls: 'fa-solid fa-user-plus', tags: 'add invite register' },
+            { name: 'user-minus', cls: 'fa-solid fa-user-minus', tags: 'remove ban' },
+            { name: 'user-gear', cls: 'fa-solid fa-user-gear', tags: 'admin settings' },
+            { name: 'user-shield', cls: 'fa-solid fa-user-shield', tags: 'security admin protect' },
+            { name: 'user-lock', cls: 'fa-solid fa-user-lock', tags: 'security locked protected' },
+            { name: 'id-card', cls: 'fa-solid fa-id-card', tags: 'identity badge' },
+            // Files & Documents
+            { name: 'file', cls: 'fa-solid fa-file', tags: 'document page' },
+            { name: 'file-lines', cls: 'fa-solid fa-file-lines', tags: 'document text' },
+            { name: 'file-pdf', cls: 'fa-solid fa-file-pdf', tags: 'document adobe' },
+            { name: 'file-excel', cls: 'fa-solid fa-file-excel', tags: 'spreadsheet xls' },
+            { name: 'file-word', cls: 'fa-solid fa-file-word', tags: 'document doc' },
+            { name: 'file-code', cls: 'fa-solid fa-file-code', tags: 'source programming' },
+            { name: 'file-zipper', cls: 'fa-solid fa-file-zipper', tags: 'archive zip compress' },
+            { name: 'file-arrow-down', cls: 'fa-solid fa-file-arrow-down', tags: 'download import' },
+            { name: 'file-arrow-up', cls: 'fa-solid fa-file-arrow-up', tags: 'upload export' },
+            { name: 'folder', cls: 'fa-solid fa-folder', tags: 'directory' },
+            { name: 'folder-open', cls: 'fa-solid fa-folder-open', tags: 'directory browse' },
+            { name: 'clipboard', cls: 'fa-solid fa-clipboard', tags: 'paste copy' },
+            { name: 'clipboard-check', cls: 'fa-solid fa-clipboard-check', tags: 'done verified' },
+            // Communication
+            { name: 'envelope', cls: 'fa-solid fa-envelope', tags: 'email mail message' },
+            { name: 'envelope-open', cls: 'fa-solid fa-envelope-open', tags: 'email read' },
+            { name: 'comment', cls: 'fa-solid fa-comment', tags: 'chat message bubble' },
+            { name: 'comments', cls: 'fa-solid fa-comments', tags: 'chat conversation' },
+            { name: 'message', cls: 'fa-solid fa-message', tags: 'chat bubble sms' },
+            { name: 'phone', cls: 'fa-solid fa-phone', tags: 'call contact telephone' },
+            { name: 'paper-plane', cls: 'fa-solid fa-paper-plane', tags: 'send submit' },
+            // Media
+            { name: 'image', cls: 'fa-solid fa-image', tags: 'photo picture' },
+            { name: 'camera', cls: 'fa-solid fa-camera', tags: 'photo picture capture' },
+            { name: 'video', cls: 'fa-solid fa-video', tags: 'film movie record' },
+            { name: 'music', cls: 'fa-solid fa-music', tags: 'audio sound note' },
+            { name: 'play', cls: 'fa-solid fa-play', tags: 'start media' },
+            { name: 'pause', cls: 'fa-solid fa-pause', tags: 'stop media' },
+            { name: 'stop', cls: 'fa-solid fa-stop', tags: 'halt media' },
+            { name: 'volume-high', cls: 'fa-solid fa-volume-high', tags: 'audio sound speaker' },
+            { name: 'volume-xmark', cls: 'fa-solid fa-volume-xmark', tags: 'mute silent' },
+            // Tech & Computing
+            { name: 'server', cls: 'fa-solid fa-server', tags: 'hosting computer rack' },
+            { name: 'database', cls: 'fa-solid fa-database', tags: 'storage sql' },
+            { name: 'hard-drive', cls: 'fa-solid fa-hard-drive', tags: 'disk storage ssd hdd' },
+            { name: 'desktop', cls: 'fa-solid fa-desktop', tags: 'computer monitor screen' },
+            { name: 'laptop', cls: 'fa-solid fa-laptop', tags: 'computer notebook' },
+            { name: 'mobile-screen', cls: 'fa-solid fa-mobile-screen', tags: 'phone device' },
+            { name: 'tablet-screen-button', cls: 'fa-solid fa-tablet-screen-button', tags: 'ipad device' },
+            { name: 'terminal', cls: 'fa-solid fa-terminal', tags: 'console command shell' },
+            { name: 'code', cls: 'fa-solid fa-code', tags: 'programming html brackets' },
+            { name: 'code-branch', cls: 'fa-solid fa-code-branch', tags: 'git branch version' },
+            { name: 'code-merge', cls: 'fa-solid fa-code-merge', tags: 'git merge pull' },
+            { name: 'code-commit', cls: 'fa-solid fa-code-commit', tags: 'git commit node' },
+            { name: 'bug', cls: 'fa-solid fa-bug', tags: 'debug error issue' },
+            { name: 'bug-slash', cls: 'fa-solid fa-bug-slash', tags: 'debug fix resolved' },
+            { name: 'microchip', cls: 'fa-solid fa-microchip', tags: 'cpu processor chip' },
+            { name: 'wifi', cls: 'fa-solid fa-wifi', tags: 'wireless network signal' },
+            { name: 'network-wired', cls: 'fa-solid fa-network-wired', tags: 'lan ethernet connection' },
+            { name: 'globe', cls: 'fa-solid fa-globe', tags: 'world internet web' },
+            { name: 'cloud', cls: 'fa-solid fa-cloud', tags: 'weather sky hosting' },
+            { name: 'cloud-arrow-up', cls: 'fa-solid fa-cloud-arrow-up', tags: 'upload deploy' },
+            { name: 'cloud-arrow-down', cls: 'fa-solid fa-cloud-arrow-down', tags: 'download sync' },
+            // Security
+            { name: 'lock', cls: 'fa-solid fa-lock', tags: 'security password protected' },
+            { name: 'lock-open', cls: 'fa-solid fa-lock-open', tags: 'unlock unsecure' },
+            { name: 'key', cls: 'fa-solid fa-key', tags: 'password access authentication' },
+            { name: 'shield-halved', cls: 'fa-solid fa-shield-halved', tags: 'security protect defense' },
+            { name: 'fingerprint', cls: 'fa-solid fa-fingerprint', tags: 'biometric identity' },
+            { name: 'eye', cls: 'fa-solid fa-eye', tags: 'view visible show' },
+            { name: 'eye-slash', cls: 'fa-solid fa-eye-slash', tags: 'hidden invisible password' },
+            // Data & Charts
+            { name: 'chart-simple', cls: 'fa-solid fa-chart-simple', tags: 'bar graph statistics' },
+            { name: 'chart-line', cls: 'fa-solid fa-chart-line', tags: 'graph trend statistics' },
+            { name: 'chart-pie', cls: 'fa-solid fa-chart-pie', tags: 'graph statistics donut' },
+            { name: 'chart-bar', cls: 'fa-solid fa-chart-bar', tags: 'graph histogram statistics' },
+            { name: 'table', cls: 'fa-solid fa-table', tags: 'grid data spreadsheet' },
+            { name: 'table-cells', cls: 'fa-solid fa-table-cells', tags: 'grid data spreadsheet' },
+            { name: 'list', cls: 'fa-solid fa-list', tags: 'items rows' },
+            { name: 'list-check', cls: 'fa-solid fa-list-check', tags: 'todo checklist tasks' },
+            { name: 'gauge-high', cls: 'fa-solid fa-gauge-high', tags: 'dashboard speed meter' },
+            // Misc
+            { name: 'calendar', cls: 'fa-solid fa-calendar', tags: 'date schedule event' },
+            { name: 'calendar-days', cls: 'fa-solid fa-calendar-days', tags: 'date schedule' },
+            { name: 'clock', cls: 'fa-solid fa-clock', tags: 'time schedule' },
+            { name: 'stopwatch', cls: 'fa-solid fa-stopwatch', tags: 'time timer' },
+            { name: 'map', cls: 'fa-solid fa-map', tags: 'location geography' },
+            { name: 'location-dot', cls: 'fa-solid fa-location-dot', tags: 'map pin marker' },
+            { name: 'print', cls: 'fa-solid fa-print', tags: 'printer output' },
+            { name: 'link', cls: 'fa-solid fa-link', tags: 'chain url hyperlink' },
+            { name: 'link-slash', cls: 'fa-solid fa-link-slash', tags: 'unlink break' },
+            { name: 'tag', cls: 'fa-solid fa-tag', tags: 'label price category' },
+            { name: 'tags', cls: 'fa-solid fa-tags', tags: 'labels categories' },
+            { name: 'palette', cls: 'fa-solid fa-palette', tags: 'color paint theme' },
+            { name: 'wand-magic-sparkles', cls: 'fa-solid fa-wand-magic-sparkles', tags: 'magic auto ai' },
+            { name: 'robot', cls: 'fa-solid fa-robot', tags: 'ai bot automation' },
+            { name: 'brain', cls: 'fa-solid fa-brain', tags: 'ai smart intelligence' },
+            { name: 'circle-nodes', cls: 'fa-solid fa-circle-nodes', tags: 'network cluster topology' },
+            { name: 'plug', cls: 'fa-solid fa-plug', tags: 'connection power plugin' },
+            { name: 'wrench', cls: 'fa-solid fa-wrench', tags: 'tool fix repair' },
+            { name: 'screwdriver-wrench', cls: 'fa-solid fa-screwdriver-wrench', tags: 'tools settings config' },
+            { name: 'hammer', cls: 'fa-solid fa-hammer', tags: 'build construct tool' },
+            { name: 'toolbox', cls: 'fa-solid fa-toolbox', tags: 'tools kit' },
+            { name: 'box', cls: 'fa-solid fa-box', tags: 'package container' },
+            { name: 'boxes-stacked', cls: 'fa-solid fa-boxes-stacked', tags: 'packages inventory' },
+            { name: 'truck', cls: 'fa-solid fa-truck', tags: 'delivery shipping' },
+            { name: 'building', cls: 'fa-solid fa-building', tags: 'office company' },
+            { name: 'industry', cls: 'fa-solid fa-industry', tags: 'factory production' },
+            { name: 'warehouse', cls: 'fa-solid fa-warehouse', tags: 'storage depot logistics' },
+            { name: 'store', cls: 'fa-solid fa-store', tags: 'shop retail' },
+            { name: 'cart-shopping', cls: 'fa-solid fa-cart-shopping', tags: 'shop buy commerce' },
+            { name: 'money-bill', cls: 'fa-solid fa-money-bill', tags: 'cash payment dollar' },
+            { name: 'credit-card', cls: 'fa-solid fa-credit-card', tags: 'payment charge' },
+            { name: 'receipt', cls: 'fa-solid fa-receipt', tags: 'invoice bill' },
+            { name: 'barcode', cls: 'fa-solid fa-barcode', tags: 'scan product' },
+            { name: 'qrcode', cls: 'fa-solid fa-qrcode', tags: 'scan code matrix' },
+            // Brands (free)
+            { name: 'github', cls: 'fa-brands fa-github', tags: 'git social code' },
+            { name: 'windows', cls: 'fa-brands fa-windows', tags: 'microsoft os' },
+            { name: 'linux', cls: 'fa-brands fa-linux', tags: 'tux os penguin' },
+            { name: 'docker', cls: 'fa-brands fa-docker', tags: 'container devops' },
+            { name: 'python', cls: 'fa-brands fa-python', tags: 'programming language' },
+            { name: 'js', cls: 'fa-brands fa-js', tags: 'javascript programming' },
+            { name: 'html5', cls: 'fa-brands fa-html5', tags: 'web markup' },
+            { name: 'css3', cls: 'fa-brands fa-css3', tags: 'web styling' },
+            { name: 'node-js', cls: 'fa-brands fa-node-js', tags: 'javascript runtime' },
+            { name: 'npm', cls: 'fa-brands fa-npm', tags: 'package manager' },
+            { name: 'microsoft', cls: 'fa-brands fa-microsoft', tags: 'windows company' },
+            { name: 'google', cls: 'fa-brands fa-google', tags: 'search company' },
+            { name: 'slack', cls: 'fa-brands fa-slack', tags: 'chat messaging team' },
+            // Agriculture & Nature
+            { name: 'tractor', cls: 'fa-solid fa-tractor', tags: 'agriculture farm vehicle harvest machine' },
+            { name: 'wheat-awn', cls: 'fa-solid fa-wheat-awn', tags: 'agriculture grain cereal crop harvest' },
+            { name: 'seedling', cls: 'fa-solid fa-seedling', tags: 'agriculture plant sprout grow seed' },
+            { name: 'leaf', cls: 'fa-solid fa-leaf', tags: 'nature plant green eco organic' },
+            { name: 'tree', cls: 'fa-solid fa-tree', tags: 'nature forest wood timber' },
+            { name: 'pagelines', cls: 'fa-brands fa-pagelines', tags: 'nature leaf plant green eco' },
+            { name: 'clover', cls: 'fa-solid fa-clover', tags: 'nature plant lucky grass feed' },
+            { name: 'plant-wilt', cls: 'fa-solid fa-plant-wilt', tags: 'agriculture dead drought dry' },
+            // Animals — Livestock & Farm
+            { name: 'cow', cls: 'fa-solid fa-cow', tags: 'agriculture animal livestock cattle dairy milk beef farm' },
+            { name: 'horse', cls: 'fa-solid fa-horse', tags: 'agriculture animal equine livestock farm riding' },
+            { name: 'horse-head', cls: 'fa-solid fa-horse-head', tags: 'agriculture animal equine stallion mare pony' },
+            { name: 'dog', cls: 'fa-solid fa-dog', tags: 'animal pet farm guard herding shepherd livestock' },
+            { name: 'cat', cls: 'fa-solid fa-cat', tags: 'animal pet farm barn mouse control' },
+            { name: 'fish', cls: 'fa-solid fa-fish', tags: 'agriculture animal aquaculture seafood fishing' },
+            { name: 'fish-fins', cls: 'fa-solid fa-fish-fins', tags: 'agriculture animal aquaculture seafood fishing' },
+            { name: 'shrimp', cls: 'fa-solid fa-shrimp', tags: 'agriculture animal aquaculture seafood' },
+            { name: 'egg', cls: 'fa-solid fa-egg', tags: 'agriculture animal poultry chicken farm' },
+            { name: 'drumstick-bite', cls: 'fa-solid fa-drumstick-bite', tags: 'agriculture animal poultry chicken meat food' },
+            // Animals — Birds
+            { name: 'dove', cls: 'fa-solid fa-dove', tags: 'animal bird peace pigeon poultry farm' },
+            { name: 'crow', cls: 'fa-solid fa-crow', tags: 'animal bird raven pest agriculture crop' },
+            { name: 'kiwi-bird', cls: 'fa-solid fa-kiwi-bird', tags: 'animal bird exotic nature' },
+            { name: 'feather', cls: 'fa-solid fa-feather', tags: 'animal bird poultry plume quill' },
+            { name: 'feather-pointed', cls: 'fa-solid fa-feather-pointed', tags: 'animal bird quill write' },
+            // Animals — Wild & Other
+            { name: 'hippo', cls: 'fa-solid fa-hippo', tags: 'animal wildlife hippopotamus nature' },
+            { name: 'otter', cls: 'fa-solid fa-otter', tags: 'animal wildlife river nature' },
+            { name: 'frog', cls: 'fa-solid fa-frog', tags: 'animal amphibian nature pond wetland' },
+            { name: 'dragon', cls: 'fa-solid fa-dragon', tags: 'animal fantasy mythical creature' },
+            { name: 'paw', cls: 'fa-solid fa-paw', tags: 'animal pet print track footprint farm' },
+            // Animals — Insects & Pests
+            { name: 'spider', cls: 'fa-solid fa-spider', tags: 'animal insect pest arachnid nature' },
+            { name: 'bugs', cls: 'fa-solid fa-bugs', tags: 'animal insect pest agriculture crop protection' },
+            { name: 'locust', cls: 'fa-solid fa-locust', tags: 'animal insect pest agriculture crop damage swarm' },
+            { name: 'mosquito', cls: 'fa-solid fa-mosquito', tags: 'animal insect pest disease bite' },
+            { name: 'worm', cls: 'fa-solid fa-worm', tags: 'animal soil compost organic agriculture earthworm' },
+            { name: 'carrot', cls: 'fa-solid fa-carrot', tags: 'agriculture vegetable food crop garden' },
+            { name: 'apple-whole', cls: 'fa-solid fa-apple-whole', tags: 'agriculture fruit food orchard' },
+            { name: 'lemon', cls: 'fa-solid fa-lemon', tags: 'agriculture fruit citrus food' },
+            { name: 'pepper-hot', cls: 'fa-solid fa-pepper-hot', tags: 'agriculture vegetable spice food' },
+            { name: 'wheat-awn-circle-exclamation', cls: 'fa-solid fa-wheat-awn-circle-exclamation', tags: 'agriculture gluten allergy grain warning' },
+            { name: 'sun', cls: 'fa-solid fa-sun', tags: 'weather sunshine daylight grow' },
+            { name: 'cloud-sun', cls: 'fa-solid fa-cloud-sun', tags: 'weather partly cloudy' },
+            { name: 'cloud-rain', cls: 'fa-solid fa-cloud-rain', tags: 'weather rain precipitation irrigation' },
+            { name: 'cloud-showers-heavy', cls: 'fa-solid fa-cloud-showers-heavy', tags: 'weather rain storm flood' },
+            { name: 'snowflake', cls: 'fa-solid fa-snowflake', tags: 'weather cold frost freeze winter' },
+            { name: 'temperature-high', cls: 'fa-solid fa-temperature-high', tags: 'weather hot warm climate' },
+            { name: 'temperature-low', cls: 'fa-solid fa-temperature-low', tags: 'weather cold cool climate' },
+            { name: 'wind', cls: 'fa-solid fa-wind', tags: 'weather breeze air climate' },
+            { name: 'droplet', cls: 'fa-solid fa-droplet', tags: 'water irrigation moisture rain' },
+            { name: 'faucet-drip', cls: 'fa-solid fa-faucet-drip', tags: 'water irrigation tap supply' },
+            { name: 'water', cls: 'fa-solid fa-water', tags: 'irrigation river lake flood' },
+            { name: 'mountain-sun', cls: 'fa-solid fa-mountain-sun', tags: 'landscape terrain rural countryside' },
+            { name: 'mound', cls: 'fa-solid fa-mound', tags: 'soil earth ground dirt compost' },
+            { name: 'bucket', cls: 'fa-solid fa-bucket', tags: 'tool container farm garden' },
+            { name: 'bugs', cls: 'fa-solid fa-bugs', tags: 'pest insect agriculture crop protection' },
+            { name: 'locust', cls: 'fa-solid fa-locust', tags: 'pest insect agriculture crop damage' },
+            { name: 'mosquito', cls: 'fa-solid fa-mosquito', tags: 'pest insect disease' },
+            { name: 'spider', cls: 'fa-solid fa-spider', tags: 'pest insect arachnid' },
+            { name: 'worm', cls: 'fa-solid fa-worm', tags: 'soil compost organic agriculture earthworm' },
+            { name: 'jar', cls: 'fa-solid fa-jar', tags: 'preserve container store honey jam' },
+            { name: 'jar-wheat', cls: 'fa-solid fa-jar-wheat', tags: 'grain store silo harvest preserve' },
+            { name: 'bottle-water', cls: 'fa-solid fa-bottle-water', tags: 'drink liquid hydration' },
+            { name: 'flask', cls: 'fa-solid fa-flask', tags: 'science lab test soil analysis' },
+            { name: 'vial', cls: 'fa-solid fa-vial', tags: 'science lab test sample soil' },
+            { name: 'disease', cls: 'fa-solid fa-disease', tags: 'health crop disease pathogen infection' },
+            { name: 'virus', cls: 'fa-solid fa-virus', tags: 'disease crop pathogen infection' },
+            { name: 'biohazard', cls: 'fa-solid fa-biohazard', tags: 'chemical pesticide hazard danger' },
+            { name: 'skull-crossbones', cls: 'fa-solid fa-skull-crossbones', tags: 'poison pesticide toxic danger' },
+            { name: 'spray-can', cls: 'fa-solid fa-spray-can', tags: 'pesticide spray herbicide treatment' },
+            { name: 'hand-holding-droplet', cls: 'fa-solid fa-hand-holding-droplet', tags: 'water care irrigation sustainable' },
+            { name: 'recycle', cls: 'fa-solid fa-recycle', tags: 'sustainable green eco circular' },
+            { name: 'solar-panel', cls: 'fa-solid fa-solar-panel', tags: 'energy renewable sustainable farm' },
+            { name: 'bolt', cls: 'fa-solid fa-bolt', tags: 'energy power lightning electric' },
+            { name: 'satellite-dish', cls: 'fa-solid fa-satellite-dish', tags: 'precision agriculture gps remote sensing' },
+            { name: 'tower-broadcast', cls: 'fa-solid fa-tower-broadcast', tags: 'signal IoT sensor monitoring' },
+            { name: 'map-location-dot', cls: 'fa-solid fa-map-location-dot', tags: 'gps field mapping precision agriculture' },
+            { name: 'ruler-combined', cls: 'fa-solid fa-ruler-combined', tags: 'measure field area survey' },
+            { name: 'scale-balanced', cls: 'fa-solid fa-scale-balanced', tags: 'weigh grain measure harvest' },
+            { name: 'weight-hanging', cls: 'fa-solid fa-weight-hanging', tags: 'weigh measure heavy kg ton' },
+        ]
+    },
+    {
+        id: 'bootstrap',
+        name: 'Bootstrap Icons 1.11.3',
+        url: 'https://icons.getbootstrap.com',
+        license: 'MIT',
+        cdn: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">',
+        prefix: 'bi',
+        renderIcon: (cls) => `<i class="${cls}"></i>`,
+        icons: [
+            { name: 'house', cls: 'bi bi-house-fill', tags: 'home' },
+            { name: 'search', cls: 'bi bi-search', tags: 'find magnify' },
+            { name: 'list', cls: 'bi bi-list', tags: 'menu hamburger' },
+            { name: 'x-lg', cls: 'bi bi-x-lg', tags: 'close remove' },
+            { name: 'check-lg', cls: 'bi bi-check-lg', tags: 'ok done' },
+            { name: 'plus-lg', cls: 'bi bi-plus-lg', tags: 'add new' },
+            { name: 'dash-lg', cls: 'bi bi-dash-lg', tags: 'minus remove' },
+            { name: 'gear', cls: 'bi bi-gear-fill', tags: 'settings config cog' },
+            { name: 'funnel', cls: 'bi bi-funnel-fill', tags: 'filter sort' },
+            { name: 'arrow-left', cls: 'bi bi-arrow-left', tags: 'back previous' },
+            { name: 'arrow-right', cls: 'bi bi-arrow-right', tags: 'next forward' },
+            { name: 'chevron-left', cls: 'bi bi-chevron-left', tags: 'back previous' },
+            { name: 'chevron-right', cls: 'bi bi-chevron-right', tags: 'next forward' },
+            { name: 'chevron-down', cls: 'bi bi-chevron-down', tags: 'expand dropdown' },
+            { name: 'chevron-up', cls: 'bi bi-chevron-up', tags: 'collapse' },
+            { name: 'arrow-clockwise', cls: 'bi bi-arrow-clockwise', tags: 'refresh reload sync' },
+            { name: 'pencil', cls: 'bi bi-pencil-fill', tags: 'edit write' },
+            { name: 'trash', cls: 'bi bi-trash-fill', tags: 'delete remove' },
+            { name: 'clipboard', cls: 'bi bi-clipboard', tags: 'copy paste' },
+            { name: 'download', cls: 'bi bi-download', tags: 'save export' },
+            { name: 'upload', cls: 'bi bi-upload', tags: 'import send' },
+            { name: 'share', cls: 'bi bi-share-fill', tags: 'social forward' },
+            { name: 'bookmark', cls: 'bi bi-bookmark-fill', tags: 'save favorite' },
+            { name: 'heart', cls: 'bi bi-heart-fill', tags: 'love like' },
+            { name: 'star', cls: 'bi bi-star-fill', tags: 'favorite rating' },
+            { name: 'check-circle', cls: 'bi bi-check-circle-fill', tags: 'success done' },
+            { name: 'x-circle', cls: 'bi bi-x-circle-fill', tags: 'error fail' },
+            { name: 'info-circle', cls: 'bi bi-info-circle-fill', tags: 'info help' },
+            { name: 'exclamation-triangle', cls: 'bi bi-exclamation-triangle-fill', tags: 'warning alert' },
+            { name: 'bell', cls: 'bi bi-bell-fill', tags: 'notification alert' },
+            { name: 'person', cls: 'bi bi-person-fill', tags: 'user profile' },
+            { name: 'people', cls: 'bi bi-people-fill', tags: 'users team group' },
+            { name: 'person-plus', cls: 'bi bi-person-plus-fill', tags: 'add user invite' },
+            { name: 'file-earmark', cls: 'bi bi-file-earmark-fill', tags: 'document' },
+            { name: 'file-earmark-text', cls: 'bi bi-file-earmark-text-fill', tags: 'document text' },
+            { name: 'file-earmark-code', cls: 'bi bi-file-earmark-code-fill', tags: 'source code' },
+            { name: 'folder', cls: 'bi bi-folder-fill', tags: 'directory' },
+            { name: 'folder2-open', cls: 'bi bi-folder2-open', tags: 'directory browse' },
+            { name: 'envelope', cls: 'bi bi-envelope-fill', tags: 'email mail' },
+            { name: 'chat-dots', cls: 'bi bi-chat-dots-fill', tags: 'comment message' },
+            { name: 'telephone', cls: 'bi bi-telephone-fill', tags: 'phone call contact' },
+            { name: 'send', cls: 'bi bi-send-fill', tags: 'submit paper plane' },
+            { name: 'image', cls: 'bi bi-image-fill', tags: 'photo picture' },
+            { name: 'camera', cls: 'bi bi-camera-fill', tags: 'photo capture' },
+            { name: 'play', cls: 'bi bi-play-fill', tags: 'start media' },
+            { name: 'pause', cls: 'bi bi-pause-fill', tags: 'stop media' },
+            { name: 'server', cls: 'bi bi-server', tags: 'hosting computer' },
+            { name: 'database', cls: 'bi bi-database-fill', tags: 'storage sql' },
+            { name: 'hdd', cls: 'bi bi-hdd-fill', tags: 'disk drive storage' },
+            { name: 'pc-display', cls: 'bi bi-pc-display', tags: 'computer monitor desktop' },
+            { name: 'laptop', cls: 'bi bi-laptop', tags: 'computer notebook' },
+            { name: 'phone', cls: 'bi bi-phone', tags: 'mobile device' },
+            { name: 'terminal', cls: 'bi bi-terminal-fill', tags: 'console command shell' },
+            { name: 'code-slash', cls: 'bi bi-code-slash', tags: 'programming html' },
+            { name: 'git', cls: 'bi bi-git', tags: 'version control branch' },
+            { name: 'bug', cls: 'bi bi-bug-fill', tags: 'debug error issue' },
+            { name: 'cpu', cls: 'bi bi-cpu-fill', tags: 'processor chip microchip' },
+            { name: 'wifi', cls: 'bi bi-wifi', tags: 'wireless network' },
+            { name: 'hdd-network', cls: 'bi bi-hdd-network-fill', tags: 'lan server cluster' },
+            { name: 'globe', cls: 'bi bi-globe', tags: 'world internet web' },
+            { name: 'cloud', cls: 'bi bi-cloud-fill', tags: 'hosting sky' },
+            { name: 'cloud-upload', cls: 'bi bi-cloud-upload-fill', tags: 'deploy' },
+            { name: 'cloud-download', cls: 'bi bi-cloud-download-fill', tags: 'sync' },
+            { name: 'lock', cls: 'bi bi-lock-fill', tags: 'security password' },
+            { name: 'unlock', cls: 'bi bi-unlock-fill', tags: 'open unsecure' },
+            { name: 'key', cls: 'bi bi-key-fill', tags: 'password access auth' },
+            { name: 'shield-check', cls: 'bi bi-shield-fill-check', tags: 'security verified' },
+            { name: 'eye', cls: 'bi bi-eye-fill', tags: 'view visible' },
+            { name: 'eye-slash', cls: 'bi bi-eye-slash-fill', tags: 'hidden password' },
+            { name: 'graph-up', cls: 'bi bi-graph-up', tags: 'chart trend statistics' },
+            { name: 'bar-chart', cls: 'bi bi-bar-chart-fill', tags: 'graph statistics' },
+            { name: 'pie-chart', cls: 'bi bi-pie-chart-fill', tags: 'graph statistics' },
+            { name: 'table', cls: 'bi bi-table', tags: 'grid data' },
+            { name: 'kanban', cls: 'bi bi-kanban-fill', tags: 'board agile scrum' },
+            { name: 'speedometer', cls: 'bi bi-speedometer', tags: 'dashboard gauge meter' },
+            { name: 'calendar', cls: 'bi bi-calendar-fill', tags: 'date schedule' },
+            { name: 'clock', cls: 'bi bi-clock-fill', tags: 'time schedule' },
+            { name: 'map', cls: 'bi bi-map-fill', tags: 'location geography' },
+            { name: 'geo-alt', cls: 'bi bi-geo-alt-fill', tags: 'location pin marker' },
+            { name: 'printer', cls: 'bi bi-printer-fill', tags: 'print output' },
+            { name: 'link-45deg', cls: 'bi bi-link-45deg', tags: 'url hyperlink chain' },
+            { name: 'tag', cls: 'bi bi-tag-fill', tags: 'label category' },
+            { name: 'palette', cls: 'bi bi-palette-fill', tags: 'color theme paint' },
+            { name: 'wrench', cls: 'bi bi-wrench', tags: 'tool fix repair' },
+            { name: 'tools', cls: 'bi bi-tools', tags: 'settings config' },
+            { name: 'box', cls: 'bi bi-box-fill', tags: 'package container' },
+            { name: 'truck', cls: 'bi bi-truck', tags: 'delivery shipping' },
+            { name: 'building', cls: 'bi bi-building-fill', tags: 'office company' },
+            { name: 'shop', cls: 'bi bi-shop', tags: 'store retail' },
+            { name: 'cart', cls: 'bi bi-cart-fill', tags: 'shop buy commerce' },
+            { name: 'cash-stack', cls: 'bi bi-cash-stack', tags: 'money payment' },
+            { name: 'credit-card', cls: 'bi bi-credit-card-fill', tags: 'payment charge' },
+            { name: 'receipt', cls: 'bi bi-receipt', tags: 'invoice bill' },
+            { name: 'upc-scan', cls: 'bi bi-upc-scan', tags: 'barcode product' },
+            { name: 'qr-code', cls: 'bi bi-qr-code', tags: 'scan matrix' },
+            { name: 'github', cls: 'bi bi-github', tags: 'git social code' },
+            { name: 'windows', cls: 'bi bi-windows', tags: 'microsoft os' },
+            { name: 'slack', cls: 'bi bi-slack', tags: 'chat team messaging' },
+            { name: 'microsoft', cls: 'bi bi-microsoft', tags: 'windows company' },
+            { name: 'lightning', cls: 'bi bi-lightning-fill', tags: 'power fast flash' },
+            { name: 'activity', cls: 'bi bi-activity', tags: 'pulse health monitor' },
+            { name: 'clipboard2-check', cls: 'bi bi-clipboard2-check-fill', tags: 'todo tasks done' },
+            // Agriculture & Nature
+            { name: 'tree', cls: 'bi bi-tree-fill', tags: 'nature forest wood timber' },
+            { name: 'flower1', cls: 'bi bi-flower1', tags: 'nature plant garden bloom' },
+            { name: 'flower2', cls: 'bi bi-flower2', tags: 'nature plant garden bloom' },
+            { name: 'flower3', cls: 'bi bi-flower3', tags: 'nature plant garden bloom' },
+            { name: 'sun', cls: 'bi bi-sun-fill', tags: 'weather sunshine daylight grow agriculture' },
+            { name: 'cloud-rain', cls: 'bi bi-cloud-rain-fill', tags: 'weather rain precipitation irrigation agriculture' },
+            { name: 'cloud-snow', cls: 'bi bi-cloud-snow-fill', tags: 'weather cold frost freeze winter' },
+            { name: 'wind', cls: 'bi bi-wind', tags: 'weather breeze air climate' },
+            { name: 'thermometer-half', cls: 'bi bi-thermometer-half', tags: 'temperature weather climate agriculture' },
+            { name: 'moisture', cls: 'bi bi-moisture', tags: 'water humidity soil agriculture irrigation' },
+            { name: 'droplet', cls: 'bi bi-droplet-fill', tags: 'water irrigation rain agriculture' },
+            { name: 'water', cls: 'bi bi-water', tags: 'river lake flood irrigation' },
+            // Animals
+            { name: 'bug', cls: 'bi bi-bug-fill', tags: 'animal pest insect agriculture crop' },
+            { name: 'egg', cls: 'bi bi-egg-fill', tags: 'animal poultry chicken farm agriculture' },
+            { name: 'piggy-bank', cls: 'bi bi-piggy-bank-fill', tags: 'animal pig farm livestock pork swine' },
+            { name: 'cup-hot', cls: 'bi bi-cup-hot-fill', tags: 'drink grain beverage' },
+            { name: 'globe-europe-africa', cls: 'bi bi-globe-europe-africa', tags: 'world geography land' },
+            { name: 'map', cls: 'bi bi-map-fill', tags: 'land field territory geography' },
+            { name: 'compass', cls: 'bi bi-compass-fill', tags: 'navigation direction field survey' },
+            { name: 'rulers', cls: 'bi bi-rulers', tags: 'measure survey field area' },
+            { name: 'recycle', cls: 'bi bi-recycle', tags: 'sustainable green eco circular' },
+            { name: 'broadcast', cls: 'bi bi-broadcast', tags: 'signal IoT sensor monitoring agriculture' },
+            { name: 'speedometer2', cls: 'bi bi-speedometer2', tags: 'gauge meter measurement monitor' },
+        ]
+    },
+    {
+        id: 'material',
+        name: 'Material Symbols (Google)',
+        url: 'https://fonts.google.com/icons',
+        license: 'Apache 2.0',
+        cdn: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">',
+        cdnAlt: '<!-- Alternative: specific icon weights/fills -->\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">',
+        prefix: 'material',
+        renderIcon: (cls) => `<span class="material-symbols-outlined">${cls}</span>`,
+        icons: [
+            { name: 'home', cls: 'home', tags: 'house' },
+            { name: 'search', cls: 'search', tags: 'find magnify' },
+            { name: 'menu', cls: 'menu', tags: 'hamburger bars' },
+            { name: 'close', cls: 'close', tags: 'x remove' },
+            { name: 'check', cls: 'check', tags: 'done ok' },
+            { name: 'add', cls: 'add', tags: 'plus new create' },
+            { name: 'remove', cls: 'remove', tags: 'minus subtract' },
+            { name: 'more_horiz', cls: 'more_horiz', tags: 'dots menu' },
+            { name: 'more_vert', cls: 'more_vert', tags: 'dots menu vertical' },
+            { name: 'settings', cls: 'settings', tags: 'gear config cog' },
+            { name: 'tune', cls: 'tune', tags: 'sliders filter controls' },
+            { name: 'filter_list', cls: 'filter_list', tags: 'funnel sort' },
+            { name: 'sort', cls: 'sort', tags: 'order arrange' },
+            { name: 'arrow_back', cls: 'arrow_back', tags: 'left previous' },
+            { name: 'arrow_forward', cls: 'arrow_forward', tags: 'right next' },
+            { name: 'arrow_upward', cls: 'arrow_upward', tags: 'up' },
+            { name: 'arrow_downward', cls: 'arrow_downward', tags: 'down' },
+            { name: 'chevron_left', cls: 'chevron_left', tags: 'back previous' },
+            { name: 'chevron_right', cls: 'chevron_right', tags: 'next forward' },
+            { name: 'expand_more', cls: 'expand_more', tags: 'dropdown down' },
+            { name: 'expand_less', cls: 'expand_less', tags: 'collapse up' },
+            { name: 'refresh', cls: 'refresh', tags: 'reload sync' },
+            { name: 'open_in_new', cls: 'open_in_new', tags: 'external link' },
+            { name: 'edit', cls: 'edit', tags: 'pen write modify' },
+            { name: 'delete', cls: 'delete', tags: 'trash remove bin' },
+            { name: 'content_copy', cls: 'content_copy', tags: 'copy duplicate clipboard' },
+            { name: 'content_paste', cls: 'content_paste', tags: 'paste clipboard' },
+            { name: 'content_cut', cls: 'content_cut', tags: 'scissors' },
+            { name: 'download', cls: 'download', tags: 'save export' },
+            { name: 'upload', cls: 'upload', tags: 'import send' },
+            { name: 'share', cls: 'share', tags: 'social forward' },
+            { name: 'bookmark', cls: 'bookmark', tags: 'save favorite' },
+            { name: 'favorite', cls: 'favorite', tags: 'heart love like' },
+            { name: 'star', cls: 'star', tags: 'favorite rating' },
+            { name: 'thumb_up', cls: 'thumb_up', tags: 'like approve' },
+            { name: 'thumb_down', cls: 'thumb_down', tags: 'dislike reject' },
+            { name: 'check_circle', cls: 'check_circle', tags: 'success done verified' },
+            { name: 'cancel', cls: 'cancel', tags: 'error fail close' },
+            { name: 'info', cls: 'info', tags: 'help about' },
+            { name: 'warning', cls: 'warning', tags: 'alert caution' },
+            { name: 'error', cls: 'error', tags: 'danger fail' },
+            { name: 'notifications', cls: 'notifications', tags: 'bell alert' },
+            { name: 'notifications_off', cls: 'notifications_off', tags: 'mute silent' },
+            { name: 'hourglass_empty', cls: 'hourglass_empty', tags: 'loading progress wait' },
+            { name: 'person', cls: 'person', tags: 'user profile account' },
+            { name: 'group', cls: 'group', tags: 'users team people' },
+            { name: 'person_add', cls: 'person_add', tags: 'add user invite' },
+            { name: 'admin_panel_settings', cls: 'admin_panel_settings', tags: 'user admin gear' },
+            { name: 'badge', cls: 'badge', tags: 'id card identity' },
+            { name: 'description', cls: 'description', tags: 'file document text' },
+            { name: 'article', cls: 'article', tags: 'document news text' },
+            { name: 'picture_as_pdf', cls: 'picture_as_pdf', tags: 'file document pdf' },
+            { name: 'folder', cls: 'folder', tags: 'directory' },
+            { name: 'folder_open', cls: 'folder_open', tags: 'directory browse' },
+            { name: 'assignment', cls: 'assignment', tags: 'clipboard task' },
+            { name: 'mail', cls: 'mail', tags: 'email envelope message' },
+            { name: 'chat', cls: 'chat', tags: 'comment message bubble' },
+            { name: 'forum', cls: 'forum', tags: 'comments conversation' },
+            { name: 'call', cls: 'call', tags: 'phone telephone contact' },
+            { name: 'send', cls: 'send', tags: 'submit paper plane' },
+            { name: 'photo', cls: 'photo', tags: 'image picture' },
+            { name: 'photo_camera', cls: 'photo_camera', tags: 'camera capture' },
+            { name: 'videocam', cls: 'videocam', tags: 'video camera' },
+            { name: 'music_note', cls: 'music_note', tags: 'audio sound' },
+            { name: 'play_arrow', cls: 'play_arrow', tags: 'start media' },
+            { name: 'pause', cls: 'pause', tags: 'stop media' },
+            { name: 'stop', cls: 'stop', tags: 'halt media' },
+            { name: 'volume_up', cls: 'volume_up', tags: 'audio sound speaker' },
+            { name: 'volume_off', cls: 'volume_off', tags: 'mute silent' },
+            { name: 'dns', cls: 'dns', tags: 'server hosting' },
+            { name: 'storage', cls: 'storage', tags: 'database disk' },
+            { name: 'desktop_windows', cls: 'desktop_windows', tags: 'computer monitor screen' },
+            { name: 'laptop', cls: 'laptop', tags: 'computer notebook' },
+            { name: 'smartphone', cls: 'smartphone', tags: 'mobile phone device' },
+            { name: 'terminal', cls: 'terminal', tags: 'console command shell' },
+            { name: 'code', cls: 'code', tags: 'programming html brackets' },
+            { name: 'data_object', cls: 'data_object', tags: 'json object braces' },
+            { name: 'bug_report', cls: 'bug_report', tags: 'debug error issue' },
+            { name: 'memory', cls: 'memory', tags: 'ram chip microchip cpu' },
+            { name: 'wifi', cls: 'wifi', tags: 'wireless network signal' },
+            { name: 'lan', cls: 'lan', tags: 'network ethernet wired' },
+            { name: 'language', cls: 'language', tags: 'globe world internet' },
+            { name: 'cloud', cls: 'cloud', tags: 'hosting sky' },
+            { name: 'cloud_upload', cls: 'cloud_upload', tags: 'deploy' },
+            { name: 'cloud_download', cls: 'cloud_download', tags: 'sync' },
+            { name: 'lock', cls: 'lock', tags: 'security password protected' },
+            { name: 'lock_open', cls: 'lock_open', tags: 'unlock unsecure' },
+            { name: 'key', cls: 'key', tags: 'password access auth' },
+            { name: 'shield', cls: 'shield', tags: 'security protect defense' },
+            { name: 'fingerprint', cls: 'fingerprint', tags: 'biometric identity' },
+            { name: 'visibility', cls: 'visibility', tags: 'eye view visible show' },
+            { name: 'visibility_off', cls: 'visibility_off', tags: 'eye hidden invisible' },
+            { name: 'bar_chart', cls: 'bar_chart', tags: 'graph statistics' },
+            { name: 'show_chart', cls: 'show_chart', tags: 'line graph trend' },
+            { name: 'pie_chart', cls: 'pie_chart', tags: 'graph statistics donut' },
+            { name: 'table_chart', cls: 'table_chart', tags: 'grid data' },
+            { name: 'dashboard', cls: 'dashboard', tags: 'gauge meter speed' },
+            { name: 'analytics', cls: 'analytics', tags: 'statistics insights' },
+            { name: 'calendar_today', cls: 'calendar_today', tags: 'date schedule' },
+            { name: 'schedule', cls: 'schedule', tags: 'clock time' },
+            { name: 'timer', cls: 'timer', tags: 'stopwatch countdown' },
+            { name: 'map', cls: 'map', tags: 'location geography' },
+            { name: 'place', cls: 'place', tags: 'location pin marker' },
+            { name: 'print', cls: 'print', tags: 'printer output' },
+            { name: 'link', cls: 'link', tags: 'chain url hyperlink' },
+            { name: 'link_off', cls: 'link_off', tags: 'unlink break' },
+            { name: 'label', cls: 'label', tags: 'tag category' },
+            { name: 'palette', cls: 'palette', tags: 'color theme paint' },
+            { name: 'auto_fix_high', cls: 'auto_fix_high', tags: 'magic wand sparkle ai' },
+            { name: 'smart_toy', cls: 'smart_toy', tags: 'robot ai bot' },
+            { name: 'psychology', cls: 'psychology', tags: 'brain mind ai' },
+            { name: 'hub', cls: 'hub', tags: 'network cluster nodes' },
+            { name: 'power', cls: 'power', tags: 'plug connection' },
+            { name: 'build', cls: 'build', tags: 'wrench tool fix' },
+            { name: 'construction', cls: 'construction', tags: 'tools settings' },
+            { name: 'handyman', cls: 'handyman', tags: 'tools kit' },
+            { name: 'inventory_2', cls: 'inventory_2', tags: 'box package' },
+            { name: 'local_shipping', cls: 'local_shipping', tags: 'truck delivery' },
+            { name: 'apartment', cls: 'apartment', tags: 'building office' },
+            { name: 'factory', cls: 'factory', tags: 'industry production' },
+            { name: 'store', cls: 'store', tags: 'shop retail' },
+            { name: 'shopping_cart', cls: 'shopping_cart', tags: 'shop buy commerce' },
+            { name: 'payments', cls: 'payments', tags: 'money cash bill' },
+            { name: 'credit_card', cls: 'credit_card', tags: 'payment charge' },
+            { name: 'receipt_long', cls: 'receipt_long', tags: 'invoice bill' },
+            { name: 'bolt', cls: 'bolt', tags: 'lightning power fast flash' },
+            { name: 'monitoring', cls: 'monitoring', tags: 'activity pulse health' },
+            { name: 'task_alt', cls: 'task_alt', tags: 'todo check complete' },
+            // Agriculture & Nature
+            { name: 'agriculture', cls: 'agriculture', tags: 'farm tractor vehicle harvest machine' },
+            { name: 'grass', cls: 'grass', tags: 'nature plant field green pasture lawn' },
+            { name: 'park', cls: 'park', tags: 'nature tree green outdoor landscape' },
+            { name: 'forest', cls: 'forest', tags: 'nature tree wood timber rural' },
+            { name: 'eco', cls: 'eco', tags: 'nature green leaf sustainable organic' },
+            { name: 'compost', cls: 'compost', tags: 'organic soil recycling sustainable' },
+            { name: 'yard', cls: 'yard', tags: 'nature plant garden outdoor green' },
+            { name: 'nature', cls: 'nature', tags: 'mountain landscape outdoor terrain rural' },
+            { name: 'local_florist', cls: 'local_florist', tags: 'flower plant bloom garden' },
+            { name: 'grain', cls: 'grain', tags: 'wheat cereal crop harvest agriculture' },
+            { name: 'water_drop', cls: 'water_drop', tags: 'irrigation rain moisture agriculture' },
+            { name: 'waves', cls: 'waves', tags: 'water river irrigation flood' },
+            { name: 'wb_sunny', cls: 'wb_sunny', tags: 'sun weather sunshine daylight grow' },
+            { name: 'cloud', cls: 'cloud', tags: 'weather sky' },
+            { name: 'thermostat', cls: 'thermostat', tags: 'temperature weather climate sensor' },
+            { name: 'air', cls: 'air', tags: 'wind weather breeze climate' },
+            { name: 'ac_unit', cls: 'ac_unit', tags: 'snowflake cold frost freeze' },
+            // Animals
+            { name: 'pest_control', cls: 'pest_control', tags: 'animal bug insect pest agriculture crop protection' },
+            { name: 'pets', cls: 'pets', tags: 'animal paw livestock farm dog cat pet' },
+            { name: 'cruelty_free', cls: 'cruelty_free', tags: 'animal rabbit bunny nature organic vegan' },
+            { name: 'egg_alt', cls: 'egg_alt', tags: 'animal poultry chicken farm agriculture' },
+            { name: 'set_meal', cls: 'set_meal', tags: 'animal fish food seafood aquaculture' },
+            { name: 'pheasant', cls: 'pheasant', tags: 'animal bird poultry game farm hunting' },
+            { name: 'raven', cls: 'raven', tags: 'animal bird crow pest agriculture' },
+            { name: 'owl', cls: 'owl', tags: 'animal bird wildlife nature nocturnal' },
+            { name: 'nest_eco_leaf', cls: 'nest_eco_leaf', tags: 'animal bird nest nature eco sustainable' },
+            { name: 'hive', cls: 'hive', tags: 'animal bee honeycomb apiary pollination agriculture' },
+            { name: 'pest_control_rodent', cls: 'pest_control_rodent', tags: 'animal rodent mouse rat pest farm' },
+            { name: 'science', cls: 'science', tags: 'lab test flask soil analysis' },
+            { name: 'biotech', cls: 'biotech', tags: 'biology genetics crop science' },
+            { name: 'coronavirus', cls: 'coronavirus', tags: 'virus disease pathogen crop infection' },
+            { name: 'satellite_alt', cls: 'satellite_alt', tags: 'precision agriculture gps remote sensing' },
+            { name: 'cell_tower', cls: 'cell_tower', tags: 'signal IoT sensor monitoring' },
+            { name: 'sensors', cls: 'sensors', tags: 'IoT monitoring data smart farming' },
+            { name: 'straighten', cls: 'straighten', tags: 'ruler measure field area survey' },
+            { name: 'scale', cls: 'scale', tags: 'weigh grain measure harvest balance' },
+            { name: 'solar_power', cls: 'solar_power', tags: 'energy renewable sustainable farm panel' },
+            { name: 'energy_savings_leaf', cls: 'energy_savings_leaf', tags: 'green sustainable eco organic' },
+            { name: 'local_shipping', cls: 'local_shipping', tags: 'truck transport delivery logistics' },
+            { name: 'warehouse', cls: 'warehouse', tags: 'storage silo depot logistics grain' },
+        ]
+    },
+    {
+        id: 'remix',
+        name: 'Remix Icon 4.3.0',
+        url: 'https://remixicon.com',
+        license: 'Apache 2.0',
+        cdn: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.min.css">',
+        prefix: 'ri',
+        renderIcon: (cls) => `<i class="${cls}"></i>`,
+        icons: [
+            { name: 'home', cls: 'ri-home-fill', tags: 'house' },
+            { name: 'search', cls: 'ri-search-line', tags: 'find magnify' },
+            { name: 'menu', cls: 'ri-menu-line', tags: 'hamburger bars' },
+            { name: 'close', cls: 'ri-close-line', tags: 'x remove' },
+            { name: 'check', cls: 'ri-check-line', tags: 'done ok' },
+            { name: 'add', cls: 'ri-add-line', tags: 'plus new create' },
+            { name: 'subtract', cls: 'ri-subtract-line', tags: 'minus remove' },
+            { name: 'more', cls: 'ri-more-fill', tags: 'dots menu' },
+            { name: 'more-2', cls: 'ri-more-2-fill', tags: 'dots menu vertical' },
+            { name: 'settings', cls: 'ri-settings-3-fill', tags: 'gear config cog' },
+            { name: 'equalizer', cls: 'ri-equalizer-fill', tags: 'sliders filter controls' },
+            { name: 'filter', cls: 'ri-filter-3-fill', tags: 'funnel sort' },
+            { name: 'arrow-left', cls: 'ri-arrow-left-line', tags: 'back previous' },
+            { name: 'arrow-right', cls: 'ri-arrow-right-line', tags: 'next forward' },
+            { name: 'arrow-left-s', cls: 'ri-arrow-left-s-line', tags: 'chevron back' },
+            { name: 'arrow-right-s', cls: 'ri-arrow-right-s-line', tags: 'chevron next' },
+            { name: 'arrow-down-s', cls: 'ri-arrow-down-s-line', tags: 'chevron dropdown' },
+            { name: 'arrow-up-s', cls: 'ri-arrow-up-s-line', tags: 'chevron collapse' },
+            { name: 'refresh', cls: 'ri-refresh-line', tags: 'reload sync' },
+            { name: 'external-link', cls: 'ri-external-link-line', tags: 'open new tab' },
+            { name: 'edit', cls: 'ri-edit-fill', tags: 'pen write modify' },
+            { name: 'delete-bin', cls: 'ri-delete-bin-fill', tags: 'trash remove' },
+            { name: 'clipboard', cls: 'ri-clipboard-fill', tags: 'copy paste' },
+            { name: 'download', cls: 'ri-download-2-fill', tags: 'save export' },
+            { name: 'upload', cls: 'ri-upload-2-fill', tags: 'import send' },
+            { name: 'share', cls: 'ri-share-fill', tags: 'social forward' },
+            { name: 'bookmark', cls: 'ri-bookmark-fill', tags: 'save favorite' },
+            { name: 'heart', cls: 'ri-heart-fill', tags: 'love like' },
+            { name: 'star', cls: 'ri-star-fill', tags: 'favorite rating' },
+            { name: 'checkbox-circle', cls: 'ri-checkbox-circle-fill', tags: 'success done' },
+            { name: 'close-circle', cls: 'ri-close-circle-fill', tags: 'error fail' },
+            { name: 'information', cls: 'ri-information-fill', tags: 'info help' },
+            { name: 'alert', cls: 'ri-alert-fill', tags: 'warning triangle' },
+            { name: 'notification', cls: 'ri-notification-3-fill', tags: 'bell alert' },
+            { name: 'loader-4', cls: 'ri-loader-4-line', tags: 'spinner loading' },
+            { name: 'user', cls: 'ri-user-fill', tags: 'person profile' },
+            { name: 'group', cls: 'ri-group-fill', tags: 'users team people' },
+            { name: 'user-add', cls: 'ri-user-add-fill', tags: 'person add invite' },
+            { name: 'admin', cls: 'ri-admin-fill', tags: 'shield user' },
+            { name: 'file', cls: 'ri-file-fill', tags: 'document' },
+            { name: 'file-text', cls: 'ri-file-text-fill', tags: 'document text' },
+            { name: 'file-code', cls: 'ri-file-code-fill', tags: 'source programming' },
+            { name: 'folder', cls: 'ri-folder-fill', tags: 'directory' },
+            { name: 'folder-open', cls: 'ri-folder-open-fill', tags: 'directory browse' },
+            { name: 'mail', cls: 'ri-mail-fill', tags: 'email envelope' },
+            { name: 'chat-1', cls: 'ri-chat-1-fill', tags: 'comment message' },
+            { name: 'discuss', cls: 'ri-discuss-fill', tags: 'comments conversation' },
+            { name: 'phone', cls: 'ri-phone-fill', tags: 'call telephone contact' },
+            { name: 'send-plane', cls: 'ri-send-plane-fill', tags: 'submit paper plane' },
+            { name: 'image', cls: 'ri-image-fill', tags: 'photo picture' },
+            { name: 'camera', cls: 'ri-camera-fill', tags: 'photo capture' },
+            { name: 'video', cls: 'ri-video-fill', tags: 'film movie' },
+            { name: 'play', cls: 'ri-play-fill', tags: 'start media' },
+            { name: 'pause', cls: 'ri-pause-fill', tags: 'stop media' },
+            { name: 'server', cls: 'ri-server-fill', tags: 'hosting computer rack' },
+            { name: 'database', cls: 'ri-database-2-fill', tags: 'storage sql' },
+            { name: 'hard-drive', cls: 'ri-hard-drive-2-fill', tags: 'disk storage ssd hdd' },
+            { name: 'computer', cls: 'ri-computer-fill', tags: 'desktop monitor screen' },
+            { name: 'macbook', cls: 'ri-macbook-fill', tags: 'laptop notebook' },
+            { name: 'smartphone', cls: 'ri-smartphone-fill', tags: 'mobile phone device' },
+            { name: 'terminal-box', cls: 'ri-terminal-box-fill', tags: 'console command shell' },
+            { name: 'code-s-slash', cls: 'ri-code-s-slash-line', tags: 'programming html' },
+            { name: 'git-branch', cls: 'ri-git-branch-line', tags: 'version control' },
+            { name: 'git-merge', cls: 'ri-git-merge-line', tags: 'version control' },
+            { name: 'git-commit', cls: 'ri-git-commit-line', tags: 'version control' },
+            { name: 'bug', cls: 'ri-bug-fill', tags: 'debug error issue' },
+            { name: 'cpu', cls: 'ri-cpu-line', tags: 'processor chip microchip' },
+            { name: 'wifi', cls: 'ri-wifi-fill', tags: 'wireless network signal' },
+            { name: 'globe', cls: 'ri-global-fill', tags: 'world internet web' },
+            { name: 'cloud', cls: 'ri-cloud-fill', tags: 'hosting sky' },
+            { name: 'lock', cls: 'ri-lock-fill', tags: 'security password' },
+            { name: 'lock-unlock', cls: 'ri-lock-unlock-fill', tags: 'open unsecure' },
+            { name: 'key', cls: 'ri-key-fill', tags: 'password access auth' },
+            { name: 'shield-check', cls: 'ri-shield-check-fill', tags: 'security verified' },
+            { name: 'eye', cls: 'ri-eye-fill', tags: 'view visible' },
+            { name: 'eye-off', cls: 'ri-eye-off-fill', tags: 'hidden invisible password' },
+            { name: 'bar-chart', cls: 'ri-bar-chart-fill', tags: 'graph statistics' },
+            { name: 'line-chart', cls: 'ri-line-chart-fill', tags: 'graph trend' },
+            { name: 'pie-chart', cls: 'ri-pie-chart-fill', tags: 'graph statistics' },
+            { name: 'table', cls: 'ri-table-fill', tags: 'grid data spreadsheet' },
+            { name: 'dashboard', cls: 'ri-dashboard-fill', tags: 'gauge meter speed' },
+            { name: 'calendar', cls: 'ri-calendar-fill', tags: 'date schedule' },
+            { name: 'time', cls: 'ri-time-fill', tags: 'clock schedule' },
+            { name: 'map-pin', cls: 'ri-map-pin-fill', tags: 'location marker' },
+            { name: 'printer', cls: 'ri-printer-fill', tags: 'print output' },
+            { name: 'link', cls: 'ri-link', tags: 'chain url hyperlink' },
+            { name: 'price-tag', cls: 'ri-price-tag-3-fill', tags: 'label category' },
+            { name: 'palette', cls: 'ri-palette-fill', tags: 'color theme paint' },
+            { name: 'magic', cls: 'ri-magic-fill', tags: 'wand sparkle ai' },
+            { name: 'robot', cls: 'ri-robot-fill', tags: 'ai bot automation' },
+            { name: 'brain', cls: 'ri-brain-fill', tags: 'ai intelligence' },
+            { name: 'tools', cls: 'ri-tools-fill', tags: 'wrench settings config repair' },
+            { name: 'hammer', cls: 'ri-hammer-fill', tags: 'build construct tool' },
+            { name: 'box-3', cls: 'ri-box-3-fill', tags: 'package container' },
+            { name: 'truck', cls: 'ri-truck-fill', tags: 'delivery shipping' },
+            { name: 'building', cls: 'ri-building-fill', tags: 'office company' },
+            { name: 'store', cls: 'ri-store-2-fill', tags: 'shop retail' },
+            { name: 'shopping-cart', cls: 'ri-shopping-cart-fill', tags: 'buy commerce' },
+            { name: 'money-dollar', cls: 'ri-money-dollar-box-fill', tags: 'money cash payment' },
+            { name: 'bank-card', cls: 'ri-bank-card-fill', tags: 'credit card payment' },
+            { name: 'flashlight', cls: 'ri-flashlight-fill', tags: 'lightning power fast' },
+            { name: 'pulse', cls: 'ri-pulse-fill', tags: 'activity health monitor' },
+            { name: 'task', cls: 'ri-task-fill', tags: 'todo check complete' },
+            { name: 'github', cls: 'ri-github-fill', tags: 'git social code' },
+            { name: 'windows', cls: 'ri-windows-fill', tags: 'microsoft os' },
+            { name: 'slack', cls: 'ri-slack-fill', tags: 'chat messaging team' },
+            // Agriculture & Nature
+            { name: 'plant', cls: 'ri-plant-fill', tags: 'agriculture seedling grow green' },
+            { name: 'seedling', cls: 'ri-seedling-fill', tags: 'agriculture plant sprout grow' },
+            { name: 'leaf', cls: 'ri-leaf-fill', tags: 'nature plant green eco organic' },
+            { name: 'tree', cls: 'ri-tree-fill', tags: 'nature forest wood timber' },
+            { name: 'flower', cls: 'ri-flower-fill', tags: 'nature plant garden bloom' },
+            { name: 'sun', cls: 'ri-sun-fill', tags: 'weather sunshine daylight grow agriculture' },
+            { name: 'cloudy', cls: 'ri-cloudy-2-fill', tags: 'weather cloud sky' },
+            { name: 'rainy', cls: 'ri-rainy-fill', tags: 'weather rain precipitation irrigation agriculture' },
+            { name: 'snowy', cls: 'ri-snowy-fill', tags: 'weather cold frost freeze winter' },
+            { name: 'windy', cls: 'ri-windy-fill', tags: 'weather wind breeze air climate' },
+            { name: 'temp-hot', cls: 'ri-temp-hot-fill', tags: 'temperature weather hot warm agriculture' },
+            { name: 'temp-cold', cls: 'ri-temp-cold-fill', tags: 'temperature weather cold cool agriculture' },
+            { name: 'drop', cls: 'ri-drop-fill', tags: 'water irrigation rain moisture agriculture' },
+            { name: 'water-flash', cls: 'ri-water-flash-fill', tags: 'water irrigation flood agriculture' },
+            // Animals
+            { name: 'bear-smile', cls: 'ri-bear-smile-fill', tags: 'animal wildlife nature bear' },
+            { name: 'mickey', cls: 'ri-mickey-fill', tags: 'animal mouse rodent nature' },
+            { name: 'bug', cls: 'ri-bug-2-fill', tags: 'animal pest insect agriculture crop' },
+            { name: 'flask', cls: 'ri-flask-fill', tags: 'science lab test soil analysis' },
+            { name: 'test-tube', cls: 'ri-test-tube-fill', tags: 'science lab test soil sample' },
+            { name: 'scales', cls: 'ri-scales-3-fill', tags: 'weigh grain measure harvest balance' },
+            { name: 'recycle', cls: 'ri-recycle-fill', tags: 'sustainable green eco circular' },
+            { name: 'earth', cls: 'ri-earth-fill', tags: 'world globe land geography' },
+            { name: 'map-2', cls: 'ri-map-2-fill', tags: 'land field territory geography' },
+            { name: 'compass-3', cls: 'ri-compass-3-fill', tags: 'navigation direction field survey' },
+            { name: 'signal-tower', cls: 'ri-signal-tower-fill', tags: 'signal IoT sensor monitoring agriculture' },
+            { name: 'sensor', cls: 'ri-sensor-fill', tags: 'IoT monitoring data smart farming' },
+        ]
+    },
+    {
+        id: 'tabler',
+        name: 'Tabler Icons 3.11.0',
+        url: 'https://tabler.io/icons',
+        license: 'MIT',
+        cdn: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">',
+        prefix: 'ti',
+        renderIcon: (cls) => `<i class="${cls}"></i>`,
+        icons: [
+            { name: 'home', cls: 'ti ti-home-filled', tags: 'house' },
+            { name: 'search', cls: 'ti ti-search', tags: 'find magnify' },
+            { name: 'menu-2', cls: 'ti ti-menu-2', tags: 'hamburger bars' },
+            { name: 'x', cls: 'ti ti-x', tags: 'close remove' },
+            { name: 'check', cls: 'ti ti-check', tags: 'done ok' },
+            { name: 'plus', cls: 'ti ti-plus', tags: 'add new create' },
+            { name: 'minus', cls: 'ti ti-minus', tags: 'subtract remove' },
+            { name: 'dots', cls: 'ti ti-dots', tags: 'more menu' },
+            { name: 'dots-vertical', cls: 'ti ti-dots-vertical', tags: 'more menu' },
+            { name: 'settings', cls: 'ti ti-settings', tags: 'gear config cog' },
+            { name: 'adjustments', cls: 'ti ti-adjustments', tags: 'sliders filter controls' },
+            { name: 'filter', cls: 'ti ti-filter', tags: 'funnel sort' },
+            { name: 'sort-ascending', cls: 'ti ti-sort-ascending', tags: 'order arrange' },
+            { name: 'arrow-left', cls: 'ti ti-arrow-left', tags: 'back previous' },
+            { name: 'arrow-right', cls: 'ti ti-arrow-right', tags: 'next forward' },
+            { name: 'chevron-left', cls: 'ti ti-chevron-left', tags: 'back previous' },
+            { name: 'chevron-right', cls: 'ti ti-chevron-right', tags: 'next forward' },
+            { name: 'chevron-down', cls: 'ti ti-chevron-down', tags: 'expand dropdown' },
+            { name: 'chevron-up', cls: 'ti ti-chevron-up', tags: 'collapse' },
+            { name: 'refresh', cls: 'ti ti-refresh', tags: 'reload sync' },
+            { name: 'external-link', cls: 'ti ti-external-link', tags: 'open new' },
+            { name: 'edit', cls: 'ti ti-edit', tags: 'pen write modify' },
+            { name: 'trash', cls: 'ti ti-trash', tags: 'delete remove bin' },
+            { name: 'clipboard', cls: 'ti ti-clipboard', tags: 'copy paste' },
+            { name: 'download', cls: 'ti ti-download', tags: 'save export' },
+            { name: 'upload', cls: 'ti ti-upload', tags: 'import send' },
+            { name: 'share', cls: 'ti ti-share', tags: 'social forward' },
+            { name: 'bookmark', cls: 'ti ti-bookmark', tags: 'save favorite' },
+            { name: 'heart', cls: 'ti ti-heart-filled', tags: 'love like' },
+            { name: 'star', cls: 'ti ti-star-filled', tags: 'favorite rating' },
+            { name: 'circle-check', cls: 'ti ti-circle-check-filled', tags: 'success done' },
+            { name: 'circle-x', cls: 'ti ti-circle-x-filled', tags: 'error fail' },
+            { name: 'info-circle', cls: 'ti ti-info-circle-filled', tags: 'info help' },
+            { name: 'alert-triangle', cls: 'ti ti-alert-triangle-filled', tags: 'warning' },
+            { name: 'bell', cls: 'ti ti-bell-filled', tags: 'notification alert' },
+            { name: 'loader', cls: 'ti ti-loader', tags: 'spinner loading' },
+            { name: 'user', cls: 'ti ti-user-filled', tags: 'person profile' },
+            { name: 'users-group', cls: 'ti ti-users-group', tags: 'people team' },
+            { name: 'user-plus', cls: 'ti ti-user-plus', tags: 'add invite' },
+            { name: 'user-shield', cls: 'ti ti-user-shield', tags: 'admin security' },
+            { name: 'file', cls: 'ti ti-file-filled', tags: 'document' },
+            { name: 'file-text', cls: 'ti ti-file-text', tags: 'document text' },
+            { name: 'file-code', cls: 'ti ti-file-code', tags: 'source programming' },
+            { name: 'folder', cls: 'ti ti-folder-filled', tags: 'directory' },
+            { name: 'folder-open', cls: 'ti ti-folder-open', tags: 'directory browse' },
+            { name: 'mail', cls: 'ti ti-mail', tags: 'email envelope' },
+            { name: 'message-circle', cls: 'ti ti-message-circle', tags: 'chat comment' },
+            { name: 'messages', cls: 'ti ti-messages', tags: 'chat conversation' },
+            { name: 'phone', cls: 'ti ti-phone', tags: 'call telephone contact' },
+            { name: 'send', cls: 'ti ti-send', tags: 'submit paper plane' },
+            { name: 'photo', cls: 'ti ti-photo', tags: 'image picture' },
+            { name: 'camera', cls: 'ti ti-camera', tags: 'photo capture' },
+            { name: 'video', cls: 'ti ti-video', tags: 'film movie' },
+            { name: 'player-play', cls: 'ti ti-player-play-filled', tags: 'start media' },
+            { name: 'player-pause', cls: 'ti ti-player-pause-filled', tags: 'stop media' },
+            { name: 'server', cls: 'ti ti-server', tags: 'hosting computer rack' },
+            { name: 'database', cls: 'ti ti-database', tags: 'storage sql' },
+            { name: 'device-desktop', cls: 'ti ti-device-desktop', tags: 'computer monitor' },
+            { name: 'device-laptop', cls: 'ti ti-device-laptop', tags: 'computer notebook' },
+            { name: 'device-mobile', cls: 'ti ti-device-mobile', tags: 'phone device' },
+            { name: 'terminal-2', cls: 'ti ti-terminal-2', tags: 'console command shell' },
+            { name: 'code', cls: 'ti ti-code', tags: 'programming html brackets' },
+            { name: 'git-branch', cls: 'ti ti-git-branch', tags: 'version control' },
+            { name: 'git-merge', cls: 'ti ti-git-merge', tags: 'version control' },
+            { name: 'git-commit', cls: 'ti ti-git-commit', tags: 'version control' },
+            { name: 'bug', cls: 'ti ti-bug', tags: 'debug error issue' },
+            { name: 'cpu', cls: 'ti ti-cpu', tags: 'processor chip microchip' },
+            { name: 'wifi', cls: 'ti ti-wifi', tags: 'wireless network signal' },
+            { name: 'network', cls: 'ti ti-network', tags: 'lan ethernet wired' },
+            { name: 'world', cls: 'ti ti-world', tags: 'globe internet web' },
+            { name: 'cloud', cls: 'ti ti-cloud', tags: 'hosting sky' },
+            { name: 'cloud-upload', cls: 'ti ti-cloud-upload', tags: 'deploy' },
+            { name: 'cloud-download', cls: 'ti ti-cloud-download', tags: 'sync' },
+            { name: 'lock', cls: 'ti ti-lock', tags: 'security password protected' },
+            { name: 'lock-open', cls: 'ti ti-lock-open', tags: 'unlock unsecure' },
+            { name: 'key', cls: 'ti ti-key', tags: 'password access auth' },
+            { name: 'shield-check', cls: 'ti ti-shield-check', tags: 'security verified' },
+            { name: 'eye', cls: 'ti ti-eye', tags: 'view visible' },
+            { name: 'eye-off', cls: 'ti ti-eye-off', tags: 'hidden invisible password' },
+            { name: 'chart-bar', cls: 'ti ti-chart-bar', tags: 'graph statistics' },
+            { name: 'chart-line', cls: 'ti ti-chart-line', tags: 'graph trend' },
+            { name: 'chart-pie', cls: 'ti ti-chart-pie', tags: 'graph statistics' },
+            { name: 'table', cls: 'ti ti-table', tags: 'grid data spreadsheet' },
+            { name: 'gauge', cls: 'ti ti-gauge', tags: 'dashboard meter speed' },
+            { name: 'calendar', cls: 'ti ti-calendar', tags: 'date schedule' },
+            { name: 'clock', cls: 'ti ti-clock', tags: 'time schedule' },
+            { name: 'map-pin', cls: 'ti ti-map-pin', tags: 'location marker' },
+            { name: 'printer', cls: 'ti ti-printer', tags: 'print output' },
+            { name: 'link', cls: 'ti ti-link', tags: 'chain url hyperlink' },
+            { name: 'tag', cls: 'ti ti-tag', tags: 'label category' },
+            { name: 'palette', cls: 'ti ti-palette', tags: 'color theme paint' },
+            { name: 'wand', cls: 'ti ti-wand', tags: 'magic sparkle ai' },
+            { name: 'robot', cls: 'ti ti-robot', tags: 'ai bot automation' },
+            { name: 'brain', cls: 'ti ti-brain', tags: 'ai intelligence' },
+            { name: 'tool', cls: 'ti ti-tool', tags: 'wrench settings config repair' },
+            { name: 'hammer', cls: 'ti ti-hammer', tags: 'build construct' },
+            { name: 'package', cls: 'ti ti-package', tags: 'box container' },
+            { name: 'truck-delivery', cls: 'ti ti-truck-delivery', tags: 'delivery shipping' },
+            { name: 'building', cls: 'ti ti-building', tags: 'office company' },
+            { name: 'building-factory', cls: 'ti ti-building-factory', tags: 'industry production' },
+            { name: 'building-store', cls: 'ti ti-building-store', tags: 'shop retail' },
+            { name: 'shopping-cart', cls: 'ti ti-shopping-cart', tags: 'buy commerce' },
+            { name: 'cash', cls: 'ti ti-cash', tags: 'money payment' },
+            { name: 'credit-card', cls: 'ti ti-credit-card', tags: 'payment charge' },
+            { name: 'bolt', cls: 'ti ti-bolt', tags: 'lightning power fast flash' },
+            { name: 'activity', cls: 'ti ti-activity', tags: 'pulse health monitor' },
+            { name: 'list-check', cls: 'ti ti-list-check', tags: 'todo tasks done' },
+            { name: 'brand-github', cls: 'ti ti-brand-github', tags: 'git social code' },
+            { name: 'brand-windows', cls: 'ti ti-brand-windows', tags: 'microsoft os' },
+            { name: 'brand-docker', cls: 'ti ti-brand-docker', tags: 'container devops' },
+            { name: 'brand-python', cls: 'ti ti-brand-python', tags: 'programming language' },
+            // Agriculture & Nature
+            { name: 'tractor', cls: 'ti ti-tractor', tags: 'agriculture farm vehicle harvest machine' },
+            { name: 'wheat', cls: 'ti ti-wheat', tags: 'agriculture grain cereal crop harvest' },
+            { name: 'plant', cls: 'ti ti-plant', tags: 'agriculture seedling grow green' },
+            { name: 'plant-2', cls: 'ti ti-plant-2', tags: 'agriculture seedling grow green' },
+            { name: 'seeding', cls: 'ti ti-seeding', tags: 'agriculture plant seed sprout grow' },
+            { name: 'leaf', cls: 'ti ti-leaf', tags: 'nature plant green eco organic' },
+            { name: 'tree', cls: 'ti ti-tree', tags: 'nature forest wood timber' },
+            { name: 'trees', cls: 'ti ti-trees', tags: 'nature forest wood timber' },
+            { name: 'flower', cls: 'ti ti-flower', tags: 'nature plant garden bloom' },
+            { name: 'cactus', cls: 'ti ti-cactus', tags: 'nature plant drought desert' },
+            { name: 'mushroom', cls: 'ti ti-mushroom', tags: 'nature food fungus agriculture' },
+            { name: 'apple', cls: 'ti ti-apple', tags: 'agriculture fruit food orchard' },
+            { name: 'lemon', cls: 'ti ti-lemon', tags: 'agriculture fruit citrus food' },
+            { name: 'cherry', cls: 'ti ti-cherry', tags: 'agriculture fruit food orchard' },
+            { name: 'meat', cls: 'ti ti-meat', tags: 'agriculture animal livestock food beef pork' },
+            { name: 'milk', cls: 'ti ti-milk', tags: 'agriculture animal dairy cow farm' },
+            { name: 'egg', cls: 'ti ti-egg', tags: 'agriculture animal poultry chicken farm' },
+            { name: 'egg-cracked', cls: 'ti ti-egg-cracked', tags: 'agriculture animal poultry chicken hatch farm' },
+            // Animals — Livestock & Farm
+            { name: 'pig', cls: 'ti ti-pig', tags: 'animal livestock farm pork swine agriculture' },
+            { name: 'pig-money', cls: 'ti ti-pig-money', tags: 'animal pig piggybank farm savings' },
+            { name: 'horse', cls: 'ti ti-horse', tags: 'animal equine farm livestock riding agriculture stallion mare' },
+            { name: 'dog', cls: 'ti ti-dog', tags: 'animal pet farm guard herding shepherd livestock' },
+            { name: 'cat', cls: 'ti ti-cat', tags: 'animal pet farm barn mouse control' },
+            // Animals — Fish & Water
+            { name: 'fish', cls: 'ti ti-fish', tags: 'animal aquaculture seafood fishing agriculture' },
+            { name: 'fish-bone', cls: 'ti ti-fish-bone', tags: 'animal aquaculture seafood fishing' },
+            { name: 'fish-hook', cls: 'ti ti-fish-hook', tags: 'animal fishing aquaculture catch' },
+            // Animals — Wild & Nature
+            { name: 'deer', cls: 'ti ti-deer', tags: 'animal wildlife nature forest rural' },
+            { name: 'bat', cls: 'ti ti-bat', tags: 'animal wildlife nocturnal nature flying' },
+            { name: 'spider', cls: 'ti ti-spider', tags: 'animal insect pest arachnid nature' },
+            { name: 'bug', cls: 'ti ti-bug', tags: 'animal insect pest agriculture crop' },
+            { name: 'butterfly', cls: 'ti ti-butterfly', tags: 'animal insect nature pollination garden' },
+            { name: 'feather', cls: 'ti ti-feather', tags: 'animal bird poultry chicken agriculture plume' },
+            { name: 'bone', cls: 'ti ti-bone', tags: 'animal dog pet farm skeleton' },
+            { name: 'paw', cls: 'ti ti-paw-filled', tags: 'animal pet footprint track farm livestock' },
+            { name: 'skull', cls: 'ti ti-skull', tags: 'animal death pest mortality farm' },
+            { name: 'sun', cls: 'ti ti-sun', tags: 'weather sunshine daylight grow agriculture' },
+            { name: 'cloud-rain', cls: 'ti ti-cloud-rain', tags: 'weather rain precipitation irrigation agriculture' },
+            { name: 'cloud-snow', cls: 'ti ti-cloud-snow', tags: 'weather cold frost freeze winter' },
+            { name: 'wind', cls: 'ti ti-wind', tags: 'weather breeze air climate' },
+            { name: 'temperature', cls: 'ti ti-temperature', tags: 'weather climate thermometer sensor' },
+            { name: 'droplet', cls: 'ti ti-droplet', tags: 'water irrigation rain moisture agriculture' },
+            { name: 'ripple', cls: 'ti ti-ripple', tags: 'water irrigation wave' },
+            { name: 'mountain', cls: 'ti ti-mountain', tags: 'landscape terrain rural countryside' },
+            { name: 'fence', cls: 'ti ti-fence', tags: 'farm field boundary enclosure paddock' },
+            { name: 'shovel', cls: 'ti ti-shovel', tags: 'tool dig soil garden agriculture' },
+            { name: 'axe', cls: 'ti ti-axe', tags: 'tool chop wood timber forestry' },
+            { name: 'ladder', cls: 'ti ti-ladder', tags: 'tool farm harvest picking orchard' },
+            { name: 'flask', cls: 'ti ti-flask', tags: 'science lab test soil analysis' },
+            { name: 'test-pipe', cls: 'ti ti-test-pipe', tags: 'science lab test soil sample' },
+            { name: 'microscope', cls: 'ti ti-microscope', tags: 'science lab analysis biology crop' },
+            { name: 'scale', cls: 'ti ti-scale', tags: 'weigh grain measure harvest balance' },
+            { name: 'ruler-2', cls: 'ti ti-ruler-2', tags: 'measure field area survey' },
+            { name: 'compass', cls: 'ti ti-compass', tags: 'navigation direction field survey' },
+            { name: 'gps', cls: 'ti ti-gps', tags: 'precision agriculture satellite field mapping' },
+            { name: 'antenna-bars-5', cls: 'ti ti-antenna-bars-5', tags: 'signal IoT sensor monitoring' },
+            { name: 'solar-panel', cls: 'ti ti-solar-panel', tags: 'energy renewable sustainable farm' },
+            { name: 'recycle', cls: 'ti ti-recycle', tags: 'sustainable green eco circular' },
+            { name: 'propeller', cls: 'ti ti-propeller', tags: 'drone aerial survey precision agriculture' },
+            { name: 'drone', cls: 'ti ti-drone', tags: 'aerial survey precision agriculture monitoring' },
+            { name: 'map-pins', cls: 'ti ti-map-pins', tags: 'field mapping location precision agriculture' },
+            { name: 'barnstar', cls: 'ti ti-star', tags: 'farm decoration rural' },
+        ]
+    }
+];
+
+function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function showToast(text) {
+    const toast = document.getElementById('toast');
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function copyToClipboard(text, cardEl) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(text);
+        const badge = cardEl.querySelector('.copied-badge');
+        if (badge) {
+            badge.classList.add('show');
+            setTimeout(() => badge.classList.remove('show'), 1500);
+        }
+    });
+}
+
+function renderLibraries(filter, libFilter) {
+    const main = document.getElementById('main');
+    main.innerHTML = '';
+    let totalVisible = 0;
+
+    for (const lib of LIBRARIES) {
+        if (libFilter !== 'all' && lib.id !== libFilter) continue;
+
+        const filteredIcons = lib.icons.filter(icon => {
+            if (!filter) return true;
+            const q = filter.toLowerCase();
+            return icon.name.includes(q) || icon.cls.toLowerCase().includes(q) || (icon.tags && icon.tags.includes(q));
+        });
+
+        if (filteredIcons.length === 0) continue;
+        totalVisible += filteredIcons.length;
+
+        const section = document.createElement('div');
+        section.className = 'library-section';
+        section.dataset.lib = lib.id;
+
+        let cdnHtml = `<code>${escapeHtml(lib.cdn)}</code>`;
+        if (lib.cdnAlt) {
+            cdnHtml += `\n\n<code style="color:#7ee787">${escapeHtml(lib.cdnAlt)}</code>`;
+        }
+
+        section.innerHTML = `
+            <div class="library-header">
+                <h2>${lib.name}</h2>
+                <span class="badge">${lib.license}</span>
+                <span class="badge">${filteredIcons.length} icons shown</span>
+                <a href="${lib.url}" target="_blank" style="color:var(--accent);font-size:0.85rem;text-decoration:none">${lib.url} ↗</a>
+            </div>
+            <div class="cdn-block">
+                <button class="copy-cdn">Copy CDN</button>
+                ${cdnHtml}
+            </div>
+            <div class="icon-grid"></div>
+        `;
+
+        const copyCdnBtn = section.querySelector('.copy-cdn');
+        copyCdnBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(lib.cdn);
+            showToast('CDN link copied!');
+        });
+
+        const grid = section.querySelector('.icon-grid');
+        for (const icon of filteredIcons) {
+            const card = document.createElement('div');
+            card.className = 'icon-card';
+            card.title = `Click to copy: ${lib.renderIcon(icon.cls)}`;
+
+            const htmlCode = lib.renderIcon(icon.cls);
+            card.innerHTML = `
+                <div class="icon-display">${htmlCode}</div>
+                <div class="icon-name">${icon.name}</div>
+                <span class="copied-badge">Copied</span>
+            `;
+            card.addEventListener('click', () => copyToClipboard(htmlCode, card));
+            grid.appendChild(card);
+        }
+
+        main.appendChild(section);
+    }
+
+    document.getElementById('counter').textContent = `${totalVisible} icons`;
+}
+
+let activeLib = 'all';
+
+document.querySelectorAll('.lib-tab:not(.tag-filter)').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.lib-tab:not(.tag-filter)').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tag-filter').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeLib = tab.dataset.lib;
+        document.getElementById('search').value = '';
+        renderLibraries('', activeLib);
+    });
+});
+
+document.querySelectorAll('.tag-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const isActive = btn.classList.contains('active');
+        document.querySelectorAll('.tag-filter').forEach(t => t.classList.remove('active'));
+        if (!isActive) {
+            btn.classList.add('active');
+            document.getElementById('search').value = btn.dataset.tag;
+            renderLibraries(btn.dataset.tag, activeLib);
+        } else {
+            document.getElementById('search').value = '';
+            renderLibraries('', activeLib);
+        }
+    });
+});
+
+let debounceTimer;
+document.getElementById('search').addEventListener('input', (e) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        renderLibraries(e.target.value, activeLib);
+    }, 150);
+});
+
+renderLibraries('', 'all');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,745 @@
+﻿{
+  "program": "WKDREGDAG2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:16:59",
+  "variableFilenames": {
+    "ALFRAST": {
+      "logicalName": "ALFRAST",
+      "physicalVariable": "W-INTREQ-ST-FIL",
+      "basePath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\",
+      "filenamePattern": "FK-{avdnr}-{date}.fin",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\FK-{avdnr}-{date}.fin",
+      "description": "File assigned to W-INTREQ-ST-FIL for ALFRAST",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:15:53"
+    },
+    "ALFRA": {
+      "logicalName": "ALFRA",
+      "physicalVariable": "W-INTREQ-FIL",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\",
+      "filenamePattern": "<userid>-<date>.FNK",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\<dynamic>.FNK",
+      "description": "File for framing incoming order for ALFRACIM with timestamp",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:15:57"
+    },
+    "REXCEL": {
+      "logicalName": "REXCEL",
+      "physicalVariable": "ww-rex-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Filename constructed using userid and date, saved as CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:01"
+    },
+    "TM1FIL": {
+      "logicalName": "TM1FIL",
+      "physicalVariable": "ww-tm1-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "WW-tm1-fil is constructed using userid and date, with a .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:04"
+    },
+    "TM2FIL": {
+      "logicalName": "TM2FIL",
+      "physicalVariable": "ww-tm2-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using userid and date, likely for CSV files",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:08"
+    },
+    "PRTFIL": {
+      "logicalName": "PRTFIL",
+      "physicalVariable": "ww-prt-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "File path constructed using userid and date, ending with .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:11"
+    },
+    "FULLMAKT": {
+      "logicalName": "FULLMAKT",
+      "physicalVariable": "WW-FULLMAKT",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPDATA\\TILFINN\\",
+      "filenamePattern": "FK-{avdnr}-{date}.fin",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPDATA\\TILFINN\\FK-{avdnr}-{date}.fin",
+      "description": "File path for storing notes",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:15"
+    },
+    "MOTTAKER": {
+      "logicalName": "MOTTAKER",
+      "physicalVariable": "WW-MOTTAKER",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WW-MOTTAKER is constructed using a pattern that includes userid and date, resulting in a filename ending with .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:19"
+    },
+    "VALUTA": {
+      "logicalName": "VALUTA",
+      "physicalVariable": "WW-VALUTA",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File name is constructed using <userid> and date, with a .CSV extension.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:22"
+    },
+    "VISMA": {
+      "logicalName": "VISMA",
+      "physicalVariable": "WW-VAL-VISMA",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Variable WW-VAL-VISMA is constructed using userid and date, resulting in a filename pattern of <userid>-<date>.CSV. The base path is //SERVER/SHARE/.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:26"
+    },
+    "ANALYCEN": {
+      "logicalName": "ANALYCEN",
+      "physicalVariable": "W-ANALYCEN-NAVN-ny",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "Filename constructed using userid and date, saved as CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:30"
+    },
+    "BINIR": {
+      "logicalName": "BINIR",
+      "physicalVariable": "W-BINIR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:33"
+    },
+    "PREDIKTOR": {
+      "logicalName": "PREDIKTOR",
+      "physicalVariable": "W-PREDIKTOR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Filename W-PREDIKTOR-NAVN is constructed using userid and date, with a .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:37"
+    },
+    "PREDIKTOR2": {
+      "logicalName": "PREDIKTOR2",
+      "physicalVariable": "W-PREDIKTOR2-NAVN",
+      "basePath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\",
+      "filenamePattern": "FK-{avdnr}-{date}.fin",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\FK-20230401-20230401235959.fin",
+      "description": "File path constructed from dynamic values",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:42"
+    },
+    "OPTILON": {
+      "logicalName": "OPTILON",
+      "physicalVariable": "W-OPTILON-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "WPABEKR batch program constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:45"
+    },
+    "MARKED": {
+      "logicalName": "MARKED",
+      "physicalVariable": "W-MARKED-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:49"
+    },
+    "SAMLEFIL": {
+      "logicalName": "SAMLEFIL",
+      "physicalVariable": "ww-samle-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Construction of the filename involves userid and date, with a .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:52"
+    },
+    "SAMLEFIL2": {
+      "logicalName": "SAMLEFIL2",
+      "physicalVariable": "ww-samle-fil2",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:55"
+    },
+    "KUNDEFIL": {
+      "logicalName": "KUNDEFIL",
+      "physicalVariable": "ww-kat-med-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "KUNDEFIL filename constructed from userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:16:59"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "WKDREGDAG2",
+    "program": "WKDREGDAG2",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KLHSLGT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "WPAAVD2.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFORF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEPR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TILL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASONO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KALK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "MTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHPRBR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BMIV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "KRHLST2.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAHCTV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "NETTSALG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REXCEL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TM1FIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TM2FIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRTFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ALFRA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FEILFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FULLMAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUTA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VISMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RECEPT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANALYCEN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BINIR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PREDIKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PREDIKTOR2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTILON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MARKED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SAMLEFIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SAMLEFIL2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDEFIL",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "SQLDB2",
+      "SQLEXEC",
+      "GMACURT",
+      "D01B912",
+      "GMAUTILS"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-NOTES-FIL",
+        "physicalName": "MASKDATA.TXT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\MASKDATA.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "AABKV030.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKV030.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "ALFRAST",
+        "physicalName": "W-INTREQ-ST-FIL",
+        "path": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\FK-{avdnr}-{date}.fin",
+        "filenamePattern": "FK-{avdnr}-{date}.fin",
+        "filenameDescription": "File assigned to W-INTREQ-ST-FIL for ALFRAST"
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "W-INTREQ-FIL",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\<dynamic>.FNK",
+        "filenamePattern": "<userid>-<date>.FNK",
+        "filenameDescription": "File for framing incoming order for ALFRACIM with timestamp"
+      },
+      {
+        "logicalName": "IAKT-FILE",
+        "physicalName": "OKBLATF.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBLATF.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "REXCEL",
+        "physicalName": "ww-rex-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Filename constructed using userid and date, saved as CSV"
+      },
+      {
+        "logicalName": "TM1FIL",
+        "physicalName": "ww-tm1-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-tm1-fil is constructed using userid and date, with a .CSV extension"
+      },
+      {
+        "logicalName": "TM2FIL",
+        "physicalName": "ww-tm2-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date, likely for CSV files"
+      },
+      {
+        "logicalName": "PRTFIL",
+        "physicalName": "ww-prt-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path constructed using userid and date, ending with .CSV"
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FULLMAKT",
+        "physicalName": "WW-FULLMAKT",
+        "path": "\\\\DEDGE.FK.NO\\ERPDATA\\TILFINN\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPDATA\\TILFINN\\FK-{avdnr}-{date}.fin",
+        "filenamePattern": "FK-{avdnr}-{date}.fin",
+        "filenameDescription": "File path for storing notes"
+      },
+      {
+        "logicalName": "MOTTAKER",
+        "physicalName": "WW-MOTTAKER",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WW-MOTTAKER is constructed using a pattern that includes userid and date, resulting in a filename ending with .CSV"
+      },
+      {
+        "logicalName": "VALUTA",
+        "physicalName": "WW-VALUTA",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File name is constructed using <userid> and date, with a .CSV extension."
+      },
+      {
+        "logicalName": "VISMA",
+        "physicalName": "WW-VAL-VISMA",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Variable WW-VAL-VISMA is constructed using userid and date, resulting in a filename pattern of <userid>-<date>.CSV. The base path is //SERVER/SHARE/."
+      },
+      {
+        "logicalName": "RECEPT",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "ANALYCEN",
+        "physicalName": "W-ANALYCEN-NAVN-ny",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Filename constructed using userid and date, saved as CSV"
+      },
+      {
+        "logicalName": "BINIR",
+        "physicalName": "W-BINIR-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date"
+      },
+      {
+        "logicalName": "PREDIKTOR",
+        "physicalName": "W-PREDIKTOR-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Filename W-PREDIKTOR-NAVN is constructed using userid and date, with a .CSV extension"
+      },
+      {
+        "logicalName": "PREDIKTOR2",
+        "physicalName": "W-PREDIKTOR2-NAVN",
+        "path": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpdata\\tilfinn\\FK-20230401-20230401235959.fin",
+        "filenamePattern": "FK-{avdnr}-{date}.fin",
+        "filenameDescription": "File path constructed from dynamic values"
+      },
+      {
+        "logicalName": "OPTILON",
+        "physicalName": "W-OPTILON-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "WPABEKR batch program constructs filename using userid and date"
+      },
+      {
+        "logicalName": "MARKED",
+        "physicalName": "W-MARKED-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "SAMLEFIL",
+        "physicalName": "ww-samle-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Construction of the filename involves userid and date, with a .CSV extension"
+      },
+      {
+        "logicalName": "SAMLEFIL2",
+        "physicalName": "ww-samle-fil2",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date"
+      },
+      {
+        "logicalName": "KUNDEFIL",
+        "physicalName": "ww-kat-med-fil",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "KUNDEFIL filename constructed from userid and date"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:16:59"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "tableName": "P_AVTALETILLEGG",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Avtale-/kontr.till - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KONTRAKT_TYPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Må finnes i DBM.KD_KONTRAKT_TYPE"
+      },
+      {
+        "colNo": 2,
+        "name": "ANLEGGNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "SLAG",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "ART",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "SORT",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "OKOLOGISK",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J=Ja, N=Nei(dvs.konvensjonelt korn), B=Begge"
+      },
+      {
+        "colNo": 7,
+        "name": "FOR_MAT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "F=For, M=Mat, B=Begge"
+      },
+      {
+        "colNo": 8,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "TIL_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "ETTERBETALING",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J/N Ved J=Ja kan partier med denne avtale få sats for spesialkontrakt i tillegg"
+      },
+      {
+        "colNo": 13,
+        "name": "BELOP_INNFRAKT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "SPESIALKONTRAKT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "TEKST",
+        "typeName": "CHARACTER",
+        "length": 40,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Tekst skrives på oppgjørsbrev"
+      },
+      {
+        "colNo": 16,
+        "name": "BASIS_PREBASIS",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J = gir mulighet for annen analysepris for såvare"
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_KONTRAKT_TYPE",
+        "childColumn": "KONTRAKT_TYPE",
+        "parentTable": "KD_KONTRAKT_TYPE",
+        "parentSchema": "DBM",
+        "parentColumn": "NR"
+      },
+      {
+        "constraintName": "FK_SLAG",
+        "childColumn": "SLAG",
+        "parentTable": "SLAG",
+        "parentSchema": "DBM",
+        "parentColumn": "SLAG"
+      }
+    ]
+  }
+}

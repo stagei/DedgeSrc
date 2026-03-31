@@ -1,0 +1,58 @@
+---
+description: Import service and file importer patterns
+globs: src/GenericLogHandler.ImportService/**/*.cs
+alwaysApply: false
+---
+
+# Import Service Patterns
+
+## Adding New Importer Types
+
+1. Implement `ILogImporter` interface in `Importers/`
+2. Register in `ImportService.CreateImporter()` switch
+
+```csharp
+private ILogImporter CreateImporter(ImportSource source) => source.Type.ToLower() switch
+{
+    "file" or "json" or "xml" or "log" => new FileImporter(_loggerFactory.CreateLogger<FileImporter>()),
+    "database" => new DatabaseImporter(_loggerFactory.CreateLogger<DatabaseImporter>()),
+    "eventlog" => new EventLogImporter(_loggerFactory.CreateLogger<EventLogImporter>()),
+    "mynewtype" => new MyNewImporter(...),  // Add here
+    _ => throw new NotSupportedException($"Unknown source type: {source.Type}")
+};
+```
+
+## Append-Only File Processing
+
+For continuously growing log files, set `IsAppendOnly: true` in config:
+
+```json
+{
+  "Config": {
+    "Path": "\\\\server\\logs\\*.log",
+    "IsAppendOnly": true
+  }
+}
+```
+
+**Behavior:**
+- Tracks `FileCreationDate` and `LastProcessedLine` in `import_status`
+- Only processes new lines on each run
+- Detects file rotation via creation date change → resets to line 0
+
+## Message Extractors
+
+Extract business identifiers from log messages via regex:
+
+```json
+"MessageExtractors": [
+  {
+    "Name": "ordrenr",
+    "Pattern": "(?:ordrenr|ordrenummer)[:\\s=]+(?<value>\\d+)",
+    "TargetColumn": "Ordrenr",
+    "IgnoreCase": true
+  }
+]
+```
+
+Target columns: `AlertId`, `Ordrenr`, `Avdnr`, `JobName`

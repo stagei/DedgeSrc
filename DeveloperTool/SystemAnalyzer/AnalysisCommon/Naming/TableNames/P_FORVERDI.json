@@ -1,0 +1,58 @@
+{
+  "tableName": "P_FORVERDI",
+  "futureName": "ForverdiTillegg",
+  "namespace": "FinancialTransactions",
+  "columns": [
+    {
+      "name": "KornHandler",
+      "futureName": "KornHandlerCode",
+      "description": "Korn handler code",
+      "foreignKey": null
+    },
+    {
+      "name": "Slag",
+      "futureName": "SlagCode",
+      "description": "Type of product or material",
+      "foreignKey": "FK_SLAG"
+    },
+    {
+      "name": "FraDato",
+      "futureName": "EffectiveDate",
+      "description": "Effective date for the valuation",
+      "foreignKey": null
+    },
+    {
+      "name": "Sats",
+      "futureName": "Rate",
+      "description": "Rate or percentage amount",
+      "foreignKey": null
+    },
+    {
+      "name": "Tekst",
+      "futureName": "Description",
+      "description": "Detailed description of the valuation",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user or entity",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the valuation was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "GenLnr",
+      "futureName": "GeneralLineNumber",
+      "description": "General line number for the valuation record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:04:35"
+}

@@ -1,0 +1,217 @@
+{
+  "program": "GMAPATH",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T18:52:58",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMAPATH",
+    "program": "GMAPATH",
+    "copyElements": [
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMARMSPC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMAPLID.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "K_ORDREHODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASLEEP",
+      "VENT_SEK",
+      "GMFTRAP",
+      "GMACURT",
+      "GMACOCO",
+      "GMACNCT",
+      "GMASQLB",
+      "GMAPRTR",
+      "GMAPATH",
+      "GMAFILE",
+      "OAZPR27",
+      "D01B912",
+      "GMFFELL"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<currentDate>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Path and filename pattern for printing file"
+      }
+    ],
+    "extractedAt": "2026-03-28T18:52:58"
+  },
+  "variableFilenames": {
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<currentDate>.CSV",
+      "description": "Path and filename pattern for printing file",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:52:58"
+    }
+  }
+}

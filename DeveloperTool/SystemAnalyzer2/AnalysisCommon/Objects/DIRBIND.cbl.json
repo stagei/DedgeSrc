@@ -1,0 +1,457 @@
+{
+  "program": "DIRBIND",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:06:04",
+  "variableFilenames": {
+    "INNFIL-OLD": {
+      "logicalName": "INNFIL-OLD",
+      "physicalVariable": "WW-FILNAVN-OLD",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date, but specific userid and date format not determined.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:06:01"
+    },
+    "INNFIL-NEW": {
+      "logicalName": "INNFIL-NEW",
+      "physicalVariable": "WW-FILNAVN-NEW",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current_date>.CSV",
+      "description": "Constructs filename using userid and current date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:06:04"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "DIRBIND",
+    "program": "DIRBIND",
+    "copyElements": [
+      {
+        "name": "LNACONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNATDEFS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNAFKDE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAHVETM.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TES.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMASONE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OIHIKTR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KDL1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL4.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDK1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KKDY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDV1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDV4.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSFVE11.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "FAFFASC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAHRAGR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "PASI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHFLYB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "PAPA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKERNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKMOTTAKERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "RKVFLYB",
+      "GMAPRTR",
+      "GMACURT",
+      "SQLDBS",
+      "SQLEXEC"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABPIMPD.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPIMPD.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "UT-PIM-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INNFIL-OLD",
+        "physicalName": "WW-FILNAVN-OLD",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date, but specific userid and date format not determined."
+      },
+      {
+        "logicalName": "INNFIL-NEW",
+        "physicalName": "WW-FILNAVN-NEW",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current_date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and current date"
+      },
+      {
+        "logicalName": "UT-JDPL-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-DIFF-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:06:04"
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "program": "GMAUTILS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:33:00",
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "Rapport filename constructed from userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:32:57"
+    },
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path for PRINTFIL constructed from userid and date with .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:33:00"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMAUTILS",
+    "program": "GMAUTILS",
+    "copyElements": [
+      {
+        "name": "GMAUTILS.DLL",
+        "type": "dll"
+      },
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMARANDO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMASQLL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMARMSPC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BLFVBVI.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASEMA",
+      "GMACURT",
+      "GMACOCO",
+      "GMACNCT",
+      "GMALSQL",
+      "CC1",
+      "GMFFELL",
+      "GMASQLB",
+      "GMAPRTR",
+      "GMAOSNT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "VARSL-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Rapport filename constructed from userid and date"
+      },
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path for PRINTFIL constructed from userid and date with .CSV extension"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:33:00"
+  }
+}

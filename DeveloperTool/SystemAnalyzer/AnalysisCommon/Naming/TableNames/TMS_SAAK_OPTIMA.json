@@ -1,0 +1,130 @@
+{
+  "tableName": "TMS_SAAK_OPTIMA",
+  "futureName": "OptimaOrderHeader",
+  "namespace": "DBM.Orders",
+  "columns": [
+    {
+      "name": "RAAV_PARTINR",
+      "futureName": "RawMaterialPartNumber",
+      "description": "The unique part number for raw material",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERANSENR",
+      "futureName": "SupplierNumber",
+      "description": "The unique supplier identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "EXTERNALID",
+      "futureName": "ExternalId",
+      "description": "A unique external order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TOURID",
+      "futureName": "TourId",
+      "description": "The unique tour identifier for the shipment",
+      "foreignKey": null
+    },
+    {
+      "name": "SHIPMENTID",
+      "futureName": "ShipmentId",
+      "description": "A unique identifier for each shipment within a tour",
+      "foreignKey": null
+    },
+    {
+      "name": "LOADNUMBER",
+      "futureName": "LoadNumber",
+      "description": "The unique load number for the shipment",
+      "foreignKey": "OptimaOrderHeader.LoadNumber -> TMS_Innkj_Optima.LoadNumber"
+    },
+    {
+      "name": "BILNR",
+      "futureName": "VehicleNumber",
+      "description": "The vehicle number associated with the shipment",
+      "foreignKey": null
+    },
+    {
+      "name": "KJOREDATO",
+      "futureName": "DrivingDate",
+      "description": "The date when the driving operation was performed",
+      "foreignKey": "OptimaOrderHeader.Kjoredato -> KD_Lev_Fra_Fabrikk.Kjoredato"
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "The current status of the shipment",
+      "foreignKey": null
+    },
+    {
+      "name": "SENDT_ANTALL",
+      "futureName": "SentQuantity",
+      "description": "The quantity sent or shipped",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANLAGT_ANTALL",
+      "futureName": "PlannedQuantity",
+      "description": "The planned quantity for the shipment",
+      "foreignKey": "OptimaOrderHeader.PlanlagtAntall -> TMS_Innkj_Optima.PlanlagtAntall"
+    },
+    {
+      "name": "INNVEID_ANTALL",
+      "futureName": "ReceivedQuantity",
+      "description": "The quantity received or recorded",
+      "foreignKey": "OptimaOrderHeader.InnveidAntall -> TMS_Innkj_Optima.InnveidAntall"
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "FromDate",
+      "description": "The start date of the shipment period",
+      "foreignKey": null
+    },
+    {
+      "name": "TIL_DATO",
+      "futureName": "ToDate",
+      "description": "The end date of the shipment period",
+      "foreignKey": "OptimaOrderHeader.TilDato -> K_Grof_Plan.TilDato"
+    },
+    {
+      "name": "TRANSP_MERKNAD",
+      "futureName": "TransportNote",
+      "description": "Any transport-related notes or instructions",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the event or operation",
+      "foreignKey": null
+    },
+    {
+      "name": "TPKT_OVERF_AGRIK",
+      "futureName": "AgrikTransferredAt",
+      "description": "Timestamp for agricultural product transfer",
+      "foreignKey": "OptimaOrderHeader.TpktOverf_Agrik -> K_Planl_Kjort.TpktOverf_Agrik"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The unique identifier for the user or operator",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "The department number associated with the shipment",
+      "foreignKey": "OptimaOrderHeader.Avdnr -> A_Besthode.Avdnr"
+    },
+    {
+      "name": "LOEPENR",
+      "futureName": "LotNumber",
+      "description": "The unique lot or batch number for the shipment",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:06:07"
+}

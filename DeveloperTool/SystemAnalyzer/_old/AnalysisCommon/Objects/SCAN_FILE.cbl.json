@@ -1,0 +1,566 @@
+{
+  "program": "SCAN_FILE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:32:31",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:11"
+    },
+    "IVKT-FIL": {
+      "logicalName": "IVKT-FIL",
+      "physicalVariable": "WW-IVKT-FIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:14"
+    },
+    "HIST-FILE": {
+      "logicalName": "HIST-FILE",
+      "physicalVariable": "W-HIST-FILENAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Constructs filenames with user ID and date, then appends .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:18"
+    },
+    "AVVIK-FIL": {
+      "logicalName": "AVVIK-FIL",
+      "physicalVariable": "ww-filnavn14",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:21"
+    },
+    "PHDI-FIL": {
+      "logicalName": "PHDI-FIL",
+      "physicalVariable": "ww-filnavn11",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "filename constructed from userid and date, dynamic part of the filename is not specified in the provided source",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:25"
+    },
+    "PRVA-FIL": {
+      "logicalName": "PRVA-FIL",
+      "physicalVariable": "ww-filnavn12",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": null,
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:28"
+    },
+    "RPVA-FIL": {
+      "logicalName": "RPVA-FIL",
+      "physicalVariable": "ww-filnavn13",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Userid and date based filename pattern for CSV files",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:32:31"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "SCAN_FILE",
+    "program": "SCAN_FILE",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "IVKT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TIL",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "D4AR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4VE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4PR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4AP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4BA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4SL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OIHIKTR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OAZPR13.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR21.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GXAFVMO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHANKO.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSAKSJONSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_ARTICLE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_VENDPRODNUMB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_APPROVVEND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCTCAT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_BARCODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "APIGUI",
+      "AAADATO",
+      "GMSTART",
+      "ECBSOUP",
+      "KTSPARK",
+      "OPBINA1",
+      "D3BCDSIN",
+      "XXBUTOMC",
+      "D3BVOPLE",
+      "D3BKATR2",
+      "OIHRABE",
+      "OKHVIIL",
+      "AABENHH2",
+      "BLAVIUL",
+      "GMFLESO",
+      "PABVEPR",
+      "TIL_MONITOR",
+      "BEHANDLE_FILE",
+      "SJEKK_RKFILE",
+      "DELOPP_ANALYCEN",
+      "DELOPP_SOFTKORN",
+      "DELOPP_LABNETT",
+      "SQLEXEC",
+      "SQLDBS",
+      "GMASQLB",
+      "GMACOCO",
+      "GMAPATH",
+      "GMADIR"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "IVKT-FIL",
+        "physicalName": "WW-IVKT-FIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "AMUP-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FILER-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "HIST-FILE",
+        "physicalName": "W-HIST-FILENAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filenames with user ID and date, then appends .CSV extension"
+      },
+      {
+        "logicalName": "FEIL-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "SAMLE-FILE",
+        "physicalName": "ALFRA.DAT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ALFRA.DAT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "STORK-FILE",
+        "physicalName": "STORK.AKK",
+        "path": "H:\\FORSERV",
+        "fullPath": "H:\\FORSERV\\STORK.AKK",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "ww-filnavn14",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "PHDI-FIL",
+        "physicalName": "ww-filnavn11",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "filename constructed from userid and date, dynamic part of the filename is not specified in the provided source"
+      },
+      {
+        "logicalName": "PRVA-FIL",
+        "physicalName": "ww-filnavn12",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      },
+      {
+        "logicalName": "RPVA-FIL",
+        "physicalName": "ww-filnavn13",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Userid and date based filename pattern for CSV files"
+      }
+    ],
+    "extractedAt": "2026-03-28T20:32:31"
+  }
+}

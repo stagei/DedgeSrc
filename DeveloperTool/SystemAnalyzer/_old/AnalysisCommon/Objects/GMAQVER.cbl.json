@@ -1,0 +1,491 @@
+﻿{
+  "program": "GMAQVER",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:07:44",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GMAQVER",
+    "program": "GMAQVER",
+    "copyElements": [
+      {
+        "name": "GMARANDO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLCA.",
+        "type": "copybook"
+      },
+      {
+        "name": "TRANSP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADBBA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "XXASMSWS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASQLL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FILEPATH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREMAAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PAKN_KVANT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "INNFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UTFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LOGGFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RCFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PFILE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KFILE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMASQLD",
+      "GMACURT",
+      "GMACOCO",
+      "GMALSQL",
+      "CC1",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMASQLB",
+      "GMACNCT",
+      "GMAPRTR",
+      "GMAOSNT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "VARSL-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.RPT",
+        "filenamePattern": "<userid>-<date>.RPT",
+        "filenameDescription": "File output to printer spool"
+      },
+      {
+        "logicalName": "UT-LOGG-FIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\DEDGE.fk.no\\fkkobt\\logg\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\fkkobt\\logg\\<userid>-<date>.RPT",
+        "filenamePattern": "<userid>-<date>.RPT",
+        "filenameDescription": "Report output to log directory"
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INNFILE",
+        "physicalName": "INFIL",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Log file for SQL errors"
+      },
+      {
+        "logicalName": "UTFILE",
+        "physicalName": "UTFIL",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Log file with dynamic userid and date"
+      },
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<userid>-YYYYMMDD.csv",
+        "filenamePattern": "<userid>-<date>.csv",
+        "filenameDescription": "Logs SQL errors with user ID and date"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Log file with user ID and date"
+      },
+      {
+        "logicalName": "PFILE",
+        "physicalName": "PFILE-NAVN",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<userid>-YYYYMMDD.txt",
+        "filenamePattern": "<userid>-<date>.txt",
+        "filenameDescription": "Log file for SQL errors"
+      },
+      {
+        "logicalName": "KFILE",
+        "physicalName": "KFILE-NAVN",
+        "path": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Log file path constructed from dynamic parts"
+      },
+      {
+        "logicalName": "PARAM",
+        "physicalName": "PARFIL",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.RPT",
+        "filenamePattern": "<userid>-<date>.RPT",
+        "filenameDescription": "Utskrift av fraktbrev for palleleveranser"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:07:44"
+  },
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.RPT",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.RPT",
+      "description": "File output to printer spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:12"
+    },
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\DEDGE.fk.no\\fkkobt\\logg\\",
+      "filenamePattern": "<userid>-<date>.RPT",
+      "resolvedPath": "\\\\DEDGE.fk.no\\fkkobt\\logg\\<userid>-<date>.RPT",
+      "description": "Report output to log directory",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:16"
+    },
+    "INNFILE": {
+      "logicalName": "INNFILE",
+      "physicalVariable": "INFIL",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+      "description": "Log file for SQL errors",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:20"
+    },
+    "UTFILE": {
+      "logicalName": "UTFILE",
+      "physicalVariable": "UTFIL",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+      "description": "Log file with dynamic userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:24"
+    },
+    "LOGGFILE": {
+      "logicalName": "LOGGFILE",
+      "physicalVariable": "LOGGFIL",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.csv",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<userid>-YYYYMMDD.csv",
+      "description": "Logs SQL errors with user ID and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:28"
+    },
+    "RCFILE": {
+      "logicalName": "RCFILE",
+      "physicalVariable": "RCFIL",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+      "description": "Log file with user ID and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:32"
+    },
+    "PFILE": {
+      "logicalName": "PFILE",
+      "physicalVariable": "PFILE-NAVN",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.txt",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<userid>-YYYYMMDD.txt",
+      "description": "Log file for SQL errors",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:36"
+    },
+    "KFILE": {
+      "logicalName": "KFILE",
+      "physicalVariable": "KFILE-NAVN",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<dynamic>.CSV",
+      "description": "Log file path constructed from dynamic parts",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:39"
+    },
+    "PARAM": {
+      "logicalName": "PARAM",
+      "physicalVariable": "PARFIL",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "<userid>-<date>.RPT",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.RPT",
+      "description": "Utskrift av fraktbrev for palleleveranser",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:07:44"
+    }
+  }
+}

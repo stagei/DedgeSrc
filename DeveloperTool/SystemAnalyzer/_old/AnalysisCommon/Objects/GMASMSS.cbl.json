@@ -1,0 +1,226 @@
+{
+  "program": "GMASMSS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-29T15:38:37",
+  "extraction": {
+    "sourceHash": "sha256:6022586cd45506fc6ee3c6cb81c07a666cf01774682f292705006b7ba8ca0dec",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASMSS.cbl",
+    "actualName": "GMASMSS",
+    "program": "GMASMSS",
+    "copyElements": [
+      {
+        "name": "XXASMSWS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SMSL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SMSA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "SMS_LOGG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "XXASMSWS",
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-29T15:38:37"
+  },
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File VARSL-FIL uses a dynamic filename pattern based on userid and date.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:19"
+    },
+    "INNFILE": {
+      "logicalName": "INNFILE",
+      "physicalVariable": "INFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20230106.CSV",
+      "description": "Starter Access-bildet for valg av rapport",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:23"
+    },
+    "UTFILE": {
+      "logicalName": "UTFILE",
+      "physicalVariable": "UTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:26"
+    },
+    "LOGGFILE": {
+      "logicalName": "LOGGFILE",
+      "physicalVariable": "LOGGFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-20230106.CSV",
+      "description": "Log file constructed with userid and date, defaulting to a specific date for demonstration",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:30"
+    },
+    "RCFILE": {
+      "logicalName": "RCFILE",
+      "physicalVariable": "RCFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:34"
+    },
+    "ANALYCEN": {
+      "logicalName": "ANALYCEN",
+      "physicalVariable": "W-ANALYCEN-NAVN-ny",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-160322.csv",
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:37"
+    },
+    "BINIR": {
+      "logicalName": "BINIR",
+      "physicalVariable": "W-BINIR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:41"
+    },
+    "PREDIKTOR": {
+      "logicalName": "PREDIKTOR",
+      "physicalVariable": "W-PREDIKTOR-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs dynamic filenames based on user ID and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:44"
+    },
+    "PREDIKTOR2": {
+      "logicalName": "PREDIKTOR2",
+      "physicalVariable": "W-PREDIKTOR2-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:48"
+    },
+    "OPTILON": {
+      "logicalName": "OPTILON",
+      "physicalVariable": "W-OPTILON-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:51"
+    },
+    "MARKED": {
+      "logicalName": "MARKED",
+      "physicalVariable": "W-MARKED-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Rapport filename constructed with userid and date, typically in CSV format",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:55"
+    },
+    "PFILE": {
+      "logicalName": "PFILE",
+      "physicalVariable": "PFILE-NAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Filename constructed from userid and date, ending with .CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:08:58"
+    },
+    "KFILE": {
+      "logicalName": "KFILE",
+      "physicalVariable": "KFILE-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Short description of the file path construction for KFILE-NAVN",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:09:02"
+    },
+    "SAMLEFIL": {
+      "logicalName": "SAMLEFIL",
+      "physicalVariable": "ww-samle-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Rapport filename constructed with userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:09:05"
+    },
+    "SAMLEFIL2": {
+      "logicalName": "SAMLEFIL2",
+      "physicalVariable": "ww-samle-fil2",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "null",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:09:09"
+    },
+    "KUNDEFIL": {
+      "logicalName": "KUNDEFIL",
+      "physicalVariable": "ww-kat-med-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-160322.CSV",
+      "description": "Program GMAACC2 uses a filename pattern based on user ID and date, with the default date being 160322.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:09:13"
+    }
+  }
+}

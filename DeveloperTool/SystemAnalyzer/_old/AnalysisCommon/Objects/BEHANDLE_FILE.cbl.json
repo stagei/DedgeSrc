@@ -1,0 +1,224 @@
+{
+  "program": "BEHANDLE_FILE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T18:50:48",
+  "variableFilenames": {
+    "UT-FIL1": {
+      "logicalName": "UT-FIL1",
+      "physicalVariable": "WW-FILNAVN1",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File UT-FIL1 is constructed using WW-FILNAVN1, which appears to be a dynamic userid and date combination with a .CSV extension.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:50:44"
+    },
+    "HIST-FILE": {
+      "logicalName": "HIST-FILE",
+      "physicalVariable": "W-HIST-FILENAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using userid and date, then appends .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:50:48"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "BEHANDLE_FILE",
+    "program": "BEHANDLE_FILE",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNACONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNATDEFS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNAFKDE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TIL",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [],
+    "callTargets": [
+      "GMAQVER",
+      "AAADATO",
+      "DOHBYTT",
+      "DOHCHK",
+      "DOHSCAN",
+      "TPHSCAN",
+      "GMAPLDG",
+      "GMASLEEP",
+      "VENT_SEK",
+      "GMFTRAP",
+      "SQLDBS",
+      "SQLEXEC",
+      "TIL_MONITOR",
+      "BEHANDLE_FILE",
+      "SJEKK_RKFILE",
+      "DELOPP_ANALYCEN",
+      "DELOPP_SOFTKORN",
+      "DELOPP_LABNETT",
+      "FILER_FINNES",
+      "GMACOCO",
+      "GMASQLB",
+      "DATANAME"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "REBPROLO.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\REBPROLO.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL1",
+        "physicalName": "WW-FILNAVN1",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File UT-FIL1 is constructed using WW-FILNAVN1, which appears to be a dynamic userid and date combination with a .CSV extension."
+      },
+      {
+        "logicalName": "AMUP-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FILER-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "HIST-FILE",
+        "physicalName": "W-HIST-FILENAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date, then appends .CSV extension"
+      },
+      {
+        "logicalName": "FEIL-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "SAMLE-FILE",
+        "physicalName": "ALFRA.DAT",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ALFRA.DAT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "STORK-FILE",
+        "physicalName": "STORK.AKK",
+        "path": "H:\\FORSERV",
+        "fullPath": "H:\\FORSERV\\STORK.AKK",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T18:50:48"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "program": "AABPOST1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:11:58",
+  "extraction": {
+    "sourceHash": "sha256:9c904b62786b6ef294ec513b75142244b521a9b0da40487f9443a540744728c7",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABPOST1.CBL",
+    "actualName": "AABPOST1",
+    "program": "AABPOST1",
+    "copyElements": [
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PORE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB_2024",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REGION",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "POSTNR_REGION",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB_2024",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB_2024",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NYTT_KOMMUNENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KOMMUNE_REFORM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SEMA",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "IF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LOG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMASEMA",
+      "GMALAKT",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "AABPOST1.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPOST1.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "POSTFIL",
+        "physicalName": "POSTNR2024.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\POSTNR2024.CSV",
+        "assignType": "literal",
+        "operations": [
+          "WRITE",
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "POST-BCK",
+        "physicalName": "POSTNR2024.BCK",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\POSTNR2024.BCK",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "AABPOST1.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABPOST1.CSV",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:11:58"
+  }
+}

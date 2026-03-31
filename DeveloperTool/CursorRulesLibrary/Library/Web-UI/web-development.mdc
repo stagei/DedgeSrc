@@ -1,0 +1,48 @@
+---
+description: Web development standards for HTML/CSS/JS
+globs: ["*.html", "*.css", "*.js"]
+alwaysApply: false
+---
+
+# Web Development Standards
+
+When working with HTML/CSS/JavaScript web pages:
+
+## Local Web Server
+
+```powershell
+# Kill existing process on port 8088
+$process = Get-NetTCPConnection -LocalPort 8088 -ErrorAction SilentlyContinue | 
+    Select-Object -ExpandProperty OwningProcess -Unique
+if ($process) { Stop-Process -Id $process -Force }
+
+# Start web server
+cd $outputFolder
+python -m http.server 8088
+```
+
+**Default port:** `8088` → `http://127.0.0.1:8088/`
+
+## Cache Busting
+
+1. Restart web server
+2. Add query strings: `script.js?v=20260122`
+3. Force refresh: Ctrl+Shift+R
+
+## Testing Checklist
+
+- [ ] Web server running
+- [ ] Files copied to output folder
+- [ ] Browser cache cleared
+- [ ] All functionality works
+- [ ] Theme switching works
+- [ ] No console errors
+
+## Web Data Extraction Automation
+
+When extracting structured data from websites:
+
+1. **Search** for the data source using site-specific searches
+2. **Navigate** to the page (browser creates snapshot)
+3. **Read** the snapshot file to extract data
+4. **Parse and transform** to JSON, hashtables, etc.

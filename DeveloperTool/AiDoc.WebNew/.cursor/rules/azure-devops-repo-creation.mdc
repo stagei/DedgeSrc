@@ -1,0 +1,111 @@
+﻿---
+description: How to create a new Azure DevOps repo and push code
+globs: *
+alwaysApply: false
+---
+
+# Azure DevOps Repository Creation & Code Publishing
+
+## Quick Reference
+
+To create a new Azure DevOps repo and push all code from a local project:
+
+```powershell
+Import-Module AzureFunctions -Force
+New-AzureDevOpsRepo -RepoName "ProjectName" -LocalPath "C:\opt\src\ProjectName" -CommitMessage "Initial commit"
+```
+
+Or use the DevTools wrapper script:
+
+```powershell
+C:\opt\src\DedgePsh\DevTools\CodingTools\New-AzDevOpsRepo\New-AzDevOpsRepo.ps1 -LocalPath "C:\opt\src\ProjectName"
+```
+
+## Function: New-AzureDevOpsRepo
+
+Located in: `C:\opt\src\DedgePsh\_Modules\AzureFunctions\AzureFunctions.psm1`
+
+### Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `-RepoName` | (required) | Name of the new Azure DevOps repository |
+| `-LocalPath` | Current directory | Path to the local source folder |
+| `-Organization` | `Dedge` | Azure DevOps organization |
+| `-Project` | `Dedge` | Azure DevOps project name |
+| `-CommitMessage` | `"Initial commit - <RepoName>"` | Commit message for initial push |
+| `-GitIgnoreContent` | (empty) | Content for .gitignore. Use `'dotnet'` for standard .NET ignores |
+| `-SkipPush` | (switch) | Create repo + init git but don't commit/push |
+
+### What it does automatically
+
+1. Validates Azure CLI and git are available
+2. Logs in to Azure DevOps CLI using PAT from `AzureAccessTokens.json`
+3. Checks if the repo already exists (safe to re-run)
+4. Creates the repo via `az repos create`
+5. Initializes local git if needed
+6. Adds the `origin` remote
+7. Creates `.gitignore` if `-GitIgnoreContent` is specified
+8. Stages all files, commits, and pushes to `origin/main`
+
+### Returns
+
+PSCustomObject with: `Success`, `RepoName`, `RemoteUrl`, `RepoId`, `ErrorMessage`
+
+## Step-by-Step Agent Workflow
+
+When asked to create a new Azure DevOps repo for a project, follow these steps:
+
+### 1. Prepare the project
+
+- Ensure the source folder has all required files
+- Create a `.gitignore` if one doesn't exist (use `'dotnet'` parameter for C# projects)
+- Verify no secrets are in the source tree (`.env`, credentials files, etc.)
+
+### 2. Create and push
+
+```powershell
+Import-Module AzureFunctions -Force
+
+$result = New-AzureDevOpsRepo `
+    -RepoName "ProjectName" `
+    -LocalPath "C:\opt\src\ProjectName" `
+    -Organization "Dedge" `
+    -Project "Dedge" `
+    -CommitMessage "Initial commit - ProjectName" `
+    -GitIgnoreContent 'dotnet'
+
+if ($result.Success) {
+    Write-Host "Repo URL: $($result.RemoteUrl)"
+} else {
+    Write-Host "Error: $($result.ErrorMessage)"
+}
+```
+
+### 3. Verify
+
+```powershell
+git -C "C:\opt\src\ProjectName" log --oneline -5
+git -C "C:\opt\src\ProjectName" remote -v
+az repos show --repository "ProjectName" --project Dedge -o table
+```
+
+## Prerequisites
+
+- Azure CLI (`az`) installed with the DevOps extension
+- Git installed
+- Valid PAT stored in `AzureAccessTokens.json` (managed by `Register-AzureAccessToken`)
+- The PAT must have **Code (Read & Write)** and **Project and Team (Read)** permissions
+
+## Default Organization & Project
+
+- Organization: `Dedge` (https://dev.azure.com/Dedge)
+- Project: `Dedge`
+- All repos are created under this project unless `-Project` is overridden
+
+## Notes
+
+- The function is idempotent: re-running against an existing repo will configure the remote without error
+- The default branch is `main`
+- Large binary files (>100MB) may be rejected by Azure DevOps — consider Git LFS for those
+- The function uses `Assert-AzureDevOpsCliLogin` which reads PAT from `AzureAccessTokens.json`

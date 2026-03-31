@@ -1,0 +1,88 @@
+{
+  "tableName": "K_KJOPSTATK",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "The year of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "The division number associated with the order",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "The party number related to the order",
+      "foreignKey": "A_ORDRELINJER"
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "The customer number associated with the order",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "FKNR",
+      "futureName": "ContractNumber",
+      "description": "The contract number related to the order",
+      "foreignKey": "A_ORDRELINJER_ENDR"
+    },
+    {
+      "name": "TORT_KVANTUM",
+      "futureName": "Quantity",
+      "description": "The quantity of the order or product",
+      "foreignKey": "AVVIST"
+    },
+    {
+      "name": "FORFALLSDATO",
+      "futureName": "DueDate",
+      "description": "The due date for payment or delivery",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "FAKTURANR",
+      "futureName": "InvoiceNumber",
+      "description": "The invoice number associated with the order",
+      "foreignKey": "AH_ORDREHODE"
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "The amount of money involved in the order or transaction",
+      "foreignKey": "A_FRAKT_OLINJER"
+    },
+    {
+      "name": "RABATT",
+      "futureName": "Discount",
+      "description": "The discount applied to the order or product",
+      "foreignKey": "AVDKOST_LOGG"
+    },
+    {
+      "name": "NETTOBELOP",
+      "futureName": "NetAmount",
+      "description": "The net amount of money after applying any discounts or taxes",
+      "foreignKey": "A_BESTHODE"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The user ID who created or modified the order",
+      "foreignKey": "A_ORDREHODE_EC"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of when the order was created or last updated",
+      "foreignKey": "A_BESTHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:54:01"
+}

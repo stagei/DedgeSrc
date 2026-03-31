@@ -1,0 +1,116 @@
+{
+  "program": "KPHPRLI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:50",
+  "extraction": {
+    "sourceHash": "sha256:01a75110effe016656b71f5ef0e818417e8de157f22d608e3c350061b9acc985",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\KPHPRLI.CBL",
+    "actualName": "KPHPRLI",
+    "program": "KPHPRLI",
+    "copyElements": [
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPASPDG.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPASUVK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPASUFA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPFPROS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUFI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SLG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPHPRLI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PROSJ_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PROREGN_PROSJEKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "KPVPRLI",
+      "GMFFELL",
+      "GMAMEXT",
+      "KPASPDG",
+      "KPASUVK",
+      "KPASUFA",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:50"
+  }
+}

@@ -1,0 +1,196 @@
+﻿{
+  "program": "FTP_LOGOFF_ANALYCEN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:59:18",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "BSASPRT-DIVRAPP-FILNAVN",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "<program>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+      "description": "Sjekke rc-kode for å se om programmet går i prod.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:59:18"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_LOGOFF_ANALYCEN",
+    "program": "FTP_LOGOFF_ANALYCEN",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFAJFU.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SFANETS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TIL",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [],
+    "callTargets": [
+      "AAADATO",
+      "GMASEMA",
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "FTP_SEND_ANALYCEN",
+      "FTP_LOGOFF_ANALYCEN",
+      "FTP_LOGON_ALCONTROL",
+      "TIL_MONITOR",
+      "FTP_SEND_ALCONTROL",
+      "FTP_LOGOFF_ALCONTROL",
+      "FTPSETUSER",
+      "GMACURT",
+      "GMASQLB",
+      "AAAMLEV",
+      "GMAMOMS",
+      "SQLEXEC",
+      "TIL_BORG_SKIP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-DIVRAPP-FILNAVN",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+        "filenamePattern": "<program>-<date>.CSV",
+        "filenameDescription": "Sjekke rc-kode for å se om programmet går i prod."
+      }
+    ],
+    "extractedAt": "2026-03-28T19:59:18"
+  }
+}

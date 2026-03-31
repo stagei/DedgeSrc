@@ -1,0 +1,1079 @@
+﻿<!DOCTYPE html><html><head>
+      <title>DedgeAuth-Ecosystem-Architecture</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\FKGEISTA\.cursor\extensions\shd101wyy.markdown-preview-enhanced-0.8.18\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:///c:\Users\FKGEISTA\.cursor\extensions\shd101wyy.markdown-preview-enhanced-0.8.18\crossnote\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="DedgeAuth-ecosystem-architecture">DedgeAuth Ecosystem Architecture </h1>
+<p>How DedgeAuth connects to consumer apps, how the auth flow works end-to-end, how to build and deploy each app, and how IIS deployment is managed through the IIS-DeployApp system.</p>
+<hr>
+<h2 id="system-overview">System Overview </h2>
+<div class="mermaid">graph TB
+    subgraph IIS["IIS - Default Web Site (port 80)"]
+        DWS["/  DefaultWebSite&lt;br&gt;Static redirect"]
+        FA["/DedgeAuth&lt;br&gt;DedgeAuth.Api.dll&lt;br&gt;Port 8100"]
+        DV["/DocView&lt;br&gt;DocView.dll&lt;br&gt;Port 8282"]
+        GLH["/GenericLogHandler&lt;br&gt;GenericLogHandler.WebApi.dll&lt;br&gt;Port 8110"]
+        SMD["/ServerMonitorDashboard&lt;br&gt;ServerMonitorDashboard.dll&lt;br&gt;Port 8998"]
+        ADJ["/AutoDocJson&lt;br&gt;AutoDocJson.Web.dll&lt;br&gt;Port 5280"]
+        AD["/AutoDoc&lt;br&gt;Static HTML"]
+    end
+
+    DB[(PostgreSQL&lt;br&gt;t-no1fkxtst-db:8432&lt;br&gt;Database: DedgeAuth)]
+
+    FA --&gt;|EF Core / Npgsql| DB
+    DV --&gt;|HTTP /api/auth/validate| FA
+    GLH --&gt;|HTTP /api/auth/validate| FA
+    SMD --&gt;|HTTP /api/auth/validate| FA
+    ADJ --&gt;|HTTP /api/auth/validate| FA
+
+    Browser((Browser)) --&gt;|port 80| IIS
+</div><hr>
+<h2 id="solution-structure">Solution Structure </h2>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DedgeAuth.Core</code></td>
+<td>Class library</td>
+<td>Models (<code>User</code>, <code>App</code>, <code>Tenant</code>, <code>UserVisit</code>, etc.), enums, no dependencies</td>
+</tr>
+<tr>
+<td><code>DedgeAuth.Data</code></td>
+<td>Class library</td>
+<td><code>AuthDbContext</code>, EF Core migrations, depends on Core</td>
+</tr>
+<tr>
+<td><code>DedgeAuth.Services</code></td>
+<td>Class library</td>
+<td><code>AuthService</code>, <code>JwtTokenService</code>, <code>DatabaseSeeder</code>, depends on Core + Data</td>
+</tr>
+<tr>
+<td><code>DedgeAuth.Api</code></td>
+<td><a href="http://ASP.NET">ASP.NET</a> Core API</td>
+<td>Controllers, wwwroot (login/admin UI, JS/CSS), depends on all above</td>
+</tr>
+<tr>
+<td><code>DedgeAuth.Client</code></td>
+<td>Class library</td>
+<td>Middleware, proxy endpoints, <code>AddDedgeAuth()</code> extension. <strong>Referenced by all consumer apps</strong></td>
+</tr>
+</tbody>
+</table>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>DedgeAuth.sln
+├── src/DedgeAuth.Core/         → Models, enums
+├── src/DedgeAuth.Data/         → AuthDbContext, Migrations/
+├── src/DedgeAuth.Services/     → AuthService, JwtTokenService, DatabaseSeeder
+├── src/DedgeAuth.Api/          → Controllers/, wwwroot/, Program.cs
+└── src/DedgeAuth.Client/       → Middleware/, Endpoints/, Extensions/, Options/
+</code></pre><hr>
+<h2 id="authentication-flow">Authentication Flow </h2>
+<h3 id="full-auth-flow-first-visit">Full Auth Flow (first visit) </h3>
+<div class="mermaid">sequenceDiagram
+    actor User
+    participant Browser
+    participant ConsumerIIS as Consumer App&lt;br&gt;/GenericLogHandler
+    participant TokenMW as DedgeAuthTokenExtraction&lt;br&gt;Middleware
+    participant SessionMW as DedgeAuthSessionValidation&lt;br&gt;Middleware
+    participant RedirectMW as DedgeAuthRedirect&lt;br&gt;Middleware
+    participant DedgeAuth as DedgeAuth API&lt;br&gt;/DedgeAuth
+
+    User-&gt;&gt;Browser: Navigate to /GenericLogHandler/
+    Browser-&gt;&gt;ConsumerIIS: GET /GenericLogHandler/
+    ConsumerIIS-&gt;&gt;TokenMW: No token in query/cookie
+    TokenMW-&gt;&gt;SessionMW: No auth, skip
+    SessionMW-&gt;&gt;RedirectMW: User not authenticated
+    RedirectMW--&gt;&gt;Browser: 302 → /DedgeAuth/login.html?returnUrl=...
+
+    Browser-&gt;&gt;DedgeAuth: GET /DedgeAuth/login.html
+    User-&gt;&gt;Browser: Enter email + password
+    Browser-&gt;&gt;DedgeAuth: POST /api/auth/login
+    DedgeAuth--&gt;&gt;Browser: { accessToken, authCode }
+
+    Note over Browser,DedgeAuth: login.html redirects to returnUrl with ?code=authCode
+
+    Browser-&gt;&gt;ConsumerIIS: GET /GenericLogHandler/?code=abc123
+    ConsumerIIS-&gt;&gt;TokenMW: Detects ?code= parameter
+    TokenMW-&gt;&gt;DedgeAuth: POST /api/auth/exchange { code: abc123 }
+    DedgeAuth--&gt;&gt;TokenMW: { accessToken, refreshToken }
+    TokenMW--&gt;&gt;Browser: Set-Cookie: DedgeAuth_access_token=jwt&lt;br&gt;302 → /GenericLogHandler/ (clean URL)
+
+    Browser-&gt;&gt;ConsumerIIS: GET /GenericLogHandler/&lt;br&gt;Cookie: DedgeAuth_access_token=jwt
+    ConsumerIIS-&gt;&gt;TokenMW: Reads JWT from cookie → Authorization header
+    TokenMW-&gt;&gt;SessionMW: User authenticated
+    SessionMW-&gt;&gt;DedgeAuth: GET /api/auth/validate (Bearer jwt)
+    DedgeAuth--&gt;&gt;SessionMW: 200 OK (valid)
+    SessionMW-&gt;&gt;SessionMW: Cache result (30s TTL)
+    SessionMW-&gt;&gt;DedgeAuth: POST /api/visits/record (fire-and-forget)
+    SessionMW-&gt;&gt;ConsumerIIS: next()
+    ConsumerIIS--&gt;&gt;Browser: index.html + static files
+</div><h3 id="subsequent-visits-cached-session">Subsequent visits (cached session) </h3>
+<div class="mermaid">sequenceDiagram
+    participant Browser
+    participant ConsumerIIS as Consumer App
+    participant TokenMW as TokenExtraction MW
+    participant SessionMW as SessionValidation MW
+    participant Cache as IMemoryCache
+
+    Browser-&gt;&gt;ConsumerIIS: GET /GenericLogHandler/&lt;br&gt;Cookie: DedgeAuth_access_token=jwt
+    ConsumerIIS-&gt;&gt;TokenMW: JWT from cookie → Authorization header
+    TokenMW-&gt;&gt;SessionMW: User authenticated
+    SessionMW-&gt;&gt;Cache: Check DedgeAuth_Session_{userId}
+    Cache--&gt;&gt;SessionMW: HIT (valid, cached 30s)
+    SessionMW-&gt;&gt;ConsumerIIS: next() immediately
+    ConsumerIIS--&gt;&gt;Browser: Page response
+</div><hr>
+<h2 id="consumer-app-integration">Consumer App Integration </h2>
+<h3 id="how-consumer-apps-reference-DedgeAuthclient">How consumer apps reference DedgeAuth.Client </h3>
+<p>Each consumer app adds a <strong>project reference</strong> to <code>DedgeAuth.Client</code>:</p>
+<pre data-role="codeBlock" data-info="xml" class="language-xml xml"><code><span class="token comment">&lt;!-- In consumer app .csproj --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ProjectReference</span> <span class="token attr-name">Include</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>..\..\DedgeAuth\src\DedgeAuth.Client\DedgeAuth.Client.csproj<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+</code></pre><h3 id="registration-in-programcs">Registration in Program.cs </h3>
+<p>All consumer apps follow this pattern:</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// 1. Register DedgeAuth services (reads from appsettings.json "DedgeAuth" section)</span>
+builder<span class="token punctuation">.</span>Services<span class="token punctuation">.</span><span class="token function">AddDedgeAuth</span><span class="token punctuation">(</span>builder<span class="token punctuation">.</span>Configuration<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ... other services ...</span>
+
+<span class="token class-name"><span class="token keyword keyword-var">var</span></span> app <span class="token operator">=</span> builder<span class="token punctuation">.</span><span class="token function">Build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 2. Add DedgeAuth middleware pipeline</span>
+app<span class="token punctuation">.</span><span class="token function">UseDedgeAuth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment">// TokenExtraction → SessionValidation → Redirect</span>
+
+<span class="token comment">// 3. Map proxy endpoints</span>
+app<span class="token punctuation">.</span><span class="token function">MapDedgeAuthProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// /api/DedgeAuth/me, /api/DedgeAuth/ui/{path}, /api/DedgeAuth/logout</span>
+</code></pre><h3 id="consumer-appsettingsjson-DedgeAuth-section">Consumer appsettings.json (DedgeAuth section) </h3>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+  <span class="token property">"DedgeAuth"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"Enabled"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"AuthServerUrl"</span><span class="token operator">:</span> <span class="token string">"http://dedge-server/DedgeAuth"</span><span class="token punctuation">,</span>
+    <span class="token property">"AppId"</span><span class="token operator">:</span> <span class="token string">"GenericLogHandler"</span><span class="token punctuation">,</span>
+    <span class="token property">"JwtSecret"</span><span class="token operator">:</span> <span class="token string">"&lt;shared-secret&gt;"</span><span class="token punctuation">,</span>
+    <span class="token property">"JwtIssuer"</span><span class="token operator">:</span> <span class="token string">"DedgeAuth"</span><span class="token punctuation">,</span>
+    <span class="token property">"JwtAudience"</span><span class="token operator">:</span> <span class="token string">"FKApps"</span><span class="token punctuation">,</span>
+    <span class="token property">"SessionValidationCacheTtlSeconds"</span><span class="token operator">:</span> <span class="token number">30</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="middleware-pipeline-order">Middleware Pipeline Order </h3>
+<div class="mermaid">graph LR
+    A["app.UseDedgeAuth()"] --&gt; B["TokenExtraction"]
+    B --&gt; C["UseAuthentication"]
+    C --&gt; D["UseAuthorization"]
+    D --&gt; E["SessionValidation"]
+    E --&gt; F["Redirect"]
+    F --&gt; G["app.UseStaticFiles()"]
+    G --&gt; H["app.MapControllers()"]
+    H --&gt; I["app.MapDedgeAuthProxy()"]
+</div><table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Middleware</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>DedgeAuthTokenExtractionMiddleware</code></td>
+<td>Extracts JWT from <code>?code=</code>, <code>?token=</code>, or cookie → sets <code>Authorization</code> header</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>UseAuthentication</code> / <code>UseAuthorization</code></td>
+<td>Standard <a href="http://ASP.NET">ASP.NET</a> Core JWT validation</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>DedgeAuthSessionValidationMiddleware</code></td>
+<td>Server-side session check with DedgeAuth <code>/api/auth/validate</code>, caches result</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>DedgeAuthRedirectMiddleware</code></td>
+<td>Redirects unauthenticated users to <code>/DedgeAuth/login.html?returnUrl=...</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="DedgeAuthoptions-all-properties">DedgeAuthOptions (all properties) </h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enabled</code></td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td>Master switch — when <code>false</code>, allows all requests</td>
+</tr>
+<tr>
+<td><code>AuthServerUrl</code></td>
+<td><code>string</code></td>
+<td><code>http://localhost:8100</code></td>
+<td>DedgeAuth API base URL</td>
+</tr>
+<tr>
+<td><code>JwtSecret</code></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>Shared JWT signing key</td>
+</tr>
+<tr>
+<td><code>JwtIssuer</code></td>
+<td><code>string</code></td>
+<td><code>"DedgeAuth"</code></td>
+<td>JWT issuer claim</td>
+</tr>
+<tr>
+<td><code>JwtAudience</code></td>
+<td><code>string</code></td>
+<td><code>"FKApps"</code></td>
+<td>JWT audience claim</td>
+</tr>
+<tr>
+<td><code>AppId</code></td>
+<td><code>string</code></td>
+<td><code>""</code></td>
+<td>Consumer app's registered ID (e.g. <code>"DocView"</code>)</td>
+</tr>
+<tr>
+<td><code>SessionValidationCacheTtlSeconds</code></td>
+<td><code>int</code></td>
+<td><code>30</code></td>
+<td>Cache duration for session validation</td>
+</tr>
+<tr>
+<td><code>ProxyRoutePrefix</code></td>
+<td><code>string</code></td>
+<td><code>"/api/DedgeAuth"</code></td>
+<td>Route prefix for proxy endpoints</td>
+</tr>
+<tr>
+<td><code>SkipPathPrefixes</code></td>
+<td><code>string[]</code></td>
+<td><code>["/api/", "/scalar", "/health"]</code></td>
+<td>Paths that bypass auth</td>
+</tr>
+<tr>
+<td><code>LoginPath</code></td>
+<td><code>string</code></td>
+<td><code>"/login"</code></td>
+<td>Fallback login path</td>
+</tr>
+<tr>
+<td><code>AccessTokenCookieName</code></td>
+<td><code>string?</code></td>
+<td><code>null</code></td>
+<td>Cookie name for storing access token</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="ui-asset-proxy">UI Asset Proxy </h2>
+<p>Consumer apps load DedgeAuth CSS/JS through a <strong>local proxy</strong> — no hardcoded server URLs in HTML:</p>
+<div class="mermaid">sequenceDiagram
+    participant Browser
+    participant ConsumerApp as Consumer App&lt;br&gt;/GenericLogHandler
+    participant Proxy as DedgeAuthEndpoints&lt;br&gt;MapDedgeAuthProxy()
+    participant DedgeAuthAPI as DedgeAuth API&lt;br&gt;UIController
+
+    Browser-&gt;&gt;ConsumerApp: GET /GenericLogHandler/api/DedgeAuth/ui/common.css
+    ConsumerApp-&gt;&gt;Proxy: Matches /api/DedgeAuth/ui/{path}
+    Proxy-&gt;&gt;Proxy: Check IMemoryCache (1h TTL)
+    Proxy-&gt;&gt;DedgeAuthAPI: GET /DedgeAuth/api/ui/common.css
+    DedgeAuthAPI--&gt;&gt;Proxy: CSS content
+    Proxy-&gt;&gt;Proxy: Cache response
+    Proxy--&gt;&gt;Browser: CSS content
+
+    Note over Browser: HTML uses relative paths:&lt;br&gt;href="api/DedgeAuth/ui/common.css"
+</div><h3 id="proxy-endpoints-registered-by-mapDedgeAuthproxy">Proxy endpoints registered by <code>MapDedgeAuthProxy()</code> </h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{prefix}/me</code></td>
+<td>GET</td>
+<td>Returns user info, permissions, tenant, app routing</td>
+</tr>
+<tr>
+<td><code>{prefix}/logout</code></td>
+<td>POST</td>
+<td>Revokes tokens, returns login redirect URL</td>
+</tr>
+<tr>
+<td><code>{prefix}/ui/{path}</code></td>
+<td>GET</td>
+<td>Proxies CSS/JS assets from DedgeAuth server (cached 1h)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="whitelisted-ui-assets">Whitelisted UI assets </h3>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Path</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>common.css</code></td>
+<td><code>api/DedgeAuth/ui/common.css</code></td>
+<td>Shared FK theme styles</td>
+</tr>
+<tr>
+<td><code>user.css</code></td>
+<td><code>api/DedgeAuth/ui/user.css</code></td>
+<td>User menu dropdown styles</td>
+</tr>
+<tr>
+<td><code>user.js</code></td>
+<td><code>api/DedgeAuth/ui/user.js</code></td>
+<td>User menu + app switcher component</td>
+</tr>
+<tr>
+<td><code>theme.js</code></td>
+<td><code>api/DedgeAuth/ui/theme.js</code></td>
+<td>Dark/light theme toggle</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="DedgeAuth-user-menu-DedgeAuth-userjs">DedgeAuth User Menu (DedgeAuth-user.js) </h2>
+<p>Served from DedgeAuth API, loaded by all consumer apps via proxy. Changes propagate to all apps without rebuilding them.</p>
+<div class="mermaid">graph TD
+    A["Page loads"] --&gt; B["extractAndStoreToken()"]
+    B --&gt; C["fetchUserInfo()&lt;br&gt;GET api/DedgeAuth/me"]
+    C --&gt; D["loadTenantCss()&lt;br&gt;Inject tenant branding"]
+    D --&gt; E["render()&lt;br&gt;Build user menu HTML"]
+
+    E --&gt; F["User avatar + name"]
+    E --&gt; G["App switcher&lt;br&gt;(other apps from tenant routing)"]
+    E --&gt; H["Admin Dashboard link&lt;br&gt;(if GlobalAdmin)"]
+    E --&gt; I["Logout button"]
+    E --&gt; J["My Activity link&lt;br&gt;(visit history popup)"]
+</div><h3 id="tenant-css-injection-flow">Tenant CSS injection flow </h3>
+<div class="mermaid">sequenceDiagram
+    participant JS as DedgeAuth-user.js
+    participant Proxy as /api/DedgeAuth/me
+    participant DedgeAuth as DedgeAuth API
+
+    JS-&gt;&gt;Proxy: GET api/DedgeAuth/me
+    Proxy--&gt;&gt;JS: { tenant: { domain: "Dedge.no" }, DedgeAuthUrl: "..." }
+    JS-&gt;&gt;DedgeAuth: GET /DedgeAuth/tenants/Dedge.no/theme.css
+    DedgeAuth--&gt;&gt;JS: CSS content from tenants.css_overrides column
+    JS-&gt;&gt;JS: Inject into &lt;style id="DedgeAuth-tenant-css"&gt;
+    JS-&gt;&gt;DedgeAuth: GET /DedgeAuth/tenants/Dedge.no/logo
+    DedgeAuth--&gt;&gt;JS: Logo image from tenants.logo_data column
+    JS-&gt;&gt;DedgeAuth: GET /DedgeAuth/tenants/Dedge.no/icon
+    DedgeAuth--&gt;&gt;JS: Favicon from tenants.icon_data column
+</div><hr>
+<h2 id="user-visit-tracking">User Visit Tracking </h2>
+<div class="mermaid">sequenceDiagram
+    participant MW as DedgeAuthSessionValidation&lt;br&gt;Middleware (in consumer app)
+    participant DedgeAuth as DedgeAuth API&lt;br&gt;VisitsController
+    participant DB as PostgreSQL&lt;br&gt;user_visits table
+
+    Note over MW: Only fires on cache MISS&lt;br&gt;(every 30s per user)
+    MW-&gt;&gt;MW: Successful /api/auth/validate
+    MW-&gt;&gt;MW: Cache session (30s TTL)
+    MW--&gt;&gt;DedgeAuth: POST /api/visits/record (fire-and-forget)&lt;br&gt;{ appId, path, ipAddress, userAgent }
+    DedgeAuth-&gt;&gt;DB: INSERT INTO user_visits
+    Note over MW: Does NOT await response&lt;br&gt;Zero impact on page load
+</div><hr>
+<h2 id="build--publish">Build &amp; Publish </h2>
+<h3 id="source-locations-and-repos">Source locations and repos </h3>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Source Path</th>
+<th>Solution / Project</th>
+<th>Branch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DedgeAuth</td>
+<td><code>C:\opt\src\DedgeAuth</code></td>
+<td><code>DedgeAuth.sln</code></td>
+<td><code>main</code></td>
+</tr>
+<tr>
+<td>DocView</td>
+<td><code>C:\opt\src\DocView</code></td>
+<td><code>DocView.sln</code></td>
+<td><code>main</code></td>
+</tr>
+<tr>
+<td>GenericLogHandler</td>
+<td><code>C:\opt\src\GenericLogHandler</code></td>
+<td><code>GenericLogHandler.sln</code></td>
+<td><code>feature/auth-extraction</code></td>
+</tr>
+<tr>
+<td>ServerMonitorDashboard</td>
+<td><code>C:\opt\src\ServerMonitor</code></td>
+<td><code>ServerMonitor.sln</code></td>
+<td><code>feature/auth-extraction</code></td>
+</tr>
+<tr>
+<td>AutoDocJson</td>
+<td><code>C:\opt\src\AutoDocJson</code></td>
+<td><code>AutoDocJson.sln</code></td>
+<td><code>main</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="build-all-apps-at-once">Build all apps at once </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Build DedgeAuth first, then all consumer apps that reference DedgeAuth.Client</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"</span>
+
+<span class="token comment"># Dry run — show what would be built</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"</span> <span class="token operator">-</span>DryRun
+
+<span class="token comment"># Skip DedgeAuth, only rebuild consumer apps</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"</span> <span class="token operator">-</span>SkipDedgeAuth
+</code></pre><div class="mermaid">graph TD
+    BAP["Build-And-Publish-ALL.ps1&lt;br&gt;C:\opt\src\DedgeAuth\"]
+
+    BAP --&gt; SCAN["Scan C:\opt\src\&lt;br&gt;for .csproj referencing DedgeAuth.Client"]
+    SCAN --&gt; B1["1. Build DedgeAuth&lt;br&gt;C:\opt\src\DedgeAuth\Build-And-Publish.ps1"]
+    B1 --&gt; B2["2. Build AutoDocJson&lt;br&gt;C:\opt\src\AutoDocJson\Build-And-Publish.ps1"]
+    B2 --&gt; B3["3. Build DocView&lt;br&gt;C:\opt\src\DocView\Build-And-Publish.ps1"]
+    B3 --&gt; B4["4. Build GenericLogHandler&lt;br&gt;C:\opt\src\GenericLogHandler\Build-And-Publish.ps1"]
+    B4 --&gt; B5["5. Build ServerMonitor&lt;br&gt;C:\opt\src\ServerMonitor\Build-And-Publish.ps1"]
+
+    B1 --&gt; S1["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DedgeAuth"]
+    B2 --&gt; S2["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\AutoDocJson"]
+    B3 --&gt; S3["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DocView"]
+    B4 --&gt; S4["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\GenericLogHandler-WebApi"]
+    B5 --&gt; S5["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\ServerMonitorDashboard"]
+
+    style S1 fill:#f0f0f0
+    style S2 fill:#f0f0f0
+    style S3 fill:#f0f0f0
+    style S4 fill:#f0f0f0
+    style S5 fill:#f0f0f0
+</div><h3 id="build-each-app-individually">Build each app individually </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># DedgeAuth (auth server) — version bump + publish + deploy scripts</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish.ps1"</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish.ps1"</span> <span class="token operator">-</span>VersionPart Minor
+
+<span class="token comment"># DocView</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DocView\Build-And-Publish.ps1"</span>
+
+<span class="token comment"># GenericLogHandler (publishes WebApi + AlertAgent + ImportService)</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\GenericLogHandler\Build-And-Publish.ps1"</span>
+
+<span class="token comment"># ServerMonitorDashboard (publishes Agent + TrayIcon + Dashboard)</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\ServerMonitor\Build-And-Publish.ps1"</span>
+
+<span class="token comment"># AutoDocJson</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\AutoDocJson\Build-And-Publish.ps1"</span>
+</code></pre><h3 id="what-each-build-and-publishps1-does">What each Build-And-Publish.ps1 does </h3>
+<div class="mermaid">graph LR
+    A["Build-And-Publish.ps1"] --&gt; B["Version bump&lt;br&gt;(Patch default)"]
+    B --&gt; C["dotnet publish&lt;br&gt;-p:PublishProfile=WebApp-FileSystem"]
+    C --&gt; D["Copy to staging share&lt;br&gt;\\\\server\DedgeCommon\Software\DedgeWinApps\AppName"]
+    D --&gt; E["Run _deploy.ps1 scripts&lt;br&gt;(push server scripts)"]
+</div><h3 id="publish-profile-all-apps-use-filesystem">Publish profile (all apps use FileSystem) </h3>
+<p>All apps use <code>WebApp-FileSystem.pubxml</code>:</p>
+<pre data-role="codeBlock" data-info="xml" class="language-xml xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PublishProvider</span><span class="token punctuation">&gt;</span></span>FileSystem<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PublishProvider</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PublishUrl</span><span class="token punctuation">&gt;</span></span>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DedgeAuth<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PublishUrl</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TargetFramework</span><span class="token punctuation">&gt;</span></span>net10.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TargetFramework</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RuntimeIdentifier</span><span class="token punctuation">&gt;</span></span>win-x64<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>RuntimeIdentifier</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>SelfContained</span><span class="token punctuation">&gt;</span></span>false<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>SelfContained</span><span class="token punctuation">&gt;</span></span>
+</code></pre><h3 id="staging-vs-iis-install-paths">Staging vs IIS install paths </h3>
+<div class="mermaid">graph LR
+    subgraph Publish["dotnet publish (staging)"]
+        PS["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\&lt;br&gt;Software\DedgeWinApps\AppName"]
+    end
+
+    subgraph IIS["IIS install (live)"]
+        IL["C:\opt\DedgeWinApps\AppName&lt;br&gt;(= $env:OptPath\DedgeWinApps\AppName)"]
+    end
+
+    PS --&gt;|"IIS-DeployApp.ps1&lt;br&gt;Install-OurWinApp"| IL
+</div><table>
+<thead>
+<tr>
+<th>App</th>
+<th>Staging (Publish) Folder</th>
+<th>IIS Install Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DedgeAuth</td>
+<td><code>DedgeWinApps\DedgeAuth</code></td>
+<td><code>$env:OptPath\DedgeWinApps\DedgeAuth</code></td>
+</tr>
+<tr>
+<td>DocView</td>
+<td><code>DedgeWinApps\DocView</code></td>
+<td><code>$env:OptPath\DedgeWinApps\DocView</code></td>
+</tr>
+<tr>
+<td>GenericLogHandler</td>
+<td><code>DedgeWinApps\GenericLogHandler-WebApi</code></td>
+<td><code>$env:OptPath\DedgeWinApps\GenericLogHandler-WebApi</code></td>
+</tr>
+<tr>
+<td>ServerMonitorDashboard</td>
+<td><code>DedgeWinApps\ServerMonitorDashboard</code></td>
+<td><code>$env:OptPath\DedgeWinApps\ServerMonitorDashboard</code></td>
+</tr>
+<tr>
+<td>AutoDocJson</td>
+<td><code>DedgeWinApps\AutoDocJson</code></td>
+<td><code>$env:OptPath\DedgeWinApps\AutoDocJson</code></td>
+</tr>
+<tr>
+<td>AutoDoc</td>
+<td>(pre-existing content)</td>
+<td><code>$env:OptPath\Webs\AutoDoc</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="iis-deployment-iis-deployapp-system">IIS Deployment (IIS-DeployApp System) </h2>
+<p>All IIS deployment is managed by the generic <strong>IIS-DeployApp</strong> system in:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\
+├── IIS-DeployApp.ps1          → Deploy one app from template
+├── IIS-UninstallApp.ps1       → Remove one app
+├── IIS-RedeployAll.ps1        → Full teardown + iisreset + rebuild all
+├── Test-IISSite.ps1           → Diagnostics and health checks
+├── _deploy.ps1                → Push scripts/templates to servers
+└── templates/
+    ├── DefaultWebSite_None.deploy.json
+    ├── DedgeAuth_WinApp.deploy.json
+    ├── DocView_WinApp.deploy.json
+    ├── GenericLogHandler_WinApp.deploy.json
+    ├── ServerMonitorDashboard_WinApp.deploy.json
+    ├── AutoDocJson_WinApp.deploy.json
+    └── AutoDoc_None.deploy.json
+</code></pre><h3 id="deploy-profile-templates">Deploy profile templates </h3>
+<p>Profile naming convention: <code>&lt;SiteName&gt;_&lt;InstallSource&gt;.deploy.json</code></p>
+<table>
+<thead>
+<tr>
+<th>Template</th>
+<th>SiteName</th>
+<th>AppType</th>
+<th>InstallSource</th>
+<th>DotNetDll</th>
+<th>ApiPort</th>
+<th>Health</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DefaultWebSite_None</code></td>
+<td>DefaultWebSite</td>
+<td>Static</td>
+<td>None</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>DedgeAuth_WinApp</code></td>
+<td>DedgeAuth</td>
+<td>AspNetCore</td>
+<td>WinApp</td>
+<td><code>DedgeAuth.Api.dll</code></td>
+<td>8100</td>
+<td><code>/health</code></td>
+</tr>
+<tr>
+<td><code>DocView_WinApp</code></td>
+<td>DocView</td>
+<td>AspNetCore</td>
+<td>WinApp</td>
+<td><code>DocView.dll</code></td>
+<td>8282</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>GenericLogHandler_WinApp</code></td>
+<td>GenericLogHandler</td>
+<td>AspNetCore</td>
+<td>WinApp</td>
+<td><code>GenericLogHandler.WebApi.dll</code></td>
+<td>8110</td>
+<td><code>/health</code></td>
+</tr>
+<tr>
+<td><code>ServerMonitorDashboard_WinApp</code></td>
+<td>ServerMonitorDashboard</td>
+<td>AspNetCore</td>
+<td>WinApp</td>
+<td><code>ServerMonitorDashboard.dll</code></td>
+<td>8998</td>
+<td><code>/api/IsAlive</code></td>
+</tr>
+<tr>
+<td><code>AutoDocJson_WinApp</code></td>
+<td>AutoDocJson</td>
+<td>AspNetCore</td>
+<td>WinApp</td>
+<td><code>AutoDocJson.Web.dll</code></td>
+<td>5280</td>
+<td><code>/health</code></td>
+</tr>
+<tr>
+<td><code>AutoDoc_None</code></td>
+<td>AutoDoc</td>
+<td>Static</td>
+<td>None</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iis-architecture">IIS architecture </h3>
+<div class="mermaid">graph TB
+    subgraph IIS["Default Web Site (port 80)"]
+        ROOT["/ → DefaultWebSite&lt;br&gt;App Pool: DefaultWebSite&lt;br&gt;Static redirect to /DedgeAuth/"]
+        FA["/DedgeAuth&lt;br&gt;App Pool: DedgeAuth&lt;br&gt;DedgeAuth.Api.dll&lt;br&gt;ASPNETCORE_URLS=http://localhost:8100"]
+        DV["/DocView&lt;br&gt;App Pool: DocView&lt;br&gt;DocView.dll&lt;br&gt;ASPNETCORE_URLS=http://localhost:8282"]
+        GLH["/GenericLogHandler&lt;br&gt;App Pool: GenericLogHandler&lt;br&gt;GenericLogHandler.WebApi.dll&lt;br&gt;ASPNETCORE_URLS=http://localhost:8110"]
+        SMD["/ServerMonitorDashboard&lt;br&gt;App Pool: ServerMonitorDashboard&lt;br&gt;ServerMonitorDashboard.dll&lt;br&gt;ASPNETCORE_URLS=http://localhost:8998"]
+        ADJ["/AutoDocJson&lt;br&gt;App Pool: AutoDocJson&lt;br&gt;AutoDocJson.Web.dll&lt;br&gt;ASPNETCORE_URLS=http://localhost:5280"]
+        AD["/AutoDoc&lt;br&gt;App Pool: AutoDoc&lt;br&gt;Static HTML (directory browsing)"]
+    end
+</div><h3 id="deploy-steps-iis-deployappps1">Deploy steps (IIS-DeployApp.ps1) </h3>
+<div class="mermaid">graph TD
+    S1["Step 1: Teardown&lt;br&gt;Remove existing virtual app + app pool"] --&gt; S2
+    S2["Step 2: Install files&lt;br&gt;Copy from staging share&lt;br&gt;(Install-OurWinApp)"] --&gt; S3
+    S3["Step 3: Create app pool&lt;br&gt;Set identity, enable 32-bit if needed"] --&gt; S4
+    S4["Step 4: Create virtual app&lt;br&gt;appcmd add app under Default Web Site"] --&gt; S5
+    S5["Step 5: Verify web.config&lt;br&gt;Set ASPNETCORE_URLS, maxQueryString"] --&gt; S6
+    S6["Step 6: Set permissions&lt;br&gt;ReadAndExecute for app pool identity"] --&gt; S7
+    S7["Step 7: Firewall rules&lt;br&gt;Inbound + Outbound for ApiPort"] --&gt; S8
+    S8["Step 8: Start services&lt;br&gt;Start app pool"] --&gt; S9
+    S9["Step 9: Verify&lt;br&gt;App pool started, site started, virtual app exists"] --&gt; S10
+    S10["Step 10: Health check&lt;br&gt;HTTP GET to HealthEndpoint"]
+</div><hr>
+<h2 id="deploy-commands">Deploy Commands </h2>
+<h3 id="deploy-all-apps-to-local-iis-full-rebuild">Deploy all apps to local IIS (full rebuild) </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># 1. Build and publish all apps to staging share</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"</span>
+
+<span class="token comment"># 2. Redeploy all apps from staging to local IIS</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"</span>
+
+<span class="token comment"># 3. Verify with screenshots + email + SMS</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"</span>
+</code></pre><h3 id="deploy-a-single-app-to-local-iis">Deploy a single app to local IIS </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Deploy DedgeAuth only</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName DedgeAuth
+
+<span class="token comment"># Deploy DocView only</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName DocView
+
+<span class="token comment"># Deploy GenericLogHandler only</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName GenericLogHandler
+
+<span class="token comment"># Deploy ServerMonitorDashboard only</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName ServerMonitorDashboard
+
+<span class="token comment"># Deploy AutoDocJson only</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName AutoDocJson
+
+<span class="token comment"># Deploy AutoDoc (static site)</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1"</span> <span class="token operator">-</span>SiteName AutoDoc
+</code></pre><p>Each command auto-loads the matching <code>.deploy.json</code> template from the <code>templates/</code> folder.</p>
+<h3 id="uninstall-a-single-app-from-iis">Uninstall a single app from IIS </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Uninstall DedgeAuth (removes virtual app + app pool + firewall rules)</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName DedgeAuth
+
+<span class="token comment"># Uninstall DocView</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName DocView
+
+<span class="token comment"># Uninstall GenericLogHandler</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName GenericLogHandler
+
+<span class="token comment"># Uninstall ServerMonitorDashboard</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName ServerMonitorDashboard
+
+<span class="token comment"># Uninstall AutoDocJson</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName AutoDocJson
+
+<span class="token comment"># Uninstall AutoDoc</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1"</span> <span class="token operator">-</span>SiteName AutoDoc
+</code></pre><h3 id="uninstall-and-redeploy-all-apps-nuclear-option">Uninstall and redeploy all apps (nuclear option) </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Full teardown → iisreset → redeploy all from templates</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"</span>
+</code></pre><p><strong><code>IIS-RedeployAll.ps1</code> performs these phases:</strong></p>
+<div class="mermaid">graph LR
+    P1["Phase 1: UNINSTALL&lt;br&gt;Remove all virtual apps&lt;br&gt;(apps first, root site last)"]
+    P2["Phase 2: IIS RESET&lt;br&gt;iisreset /restart"]
+    P3["Phase 3: DEPLOY&lt;br&gt;Deploy root site first&lt;br&gt;then all apps from templates"]
+
+    P1 --&gt; P2 --&gt; P3
+</div><h3 id="diagnose-a-broken-app">Diagnose a broken app </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Run diagnostics on a specific app</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\Test-IISSite.ps1"</span> <span class="token operator">-</span>SiteName DedgeAuth
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\Test-IISSite.ps1"</span> <span class="token operator">-</span>SiteName GenericLogHandler
+</code></pre><p><code>Test-IISSite.ps1</code> checks: IIS configuration, web.config, app pool state, event log errors, HTTP health endpoint.</p>
+<hr>
+<h2 id="how-everything-connects-end-to-end">How Everything Connects (end-to-end) </h2>
+<div class="mermaid">graph TB
+    subgraph DEV["Developer Machine"]
+        SRC["Source Code&lt;br&gt;C:\opt\src\*"]
+        BAP["Build-And-Publish-ALL.ps1"]
+        IRA["IIS-RedeployAll.ps1"]
+        GS["GrabScreenShot"]
+    end
+
+    subgraph STAGING["Staging Share"]
+        SS["\\C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\&lt;br&gt;Software\DedgeWinApps\*"]
+    end
+
+    subgraph IIS_LOCAL["Local IIS (port 80)"]
+        APPS["DedgeAuth + Consumer Apps&lt;br&gt;C:\opt\DedgeWinApps\*"]
+    end
+
+    subgraph DB_SERVER["Database Server"]
+        PG["PostgreSQL&lt;br&gt;t-no1fkxtst-db:8432&lt;br&gt;Database: DedgeAuth"]
+    end
+
+    SRC --&gt;|"dotnet publish"| BAP
+    BAP --&gt;|"Copy to staging"| SS
+    SS --&gt;|"Install-OurWinApp"| IRA
+    IRA --&gt;|"appcmd + web.config"| APPS
+    APPS --&gt;|"EF Core&lt;br&gt;Npgsql"| PG
+    APPS --&gt; GS
+    GS --&gt;|"Screenshots + Email + SMS"| REPORT["Verification Report"]
+</div><h3 id="full-deploy-sequence">Full deploy sequence </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Step 1: Build and publish all apps to staging</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"</span>
+
+<span class="token comment"># Step 2: Deploy from staging to local IIS (teardown + iisreset + rebuild)</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"</span>
+
+<span class="token comment"># Step 3: Visual verification with screenshots, email, and SMS</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"</span>
+</code></pre><hr>
+<h2 id="database">Database </h2>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td><code>t-no1fkxtst-db</code></td>
+</tr>
+<tr>
+<td>Port</td>
+<td><code>8432</code></td>
+</tr>
+<tr>
+<td>Database</td>
+<td><code>DedgeAuth</code></td>
+</tr>
+<tr>
+<td>Credentials</td>
+<td><code>postgres</code> / <code>postgres</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-tables">Key tables </h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Purpose</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>users</code></td>
+<td>User accounts (email, password hash, access level)</td>
+<td>DedgeAuth.Api</td>
+</tr>
+<tr>
+<td><code>apps</code></td>
+<td>Registered consumer apps (AppId, base_url, available_roles)</td>
+<td>DedgeAuth.Api, admin UI</td>
+</tr>
+<tr>
+<td><code>app_permissions</code></td>
+<td>Per-user per-app role assignments</td>
+<td>DedgeAuth.Api, consumer apps</td>
+</tr>
+<tr>
+<td><code>tenants</code></td>
+<td>Tenant config (domain, CSS, logo, icon, app_routing)</td>
+<td>DedgeAuth.Api, all apps via proxy</td>
+</tr>
+<tr>
+<td><code>login_tokens</code></td>
+<td>Magic link tokens, password reset</td>
+<td>DedgeAuth.Api</td>
+</tr>
+<tr>
+<td><code>refresh_tokens</code></td>
+<td>JWT refresh tokens</td>
+<td>DedgeAuth.Api</td>
+</tr>
+<tr>
+<td><code>user_visits</code></td>
+<td>User visit history (appId, path, IP, timestamp)</td>
+<td>DedgeAuth.Api, admin UI</td>
+</tr>
+</tbody>
+</table>
+<h3 id="database-setup-scripts">Database setup scripts </h3>
+<pre data-role="codeBlock" data-info="powershell" class="language-powershell powershell"><code><span class="token comment"># Create/update PostgreSQL database and roles</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\DedgeAuth\DedgeAuth-DatabaseSetup\DedgeAuth-DatabaseSetup.ps1"</span>
+
+<span class="token comment"># Register apps in DedgeAuth database</span>
+pwsh<span class="token punctuation">.</span>exe <span class="token operator">-</span>NoProfile <span class="token operator">-</span>File <span class="token string">"C:\opt\src\DedgePsh\DevTools\WebSites\DedgeAuth\DedgeAuth-AddAppSupport\DedgeAuth-AddAppSupport.ps1"</span>
+</code></pre><hr>
+<h2 id="log-files">Log Files </h2>
+<h3 id="application-logs-serilog">Application logs (Serilog) </h3>
+<table>
+<thead>
+<tr>
+<th>Access method</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNC</td>
+<td><code>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\DedgeAuth\Logs\DedgeAuth-YYYYMMDD.log</code></td>
+</tr>
+<tr>
+<td>Local</td>
+<td><code>$env:OptPath\data\DedgeAuth\Logs\DedgeAuth-YYYYMMDD.log</code></td>
+</tr>
+<tr>
+<td>API</td>
+<td><code>GET /api/debug/logfile</code> (GlobalAdmin JWT required)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iis-deployapp-logs">IIS-DeployApp logs </h3>
+<table>
+<thead>
+<tr>
+<th>Access method</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNC</td>
+<td><code>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log</code></td>
+</tr>
+<tr>
+<td>Local</td>
+<td><code>$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="DedgeAuth-api-endpoints-key-routes">DedgeAuth API Endpoints (key routes) </h2>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/auth/login</code></td>
+<td>POST</td>
+<td>Password authentication → JWT + auth code</td>
+</tr>
+<tr>
+<td><code>/api/auth/exchange</code></td>
+<td>POST</td>
+<td>Exchange auth code for JWT (server-to-server)</td>
+</tr>
+<tr>
+<td><code>/api/auth/validate</code></td>
+<td>GET</td>
+<td>Validate current session</td>
+</tr>
+<tr>
+<td><code>/api/auth/refresh</code></td>
+<td>POST</td>
+<td>Refresh access token</td>
+</tr>
+<tr>
+<td><code>/api/auth/logout</code></td>
+<td>POST</td>
+<td>Revoke all user tokens</td>
+</tr>
+<tr>
+<td><code>/api/auth/me</code></td>
+<td>GET</td>
+<td>Get authenticated user info</td>
+</tr>
+<tr>
+<td><code>/api/ui/common.css</code></td>
+<td>GET</td>
+<td>FK theme CSS (cached 1h)</td>
+</tr>
+<tr>
+<td><code>/api/ui/user.js</code></td>
+<td>GET</td>
+<td>User menu JS component (cached 1h)</td>
+</tr>
+<tr>
+<td><code>/api/ui/user.css</code></td>
+<td>GET</td>
+<td>User menu CSS (cached 1h)</td>
+</tr>
+<tr>
+<td><code>/api/ui/theme.js</code></td>
+<td>GET</td>
+<td>Theme toggle JS (cached 1h)</td>
+</tr>
+<tr>
+<td><code>/api/visits/record</code></td>
+<td>POST</td>
+<td>Record a user visit (from middleware)</td>
+</tr>
+<tr>
+<td><code>/api/visits/latest</code></td>
+<td>GET</td>
+<td>Latest visits across all users (GlobalAdmin)</td>
+</tr>
+<tr>
+<td><code>/api/visits/user/{id}</code></td>
+<td>GET</td>
+<td>Visit history for one user (GlobalAdmin)</td>
+</tr>
+<tr>
+<td><code>/api/visits/my</code></td>
+<td>GET</td>
+<td>Current user's own visit history</td>
+</tr>
+<tr>
+<td><code>/tenants/{domain}/theme.css</code></td>
+<td>GET</td>
+<td>Tenant CSS overrides</td>
+</tr>
+<tr>
+<td><code>/tenants/{domain}/logo</code></td>
+<td>GET</td>
+<td>Tenant logo image</td>
+</tr>
+<tr>
+<td><code>/tenants/{domain}/icon</code></td>
+<td>GET</td>
+<td>Tenant favicon/icon</td>
+</tr>
+<tr>
+<td><code>/health</code></td>
+<td>GET</td>
+<td>Health check endpoint</td>
+</tr>
+<tr>
+<td><code>/scalar/v1</code></td>
+<td>GET</td>
+<td>API documentation (Scalar)</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

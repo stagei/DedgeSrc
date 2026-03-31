@@ -1,0 +1,26 @@
+<Window x:Class="DbExplorer.Dialogs.OllamaConsentDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Ollama detected"
+        Width="400"
+        Height="Auto"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Ollama is running. Use it for AI SQL editing (Ctrl+K)?" 
+                   TextWrapping="Wrap" Margin="0,0,0,16"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,8">
+            <Button x:Name="YesButton" Content="Yes" Width="80" Margin="0,0,8,0" Click="Yes_Click" IsDefault="True"/>
+            <Button x:Name="NoButton" Content="No" Width="80" Margin="0,0,8,0" Click="No_Click"/>
+            <Button x:Name="DontAskButton" Content="Don't ask again" Width="120" Click="DontAsk_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

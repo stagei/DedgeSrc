@@ -1,0 +1,299 @@
+﻿/**
+ * DedgeAuth User Menu Styles
+ * Unified user menu styling for all DedgeAuth-integrated apps
+ */
+
+/* Container */
+.gk-user-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* User button */
+.gk-user-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-tertiary, rgba(255, 255, 255, 0.1));
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: inherit;
+}
+
+.gk-user-button:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.15));
+    border-color: var(--border-hover, rgba(255, 255, 255, 0.25));
+}
+
+.gk-user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.gk-user-name {
+    font-weight: 500;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gk-dropdown-arrow {
+    font-size: 0.6rem;
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+}
+
+.gk-user-button:hover .gk-dropdown-arrow {
+    opacity: 1;
+}
+
+/* Dropdown menu */
+.gk-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 280px;
+    background: var(--dropdown-bg, #1e1e2e);
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.gk-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Dropdown header */
+.gk-dropdown-header {
+    padding: 1rem;
+    background: var(--header-bg, rgba(255, 255, 255, 0.05));
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.gk-auth-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #22c55e;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.gk-user-email {
+    font-size: 0.875rem;
+    color: var(--text-primary, #fff);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.gk-user-role,
+.gk-user-tenant {
+    font-size: 0.75rem;
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
+}
+
+.gk-user-tenant {
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--tenant-bg, rgba(255, 255, 255, 0.1));
+    border-radius: 0.25rem;
+    display: inline-block;
+}
+
+.gk-token-expires {
+    font-size: 0.7rem;
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+/* Dropdown sections */
+.gk-dropdown-section {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.gk-section-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
+    padding: 0.25rem 0.5rem 0.5rem;
+    font-weight: 600;
+}
+
+/* App links */
+.gk-app-link,
+.gk-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s ease;
+}
+
+.gk-app-link:hover,
+.gk-menu-link:hover {
+    background: var(--item-hover-bg, rgba(255, 255, 255, 0.1));
+}
+
+.gk-app-icon,
+.gk-menu-icon {
+    font-size: 1rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.gk-app-name {
+    flex: 1;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.gk-app-role {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--role-bg, rgba(255, 255, 255, 0.1));
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+}
+
+/* Dropdown footer */
+.gk-dropdown-footer {
+    padding: 0.5rem;
+}
+
+.gk-logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--logout-bg, rgba(239, 68, 68, 0.1));
+    border: 1px solid var(--logout-border, rgba(239, 68, 68, 0.3));
+    border-radius: 0.5rem;
+    color: #ef4444;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+}
+
+.gk-logout-button:hover:not(:disabled) {
+    background: var(--logout-hover-bg, rgba(239, 68, 68, 0.2));
+    border-color: var(--logout-hover-border, rgba(239, 68, 68, 0.5));
+}
+
+.gk-logout-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.gk-logout-icon {
+    font-size: 1rem;
+}
+
+/* Language selector */
+.gk-lang-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));
+}
+
+.gk-lang-label {
+    font-size: 0.75rem;
+    color: var(--text-muted, rgba(255,255,255,0.5));
+    white-space: nowrap;
+}
+
+.gk-lang-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.gk-lang-btn {
+    background: transparent;
+    border: 1px solid var(--border-color, rgba(255,255,255,0.15));
+    border-radius: 0.375rem;
+    padding: 0.2rem 0.4rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.15s ease;
+    opacity: 0.6;
+    width: auto;
+}
+
+.gk-lang-btn:hover {
+    opacity: 1;
+    background: var(--item-hover-bg, rgba(255,255,255,0.08));
+}
+
+.gk-lang-btn.gk-lang-active {
+    opacity: 1;
+    border-color: var(--primary-color, #008942);
+    background: rgba(0, 137, 66, 0.15);
+}
+
+/* Light theme overrides */
+[data-theme="light"] .gk-dropdown {
+    --dropdown-bg: #ffffff;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --header-bg: rgba(0, 0, 0, 0.03);
+    --text-primary: #1f2937;
+    --text-muted: rgba(0, 0, 0, 0.5);
+    --tenant-bg: rgba(0, 0, 0, 0.05);
+    --item-hover-bg: rgba(0, 0, 0, 0.05);
+    --role-bg: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .gk-user-button {
+    --bg-tertiary: rgba(0, 0, 0, 0.05);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --bg-hover: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .gk-user-name {
+        display: none;
+    }
+    
+    .gk-dropdown {
+        min-width: 240px;
+        right: -1rem;
+    }
+}

@@ -1,0 +1,52 @@
+{
+  "tableName": "MOTTAK_ANALYSE",
+  "futureName": "AnalyseResult",
+  "namespace": "KornMottak",
+  "columns": [
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "The year of the analysis",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Unique identifier for the department",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "BatchNumber",
+      "description": "Unique identifier for the batch of grain",
+      "foreignKey": "FK_MOTTAK"
+    },
+    {
+      "name": "VANNPROSENT",
+      "futureName": "WaterContentPercent",
+      "description": "Percentage of water content in the sample",
+      "foreignKey": null
+    },
+    {
+      "name": "HLVEKT",
+      "futureName": "HalfWeight",
+      "description": "Half weight measurement during analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "TEMPERATUR",
+      "futureName": "Temperature",
+      "description": "Temperature recorded during the analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date when the sample was analyzed",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:49:32"
+}

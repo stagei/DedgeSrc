@@ -1,0 +1,112 @@
+{
+  "tableName": "SERVICEAVTALE",
+  "futureName": "ServiceAvtale",
+  "namespace": "DBM",
+  "columns": [
+    {
+      "name": "ENHETSNR",
+      "futureName": "UnitNumber",
+      "description": "The unit number associated with the service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALENR",
+      "futureName": "AgreementNumber",
+      "description": "Unique identifier for the service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALETYPE",
+      "futureName": "AgreementType",
+      "description": "The type of service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "VERKSTED",
+      "futureName": "WorkshopId",
+      "description": "Identifier for the workshop where the service is performed",
+      "foreignKey": "KLARGJ_VERKSTED, PRINTERE"
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique identifier for the customer",
+      "foreignKey": "AVVIST"
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional remarks or comments related to the service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "FK_OPPF",
+      "futureName": "OpportunityCode",
+      "description": "Code representing an opportunity associated with the service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Identifier for the user who created or updated the service agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "SERVICE_DATO",
+      "futureName": "ServiceDate",
+      "description": "The date of service provided under the agreement",
+      "foreignKey": null
+    },
+    {
+      "name": "SLUTT_DATO",
+      "futureName": "EndDate",
+      "description": "The end date of the service agreement",
+      "foreignKey": "AGRIPET_FKNR"
+    },
+    {
+      "name": "SERVICEMND",
+      "futureName": "ServiceMonth",
+      "description": "The month when the service is provided (e.g., '01' for January)",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS_FORSTE",
+      "futureName": "FirstPrice",
+      "description": "The initial price charged for the first unit of service",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS_RESTEN",
+      "futureName": "RemainingPrice",
+      "description": "The price charged for subsequent units of service",
+      "foreignKey": null
+    },
+    {
+      "name": "JORDBRUK",
+      "futureName": "AgricultureUse",
+      "description": "Indicator of whether the service is used in agriculture (1 = yes, 0 = no)",
+      "foreignKey": null
+    },
+    {
+      "name": "ANLEGG",
+      "futureName": "InstallationUse",
+      "description": "Indicator of whether the service is used in installations (1 = yes, 0 = no)",
+      "foreignKey": null
+    },
+    {
+      "name": "SKOGBRUK",
+      "futureName": "ForestUse",
+      "description": "Indicator of whether the service is used in forestry (1 = yes, 0 = no)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:41:46"
+}

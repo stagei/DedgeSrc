@@ -1,0 +1,127 @@
+CONNECT TO BASISPRO 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT TO BASISPRO
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO p:\tru\ORDREH2019.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), H.* FROM DBM.H_ORDREHODE H WHERE (H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20200101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2020-01-01')
+SQL3104N  The Export utility is beginning to export data to file 
+"p:\tru\ORDREH2019.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "202745" rows.
+
+
+Number of rows exported: 202745
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\ORDREL2019.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), L.* FROM DBM.H_ORDREHODE H, DBM.H_ORDRELINJER L WHERE H.AVDNR = L.AVDNR AND H.ORDRENR = L.ORDRENR AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20200101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2020-01-01'))
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\ORDREL2019.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "1182421" rows.
+
+
+Number of rows exported: 1182421
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\ORDREM2019.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), M.* FROM DBM.H_ORDREHODE H, DBM.H_ORDREMERKNAD M WHERE H.AVDNR = M.AVDNR AND H.ORDRENR = M.ORDRENR AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20200101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2020-01-01'))
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\ORDREM2019.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "60535" rows.
+
+
+Number of rows exported: 60535
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\LASS2019.IXF OF IXF SELECT INT(KJØREDATO/10000), L.* FROM DBM.LASS L WHERE KJØREDATO < 20200101 AND STATUS = 99
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\LASS2019.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "89809" rows.
+
+
+Number of rows exported: 89809
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\VAREBEV2019.IXF OF IXF SELECT * FROM DBM.VAREBEVEGELSE WHERE LAGERDATO < 20200101
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\VAREBEV2019.IXF".
+
+SQL3105N  The Export utility has finished exporting "924345" rows.
+
+
+Number of rows exported: 924345
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\BEHOLDKORR2019.IXF OF IXF SELECT INT(KORRDATO/10000), K.* FROM DBM.KORRIGERINGER K WHERE KORRDATO < 20200101
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\BEHOLDKORR2019.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "40181" rows.
+
+
+Number of rows exported: 40181
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

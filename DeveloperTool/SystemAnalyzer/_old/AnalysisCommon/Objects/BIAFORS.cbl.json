@@ -1,0 +1,195 @@
+{
+  "program": "BIAFORS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:39",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\\\SERVER\\AGRI_DATA",
+      "filenamePattern": null,
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:51:39"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:589a203003a96c198b10a4fd1d778d56002799174861394e13d51c9a5ed3d675",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\biafors.cbl",
+    "actualName": "BIAFORS",
+    "program": "BIAFORS",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GRLPROGN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ERSPROGN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOLE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KIF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PIF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIMF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BIAFORS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORSLAG_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LAGER_FORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIMENSJ_FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VHGR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KJPLAN_IKFORSLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FORSLAGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORSLAG_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEDETID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARM_IKFORSLAG",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMFFELL",
+      "GMAPATH",
+      "GMAPRTR",
+      "GMACOCO",
+      "GMAOSNT",
+      "D01B998",
+      "GMADATO",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\\\SERVER\\AGRI_DATA",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:39"
+  }
+}

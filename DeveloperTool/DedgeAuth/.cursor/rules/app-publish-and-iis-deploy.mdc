@@ -1,0 +1,191 @@
+﻿---
+description: All FK apps - how to publish (single/all), deploy to IIS (single/all), uninstall, diagnose. Includes deploy templates, PSM1 module, and staging paths.
+alwaysApply: true
+---
+
+# App Publish and IIS Deploy
+
+## All Related Applications
+
+| App | Source Path | AppId | DotNetDll | ApiPort | IIS Virtual Path |
+|-----|------------|-------|-----------|---------|-----------------|
+| **DedgeAuth** (auth server) | `C:\opt\src\DedgeAuth` | — | `DedgeAuth.Api.dll` | 8100 | `/DedgeAuth` |
+| **DocView** | `C:\opt\src\DocView` | `DocView` | `DocView.dll` | 8282 | `/DocView` |
+| **GenericLogHandler** | `C:\opt\src\GenericLogHandler` | `GenericLogHandler` | `GenericLogHandler.WebApi.dll` | 8110 | `/GenericLogHandler` |
+| **ServerMonitorDashboard** | `C:\opt\src\ServerMonitor` | `ServerMonitorDashboard` | `ServerMonitorDashboard.dll` | 8998 | `/ServerMonitorDashboard` |
+| **AutoDocJson** | `C:\opt\src\AutoDocJson` | `AutoDocJson` | `AutoDocJson.Web.dll` | 5280 | `/AutoDocJson` |
+| **GrainPriceList** | `C:\opt\src\GrainPriceList` | `AgriNxt.GrainDryingDeduction` | `AgriNxt.GrainDryingDeduction.dll` | 5123 | `/AgriNxt.GrainDryingDeduction` |
+| **AutoDoc** (static) | (static content) | — | — | — | `/AutoDoc` |
+| **DefaultWebSite** (root) | (redirect page) | — | — | — | `/` |
+
+All ASP.NET Core apps reference `DedgeAuth.Client` for authentication. All run as IIS virtual applications under `Default Web Site` on port 80.
+
+## Publish: Single App
+
+Each app has its own `Build-And-Publish.ps1` at its repo root. This publishes to the **staging share** on `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\<AppName>`.
+
+```powershell
+# DedgeAuth (also deploys DedgePsh server scripts)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish.ps1"
+
+# DocView
+pwsh.exe -NoProfile -File "C:\opt\src\DocView\Build-And-Publish.ps1"
+
+# GenericLogHandler (publishes WebApi + ImportService + AlertAgent)
+pwsh.exe -NoProfile -File "C:\opt\src\GenericLogHandler\Build-And-Publish.ps1"
+
+# ServerMonitorDashboard (publishes Dashboard + Agent + TrayIcon + Dashboard.Tray)
+pwsh.exe -NoProfile -File "C:\opt\src\ServerMonitor\Build-And-Publish.ps1"
+
+# AutoDocJson
+pwsh.exe -NoProfile -File "C:\opt\src\AutoDocJson\Build-And-Publish.ps1"
+
+# GrainPriceList (AgriNxt.GrainDryingDeduction)
+pwsh.exe -NoProfile -File "C:\opt\src\GrainPriceList\AgriNxt.GrainDryingDeduction\Build-And-Publish.ps1"
+```
+
+All use the `WebApp-FileSystem.pubxml` publish profile. Version bumps are Patch by default.
+
+## Publish: All Apps at Once
+
+```powershell
+# Build DedgeAuth first, then all consumer apps referencing DedgeAuth.Client
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+
+# Dry run (show what would build without building)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1" -DryRun
+
+# Skip DedgeAuth, only rebuild consumer apps
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1" -SkipDedgeAuth
+```
+
+`Build-And-Publish-ALL.ps1` scans `$env:OptPath\src` for `.csproj` files referencing `DedgeAuth.Client`, builds DedgeAuth first, then each discovered consumer app sequentially.
+
+## Staging → IIS Install Paths
+
+Publishing writes to **staging**. IIS-DeployApp copies from staging to the **install path** where IIS serves from.
+
+| App | Staging Share Folder | IIS Install Path |
+|-----|---------------------|-----------------|
+| DedgeAuth | `DedgeWinApps\DedgeAuth` | `$env:OptPath\DedgeWinApps\DedgeAuth` |
+| DocView | `DedgeWinApps\DocView` | `$env:OptPath\DedgeWinApps\DocView` |
+| GenericLogHandler | `DedgeWinApps\GenericLogHandler-WebApi` | `$env:OptPath\DedgeWinApps\GenericLogHandler-WebApi` |
+| ServerMonitorDashboard | `DedgeWinApps\ServerMonitorDashboard` | `$env:OptPath\DedgeWinApps\ServerMonitorDashboard` |
+| AutoDocJson | `DedgeWinApps\AutoDocJson` | `$env:OptPath\DedgeWinApps\AutoDocJson` |
+| AgriNxt.GrainDryingDeduction | `DedgeWinApps\AgriNxt.GrainDryingDeduction` | `$env:OptPath\DedgeWinApps\AgriNxt.GrainDryingDeduction` |
+
+Staging share base: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\`
+
+## IIS Deploy: Single App
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName DedgeAuth
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName DocView
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName GenericLogHandler
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName ServerMonitorDashboard
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName AutoDocJson
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName AgriNxt.GrainDryingDeduction
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName AutoDoc
+```
+
+## IIS Deploy: All Apps at Once
+
+```powershell
+# Full teardown + iisreset + rebuild all apps from templates
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+```
+
+Phases: 1) UNINSTALL all apps, 2) `iisreset /restart`, 3) DEPLOY DefaultWebSite first then all apps alphabetically.
+
+## IIS Uninstall: Single App
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName DedgeAuth
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName DocView
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName GenericLogHandler
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName ServerMonitorDashboard
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName AutoDocJson
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName AgriNxt.GrainDryingDeduction
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName AutoDoc
+```
+
+## IIS Diagnostics
+
+```powershell
+# Run diagnostics on a specific app (checks IIS config, web.config, event log, health endpoint)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\Test-IISSite.ps1" -SiteName DedgeAuth
+```
+
+## Deploy Templates
+
+Location: `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\templates\`
+
+Naming convention: `<SiteName>_<InstallSource>.deploy.json`
+
+| Template File | SiteName | AppType | InstallSource | ApiPort | HealthEndpoint |
+|--------------|----------|---------|---------------|---------|----------------|
+| `DefaultWebSite_None.deploy.json` | DefaultWebSite | Static | None | — | — |
+| `DedgeAuth_WinApp.deploy.json` | DedgeAuth | AspNetCore | WinApp | 8100 | `/health` |
+| `DocView_WinApp.deploy.json` | DocView | AspNetCore | WinApp | 8282 | — |
+| `GenericLogHandler_WinApp.deploy.json` | GenericLogHandler | AspNetCore | WinApp | 8110 | `/health` |
+| `ServerMonitorDashboard_WinApp.deploy.json` | ServerMonitorDashboard | AspNetCore | WinApp | 8998 | `/api/IsAlive` |
+| `AutoDocJson_WinApp.deploy.json` | AutoDocJson | AspNetCore | WinApp | 5280 | `/health` |
+| `AgriNxt.GrainDryingDeduction_WinApp.deploy.json` | AgriNxt.GrainDryingDeduction | AspNetCore | WinApp | 5123 | — |
+| `AutoDoc_None.deploy.json` | AutoDoc | Static | None | — | — |
+
+Key fields in each template: `SiteName`, `PhysicalPath`, `AppType`, `DotNetDll`, `InstallSource`, `InstallAppName`, `VirtualPath`, `ParentSite`, `HealthEndpoint`, `ApiPort`.
+
+## PowerShell Module: IIS-Handler
+
+All IIS operations (`IIS-DeployApp.ps1`, `IIS-UninstallApp.ps1`, `IIS-RedeployAll.ps1`, `Test-IISSite.ps1`) are powered by the **IIS-Handler** PowerShell module:
+
+| Item | Detail |
+|------|--------|
+| **Module** | `IIS-Handler` |
+| **Source** | `C:\opt\src\DedgePsh\_Modules\IIS-Handler\IIS-Handler.psm1` |
+| **On PSModulePath** | Yes -- loaded via `Import-Module IIS-Handler -Force` |
+| **Key functions** | `Deploy-IISSite`, `Uninstall-IISSite`, `Test-IISSite`, `Install-OurWinApp` |
+
+`Deploy-IISSite` implements the 10-step deploy process: Teardown → Install files → Create app pool → Create virtual app → Generate web.config → Set permissions → Firewall rules → Start → Verify → Health check.
+
+`Install-OurWinApp` copies published files from the staging share (`\\server\DedgeCommon\Software\DedgeWinApps\<AppName>`) to the local install path (`$env:OptPath\DedgeWinApps\<AppName>`).
+
+## IIS-DeployApp Scripts
+
+| Script | Path | Purpose |
+|--------|------|---------|
+| `IIS-DeployApp.ps1` | `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\` | Deploy/update one app from template |
+| `IIS-UninstallApp.ps1` | Same folder | Remove one virtual app + app pool + firewall |
+| `IIS-RedeployAll.ps1` | Same folder | Teardown all + iisreset + redeploy all from templates |
+| `Test-IISSite.ps1` | Same folder | Diagnostics and health checks |
+| `_deploy.ps1` | Same folder | Sync scripts and templates to servers |
+
+After editing any IIS-DeployApp scripts or templates, run `_deploy.ps1` to push changes to servers.
+
+## Full Deploy Sequence (publish + IIS + verify)
+
+```powershell
+# 1. Build and publish all apps to staging
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+
+# 2. Deploy from staging to local IIS (teardown + rebuild all)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+
+# 3. Verify with screenshots, email, and SMS
+pwsh.exe -NoProfile -File "C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"
+```
+
+## Deploy Logs
+
+| Log | Path |
+|-----|------|
+| IIS deploy operations | `$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+| UNC path | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+
+## Impact Rules
+
+- **Changing DedgeAuth.Client** → rebuild ALL consumer apps (`Build-And-Publish-ALL.ps1`) then `IIS-RedeployAll.ps1`
+- **Changing DedgeAuth wwwroot (CSS/JS/HTML)** → rebuild DedgeAuth only; consumer apps fetch assets via proxy
+- **Changing a single consumer app** → rebuild that app only, then `IIS-DeployApp.ps1 -SiteName <name>`
+- **Changing deploy templates** → run `IIS-DeployApp\_deploy.ps1` to sync to servers, then `IIS-RedeployAll.ps1`
+- **Changing IIS-Handler.psm1** → commit to DedgePsh, run `IIS-RedeployAll.ps1` to pick up changes

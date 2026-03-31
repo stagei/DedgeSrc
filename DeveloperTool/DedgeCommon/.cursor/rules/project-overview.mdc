@@ -1,0 +1,57 @@
+﻿---
+description: DedgeCommon project overview and architecture
+alwaysApply: true
+---
+
+# DedgeCommon Project Overview
+
+**DedgeCommon** is a comprehensive .NET 8.0 library providing common utilities for database operations, logging, environment management, and cloud integration for the Dedge ecosystem.
+
+**Current Version:** 1.5.4+  
+**Target Framework:** .NET 8.0  
+**Primary Language:** C#  
+**Package Name:** Dedge.DedgeCommon
+
+## Project Purpose
+
+DedgeCommon serves as the foundational library for all Dedge .NET applications, providing:
+
+1. **Database Operations** - Unified API for IBM DB2, SQL Server, and PostgreSQL
+2. **Authentication** - Kerberos/SSO authentication across all database providers
+3. **Environment Management** - Automatic server/workstation detection and configuration
+4. **Network Infrastructure** - Automated network drive mapping
+5. **Cloud Integration** - Azure Key Vault credential management
+6. **COBOL Integration** - Execute COBOL programs with auto-configuration
+7. **Logging** - Comprehensive logging with NLog integration
+8. **Server Verification** - Tools for testing and reporting server environments
+
+## Key Components
+
+### Database Providers
+- **Db2Handler** - IBM DB2 with Kerberos authentication (tested)
+- **SqlServerHandler** - SQL Server with Integrated Security
+- **PostgresHandler** - PostgreSQL with GSSAPI support (v1.4.8+)
+
+### Core Features
+- **DedgeConnection** - Database configuration with dual lookup (name or alias)
+- **FkEnvironmentSettings** - Auto-detects environment from server name
+- **NetworkShareManager** - Win32 API-based network drive mapping
+- **AzureKeyVaultManager** - Complete CRUD operations for Key Vault
+- **RunCblProgram** - COBOL program execution with environment integration
+- **DedgeNLog** - Enhanced logging with shutdown summary
+
+## General Architecture
+
+### Library Structure
+1. **Core Layer** - Base utilities (DedgeNLog, GlobalFunctions, FkFolders)
+2. **Database Layer** - Provider interfaces and implementations
+3. **Connection Layer** - Connection management (DedgeConnection, DatabasesV2.json)
+4. **Environment Layer** - Auto-detection and configuration
+5. **Infrastructure Layer** - Network, Azure, COBOL integration
+6. **Reporting Layer** - WorkObject pattern for execution tracking (v1.5.19+)
+
+### Key Design Patterns
+- **Factory Pattern** - DedgeDbHandler creates appropriate database handlers
+- **Singleton Pattern** - FkEnvironmentSettings caches configuration
+- **Strategy Pattern** - Different authentication strategies per provider
+- **Dynamic Object Pattern** - WorkObject for flexible data accumulation

@@ -1,0 +1,70 @@
+{
+  "tableName": "KD_SAF_RES_VER",
+  "futureName": "VersionedPrescription",
+  "namespace": "Pharmacy",
+  "columns": [
+    {
+      "name": "VER_NR",
+      "futureName": "VersionNumber",
+      "description": "The version number of the prescription",
+      "foreignKey": null
+    },
+    {
+      "name": "RESEPTNR",
+      "futureName": "PrescriptionNumber",
+      "description": "Unique identifier for the prescription",
+      "foreignKey": "KD_SAF_RESEPT.PrescriptionNumber"
+    },
+    {
+      "name": "LANG_NAVN",
+      "futureName": "LongName",
+      "description": "The long name or full name of the prescription",
+      "foreignKey": null
+    },
+    {
+      "name": "KORT_NAVN",
+      "futureName": "ShortName",
+      "description": "A short or abbreviated name for the prescription",
+      "foreignKey": null
+    },
+    {
+      "name": "SESONG",
+      "futureName": "Season",
+      "description": "The season associated with the prescription",
+      "foreignKey": null
+    },
+    {
+      "name": "DATO",
+      "futureName": "Date",
+      "description": "The date of the prescription",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "The registration date for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegistrarUser",
+      "description": "The user who registered the record",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "LastModifiedDate",
+      "description": "The date when the record was last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "LastModifiedByUser",
+      "description": "The user who last modified the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:23:43"
+}

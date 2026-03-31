@@ -1,0 +1,30 @@
+﻿{
+  "SiteName": "SystemAnalyzer",
+  "PhysicalPath": "$env:OptPath\\DedgeWinApps\\SystemAnalyzer",
+  "AppType": "AspNetCore",
+  "DotNetDll": "SystemAnalyzer.Web.dll",
+  "AppPoolName": "SystemAnalyzer",
+  "InstallSource": "WinApp",
+  "InstallAppName": "SystemAnalyzer",
+  "VirtualPath": "/SystemAnalyzer",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/health",
+  "EnableDirectoryBrowsing": false,
+  "IsRootSiteProfile": false,
+  "AllowAnonymousAccess": true,
+  "ApiPort": 8790,
+  "DedgeAuth": {
+    "AppId": "SystemAnalyzer",
+    "DisplayName": "System Analyzer",
+    "Description": "COBOL dependency analysis and visualization",
+    "Roles": [ "User", "Admin" ],
+    "TenantDomains": [ "Dedge.no" ],
+    "BaseUrl": "http://$env:COMPUTERNAME/SystemAnalyzer"
+  },
+  "AdditionalWinApps": [
+    "SystemAnalyzer-Batch"
+  ],
+  "LastDeployed": "",
+  "DeployedBy": "",
+  "ComputerName": ""
+}

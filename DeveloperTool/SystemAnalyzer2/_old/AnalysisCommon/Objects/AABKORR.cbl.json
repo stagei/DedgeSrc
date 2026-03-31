@@ -1,0 +1,265 @@
+{
+  "program": "AABKORR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:42:00",
+  "variableFilenames": {
+    "KUN-FIL": {
+      "logicalName": "KUN-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "Rette vareregisteret etter valutakjøring",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T23:41:55"
+    },
+    "ADR-FIL": {
+      "logicalName": "ADR-FIL",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "Constructs filename using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T23:42:00"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:fc4dda45218c741578bfab9a9a56e4b637ef513d3c9812614c64bb505f3069cb",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABKORR.CBL",
+    "actualName": "AABKORR",
+    "program": "AABKORR",
+    "copyElements": [
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RHSEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "3KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRDK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "M3KA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ELMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "K",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "TV",
+        "tableName": "FAKTHIST_SUMK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "T",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "F0001",
+        "tableName": "ACTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEMP1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "SVI",
+        "tableName": "PROD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MEDLEM_INNLAN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER_M_AKTIV_KONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_PRODUSENT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRISDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRISHISTORIKK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRISHISTORIKK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMASTSM",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABKORR.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKORR.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "KUN-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Rette vareregisteret etter valutakjøring"
+      },
+      {
+        "logicalName": "ADR-FIL",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and date"
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "Varer-fknr.TXT",
+        "path": "U:\\",
+        "fullPath": "U:\\Varer-fknr.TXT",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:42:00"
+  }
+}

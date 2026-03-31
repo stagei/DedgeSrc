@@ -1,0 +1,1298 @@
+{
+  "title": "COBOL Dependency Master",
+  "generated": "2026-03-28 22:33:07",
+  "programs": [
+    {
+      "program": "DOHCBLD",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHCBLD.CBL",
+      "actualName": "DOHCBLD",
+      "copyElements": [
+        {
+          "name": "CBLD.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "DSSYSINF.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMADATO.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOKSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKDSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMOD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMKOM.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCALL.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCOPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLLIN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLXTAB.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TITP.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "FROM",
+          "type": "copybook"
+        },
+        {
+          "name": "WHERE",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC.",
+          "type": "copybook"
+        },
+        {
+          "name": "C",
+          "type": "copybook"
+        },
+        {
+          "name": "ORDER",
+          "type": "copybook"
+        },
+        {
+          "name": "MOVE",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC",
+          "type": "copybook"
+        },
+        {
+          "name": "TO",
+          "type": "copybook"
+        },
+        {
+          "name": "COMPUTE",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SYSTEM",
+          "operation": "SELECT",
+          "futureTableName": "SystemInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DELSYSTEM",
+          "operation": "SELECT",
+          "futureTableName": "DeleteSystemCommand"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILTP_LOG",
+          "operation": "SELECT",
+          "futureTableName": "TiltPLog"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "SELECT",
+          "futureTableName": "ModuleInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COBDOK_MENY",
+          "operation": "SELECT",
+          "futureTableName": "MenuEntry"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "SELECT",
+          "futureTableName": "CallDetail"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "SELECT",
+          "futureTableName": "LagstedCopy"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "SELECT",
+          "futureTableName": "ModkomTable"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "SELECT",
+          "futureTableName": "CopySet"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "SELECT",
+          "futureTableName": "SqlXTab"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "SELECT",
+          "futureTableName": "LineItem"
+        }
+      ],
+      "callTargets": [],
+      "fileIO": [],
+      "classification": "database-access",
+      "classificationConfidence": "medium",
+      "classificationEvidence": "SQL ops: 11, no file I/O",
+      "futureProjectName": "DoHcBuildMainUi"
+    },
+    {
+      "program": "DOHCHK",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHCHK.CBL",
+      "actualName": "DOHCHK",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOHC.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILTP_LOG",
+          "operation": "SELECT",
+          "futureTableName": "TiltPLog"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "SELECT",
+          "futureTableName": "CallDetail"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COBDOK_MENY",
+          "operation": "SELECT",
+          "futureTableName": "MenuEntry"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "B_PROGRAMMER",
+          "operation": "SELECT",
+          "futureTableName": "Programmer"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "SELECT",
+          "futureTableName": "OrderLine"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "FEILHANDTERT",
+          "operation": "SELECT",
+          "futureTableName": "FeilhandteringRecord"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DOHCHK",
+          "operation": "DELETE",
+          "futureTableName": "DbmDohchkEntity"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DOHCHK",
+          "operation": "INSERT",
+          "futureTableName": "DbmDohchkEntity"
+        }
+      ],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ],
+      "classification": "data-processing",
+      "classificationConfidence": "medium",
+      "classificationEvidence": "SQL ops: 8, File I/O: 1",
+      "futureProjectName": "DohCheckMainUi"
+    },
+    {
+      "program": "DOHSCAN",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHSCAN.CBL",
+      "actualName": "DOHSCAN",
+      "copyElements": [
+        {
+          "name": "PIC",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMADIR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOKSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKDSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMOD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMKOM.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCALL.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCOPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLLIN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLXTAB.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "I-CALL",
+          "type": "copybook"
+        },
+        {
+          "name": "END-IF",
+          "type": "copybook"
+        },
+        {
+          "name": "INSPECT",
+          "type": "copybook"
+        },
+        {
+          "name": "ELSE",
+          "type": "copybook"
+        },
+        {
+          "name": "TO",
+          "type": "copybook"
+        },
+        {
+          "name": "REPLACING",
+          "type": "copybook"
+        },
+        {
+          "name": "IF",
+          "type": "copybook"
+        },
+        {
+          "name": "ADD",
+          "type": "copybook"
+        },
+        {
+          "name": "MOVE",
+          "type": "copybook"
+        },
+        {
+          "name": "PERFORM",
+          "type": "copybook"
+        },
+        {
+          "name": "INTO",
+          "type": "copybook"
+        },
+        {
+          "name": "VALUES",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TABCREATOR",
+          "operation": "SELECT",
+          "futureTableName": "CreatorRecord"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "INSERT",
+          "futureTableName": "ModkomTable"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "INSERT",
+          "futureTableName": "ModuleInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "INSERT",
+          "futureTableName": "OrderLine"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "UPDATE",
+          "futureTableName": "CopySet"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "INSERT",
+          "futureTableName": "CopySet"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "INSERT",
+          "futureTableName": "LagstedCopy"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "INSERT",
+          "futureTableName": "CallDetail"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "UPDATE",
+          "futureTableName": "ModuleInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "INSERT",
+          "futureTableName": "LineItem"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "INSERT",
+          "futureTableName": "SqlXTab"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "SELECT",
+          "futureTableName": "ModuleInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "SELECT",
+          "futureTableName": "CopySet"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SYSTEM",
+          "operation": "UPDATE",
+          "futureTableName": "SystemInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "DELETE",
+          "futureTableName": "CallDetail"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "DELETE",
+          "futureTableName": "LagstedCopy"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "DELETE",
+          "futureTableName": "CopySet"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "DELETE",
+          "futureTableName": "ModkomTable"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "DELETE",
+          "futureTableName": "ModuleInfo"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "DELETE",
+          "futureTableName": "OrderLine"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "DELETE",
+          "futureTableName": "LineItem"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "DELETE",
+          "futureTableName": "SqlXTab"
+        }
+      ],
+      "callTargets": [
+        "GMASQLB"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "SOURCE-FILE",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "READ"
+          ]
+        },
+        {
+          "logicalName": "LOAD-FIL",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ],
+      "classification": "data-processing",
+      "classificationConfidence": "medium",
+      "classificationEvidence": "SQL ops: 22, File I/O: 2",
+      "futureProjectName": "DohScanMainUI"
+    },
+    {
+      "program": "GMASQLB",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASQLB.CBL",
+      "actualName": "GMASQLB",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": [],
+      "classification": "orchestrator",
+      "classificationConfidence": "low",
+      "classificationEvidence": "Call targets: 1, no SQL or file I/O",
+      "futureProjectName": "GrainStockMaintenance"
+    },
+    {
+      "program": "GMFTRAP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFTRAP.CBL",
+      "actualName": "GMFTRAP",
+      "copyElements": [
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "GMFTRAP.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "AVD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "SELECT",
+          "futureTableName": "SqlFeil"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT",
+          "futureTableName": "SqlFeil"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_AVDTAB",
+          "operation": "SELECT",
+          "futureTableName": "Avdeling"
+        }
+      ],
+      "callTargets": [],
+      "fileIO": [
+        {
+          "logicalName": "UT-LOGG-FIL",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ],
+      "classification": "data-processing",
+      "classificationConfidence": "medium",
+      "classificationEvidence": "SQL ops: 3, File I/O: 1",
+      "futureProjectName": "GmfTrap"
+    }
+  ],
+  "database": "COBDOK",
+  "db2Alias": "COBDOK",
+  "totalPrograms": 5,
+  "boundaryStats": {
+    "database": "COBDOK",
+    "catalogQualified": 98,
+    "programsRejected": 9,
+    "sqlOpsStripped": 4
+  },
+  "tableNaming": {
+    "B_PROGRAMMER": {
+      "futureName": "Programmer",
+      "namespace": "Legacy",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "PROGRAM",
+          "futureName": "ProgramCode",
+          "description": "The unique code or identifier for the programmer",
+          "foreignKey": null
+        }
+      ]
+    },
+    "CALL": {
+      "futureName": "CallDetail",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "CALL",
+          "futureName": "CallIdentifier",
+          "description": "A unique identifier for the call or transaction.",
+          "foreignKey": null
+        }
+      ]
+    },
+    "COBDOK_MENY": {
+      "futureName": "MenuEntry",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "funksjon",
+          "futureName": "Function",
+          "description": "The function associated with the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "tekst",
+          "futureName": "Text",
+          "description": "The text or label of the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "system",
+          "futureName": "System",
+          "description": "The system associated with the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "beskrivelse",
+          "futureName": "Description",
+          "description": "A detailed description of the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "ansvarlig",
+          "futureName": "ResponsiblePerson",
+          "description": "The person responsible for the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "organisasjon",
+          "futureName": "Organization",
+          "description": "The organization associated with the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "urlBrukerdok",
+          "futureName": "UserDocumentationUrl",
+          "description": "URL for user documentation related to the menu entry",
+          "foreignKey": null
+        },
+        {
+          "name": "urlBrukerdokMeny",
+          "futureName": "MenuUserDocumentationUrl",
+          "description": "URL for user documentation related to the menu",
+          "foreignKey": null
+        }
+      ]
+    },
+    "COPY": {
+      "futureName": "LagstedCopy",
+      "namespace": "Warehouse",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "COPY",
+          "futureName": "CopyNumber",
+          "description": "The copy number identifier",
+          "foreignKey": null
+        }
+      ]
+    },
+    "COPYSET": {
+      "futureName": "CopySet",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "COPYSET",
+          "futureName": "CopySetIdentifier",
+          "description": "A unique identifier for each copy set",
+          "foreignKey": null
+        }
+      ]
+    },
+    "DELSYSTEM": {
+      "futureName": "DeleteSystemCommand",
+      "namespace": "DataCommands",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "system",
+          "futureName": "SystemCode",
+          "description": "Unique code for the system",
+          "foreignKey": null
+        },
+        {
+          "name": "delsystem",
+          "futureName": "DeleteSystemCode",
+          "description": "Code indicating the system to be deleted",
+          "foreignKey": null
+        },
+        {
+          "name": "tekst",
+          "futureName": "Text",
+          "description": "Free text or message related to the deletion process",
+          "foreignKey": null
+        }
+      ]
+    },
+    "DOHCHK": {
+      "futureName": "DbmDohchkEntity",
+      "namespace": "LegacyTables",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "PROGRAM",
+          "futureName": "Program",
+          "description": "Identifies the program being used",
+          "foreignKey": "AKTIVISER, B_PROGRAMMER, FK_LOG"
+        },
+        {
+          "name": "UTGATT",
+          "futureName": "OutputArea",
+          "description": "Describes the output area or section",
+          "foreignKey": "TEKSTER"
+        },
+        {
+          "name": "BENYTTER_SQL",
+          "futureName": "UsesSql",
+          "description": "Indicates whether SQL is used in the program",
+          "foreignKey": "MODUL, MODUL"
+        },
+        {
+          "name": "PROD_SIST",
+          "futureName": "LastProductionDate",
+          "description": "The date of the last production run",
+          "foreignKey": null
+        },
+        {
+          "name": "PROD_FLERE",
+          "futureName": "AdditionalProductions",
+          "description": "Details about additional productions",
+          "foreignKey": null
+        },
+        {
+          "name": "PROD_DATO",
+          "futureName": "ProductionDate",
+          "description": "The date of the production run",
+          "foreignKey": null
+        },
+        {
+          "name": "ANT_FEIL",
+          "futureName": "NumberOfErrors",
+          "description": "The number of errors encountered during production",
+          "foreignKey": null
+        },
+        {
+          "name": "TEKST",
+          "futureName": "Text",
+          "description": "Text or message associated with the record",
+          "foreignKey": "COBDOK_MENY, COPYSET, DELSYSTEM, MODKOM, MODUL_LINJER, MODUL_LINJER, MODUL, PRINTERE, SYSTEM"
+        },
+        {
+          "name": "AARSAK",
+          "futureName": "Reason",
+          "description": "The reason for an error or issue",
+          "foreignKey": "FEILHANDTERT"
+        }
+      ]
+    },
+    "FEILHANDTERT": {
+      "futureName": "FeilhandteringRecord",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "MODUL",
+          "futureName": "Module",
+          "description": "The module or process associated with the record",
+          "foreignKey": null
+        },
+        {
+          "name": "PRODDATO",
+          "futureName": "ProductionDate",
+          "description": "The production date of the record",
+          "foreignKey": null
+        }
+      ]
+    },
+    "MODKOM": {
+      "futureName": "ModkomTable",
+      "namespace": "Legacy",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "SYSTEM",
+          "futureName": "SystemCode",
+          "description": "The code identifying the system",
+          "foreignKey": "MOD"
+        },
+        {
+          "name": "MODUL",
+          "futureName": "ModuleCode",
+          "description": "The code identifying the module",
+          "foreignKey": "MOD"
+        },
+        {
+          "name": "SEQNR",
+          "futureName": "SequenceNumber",
+          "description": "A sequential number to identify a specific record within the sequence of records for a given module and system combination",
+          "foreignKey": null
+        },
+        {
+          "name": "TEKST",
+          "futureName": "Text",
+          "description": "The text content or description related to the record",
+          "foreignKey": null
+        }
+      ]
+    },
+    "MODUL": {
+      "futureName": "ModuleInfo",
+      "namespace": "LegacyDbModels",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "SYSTEM",
+          "futureName": "System",
+          "description": "The system identifier",
+          "foreignKey": null
+        },
+        {
+          "name": "DELSYSTEM",
+          "futureName": "DeleteSystem",
+          "description": "Indicates the system to be deleted",
+          "foreignKey": null
+        },
+        {
+          "name": "MODULTYPE",
+          "futureName": "ModuleType",
+          "description": "The type of module",
+          "foreignKey": null
+        },
+        {
+          "name": "BENYTTER_DS",
+          "futureName": "UsesDs",
+          "description": "Indicates if the module uses DS (Data Services)",
+          "foreignKey": null
+        },
+        {
+          "name": "FRA_DATO",
+          "futureName": "FromDate",
+          "description": "The start date for the period or reference",
+          "foreignKey": null
+        }
+      ]
+    },
+    "MODUL_LINJER": {
+      "futureName": "OrderLine",
+      "namespace": "Orders",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "SYSTEM",
+          "futureName": "SystemIdentifier",
+          "description": "Unique system identifier",
+          "foreignKey": null
+        },
+        {
+          "name": "MODUL",
+          "futureName": "ModuleCode",
+          "description": "Code of the module or component",
+          "foreignKey": null
+        },
+        {
+          "name": "LINJENR",
+          "futureName": "LineNumber",
+          "description": "Unique line number within an order",
+          "foreignKey": null
+        },
+        {
+          "name": "KOL7",
+          "futureName": "Column7",
+          "description": "Specific column or flag for additional data",
+          "foreignKey": null
+        },
+        {
+          "name": "TEKST",
+          "futureName": "TextDescription",
+          "description": "\u81EA\u7531\u6587\u672C\u63CF\u8FF0\u6216\u8BF4\u660E",
+          "foreignKey": null
+        }
+      ]
+    },
+    "SQLFEIL": {
+      "futureName": "SqlFeil",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "tidspunkt",
+          "futureName": "Timestamp",
+          "description": "The timestamp of the event or operation",
+          "foreignKey": null
+        },
+        {
+          "name": "db",
+          "futureName": "Database",
+          "description": "The name of the database used in the operation",
+          "foreignKey": "FK_LOG"
+        },
+        {
+          "name": "client",
+          "futureName": "Client",
+          "description": "The client application or user that initiated the operation",
+          "foreignKey": "OPPSTART"
+        },
+        {
+          "name": "brukerid",
+          "futureName": "UserIdentifier",
+          "description": "The identifier of the user who performed the operation",
+          "foreignKey": "AD_BRUKER"
+        },
+        {
+          "name": "sqlcode",
+          "futureName": "SqlCode",
+          "description": "The SQL error code returned by the database",
+          "foreignKey": null
+        },
+        {
+          "name": "program",
+          "futureName": "Program",
+          "description": "The name of the program or module that initiated the operation",
+          "foreignKey": "B_PROGRAMMER"
+        },
+        {
+          "name": "paragraf",
+          "futureName": "Paragraph",
+          "description": "A paragraph or section within a document, if applicable",
+          "foreignKey": "FK_LOG"
+        },
+        {
+          "name": "melding",
+          "futureName": "Message",
+          "description": "The error message or description associated with the operation",
+          "foreignKey": "FK_LOG"
+        },
+        {
+          "name": "ts_name",
+          "futureName": "TransactionSystemName",
+          "description": "The name of the transaction system involved in the operation",
+          "foreignKey": null
+        },
+        {
+          "name": "server",
+          "futureName": "Server",
+          "description": "The server where the operation was executed or the database is located",
+          "foreignKey": "OPPSTART"
+        }
+      ]
+    },
+    "SQLLINJER": {
+      "futureName": "LineItem",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "SYSTEM",
+          "futureName": "SystemCode",
+          "description": "Unique code identifying the system",
+          "foreignKey": "MOD"
+        },
+        {
+          "name": "MODUL",
+          "futureName": "ModuleCode",
+          "description": "Code representing a specific module",
+          "foreignKey": "MOD"
+        },
+        {
+          "name": "ID",
+          "futureName": "LineId",
+          "description": "Unique identifier for each line item",
+          "foreignKey": null
+        },
+        {
+          "name": "LINJE",
+          "futureName": "LineContent",
+          "description": "Detailed content or description of the line item",
+          "foreignKey": null
+        }
+      ]
+    },
+    "SQLXTAB": {
+      "futureName": "SqlXTab",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "id",
+          "futureName": "Id",
+          "description": "A unique identifier for the record",
+          "foreignKey": null
+        },
+        {
+          "name": "tabell",
+          "futureName": "Tabel",
+          "description": "The name of the associated table",
+          "foreignKey": null
+        }
+      ]
+    },
+    "SYSTEM": {
+      "futureName": "SystemInfo",
+      "namespace": "LegacyDbModels",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "SYSTEM",
+          "futureName": "SystemCode",
+          "description": "Unique system code identifier",
+          "foreignKey": null
+        },
+        {
+          "name": "TEKST",
+          "futureName": "Description",
+          "description": "Text description or comment",
+          "foreignKey": null
+        },
+        {
+          "name": "ANTALL_MODULER",
+          "futureName": "ModuleCount",
+          "description": "Number of modules",
+          "foreignKey": null
+        },
+        {
+          "name": "ANTALL_COPYSATSER",
+          "futureName": "CopysetCount",
+          "description": "Number of copysets",
+          "foreignKey": null
+        },
+        {
+          "name": "SIST_ENDRET",
+          "futureName": "LastUpdatedTimestamp",
+          "description": "Timestamp indicating the last update",
+          "foreignKey": null
+        }
+      ]
+    },
+    "TABCREATOR": {
+      "futureName": "CreatorRecord",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "CREATOR",
+          "futureName": "CreatorName",
+          "description": "Name of the user or entity that created the record",
+          "foreignKey": null
+        }
+      ]
+    },
+    "TILTP_LOG": {
+      "futureName": "TiltPLog",
+      "namespace": "Dbm",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "PGM",
+          "futureName": "Program",
+          "description": "The program name or identifier",
+          "foreignKey": null
+        }
+      ]
+    },
+    "Z_AVDTAB": {
+      "futureName": "Avdeling",
+      "namespace": "DBM",
+      "model": "qwen2.5:7b",
+      "protocol": "Naming-TableNames",
+      "columns": [
+        {
+          "name": "AVDNR",
+          "futureName": "AvdelingNumber",
+          "description": "Unique identifier for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "AVDNAVN",
+          "futureName": "DepartmentName",
+          "description": "Name of the department",
+          "foreignKey": null
+        },
+        {
+          "name": "AVDFLAG",
+          "futureName": "ActiveFlag",
+          "description": "Indicates if the department is active",
+          "foreignKey": null
+        },
+        {
+          "name": "DATABASENAVN",
+          "futureName": "DatabaseName",
+          "description": "Name of the database associated with the department",
+          "foreignKey": null
+        },
+        {
+          "name": "TO_BOKSTAV",
+          "futureName": "StartingLetter",
+          "description": "Starting letter for filtering or sorting purposes",
+          "foreignKey": null
+        },
+        {
+          "name": "OMRAADE",
+          "futureName": "AreaCode",
+          "description": "Code representing the area of operation for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "VERKSTED_OMRAADE",
+          "futureName": "WorkshopAreaCode",
+          "description": "Code representing the workshop area associated with the department",
+          "foreignKey": null
+        },
+        {
+          "name": "MINUS_BEHOLDNING",
+          "futureName": "MinusStockholding",
+          "description": "Indicates if there is a minus stock holding for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "MELLOMFRAKT",
+          "futureName": "InterdepartmentalFreight",
+          "description": "Code indicating whether inter-departmental freight is applied",
+          "foreignKey": null
+        },
+        {
+          "name": "STEDSFRAKT",
+          "futureName": "PlaceFreight",
+          "description": "Code indicating the type of place freight for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "LAGER_TYPE",
+          "futureName": "WarehouseType",
+          "description": "Type of warehouse associated with the department",
+          "foreignKey": null
+        },
+        {
+          "name": "PRIS_INNKJOP",
+          "futureName": "PurchasePriceIndicator",
+          "description": "Code indicating if purchase price is applicable for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "KLIENT",
+          "futureName": "ClientCode",
+          "description": "Code representing the client associated with the department",
+          "foreignKey": null
+        },
+        {
+          "name": "KLARGJ_MASKIN",
+          "futureName": "ReadyMachine",
+          "description": "Code indicating if a machine is ready for use by the department",
+          "foreignKey": null
+        },
+        {
+          "name": "HOVEDLAGER_MASKIN",
+          "futureName": "MainWarehouseMachine",
+          "description": "Code indicating if the main warehouse machine is in use by the department",
+          "foreignKey": null
+        },
+        {
+          "name": "PARTIVARE",
+          "futureName": "Particulars",
+          "description": "Code or description of particular matters related to the department",
+          "foreignKey": null
+        },
+        {
+          "name": "ORDRE_KREDSTOPP",
+          "futureName": "OrderCreditHold",
+          "description": "Code indicating if there is a credit hold on orders for the department",
+          "foreignKey": null
+        },
+        {
+          "name": "VISES_WEB",
+          "futureName": "VisibleOnWeb",
+          "description": "Indicates if the department is visible in web applications",
+          "foreignKey": null
+        },
+        {
+          "name": "BUTIKK",
+          "futureName": "Store",
+          "description": "Code indicating if the department operates a store",
+          "foreignKey": null
+        },
+        {
+          "name": "KORN_MOTTAK",
+          "futureName": "GrainReception",
+          "description": "Code indicating if grain reception is handled by the department",
+          "foreignKey": null
+        },
+        {
+          "name": "FABR_TERM",
+          "futureName": "FabricationTerm",
+          "description": "Code or term related to fabrication processes in the department",
+          "foreignKey": null
+        },
+        {
+          "name": "ADM",
+          "futureName": "Admin",
+          "description": "Code indicating administrative functions for the department",
+          "foreignKey": null
+        }
+      ]
+    }
+  }
+}

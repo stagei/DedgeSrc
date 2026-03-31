@@ -1,0 +1,38 @@
+﻿---
+description: "Autocur override for Db2ConnectionTest - FKMTST connection verification"
+globs: ["Db2ConnectionTest/**", ".cursor/rules/autocur*.mdc"]
+alwaysApply: false
+---
+
+# Autocur: Db2ConnectionTest
+
+## Purpose
+Run DB2 connection test to FKMTST using DedgeCommon. Verifies connection only (no MCP pipeline).
+
+## Deploy
+1. Publish Db2ConnectionTest: `dotnet publish Db2ConnectionTest -c Release -o Db2ConnectionTest`
+2. Run `Db2ConnectionTest\_deploy.ps1` to deploy to dedge-server
+
+## Trigger
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+Invoke-ServerCommand -Command '%OptPath%\DedgePshApps\Db2ConnectionTest\Run-TestDb2Connection.ps1' -ServerName 'dedge-server'
+```
+
+## Log Path
+- Central: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\AllPwshLog\FkLog_YYYYMMDD.log`
+- Or app-specific if Set-OverrideAppDataFolder: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\Db2ConnectionTest\FkLog_YYYYMMDD.log`
+- Copy locally before reading (per autocur rule)
+
+## Success Pattern
+- `JOB_COMPLETED`
+- `DB2 connection OK: Server=..., User=...`
+- `finished with exit code: 0`
+
+## Failure Pattern
+- `JOB_FAILED`
+- `|ERROR|`
+- `finished with exit code: 1`
+
+## Pre-deploy
+Before deploy, build and publish Db2ConnectionTest exe into the folder that gets deployed.

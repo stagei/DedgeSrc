@@ -1,0 +1,520 @@
+﻿[
+  {
+    "templateName": "prod-fkxdb-experiment-kerberos",
+    "servers": ["p-no1fkxprd-db"],
+    "serverPart": ["p-no1fkxprd-db"],
+    "serverTasks": [
+      {
+        "taskname": "<serverpart>-InitServer",
+        "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-VerifyDb2",
+        "description": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket. Kjør følgende kommando i Db2 Clp i admin konsoll: dir C:\\DbInst\\BIN\\db2.exe",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-ConfigureKerberosOnDbServer",
+        "description": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-MoveKeytabFile"],
+        "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+      },
+      {
+        "taskname": "<serverpart>-VerifyKerberosConfigOnFkWorkstation",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-VerifyKerberosConfigOnDbServer"],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      },
+      {
+        "taskname": "<serverpart>-VerifyKerberosConfigOnFkWorkstationDbeaver",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverpart>-VerifyKerberosConfigOnAppServer"
+        ],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      }
+      ,
+      {
+        "taskname": "<serverpart>-p-no1fkxprd-db-VerifyKerberosAuthFkx",
+        "description": "Task for å verifisere Kerberos-autentisering",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-VerifyKerberosConfigOnFkWorkstationDbeaver"],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      }
+      
+    ]
+  },
+  {
+    "templateName": "prod-db-init",
+    "servers": [
+      "p-no1fkmprd-db",
+      "p-no1inlprd-db",
+      "p-no1hstprd-db",
+      "p-no1visprd-db",
+      "p-no1docprd-db"
+    ],
+    "serverPart": [
+      "p-no1fkmprd",
+      "p-no1inlprd",
+      "p-no1hstprd",
+      "p-no1visprd",
+      "p-no1docprd"
+    ],
+    "serverTasks": [
+      {
+        "taskname": "<serverpart>-db-InitServer",
+        "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyDb2",
+        "description": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition/Standard Edition er vellykket. Kjør følgende kommando i Db2 Clp i admin konsoll: dir C:\\DbInst\\BIN\\db2.exe",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-db-RunDb2-TemplateEngine",
+        "description": "Installer Db2-TemplateEngine med kommandoen: Install-FkPshApp -Name 'Db2-TemplateEngine'",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyDb2"],
+        "prerequisiteComment": "Db2 må være installert og fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-RunDb2-TemplateEngine",
+        "description": "Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2-TemplateEngine\\Db2-TemplateEngine.ps1 -DbFunction 'CreateTemporaryProductionDatabase'",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyDb2"],
+        "prerequisiteComment": "Db2 må være installert og fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-RunGenerateScripts",
+        "description": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat",
+        "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RunDb2-TemplateEngine"],
+        "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyDbConnection",
+        "description": "Bruk Db2 CLP i admin konsoll til å kjøre kommandoen i db2 konsoll: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RestoreBackup"],
+        "prerequisiteComment": "Database må være opprettet og tilgjengelig"
+      },
+      {
+        "taskname": "<serverpart>-db-OrderDb2Key",
+        "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+        "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db\\DB2_Kerberos_Forespørsel.txt",
+        "default": false,
+        "prerequisiteTasks": [
+          "p-no1fkxprd-db-VerifyKerberosAuthFkx",
+          "<serverpart>-db-VerifyDbConnection"
+        ],
+        "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-MoveKeytabFile",
+        "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db",
+        "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-OrderDb2Key"],
+        "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+      },
+      {
+        "taskname": "<serverpart>-db-ConfigureKerberosOnDbServer",
+        "description": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-MoveKeytabFile"],
+        "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+      }
+    ]
+  },
+  {
+    "templateName": "test-db-init",
+    "servers": [
+      "t-no1fkmdev-db",
+      "t-no1fkmtst-db",
+      "t-no1fkmvfk-db",
+      "t-no1fkmvfk-db",
+      "t-no1fkmmig-db",
+      "t-no1fkmsit-db",
+      "t-no1inltst-db"
+    ],
+    "serverPart": [
+      "t-no1fkmdev",
+      "t-no1fkmtst",
+      "t-no1fkmvft",
+      "t-no1fkmvfk",
+      "t-no1fkmmig",
+      "t-no1fkmsit",
+      "t-no1inltst"
+    ],
+    "serverTasks": [
+      {
+        "taskname": "<serverpart>-db-InitServer",
+        "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyDb2",
+        "description": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverpart>-db-RunDb2-TemplateEngine",
+        "description": "Installer Db2-TemplateEngine med kommandoen: Install-FkPshApp -Name 'Db2-TemplateEngine'",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyDb2"],
+        "prerequisiteComment": "Db2 må være installert og fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-RunDb2-TemplateEngine",
+        "description": "Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2-TemplateEngine\\Db2-TemplateEngine.ps1 -DbFunction 'CreateTemporaryTestDatabase'",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyDb2"],
+        "prerequisiteComment": "Db2 må være installert og fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-RunGenerateScriptsStep1",
+        "description": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n01_db2_create_database.*.sql\n01_db2_create_log_and_tablespace_folders*.bat\n02_db2_config_logs.*.sql\n03_db2_config_etc_services.*.bat\n04_db2_config_svcename.*.sql\n05_db2_generate_restore_container.*.bat\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat",
+        "comment": "Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RunDb2-TemplateEngine"],
+        "prerequisiteComment": "Template engine må kjøres først for å generere skriptene"
+      },
+      {
+        "taskname": "<serverpart>-db-RestoreDatabaseFromBackupFile",
+        "description": "Kjør scriptet 05_db2_restore_container.*.bat. Denne genererer ett skript som kan kjøres for å restore databasen fra en backup-fil",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RunGenerateScriptsStep1"],
+        "prerequisiteComment": "Skriptet delere 01 til 05 må kjøres først"
+      },
+      {
+        "taskname": "<serverpart>-db-RunGenerateScriptsStep2",
+        "description": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n06_db2_config_nodes.*.bat\n07_db2_config_nodes.*.sql\n08_create_db_alias.*.sql\n09_db2_stop_start.*.bat\n\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RestoreDatabaseFromBackupFile"],
+        "prerequisiteComment": "Det genererte skriptet fra 05 må kjøres først"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyDbConnection",
+        "description": "Start Db2 Clp i admin konsoll og kjør kommando: db2 connect to <databasenavn> user DB2NT\nKjør deretter: db2 'select * from syscat.tables fetch first 1 row only'",
+        "comment": "Dette verifiserer at databasen er tilgjengelig og at man kan koble seg til den",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-RunGenerateScriptsStep2"],
+        "prerequisiteComment": "Database må være gjenopprettet og konfigurert først"
+      },
+      {
+        "taskname": "<serverpart>-db-OrderDb2Key",
+        "description": "Bestill db2key fra avdeling Leveranse via Momentum-app",
+        "comment": "Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db\\DB2_Kerberos_Forespørsel.txt",
+        "default": false,
+        "prerequisiteTasks": [
+          "p-no1fkxprd-db-VerifyKerberosAuthFkx",
+          "<serverpart>-db-VerifyDbConnection"
+        ],
+        "prerequisiteComment": "Kerberos autentisering må være verifisert først og databasen må fungere"
+      },
+      {
+        "taskname": "<serverpart>-db-MoveKeytabFile",
+        "description": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db",
+        "comment": "Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\<serverpart>-db",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-OrderDb2Key"],
+        "prerequisiteComment": "DB2-nøkkel må være bestilt først og mailen må være mottatt og filen må være plassert på mappen angitt i beskrivelsen over."
+      },
+      {
+        "taskname": "<serverpart>-db-ConfigureKerberosOnDbServer",
+        "description": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-MoveKeytabFile"],
+        "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyKerberosConfigOnFkWorkstation",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyKerberosConfigOnDbServer"],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverpart>-db-VerifyKerberosConfigOnAppServer"
+        ],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      }
+    ]
+  },
+  {
+    "templateName": "init-app-servers",
+    "servers": ["p-no1fkmprd-app", "t-no1fkmtst-app", "t-no1fkmfps-app"],
+    "serverPart": ["p-no1fkmprd", "t-no1fkmtst", "t-no1fkmfps"],
+    "serverDatabases": [
+      {
+        "serverName": "p-no1fkmprd-db",
+        "databases": ["FKMPRD"]
+      },
+      {
+        "serverName": "t-no1fkmtst-db",
+        "databases": ["FKMTST"]
+      },
+      {
+        "serverName": "t-no1fkmfps-db",
+        "databases": ["FKMMIG", "FKMSIT", "FKMVFT", "FKMVFK"]
+      }
+    ],
+    "serverTasks": [
+      {
+        "taskname": "<serverPart>-app-InitServer",
+        "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-VerifyDb2Client-<databasename>",
+        "description": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.",
+        "comment": "IBM Db2 klient må være installert for å kunne koble til databasen",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-ConfigureDb2Client-<databasename>",
+        "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten",
+        "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverPart>-app-VerifyDb2Client-<databasename>",
+          "<serverpart>-db-VerifyKerberosConfig-<databasename>"
+        ],
+        "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren <serverpart>-db"
+      },
+      {
+        "taskname": "<serverpart>-db-CatalogDb2Kerberos-<databasename>",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: db2 Connect to <databasename> user DB2NT\n Så kjør kommandoen: Connect to <databasename> user DB2NT\nCREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+        "comment": "Katalogiserer databasen for Kerberos-autentisering",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-OrderDb2Key-<databasename>"],
+        "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+      },
+      {
+        "taskname": "<serverPart>-app-VerifyKerberosConfig-<databasename>",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: db2 Connect to <databasename> user DB2NT\n Så kjør kommandoen: Connect to <databasename> user DB2NT\nCREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+        "comment": "Verifiser tilkobling fra appserver til database",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-ConfigureDb2Client-<databasename>"],
+        "prerequisiteComment": "Db2 klient må være konfigurert"
+      },
+      {
+        "taskname": "<serverpart>-db-CatalogDb2KerberosOnFkWorkstation-<databasename>",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: db2 Connect to <databasename> user DB2NT\n Så kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+        "comment": "Katalogiserer databasen for Kerberos-autentisering",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-OrderDb2Key-<databasename>"],
+        "prerequisiteComment": "DB2-nøkkel må være bestilt først"
+      },
+      {
+        "taskname": "<serverPart>-app-ConfigureDb2ClientOnFkWorkstation-<databasename>",
+        "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten på FkWorkstation",
+        "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverPart>-app-VerifyDb2Client-<databasename>",
+          "<serverpart>-db-CatalogDb2Kerberos-<databasename>"
+        ],
+        "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren <serverpart>-db"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyKerberosConfigOnFkWorkstation-<databasename>",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: db2 Connect to <databasename> user DB2NT\n Så kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": ["<serverpart>-db-VerifyKerberosConfigOnFkWorkstation-<databasename>"],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      },
+      {
+        "taskname": "<serverpart>-db-VerifyKerberosConfigOnFkWorkstationDbeaver-<databasename>",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen <databasename> med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverpart>-db-VerifyKerberosConfigOnFkWorkstation-<databasename>"
+        ],
+        "prerequisiteComment": "Kerberos-oppsett må være fullført"
+      },
+      {
+        "taskname": "<serverPart>-app-VerifyCobolRuntime",
+        "description": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe",
+        "comment": "Sjekker at run.exe for konsolapplikasjoner fungerer",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-VerifyCobolRuntimeWindows",
+        "description": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe",
+        "comment": "Sjekker at runw.exe for Windows-applikasjoner fungerer",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-InstallRefreshCobolEnvironments",
+        "description": "I pwsh.exe kjør kommandoen: Install-FkPshApp -Name 'Refresh-CobolEnvironments'",
+        "comment": "Installer Refresh-CobolEnvironments",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-RunRefreshCobolEnvironments",
+        "description": "I pwsh.exe kjør kommandoen: cd $env:OptPath\\DedgePshApps\\Refresh-CobolEnvironments\nKjør kommandoen: .\\Refresh-CobolEnvironments.ps1",
+        "comment": "Lager en nytt Cobol-miljø med source fra tilsvarende produksjonsmiljø eller testmiljø",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverPart>-app-InstallRefreshCobolEnvironments"
+        ],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-TestShortcuts",
+        "description": "Åpne Explorer og gå til katalog: C:\\CobSysMf\\FKM\\XXX\\LNK\nSjekk at Dedge.lnk, Fk-Meny Brukerregister.lnk, Fk-Meny Kt Ordre.lnk og Fk-Meny.lnk eksisterer\nStart så hver av dem å sjekk at de starter",
+        "comment": "Sjekker at lenkene starter applikasjonene",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-RunRefreshCobolEnvironments"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-app-TestShortcutsOnFkWorkstation",
+        "description": "Kopier lenkene fra Explorer og legg dem på skrivebordet på din lokale maskin. Endre path til runtime til C:\\Netexpress\\nStart så hver av dem å sjekk at de starter",
+        "comment": "TODO: Endre script til å lage lenker som kan brukes  på skrivebordet med Micro Focus NetExpress. Muligens batfiler istedenfor",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-RunRefreshCobolEnvironments"],
+        "prerequisiteComment": ""
+      }
+    ]
+  },
+  {
+    "templateName": "init-soa-servers",
+    "servers": ["p-no1fkmprd-soa", "t-no1fkmtst-soa"],
+    "serverPart": ["p-no1fkmprd", "t-no1fkmtst"],
+    "serverTasks": [
+      {
+        "taskname": "<serverPart>-soa-InitServer",
+        "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+        "comment": "",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-VerifyDb2Client",
+        "description": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.",
+        "comment": "IBM Db2 klient må være installert for å kunne koble til databasen",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-ConfigureDb2Client",
+        "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten",
+        "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+        "default": false,
+        "prerequisiteTasks": [
+          "<serverPart>-app-VerifyDb2Client",
+          "p-no1fkmprd-db-VerifyKerberosConfig"
+        ],
+        "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db"
+      },
+      {
+        "taskname": "<serverPart>-soa-VerifyKerberosConfig",
+        "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+        "comment": "Verifiser tilkobling fra appserver til database",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-app-ConfigureDb2Client"],
+        "prerequisiteComment": "Db2 klient må være konfigurert"
+      },
+      {
+        "taskname": "<serverPart>-soa-VerifyCobolRuntime",
+        "description": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe",
+        "comment": "Sjekker at run.exe for konsolapplikasjoner fungerer",
+        "default": false,
+        "prerequisiteTasks": [],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-VerifyCobolRuntimeWindows",
+        "description": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe",
+        "comment": "Sjekker at runw.exe for Windows-applikasjoner fungerer",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-soa-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-VerifyEnterpriseManager",
+        "description": "I windows-menyen, søk etter 'Enterprise Server Administration' og sjekk at den starter",
+        "comment": "Sjekker at Enterprise Manager fungerer",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-soa-InitServer"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-SetupEnterpriseServer",
+        "description": "Start Enterprise Server Administration og sett opp serveren manuelt på samme måte som i eksisterende produksjonsmiljø eller testmiljø",
+        "comment": "Sjekker at Enterprise Server fungerer",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-soa-VerifyEnterpriseManager"],
+        "prerequisiteComment": ""
+      },
+      {
+        "taskname": "<serverPart>-soa-CheckEnterpriseServerServices",
+        "description": "Test alle servicene som er opprettet i Enterprise Server Administration, fra både lokale soa-server og fra lokal FkWorkstation",
+        "comment": "Sjekker at alle servicene fungerer",
+        "default": false,
+        "prerequisiteTasks": ["<serverPart>-soa-SetupEnterpriseServer"],
+        "prerequisiteComment": ""
+      }
+    ]
+  }
+]

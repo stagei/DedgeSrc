@@ -1,0 +1,398 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "Logging Service Configuration",
+    "description": "Configuration for multi-source log import and processing",
+    "last_updated": "2024-01-15T10:30:00Z",
+    "author": "System Administrator"
+  },
+  "general": {
+    "service_name": "GenericLogHandler",
+    "log_level": "INFO",
+    "max_concurrent_imports": 4,
+    "batch_size": 1000,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 5,
+    "health_check_interval": 60
+  },
+  "database": {
+    "type": "clickhouse",
+    "connection_string": "tcp://localhost:9000",
+    "database_name": "logs",
+    "username": "default",
+    "password": "",
+    "connection_timeout": 30,
+    "command_timeout": 300,
+    "max_connections": 10,
+    "batch_insert_size": 1000,
+    "enable_compression": true
+  },
+  "retention": {
+    "default_days": 90,
+    "by_level": {
+      "FATAL": 365,
+      "ERROR": 180,
+      "WARN": 120,
+      "INFO": 90,
+      "DEBUG": 30,
+      "TRACE": 7
+    },
+    "cleanup_schedule": "0 2 * * *",
+    "cleanup_batch_size": 10000,
+    "archive_before_delete": true,
+    "archive_location": "C:\\opt\\data\\LogArchive",
+    "archive_compression": "gzip"
+  },
+  "import_sources": [
+    {
+      "name": "PowerShell Logs",
+      "type": "file",
+      "enabled": true,
+      "priority": 1,
+      "config": {
+        "path": "C:\\opt\\data\\AllPwshLog\\*.log",
+        "file_pattern": "*-FK_*.log",
+        "format": "custom",
+        "parser": "powershell_log_parser",
+        "watch_directory": true,
+        "encoding": "utf-8",
+        "poll_interval": 30,
+        "process_existing_files": false,
+        "move_processed_files": true,
+        "processed_files_location": "C:\\opt\\data\\AllPwshLog\\Processed",
+        "error_files_location": "C:\\opt\\data\\AllPwshLog\\Errors"
+      }
+    },
+    {
+      "name": "Application JSON Logs",
+      "type": "file",
+      "enabled": true,
+      "priority": 2,
+      "config": {
+        "path": "C:\\opt\\logs\\app\\*.json",
+        "format": "json",
+        "watch_directory": true,
+        "encoding": "utf-8",
+        "json_root_path": "$",
+        "flatten_nested_objects": true,
+        "max_depth": 5
+      }
+    },
+    {
+      "name": "IIS Log Files",
+      "type": "file",
+      "enabled": true,
+      "priority": 3,
+      "config": {
+        "path": "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\*.log",
+        "format": "iis",
+        "parser": "iis_w3c_parser",
+        "watch_directory": true,
+        "encoding": "utf-8",
+        "skip_header_lines": 3
+      }
+    },
+    {
+      "name": "Windows Event Logs",
+      "type": "eventlog",
+      "enabled": true,
+      "priority": 4,
+      "config": {
+        "log_names": ["Application", "System", "Security"],
+        "event_levels": ["Error", "Warning", "Information"],
+        "poll_interval": 60,
+        "max_events_per_poll": 1000,
+        "event_id_filters": {
+          "include": [],
+          "exclude": [4624, 4634]
+        }
+      }
+    },
+    {
+      "name": "XML Configuration Logs",
+      "type": "file",
+      "enabled": true,
+      "priority": 5,
+      "config": {
+        "path": "C:\\opt\\logs\\config\\*.xml",
+        "format": "xml",
+        "parser": "xml_log_parser",
+        "watch_directory": true,
+        "xml_namespaces": {
+          "log": "http://example.com/log/schema"
+        },
+        "root_element_xpath": "//log:LogEntry"
+      }
+    },
+    {
+      "name": "DB2 Application Logs",
+      "type": "database",
+      "enabled": true,
+      "priority": 6,
+      "config": {
+        "provider": "IBM.Data.DB2",
+        "connection_string": "Server=db2server.domain.com:50000;Database=LOGDB;Uid=loguser;Pwd=SecurePassword123;",
+        "query": "SELECT LOG_ID, LOG_TIMESTAMP, LOG_LEVEL, COMPUTER_NAME, USER_NAME, LOG_MESSAGE, ERROR_CODE, STACK_TRACE FROM APPLICATION_LOGS WHERE LOG_TIMESTAMP > ? ORDER BY LOG_TIMESTAMP",
+        "poll_interval": 300,
+        "incremental_column": "LOG_TIMESTAMP",
+        "incremental_value_store": "C:\\opt\\data\\incremental_state.json",
+        "batch_size": 500,
+        "timeout": 120
+      }
+    },
+    {
+      "name": "SQL Server Application Logs",
+      "type": "database", 
+      "enabled": false,
+      "priority": 7,
+      "config": {
+        "provider": "System.Data.SqlClient",
+        "connection_string": "Server=sqlserver.domain.com;Database=ApplicationLogs;Integrated Security=true;",
+        "query": "SELECT LogId, Timestamp, Level, ComputerName, UserName, Message, ExceptionType, StackTrace FROM LogEntries WHERE Timestamp > @LastTimestamp ORDER BY Timestamp",
+        "poll_interval": 180,
+        "incremental_column": "Timestamp",
+        "batch_size": 1000
+      }
+    }
+  ],
+  "field_mappings": {
+    "powershell_log_parser": {
+      "timestamp": {
+        "source_field": "timestamp",
+        "data_type": "datetime",
+        "format": "yyyy-MM-dd HH:mm:ss.fff",
+        "required": true
+      },
+      "level": {
+        "source_field": "level",
+        "data_type": "string",
+        "required": true,
+        "value_mapping": {
+          "0": "TRACE",
+          "1": "DEBUG", 
+          "2": "INFO",
+          "3": "WARN",
+          "4": "ERROR",
+          "5": "FATAL"
+        }
+      },
+      "process_id": {
+        "source_field": "processId",
+        "data_type": "integer",
+        "default_value": 0
+      },
+      "location": {
+        "source_field": "location",
+        "data_type": "string",
+        "max_length": 500
+      },
+      "function_name": {
+        "source_field": "functionName", 
+        "data_type": "string",
+        "max_length": 200
+      },
+      "line_number": {
+        "source_field": "lineNumber",
+        "data_type": "integer",
+        "default_value": 0
+      },
+      "computer_name": {
+        "source_field": "computerName",
+        "data_type": "string",
+        "required": true,
+        "max_length": 100,
+        "transform": "upper"
+      },
+      "user_name": {
+        "source_field": "user",
+        "data_type": "string",
+        "max_length": 200
+      },
+      "message": {
+        "source_field": "message",
+        "data_type": "string",
+        "required": true,
+        "max_length": 8000,
+        "trim": true
+      },
+      "error_id": {
+        "source_field": "errorId",
+        "data_type": "string",
+        "max_length": 100
+      },
+      "exception_type": {
+        "source_field": "exceptionType",
+        "data_type": "string",
+        "max_length": 500
+      },
+      "stack_trace": {
+        "source_field": "stackTrace",
+        "data_type": "text"
+      },
+      "inner_exception": {
+        "source_field": "innerException",
+        "data_type": "text"
+      },
+      "command_invocation": {
+        "source_field": "commandInvocation",
+        "data_type": "string",
+        "max_length": 1000
+      },
+      "script_line_number": {
+        "source_field": "scriptLineNumber",
+        "data_type": "integer"
+      },
+      "script_name": {
+        "source_field": "scriptName",
+        "data_type": "string",
+        "max_length": 500
+      },
+      "position": {
+        "source_field": "position",
+        "data_type": "integer"
+      },
+      "concatenated_search_string": {
+        "source_expression": "CONCAT(computerName, ' ', COALESCE(user, ''), ' ', COALESCE(functionName, ''), ' ', message, ' ', COALESCE(errorId, ''), ' ', COALESCE(exceptionType, ''))",
+        "data_type": "text",
+        "index": true
+      }
+    },
+    "iis_w3c_parser": {
+      "timestamp": {
+        "source_expression": "CONCAT(date, ' ', time)",
+        "data_type": "datetime",
+        "format": "yyyy-MM-dd HH:mm:ss",
+        "required": true
+      },
+      "level": {
+        "source_field": "sc-status",
+        "data_type": "string",
+        "value_mapping": {
+          "200": "INFO",
+          "404": "WARN", 
+          "500": "ERROR"
+        },
+        "default_value": "INFO"
+      },
+      "computer_name": {
+        "source_field": "s-computername",
+        "data_type": "string",
+        "required": true,
+        "transform": "upper"
+      },
+      "user_name": {
+        "source_field": "cs-username",
+        "data_type": "string"
+      },
+      "message": {
+        "source_expression": "CONCAT('HTTP ', cs-method, ' ', cs-uri-stem, ' - Status: ', sc-status, ' Bytes: ', sc-bytes)",
+        "data_type": "string",
+        "required": true
+      },
+      "concatenated_search_string": {
+        "source_expression": "CONCAT(s-computername, ' ', COALESCE(cs-username, ''), ' ', cs-method, ' ', cs-uri-stem)",
+        "data_type": "text",
+        "index": true
+      }
+    },
+    "xml_log_parser": {
+      "timestamp": {
+        "source_xpath": "//log:LogEntry/@timestamp",
+        "data_type": "datetime",
+        "format": "yyyy-MM-ddTHH:mm:ss.fffZ",
+        "required": true
+      },
+      "level": {
+        "source_xpath": "//log:LogEntry/@level",
+        "data_type": "string",
+        "required": true
+      },
+      "computer_name": {
+        "source_xpath": "//log:LogEntry/log:Environment/@computerName",
+        "data_type": "string",
+        "required": true
+      },
+      "message": {
+        "source_xpath": "//log:LogEntry/log:Message/text()",
+        "data_type": "string",
+        "required": true
+      }
+    }
+  },
+  "transformation_rules": {
+    "global": {
+      "normalize_whitespace": true,
+      "trim_strings": true,
+      "convert_empty_to_null": true,
+      "validate_timestamps": true,
+      "default_timezone": "UTC"
+    },
+    "computer_name": {
+      "uppercase": true,
+      "remove_domain_suffix": true,
+      "max_length": 50
+    },
+    "level": {
+      "uppercase": true,
+      "valid_values": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]
+    },
+    "message": {
+      "max_length": 8000,
+      "escape_special_chars": false,
+      "normalize_line_endings": true
+    }
+  },
+  "error_handling": {
+    "on_parse_error": "skip_and_log",
+    "on_validation_error": "skip_and_log", 
+    "on_database_error": "retry_and_log",
+    "error_log_path": "C:\\opt\\logs\\import_errors.log",
+    "max_errors_per_source": 100,
+    "max_error_rate_percent": 5,
+    "quarantine_bad_files": true,
+    "quarantine_path": "C:\\opt\\data\\quarantine"
+  },
+  "monitoring": {
+    "enable_performance_counters": true,
+    "metrics_collection_interval": 60,
+    "metrics_retention_days": 30,
+    "alert_thresholds": {
+      "import_rate_minimum": 100,
+      "error_rate_maximum": 5,
+      "queue_size_maximum": 10000,
+      "memory_usage_maximum": 80,
+      "disk_space_minimum": 10
+    },
+    "notifications": {
+      "email": {
+        "enabled": false,
+        "smtp_server": "smtp.company.com",
+        "recipients": ["admin@company.com"]
+      },
+      "windows_events": {
+        "enabled": true,
+        "source_name": "GenericLogHandler"
+      }
+    }
+  },
+  "web_interface": {
+    "enabled": true,
+    "port": 8080,
+    "ssl_enabled": true,
+    "ssl_certificate_path": "C:\\opt\\certs\\loghandler.pfx",
+    "authentication": {
+      "type": "windows",
+      "require_authentication": true,
+      "admin_groups": ["DOMAIN\\Log Administrators", "BUILTIN\\Administrators"],
+      "user_groups": ["DOMAIN\\Log Users", "DOMAIN\\Domain Users"]
+    },
+    "session": {
+      "timeout_minutes": 30,
+      "sliding_expiration": true
+    },
+    "cors": {
+      "enabled": false,
+      "allowed_origins": []
+    }
+  }
+}

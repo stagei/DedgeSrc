@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppsett av ny utviklermaskin</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-color: #0078d7;
+            --accent-hover: #005a9e;
+            --code-bg: #f0f0f0;
+            --note-bg: #fff8e1;
+            --note-border: #ffc107;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --accent-color: #4a9eff;
+            --accent-hover: #66b3ff;
+            --code-bg: #3a3a3a;
+            --note-bg: #3a3a2a;
+            --note-border: #ffd700;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .step {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--accent-color);
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .step h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        code {
+            background-color: var(--code-bg);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            word-break: break-all;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .note {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--note-border);
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        a {
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; margin-bottom: 20px;">
+            <div style="justify-self: start;">
+                <h1 style="margin: 0;">Oppsett av ny utviklermaskin på AVD (VDI)</h1>
+            </div>
+            <div style="justify-self: end;">
+                <a href="http://t-no1batch-vm01//DevTools" target="_blank">
+                    <img src="https://www.Dedge.no/Features/Shared/img/dedge-logo.svg" alt="FK Logo"
+                        style="height: 50px;">
+                </a>
+            </div>
+        </div>
+
+        <p>Følg disse trinnene for å sette opp din nye utviklermaskin med nødvendig programvare og verktøy.</p>
+
+        <div class="step">
+            <h2>🌐 1. Konfigurer DNS-suffix (kun ved nettverksproblemer)</h2>
+            <p>Hvis du <strong>ikke</strong> kan nå <code>dedge-server</code> via Windows Kjør (<code>Win+R</code>),
+                må DNS-suffixet settes manuelt. Åpne PowerShell som administrator og kjør:</p>
+            <div class="copy-container">
+                <code id="dns-cmd">Set-DnsClient -InterfaceAlias "Ethernet 7" -ConnectionSpecificSuffix "DEDGE.fk.no"</code>
+                <button class="copy-btn" onclick="copyToClipboard('dns-cmd', this)">Kopier</button>
+            </div>
+            <div class="note">
+                <p><strong>Tips:</strong> Verifiser tilkobling etterpå ved å åpne <code>Win+R</code> og skrive
+                    <code>dedge-server</code>. Hvis du ser en filutforsker med mapper, er nettverket klart.
+                    Interfacenavn kan variere — kjør <code>Get-NetAdapter</code> for å finne riktig navn.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2>💻 2. Åpne en ny CMD.EXE i Administrator-modus terminal fra startmenyen</h2>
+        </div>
+
+        <div class="step">
+            <h2>⚙️ 3. Kjør installasjonsskriptet</h2>
+            <p>Kopier og lim inn følgende sti i terminalen:</p>
+            <div class="copy-container">
+                <code
+                    id="script-path">C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgePshApps\Init-Machine\Init-MachineFkm.bat</code>
+                <button class="copy-btn" onclick="copyToClipboard('script-path', this)">Kopier</button>
+            </div>
+            <p>Trykk Enter for å kjøre skriptet.</p>
+        </div>
+
+        <div class="step">
+            <h2>📦 4. Installer Microsoft Office</h2>
+            <p>Åpne Edge-nettleseren og gå til Microsoft Office-portalen for å laste ned og installere Office:</p>
+            <a href="https://portal.office.com/account/?ref=Harmony#installs" class="button"
+                target="_blank">Åpne Office-installasjon i Edge</a>
+            <p>Logg inn med din Dedge-konto og klikk <strong>Installer Office</strong>.</p>
+        </div>
+
+        <div class="step">
+            <h2>✅ 5. Følg instruksjonene på skjermen</h2>
+            <p>Skriptet vil guide deg gjennom resten av installasjonen. Følg instruksjonene som vises i terminalen.</p>
+        </div>
+
+        <div class="note">
+            <p><strong>Merk:</strong> Hvis du støter på problemer under installasjonen, kontakt <a
+                    href="https://teams.microsoft.com/l/chat/0/0?users=geir.helge.starholm@Dedge.no"
+                    target="_blank">Geir Helge Starholm</a> for hjelp.</p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId, btn) {
+            const text = document.getElementById(elementId).textContent;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(
+                    function () { showCopiedMessage(btn); }
+                ).catch(err => { legacyCopy(text, btn); });
+            } else {
+                legacyCopy(text, btn);
+            }
+
+            function legacyCopy(text, btn) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showCopiedMessage(btn);
+            }
+
+            function showCopiedMessage(btn) {
+                const originalText = btn.textContent;
+                btn.textContent = 'Kopiert!';
+                setTimeout(() => { btn.textContent = originalText; }, 2000);
+            }
+        }
+    </script>
+</body>
+
+</html>

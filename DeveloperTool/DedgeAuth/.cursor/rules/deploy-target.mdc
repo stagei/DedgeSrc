@@ -1,0 +1,53 @@
+﻿# Deployment Target: Always Remote via --autocur
+
+## Rule: NEVER Deploy to Local IIS
+
+**Do NOT** run `IIS-DeployApp.ps1` locally. The local machine is not the deployment target.
+
+## Correct Deployment Flow
+
+1. **Build and publish** from this repo root:
+
+```powershell
+.\Build-And-Publish.ps1
+```
+
+This publishes to the staging share on `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DedgeAuth`.
+
+2. **Deploy to the server** using `--autocur` (Cursor-ServerOrchestrator) on `dedge-server`:
+
+```powershell
+# Source the helper first
+. 'C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1'
+
+# Deploy DedgeAuth only (pass -Arguments separately — do NOT combine with -Command)
+Invoke-ServerCommand -Command '%OptPath%\DedgePshApps\IIS-DeployApp\IIS-DeployApp.ps1' -Arguments '-SiteName DedgeAuth' -ServerName 'dedge-server'
+```
+
+Or for a full redeploy of all apps:
+
+```powershell
+Invoke-ServerCommand -Command '%OptPath%\DedgePshApps\IIS-DeployApp\IIS-RedeployAll.ps1' -ServerName 'dedge-server'
+```
+
+**Important**: The orchestrator rejects commands where arguments are appended to the `-Command` path. Always pass script arguments via the `-Arguments` parameter.
+
+## Prohibited Commands
+
+These must **never** be run by the agent:
+
+```powershell
+# WRONG — local IIS deploy
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName DedgeAuth
+
+# WRONG — local IIS redeploy all
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+```
+
+## Summary
+
+| Step | Where | Command |
+|------|-------|---------|
+| Build | Local dev machine | `.\Build-And-Publish.ps1` |
+| Deploy | `dedge-server` via --autocur | `Invoke-ServerCommand` with `IIS-DeployApp.ps1` |
+| Test | Browser against `http://dedge-server/DedgeAuth/` | `browser_navigate` or `curl` |

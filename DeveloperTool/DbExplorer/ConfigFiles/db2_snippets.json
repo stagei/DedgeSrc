@@ -1,0 +1,125 @@
+{
+  "snippets": [
+    {
+      "trigger": "seltop",
+      "name": "SELECT TOP N",
+      "template": "SELECT * FROM ${1:table} FETCH FIRST ${2:100} ROWS ONLY",
+      "description": "Select top N rows from table"
+    },
+    {
+      "trigger": "cte",
+      "name": "Common Table Expression",
+      "template": "WITH ${1:cte_name} AS (\n\tSELECT ${2:*}\n\tFROM ${3:table}\n)\nSELECT * FROM ${1:cte_name}",
+      "description": "Create a CTE query"
+    },
+    {
+      "trigger": "join",
+      "name": "INNER JOIN",
+      "template": "INNER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add an INNER JOIN clause"
+    },
+    {
+      "trigger": "leftjoin",
+      "name": "LEFT OUTER JOIN",
+      "template": "LEFT OUTER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add a LEFT OUTER JOIN clause"
+    },
+    {
+      "trigger": "ins",
+      "name": "INSERT INTO",
+      "template": "INSERT INTO ${1:table} (${2:columns})\nVALUES (${3:values})",
+      "description": "Insert statement"
+    },
+    {
+      "trigger": "upd",
+      "name": "UPDATE SET WHERE",
+      "template": "UPDATE ${1:table}\nSET ${2:column} = ${3:value}\nWHERE ${4:condition}",
+      "description": "Update statement with WHERE clause"
+    },
+    {
+      "trigger": "del",
+      "name": "DELETE WHERE",
+      "template": "DELETE FROM ${1:table}\nWHERE ${2:condition}",
+      "description": "Delete statement with WHERE clause"
+    },
+    {
+      "trigger": "createtable",
+      "name": "CREATE TABLE",
+      "template": "CREATE TABLE ${1:schema}.${2:table_name} (\n\t${3:id} INTEGER NOT NULL PRIMARY KEY,\n\t${4:name} VARCHAR(100) NOT NULL,\n\t${5:created_at} TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n)",
+      "description": "Create a new table"
+    },
+    {
+      "trigger": "proc",
+      "name": "CREATE PROCEDURE",
+      "template": "CREATE OR REPLACE PROCEDURE ${1:schema}.${2:proc_name}(\n\t${3:IN param1 VARCHAR(100)}\n)\nLANGUAGE SQL\nBEGIN\n\t${4:-- procedure body}\nEND",
+      "description": "Create a stored procedure"
+    },
+    {
+      "trigger": "func",
+      "name": "CREATE FUNCTION",
+      "template": "CREATE OR REPLACE FUNCTION ${1:schema}.${2:func_name}(${3:param1 VARCHAR(100)})\nRETURNS ${4:VARCHAR(100)}\nLANGUAGE SQL\nRETURN ${5:result}",
+      "description": "Create a function"
+    },
+    {
+      "trigger": "case",
+      "name": "CASE WHEN",
+      "template": "CASE \n\tWHEN ${1:condition} THEN ${2:result}\n\tWHEN ${3:condition2} THEN ${4:result2}\n\tELSE ${5:default}\nEND",
+      "description": "CASE expression"
+    },
+    {
+      "trigger": "exists",
+      "name": "EXISTS subquery",
+      "template": "WHERE EXISTS (\n\tSELECT 1\n\tFROM ${1:table}\n\tWHERE ${2:condition}\n)",
+      "description": "EXISTS clause with subquery"
+    },
+    {
+      "trigger": "groupby",
+      "name": "GROUP BY with HAVING",
+      "template": "GROUP BY ${1:column}\nHAVING ${2:condition}",
+      "description": "GROUP BY clause with HAVING"
+    },
+    {
+      "trigger": "window",
+      "name": "Window Function",
+      "template": "ROW_NUMBER() OVER (PARTITION BY ${1:column} ORDER BY ${2:column} ${3:ASC}) AS ${4:row_num}",
+      "description": "Window function with PARTITION BY"
+    },
+    {
+      "trigger": "merge",
+      "name": "MERGE (UPSERT)",
+      "template": "MERGE INTO ${1:target_table} AS tgt\nUSING ${2:source_table} AS src\nON tgt.${3:key} = src.${3:key}\nWHEN MATCHED THEN\n\tUPDATE SET tgt.${4:column} = src.${4:column}\nWHEN NOT MATCHED THEN\n\tINSERT (${5:columns}) VALUES (${6:values})",
+      "description": "MERGE statement (upsert)"
+    },
+    {
+      "trigger": "with ur",
+      "name": "WITH UR (Uncommitted Read)",
+      "template": "WITH UR",
+      "description": "Add uncommitted read isolation"
+    },
+    {
+      "trigger": "with cs",
+      "name": "WITH CS (Cursor Stability)",
+      "template": "WITH CS",
+      "description": "Add cursor stability isolation"
+    },
+    {
+      "trigger": "syscat",
+      "name": "Query SYSCAT.TABLES",
+      "template": "SELECT TABSCHEMA, TABNAME, TYPE\nFROM SYSCAT.TABLES\nWHERE TABSCHEMA = '${1:schema}'\nORDER BY TABNAME",
+      "description": "Query system catalog tables"
+    },
+    {
+      "trigger": "runstats",
+      "name": "RUNSTATS on table",
+      "template": "CALL SYSPROC.ADMIN_CMD('RUNSTATS ON TABLE ${1:schema}.${2:table} WITH DISTRIBUTION AND DETAILED INDEXES ALL')",
+      "description": "Run statistics on table"
+    },
+    {
+      "trigger": "reorg",
+      "name": "REORG TABLE",
+      "template": "CALL SYSPROC.ADMIN_CMD('REORG TABLE ${1:schema}.${2:table}')",
+      "description": "Reorganize table"
+    }
+  ]
+}
+

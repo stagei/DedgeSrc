@@ -1,0 +1,32 @@
+alter table dbm.ah_besthode add
+  SPEDNR                         DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0;
+alter table dbm.ah_besthode add
+  AUTO_INNGANG                   DECIMAL     (1,0)     NOT NULL WITH DEFAULT 0.0;
+alter table dbm.ah_besthode add
+  MOTTATT_EDI_OBK                CHARACTER   (1)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_besthode add
+  TRANSPORT_TYPE                 CHARACTER   (2)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_besthode add
+  SAMPAKK_STATUS                 CHARACTER   (2)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.h_besthode add
+  SPEDNR                         DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0;
+alter table dbm.h_besthode add
+  AUTO_INNGANG                   DECIMAL     (1,0)     NOT NULL WITH DEFAULT 0.0;
+alter table dbm.h_besthode add
+  MOTTATT_EDI_OBK                CHARACTER   (1)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_bestlin add
+  INNKJ_ENHET                    CHARACTER   (5)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_bestlin add
+  IENHET_FAKTOR                  DECIMAL     (12,4)    NOT NULL WITH DEFAULT 0.0;
+alter table dbm.ah_bestlin add
+  IENHET_ANTALL                  DECIMAL     (11,2)    NOT NULL WITH DEFAULT 0.0;
+alter table dbm.h_bestlin add
+  AVTALEID                       CHARACTER   (15)      NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_vihode add
+  KOMMENTAR                      VARCHAR     (1024)    NOT NULL WITH DEFAULT '';
+alter table dbm.ah_vilin add
+  SPLITT_DISPLAY                 CHARACTER   (1)       NOT NULL WITH DEFAULT ' ';
+alter table dbm.ah_vilin add
+  REF_INNGANGNR                  DECIMAL     (5,0)     NOT NULL WITH DEFAULT 0.0;
+alter table dbm.h_vilin add
+  LASSNR                         DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0;

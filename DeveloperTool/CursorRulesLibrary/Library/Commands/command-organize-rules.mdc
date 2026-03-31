@@ -1,0 +1,47 @@
+---
+description: "Command /organize-rules: separate command .mdc files from rule .mdc files into Commands/ subfolder"
+alwaysApply: true
+---
+
+# Command /organize-rules
+
+When the user types **`/organize-rules`**, run the rule organization script to separate command files from rule files across all projects.
+
+## What It Does
+
+Scans every project under `$env:OptPath\src` (default `C:\opt\src`) for `.cursor/rules/*.mdc` files and classifies each as a **Command** or a **Rule** based on filename and description. Command files are moved into a `Commands/` subfolder within each project's `.cursor/rules/`.
+
+## Classification Criteria
+
+A `.mdc` file is a **Command** if any of the following match:
+
+| Signal | Example |
+|--------|---------|
+| Filename starts with `command-` | `command-commit.mdc` |
+| Filename is `commands.mdc` | `commands.mdc` |
+| Filename starts with `chat-command-` | `chat-command-test.mdc` |
+| Description contains `Command /` | `"Command /autocur: ..."` |
+| Description contains `When user says/types/enters /` | `"When user says /commit, ..."` |
+| Description says `Custom commands` | `"Custom Cursor commands"` |
+| Description matches workflow trigger with `/` and `run` | `"When user says /publish, run Build-And-Publish.ps1"` |
+
+Everything else is a **Rule** and stays at the `.cursor/rules/` root level.
+
+## How to Run
+
+```powershell
+# Preview (no changes)
+pwsh.exe -NoProfile -File "C:\opt\src\CursorRulesLibrary\Scripts\Organize-CursorRules.ps1" -WhatIf
+
+# Execute
+pwsh.exe -NoProfile -File "C:\opt\src\CursorRulesLibrary\Scripts\Organize-CursorRules.ps1"
+
+# Single project only
+pwsh.exe -NoProfile -File "C:\opt\src\CursorRulesLibrary\Scripts\Organize-CursorRules.ps1" -ProjectName AutoDocJson
+```
+
+## Duplicate Handling
+
+If a file already exists in `Commands/` (e.g. from a previous run or manual move):
+- **Identical content**: the root-level copy is deleted (dedup)
+- **Different content**: skipped with a warning for manual merge

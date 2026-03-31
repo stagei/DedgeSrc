@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[title]</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="icon" href="[iconurl]" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+[css]
+
+    /* Page-specific: C# accent color (blue) */
+    :root {
+      --accent-primary: #2563eb;
+    }
+    [data-theme="dark"] {
+      --accent-primary: #60a5fa;
+    }
+
+    .detail-content {
+      padding: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .detail-table th {
+      background: var(--bg-secondary);
+      padding: 0.5rem;
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+    }
+
+    .detail-table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .method-signature {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .class-item {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .class-item:last-child {
+      border-bottom: none;
+    }
+
+    .class-methods {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <a href="[autodochomepageurl]" style="text-decoration: none;">
+        <img src="[imageurl]" alt="Dedge" />
+      </a>
+      <h4>[title]</h4>
+      <span class="badge">C#</span>
+    </div>
+    <div class="theme-toggle" title="Toggle theme">
+      <button class="theme-toggle-btn" id="theme-light" onclick="setTheme('light')" title="Light mode">
+        <i class="bi bi-sun-fill"></i>
+      </button>
+      <button class="theme-toggle-btn" id="theme-dark" onclick="setTheme('dark')" title="Dark mode">
+        <i class="bi bi-moon-fill"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Info Panel -->
+    <div class="info-panel">
+      <div class="info-card">
+        <table class="info-table">
+          <tr>
+            <td>Solution</td>
+            <td>
+              <a href="https://Dedge.visualstudio.com/Dedge/_search?action=contents&text=[solutionname]&type=code">[solutionname]</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Framework</td>
+            <td>[targetframework]</td>
+          </tr>
+          <tr>
+            <td>Uses SQL</td>
+            <td><input type="checkbox" [usesql] onclick="return false" /></td>
+          </tr>
+          <tr>
+            <td>Generated</td>
+            <td>[generationdate]</td>
+          </tr>
+        </table>
+      </div>
+
+      <details id="sql-tables-details" style="[sqltablesstyle]">
+        <summary><i class="bi bi-database"></i> SQL Tables</summary>
+        <div class="detail-content">
+          [sqltables]
+        </div>
+      </details>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">[projectcount]</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">[classcount]</div>
+          <div class="stat-label">Classes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">[interfacecount]</div>
+          <div class="stat-label">Interfaces</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">[methodcount]</div>
+          <div class="stat-label">Methods</div>
+        </div>
+      </div>
+
+      <details open>
+        <summary><i class="bi bi-diagram-3"></i> Projects</summary>
+        <div class="detail-content">
+          [projectlist]
+        </div>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-code-square"></i> Classes ([classcount])</summary>
+        <div class="detail-content">
+          [classlist]
+        </div>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-box"></i> Namespaces</summary>
+        <div class="detail-content">
+          [namespacelist]
+        </div>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-hdd-network"></i> REST API ([restendpointcount] endpoints)</summary>
+        <div class="detail-content">
+          [restendpointlist]
+        </div>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-plug"></i> Ports</summary>
+        <div class="detail-content">
+          [portlist]
+        </div>
+      </details>
+    </div>
+
+    <!-- Diagram Panel -->
+    <div class="diagram-panel">
+      <div class="diagram-tabs">
+        <button class="diagram-tab active" onclick="showDiagram('ecosystem', this)">
+          <i class="bi bi-share"></i> Ecosystem
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('flow', this)">
+          <i class="bi bi-diagram-2"></i> Execution Flow
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('class', this)">
+          <i class="bi bi-diagram-3"></i> Class Diagram
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('project', this)">
+          <i class="bi bi-folder"></i> Project Dependencies
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('namespace', this)">
+          <i class="bi bi-boxes"></i> Namespaces
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('rest', this)">
+          <i class="bi bi-hdd-network"></i> REST API
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('process', this)" style="[processtabstyle]">
+          <i class="bi bi-gear"></i> Process Execution
+        </button>
+      </div>
+      
+      <!-- Ecosystem Diagram -->
+      <div class="diagram-content active" id="ecosystem-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('ecosystem')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('ecosystem')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('ecosystem')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="ecosystem-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('ecosystem')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('ecosystem')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('ecosystem')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="ecosystem-container">
+          <pre class="mermaid" id="ecosystemDiagram">[ecosystemdiagram]</pre>
+        </div>
+      </div>
+      
+      <!-- Flow Diagram -->
+      <div class="diagram-content" id="flow-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('flow')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('flow')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('flow')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="flow-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('flow')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('flow')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('flow')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="flow-container">
+          <pre class="mermaid" id="flowDiagram">[flowdiagram]</pre>
+        </div>
+      </div>
+      
+      <!-- Class Diagram -->
+      <div class="diagram-content" id="class-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('class')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('class')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('class')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="class-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('class')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('class')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('class')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="class-container">
+          <pre class="mermaid" id="classDiagram">[classdiagram]</pre>
+        </div>
+      </div>
+      
+      <!-- Project Diagram -->
+      <div class="diagram-content" id="project-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('project')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('project')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('project')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="project-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('project')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('project')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('project')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="project-container">
+          <pre class="mermaid" id="projectDiagram">[projectdiagram]</pre>
+        </div>
+      </div>
+      
+      <!-- Namespace Diagram -->
+      <div class="diagram-content" id="namespace-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('namespace')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('namespace')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('namespace')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="namespace-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('namespace')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('namespace')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('namespace')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="namespace-container">
+          <pre class="mermaid" id="namespaceDiagram">[namespacediagram]</pre>
+        </div>
+      </div>
+      
+      <!-- REST Diagram -->
+      <div class="diagram-content" id="rest-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('rest')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('rest')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('rest')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="rest-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('rest')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('rest')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('rest')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="rest-container">
+          <pre class="mermaid" id="restDiagram">[restdiagram]</pre>
+        </div>
+      </div>
+      
+      <!-- Process Diagram -->
+      <div class="diagram-content" id="process-content" style="[processcontentstyle]">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('process')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('process')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('process')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="process-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('process')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('process')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('process')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="process-container">
+          <pre class="mermaid" id="processDiagram">[processdiagram]</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Overlay -->
+  <div class="diagram-fullscreen-overlay" id="fullscreen-overlay">
+    <div class="diagram-fullscreen-header">
+      <span class="diagram-fullscreen-title" id="fullscreen-title">Diagram</span>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div class="diagram-btn-group">
+          <button class="diagram-btn" onclick="zoomInFullscreen()" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+          <button class="diagram-btn" onclick="zoomOutFullscreen()" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+          <button class="diagram-btn" onclick="resetZoomFullscreen()" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+        <span class="zoom-indicator" id="fullscreen-zoom">100%</span>
+        <button class="diagram-btn" onclick="fitToScreenFullscreen()" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+        <button class="diagram-btn" onclick="closeFullscreen()" title="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+    <div class="diagram-fullscreen-content" id="fullscreen-content"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <!-- Mermaid config (theme variables) -->
+  <script src="[mermaidconfigurl]"></script>
+  
+  <!-- Mermaid 11 ESM Module -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const theme = window.getMermaidTheme ? window.getMermaidTheme() : 'default';
+    const themeVars = window.getThemeVariables ? window.getThemeVariables() : { fontFamily: '"Courier New", Courier, monospace', fontSize: '14px' };
+    mermaid.initialize({ startOnLoad: true, theme: theme, securityLevel: 'loose', themeVariables: themeVars, flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }, classDiagram: { useMaxWidth: true } });
+    window.mermaidInstance = mermaid;
+  </script>
+
+  <!-- Diagram controls (pan-zoom, fullscreen, theme) -->
+  <script src="[controlsscripturl]"></script>
+</body>
+</html>

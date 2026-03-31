@@ -1,0 +1,40 @@
+{
+  "tableName": "D365_PRODUKTER",
+  "futureName": "ProductEntity",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "PRODUKTNR",
+      "futureName": "ProductNumber",
+      "description": "Unique product identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FKNumber",
+      "description": "Foreign key number referencing another entity",
+      "foreignKey": "HOVED_PRODUKTNR"
+    },
+    {
+      "name": "HOVED_PRODUKTNR",
+      "futureName": "ParentProductNumber",
+      "description": "The primary product number that this product is related to",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user who created or modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last updated",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:00:08"
+}

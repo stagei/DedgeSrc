@@ -1,0 +1,50 @@
+﻿---
+description: Core architecture and technology stack overview
+alwaysApply: true
+---
+
+# Generic Log Handler – Architecture & Technology
+
+## Layered Architecture (C#/.NET 10)
+
+| Project | Responsibility |
+|---------|----------------|
+| **GenericLogHandler.Core** | Interfaces, models, configuration DTOs. No dependencies on Data/Web. |
+| **GenericLogHandler.Data** | EF Core `LoggingDbContext`, `LogRepository`. Depends only on Core. |
+| **GenericLogHandler.ImportService** | Background import service + Alert Agent. Creates importers per source type. |
+| **GenericLogHandler.WebApi** | REST API + static web UI from `wwwroot`. DedgeAuth SSO, OpenAPI + Scalar, Serilog. |
+
+## Technology Stack
+
+| Layer | Technology |
+|-------|------------|
+| Runtime | .NET 10 |
+| API | ASP.NET Core 10, REST, OpenAPI (Microsoft.AspNetCore.OpenApi + Scalar.AspNetCore) |
+| ORM | Entity Framework Core 10.x |
+| Database | PostgreSQL (primary), DB2/SQL Server supported |
+| Logging | Serilog (console, file, request logging) |
+| Auth | DedgeAuth SSO (JWT tokens via DedgeAuth.Client library) |
+| Web UI | HTML5, CSS3, Vanilla JavaScript (no Node/npm) |
+
+## Data Flow
+
+```
+Log Sources → Import Service → ILogRepository → PostgreSQL
+Web UI → REST API → ILogRepository → PostgreSQL
+```
+
+## Database migrations
+
+- **Auto-migrate on startup**: Web API and Import Service call `MigrateAsync()` so any pending EF Core migrations are applied automatically; no manual SQL for schema updates.
+- **Migrations live in** `GenericLogHandler.Data/Migrations`. Generated for PostgreSQL (Npgsql); design-time factory in Data project uses repo-root `appsettings.json` or env for connection.
+- **Adding a new migration** (after changing `LoggingDbContext` or Core entities):  
+  `dotnet ef migrations add <MigrationName> --project src/GenericLogHandler.Data --startup-project src/GenericLogHandler.ImportService`  
+  Deploy; on next start the app will apply the new migration.
+- **One-time reset to latest model** (PostgreSQL): call `POST /api/maintenance/recreate-schema` or run `DatabaseSchemas/PostgreSQL_RecreateTables.sql` then start the app (Migrate will recreate tables).
+
+## Key Interfaces
+
+- `ILogRepository`: All persistence (search, add, delete)
+- `ILogImporter`: All ingestion (file, database, eventlog)
+- `LogEntry`: Core log record model with business identifiers
+- `ImportConfiguration`: JSON-based config for sources, retention, alerts

@@ -1,0 +1,122 @@
+﻿---
+description: "User rule (global) — MCP server ecosystem overview, setup scripts, architecture, Cursor and Ollama integration"
+alwaysApply: false
+---
+
+# MCP Server Ecosystem
+
+**User rule (global):** `%USERPROFILE%\.cursor\rules\mcp-server-ecosystem.mdc` — applies across all repos that use custom MCP servers.
+
+> **Canonical source (Dedge):** `C:\opt\src\DedgePsh\.cursor\rules\mcp-server-ecosystem.mdc`
+
+All custom MCP servers are set up from `<git-root>\DevTools\CodingTools\McpServers\Setup-<Role><Client>` folders. Each folder contains `Setup-*.ps1`, `Test-*.ps1`, and `Uninstall-*.ps1` scripts following the `<Action>-<Role><Client>` naming standard.
+
+## Quick Setup (All Servers at Once)
+
+```powershell
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Setup-AllMcpServers.ps1"
+```
+
+> **Canonical path (Dedge):** `C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Setup-AllMcpServers.ps1`
+
+This auto-detects whether Cursor and/or Ollama is installed and runs all relevant setup and test scripts. Use `-SkipTest` to skip verification or `-SkipSetup` to only run tests.
+
+## Quick Test (All Servers at Once)
+
+```powershell
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Test-AllMcpServers.ps1"
+```
+
+Pre-flight checks + individual tests + summary table.
+
+## Cursor MCP Servers
+
+| MCP Name | Cursor Server Name | Type | Setup Folder | Key Tool |
+|---|---|---|---|---|
+| `db2-docs` | `user-db2-docs` | Python stdio proxy | `Setup-RagMcpCursor` | `query_docs` |
+| `visual-cobol-docs` | `user-visual-cobol-docs` | Python stdio proxy | `Setup-RagMcpCursor` | `query_docs` |
+| `Dedge-code` | `user-Dedge-code` | Python stdio proxy | `Setup-RagMcpCursor` | `query_docs` |
+| `db2-query` | `user-db2-query` | Streamable HTTP | `Setup-Db2QueryMcpCursor` | `query_db2` |
+| `postgresql-query` | `user-postgresql-query` | Node.js stdio | `Setup-PostgreSqlMcpCursor` | `query_postgresql` |
+| `autodoc-query` | `user-autodoc-query` | Streamable HTTP | `Setup-AutoDocMcpCursor` | (auto-discovered) |
+
+**Cursor prefixes all user MCP servers with `user-`.** When calling via `CallMcpTool`, always use the `user-*` name.
+
+## Ollama MCP Servers
+
+| MCP Name | Setup Folder | Description |
+|---|---|---|
+| RAG (Ask-Rag) | `Setup-RagMcpOllama` | PowerShell `Ask-Rag` function for CLI RAG queries |
+| DB2 Query (Ask-Db2) | `Setup-Db2QueryMcpOllama` | PowerShell `Ask-Db2` function for CLI DB2 queries |
+
+## Other Setup Tools
+
+| Tool | Setup Folder | Description |
+|---|---|---|
+| Cursor User Settings | `Setup-UserSettingsCursor` | Installs extensions and standardizes `settings.json` |
+
+## Architecture
+
+```
+Developer Machine                          <app-server>
++--------------------+                     +--------------------+
+| Cursor IDE         |                     | Python HTTP RAGs   |
+|  RAG proxies ------+-- HTTP :8484-8486 ->|  db2-docs          |
+|  (Python stdio)    |                     |  visual-cobol-docs |
+|                    |                     |  Dedge-code       |
+|  db2-query --------+-- HTTP :80 -------->|  IIS: CursorDb2McpServer |
+|  (Streamable HTTP) |                     |                    |
+|  autodoc-query ----+-- HTTP :80 -------->|  IIS: AutoDocJson  |
+|  (Streamable HTTP) |                     +--------------------+
+|                    |
+|  postgresql-query  |  (runs locally as Node.js stdio process)
+|  (Node.js stdio)   |
++--------------------+
+```
+
+> **FK app server:** `dedge-server`
+
+**Remote servers (on app server):**
+- RAG services: Python HTTP on ports 8484-8486, unauthenticated
+- DB2 query: ASP.NET Core on IIS port 80 at `/CursorDb2McpServer/`
+- AutoDoc query: ASP.NET Core on IIS port 80 at `/AutoDocJson/`
+
+**Local (on developer machine):**
+- PostgreSQL query: Node.js stdio process using `postgresql-mcp-server.mjs`
+- RAG stdio proxies: Python venv in `~/.cursor/rag-proxy/` forwarding to remote HTTP
+
+## Per-Server Setup Scripts
+
+All scripts are under `<git-root>\DevTools\CodingTools\McpServers\`:
+
+| Action | RAG (3 servers) | DB2 Query | PostgreSQL Query | AutoDoc Query |
+|---|---|---|---|---|
+| Setup | `Setup-RagMcpCursor\Setup-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Setup-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Setup-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Setup-AutoDocMcpCursor.ps1` |
+| Test | `Setup-RagMcpCursor\Test-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Test-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Test-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Test-AutoDocMcpCursor.ps1` |
+| Uninstall | `Setup-RagMcpCursor\Uninstall-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Uninstall-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Uninstall-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Uninstall-AutoDocMcpCursor.ps1` |
+
+All scripts write to `~/.cursor/mcp.json`. Restart Cursor after setup or uninstall.
+
+## Naming Standard
+
+All folders and scripts follow `<Action>-<Role><Client>`:
+
+| Component | Description | Examples |
+|---|---|---|
+| Action | What the script does | `Setup`, `Test`, `Uninstall`, `Set` |
+| Role | MCP function | `AutoDocMcp`, `Db2QueryMcp`, `PostgreSqlMcp`, `RagMcp`, `UserSettings` |
+| Client | Consumer tool | `Cursor`, `Ollama` |
+
+## Detailed Rules per Server
+
+- **DB2 Query (Cursor)**: See `mcp-db2query-cursor` rule — database list, encoding, safety rules
+- **PostgreSQL Query (Cursor)**: See `mcp-postgresql-cursor` rule — database list, conventions, tools
+- **RAG servers (usage)**: See `mcp-rag-usage` rule — when to call which RAG, source attribution
+- **RAG setup details**: See `mcp-rag-setup` rule — architecture, prerequisites, Ollama setup
+
+## Prerequisites
+
+- PowerShell 7+ (`pwsh.exe`)
+- Python 3.11+ (for RAG stdio proxies)
+- Node.js (for PostgreSQL MCP server)
+- Network access to the app server hosting remote MCP services

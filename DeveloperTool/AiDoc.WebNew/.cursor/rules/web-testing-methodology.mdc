@@ -1,0 +1,92 @@
+---
+description: MANDATORY browser testing after ANY UI/middleware change
+alwaysApply: true
+---
+
+# MANDATORY Browser Testing Protocol
+
+## OBLIGATION: This Rule is Non-Negotiable
+
+After making ANY change to HTML, CSS, JS, middleware, or anything that affects page rendering or user flow, you MUST visually verify using the cursor-ide-browser MCP tools. There are NO exceptions.
+
+- **DO NOT** use `Invoke-WebRequest`, `curl`, or any API-level check as a substitute for visual testing.
+- **DO NOT** report "PASS" or "looks correct" based on HTTP status codes or HTML string matching.
+- **API 200 OK does not mean the page looks correct.**
+
+## When to Browser Test
+
+- After ANY CSS change (local, common, or tenant CSS)
+- After ANY HTML file change (paths, structure, elements)
+- After ANY middleware change that affects redirects, auth, or page loading
+- After ANY deployment
+- When the user reports a visual issue -- open the EXACT URL they gave you
+
+## MCP Server: cursor-ide-browser
+
+### Critical Lock/Unlock Workflow
+
+1. `browser_navigate` to open a URL (creates a tab)
+2. `browser_lock` -- MUST lock before any interaction
+3. Interact: `browser_snapshot`, `browser_click`, `browser_fill`, `browser_type`, etc.
+4. `browser_unlock` -- ONLY when completely done with ALL browser operations for this turn
+
+### Available Tools
+
+| Tool | Purpose |
+|------|---------|
+| `browser_tabs` (action: "list") | List open tabs and their URLs |
+| `browser_navigate` | Open a URL in the browser |
+| `browser_lock` | Lock the browser tab for interaction |
+| `browser_unlock` | Release the browser tab |
+| `browser_snapshot` | Get page structure and element refs (DO THIS before clicking) |
+| `browser_click` | Click an element by ref ID from snapshot |
+| `browser_type` | Append text to focused element |
+| `browser_fill` | Clear and replace text in an input |
+| `browser_scroll` | Scroll page or container |
+| `browser_handle_dialog` | Handle alert/confirm/prompt dialogs |
+
+### Wait Strategy
+
+Prefer short incremental waits (1-3s) with snapshot checks between, rather than one long wait. Example: wait 2s -> snapshot -> check if ready -> if not, wait 2s more.
+
+## Required Verification Steps
+
+For EVERY page you claim works, you MUST:
+
+1. `browser_navigate` to the actual URL the user would visit
+2. `browser_lock`
+3. `browser_snapshot` and DESCRIBE what you see (layout, colors, missing elements)
+4. If the page requires login, fill credentials and log in
+5. After authentication, verify the app page:
+   - Header and branding visible
+   - Navigation links present and styled
+   - Content area rendered (not blank/unstyled)
+   - User menu present if applicable
+6. Click through navigation links and verify sub-pages load styled
+7. `browser_unlock` only when ALL pages are verified
+
+## What Constitutes a FAILURE
+
+- Page is completely unstyled (no CSS loaded)
+- Page shows server error (404, 500, 503)
+- Page shows redirect loop (URL keeps changing)
+- Header is wrong color or missing
+- Navigation links are broken or unstyled
+- Page content is blank
+
+If ANY of the above occur, DO NOT report success. Fix the issue and re-test visually.
+
+## What Constitutes a PASS
+
+A page passes ONLY when you have:
+1. Opened it in the actual browser via `browser_navigate`
+2. Taken a `browser_snapshot` showing the rendered page
+3. Confirmed visual elements are present and correctly styled
+4. Described what you see in plain language
+
+## API Tests vs Visual Tests
+
+- API test: "The endpoint returns `authenticated: true`" -- this proves the endpoint works
+- Visual test: "Opened the app in browser, header gradient is visible, nav links are styled, content cards are showing" -- this proves the page works
+
+API tests are useful for debugging. They are NOT a substitute for visual verification. EVER.

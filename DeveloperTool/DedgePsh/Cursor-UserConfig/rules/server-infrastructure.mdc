@@ -1,0 +1,156 @@
+﻿---
+description: "Server folder structure, UNC access patterns, $env:OptPath rules, known servers"
+globs: ["**/*.ps1", "**/*.psm1"]
+alwaysApply: false
+---
+
+# Server Infrastructure
+
+All managed servers have a standardized `opt` Windows share accessible via UNC: `\\<server>\opt\`
+
+On each server the share maps to a local drive (typically `E:\opt`), accessible as `$env:OptPath`.
+
+## App Folders
+
+Applications are organized by technology under `opt`:
+
+| Folder | Technology | Example |
+|--------|-----------|---------|
+| `opt\DedgePshApps\<AppName>\` | PowerShell | `opt\DedgePshApps\Db2-ShadowDatabase\` |
+| `opt\DedgeWinApps\<AppName>\` | Windows / .NET | `opt\DedgeWinApps\SomeService\` |
+| `opt\FkPythonApps\<AppName>\` | Python | `opt\FkPythonApps\SomeScript\` |
+| `opt\FkNodeApps\<AppName>\` | Node.js | `opt\FkNodeApps\SomeApi\` |
+
+UNC pattern: `\\<server>\opt\Fk*Apps\<AppName>\<subfolders and files>`
+
+## Data and Output Folders
+
+Work files, exports, generated output, and app-specific logs live under:
+
+```
+opt\data\<AppName>\
+```
+
+Each app gets its own subfolder. Some apps create additional subfolders for run-specific output.
+
+## Shared Modules
+
+PowerShell modules shared across all apps are deployed to:
+
+```
+opt\DedgePshApps\CommonModules\
+```
+
+## Central Config
+
+Shared configuration files live on a central app server:
+
+```
+C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\
+```
+
+Key file: `DatabasesV2.json` -- the single source of truth for all DB2 servers, databases, instances, and applications.
+
+## $env:OptPath Rules
+
+`$env:OptPath` is the root of the opt folder on every machine (e.g. `E:\opt` on servers, `C:\opt` locally). All scripts referencing locations within this tree **must** build absolute paths from `$env:OptPath`.
+
+1. **Cross-app references must use `$env:OptPath`** -- when a script needs a file from another app folder, use `$env:OptPath\DedgePshApps\<OtherApp>\file.ps1`, never `$PSScriptRoot\..\..\<OtherApp>\file.ps1`.
+2. **Never hardcode drive letters** -- use `$env:OptPath`, not `E:\opt` or `C:\opt`.
+3. **`$PSScriptRoot` is fine for same-app files** -- referencing files within the script's own deployed folder is acceptable since `$PSScriptRoot` is already absolute at runtime.
+4. **UNC paths are fine for remote servers** -- `\\server\opt\...` is acceptable for cross-server file access.
+
+### Examples
+
+```powershell
+# GOOD -- absolute path via $env:OptPath
+$registerScript = Join-Path $env:OptPath "DedgePshApps\DedgeAuth-AddAppSupport\Register-DedgeAuthApp.ps1"
+
+# GOOD -- same-app file via $PSScriptRoot
+$templateDir = Join-Path $PSScriptRoot "templates"
+
+# GOOD -- data folder
+$logDir = Join-Path $env:OptPath "data\MyApp"
+
+# BAD -- relative navigation to another app
+$registerScript = Join-Path $PSScriptRoot "..\DedgeAuth-AddAppSupport\Register-DedgeAuthApp.ps1"
+
+# BAD -- hardcoded drive letter
+$registerScript = "E:\opt\DedgePshApps\DedgeAuth-AddAppSupport\Register-DedgeAuthApp.ps1"
+```
+
+## Server Folder Paths (deployed vs source)
+
+### Deployed apps (via `_deploy.ps1`)
+
+| Technology | Server path |
+|---|---|
+| PowerShell | `$env:OptPath\DedgePshApps\<AppName>\` |
+| .NET / Windows | `$env:OptPath\DedgeWinApps\<AppName>\` |
+| Node.js | `$env:OptPath\FkNodeApps\<AppName>\` |
+| Python | `$env:OptPath\FkPythonApps\<AppName>\` |
+
+### Source repos (synced, not deployed)
+
+| Source repo | Server path |
+|---|---|
+| DedgePsh | `$env:OptPath\src\DedgePsh\` |
+| Python projects | `$env:OptPath\src\DedgePython\` |
+| Node.js projects | `$env:OptPath\src\DedgeNode\` |
+| .NET / other | `$env:OptPath\src\<ProjectName>\` |
+
+## Common UNC Path Patterns
+
+| What | UNC Path |
+|---|---|
+| PowerShell apps | `\\<server>\opt\DedgePshApps\<AppName>\` |
+| .NET apps | `\\<server>\opt\DedgeWinApps\<AppName>\` |
+| Python apps | `\\<server>\opt\FkPythonApps\<AppName>\` |
+| Shared modules | `\\<server>\opt\DedgePshApps\CommonModules\<ModuleName>\` |
+| App data/logs | `\\<server>\opt\data\<AppName>\` |
+| Central PowerShell log | `\\<server>\opt\data\AllPwshLog\FkLog_YYYYMMDD.log` |
+| Orchestrator files | `\\<server>\opt\data\Cursor-ServerOrchestrator\` |
+| Central config | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\` |
+| Software staging | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\<AppName>\` |
+
+## Deployment Pattern
+
+Every app folder in the source repo may contain:
+
+| File | Purpose |
+|------|---------|
+| `_deploy.ps1` | Deploys the app to target servers via `Deploy-Handler` |
+| `_install.ps1` | One-time setup on the server (scheduled tasks, ACLs, etc.) |
+
+Deploy copies files from the local dev machine to `\\<server>\opt\Fk*Apps\<AppName>\` via UNC.
+
+## Browsing Server Files
+
+```powershell
+# List files in an app folder
+Get-ChildItem "\\<server>\opt\DedgePshApps\<AppName>\" -Recurse
+
+# Find recent log files
+Get-ChildItem "\\<server>\opt\data\<AppName>\FkLog_*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 3
+```
+
+**Always copy to local before reading** -- never use `Select-String`, `Get-Content`, or search tools directly on UNC paths:
+
+```powershell
+$localCopy = Join-Path $env:TEMP "Remote_$(Split-Path $remotePath -Leaf)"
+Copy-Item -Path $remotePath -Destination $localCopy -Force
+Get-Content $localCopy
+```
+
+## Known Servers
+
+| Server | Role |
+|---|---|
+| `dedge-server` | Test app server (IIS, staging) |
+| `t-no1fkmvft-db` | VFT database server |
+| `t-no1fkmmig-db` | Migration database server |
+| `t-no1fkmtst-db` | Test database server |
+| `t-no1inltst-db` | INL test database server |
+| `t-no1inldev-db` | INL dev database server |
+| `p-no1fkmprd-db` | Production database (caution) |
+| `p-no1fkmrap-db` | Production report database (caution) |

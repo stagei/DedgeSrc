@@ -1,0 +1,264 @@
+{
+  "program": "DOHSCAN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T21:42:59",
+  "extraction": {
+    "sourceHash": "sha256:6e5499ae51fadbfeab6f3ae7891eab8f4657c3415d02b18058c54ad245d37825",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHSCAN.CBL",
+    "actualName": "DOHSCAN",
+    "program": "DOHSCAN",
+    "copyElements": [
+      {
+        "name": "PIC",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DOKSYS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKDSYS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKMOD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKMKOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKCALL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKCOPY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DOKCPY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLLIN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLXTAB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "I-CALL",
+        "type": "copybook"
+      },
+      {
+        "name": "END-IF",
+        "type": "copybook"
+      },
+      {
+        "name": "INSPECT",
+        "type": "copybook"
+      },
+      {
+        "name": "ELSE",
+        "type": "copybook"
+      },
+      {
+        "name": "TO",
+        "type": "copybook"
+      },
+      {
+        "name": "REPLACING",
+        "type": "copybook"
+      },
+      {
+        "name": "IF",
+        "type": "copybook"
+      },
+      {
+        "name": "ADD",
+        "type": "copybook"
+      },
+      {
+        "name": "MOVE",
+        "type": "copybook"
+      },
+      {
+        "name": "PERFORM",
+        "type": "copybook"
+      },
+      {
+        "name": "INTO",
+        "type": "copybook"
+      },
+      {
+        "name": "VALUES",
+        "type": "copybook"
+      },
+      {
+        "name": "END-EXEC",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "CREATOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TABCREATOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODKOM",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL_LINJER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPYSET",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPYSET",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPY",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "CALL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLLINJER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLXTAB",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPYSET",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SYSTEM",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "CALL",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPY",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "COPYSET",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODKOM",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MODUL_LINJER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLLINJER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLXTAB",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMADIR2",
+      "GMADIR",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "SOURCE-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "LOAD-FIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T21:42:59"
+  }
+}

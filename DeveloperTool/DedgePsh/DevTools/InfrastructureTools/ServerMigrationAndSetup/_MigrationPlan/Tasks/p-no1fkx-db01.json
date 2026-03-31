@@ -1,0 +1,64 @@
+﻿{
+  "server": "p-no1fkxprd-db",
+  "tasks": [
+    {
+      "taskname": "p-no1fkxprd-db-InitServer",
+      "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyDb2",
+      "description": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket. Kjør følgende kommando i Db2 Clp i admin konsoll: dir C:\\DbInst\\BIN\\db2.exe",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "p-no1fkxprd-db-ConfigureKerberosOnDbServer",
+      "description": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-MoveKeytabFile"
+      ],
+      "prerequisiteComment": "Keytab-fil må være tilgjengelig"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstation",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-VerifyKerberosConfigOnDbServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. ",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-VerifyKerberosConfigOnAppServer"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    },
+    {
+      "taskname": "p-no1fkxprd-db-p-no1fkxprd-db-VerifyKerberosAuthFkx",
+      "description": "Task for å verifisere Kerberos-autentisering",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [
+        "p-no1fkxprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver"
+      ],
+      "prerequisiteComment": "Kerberos-oppsett må være fullført"
+    }
+  ],
+  "serverPart": "p-no1fkxprd-db"
+}

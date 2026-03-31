@@ -1,0 +1,119 @@
+{
+  "program": "PAAOPPA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:88a5aa6df3dd4c0a880ff1b94e4f4f98e6ac0f643a58e7cfdbfb46efe4844e38",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAAOPPA.cbl",
+    "actualName": "PAAOPPA",
+    "program": "PAAOPPA",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFEI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDF3.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPPA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "J",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_JOURNAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORNBEVEGELSE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_RAAVARE_PARTI",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_FRO_PARTI",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FEILMELD",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "OKALOGG",
+      "PAFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

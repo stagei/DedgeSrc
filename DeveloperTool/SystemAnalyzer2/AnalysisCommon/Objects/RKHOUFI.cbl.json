@@ -1,0 +1,126 @@
+{
+  "program": "RKHOUFI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:41:07",
+  "extraction": {
+    "sourceHash": "sha256:f7adced1e8cc1ec36ea3abad836b596c48f7066c35b85038c863097162f13aca",
+    "sourceType": "local-cbl-uv",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rkhovfi.cbl",
+    "actualName": "RKHOVFI",
+    "program": "RKHOUFI",
+    "copyElements": [
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KFOV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADIRS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMD5.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKHOVFI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MD5",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_FILER_OVER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_FILER_OVER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_FILER_OVER",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RKVOVFI",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMACOMP",
+      "GMACOMK",
+      "GMADIRS",
+      "GMADIR",
+      "GMAMD5",
+      "GMADATO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:41:07"
+  }
+}

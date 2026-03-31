@@ -1,0 +1,67 @@
+﻿---
+description: RAG index management — server-side scripts for building and client scripts for setup
+alwaysApply: true
+---
+
+# RAG Index Management — Scripts First, Then AI
+
+This rule applies when working ON the AiDoc project itself (building/managing RAG indexes). For using RAGs as a consumer, see `aidoc-rag-usage.mdc`.
+
+## Path Configuration (from appsettings.json)
+
+| Setting | Path | Purpose |
+|---------|------|---------|
+| `PythonRoot` | `FkPythonApps\AiDoc.Python` | RAG Python code (build_index.py, ChromaDB) |
+| `ServerScriptsRoot` | `DedgePshApps\AiDoc.Pwsh.Server` | Server-side scripts (Add-RagSource, index management) |
+| `ClientScriptsRoot` | `DedgePsh\DevTools\CodingTools\McpServers\` | Client-side MCP setup scripts (Setup-RagMcpCursor, Setup-AllMcpServers, etc.) |
+| `LibraryRoot` | `data\AiDoc.Library` | RAG source files and indexes |
+
+All paths are relative to `$env:OptPath` on servers.
+
+## Server-Side Operations (run on RAG server)
+
+1. **Add a folder to RAG** — Run `Add-RagSource.ps1` from `ServerScriptsRoot`:
+   ```powershell
+   pwsh.exe -File "$env:OptPath\DedgePshApps\AiDoc.Pwsh.Server\Add-RagSource.ps1" -Path <source> -Name <rag-name>
+   ```
+
+2. **Rebuild index** — Run `build_index.py` from `PythonRoot`:
+   ```powershell
+   py -3 "$env:OptPath\FkPythonApps\AiDoc.Python\build_index.py" --rag <rag-name>
+   ```
+
+3. **Manage RAG services** — Use AiDocNew web UI or API endpoints.
+
+## Client-Side Operations (run on developer machine)
+
+All client setup scripts live in `C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\`.
+
+1. **Register all MCP servers (Cursor + Ollama)** — recommended one-shot approach:
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Setup-AllMcpServers.ps1"
+   ```
+
+2. **Register RAGs with Cursor only**:
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1"
+   ```
+
+3. **Register RAGs with Ollama only**:
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpOllama\Setup-RagMcpOllama.ps1"
+   ```
+
+4. **Test all MCP servers**:
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Test-AllMcpServers.ps1"
+   ```
+
+## AI Fallback
+
+If scripts are unavailable or fail, the AI must perform equivalent steps:
+- Edit `rag_sources.json` in `LibraryRoot`
+- Run Python commands directly
+- Edit `~/.cursor/mcp.json` for Cursor registration
+- Document steps for the user
+
+**Summary:** Use scripts first. AI fills in when scripts cannot run.

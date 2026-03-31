@@ -1,0 +1,206 @@
+﻿---
+description: Visual COBOL documentation sources, RAG access, and reference material for scripts in this folder
+globs: 
+alwaysApply: false
+---
+
+# Visual COBOL Documentation Sources
+
+## RAG MCP Server
+
+The primary source for Visual COBOL documentation is the **visual-cobol-docs** RAG MCP server:
+
+```
+MCP Server: user-visual-cobol-docs
+Tool: query_docs
+Status: Available and indexed
+```
+
+### How to query
+
+```json
+{
+  "server": "user-visual-cobol-docs",
+  "toolName": "query_docs",
+  "arguments": { "query": "your question here", "n_results": 5 }
+}
+```
+
+### What it contains
+
+The RAG index is built from three documentation sets in `C:\opt\src\AiDoc\library\visual-cobol-docs\`:
+
+| Source Folder | Content |
+|---|---|
+| `Rocket-Visual-Cobol-Messages-Reference-Vesion-11` | Compiler messages (COBCH series), runtime messages (MFCWD series), DB2 preprocessor messages (COBDB series) |
+| `Rocket-Visual-Cobol-Documentation-Version-11` | Full product documentation: compiler directives, command-line reference, installation, build tools, IDE integration |
+| `Rocket-Visual-Cobol-For-VisualStudio-2022-Version-11` | VS 2022 specific integration, project properties, debugging, deployment |
+
+### Example queries that return good results
+
+- `"compiler directives sourceformat anim cobidy"` — directive reference
+- `"COBCH0779 compiler message"` — specific error code lookup
+- `"cobol.exe command line compiler usage"` — CLI compilation guide
+- `"DB2 SQL preprocessor directives"` — DB2 integration
+- `"Rocket Visual COBOL installation path Windows"` — install paths
+- `"mfcrown directives.mf utility"` — new v11 tooling
+
+## Local Markdown Documentation
+
+If the RAG is unavailable, these local files in the workspace contain relevant reference:
+
+| File | Content |
+|---|---|
+| `OldScripts\AnalysisResult-VisualCobolToolset.md` | Full analysis of all scripts, folder structure, compiler directives explained, path constants, known issues |
+| `OldScripts\RaiseASupportCaseWithRocket.md` | How to open a support case with Rocket Software |
+| `OldScripts\Report-VisualCobolInstall-*.md` | Installation attempt reports with installer logs |
+
+## Key Technical Facts (from RAG + docs)
+
+### Product naming
+
+- **Vendor:** Rocket Software (formerly Micro Focus)
+- **Product:** Rocket Visual COBOL 11.0
+- **Installer:** `vcvs2022_110.exe` (VS 2022 integration), `vcbt_110.exe` (Build Tools)
+
+### Install paths
+
+| Path | Description |
+|---|---|
+| `C:\Program Files (x86)\Rocket Software\Visual COBOL\` | Current Rocket Software install (v11) |
+| `C:\Program Files (x86)\Micro Focus\Visual COBOL\` | Legacy Micro Focus install (pre-Rocket acquisition) |
+| `C:\Program Files (x86)\Micro Focus\Net Express 5.1\` | Legacy Net Express (predecessor product) |
+
+Scripts must auto-detect which path exists. Rocket path takes priority.
+
+### Compiler directives (v11 changes from RAG)
+
+Key directives renamed in v11 (old names still accepted but listings show new names):
+- `MFCOMMENT` → `ALTCOMMENT`
+- `MFLEVEL` / `MF` → `LANGLEVEL`
+- `MFSYNC` → `SYNC`
+- `DIALECT"MF"` → `DIALECT"ROCKET"`
+- `SIGN"MF"` → `SIGN"ROCKET"`
+- `COPYSEARCH"MF"` → `COPYSEARCH"ROCKET"`
+
+New in v11:
+- `COPYDIR` — single directory for copybook search (accumulative, searched before COPYPATH)
+- `LEVEL78-PREC` — BODMAS precedence for level-78 VALUE clause evaluation
+- `mfcrown` — new CLI utility for editing `directives.mf` files, includes lint and auto-determine
+
+### VCPATH folder structure
+
+```
+%VCPATH%\
+├── bnd\          Bind files (.bnd)
+├── cfg\          Compiler directives (.dir) and run scripts
+├── dir\          Per-file compiler directive files (generated)
+├── int\          Compiled intermediate files (.int)
+├── lst\          Listing files (.lst)
+├── log\          Compilation logs
+├── net\          Mapped network paths (srv\, drv\)
+├── tmp\          Temporary files
+└── src\
+    ├── bat\      Batch files
+    ├── rex\      REXX scripts
+    ├── psh\      PowerShell scripts
+    └── cbl\      COBOL sources
+        ├── cpy\  Copybooks (.cpy, .cpx, .cpb, .dcl)
+        │   └── sys\cpy\  System copybooks
+        └── imp\  Import files
+```
+
+### Environment variables
+
+| Variable | Purpose | Example |
+|---|---|---|
+| `VCPATH` | Root of the COBOL workspace | `C:\fkavd\Dedge2` |
+| `COBCPY` | Copybook search path | `%VCPATH%\src\cbl\cpy;%VCPATH%\src\cbl\cpy\sys\cpy;%VCPATH%\src\cbl` |
+| `COBPATH` | INT file search path | `%VCPATH%\int;%VCPATH%\gs;%VCPATH%\src\cbl` |
+| `COBDIR` | Compiler base directory | `C:\Program Files (x86)\Rocket Software\Visual COBOL` |
+| `COBMODE` | Compilation bit mode | `32` or `64` |
+| `MFVSSW` | Compiler switches | `/c /f` |
+
+### DB2 integration
+
+The SQL compiler directive file (`VcCompilerDirectivesSql.dir`) controls DB2 preprocessing:
+- `DB2(DB=DB2DEV)` — target database alias
+- `DB2(COLLECTION=DBM)` — bind package collection
+- `DB2(UDB-VERSION=V9)` — DB2 UDB version target
+- `DB2(BIND)` — auto-bind after compile
+- `DB2(BINDDIR=%VCPATH%\bnd)` — bind output directory
+
+## INT File Recompilation: Disqualifier Checklist
+
+**Verdict: All .INT files from Net Express 5.1 MUST be recompiled for Visual COBOL 11.**
+
+See `AnalysisResult-IntFileRecompilation.md` for the full analysis. Summary of disqualifiers below.
+
+### Hard Blockers (crash or refuse to load)
+
+| ID | Disqualifier | Error |
+|---|---|---|
+| A1 | .GNT files from Net Express are explicitly blocked | Files ignored |
+| A2 | 32-bit INT on 64-bit runtime (COBMODE defaults to 64 since R4+) | `COBRT211` |
+| A3 | Linked executables/shared objects from older COBOL systems incompatible | `COBRT211` |
+| A4 | OO programs compiled with incompatible compiler version | `COBRT212` |
+| A5 | `coblongjmp()` in error/exit/signal handlers now enforced as fatal | `COBRT131` |
+| A6 | COMMUNICATION SECTION removed from runtime support | `COBCH1895` / undefined |
+| A7 | Class Library version mismatch (Net Express vs Visual COBOL) | `COBRT111` |
+| A8 | IDY symbol files from Net Express incompatible | `COBOP070` |
+
+### Silent Data Corruption (runs but wrong results)
+
+| ID | Disqualifier | Impact |
+|---|---|---|
+| B1 | FCD format default changed FCD2 → FCD3 | File I/O wrong results / `RTS114` |
+| B2 | IDXFORMAT default changed 4 → 8 | Indexed files unreadable cross-format |
+| B3 | FILEMAXSIZE default changed 4 → 8 | Large file handling differs |
+| B4 | DBCS literal treatment changed (NCHAR padding) | String comparisons wrong |
+| B5 | Fixed Binary (p<=7) default changed to 8-bit signed | Arithmetic results differ |
+| B6 | FCD must be initialized with binary zeros in unused areas | `RTS114` / unpredictable |
+| B7 | MFALLOC_PCFILE default changed N → Y | Unexpected file creation |
+
+### Environment / Configuration Conflicts
+
+| ID | Disqualifier | Impact |
+|---|---|---|
+| C1 | COBMODE default 32-bit → 64-bit | Wrong execution mode |
+| C2 | COBREG_PARSED conflict when both products installed | Tool interference |
+| C3 | DB2 ECM updated for 64-bit mode | Must recompile + rebind |
+| C4 | Licensing: SafeNet Sentinel removed, RocketPass required | Runtime refuses to execute |
+| C5 | ILUSING scope changed (file-only, not global) | Type resolution fails |
+| C6 | Report Writer HOSTRW behavior changed | Report output differs |
+
+### Removed Features
+
+| ID | Feature | Status |
+|---|---|---|
+| D1 | Animator debugger | Removed |
+| D2 | Data Tools (converter, editor, fix index, IMS) | Removed |
+| D3 | FaultFinder diagnostic | Removed |
+| D4 | Dialog System | Compatibility AddPack only, threading changed |
+| D5 | command_line_linkage tunable | Deprecated |
+
+### Quick Source Scan Patterns
+
+When checking `.CBL` source for disqualifiers before deciding to recompile:
+
+```
+COMMUNICATION SECTION    → A6
+coblongjmp               → A5
+EXTFH / EXTSM            → B1, B6
+NCHAR / DBCS             → B4
+EXEC SQL                 → C3
+FAULTFIND                → D3
+ILUSING                  → C5
+```
+
+## Script Standards for This Folder
+
+All scripts in this folder follow these conventions:
+- `#Requires -Version 7.0` and `[CmdletBinding()]`
+- `Import-Module GlobalFunctions -Force` for logging (`Write-LogMessage`) and SMS (`Send-Sms`)
+- Auto-detect compiler path: Rocket Software first, Micro Focus fallback
+- `$env:VCPATH` with default `C:\fkavd\Dedge2`
+- No external encoding tools — use .NET `[System.Text.Encoding]::GetEncoding(1252)` for ANSI files

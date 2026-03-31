@@ -1,0 +1,96 @@
+{
+  "program": "GMAPRTR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T23:38:36",
+  "extraction": {
+    "sourceHash": "sha256:0bc5bfeff839cf75aef755e97071a8c9f880e791b5afc59a04141c686f9cb468",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAPRTR.cbl",
+    "actualName": "GMAPRTR",
+    "program": "GMAPRTR",
+    "copyElements": [
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMARMSPC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMALOGF2.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NETTNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRINTERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMAAKTI",
+      "GMFFELL",
+      "GMACOCO",
+      "GMFTRAP",
+      "GMALOGF2"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-28T23:38:36"
+  },
+  "variableFilenames": {
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "File PRINTFIL is constructed using WW-FILNAVN, which follows the pattern <userid>-<date>.CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:53:02"
+    },
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "Contains transport information based on route or postnr, with filenames formatted as <userid>-<date>.CSV",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:53:06"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "program": "AAVERAL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:31",
+  "extraction": {
+    "sourceHash": "sha256:97e2dc5eb3d7d0402b73aa13686959a60dbbef38328ad99c7484c5cce3327af9",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAVERAL.CBL",
+    "actualName": "AAVERAL",
+    "program": "AAVERAL",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHERAL.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMADATO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:31"
+  }
+}

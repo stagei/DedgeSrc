@@ -1,0 +1,230 @@
+﻿---
+description: Shadow database pipeline — /autocur project override for Db2-ShadowDatabase
+globs:
+  - DevTools/DatabaseTools/Db2-ShadowDatabase/**
+alwaysApply: false
+---
+
+# Shadow Pipeline — autocur and Operations Rule
+
+This rule governs the Db2-ShadowDatabase project. It **overrides** the general `/autocur` command for this project. Remote execution must use `Cursor-ServerOrchestrator`.
+
+## Canonical Script
+
+`Run-FullShadowPipeline.ps1` is the single authoritative pipeline runner.
+- `Run-Manually.ps1` is retired to `_old/` — do not use it.
+- The orchestrator's `RUN_ALL` delegates to `Run-FullShadowPipeline.ps1`.
+- `_install-run-all.ps1` creates a scheduled task for `Run-FullShadowPipeline.ps1`.
+
+## Trigger Mechanism
+
+Db2-ShadowDatabase remote execution runs through `Cursor-ServerOrchestrator` JSON command files.
+
+### Command file
+
+```
+\\<server>\opt\data\Cursor-ServerOrchestrator\next_command_<user>_shadow-pipeline.json
+```
+
+Submit commands with `Invoke-ServerCommand`:
+
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+Invoke-ServerCommand -ServerName $server -Command "%OptPath%\DedgePshApps\Db2-ShadowDatabase\Run-FullShadowPipeline.ps1" -Project 'shadow-pipeline' -Timeout 43200
+```
+
+For restart with skip switches:
+
+```powershell
+Invoke-ServerCommand -Command '%OptPath%\DedgePshApps\Db2-ShadowDatabase\Run-FullShadowPipeline.ps1 -SkipPrdRestore -SkipShadowCreate -SkipBackup' -ServerName 't-no1fkmvft-db' -Project 'shadow-pipeline' -Timeout 36000
+```
+
+### Kill file
+
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+Stop-ServerProcess -ServerName $server -Reason "Stop requested for Db2-ShadowDatabase" -Project 'shadow-pipeline'
+```
+
+## Server Discovery
+
+Servers are discovered from `config.*.json` files in the project folder. Each contains a `ServerFqdn` field.
+
+| Config file | Server | Database |
+|---|---|---|
+| `config.inltst.json` | `t-no1inltst-db` | INLTST → INLTSTSH |
+| `config.inldev.json` | `t-no1inldev-db` | INLDEV → INLDEVSH |
+| `config.fkmvft.json` | `t-no1fkmvft-db` | FKMVFT → FKMVFTSH |
+
+More environments will be added over time.
+
+## Config Files
+
+Per-server config files: `config.<shortname>.json` (e.g., `config.fkmvft.json`).
+The correct config is auto-selected by `_helpers/_Shared.ps1` matching `$env:COMPUTERNAME`.
+
+## Pipeline Steps and Dependencies
+
+```
+Run-FullShadowPipeline.ps1:
+Step-1  →  Step-2  →  Step-3  →  Step-5  →  Step-4  →  Final verify
+```
+
+| Step | Purpose | Long-running? |
+|---|---|---|
+| Step-1 | Create shadow instance, restore PRD backup | Yes (backup + restore) |
+| Step-2 | Copy DDL and data (db2look + db2move) | Very long (hours for large DBs) |
+| Step-3 | Verify schema objects after transfer | Medium |
+| Step-5 | Compare row counts source vs target | Medium |
+| Step-4 | Move shadow DB to original instance | Included in `Run-FullShadowPipeline.ps1` |
+
+## Skip Switches for Partial Restart
+
+| Switch | When to use |
+|---|---|
+| `-SkipPrdRestore` | Source DB already has fresh PRD data |
+| `-SkipShadowCreate` | Shadow instance/DB already exists |
+| `-SkipBackup` | Pre-migration backup already done |
+| `-SkipCopy` | Shadow already has data from Step-2 |
+| `-SkipVerify` | Skip Step-3 and Step-5 verification |
+| `-StopAfterVerify` | Don't run Step-4 (move back) |
+
+Example restart after Step-1 succeeded but Step-2 failed:
+```
+-SkipPrdRestore -SkipShadowCreate -SkipBackup
+```
+
+## Log Locations
+
+The shadow database pipeline uses `Set-OverrideAppDataFolder`, so the **primary log** is app-specific, NOT the central AllPwshLog.
+
+### Primary log (app-specific)
+
+```
+\\<server>\opt\data\Db2-ShadowDatabase\FkLog_YYYYMMDD.log
+```
+
+### Secondary (check both if primary has gaps)
+
+```
+\\<server>\opt\data\AllPwshLog\<server>_YYYYMMDD.log
+```
+
+### Step output files
+
+Each step may also produce output in subfolders:
+
+```
+\\<server>\opt\data\Db2-ShadowDatabase\<DBSH>\<timestamp>\
+```
+
+For example: `\\t-no1fkmvft-db\opt\data\Db2-ShadowDatabase\FKMVFTSH\20260304-060205\`
+
+These contain `.out`, `.err`, `.bat`, `.html`, and `.log` files from `db2look`, `db2move`, DDL application, etc.
+
+### Date Rollover
+
+If the job runs past midnight, check `FkLog_YYYYMMDD+1.log`. Long-running pipelines (especially Step-2 with large databases) frequently cross midnight.
+
+## Log Patterns
+
+| Pattern | Meaning |
+|---|---|
+| `PIPELINE: Starting Step` | A step has begun |
+| `PIPELINE: Step .* completed` | A step finished successfully |
+| `PIPELINE SUMMARY` | Pipeline reached summary (success or failure) |
+| `PIPELINE FAILED` | Pipeline caught an error |
+| `Step-2 duration guard triggered` | Step-2 completed too fast |
+| `Phase 0:` | Federation restore activity |
+| `Phase -2:` | Pre-migration backup |
+| `Phase -1:` | PRD restore |
+| `Phase 1:` | Shadow instance creation |
+| `Phase 1.5:` | DB2NT grant |
+
+## /autocur Behavior
+
+### Monitoring
+
+- Poll the server log every **30 minutes** during pipeline execution.
+- Report in chat: current step, elapsed time, last meaningful log line.
+- Always copy log files locally before reading (remote log reading rule).
+- Check for date rollover past midnight.
+
+### Monitoring Cadence
+
+- **Step-1**: Check every 5 minutes (backup/restore takes 15-60 min depending on DB size)
+- **Step-2**: Check every 5-10 minutes (can take 2-8 hours for large databases)
+- **Step-3, Step-5**: Check every 2-3 minutes (typically finish in 10-30 min)
+- **After completion**: Run local validation, send SMS
+
+### On Error: Fix-Deploy-Kill-Restart
+
+1. **Analyze** the error from the log.
+2. **Fix** the local source code.
+3. **Deploy** via `_deploy.ps1` (handles scripts + modules + signing automatically).
+4. **Kill** the running job via `Stop-ServerProcess`.
+5. **Restart** with appropriate `-Skip*` flags to avoid re-running completed steps.
+
+### Post-Completion Validation
+
+After all steps complete, verify the database is accessible:
+
+1. Check that the orchestrator log shows `JOB_COMPLETED` for all steps
+2. Confirm no ERROR entries after the final step
+3. Send SMS to the current user with pass/fail status
+
+## Known Error Patterns and Auto-Fixes
+
+| Error pattern | Root cause | Auto-fix |
+|---|---|---|
+| `SQL20076N` federation not enabled | Federation DDL in shadow DB | Filter out federation DDL in Step-2 cleaning regex |
+| `SQL0104N` "DISABLE" unexpected | z/OS-specific ALTER TRIGGER syntax | Replace ALTER TRIGGER DISABLE/ENABLE with info messages |
+| `db2move EXPORT` hangs indefinitely | Specific tables cause hangs | Add table to `$skipTables` list in Step-2 |
+| `SQL0204N` name not defined | Missing nicknames for federated queries | Fix regex in `Get-SelectResult` (`Db2-Handler.psm1`) |
+| `SQL1060N` user error | Using DB2NT instead of local user | Set correct admin user in WorkObject creation |
+| `Bad table input from file` | Unquoted table names in `-tf` list | Format as `"SCHEMA"."TABLE"` in tablelist file |
+
+## Execution Logs
+
+Every `/autocur` run MUST produce a markdown execution log in:
+```
+DevTools/DatabaseTools/Db2-ShadowDatabase/ExecLogs/<servername>_<yyyyMMdd-HHmmss>.md
+```
+
+Content must include:
+- Pipeline start time and server
+- Each monitoring check with timestamp and status
+- Errors encountered with root cause analysis
+- Bugfixes applied (file, line, change description)
+- Redeploy and restart actions
+- Final pipeline status and total duration
+
+This file is written by the AI agent during monitoring, not by a static script.
+
+## Deploy Sequence
+
+When fixing code during `/autocur`, deploy via the project's `_deploy.ps1` which handles both scripts and dependent modules automatically (per the project deploy policy rule `autocur-deploy-policy.mdc`):
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\DatabaseTools\Db2-ShadowDatabase\_deploy.ps1"
+```
+
+This also deploys `Db2-CreateInitialDatabases`, `Db2-Backup`, `Db2-Restore`, and all changed modules from `_Modules/`.
+
+## Disk Layout
+
+| What | Drive |
+|---|---|
+| Scripts, logs, export staging | **E:** (`E:\opt\...`) |
+| Shadow database files (*SH) | **F:** |
+| Original/production databases | **E:** |
+
+`db2move` export/load paths always stay on E: under `$workFolder`. Never redirect them to F:.
+
+## Rules Unique to This Project
+
+- **Never create databases in step scripts** — see `no-local-db-creation-in-steps.mdc`
+- **Never modify `_Db2-ShadowDatabaseINLTST/`** — it is deprecated history only
+- **All code changes go to `Db2-ShadowDatabase/`** — the single source of truth
+- **Fixes to `Db2-Handler.psm1`** should use `UseNewConfigurations` branch pattern
+- **DataDisk config** is for shadow DB storage only, not export paths

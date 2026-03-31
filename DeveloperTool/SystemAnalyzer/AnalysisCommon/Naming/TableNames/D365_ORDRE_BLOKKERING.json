@@ -1,0 +1,40 @@
+{
+  "tableName": "D365_ORDRE_BLOKKERING",
+  "futureName": "OrderBlockering",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentId",
+      "description": "Unique department identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Unique line item number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "BLOKKERT",
+      "futureName": "BlockedStatus",
+      "description": "Indicates if the order or line item is blocked",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the block status was set",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:59:16"
+}

@@ -1,0 +1,423 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Script Runner Styles
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* User Info */
+.user-info {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 0.3rem 0.6rem;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Filter Section */
+.filter-section {
+    margin-bottom: 1rem;
+}
+
+.filter-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.filter-chip:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+}
+
+.filter-chip.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.filter-chip .chip-count {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.loading-text {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Server List */
+.server-list-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.server-count {
+    margin-left: auto;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.server-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.server-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.server-item:hover {
+    border-color: var(--primary-color);
+}
+
+.server-item.selected {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--primary-color);
+}
+
+.server-item input[type="checkbox"] {
+    accent-color: var(--primary-color);
+}
+
+.server-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+/* Mode Selection */
+.mode-selection {
+    margin-bottom: 1rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+    accent-color: var(--primary-color);
+    width: 18px;
+    height: 18px;
+}
+
+.radio-label {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+/* Script Input */
+.script-input-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.script-input-group {
+    flex: 1;
+}
+
+.script-input-group .form-control {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.execution-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+/* Results Card */
+.results-card .card-body {
+    padding: 0;
+}
+
+.results-grid {
+    min-height: 200px;
+}
+
+/* Result Row */
+.result-row {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-row:last-child {
+    border-bottom: none;
+}
+
+.result-header {
+    display: grid;
+    grid-template-columns: 50px 1fr 150px 150px 80px 80px;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.result-header:hover {
+    background: var(--bg-hover);
+}
+
+/* Status Indicators */
+.status-indicator {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.status-pending { color: #fbbf24; }
+.status-success { color: #10b981; }
+.status-error { color: #ef4444; }
+
+/* Result Fields */
+.result-server {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.result-timestamp {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.result-script {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.result-mode {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.result-mode.run {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--primary-color);
+}
+
+.result-mode.install {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8b5cf6;
+}
+
+.result-duration {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+/* Expand Toggle */
+.result-expand {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.result-row.expanded .result-expand {
+    transform: rotate(180deg);
+}
+
+/* Result Output */
+.result-output {
+    display: none;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+}
+
+.result-row.expanded .result-output {
+    display: block;
+}
+
+.output-content {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.output-content.error {
+    color: var(--danger-color);
+    background: rgba(239, 68, 68, 0.05);
+    border-color: var(--danger-color);
+}
+
+.output-content.success {
+    color: var(--success-color);
+}
+
+/* Pending Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.result-row.pending .status-indicator {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.result-row.pending .result-duration {
+    font-style: italic;
+}
+
+/* Confirmation Modal */
+.confirm-modal {
+    width: 500px;
+}
+
+.confirm-details {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.confirm-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+}
+
+.confirm-row:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.confirm-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.confirm-value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-primary);
+}
+
+.confirm-server-list {
+    max-height: 150px;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+/* Summary Badge Colors */
+.badge-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.badge-error {
+    background: var(--danger-color);
+    color: white;
+}
+
+.badge-pending {
+    background: #fbbf24;
+    color: #1f1f1f;
+}
+
+.badge-mixed {
+    background: var(--warning-color);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .result-header {
+        grid-template-columns: 40px 1fr;
+        gap: 0.5rem;
+    }
+    
+    .result-timestamp,
+    .result-script,
+    .result-mode,
+    .result-duration {
+        display: none;
+    }
+    
+    .script-input-row {
+        flex-direction: column;
+    }
+    
+    .execution-buttons {
+        width: 100%;
+    }
+    
+    .execution-buttons .btn {
+        flex: 1;
+    }
+}
+
+/* Empty Results Grid */
+.results-grid .empty-state {
+    padding: 2rem;
+}

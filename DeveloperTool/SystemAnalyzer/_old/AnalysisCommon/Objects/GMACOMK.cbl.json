@@ -1,0 +1,43 @@
+{
+  "program": "GMACOMK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:e1520ff04bfb7a454d5a6674e6ac031a4be9768d30287a2f8d7138381c5f17e1",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACOMK.CBL",
+    "actualName": "GMACOMK",
+    "program": "GMACOMK",
+    "copyElements": [
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NETADRESSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

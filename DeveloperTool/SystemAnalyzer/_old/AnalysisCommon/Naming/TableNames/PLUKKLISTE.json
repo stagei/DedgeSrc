@@ -1,0 +1,64 @@
+{
+  "tableName": "PLUKKLISTE",
+  "futureName": "PlukklisteItem",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "LASSNR",
+      "futureName": "LastNumber",
+      "description": "Last number used in the process",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the order",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE"
+    },
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FKNumber",
+      "description": "Foreign key identifier for related records",
+      "foreignKey": "A_BESTLIN, A_ORDRELINJER"
+    },
+    {
+      "name": "BESTANT",
+      "futureName": "Amount",
+      "description": "Amount associated with the line item or order",
+      "foreignKey": "A_BESTLIN, BESTLIN_DETALJER"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE"
+    },
+    {
+      "name": "VERNO",
+      "futureName": "VersionNumber",
+      "description": "Version number for the line item or order",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJESKIFT",
+      "futureName": "LineShift",
+      "description": "Indicates a shift in line configuration",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:27:28"
+}

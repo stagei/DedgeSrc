@@ -1,0 +1,81 @@
+CONNECT TO basishst 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 8.2.7
+ SQL authorization ID   = TRU
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  LOAD FROM f:\tron\ORDREH06.IXF OF IXF INSERT INTO
+       DBM.H_ORDREHODE      NONRECOVERABLE;
+ 
+SQL3501W  The table space(s) in which the table resides will not be placed in 
+backup pending state since forward recovery is disabled for the database.
+
+SQL3109N  The utility is beginning to load data from file 
+"f:\tron\ORDREH06.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "22.03.2010 
+14.12.44.397500".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20090728", and time "225804".
+
+SQL3153N  The T record in the PC/IXF file has name "d:\tron\ORDREH06.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "278826" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "278826".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "22.03.2010 
+14.13.05.598953".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "22.03.2010 
+14.13.05.603780".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "22.03.2010 
+14.13.40.481762".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "22.03.2010 
+14.13.40.576457".
+
+SQL3509W  The utility has deleted "143445" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "22.03.2010 
+14.16.07.087764".
+
+
+Number of rows read         = 278826
+Number of rows skipped      = 0
+Number of rows loaded       = 278826
+Number of rows rejected     = 0
+Number of rows deleted      = 143445
+Number of rows committed    = 278826
+
+
+***** SQLCODE: 0 *****
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  SET INTEGRITY FOR DBM.H_ORDREHODE CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED;
+ 
+
+***** SQLCODE: 0 *****
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+CONNECT RESET;
+ 
+
+***** SQLCODE: 0 *****
+ 
+

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="DB2 SQL" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+    <Color name="Comment" foreground="#6A9955" fontStyle="italic" />
+    <Color name="String" foreground="#CE9178" />
+    <Color name="Keyword" foreground="#569CD6" fontWeight="bold" />
+    <Color name="Function" foreground="#DCDCAA" />
+    <Color name="DataType" foreground="#4EC9B0" />
+    <Color name="Number" foreground="#B5CEA8" />
+    <Color name="Operator" foreground="#D4D4D4" />
+    
+    <RuleSet ignoreCase="true">
+        <!-- Comments -->
+        <Span color="Comment" begin="--" />
+        <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+        
+        <!-- Strings -->
+        <Span color="String">
+            <Begin>'</Begin>
+            <End>'</End>
+            <RuleSet>
+                <Span begin="''" end="" />
+            </RuleSet>
+        </Span>
+        
+        <!-- Numbers -->
+        <Rule color="Number">
+            \b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?
+        </Rule>
+        
+        <!-- DB2 Keywords -->
+        <Keywords color="Keyword">
+            <Word>SELECT</Word>
+            <Word>FROM</Word>
+            <Word>WHERE</Word>
+            <Word>INSERT</Word>
+            <Word>UPDATE</Word>
+            <Word>DELETE</Word>
+            <Word>CREATE</Word>
+            <Word>ALTER</Word>
+            <Word>DROP</Word>
+            <Word>TABLE</Word>
+            <Word>VIEW</Word>
+            <Word>INDEX</Word>
+            <Word>TRIGGER</Word>
+            <Word>PROCEDURE</Word>
+            <Word>FUNCTION</Word>
+            <Word>JOIN</Word>
+            <Word>INNER</Word>
+            <Word>LEFT</Word>
+            <Word>RIGHT</Word>
+            <Word>OUTER</Word>
+            <Word>CROSS</Word>
+            <Word>ON</Word>
+            <Word>AND</Word>
+            <Word>OR</Word>
+            <Word>NOT</Word>
+            <Word>IN</Word>
+            <Word>EXISTS</Word>
+            <Word>BETWEEN</Word>
+            <Word>LIKE</Word>
+            <Word>IS</Word>
+            <Word>NULL</Word>
+            <Word>ORDER</Word>
+            <Word>BY</Word>
+            <Word>GROUP</Word>
+            <Word>HAVING</Word>
+            <Word>UNION</Word>
+            <Word>INTERSECT</Word>
+            <Word>EXCEPT</Word>
+            <Word>AS</Word>
+            <Word>DISTINCT</Word>
+            <Word>ALL</Word>
+            <Word>CASE</Word>
+            <Word>WHEN</Word>
+            <Word>THEN</Word>
+            <Word>ELSE</Word>
+            <Word>END</Word>
+            <Word>BEGIN</Word>
+            <Word>COMMIT</Word>
+            <Word>ROLLBACK</Word>
+            <Word>SAVEPOINT</Word>
+            <Word>WITH</Word>
+            <Word>FETCH</Word>
+            <Word>FIRST</Word>
+            <Word>ONLY</Word>
+            <Word>ROWS</Word>
+            <Word>LIMIT</Word>
+            <Word>OFFSET</Word>
+            <Word>GRANT</Word>
+            <Word>REVOKE</Word>
+            <Word>SET</Word>
+            <Word>VALUES</Word>
+            <Word>INTO</Word>
+        </Keywords>
+        
+        <!-- DB2 Data Types -->
+        <Keywords color="DataType">
+            <Word>INTEGER</Word>
+            <Word>INT</Word>
+            <Word>SMALLINT</Word>
+            <Word>BIGINT</Word>
+            <Word>DECIMAL</Word>
+            <Word>NUMERIC</Word>
+            <Word>REAL</Word>
+            <Word>DOUBLE</Word>
+            <Word>FLOAT</Word>
+            <Word>CHAR</Word>
+            <Word>VARCHAR</Word>
+            <Word>CLOB</Word>
+            <Word>BLOB</Word>
+            <Word>DATE</Word>
+            <Word>TIME</Word>
+            <Word>TIMESTAMP</Word>
+            <Word>BOOLEAN</Word>
+            <Word>XML</Word>
+            <Word>GRAPHIC</Word>
+            <Word>VARGRAPHIC</Word>
+            <Word>DBCLOB</Word>
+        </Keywords>
+        
+        <!-- DB2 Functions -->
+        <Keywords color="Function">
+            <Word>COUNT</Word>
+            <Word>SUM</Word>
+            <Word>AVG</Word>
+            <Word>MIN</Word>
+            <Word>MAX</Word>
+            <Word>COALESCE</Word>
+            <Word>CAST</Word>
+            <Word>SUBSTRING</Word>
+            <Word>LENGTH</Word>
+            <Word>TRIM</Word>
+            <Word>UPPER</Word>
+            <Word>LOWER</Word>
+            <Word>CURRENT_DATE</Word>
+            <Word>CURRENT_TIME</Word>
+            <Word>CURRENT_TIMESTAMP</Word>
+            <Word>CURRENT_USER</Word>
+            <Word>CHAR</Word>
+            <Word>CONCAT</Word>
+            <Word>REPLACE</Word>
+            <Word>SUBSTR</Word>
+            <Word>LOCATE</Word>
+            <Word>TRANSLATE</Word>
+            <Word>ABS</Word>
+            <Word>CEIL</Word>
+            <Word>FLOOR</Word>
+            <Word>ROUND</Word>
+            <Word>TRUNCATE</Word>
+        </Keywords>
+    </RuleSet>
+</SyntaxDefinition>
+

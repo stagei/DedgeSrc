@@ -1,0 +1,63 @@
+{
+  "tableName": "P_OMSETNINGSAVGIFT",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Omsetningsavgift - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Øre pr. kg"
+      },
+      {
+        "colNo": 2,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "AVREGNINGSTYPE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Innført 01.01.2008, fordi såkorn ikke skal ha oms.avg. etter dette"
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

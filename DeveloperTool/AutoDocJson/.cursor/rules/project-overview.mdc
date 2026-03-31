@@ -1,0 +1,60 @@
+﻿---
+description: AutoDocJson project overview and context
+globs:
+alwaysApply: true
+---
+
+# AutoDocJson - C# Documentation Generator
+
+## Purpose
+
+AutoDocJson is a C# port of the legacy PowerShell-based AutoDoc system. It parses legacy source code files (COBOL, REXX, BAT, PS1, SQL, C#) and generates interactive HTML documentation with Mermaid diagrams.
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `ARCHITECTURE.md` | System architecture and component details |
+| `POWERSHELL_ORIGINS.md` | Mapping of C# to original PowerShell sources |
+| `AutoDocJson/Program.cs` | Main entry point |
+| `AutoDocJson.Core/BatchRunner.cs` | Main orchestration logic |
+| `AutoDocJson.Core/Logger.cs` | NLog-based logging |
+
+## Running the Application
+
+```bash
+dotnet run --project AutoDocJson -- -Regenerate Clean -Parallel
+```
+
+### Command-Line Options
+
+| Option | Values | Description |
+|--------|--------|-------------|
+| `-Regenerate` | None, All, Clean | Regeneration mode |
+| `-OutputFolder` | Path | HTML output location |
+| `-Parallel` | true/false | Enable parallel processing |
+| `-ThreadPercentage` | 1-100 | CPU thread usage |
+| `-MaxFilesPerType` | 0+ | Limit files (0=all) |
+
+## Related PowerShell
+
+The original PowerShell batch runner is at:
+`C:\opt\src\DedgePsh\DevTools\LegacyCodeTools\AutoDoc\AutoDocBatchRunner.ps1`
+
+## Output Location
+
+Generated HTML files are written to: `C:\opt\Webs\AutoDocJson\`
+
+## MCP Server (autodoc-query)
+
+AutoDocJson.Web hosts a Streamable HTTP MCP server at `/mcp` providing 3 tools:
+
+| Tool | Description |
+|------|-------------|
+| `list_documents` | List all available doc files with metadata |
+| `get_document` | Get full JSON content of a specific doc file |
+| `search_documents` | Keyword search across all doc files |
+
+The MCP endpoint is excluded from DedgeAuth via `SkipPathPrefixes` in `appsettings.json` -- no auth token required. Cursor registers it as `autodoc-query` (accessible as `user-autodoc-query`).
+
+Setup: `pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AutoDocMcpCursor\Setup-AutoDocMcpCursor.ps1"`

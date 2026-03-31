@@ -1,0 +1,175 @@
+{
+  "tableName": "EC_ORDER_HEAD",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ERP_ROWID",
+      "futureName": "ErpRowId",
+      "description": "System-generated unique row identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ERP_TIME_INSERTED",
+      "futureName": "ErpTimeInserted",
+      "description": "Timestamp when the record was inserted into the system",
+      "foreignKey": null
+    },
+    {
+      "name": "ERP_STATUS",
+      "futureName": "ErpStatus",
+      "description": "Current status of the order (e.g., pending, completed)",
+      "foreignKey": null
+    },
+    {
+      "name": "ERP_AVDNR",
+      "futureName": "ErpAvdnr",
+      "description": "Reference number for the internal system",
+      "foreignKey": null
+    },
+    {
+      "name": "ERP_ORDRENR",
+      "futureName": "ErpOrdrenr",
+      "description": "Unique order reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDERNUMBERCOMMERCE",
+      "futureName": "OrderNumberCommerce",
+      "description": "Order number as used in the commerce system",
+      "foreignKey": null
+    },
+    {
+      "name": "CREATED",
+      "futureName": "Created",
+      "description": "Timestamp when the order was created",
+      "foreignKey": null
+    },
+    {
+      "name": "SHIPPINGTOTAL",
+      "futureName": "ShippingTotal",
+      "description": "Total shipping cost for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "TAXTOTAL",
+      "futureName": "TaxTotal",
+      "description": "Total tax amount for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "TOTAL",
+      "futureName": "TotalAmount",
+      "description": "Grand total of the order, including all costs and taxes",
+      "foreignKey": null
+    },
+    {
+      "name": "SHIPPINGMETHODCODE",
+      "futureName": "ShippingMethodCode",
+      "description": "Code representing the shipping method used",
+      "foreignKey": null
+    },
+    {
+      "name": "PAYMENT_METHODE",
+      "futureName": "PaymentMethod",
+      "description": "Method of payment (e.g., credit card, bank transfer)",
+      "foreignKey": null
+    },
+    {
+      "name": "PAYMENT_STATUS",
+      "futureName": "PaymentStatus",
+      "description": "Current status of the payment (e.g., pending, completed)",
+      "foreignKey": null
+    },
+    {
+      "name": "PAYMENT_TRANSACTIONID",
+      "futureName": "PaymentTransactionId",
+      "description": "Unique identifier for the payment transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "PAYMENT_AMOUNT",
+      "futureName": "PaymentAmount",
+      "description": "Amount of money paid or due for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ISANONYMOUS",
+      "futureName": "IsAnonymous",
+      "description": "Indicates if the customer is anonymous (1) or registered (0)",
+      "foreignKey": null
+    },
+    {
+      "name": "CUSTOMERIDCOMMERCE",
+      "futureName": "CustomerCommerceId",
+      "description": "Unique identifier for the customer in the commerce system",
+      "foreignKey": null
+    },
+    {
+      "name": "CUSTOMERIDERP",
+      "futureName": "CustomerRiderp",
+      "description": "Internal reference number for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "LASTNAME",
+      "futureName": "LastName",
+      "description": "Last name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "FIRSTNAME",
+      "futureName": "FirstName",
+      "description": "First name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "ADDRESS",
+      "futureName": "Address",
+      "description": "Physical address of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "POSTALCODE",
+      "futureName": "PostalCode",
+      "description": "Postal code of the customer's address",
+      "foreignKey": null
+    },
+    {
+      "name": "PHONE",
+      "futureName": "Phone",
+      "description": "Customer's phone number",
+      "foreignKey": [
+        "PIMEKSP_ERSTATNINGSVARE"
+      ]
+    },
+    {
+      "name": "EMAIL",
+      "futureName": "Email",
+      "description": "Customer's email address",
+      "foreignKey": [
+        "EDI_KONV_KUNDENR",
+        "H_KUNDER_WEB_ENDR"
+      ]
+    },
+    {
+      "name": "ERP_TIME_PROCESSED",
+      "futureName": "ErpTimeProcessed",
+      "description": "Timestamp when the order was processed in the system",
+      "foreignKey": null
+    },
+    {
+      "name": "PICKUPPOINTLOCATIONID",
+      "futureName": "PickupPointLocationId",
+      "description": "Unique identifier for the pickup point location",
+      "foreignKey": [
+        "D3STAGE_ORDREHODE_HIST",
+        "D3STAGE_ORDREHODE",
+        "D3STAGE_ORDREHODE"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:13:48"
+}

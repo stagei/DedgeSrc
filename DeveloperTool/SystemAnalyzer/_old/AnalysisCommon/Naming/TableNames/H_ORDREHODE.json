@@ -1,0 +1,52 @@
+{
+  "tableName": "H_ORDREHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "BranchNumber",
+      "description": "Branch or store number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "REFORDRENR",
+      "futureName": "ReferencedOrderNumber",
+      "description": "Number of the referenced order",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDEGRUPPE",
+      "futureName": "CustomerGroup",
+      "description": "Code for the customer group",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDEADRESSE",
+      "futureName": "CustomerAddress",
+      "description": "Customer's primary address",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDEADR2",
+      "futureName": "CustomerAddress2",
+      "description": "Secondary line of the customer’s address (adr2)",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDEPOSTNR",
+      "futureName": "PostNumber",
+      "description": "Postal code of the customer's address",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:33:31"
+}

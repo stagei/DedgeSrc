@@ -1,0 +1,149 @@
+{
+  "program": "AABKV001",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:55",
+  "extraction": {
+    "sourceHash": "sha256:5ffb6cd92e07c03f2b6d73e7f5c2910adff0612c7c02c17916fd104475e85a9a",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABKV001.CBL",
+    "actualName": "AABKV001",
+    "program": "AABKV001",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORGNR_HOVEDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORGANISASJONSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ENHETREG_DIFI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FAKTURA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MASKINKARTOTEK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER_M_AKTIV_KONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "SVI",
+        "tableName": "KUNDER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABKV001.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKV001.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "KUN-UTENORG-FIL.TXT",
+        "path": "U:\\",
+        "fullPath": "U:\\KUN-UTENORG-FIL.TXT",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:23:55"
+  }
+}

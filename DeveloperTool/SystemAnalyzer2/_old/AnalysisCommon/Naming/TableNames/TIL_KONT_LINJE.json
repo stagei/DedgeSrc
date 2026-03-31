@@ -1,0 +1,106 @@
+{
+  "tableName": "TIL_KONT_LINJE",
+  "futureName": "TilKontLinje",
+  "namespace": "LegacyEntities",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Division number",
+      "foreignKey": "TKOL_AVDORDRE"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "TKOL_AVDORDRE"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNr",
+      "description": "Line number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "ULINJENR",
+      "futureName": "UlineNr",
+      "description": "Unprocessed line number",
+      "foreignKey": null
+    },
+    {
+      "name": "BELAST_AVDNR",
+      "futureName": "LoadedAvdNr",
+      "description": "Division number for loaded data",
+      "foreignKey": "TKOL_AVDORDRE"
+    },
+    {
+      "name": "KONTOART",
+      "futureName": "AccountType",
+      "description": "Type of account",
+      "foreignKey": null
+    },
+    {
+      "name": "FORRETNINGSOMR",
+      "futureName": "BusinessArea",
+      "description": "Business area or department",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKTGRUPPE",
+      "futureName": "ProductGroup",
+      "description": "Product group",
+      "foreignKey": null
+    },
+    {
+      "name": "MOMSKODE",
+      "futureName": "VatCode",
+      "description": "Value added tax code",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTOKODE",
+      "futureName": "AccountCode",
+      "description": "Account code",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FKNumber",
+      "description": "Foreign key number",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Product name",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Amount of the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Status or state indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User identifier or name",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:52:38"
+}

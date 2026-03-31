@@ -1,0 +1,298 @@
+<Window x:Class="DbExplorer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DbExplorer"
+        xmlns:controls="clr-namespace:DbExplorer.Controls"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.IsIconVisible="True"
+        mc:Ignorable="d"
+        Title="DbExplorer - Database Manager" 
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Height="800" 
+        Width="1200"
+        WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu Bar - Word-inspired modern design -->
+        <Menu Grid.Row="0" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+            <MenuItem Header="_File" Padding="12,8">
+                <MenuItem Header="_New Connection" Click="NewConnection_Click" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <TextBlock Text="➕" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="RecentConnectionsMenuItem" Header="_Recent Connections">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🕐" FontSize="16"/>
+                    </MenuItem.Icon>
+                    <!-- Recent connections will be populated dynamically -->
+                    <MenuItem Header="(No recent connections)" IsEnabled="False"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Close Tab" Click="CloseTab_Click" InputGestureText="Ctrl+W">
+                    <MenuItem.Icon>
+                        <TextBlock Text="✖" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="E_xit" Click="Exit_Click" InputGestureText="Alt+F4">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🚪" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <!-- Edit Menu -->
+            <MenuItem Header="_Edit" Padding="12,8">
+                <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Click="EditUndo_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="↩️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Click="EditRedo_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="↪️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Cu_t" InputGestureText="Ctrl+X" Click="EditCut_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="✂️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Copy" InputGestureText="Ctrl+C" Click="EditCopy_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📋" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Paste" InputGestureText="Ctrl+V" Click="EditPaste_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📄" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Select _All" InputGestureText="Ctrl+A" Click="EditSelectAll_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="☑️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Find..." InputGestureText="Ctrl+F" Click="EditFind_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔍" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Find and _Replace..." InputGestureText="Ctrl+H" Click="EditReplace_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔄" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="F_ormat SQL" InputGestureText="Ctrl+Shift+F" Click="EditFormatSql_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="✨" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="_View" Padding="12,8">
+                <MenuItem Header="_Dark Theme" Click="ToggleDarkMode_Click" InputGestureText="Ctrl+D">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🌙" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Database _Load Monitor..." Click="DatabaseLoadMonitor_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📊" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Lock Monitor..." Click="LockMonitor_Click" Tag="AccessLevel:DBA">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔒" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Statistics Manager..." Click="StatisticsManager_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📈" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Active Sessions..." Click="ActiveSessions_Click" Tag="AccessLevel:DBA">
+                    <MenuItem.Icon>
+                        <TextBlock Text="👥" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_CDC Manager..." Click="CdcManager_Click" Tag="AccessLevel:DBA">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📡" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Missing _FK Discovery..." Click="MissingFKDiscovery_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔗" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Missing FK _Job Log..." Click="MissingFKJobLog_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📋" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Unused Objects..." Click="UnusedObjects_Click" Tag="AccessLevel:DBA">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🗑️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Source Code Browser..." Click="SourceBrowser_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📚" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="DDL _Generator..." Click="DdlGenerator_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📝" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Comment Manager..." Click="CommentManager_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="💬" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Dependency Analyzer..." Click="DependencyAnalyzer_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔗" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Migration Assistant..." Click="MigrationAssistant_Click" Tag="AccessLevel:DBA">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔄" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Mermaid Visual Designer..." Click="MermaidDesigner_Click" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🎨" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Cross-Database Schema _Comparison..." Click="CrossDatabaseComparison_Click" InputGestureText="Ctrl+Shift+C" Tag="AccessLevel:Middle">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔍" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Settings..." Click="Settings_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="⚙" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Query _History..." Click="QueryHistory_Click" InputGestureText="Ctrl+H">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📜" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <!-- Tools Menu -->
+            <MenuItem Header="_Tools" Padding="12,8">
+                <MenuItem Header="Manage _Connections..." Click="ManageConnections_Click" InputGestureText="Ctrl+M">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔌" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Execute SQL Script..." Click="ExecuteSqlScript_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="▶️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Generate DDL for Schema..." Click="GenerateSchemaDdl_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📝" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="AI _SQL Training..." Click="AiSqlTraining_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🤖" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Options..." Click="Settings_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="⚙️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            
+            <MenuItem Header="_Help" Padding="12,8">
+                <MenuItem Header="_Keyboard Shortcuts" Click="KeyboardShortcuts_Click" InputGestureText="F1">
+                    <MenuItem.Icon>
+                        <TextBlock Text="⌨️" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Documentation" Click="Documentation_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📖" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_View Logs" Click="ViewLogs_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📋" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Open _Data Folder" Click="OpenDataFolder_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="📁" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_About DbExplorer" Click="About_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="ℹ" FontSize="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- Main content area -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Welcome Panel (shown when no connections) -->
+            <controls:WelcomePanel x:Name="WelcomePanel" 
+                               Grid.Row="0"
+                               Visibility="Visible"
+                               ConnectionRequested="WelcomePanel_ConnectionRequested"
+                               NewConnectionRequested="WelcomePanel_NewConnectionRequested"
+                               ManageConnectionsRequested="WelcomePanel_ManageConnectionsRequested"/>
+
+            <!-- Tab Control for Connections -->
+            <TabControl Grid.Row="0" x:Name="ConnectionTabs" Margin="5" SelectionChanged="ConnectionTabs_SelectionChanged"
+                       Visibility="Collapsed">
+                <!-- Tabs will be added dynamically -->
+            </TabControl>
+
+            <!-- Status Bar -->
+            <StatusBar Grid.Row="0" x:Name="MainStatusBar" MinHeight="28" VerticalAlignment="Bottom" 
+                       Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Visibility="Collapsed"
+                       Padding="4,2">
+                <StatusBarItem>
+                    <TextBlock x:Name="StatusBarText" Text="Ready" TextWrapping="NoWrap"/>
+                </StatusBarItem>
+                <Separator/>
+                <StatusBarItem>
+                    <TextBlock x:Name="ConnectionCountText" Text="0 connections" TextWrapping="NoWrap"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+
+    </Grid>
+</Window>

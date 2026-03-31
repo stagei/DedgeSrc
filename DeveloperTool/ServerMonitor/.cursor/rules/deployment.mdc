@@ -1,0 +1,40 @@
+﻿---
+description: Install scripts and deployment workflows
+alwaysApply: true
+---
+
+# Install Scripts
+
+The following install scripts are used for deploying to servers:
+- **Agent Install Script**: `C:\opt\src\DedgePsh\DevTools\InfrastructureTools\ServerMonitorAgent\ServerMonitorAgent.ps1`
+
+**Deploy Scripts** (run after modifying install scripts):
+- Agent: `C:\opt\src\DedgePsh\DevTools\InfrastructureTools\ServerMonitorAgent\_deploy.ps1`
+
+**DEPRECATED** (do NOT use):
+- `ServerMonitorAgent` - replaced by `ServerMonitorAgent.ps1`
+- `Install-ServerMonitorDashboard.ps1` - replaced by `IIS-DeployApp.ps1 -SiteName ServerMonitorDashboard`
+- `ServerMonitorDashboard.ps1` - removed; Dashboard is deployed exclusively via IIS-DeployApp
+
+**IMPORTANT**: When modifying agent install scripts, always run the corresponding `_deploy.ps1` to deploy the updated scripts to target servers.
+
+## Dashboard Deployment Workflow
+
+The ServerMonitorDashboard is deployed as an IIS virtual application — **not** via a local install script.
+
+### Deployment Steps (ASK USER BEFORE EACH):
+
+1. **Build and Publish All Applications** (ask user first!):
+   ```powershell
+   C:\opt\src\ServerMonitor\Build-And-Publish.ps1
+   ```
+
+2. **Deploy Dashboard to IIS** (single app deploy):
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName ServerMonitorDashboard
+   ```
+
+### Dashboard URLs
+- **Dashboard (IIS virtual app)**: `http://localhost/ServerMonitorDashboard`
+- **Dashboard with Server Selected**: `http://localhost/ServerMonitorDashboard/?server=<servername>`
+- **Dashboard API (Scalar)**: `http://localhost/ServerMonitorDashboard/scalar`

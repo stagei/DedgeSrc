@@ -1,0 +1,53 @@
+---
+description: C# coding standards for AutoDocJson
+globs: "**/*.cs"
+alwaysApply: false
+---
+
+# C# Standards for AutoDocJson
+
+## Project Structure
+
+- **AutoDocJson** - Console application entry point
+- **AutoDocJson.Core** - Core library (Logger, BatchRunner, utilities)
+- **AutoDocJson.Parsers** - File type parsers (CBL, REX, BAT, PS1, SQL, C#)
+- **AutoDocJson.Models** - Shared data models
+- **AutoDocJson.Tests** - Testing and comparison tools
+
+## Coding Standards
+
+### Naming Conventions
+- Use PascalCase for class names, methods, and properties
+- Use camelCase for local variables and parameters
+- Prefix private fields with underscore: `_fieldName`
+- Use meaningful, descriptive names
+
+### Logging
+- Use `Logger.LogMessage()` for all logging
+- Match PowerShell log format for unified log analysis
+- Log levels: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+
+### Error Handling
+- Catch specific exceptions, not generic `Exception`
+- Log errors with full context before rethrowing
+- Use `try-finally` for resource cleanup
+
+### Async/Parallel
+- Use `async/await` for I/O operations
+- Use `Parallel.ForEach` or `Task.WhenAll` for CPU-bound parallel work
+- Respect `ThreadPercentage` configuration for thread limits
+
+## PowerShell Origins
+
+See `POWERSHELL_ORIGINS.md` for mapping of C# components to original PowerShell sources.
+
+## Output Folders
+
+- C# outputs to: `C:\opt\Webs\AutoDocJson\`
+- PowerShell outputs to: `C:\opt\Webs\AutoDoc\`
+
+## Dependencies
+
+- NLog for logging
+- Newtonsoft.Json for JSON handling
+- Microsoft.Extensions.Configuration for settings

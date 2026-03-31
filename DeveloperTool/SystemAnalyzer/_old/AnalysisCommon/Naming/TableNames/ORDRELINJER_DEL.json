@@ -1,0 +1,64 @@
+{
+  "tableName": "ORDRELINJER_DEL",
+  "futureName": "OrderLineItem",
+  "namespace": "Inventory",
+  "columns": [
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "The department number associated with the order line item",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "The line item number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "OrderReferenceNumber",
+      "description": "The reference number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserID",
+      "description": "The user ID who made the change or is related to this line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJESTATUS",
+      "futureName": "LineItemStatus",
+      "description": "The status of the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERES_NAA",
+      "futureName": "ScheduledDeliveryDate",
+      "description": "The scheduled delivery date for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "APPLNAME",
+      "futureName": "ApplicationName",
+      "description": "The name of the application associated with this record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:56:41"
+}

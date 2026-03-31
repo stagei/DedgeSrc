@@ -1,0 +1,406 @@
+{
+  "program": "SKRIV_ANALYSE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:52:13",
+  "variableFilenames": {
+    "KUN-FIL1": {
+      "logicalName": "KUN-FIL1",
+      "physicalVariable": "WW-FILNAVN1",
+      "basePath": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PART",
+      "filenamePattern": null,
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:51:58"
+    },
+    "ADR-FIL": {
+      "logicalName": "ADR-FIL",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PARTI\\",
+      "filenamePattern": null,
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:52:02"
+    },
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.csv",
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:52:05"
+    },
+    "PFILE": {
+      "logicalName": "PFILE",
+      "physicalVariable": "PFILE-NAVN",
+      "basePath": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PARTI\\",
+      "filenamePattern": "<userid>-AABKV035.csv",
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:52:09"
+    },
+    "KFILE": {
+      "logicalName": "KFILE",
+      "physicalVariable": "KFILE-NAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.csv",
+      "description": "The filename pattern is based on the KUN-FIL1 assignment to WW-FILNAVN1 in AABKV035.CBL, which suggests a CSV file named with user ID and date.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:52:13"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "SKRIV_ANALYSE",
+    "program": "SKRIV_ANALYSE",
+    "copyElements": [
+      {
+        "name": "LBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TELB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TELH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMAMVAS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SCL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KLHSERV.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "TILL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "K",
+        "type": "copybook"
+      },
+      {
+        "name": "FRDG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAVVAR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OLAKOKV.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEV_REKL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEV_REKL_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LINJENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KORRIGERINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "WS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UT",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP",
+      "GMACOCO",
+      "GMAPRTR",
+      "GMVMAL2",
+      "GMFFELL",
+      "GMACURT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABKV035.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKV035.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "KUN-FIL1",
+        "physicalName": "WW-FILNAVN1",
+        "path": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PART",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "ADR-FIL",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PARTI\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRINTFIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.csv",
+        "filenamePattern": "<userid>-<date>.CSV"
+      },
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CFGFIL",
+        "physicalName": "OSWCFG.CFG",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSWCFG.CFG",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PFILE",
+        "physicalName": "PFILE-NAVN",
+        "path": "\\\\FKHKORA\\ORAAPP\\PARIS\\PROD\\GRNS_UT\\BER_PARTI\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "filenamePattern": "<userid>-AABKV035.csv"
+      },
+      {
+        "logicalName": "KFILE",
+        "physicalName": "KFILE-NAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.csv",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "The filename pattern is based on the KUN-FIL1 assignment to WW-FILNAVN1 in AABKV035.CBL, which suggests a CSV file named with user ID and date."
+      },
+      {
+        "logicalName": "LOG-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "KOP-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "INN-FILE",
+        "physicalName": "DB2019.KOR",
+        "path": "R:\\FAKTURA\\DRFILER\\LOAD",
+        "fullPath": "R:\\FAKTURA\\DRFILER\\LOAD\\DB2019.KOR",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FILE",
+        "physicalName": "DB2019.KOR",
+        "path": "k:\\driftregnskap\\DRFILER\\KONVDATA\\IFJORTALL-2019",
+        "fullPath": "k:\\driftregnskap\\DRFILER\\KONVDATA\\IFJORTALL-2019\\DB2019.KOR",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FEILFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:52:13"
+  }
+}

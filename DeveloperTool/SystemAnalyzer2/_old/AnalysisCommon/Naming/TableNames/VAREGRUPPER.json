@@ -1,0 +1,110 @@
+{
+  "tableName": "VAREGRUPPER",
+  "futureName": "VareGruppe",
+  "namespace": "DB2LegacyModels",
+  "columns": [
+    {
+      "name": "varegruppe",
+      "futureName": "VareGruppeCode",
+      "description": "Unique code for the product group",
+      "foreignKey": [
+        "A_ORDRELINJER",
+        "AH_ORDRELINJER",
+        "D3STAGE_ORDRELINJER_HIST",
+        "D3STAGE_ORDRELINJER",
+        "FAKT_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "navn",
+      "futureName": "GroupName",
+      "description": "Name of the product group",
+      "foreignKey": [
+        "ACCESS_OPPSTART",
+        "BEHKODER",
+        "DIVISJON_AGRI",
+        "DIVISJON",
+        "EHF_ELMA",
+        "EHF_ELMA",
+        "ENHETREG_DIFI",
+        "ENHETREG_DIFI",
+        "ENHETREG_U_DIFI"
+      ]
+    },
+    {
+      "name": "antall",
+      "futureName": "Quantity",
+      "description": "Quantity of items in the group",
+      "foreignKey": [
+        "A_ORDRELINJER",
+        "DEMOHISTORIKK",
+        "DEMODLINJE",
+        "EDI_FAKT_LINJE",
+        "EDI_KONV_KUNDENR",
+        "EGETBRUK_LINJE",
+        "ERSTATNINGER",
+        "FAKTHIST",
+        "FAKTHIST",
+        "FAKTHIST"
+      ]
+    },
+    {
+      "name": "antall_mini",
+      "futureName": "MiniQuantity",
+      "description": "Minimum quantity of items in the group",
+      "foreignKey": [
+        "VAREHOVEDGRUPPER",
+        "VAREHOVEDGRUPPER",
+        "VAREMELLOMGRUPPER",
+        "VGRLEV",
+        "VHGRLEV"
+      ]
+    },
+    {
+      "name": "partivare",
+      "futureName": "PartialItemCode",
+      "description": "Code for partial items in the group",
+      "foreignKey": [
+        "A_BESTLIN",
+        "BESTLIN"
+      ]
+    },
+    {
+      "name": "priskode",
+      "futureName": "PriceCode",
+      "description": "Code for pricing in the group",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_VILIN",
+        "BESTLIN"
+      ]
+    },
+    {
+      "name": "utgatt",
+      "futureName": "Status",
+      "description": "Status of the product group",
+      "foreignKey": [
+        "DOHCHK",
+        "TEKSTER",
+        "VARERUTEKALENDER"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp for when the record was created or last updated",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:23:27"
+}

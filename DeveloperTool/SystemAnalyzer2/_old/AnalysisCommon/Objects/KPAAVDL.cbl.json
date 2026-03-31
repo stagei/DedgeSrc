@@ -1,0 +1,48 @@
+{
+  "program": "KPAAVDL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:50",
+  "extraction": {
+    "sourceHash": "sha256:ab1917f44d74b09a5c2b49aad6a4cfa0830a39db502d45713b37b9c24733e6fa",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\KPAAVDL.CBL",
+    "actualName": "KPAAVDL",
+    "program": "KPAAVDL",
+    "copyElements": [
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "NUM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPAAVDL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "NUMMER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:50"
+  }
+}

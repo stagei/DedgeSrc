@@ -1,0 +1,94 @@
+{
+  "tableName": "ADR_ID",
+  "futureName": "AdrId",
+  "namespace": "DbModels",
+  "columns": [
+    {
+      "name": "ID_NR",
+      "futureName": "IdNr",
+      "description": "Unique identifier number",
+      "foreignKey": "VAREREGISTER"
+    },
+    {
+      "name": "UN_NR",
+      "futureName": "UnNumber",
+      "description": "Unique number",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN_ADR",
+      "futureName": "ProductDescription",
+      "description": "Product name or description",
+      "foreignKey": null
+    },
+    {
+      "name": "KLASSE",
+      "futureName": "ClassCode",
+      "description": "Classification code",
+      "foreignKey": "KD_KONT_LIN_LOGG, KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "FARESEDDEL",
+      "futureName": "FareSheet",
+      "description": "Fare sheet number",
+      "foreignKey": null
+    },
+    {
+      "name": "EMBALLASJEGR",
+      "futureName": "PackagingGrade",
+      "description": "Packaging grade",
+      "foreignKey": null
+    },
+    {
+      "name": "TRANSPORTKAT",
+      "futureName": "TransportCategory",
+      "description": "Transport category",
+      "foreignKey": null
+    },
+    {
+      "name": "MULTIPLIKATOR",
+      "futureName": "Multiplier",
+      "description": "Multiplier value",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User identifier or name",
+      "foreignKey": "A_BESTHODE, A_VIHODE, AH_BESTHODE"
+    },
+    {
+      "name": "ID_NR_2",
+      "futureName": "IdNr2",
+      "description": "Secondary unique identifier number",
+      "foreignKey": null
+    },
+    {
+      "name": "HANDELSNAVN",
+      "futureName": "TradingName",
+      "description": "Trading name",
+      "foreignKey": null
+    },
+    {
+      "name": "TUNNELRESTRIKSJON",
+      "futureName": "TunnelRestriction",
+      "description": "Tunnel restriction code or name",
+      "foreignKey": null
+    },
+    {
+      "name": "KLKODE",
+      "futureName": "KlCode",
+      "description": "KL code",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:26:33"
+}

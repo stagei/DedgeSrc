@@ -1,0 +1,64 @@
+﻿{
+  "tableName": "P_PROTEIN",
+  "futureName": "ProteinRecord",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "kornHandler",
+      "futureName": "KornHandler",
+      "description": "The handler of the grain",
+      "foreignKey": null
+    },
+    {
+      "name": "kode",
+      "futureName": "Code",
+      "description": "A code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "slag",
+      "futureName": "Slag",
+      "description": "A type or category",
+      "foreignKey": "SLAG -> DBM.SLAG.SLAG (FK_SLAG)"
+    },
+    {
+      "name": "proteinProsFra",
+      "futureName": "ProteinContentFrom",
+      "description": "The protein content from a certain value",
+      "foreignKey": null
+    },
+    {
+      "name": "proteinProsTil",
+      "futureName": "ProteinContentTo",
+      "description": "The protein content to a certain value",
+      "foreignKey": null
+    },
+    {
+      "name": "fraDato",
+      "futureName": "FromDate",
+      "description": "The start date of the period",
+      "foreignKey": "FRA_DATO -> AC_NARINGSSTOFF_ENHET, ALT_INNKJ_PRIS, AVDELINGS_FRAKT, EC_Dedge_PRISER_KUNDE, ENGROS_PRIS, FRAKT_TABNR_AVD, FRAVR_TONN_RATER, I_AVTALE_HODE, I_KONTRAKT_HODE, K_GROV_PLAN (FRA_DATO)"
+    },
+    {
+      "name": "sats",
+      "futureName": "Rate",
+      "description": "A rate or percentage amount",
+      "foreignKey": "SATS -> EDI_FAKT_TILLEGG, KVANTUMSRABATTER, MINSTEFRAKT, P_AVTALETILLEGG_KVAL, P_AVTALETILLEGG_LIN, P_DIVERSE_PARTITILLEGG, P_EGENANDEL_FRAKT, P_EPOST_RABATT, P_FORVERDI, P_FRAKT (SATS)"
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "A user identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of an event or action",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:15:05"
+}

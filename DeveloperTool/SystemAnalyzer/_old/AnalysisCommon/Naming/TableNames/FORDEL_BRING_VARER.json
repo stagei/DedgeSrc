@@ -1,0 +1,52 @@
+{
+  "tableName": "FORDEL_BRING_VARER",
+  "futureName": "ForedelBringVare",
+  "namespace": "DataTransferObjects",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "FkNumber",
+      "description": "Foreign key reference number",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_BESTLIN",
+        "A_KORRIGERINGER",
+        "A_ORDRELINJER_ENDR",
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CustomerID",
+      "description": "Unique identifier for the customer",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The time and date of the event or transaction",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    },
+    {
+      "name": "FRA_LAGER",
+      "futureName": "FromWarehouse",
+      "description": "The warehouse or location from which the item is being brought",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:24:34"
+}

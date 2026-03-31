@@ -1,0 +1,961 @@
+{
+  "provider": "DB2",
+  "version": "12.1",
+  "description": "DB2 v12.1 System Catalog Metadata - Complete reference for SYSCAT, SYSIBM, SYSIBMADM tables with definitions, columns, relationships, and query patterns",
+  "last_updated": "2025-12-18",
+  "purpose": "Reference file for building and validating SQL statements in db2_12.1_sql_statements.json. NOT loaded by application at runtime.",
+  "usage_notes": [
+    "This file is a REFERENCE ONLY - used by developers/AI to understand DB2 system catalog structure",
+    "Use this to verify column names, data types, and relationships when creating new SQL statements",
+    "All application SQL statements must be defined in db2_12.1_sql_statements.json, not here",
+    "When adding support for a new database provider, create a similar <provider>_<version>_system_metadata.json file"
+  ],
+  "notes": [
+    "SYSCAT views are read-only views of the underlying SYSIBM tables",
+    "SYSIBM contains the actual base tables for the system catalog",
+    "SYSIBMADM contains administrative views for monitoring and management",
+    "CHAR columns often contain trailing spaces - always use TRIM()",
+    "This file is used for IntelliSense, code generation, and documentation",
+    "Other providers: PostgreSQL uses pg_catalog/information_schema, Oracle uses ALL_/DBA_/USER_ views, SQL Server uses sys schema"
+  ],
+  "schemas": {
+    "SYSCAT": "System catalog views - read-only views for metadata queries",
+    "SYSIBM": "System base tables - underlying tables for SYSCAT views",
+    "SYSIBMADM": "Administrative views - monitoring and performance views",
+    "SYSSTAT": "Statistics views - updateable statistics for optimizer"
+  },
+  "catalog_tables": {
+    "SYSCAT.SCHEMATA": {
+      "description": "Contains one row for each schema in the database",
+      "key_columns": ["SCHEMANAME"],
+      "columns": {
+        "SCHEMANAME": { "type": "VARCHAR(128)", "description": "Name of the schema", "is_key": true },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the schema" },
+        "OWNERTYPE": { "type": "CHAR(1)", "description": "S=System, U=User" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created the schema" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time when schema was created" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" },
+        "AUDITPOLICYID": { "type": "INTEGER", "description": "ID of audit policy" },
+        "AUDITPOLICYNAME": { "type": "VARCHAR(128)", "description": "Name of audit policy" },
+        "DATACAPTURE": { "type": "CHAR(1)", "description": "Data capture status" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.ROUTINES", "SYSCAT.PACKAGES", "SYSCAT.SEQUENCES", "SYSCAT.INDEXES"]
+    },
+    "SYSCAT.TABLES": {
+      "description": "Contains one row for each table, view, alias, or materialized query table",
+      "key_columns": ["TABSCHEMA", "TABNAME"],
+      "columns": {
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema name of the table", "is_key": true, "references": "SYSCAT.SCHEMATA.SCHEMANAME" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the table" },
+        "OWNERTYPE": { "type": "CHAR(1)", "description": "S=System, U=User" },
+        "TYPE": { "type": "CHAR(1)", "description": "T=Table, V=View, A=Alias, S=MQT, G=Created temp, H=Hierarchy, L=Detached, N=Nicknames, U=Typed, W=Typed view" },
+        "STATUS": { "type": "CHAR(1)", "description": "N=Normal, C=Check pending, X=Inoperative" },
+        "BASE_TABSCHEMA": { "type": "VARCHAR(128)", "description": "For aliases, schema of base table" },
+        "BASE_TABNAME": { "type": "VARCHAR(128)", "description": "For aliases, name of base table" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time when table was created" },
+        "ALTER_TIME": { "type": "TIMESTAMP", "description": "Time of last ALTER" },
+        "STATS_TIME": { "type": "TIMESTAMP", "description": "Time when statistics were last updated" },
+        "COLCOUNT": { "type": "SMALLINT", "description": "Number of columns" },
+        "TABLEID": { "type": "SMALLINT", "description": "Internal table identifier" },
+        "TBSPACEID": { "type": "INTEGER", "description": "Tablespace identifier" },
+        "CARD": { "type": "BIGINT", "description": "Cardinality (row count), -1 if not collected" },
+        "NPAGES": { "type": "BIGINT", "description": "Number of pages containing rows" },
+        "FPAGES": { "type": "BIGINT", "description": "Total number of pages" },
+        "OVERFLOW": { "type": "BIGINT", "description": "Number of overflow records" },
+        "TBSPACE": { "type": "VARCHAR(128)", "description": "Primary tablespace name" },
+        "INDEX_TBSPACE": { "type": "VARCHAR(128)", "description": "Index tablespace name" },
+        "LONG_TBSPACE": { "type": "VARCHAR(128)", "description": "Long/LOB tablespace name" },
+        "PARENTS": { "type": "SMALLINT", "description": "Number of parent tables (FK references)" },
+        "CHILDREN": { "type": "SMALLINT", "description": "Number of dependent (child) tables" },
+        "SELFREFS": { "type": "SMALLINT", "description": "Number of self-referencing FKs" },
+        "KEYCOLUMNS": { "type": "SMALLINT", "description": "Number of columns in primary key" },
+        "KEYINDEXID": { "type": "SMALLINT", "description": "Index ID of primary key index" },
+        "KEYUNIQUE": { "type": "SMALLINT", "description": "Number of unique key constraints" },
+        "CHECKCOUNT": { "type": "SMALLINT", "description": "Number of check constraints" },
+        "DATACAPTURE": { "type": "CHAR(1)", "description": "Y=Capture changes, N=No capture" },
+        "PCTFREE": { "type": "SMALLINT", "description": "Percentage of page to leave free" },
+        "APPEND_MODE": { "type": "CHAR(1)", "description": "Y=Append mode, N=Normal" },
+        "VOLATILE": { "type": "CHAR(1)", "description": "C=Cardinality volatile, empty=Normal" },
+        "COMPRESSION": { "type": "CHAR(1)", "description": "B=Both, R=Row, V=Value, N=None" },
+        "ACCESS_MODE": { "type": "CHAR(1)", "description": "F=Full access, N=No access, D=Deferred, R=Read only" },
+        "CLUSTERED": { "type": "CHAR(1)", "description": "Clustering index exists" },
+        "CODEPAGE": { "type": "INTEGER", "description": "Code page of table" },
+        "TABLEORG": { "type": "CHAR(1)", "description": "R=Row, C=Column organized" },
+        "TEMPORALTYPE": { "type": "CHAR(1)", "description": "A=App temporal, B=Bitemporal, N=None, S=System" },
+        "LASTUSED": { "type": "DATE", "description": "Date table was last used" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "type_codes": {
+        "T": "Base table",
+        "V": "View",
+        "A": "Alias (synonym)",
+        "S": "Materialized query table (MQT)",
+        "G": "Created global temporary table",
+        "H": "Hierarchy table",
+        "L": "Detached table",
+        "N": "Nickname (federated)",
+        "U": "Typed table",
+        "W": "Typed view"
+      },
+      "related_to": ["SYSCAT.COLUMNS", "SYSCAT.INDEXES", "SYSCAT.VIEWS", "SYSCAT.TABCONST", "SYSCAT.REFERENCES", "SYSCAT.TRIGGERS", "SYSCAT.TABDEP"]
+    },
+    "SYSCAT.COLUMNS": {
+      "description": "Contains one row for each column of a table, view, or nickname",
+      "key_columns": ["TABSCHEMA", "TABNAME", "COLNAME"],
+      "columns": {
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "COLNAME": { "type": "VARCHAR(128)", "description": "Name of the column", "is_key": true },
+        "COLNO": { "type": "SMALLINT", "description": "Column position (0-based)" },
+        "TYPESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of column data type" },
+        "TYPENAME": { "type": "VARCHAR(128)", "description": "Data type name" },
+        "LENGTH": { "type": "INTEGER", "description": "Maximum length or precision" },
+        "SCALE": { "type": "SMALLINT", "description": "Scale for DECIMAL types" },
+        "NULLS": { "type": "CHAR(1)", "description": "Y=Nullable, N=Not null" },
+        "CODEPAGE": { "type": "SMALLINT", "description": "Code page for character columns" },
+        "COLLATIONSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of collation" },
+        "COLLATIONNAME": { "type": "VARCHAR(128)", "description": "Name of collation" },
+        "DEFAULT": { "type": "VARCHAR(254)", "description": "Default value or expression" },
+        "GENERATED": { "type": "CHAR(1)", "description": "A=Always, D=By default, empty=Not generated" },
+        "IDENTITY": { "type": "CHAR(1)", "description": "Y=Identity column, N=Not identity" },
+        "IMPLICITVALUE": { "type": "CHAR(1)", "description": "Implicit value for add column" },
+        "COMPRESS": { "type": "CHAR(1)", "description": "O=Off, S=System, empty=None" },
+        "INLINE_LENGTH": { "type": "INTEGER", "description": "Inline length for LOB columns" },
+        "AVGCOLLEN": { "type": "INTEGER", "description": "Average column length in bytes" },
+        "NUMNULLS": { "type": "BIGINT", "description": "Number of nulls" },
+        "COLCARD": { "type": "BIGINT", "description": "Number of distinct values" },
+        "HIGH2KEY": { "type": "VARCHAR(254)", "description": "Second highest value" },
+        "LOW2KEY": { "type": "VARCHAR(254)", "description": "Second lowest value" },
+        "SUB_COUNT": { "type": "SMALLINT", "description": "Number of sub-elements for XML" },
+        "SUB_DELIM_LENGTH": { "type": "SMALLINT", "description": "Sub-delimiter length" },
+        "PCTINLINED": { "type": "SMALLINT", "description": "Percentage of values stored inline" },
+        "HIDDEN": { "type": "CHAR(1)", "description": "I=Implicitly hidden, S=System, empty=Not hidden" },
+        "ROWCHANGETIMESTAMP": { "type": "CHAR(1)", "description": "Y=Row change timestamp, N=Not" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.KEYCOLUSE", "SYSCAT.COLSTAT", "SYSCAT.INDEXCOLUSE"]
+    },
+    "SYSCAT.VIEWS": {
+      "description": "Contains one row for each view in the database",
+      "key_columns": ["VIEWSCHEMA", "VIEWNAME"],
+      "columns": {
+        "VIEWSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the view", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "VIEWNAME": { "type": "VARCHAR(128)", "description": "Name of the view", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created the view" },
+        "SEQNO": { "type": "SMALLINT", "description": "Sequence number for TEXT segments" },
+        "VIEWCHECK": { "type": "CHAR(1)", "description": "N=None, C=Cascaded, L=Local" },
+        "READONLY": { "type": "CHAR(1)", "description": "Y=Read only, N=Insertable/updatable" },
+        "VALID": { "type": "CHAR(1)", "description": "X=Inoperative, Y=Valid" },
+        "QUALIFIER": { "type": "VARCHAR(128)", "description": "Default schema at view creation" },
+        "FUNC_PATH": { "type": "VARCHAR(254)", "description": "Function path at creation" },
+        "TEXT": { "type": "CLOB(2M)", "description": "View definition SQL text" }
+      },
+      "notes": ["CRITICAL: SYSCAT.VIEWS does NOT contain REMARKS or ALTER_TIME - must join to SYSCAT.TABLES for these"],
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.VIEWDEP"]
+    },
+    "SYSCAT.INDEXES": {
+      "description": "Contains one row for each index in the database",
+      "key_columns": ["INDSCHEMA", "INDNAME"],
+      "columns": {
+        "INDSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the index", "is_key": true },
+        "INDNAME": { "type": "VARCHAR(128)", "description": "Name of the index", "is_key": true },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created the index" },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the indexed table", "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the indexed table", "references": "SYSCAT.TABLES.TABNAME" },
+        "COLNAMES": { "type": "VARCHAR(640)", "description": "Concatenated column names (+ASC/-DESC prefix)" },
+        "UNIQUERULE": { "type": "CHAR(1)", "description": "D=Duplicates, U=Unique, P=Primary key" },
+        "MADE_UNIQUE": { "type": "CHAR(1)", "description": "Y=Made unique by system" },
+        "COLCOUNT": { "type": "SMALLINT", "description": "Number of columns in key" },
+        "UNIQUE_COLCOUNT": { "type": "SMALLINT", "description": "Number of unique columns" },
+        "INDEXTYPE": { "type": "CHAR(4)", "description": "REG=Regular, CLUS=Clustering, DIM=Dimension, BLOK=Block, XML=XML" },
+        "PCTFREE": { "type": "SMALLINT", "description": "Percentage free space" },
+        "IID": { "type": "SMALLINT", "description": "Index identifier" },
+        "NLEAF": { "type": "BIGINT", "description": "Number of leaf pages" },
+        "NLEVELS": { "type": "SMALLINT", "description": "Number of index levels" },
+        "FIRSTKEYCARD": { "type": "BIGINT", "description": "Distinct values of first key column" },
+        "FIRST2KEYCARD": { "type": "BIGINT", "description": "Distinct values of first 2 columns" },
+        "FIRST3KEYCARD": { "type": "BIGINT", "description": "Distinct values of first 3 columns" },
+        "FIRST4KEYCARD": { "type": "BIGINT", "description": "Distinct values of first 4 columns" },
+        "FULLKEYCARD": { "type": "BIGINT", "description": "Distinct values of full key" },
+        "CLUSTERRATIO": { "type": "SMALLINT", "description": "Cluster ratio (0-100)" },
+        "CLUSTERFACTOR": { "type": "DOUBLE", "description": "Clustering factor" },
+        "SEQUENTIAL_PAGES": { "type": "BIGINT", "description": "Number of sequential leaf pages" },
+        "DENSITY": { "type": "SMALLINT", "description": "Page fullness percentage" },
+        "COMPRESSION": { "type": "CHAR(1)", "description": "Y=Compressed, N=Not" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time index was created" },
+        "STATS_TIME": { "type": "TIMESTAMP", "description": "Time statistics were collected" },
+        "LASTUSED": { "type": "DATE", "description": "Date index was last used" },
+        "TBSPACE": { "type": "VARCHAR(128)", "description": "Tablespace containing index" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "uniquerule_codes": {
+        "D": "Duplicates allowed (non-unique)",
+        "U": "Unique index",
+        "P": "Primary key index"
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.INDEXCOLUSE"]
+    },
+    "SYSCAT.INDEXCOLUSE": {
+      "description": "Contains one row for each column in an index key",
+      "key_columns": ["INDSCHEMA", "INDNAME", "COLSEQ"],
+      "columns": {
+        "INDSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the index", "is_key": true, "references": "SYSCAT.INDEXES.INDSCHEMA" },
+        "INDNAME": { "type": "VARCHAR(128)", "description": "Name of the index", "is_key": true, "references": "SYSCAT.INDEXES.INDNAME" },
+        "COLNAME": { "type": "VARCHAR(128)", "description": "Name of the column" },
+        "COLSEQ": { "type": "SMALLINT", "description": "Position within key (1-based)", "is_key": true },
+        "COLORDER": { "type": "CHAR(1)", "description": "A=Ascending, D=Descending, I=Include (non-key)" },
+        "VIRTUAL": { "type": "CHAR(1)", "description": "Y=Virtual/expression, N=Not virtual" },
+        "TEXT": { "type": "VARCHAR(254)", "description": "Text of virtual column expression" }
+      },
+      "related_to": ["SYSCAT.INDEXES", "SYSCAT.COLUMNS"]
+    },
+    "SYSCAT.TABCONST": {
+      "description": "Contains one row for each table constraint (primary, unique, check, foreign key)",
+      "key_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME"],
+      "columns": {
+        "CONSTNAME": { "type": "VARCHAR(128)", "description": "Name of the constraint", "is_key": true },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the constraint" },
+        "OWNERTYPE": { "type": "CHAR(1)", "description": "S=System, U=User" },
+        "TYPE": { "type": "CHAR(1)", "description": "P=Primary, U=Unique, F=Foreign key, K=Check" },
+        "ENFORCED": { "type": "CHAR(1)", "description": "Y=Enforced, N=Not enforced" },
+        "CHECKEXISTINGDATA": { "type": "CHAR(1)", "description": "D=Deferred, I=Immediate, N=Not checked" },
+        "ENABLEQUERYOPT": { "type": "CHAR(1)", "description": "Y=Used by optimizer, N=Not used" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created constraint" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "type_codes": {
+        "P": "Primary key",
+        "U": "Unique constraint",
+        "F": "Foreign key",
+        "K": "Check constraint"
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.KEYCOLUSE", "SYSCAT.REFERENCES", "SYSCAT.CHECKS"]
+    },
+    "SYSCAT.KEYCOLUSE": {
+      "description": "Contains one row for each column in a key constraint (PK, UK, FK)",
+      "key_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME", "COLSEQ"],
+      "columns": {
+        "CONSTNAME": { "type": "VARCHAR(128)", "description": "Name of the constraint", "is_key": true, "references": "SYSCAT.TABCONST.CONSTNAME" },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "COLNAME": { "type": "VARCHAR(128)", "description": "Name of the column" },
+        "COLSEQ": { "type": "SMALLINT", "description": "Position within key (1-based)", "is_key": true }
+      },
+      "related_to": ["SYSCAT.TABCONST", "SYSCAT.COLUMNS"]
+    },
+    "SYSCAT.REFERENCES": {
+      "description": "Contains one row for each referential constraint (foreign key)",
+      "key_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME"],
+      "columns": {
+        "CONSTNAME": { "type": "VARCHAR(128)", "description": "Name of the FK constraint", "is_key": true },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of FK table (child)", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of FK table (child)", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the constraint" },
+        "OWNERTYPE": { "type": "CHAR(1)", "description": "S=System, U=User" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created constraint" },
+        "REFTABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of referenced (parent) table" },
+        "REFTABNAME": { "type": "VARCHAR(128)", "description": "Name of referenced (parent) table" },
+        "REFKEYNAME": { "type": "VARCHAR(128)", "description": "Name of PK/UK being referenced" },
+        "COLCOUNT": { "type": "SMALLINT", "description": "Number of columns in FK" },
+        "DELETERULE": { "type": "CHAR(1)", "description": "A=No action, C=Cascade, N=Set null, R=Restrict" },
+        "UPDATERULE": { "type": "CHAR(1)", "description": "A=No action, R=Restrict" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time constraint was created" },
+        "FK_COLNAMES": { "type": "VARCHAR(640)", "description": "Concatenated FK column names" },
+        "PK_COLNAMES": { "type": "VARCHAR(640)", "description": "Concatenated PK column names" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "rule_codes": {
+        "A": "No action",
+        "C": "Cascade",
+        "N": "Set null",
+        "R": "Restrict"
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.TABCONST", "SYSCAT.KEYCOLUSE"]
+    },
+    "SYSCAT.CHECKS": {
+      "description": "Contains one row for each check constraint",
+      "key_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME"],
+      "columns": {
+        "CONSTNAME": { "type": "VARCHAR(128)", "description": "Name of the check constraint", "is_key": true },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the constraint" },
+        "OWNERTYPE": { "type": "CHAR(1)", "description": "S=System, U=User" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time constraint was created" },
+        "QUALIFIER": { "type": "VARCHAR(128)", "description": "Default schema at creation" },
+        "FUNC_PATH": { "type": "VARCHAR(254)", "description": "Function path at creation" },
+        "TEXT": { "type": "CLOB(64K)", "description": "Text of check condition" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.TABCONST"]
+    },
+    "SYSCAT.TRIGGERS": {
+      "description": "Contains one row for each trigger in the database",
+      "key_columns": ["TRIGSCHEMA", "TRIGNAME"],
+      "columns": {
+        "TRIGSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the trigger", "is_key": true },
+        "TRIGNAME": { "type": "VARCHAR(128)", "description": "Name of the trigger", "is_key": true },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created trigger" },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the target table", "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the target table", "references": "SYSCAT.TABLES.TABNAME" },
+        "TRIGTIME": { "type": "CHAR(1)", "description": "A=After, B=Before, I=Instead of" },
+        "TRIGEVENT": { "type": "CHAR(1)", "description": "I=Insert, D=Delete, U=Update" },
+        "GRANULARITY": { "type": "CHAR(1)", "description": "R=Row, S=Statement" },
+        "VALID": { "type": "CHAR(1)", "description": "Y=Valid, X=Inoperative, N=Needs revalidation" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time trigger was created" },
+        "QUALIFIER": { "type": "VARCHAR(128)", "description": "Default schema at creation" },
+        "FUNC_PATH": { "type": "VARCHAR(254)", "description": "Function path at creation" },
+        "TEXT": { "type": "CLOB(2M)", "description": "Text of trigger definition" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "trigtime_codes": {
+        "A": "After",
+        "B": "Before",
+        "I": "Instead of"
+      },
+      "trigevent_codes": {
+        "I": "Insert",
+        "D": "Delete",
+        "U": "Update"
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.TRIGDEP"]
+    },
+    "SYSCAT.ROUTINES": {
+      "description": "Contains one row for each routine (stored procedure, function, method)",
+      "key_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME"],
+      "columns": {
+        "ROUTINESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the routine", "is_key": true },
+        "ROUTINENAME": { "type": "VARCHAR(128)", "description": "Name of the routine", "is_key": true },
+        "SPECIFICNAME": { "type": "VARCHAR(128)", "description": "Specific name (for overloads)", "is_key": true },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created routine" },
+        "ROUTINETYPE": { "type": "CHAR(1)", "description": "P=Procedure, F=Function, M=Method" },
+        "ORIGIN": { "type": "CHAR(1)", "description": "E=External, S=SQL, B=Built-in, U=User-defined" },
+        "LANGUAGE": { "type": "CHAR(8)", "description": "COBOL, C, JAVA, SQL, etc." },
+        "PARM_COUNT": { "type": "SMALLINT", "description": "Number of parameters" },
+        "DETERMINISTIC": { "type": "CHAR(1)", "description": "Y=Deterministic, N=Not" },
+        "EXTERNAL_ACTION": { "type": "CHAR(1)", "description": "E=External action, N=No external action" },
+        "FENCED": { "type": "CHAR(1)", "description": "Y=Fenced, N=Not fenced" },
+        "NULL_CALL": { "type": "CHAR(1)", "description": "Y=Called on null, N=Return null" },
+        "SQL_DATA_ACCESS": { "type": "CHAR(1)", "description": "N=None, C=Contains, R=Reads, M=Modifies" },
+        "RESULT_SETS": { "type": "SMALLINT", "description": "Estimated number of result sets" },
+        "VALID": { "type": "CHAR(1)", "description": "Y=Valid, X=Inoperative, N=Needs revalidation" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time routine was created" },
+        "ALTER_TIME": { "type": "TIMESTAMP", "description": "Time routine was last altered" },
+        "FUNC_PATH": { "type": "VARCHAR(254)", "description": "Function path at creation" },
+        "TEXT": { "type": "CLOB(2M)", "description": "Source code text for SQL routines" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the routine" }
+      },
+      "routinetype_codes": {
+        "P": "Stored procedure",
+        "F": "Scalar or table function",
+        "M": "Method"
+      },
+      "related_to": ["SYSCAT.ROUTINEPARMS", "SYSCAT.ROUTINEDEP"]
+    },
+    "SYSCAT.ROUTINEPARMS": {
+      "description": "Contains one row for each parameter of a routine",
+      "key_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME", "ORDINAL"],
+      "columns": {
+        "ROUTINESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the routine", "is_key": true, "references": "SYSCAT.ROUTINES.ROUTINESCHEMA" },
+        "ROUTINENAME": { "type": "VARCHAR(128)", "description": "Name of the routine", "is_key": true, "references": "SYSCAT.ROUTINES.ROUTINENAME" },
+        "SPECIFICNAME": { "type": "VARCHAR(128)", "description": "Specific name", "is_key": true, "references": "SYSCAT.ROUTINES.SPECIFICNAME" },
+        "PARMNAME": { "type": "VARCHAR(128)", "description": "Name of the parameter" },
+        "ORDINAL": { "type": "SMALLINT", "description": "Position (0=return, 1+=params)", "is_key": true },
+        "ROWTYPE": { "type": "CHAR(1)", "description": "P=Parameter, R=Result, C=Column of result" },
+        "PARM_MODE": { "type": "VARCHAR(5)", "description": "IN, OUT, INOUT" },
+        "TYPESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of data type" },
+        "TYPENAME": { "type": "VARCHAR(128)", "description": "Data type name" },
+        "LENGTH": { "type": "INTEGER", "description": "Maximum length" },
+        "SCALE": { "type": "SMALLINT", "description": "Scale for DECIMAL" },
+        "CODEPAGE": { "type": "SMALLINT", "description": "Code page for character types" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "related_to": ["SYSCAT.ROUTINES"]
+    },
+    "SYSCAT.PACKAGES": {
+      "description": "Contains one row for each package in the database",
+      "key_columns": ["PKGSCHEMA", "PKGNAME"],
+      "columns": {
+        "PKGSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the package", "is_key": true },
+        "PKGNAME": { "type": "VARCHAR(128)", "description": "Name of the package", "is_key": true },
+        "PKGVERSION": { "type": "VARCHAR(64)", "description": "Version identifier" },
+        "BOUNDBY": { "type": "VARCHAR(128)", "description": "User who bound the package" },
+        "CREATOR": { "type": "VARCHAR(128)", "description": "Authorization ID of creator" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created package" },
+        "UNIQUE_ID": { "type": "CHAR(8) FOR BIT DATA", "description": "Unique internal ID" },
+        "TOTAL_SECT": { "type": "SMALLINT", "description": "Total number of sections" },
+        "FORMAT": { "type": "CHAR(1)", "description": "0=Old format, 1=New format" },
+        "ISOLATION": { "type": "CHAR(2)", "description": "CS, RR, RS, UR, NC" },
+        "BLOCKING": { "type": "CHAR(1)", "description": "B=Block, N=No block, U=Unambiguous" },
+        "INSERT_BUF": { "type": "CHAR(1)", "description": "Y=Insert buffering, N=No" },
+        "VALID": { "type": "CHAR(1)", "description": "Y=Valid, N=Invalid, X=Inoperative" },
+        "LAST_BIND_TIME": { "type": "TIMESTAMP", "description": "Time of last bind" },
+        "QUERYOPT": { "type": "SMALLINT", "description": "Query optimization level" },
+        "FUNC_PATH": { "type": "VARCHAR(254)", "description": "Function resolution path" },
+        "EXPLAIN_LEVEL": { "type": "CHAR(1)", "description": "Explain level" },
+        "EXPLAIN_SNAPSHOT": { "type": "CHAR(1)", "description": "Explain snapshot setting" },
+        "LASTUSED": { "type": "DATE", "description": "Date package was last used" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "isolation_codes": {
+        "CS": "Cursor stability",
+        "RR": "Repeatable read",
+        "RS": "Read stability",
+        "UR": "Uncommitted read",
+        "NC": "No commit"
+      },
+      "related_to": ["SYSCAT.STATEMENTS", "SYSCAT.PACKAGEDEP"]
+    },
+    "SYSCAT.STATEMENTS": {
+      "description": "Contains one row for each SQL statement in a package",
+      "key_columns": ["PKGSCHEMA", "PKGNAME", "STMTNO", "SECTNO", "SEQNO"],
+      "columns": {
+        "PKGSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the package", "is_key": true, "references": "SYSCAT.PACKAGES.PKGSCHEMA" },
+        "PKGNAME": { "type": "VARCHAR(128)", "description": "Name of the package", "is_key": true, "references": "SYSCAT.PACKAGES.PKGNAME" },
+        "STMTNO": { "type": "INTEGER", "description": "Statement number", "is_key": true },
+        "SECTNO": { "type": "SMALLINT", "description": "Section number", "is_key": true },
+        "SEQNO": { "type": "SMALLINT", "description": "Sequence number for TEXT", "is_key": true },
+        "TEXT": { "type": "CLOB(2M)", "description": "SQL statement text" }
+      },
+      "notes": ["For long statements, TEXT is split across multiple rows with different SEQNO values"],
+      "related_to": ["SYSCAT.PACKAGES"]
+    },
+    "SYSCAT.SEQUENCES": {
+      "description": "Contains one row for each sequence in the database",
+      "key_columns": ["SEQSCHEMA", "SEQNAME"],
+      "columns": {
+        "SEQSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the sequence", "is_key": true },
+        "SEQNAME": { "type": "VARCHAR(128)", "description": "Name of the sequence", "is_key": true },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created sequence" },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the sequence" },
+        "SEQTYPE": { "type": "CHAR(1)", "description": "S=Sequence, I=Identity" },
+        "INCREMENT": { "type": "DECIMAL(31,0)", "description": "Increment value" },
+        "START": { "type": "DECIMAL(31,0)", "description": "Start value" },
+        "MAXVALUE": { "type": "DECIMAL(31,0)", "description": "Maximum value" },
+        "MINVALUE": { "type": "DECIMAL(31,0)", "description": "Minimum value" },
+        "CYCLE": { "type": "CHAR(1)", "description": "Y=Cycle, N=No cycle" },
+        "CACHE": { "type": "INTEGER", "description": "Number of values to cache" },
+        "ORDER": { "type": "CHAR(1)", "description": "Y=Order guaranteed, N=Not" },
+        "DATATYPEID": { "type": "INTEGER", "description": "ID of sequence data type" },
+        "SOURCETYPEID": { "type": "INTEGER", "description": "Source type ID" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time sequence was created" },
+        "ALTER_TIME": { "type": "TIMESTAMP", "description": "Time sequence was last altered" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "seqtype_codes": {
+        "S": "User-defined sequence",
+        "I": "Identity sequence (auto-generated for identity columns)"
+      },
+      "related_to": ["SYSCAT.SCHEMATA"]
+    },
+    "SYSCAT.TABLESPACES": {
+      "description": "Contains one row for each tablespace in the database",
+      "key_columns": ["TBSPACE"],
+      "columns": {
+        "TBSPACE": { "type": "VARCHAR(128)", "description": "Name of the tablespace", "is_key": true },
+        "TBSPACEID": { "type": "INTEGER", "description": "Internal tablespace ID" },
+        "TBSPACETYPE": { "type": "CHAR(1)", "description": "D=DMS, S=SMS" },
+        "DATATYPE": { "type": "CHAR(1)", "description": "A=All, L=Long/LOB, T=Tables, U=User temp, S=System temp" },
+        "EXTENTSIZE": { "type": "INTEGER", "description": "Extent size in pages" },
+        "PREFETCHSIZE": { "type": "INTEGER", "description": "Prefetch size in pages" },
+        "OVERHEAD": { "type": "DOUBLE", "description": "I/O controller overhead" },
+        "TRANSFERRATE": { "type": "DOUBLE", "description": "Transfer rate" },
+        "PAGESIZE": { "type": "INTEGER", "description": "Page size in bytes" },
+        "DBPGNAME": { "type": "VARCHAR(128)", "description": "Buffer pool name" },
+        "DROP_RECOVERY": { "type": "CHAR(1)", "description": "Y=Table can be recovered after drop" },
+        "NGNAME": { "type": "VARCHAR(128)", "description": "Storage group name" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created tablespace" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.INDEXES"]
+    },
+    "SYSCAT.DATATYPES": {
+      "description": "Contains one row for each data type (built-in and user-defined)",
+      "key_columns": ["TYPESCHEMA", "TYPENAME"],
+      "columns": {
+        "TYPESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the type", "is_key": true },
+        "TYPENAME": { "type": "VARCHAR(128)", "description": "Name of the type", "is_key": true },
+        "OWNER": { "type": "VARCHAR(128)", "description": "Owner of the type" },
+        "DEFINER": { "type": "VARCHAR(128)", "description": "Authorization ID that created type" },
+        "SOURCESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of source type (for distinct types)" },
+        "SOURCENAME": { "type": "VARCHAR(128)", "description": "Name of source type" },
+        "METATYPE": { "type": "CHAR(1)", "description": "S=Structured, R=Reference, D=Distinct, A=Array, C=Cursor, W=Row" },
+        "TYPEID": { "type": "SMALLINT", "description": "Internal type identifier" },
+        "SOURCETYPEID": { "type": "SMALLINT", "description": "ID of source type" },
+        "LENGTH": { "type": "INTEGER", "description": "Maximum length" },
+        "SCALE": { "type": "SMALLINT", "description": "Scale for decimal types" },
+        "CODEPAGE": { "type": "SMALLINT", "description": "Code page" },
+        "CREATE_TIME": { "type": "TIMESTAMP", "description": "Time type was created" },
+        "REMARKS": { "type": "VARCHAR(254)", "description": "User comment" }
+      },
+      "metatype_codes": {
+        "S": "Structured type",
+        "R": "Reference type",
+        "D": "Distinct type",
+        "A": "Array type",
+        "C": "Cursor type",
+        "W": "Row type"
+      },
+      "related_to": ["SYSCAT.COLUMNS", "SYSCAT.ROUTINEPARMS"]
+    },
+    "SYSCAT.COLSTAT": {
+      "description": "Contains column-level statistics for optimizer",
+      "key_columns": ["TABSCHEMA", "TABNAME", "COLNAME", "TYPE"],
+      "columns": {
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.COLUMNS.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.COLUMNS.TABNAME" },
+        "COLNAME": { "type": "VARCHAR(128)", "description": "Name of the column", "is_key": true, "references": "SYSCAT.COLUMNS.COLNAME" },
+        "TYPE": { "type": "CHAR(1)", "description": "F=Frequent value, Q=Quantile", "is_key": true },
+        "SEQNO": { "type": "SMALLINT", "description": "Sequence number" },
+        "COLVALUE": { "type": "VARCHAR(254)", "description": "String value of the statistic" },
+        "VALCOUNT": { "type": "BIGINT", "description": "Count of rows with this value" },
+        "DISTCOUNT": { "type": "BIGINT", "description": "Distinct count within quantile" }
+      },
+      "type_codes": {
+        "F": "Frequent value",
+        "Q": "Quantile boundary"
+      },
+      "related_to": ["SYSCAT.COLUMNS"]
+    },
+    "SYSCAT.DBAUTH": {
+      "description": "Contains database-level authorization information",
+      "key_columns": ["GRANTEE", "GRANTEETYPE"],
+      "columns": {
+        "GRANTEE": { "type": "VARCHAR(128)", "description": "User/group who received privilege", "is_key": true },
+        "GRANTOR": { "type": "VARCHAR(128)", "description": "User who granted privilege" },
+        "GRANTEETYPE": { "type": "CHAR(1)", "description": "U=User, G=Group, R=Role", "is_key": true },
+        "CONNECTAUTH": { "type": "CHAR(1)", "description": "Y=Has CONNECT privilege" },
+        "CREATETABAUTH": { "type": "CHAR(1)", "description": "Y=Can create tables" },
+        "BINDADDAUTH": { "type": "CHAR(1)", "description": "Y=Can bind packages" },
+        "NOFENCEAUTH": { "type": "CHAR(1)", "description": "Y=Can create unfenced routines" },
+        "IMPLSCHEMAAUTH": { "type": "CHAR(1)", "description": "Y=Implicit schema creation" },
+        "LOADAUTH": { "type": "CHAR(1)", "description": "Y=Can use LOAD" },
+        "EXTERNALROUTINEAUTH": { "type": "CHAR(1)", "description": "Y=Can create external routines" },
+        "QUABORNINGAUTH": { "type": "CHAR(1)", "description": "Y=Can quiesce instances" },
+        "DBADMAUTH": { "type": "CHAR(1)", "description": "Y=Has DBADM authority" },
+        "DATAACCESSAUTH": { "type": "CHAR(1)", "description": "Y=Has DATAACCESS authority" },
+        "ACCESSCTRLAUTH": { "type": "CHAR(1)", "description": "Y=Has ACCESSCTRL authority" },
+        "SECURITYADMAUTH": { "type": "CHAR(1)", "description": "Y=Has SECURITYADM authority" },
+        "SQLADMAUTH": { "type": "CHAR(1)", "description": "Y=Has SQLADM authority" },
+        "WLMADMAUTH": { "type": "CHAR(1)", "description": "Y=Has WLMADM authority" },
+        "EXPLAINAUTH": { "type": "CHAR(1)", "description": "Y=Has EXPLAIN authority" }
+      },
+      "notes": ["Used to determine user permission level (DBA, Middle, Low) in the application"],
+      "related_to": ["SYSCAT.TABAUTH", "SYSCAT.SCHEMAAUTH"]
+    },
+    "SYSCAT.TABAUTH": {
+      "description": "Contains table-level authorization information",
+      "key_columns": ["GRANTEE", "TABSCHEMA", "TABNAME", "GRANTEETYPE"],
+      "columns": {
+        "GRANTEE": { "type": "VARCHAR(128)", "description": "User/group who received privilege", "is_key": true },
+        "GRANTOR": { "type": "VARCHAR(128)", "description": "User who granted privilege" },
+        "GRANTEETYPE": { "type": "CHAR(1)", "description": "U=User, G=Group, R=Role", "is_key": true },
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "CONTROLAUTH": { "type": "CHAR(1)", "description": "Y=Has CONTROL privilege" },
+        "ALTERAUTH": { "type": "CHAR(1)", "description": "Y=Can ALTER table" },
+        "DELETEAUTH": { "type": "CHAR(1)", "description": "Y=Can DELETE rows" },
+        "INDEXAUTH": { "type": "CHAR(1)", "description": "Y=Can create indexes" },
+        "INSERTAUTH": { "type": "CHAR(1)", "description": "Y=Can INSERT rows" },
+        "REFAUTH": { "type": "CHAR(1)", "description": "Y=Can reference in FK" },
+        "SELECTAUTH": { "type": "CHAR(1)", "description": "Y=Can SELECT" },
+        "UPDATEAUTH": { "type": "CHAR(1)", "description": "Y=Can UPDATE" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.DBAUTH"]
+    },
+    "SYSCAT.SCHEMAAUTH": {
+      "description": "Contains schema-level authorization information",
+      "key_columns": ["GRANTEE", "SCHEMANAME", "GRANTEETYPE"],
+      "columns": {
+        "GRANTEE": { "type": "VARCHAR(128)", "description": "User/group who received privilege", "is_key": true },
+        "GRANTOR": { "type": "VARCHAR(128)", "description": "User who granted privilege" },
+        "GRANTEETYPE": { "type": "CHAR(1)", "description": "U=User, G=Group, R=Role", "is_key": true },
+        "SCHEMANAME": { "type": "VARCHAR(128)", "description": "Name of the schema", "is_key": true, "references": "SYSCAT.SCHEMATA.SCHEMANAME" },
+        "ALTERINAUTH": { "type": "CHAR(1)", "description": "Y=Can alter objects in schema" },
+        "CREATEINAUTH": { "type": "CHAR(1)", "description": "Y=Can create objects in schema" },
+        "DROPINAUTH": { "type": "CHAR(1)", "description": "Y=Can drop objects in schema" }
+      },
+      "related_to": ["SYSCAT.SCHEMATA", "SYSCAT.DBAUTH"]
+    },
+    "SYSCAT.ROUTINEDEP": {
+      "description": "Contains dependencies of routines on other objects",
+      "key_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME", "BSCHEMA", "BNAME"],
+      "columns": {
+        "ROUTINESCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the routine", "is_key": true, "references": "SYSCAT.ROUTINES.ROUTINESCHEMA" },
+        "ROUTINENAME": { "type": "VARCHAR(128)", "description": "Name of the routine", "is_key": true, "references": "SYSCAT.ROUTINES.ROUTINENAME" },
+        "SPECIFICNAME": { "type": "VARCHAR(128)", "description": "Specific name", "is_key": true, "references": "SYSCAT.ROUTINES.SPECIFICNAME" },
+        "BTYPE": { "type": "CHAR(1)", "description": "Type of dependent object" },
+        "BSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of dependent object", "is_key": true },
+        "BNAME": { "type": "VARCHAR(128)", "description": "Name of dependent object", "is_key": true },
+        "TABAUTH": { "type": "SMALLINT", "description": "Encoded table privileges required" }
+      },
+      "btype_codes": {
+        "A": "Alias",
+        "F": "Function",
+        "G": "Global variable",
+        "N": "Nickname",
+        "O": "Privilege dependency",
+        "P": "Procedure",
+        "R": "Structured type",
+        "S": "MQT",
+        "T": "Table",
+        "U": "Typed table",
+        "V": "View",
+        "W": "Typed view",
+        "X": "Index extension",
+        "Z": "XSR object"
+      },
+      "related_to": ["SYSCAT.ROUTINES", "SYSCAT.TABLES", "SYSCAT.VIEWS"]
+    },
+    "SYSCAT.VIEWDEP": {
+      "description": "Contains dependencies of views on other objects",
+      "key_columns": ["VIEWSCHEMA", "VIEWNAME", "BSCHEMA", "BNAME", "BTYPE"],
+      "columns": {
+        "VIEWSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the view", "is_key": true, "references": "SYSCAT.VIEWS.VIEWSCHEMA" },
+        "VIEWNAME": { "type": "VARCHAR(128)", "description": "Name of the view", "is_key": true, "references": "SYSCAT.VIEWS.VIEWNAME" },
+        "BTYPE": { "type": "CHAR(1)", "description": "Type of dependent object", "is_key": true },
+        "BSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of dependent object", "is_key": true },
+        "BNAME": { "type": "VARCHAR(128)", "description": "Name of dependent object", "is_key": true },
+        "TABAUTH": { "type": "SMALLINT", "description": "Encoded table privileges required" }
+      },
+      "btype_codes": {
+        "A": "Alias",
+        "F": "Function",
+        "N": "Nickname",
+        "O": "Privilege dependency",
+        "R": "Structured type",
+        "S": "MQT",
+        "T": "Table",
+        "U": "Typed table",
+        "V": "View",
+        "W": "Typed view"
+      },
+      "related_to": ["SYSCAT.VIEWS", "SYSCAT.TABLES"]
+    },
+    "SYSCAT.TABDEP": {
+      "description": "Contains dependencies of tables on other objects",
+      "key_columns": ["TABSCHEMA", "TABNAME", "BSCHEMA", "BNAME", "BTYPE"],
+      "columns": {
+        "TABSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the table", "is_key": true, "references": "SYSCAT.TABLES.TABSCHEMA" },
+        "TABNAME": { "type": "VARCHAR(128)", "description": "Name of the table", "is_key": true, "references": "SYSCAT.TABLES.TABNAME" },
+        "BTYPE": { "type": "CHAR(1)", "description": "Type of dependent object", "is_key": true },
+        "BSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of dependent object", "is_key": true },
+        "BNAME": { "type": "VARCHAR(128)", "description": "Name of dependent object", "is_key": true },
+        "DTYPE": { "type": "CHAR(1)", "description": "Type of dependency" }
+      },
+      "related_to": ["SYSCAT.TABLES", "SYSCAT.ROUTINES"]
+    },
+    "SYSCAT.TRIGDEP": {
+      "description": "Contains dependencies of triggers on other objects",
+      "key_columns": ["TRIGSCHEMA", "TRIGNAME", "BSCHEMA", "BNAME", "BTYPE"],
+      "columns": {
+        "TRIGSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the trigger", "is_key": true, "references": "SYSCAT.TRIGGERS.TRIGSCHEMA" },
+        "TRIGNAME": { "type": "VARCHAR(128)", "description": "Name of the trigger", "is_key": true, "references": "SYSCAT.TRIGGERS.TRIGNAME" },
+        "BTYPE": { "type": "CHAR(1)", "description": "Type of dependent object", "is_key": true },
+        "BSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of dependent object", "is_key": true },
+        "BNAME": { "type": "VARCHAR(128)", "description": "Name of dependent object", "is_key": true },
+        "TABAUTH": { "type": "SMALLINT", "description": "Encoded table privileges required" }
+      },
+      "related_to": ["SYSCAT.TRIGGERS", "SYSCAT.TABLES"]
+    },
+    "SYSCAT.PACKAGEDEP": {
+      "description": "Contains dependencies of packages on other objects",
+      "key_columns": ["PKGSCHEMA", "PKGNAME", "BSCHEMA", "BNAME", "BTYPE"],
+      "columns": {
+        "PKGSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of the package", "is_key": true, "references": "SYSCAT.PACKAGES.PKGSCHEMA" },
+        "PKGNAME": { "type": "VARCHAR(128)", "description": "Name of the package", "is_key": true, "references": "SYSCAT.PACKAGES.PKGNAME" },
+        "PKGVERSION": { "type": "VARCHAR(64)", "description": "Version of the package" },
+        "BTYPE": { "type": "CHAR(1)", "description": "Type of dependent object", "is_key": true },
+        "BSCHEMA": { "type": "VARCHAR(128)", "description": "Schema of dependent object", "is_key": true },
+        "BNAME": { "type": "VARCHAR(128)", "description": "Name of dependent object", "is_key": true },
+        "TABAUTH": { "type": "SMALLINT", "description": "Encoded table privileges required" },
+        "UNIQUEID": { "type": "CHAR(8) FOR BIT DATA", "description": "Unique identifier" }
+      },
+      "btype_codes": {
+        "A": "Alias",
+        "B": "Trigger",
+        "D": "Index specification",
+        "F": "Function",
+        "G": "Global variable",
+        "I": "Index",
+        "M": "Function mapping",
+        "N": "Nickname",
+        "O": "Privilege dependency",
+        "P": "Procedure",
+        "R": "Structured type",
+        "S": "MQT",
+        "T": "Table",
+        "U": "Typed table",
+        "V": "View",
+        "W": "Typed view",
+        "X": "Index extension",
+        "Z": "XSR object"
+      },
+      "btype_codes_extended": {
+        "h (lowercase)": "Hierarchy table",
+        "m (lowercase)": "Module",
+        "q (lowercase)": "Sequence",
+        "v (lowercase)": "Global variable",
+        "x (lowercase)": "Index extension (extended)"
+      },
+      "related_to": ["SYSCAT.PACKAGES", "SYSCAT.TABLES", "SYSCAT.ROUTINES", "SYSCAT.INDEXES"]
+    }
+  },
+  "relationships": {
+    "table_relationships": [
+      {
+        "id": "schemata_to_tables",
+        "from": "SYSCAT.SCHEMATA",
+        "to": "SYSCAT.TABLES",
+        "from_columns": ["SCHEMANAME"],
+        "to_columns": ["TABSCHEMA"],
+        "cardinality": "1:N",
+        "description": "Each schema contains multiple tables"
+      },
+      {
+        "id": "tables_to_columns",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.COLUMNS",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Each table has multiple columns"
+      },
+      {
+        "id": "tables_to_indexes",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.INDEXES",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Each table can have multiple indexes"
+      },
+      {
+        "id": "indexes_to_indexcoluse",
+        "from": "SYSCAT.INDEXES",
+        "to": "SYSCAT.INDEXCOLUSE",
+        "from_columns": ["INDSCHEMA", "INDNAME"],
+        "to_columns": ["INDSCHEMA", "INDNAME"],
+        "cardinality": "1:N",
+        "description": "Each index has multiple columns"
+      },
+      {
+        "id": "tables_to_views",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.VIEWS",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["VIEWSCHEMA", "VIEWNAME"],
+        "cardinality": "1:1",
+        "description": "Views are in both TABLES and VIEWS (TABLES has REMARKS, ALTER_TIME)"
+      },
+      {
+        "id": "tables_to_tabconst",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.TABCONST",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Each table can have multiple constraints"
+      },
+      {
+        "id": "tabconst_to_keycoluse",
+        "from": "SYSCAT.TABCONST",
+        "to": "SYSCAT.KEYCOLUSE",
+        "from_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME"],
+        "to_columns": ["CONSTNAME", "TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Each key constraint has multiple columns"
+      },
+      {
+        "id": "tables_to_references_child",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.REFERENCES",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "FK constraints FROM this table (child table)"
+      },
+      {
+        "id": "tables_to_references_parent",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.REFERENCES",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["REFTABSCHEMA", "REFTABNAME"],
+        "cardinality": "1:N",
+        "description": "FK constraints TO this table (parent table)"
+      },
+      {
+        "id": "tables_to_triggers",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.TRIGGERS",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Each table can have multiple triggers"
+      },
+      {
+        "id": "schemata_to_routines",
+        "from": "SYSCAT.SCHEMATA",
+        "to": "SYSCAT.ROUTINES",
+        "from_columns": ["SCHEMANAME"],
+        "to_columns": ["ROUTINESCHEMA"],
+        "cardinality": "1:N",
+        "description": "Each schema contains multiple routines"
+      },
+      {
+        "id": "routines_to_routineparms",
+        "from": "SYSCAT.ROUTINES",
+        "to": "SYSCAT.ROUTINEPARMS",
+        "from_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME"],
+        "to_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME"],
+        "cardinality": "1:N",
+        "description": "Each routine has multiple parameters"
+      },
+      {
+        "id": "schemata_to_packages",
+        "from": "SYSCAT.SCHEMATA",
+        "to": "SYSCAT.PACKAGES",
+        "from_columns": ["SCHEMANAME"],
+        "to_columns": ["PKGSCHEMA"],
+        "cardinality": "1:N",
+        "description": "Each schema contains multiple packages"
+      },
+      {
+        "id": "packages_to_statements",
+        "from": "SYSCAT.PACKAGES",
+        "to": "SYSCAT.STATEMENTS",
+        "from_columns": ["PKGSCHEMA", "PKGNAME"],
+        "to_columns": ["PKGSCHEMA", "PKGNAME"],
+        "cardinality": "1:N",
+        "description": "Each package has multiple SQL statements"
+      },
+      {
+        "id": "columns_to_colstat",
+        "from": "SYSCAT.COLUMNS",
+        "to": "SYSCAT.COLSTAT",
+        "from_columns": ["TABSCHEMA", "TABNAME", "COLNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME", "COLNAME"],
+        "cardinality": "1:N",
+        "description": "Each column can have multiple statistics entries"
+      },
+      {
+        "id": "tables_to_tablespaces",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.TABLESPACES",
+        "from_columns": ["TBSPACE"],
+        "to_columns": ["TBSPACE"],
+        "cardinality": "N:1",
+        "description": "Multiple tables can share a tablespace"
+      }
+    ],
+    "dependency_relationships": [
+      {
+        "id": "views_to_viewdep",
+        "from": "SYSCAT.VIEWS",
+        "to": "SYSCAT.VIEWDEP",
+        "from_columns": ["VIEWSCHEMA", "VIEWNAME"],
+        "to_columns": ["VIEWSCHEMA", "VIEWNAME"],
+        "cardinality": "1:N",
+        "description": "Objects that this view depends on"
+      },
+      {
+        "id": "routines_to_routinedep",
+        "from": "SYSCAT.ROUTINES",
+        "to": "SYSCAT.ROUTINEDEP",
+        "from_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME"],
+        "to_columns": ["ROUTINESCHEMA", "ROUTINENAME", "SPECIFICNAME"],
+        "cardinality": "1:N",
+        "description": "Objects that this routine depends on"
+      },
+      {
+        "id": "triggers_to_trigdep",
+        "from": "SYSCAT.TRIGGERS",
+        "to": "SYSCAT.TRIGDEP",
+        "from_columns": ["TRIGSCHEMA", "TRIGNAME"],
+        "to_columns": ["TRIGSCHEMA", "TRIGNAME"],
+        "cardinality": "1:N",
+        "description": "Objects that this trigger depends on"
+      },
+      {
+        "id": "packages_to_packagedep",
+        "from": "SYSCAT.PACKAGES",
+        "to": "SYSCAT.PACKAGEDEP",
+        "from_columns": ["PKGSCHEMA", "PKGNAME"],
+        "to_columns": ["PKGSCHEMA", "PKGNAME"],
+        "cardinality": "1:N",
+        "description": "Objects that this package depends on"
+      },
+      {
+        "id": "tables_to_tabdep",
+        "from": "SYSCAT.TABLES",
+        "to": "SYSCAT.TABDEP",
+        "from_columns": ["TABSCHEMA", "TABNAME"],
+        "to_columns": ["TABSCHEMA", "TABNAME"],
+        "cardinality": "1:N",
+        "description": "Objects that this table depends on (MQTs, typed tables)"
+      }
+    ]
+  },
+  "common_queries": {
+    "find_all_dependencies_on_table": {
+      "description": "Find all objects that depend on a specific table",
+      "sql": "SELECT 'VIEW' AS DEP_TYPE, VIEWSCHEMA, VIEWNAME FROM SYSCAT.VIEWDEP WHERE BSCHEMA = ? AND BNAME = ? AND BTYPE = 'T' UNION ALL SELECT 'ROUTINE', ROUTINESCHEMA, ROUTINENAME FROM SYSCAT.ROUTINEDEP WHERE BSCHEMA = ? AND BNAME = ? AND BTYPE = 'T' UNION ALL SELECT 'TRIGGER', TRIGSCHEMA, TRIGNAME FROM SYSCAT.TRIGDEP WHERE BSCHEMA = ? AND BNAME = ? AND BTYPE = 'T' UNION ALL SELECT 'PACKAGE', PKGSCHEMA, PKGNAME FROM SYSCAT.PACKAGEDEP WHERE BSCHEMA = ? AND BNAME = ? AND BTYPE = 'T'",
+      "parameters": ["schema (x4)", "name (x4)"]
+    },
+    "find_foreign_key_details": {
+      "description": "Find detailed FK relationships with column information",
+      "sql": "SELECT TRIM(fk.TABSCHEMA) AS CHILD_SCHEMA, TRIM(fk.TABNAME) AS CHILD_TABLE, TRIM(fk.CONSTNAME) AS FK_NAME, TRIM(fk.REFTABSCHEMA) AS PARENT_SCHEMA, TRIM(fk.REFTABNAME) AS PARENT_TABLE, TRIM(kcu.COLNAME) AS FK_COLUMN, TRIM(pkcu.COLNAME) AS PK_COLUMN, kcu.COLSEQ AS COLUMN_POSITION FROM SYSCAT.REFERENCES fk JOIN SYSCAT.KEYCOLUSE kcu ON TRIM(fk.TABSCHEMA) = TRIM(kcu.TABSCHEMA) AND TRIM(fk.TABNAME) = TRIM(kcu.TABNAME) AND TRIM(fk.CONSTNAME) = TRIM(kcu.CONSTNAME) JOIN SYSCAT.KEYCOLUSE pkcu ON TRIM(fk.REFTABSCHEMA) = TRIM(pkcu.TABSCHEMA) AND TRIM(fk.REFTABNAME) = TRIM(pkcu.TABNAME) AND TRIM(fk.REFKEYNAME) = TRIM(pkcu.CONSTNAME) AND kcu.COLSEQ = pkcu.COLSEQ WHERE TRIM(fk.TABSCHEMA) = ? AND TRIM(fk.TABNAME) = ? ORDER BY kcu.COLSEQ",
+      "parameters": ["child_schema", "child_table"]
+    },
+    "find_incoming_foreign_keys": {
+      "description": "Find tables that reference this table (incoming FKs)",
+      "sql": "SELECT TRIM(R.TABSCHEMA) AS CHILD_SCHEMA, TRIM(R.TABNAME) AS CHILD_TABLE, TRIM(R.CONSTNAME) AS FK_NAME, TRIM(R.FK_COLNAMES) AS FK_COLUMNS, TRIM(R.PK_COLNAMES) AS PK_COLUMNS, TRIM(R.DELETERULE) AS DELETE_RULE FROM SYSCAT.REFERENCES R WHERE TRIM(R.REFTABSCHEMA) = ? AND TRIM(R.REFTABNAME) = ? ORDER BY R.TABSCHEMA, R.TABNAME",
+      "parameters": ["parent_schema", "parent_table"]
+    },
+    "find_table_statistics": {
+      "description": "Get comprehensive table statistics",
+      "sql": "SELECT TRIM(T.TABSCHEMA) AS SCHEMA, TRIM(T.TABNAME) AS TABLE_NAME, T.CARD AS ROW_COUNT, T.NPAGES AS DATA_PAGES, T.FPAGES AS TOTAL_PAGES, T.OVERFLOW AS OVERFLOW_RECORDS, T.COLCOUNT AS COLUMN_COUNT, T.STATS_TIME, T.ALTER_TIME, TRIM(T.TBSPACE) AS TABLESPACE FROM SYSCAT.TABLES T WHERE TRIM(T.TABSCHEMA) = ? AND TRIM(T.TABNAME) = ?",
+      "parameters": ["schema", "table"]
+    },
+    "find_index_statistics": {
+      "description": "Get index statistics for optimization analysis",
+      "sql": "SELECT TRIM(I.INDSCHEMA) AS INDEX_SCHEMA, TRIM(I.INDNAME) AS INDEX_NAME, TRIM(I.TABSCHEMA) AS TABLE_SCHEMA, TRIM(I.TABNAME) AS TABLE_NAME, I.UNIQUERULE, I.NLEAF AS LEAF_PAGES, I.NLEVELS, I.FIRSTKEYCARD, I.FULLKEYCARD, I.CLUSTERRATIO, I.CLUSTERFACTOR, I.SEQUENTIAL_PAGES, I.DENSITY, I.STATS_TIME, I.LASTUSED FROM SYSCAT.INDEXES I WHERE TRIM(I.TABSCHEMA) = ? AND TRIM(I.TABNAME) = ? ORDER BY I.INDNAME",
+      "parameters": ["schema", "table"]
+    },
+    "find_unused_indexes": {
+      "description": "Find indexes that may be unused",
+      "sql": "SELECT TRIM(I.INDSCHEMA) AS SCHEMA, TRIM(I.INDNAME) AS INDEX_NAME, TRIM(I.TABNAME) AS TABLE_NAME, I.UNIQUERULE, I.LASTUSED, I.CREATE_TIME FROM SYSCAT.INDEXES I WHERE I.UNIQUERULE = 'D' AND (I.LASTUSED IS NULL OR I.LASTUSED < CURRENT DATE - 90 DAYS) ORDER BY I.INDSCHEMA, I.INDNAME",
+      "parameters": []
+    },
+    "check_if_fk_is_indexed": {
+      "description": "Check if foreign key columns have matching index for performance",
+      "sql": "SELECT R.CONSTNAME, R.TABSCHEMA, R.TABNAME, R.FK_COLNAMES, I.INDNAME FROM SYSCAT.REFERENCES R LEFT JOIN SYSCAT.INDEXES I ON TRIM(R.TABSCHEMA) = TRIM(I.TABSCHEMA) AND TRIM(R.TABNAME) = TRIM(I.TABNAME) WHERE TRIM(R.TABSCHEMA) = ?",
+      "parameters": ["TABSCHEMA"],
+      "notes": "Match index COLNAMES with FK_COLNAMES to verify coverage. Unindexed FKs can cause performance issues."
+    }
+  },
+  "generation_queries": {
+    "list_all_syscat_tables": {
+      "description": "Query to list all SYSCAT views with column counts",
+      "sql": "SELECT TRIM(T.TABNAME) AS VIEW_NAME, T.COLCOUNT, TRIM(T.REMARKS) AS DESCRIPTION FROM SYSCAT.TABLES T WHERE TRIM(T.TABSCHEMA) = 'SYSCAT' AND T.TYPE = 'V' ORDER BY T.TABNAME"
+    },
+    "get_columns_for_syscat_view": {
+      "description": "Query to get column definitions for a SYSCAT view",
+      "sql": "SELECT TRIM(C.COLNAME) AS COLUMN_NAME, TRIM(C.TYPENAME) AS DATA_TYPE, C.LENGTH, C.SCALE, C.NULLS, TRIM(C.REMARKS) AS DESCRIPTION FROM SYSCAT.COLUMNS C WHERE TRIM(C.TABSCHEMA) = 'SYSCAT' AND TRIM(C.TABNAME) = ? ORDER BY C.COLNO"
+    }
+  },
+  "critical_notes": [
+    "ALWAYS use TRIM() on CHAR columns when comparing or displaying values",
+    "SYSCAT.VIEWS does NOT contain REMARKS or ALTER_TIME - MUST join to SYSCAT.TABLES",
+    "SYSCAT.STATEMENTS may have TEXT split across multiple rows (different SEQNO values)",
+    "For packages, ALWAYS join PKGSCHEMA AND PKGNAME (not just name)",
+    "BTYPE in dependency views indicates the type of object being depended on",
+    "CARD = -1 means statistics have not been collected",
+    "NULLS = 'Y' means nullable, 'N' means NOT NULL",
+    "Index COLNAMES are prefixed with +/- for ASC/DESC"
+  ]
+}

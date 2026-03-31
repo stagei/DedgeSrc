@@ -1,0 +1,107 @@
+{
+  "tableName": "P_FRIE_TT",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Frie tillegg/trekk - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KUNDENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kornsesong (1/7 - 30/6)"
+      },
+      {
+        "colNo": 2,
+        "name": "ANLEGGNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Anleggsnr for møller ellers brukes avdnr."
+      },
+      {
+        "colNo": 3,
+        "name": "PARTINR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "LEVERANSENR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "TYPE",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "BELOP",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr pr. type pr. parti"
+      },
+      {
+        "colNo": 7,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_TYPE",
+        "childColumn": "TYPE",
+        "parentTable": "P_FRIE_TT_TYPER",
+        "parentSchema": "DBM",
+        "parentColumn": "TYPE"
+      }
+    ]
+  }
+}

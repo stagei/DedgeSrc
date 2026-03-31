@@ -1,0 +1,30 @@
+{
+  "id": "web-screenshot",
+  "description": "Use agent mode with browser MCP to navigate .NET web apps and static sites, then capture screenshots",
+  "model": "claude-sonnet-4-20250514",
+  "mode": null,
+  "outputFormat": "text",
+  "noMcp": false,
+  "force": true,
+  "promptTemplate": "web-screenshot.prompt.md",
+  "placeholders": {
+    "AppKey": "identifier for the app (e.g. AiDoc.WebNew)",
+    "AppType": "dotnet | static | wordpress",
+    "Project": "path to .csproj (dotnet only, empty for static/wordpress)",
+    "Port": "localhost port for dotnet apps (empty for static)",
+    "UrlPaths": "comma-separated URL paths to screenshot (e.g. /,/scalar/v1)",
+    "StaticPath": "path to index.html or site root (static only, empty for dotnet)",
+    "ScreenshotDir": "absolute path to output directory for PNGs"
+  },
+  "contextFiles": [],
+  "contextFolder": null,
+  "workspacePath": null,
+  "validation": {
+    "responseFormat": "text",
+    "requiredFields": null,
+    "minArrayLength": null
+  },
+  "output": {
+    "skipIfExists": false
+  }
+}

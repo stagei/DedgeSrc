@@ -1,0 +1,625 @@
+{
+  "program": "PAABEPA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:daf88836716e63f42b41e5471d63ff9d134d267e74ce743dba271a787c3f2461",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAABEPA.CBL",
+    "actualName": "PAABEPA",
+    "program": "PAABEPA",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFEI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRIS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASTV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TOTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PROT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "HLKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "HLSA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRFK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ANAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVFT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TTIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KSLT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOTI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVTL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVTK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "STKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SONE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFOR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRTS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRKT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EGFR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OAVG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EPRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAGL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TKVE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SKON.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MYKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "HLS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LATI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TLSU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DPT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVDP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEPA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "EGENSKAPNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ART_STD_VERDIER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ANALYSE_AVREGN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TORKETREKK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BASISPRIS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_PROTEIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_HEKTOLITER_KORR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_HEKTOLITER_SATS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_HL_SKRUMP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_PRISREG_FREMMED_ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KVALITETSFEIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KVALFEIL_TILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVREGNINGSTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_PRISREG_SPIRING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FORVERDI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TUSENKORNVEKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TERMINTILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FRA_DATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KSL_TT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVTALETILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PGA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVTALETILLEGG_LIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_STEDSKORRIGERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_INNFRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_INNFRAKT_AVTALER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKTTILSKUDD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_EGENANDEL_FRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OKOLOGISK",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_LAGERLEIE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FRIE_TT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_SPESIALKONTRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKT_KVALFEIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "K",
+        "tableName": "AVREGNINGSTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KVAL_FEIL_KH",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "K",
+        "tableName": "KVALITETSFEIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OMSETNINGSAVGIFT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKT_KVF",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KH_KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_MYKOTOKSIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_LASTETID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TILSKUDD_UMVA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_DIVERSE_PARTITILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVERANSE_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KVFEIL_AKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "J",
+        "tableName": "OPPGJORSDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_JOURNAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORTSLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKSOMRAADE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SONE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_SONE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RENTE_DGR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVVIKENDE_DATO_PRIS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVVIKENDE_DATO_PRIS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SATS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_SORTSTILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDEPOSTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_EPOST_RABATT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FEILMELD",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "D01B912",
+      "OKALOGG",
+      "PAFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "AVREFIL",
+        "physicalName": "p_avregning.dat",
+        "path": "k:\\meh",
+        "fullPath": "k:\\meh\\p_avregning.dat",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

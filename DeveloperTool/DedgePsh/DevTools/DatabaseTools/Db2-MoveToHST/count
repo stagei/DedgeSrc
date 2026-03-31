@@ -1,0 +1,4 @@
+select int(ordrenr/100000), count(*)
+from DBM.A_BESTHODE A
+WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR)
+group by int(ordrenr/100000)

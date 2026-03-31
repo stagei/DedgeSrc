@@ -1,0 +1,356 @@
+@model AutoDocNew.Models.SqlResult
+
+@if (Model == null) { return; }
+
+<style>
+    /* SQL-specific: wider single-column layout */
+    .main-container { max-width: 1600px; display: block; }
+    .info-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .info-row > .info-card { flex: 1; min-width: 300px; max-width: 400px; }
+    .stats-card { background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%); }
+    .nav-tabs { display: flex; width: 100%; border-bottom: 2px solid var(--border-color); gap: 0.25rem; flex-wrap: nowrap; overflow-x: auto; }
+    .tab-content { width: 100%; display: block; padding: 1.5rem 0; }
+    .nav-tabs .nav-link { color: var(--text-secondary); border: none; border-bottom: 3px solid transparent; padding: 0.75rem 1.25rem; font-weight: 500; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s ease; }
+    .nav-tabs .nav-link:hover { color: var(--text-primary); border-color: var(--border-color); background: var(--bg-secondary); }
+    .nav-tabs .nav-link.active { color: var(--accent-primary); background: var(--bg-card); border-bottom-color: var(--accent-primary); }
+    .nav-tabs .nav-link i { margin-right: 0.5rem; }
+    .nav-tabs .badge { margin-left: 0.5rem; font-size: 0.7rem; padding: 0.25em 0.5em; background: var(--accent-primary) !important; }
+    .data-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+    .data-section h5 { margin: 0; padding: 1rem 1.25rem; background: var(--bg-secondary); font-weight: 500; font-size: 0.9rem; color: var(--text-primary); border-bottom: 1px solid var(--border-color); }
+    .data-section h5 i { margin-right: 0.5rem; color: var(--accent-primary); }
+    .data-section table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .data-section th { background: var(--bg-secondary); padding: 0.75rem 1rem; text-align: left; font-weight: 500; color: var(--text-muted); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; }
+    .data-section td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+    .data-section tr:last-child td { border-bottom: none; }
+    .data-section tr:hover td { background: var(--bg-secondary); }
+    .data-section code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: var(--bg-secondary); padding: 0.2em 0.4em; border-radius: 4px; color: var(--accent-secondary); }
+    .data-section a { color: var(--accent-secondary); text-decoration: none; }
+    .data-section a:hover { text-decoration: underline; }
+    .table-scroll { max-height: 600px; overflow-y: auto; }
+    .column-name { font-family: 'JetBrains Mono', monospace; color: var(--accent-secondary); font-weight: 500; }
+    .column-type { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 0.85rem; }
+    .badge.bg-pk { background-color: #dc2626 !important; }
+    .badge.bg-fk { background-color: #f59e0b !important; }
+    .er-diagram-container { padding: 1.5rem; min-height: 400px; display: flex; justify-content: center; align-items: center; overflow: auto; }
+    .er-diagram-container .mermaid { width: 100%; text-align: center; }
+    .empty-state { padding: 3rem; text-align: center; color: var(--text-muted); }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+</style>
+
+<div class="main-container">
+    <!-- Info Row -->
+    <div class="info-row">
+        <div class="info-card">
+            <table class="info-table">
+                <tr><td><i class="bi bi-table"></i> <span data-i18n="label.tableName">Table Name</span></td><td><strong>@Model.Metadata.FullName</strong></td></tr>
+                <tr><td><i class="bi bi-chat-left-text"></i> <span data-i18n="label.description">Description</span></td><td>@Model.Metadata.Comment</td></tr>
+                <tr><td><i class="bi bi-tag"></i> <span data-i18n="label.tableType">Type</span></td><td>@Model.Metadata.TableType</td></tr>
+                <tr><td><i class="bi bi-calendar-event"></i> <span data-i18n="label.lastDdlTime">Last DDL Time</span></td><td>@Model.Metadata.AlterTime</td></tr>
+                <tr><td><i class="bi bi-clock"></i> <span data-i18n="label.generated">Generated</span></td><td>@Model.GeneratedAt</td></tr>
+            </table>
+        </div>
+        @if (Model.Stats != null)
+        {
+            <div class="info-card stats-card">
+                <table class="info-table">
+                    <tr><td data-i18n="label.rows">Rows</td><td><strong>@Model.Stats.RowCount</strong></td></tr>
+                    <tr><td data-i18n="label.columns">Columns</td><td>@Model.Stats.ColumnCount</td></tr>
+                    <tr><td data-i18n="label.indexes">Indexes</td><td>@Model.Stats.IndexCount</td></tr>
+                    <tr><td data-i18n="label.triggers">Triggers</td><td>@Model.Stats.TriggerCount</td></tr>
+                    <tr><td data-i18n="label.parentTables">Parent Tables</td><td>@Model.Stats.ParentTableCount</td></tr>
+                    <tr><td data-i18n="label.childTables">Child Tables</td><td>@Model.Stats.ChildTableCount</td></tr>
+                </table>
+            </div>
+        }
+    </div>
+
+    @await Html.PartialAsync("_GitHistorySection", Model.GitHistory)
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#columns"><i class="bi bi-layout-three-columns"></i><span data-i18n="sql.columns">Columns</span><span class="badge">@(Model.Columns?.Count ?? 0)</span></button></li>
+        @if (!string.IsNullOrEmpty(Model.ErDiagramMmd))
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#erdiagram"><i class="bi bi-diagram-3"></i><span data-i18n="sql.erDiagram">ER Diagram</span></button></li>
+        }
+        @if (Model.Indexes?.Count > 0)
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#indexes"><i class="bi bi-list-ol"></i><span data-i18n="sql.indexes">Indexes</span><span class="badge">@Model.Indexes.Count</span></button></li>
+        }
+        @if (Model.PrimaryKey != null)
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#primarykey"><i class="bi bi-key"></i><span data-i18n="sql.primaryKey">Primary Key</span></button></li>
+        }
+        @if (Model.ForeignKeysOutgoing?.Count > 0 || Model.ForeignKeysIncoming?.Count > 0)
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#foreignkeys"><i class="bi bi-link-45deg"></i><span data-i18n="sql.foreignKeys">Foreign Keys</span><span class="badge">@((Model.ForeignKeysOutgoing?.Count ?? 0) + (Model.ForeignKeysIncoming?.Count ?? 0))</span></button></li>
+        }
+        @if (Model.Triggers?.Count > 0)
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#triggers"><i class="bi bi-lightning"></i><span data-i18n="sql.triggers">Triggers</span><span class="badge">@Model.Triggers.Count</span></button></li>
+        }
+        @if (!string.IsNullOrEmpty(Model.InteractionDiagramMmd) || Model.UsedBy?.Count > 0)
+        {
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#interactions"><i class="bi bi-diagram-3"></i><span data-i18n="diagram.interactions">Interactions</span><span class="badge">@(Model.UsedBy?.Count ?? 0)</span></button></li>
+        }
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Columns -->
+        <div class="tab-pane fade show active" id="columns">
+            <div class="data-section">
+                <div class="table-scroll">
+                    <table>
+                        <thead><tr><th data-i18n="sql.colNumber">#</th><th data-i18n="sql.colName">Name</th><th data-i18n="sql.colType">Type</th><th data-i18n="sql.colLength">Length</th><th data-i18n="sql.colScale">Scale</th><th data-i18n="sql.colNull">Null</th><th data-i18n="sql.colKeys">Keys</th><th data-i18n="sql.colRemarks">Remarks</th></tr></thead>
+                        <tbody>
+                        @if (Model.Columns != null)
+                        {
+                            @foreach (var col in Model.Columns)
+                            {
+                                <tr>
+                                    <td>@col.Number</td>
+                                    <td><span class="column-name">@col.Name</span></td>
+                                    <td><span class="column-type">@col.DataType</span></td>
+                                    <td>@col.Length</td>
+                                    <td>@col.Scale</td>
+                                    <td><span data-i18n="@(col.Nullable ? "label.nullableY" : "label.nullableN")">@(col.Nullable ? "Y" : "N")</span></td>
+                                    <td>
+                                        @if (col.IsPrimaryKey) { <span class="badge bg-pk">PK</span> }
+                                        @if (col.IsForeignKey) { <span class="badge bg-fk">FK</span> }
+                                    </td>
+                                    <td>@col.Remarks</td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ER Diagram -->
+        @if (!string.IsNullOrEmpty(Model.ErDiagramMmd))
+        {
+            <div class="tab-pane fade" id="erdiagram">
+                <div class="data-section">
+                    <div class="er-diagram-container diagram-wrapper" data-diagram-type="er" data-node-count="@MermaidNodeCounter.CountNodes(Model.ErDiagramMmd)">
+                        <pre class="mermaid-source" style="display:none">@Html.Raw(Model.ErDiagramMmd)</pre>
+                        <pre class="mermaid">@Html.Raw(Model.ErDiagramMmd)</pre>
+                        <div class="diagram-render-target" id="er-render-target"></div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Indexes -->
+        @if (Model.Indexes?.Count > 0)
+        {
+            <div class="tab-pane fade" id="indexes">
+                <div class="data-section">
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th data-i18n="sql.indexName">Name</th><th data-i18n="sql.indexType">Type</th><th data-i18n="sql.indexUnique">Unique</th><th data-i18n="sql.indexColumns">Columns</th></tr></thead>
+                            <tbody>
+                            @foreach (var idx in Model.Indexes)
+                            {
+                                <tr>
+                                    <td><code>@idx.Name</code></td>
+                                    <td>@idx.IndexType</td>
+                                    <td><span data-i18n="@(idx.IsUnique ? "label.yes" : "label.no")">@(idx.IsUnique ? "Yes" : "No")</span></td>
+                                    <td>@idx.Columns</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Primary Key -->
+        @if (Model.PrimaryKey != null)
+        {
+            <div class="tab-pane fade" id="primarykey">
+                <div class="data-section">
+                    <h5><i class="bi bi-key"></i> @Model.PrimaryKey.ConstraintName</h5>
+                    <div style="padding: 1rem;">
+                        @foreach (var col in Model.PrimaryKey.Columns ?? new List<string>())
+                        {
+                            <span class="badge bg-pk" style="margin: 2px;">@col</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Foreign Keys -->
+        @if (Model.ForeignKeysOutgoing?.Count > 0 || Model.ForeignKeysIncoming?.Count > 0)
+        {
+            <div class="tab-pane fade" id="foreignkeys">
+                @if (Model.ForeignKeysOutgoing?.Count > 0)
+                {
+                    <div class="data-section">
+                        <h5><i class="bi bi-box-arrow-right"></i> <span data-i18n="sql.outgoingFk">Outgoing Foreign Keys</span></h5>
+                        <div class="table-scroll">
+                            <table>
+                                <thead><tr><th data-i18n="sql.fkConstraint">Constraint</th><th data-i18n="sql.fkColumns">FK Columns</th><th data-i18n="sql.fkReferences">References</th><th data-i18n="sql.fkPkColumns">PK Columns</th><th data-i18n="sql.fkDeleteRule">Delete Rule</th></tr></thead>
+                                <tbody>
+                                @foreach (var fk in Model.ForeignKeysOutgoing)
+                                {
+                                    <tr>
+                                        <td><code>@fk.ConstraintName</code></td>
+                                        <td>@fk.FkColumns</td>
+                                        <td><a href="/Doc?file=@(fk.Link?.Replace("./","").Replace(".html",".json"))">@fk.ReferencedTable</a></td>
+                                        <td>@fk.PkColumns</td>
+                                        <td>@fk.DeleteRule</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                @if (Model.ForeignKeysIncoming?.Count > 0)
+                {
+                    <div class="data-section">
+                        <h5><i class="bi bi-box-arrow-in-right"></i> <span data-i18n="sql.incomingFk">Incoming Foreign Keys</span></h5>
+                        <div class="table-scroll">
+                            <table>
+                                <thead><tr><th data-i18n="sql.fkConstraint">Constraint</th><th data-i18n="sql.fkColumns">FK Columns</th><th data-i18n="sql.fkFromTable">From Table</th><th data-i18n="sql.fkDeleteRule">Delete Rule</th></tr></thead>
+                                <tbody>
+                                @foreach (var fk in Model.ForeignKeysIncoming)
+                                {
+                                    <tr>
+                                        <td><code>@fk.ConstraintName</code></td>
+                                        <td>@fk.FkColumns</td>
+                                        <td><a href="/Doc?file=@(fk.Link?.Replace("./","").Replace(".html",".json"))">@fk.ReferencedTable</a></td>
+                                        <td>@fk.DeleteRule</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Triggers -->
+        @if (Model.Triggers?.Count > 0)
+        {
+            <div class="tab-pane fade" id="triggers">
+                <div class="data-section">
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th data-i18n="sql.triggerName">Name</th><th data-i18n="sql.triggerTiming">Timing</th><th data-i18n="sql.triggerEvent">Event</th><th data-i18n="sql.triggerGranularity">Granularity</th><th data-i18n="sql.triggerValid">Valid</th></tr></thead>
+                            <tbody>
+                            @foreach (var t in Model.Triggers)
+                            {
+                                <tr>
+                                    <td><code>@t.Name</code></td>
+                                    <td>@t.Timing</td>
+                                    <td>@t.Event</td>
+                                    <td>@t.Granularity</td>
+                                    <td><span data-i18n="@(t.IsValid ? "label.yes" : "label.no")">@(t.IsValid ? "Yes" : "No")</span></td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Interactions (merged diagram + program list with search) -->
+        @if (!string.IsNullOrEmpty(Model.InteractionDiagramMmd) || Model.UsedBy?.Count > 0)
+        {
+            <div class="tab-pane fade" id="interactions">
+                @if (!string.IsNullOrEmpty(Model.InteractionDiagramMmd))
+                {
+                    <div class="data-section">
+                        <h5><i class="bi bi-diagram-3"></i> <span data-i18n="diagram.interactionsTitle">Modules Interacting with This Table</span></h5>
+                        <div class="er-diagram-container diagram-wrapper" data-diagram-type="interaction" data-node-count="@MermaidNodeCounter.CountNodes(Model.InteractionDiagramMmd)">
+                            <pre class="mermaid-source" style="display:none">@Html.Raw(Model.InteractionDiagramMmd)</pre>
+                            <pre class="mermaid">@Html.Raw(Model.InteractionDiagramMmd)</pre>
+                            <div class="diagram-render-target" id="interaction-render-target"></div>
+                        </div>
+                    </div>
+                }
+                @if (Model.UsedBy?.Count > 0)
+                {
+                    <div class="data-section">
+                        <h5><i class="bi bi-diagram-3"></i> <span data-i18n="sql.interactingPrograms">Interacting Programs</span> <span class="badge">@Model.UsedBy.Count</span></h5>
+                        <!-- Search/filter bar -->
+                        <div class="interaction-filter-bar">
+                            <input type="text" id="interaction-search" class="interaction-search-input" data-i18n-placeholder="sql.searchPrograms" placeholder="Search programs..." />
+                            <div class="interaction-type-btns">
+                                @{
+                                    var types = Model.UsedBy.Select(u => u.FileType).Where(t => !string.IsNullOrEmpty(t)).Distinct().OrderBy(t => t).ToList();
+                                }
+                                <button class="interaction-type-btn active" data-type="all" onclick="filterInteractions(this, 'all')" data-i18n="button.all">All</button>
+                                @foreach (var t in types)
+                                {
+                                    string label = t switch { "COBOL" => "CBL", "Batch" => "BAT", "PowerShell" => "PS1", "REXX" => "REX", "CSharp" => "C#", _ => t };
+                                    <button class="interaction-type-btn" data-type="@t" onclick="filterInteractions(this, '@t')">@label</button>
+                                }
+                            </div>
+                        </div>
+                        <div class="table-scroll" style="max-height: 500px;">
+                            <table id="interactions-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="sql.program">Program</th>
+                                        <th style="width:80px;" data-i18n="sql.fileType">Type</th>
+                                        <th data-i18n="table.description">Description</th>
+                                        <th style="width:140px;" data-i18n="label.generated">Generated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var usage in Model.UsedBy.OrderBy(u => u.ProgramName))
+                                {
+                                    <tr data-type="@usage.FileType">
+                                        <td><a href="~/Doc?file=@usage.FilePath">@DisplayHelpers.ToTitleCase(usage.ProgramName)</a></td>
+                                        <td>@(usage.FileType switch { "COBOL" => "CBL", "Batch" => "BAT", "PowerShell" => "PS1", "REXX" => "REX", "CSharp" => "C#", _ => usage.FileType })</td>
+                                        <td style="max-width:400px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">@usage.Description</td>
+                                        <td style="color:var(--text-muted); font-size:0.8rem;">
+                                            @if (DateTime.TryParse(usage.GeneratedAt, out var dt))
+                                            { @dt.ToString("yyyy-MM-dd HH:mm") }
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+function filterInteractions(btn, type) {
+    document.querySelectorAll('.interaction-type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyInteractionFilters();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var searchBox = document.getElementById('interaction-search');
+    if (searchBox) searchBox.addEventListener('input', function() { applyInteractionFilters(); });
+});
+
+function applyInteractionFilters() {
+    var search = (document.getElementById('interaction-search')?.value || '').toLowerCase();
+    var activeType = document.querySelector('.interaction-type-btn.active')?.getAttribute('data-type') || 'all';
+    var rows = document.querySelectorAll('#interactions-table tbody tr');
+    rows.forEach(function(row) {
+        var type = row.getAttribute('data-type') || '';
+        var text = row.textContent.toLowerCase();
+        var matchType = activeType === 'all' || type === activeType;
+        var matchSearch = !search || text.indexOf(search) !== -1;
+        row.style.display = (matchType && matchSearch) ? '' : 'none';
+    });
+}
+</script>

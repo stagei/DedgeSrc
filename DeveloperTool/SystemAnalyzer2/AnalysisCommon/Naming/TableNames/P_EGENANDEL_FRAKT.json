@@ -1,0 +1,70 @@
+{
+  "tableName": "P_EGENANDEL_FRAKT",
+  "futureName": "Fakturadetail",
+  "namespace": "Frakttillskudd",
+  "columns": [
+    {
+      "name": "kornHandler",
+      "futureName": "GrainMerchant",
+      "description": "The grain merchant involved in the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "anleggNr",
+      "futureName": "FacilityNumber",
+      "description": "Facility number for mill, otherwise used as a vendor number",
+      "foreignKey": null
+    },
+    {
+      "name": "kode",
+      "futureName": "Code",
+      "description": "Code from the code table",
+      "foreignKey": null
+    },
+    {
+      "name": "sonE",
+      "futureName": "Sone",
+      "description": "From the sone table",
+      "foreignKey": null
+    },
+    {
+      "name": "fraDato",
+      "futureName": "EffectiveDate",
+      "description": "Effective date for the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "sats",
+      "futureName": "Rate",
+      "description": "+/- on standard rate. Amount per ton",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "belop",
+      "futureName": "Amount",
+      "description": "Transaction amount",
+      "foreignKey": null
+    },
+    {
+      "name": "satsSugebil",
+      "futureName": "SugarRate",
+      "description": "Sugar rate",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:02:44"
+}

@@ -1,0 +1,50 @@
+---
+description: Error investigation protocol - CRITICAL
+alwaysApply: true
+---
+
+# Error Investigation Protocol - CRITICAL
+
+## When User Reports an Error - MANDATORY DEEP DIVE
+
+**NEVER accept errors as "expected" or "normal" without thorough investigation!**
+
+**When user shows an error message or log, IMMEDIATELY:**
+
+1. **Extract the exact error** - Read the full stack trace
+2. **Identify the failing method** - What method threw the exception?
+3. **Check if method exists** - Verify the method is valid for that type
+4. **Verify library compatibility** - Check if mixing library syntax
+5. **Read the actual code** - Don't assume, read the source
+6. **Test the hypothesis** - Verify the fix will work
+
+## Red Flags That Require Immediate Investigation
+
+- **"Method not found" errors** - Method doesn't exist on that type
+- **"Cannot convert" errors** - Type mismatch
+- **Repeated FATAL/ERROR logs** - Not "expected", investigate root cause
+- **Fallback behavior triggered** - Why did primary path fail?
+- **Same error on every run** - Not transient, it's a bug
+
+## DO NOT Say These Without Investigation
+
+- "This is expected behavior" - Verify first!
+- "The fallback is working correctly" - But why did it fallback?
+- "This is normal on this server" - Check if it's actually a bug
+- "Just warnings, not critical" - Warnings indicate problems
+
+## Investigation Checklist
+
+When error reported:
+- [ ] Read the actual code at the line number
+- [ ] Check method exists on the object type
+- [ ] Verify library version compatibility
+- [ ] Check for syntax mixing (System.Text.Json vs Newtonsoft.Json)
+- [ ] Test with minimal reproduction
+- [ ] Fix the root cause, not the symptom
+
+## Time Limits for Investigation
+
+**Simple errors:** Investigate within 1 response  
+**Complex errors:** Maximum 2-3 responses before fixing  
+**Never:** Accept as "expected" without investigation

@@ -1,0 +1,98 @@
+{
+  "program": "GMATITP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:40",
+  "extraction": {
+    "sourceHash": "sha256:736abcd09ea593a760ab3cbe762e1fd27c75194c94c4a26a8811e07eb1908460",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMATITP.CBL",
+    "actualName": "GMATITP",
+    "program": "GMATITP",
+    "copyElements": [
+      {
+        "name": "TITP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMALIKE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PGM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILTP_LOG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILTP_LOG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILTP_LOG",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMADATO",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INN-FIL-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UT-FIL-NAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:40"
+  }
+}

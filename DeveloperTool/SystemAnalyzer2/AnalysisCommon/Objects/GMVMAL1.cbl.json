@@ -1,0 +1,49 @@
+{
+  "program": "GMVMAL1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:00a01ea58f955c1138fd2d772670b83026ff57847c3b7519a2783dd9445603ce",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMvmal1.CBL",
+    "actualName": "GMVMAL1",
+    "program": "GMVMAL1",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHMAL1.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BILNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_BILER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

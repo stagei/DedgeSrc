@@ -1,0 +1,125 @@
+{
+  "program": "GMHFAKT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:37:34",
+  "extraction": {
+    "sourceHash": "sha256:d1a1a0b3c823e73f5e5de50ef5857484b1770d45486894c256d68f31e660cf41",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMHFAKT.CBL",
+    "actualName": "GMHFAKT",
+    "program": "GMHFAKT",
+    "copyElements": [
+      {
+        "name": "SOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VFAK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TILL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOPNO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHFAKT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "F",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VARE_FAKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "K_FAKTOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VARE_FAKTOR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VARE_FAKTOR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D365_VARE_FAKTOR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMVXXXX",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:37:34"
+  }
+}

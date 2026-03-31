@@ -1,0 +1,205 @@
+--Kjørt sist 11/08-2019 (for første gang))
+--Kjørt sist 10/05-2020
+--Kjørt sist 20/12-2020
+--Kjørt sist 18/07-2021
+--Kjørt sist 08/05-2022
+--Kjørt sist 12/02-2023
+--Kjøres     17/12-2023
+--Kjøres     24/11-2024
+--select count(*)
+--CONNECT TO BASISPRO; Endret til BASISREG kjøring 02.12.2018
+CONNECT TO BASISREG;
+      delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and month(h.tidspunkt) between 01 and 03
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 5 years)
+and h.avdnr = 2852
+and month(h.tidspunkt) between 04 and 06
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 5 years)
+and h.avdnr = 2852
+and month(h.tidspunkt) between 07 and 09
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 5 years)
+and h.avdnr = 2852
+and month(h.tidspunkt) between 10 and 12
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_frakt_olinjer v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.mh_ordrelinjer v
+where avdnr = 2852
+and    exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+ delete
+ FROM DBM.MEK_TIDSREG_TRANS h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               );
+--select count(*)
+  delete
+from dbm.kass_transer v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.bilagnr = a.ordrenr
+             and a.status = ' ');
+//
+-- ekstra delete'r for ordre fakturere etter des 2014 18.07.2021
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+//
+      delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and month(h.tidspunkt) between 01 and 12
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 5 yars)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+//
+--ekstra delete av  4 2012-ordre  med 0 i beløp som er avsluttet i 2014 og 2015
+delete  --count(*)
+from dbm.ah_ordrehode v
+where  v.avdnr = 2852
+and tidspunkt between '2013-01-01-00.00.01.000000' and '2016-01-01-00.00.01.000000'
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+//
+//
+-- En ekstra delete for  14 ordre som var ferdigbehandlet i 2012
+      delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and month(h.tidspunkt) between 01 and 12
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_frakt_olinjer v
+where date(v.tidspunkt) < (current date - 5 years)
+and v.avdnr = 2852
+and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.mh_ordrelinjer v
+where avdnr = 2852
+and    exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--
+  delete
+  FROM DBM.MEK_TIDSREG_TRANS h
+  where date(h.tidspunkt) < (current date - 5 years)
+  and h.avdnr = 2852
+  and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               );
+//
+//

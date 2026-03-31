@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.controlPanel">Control Panel - ServerMonitor Dashboard</title>
+    <link rel="icon" href="dedge.ico" type="image/x-icon">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <style>
+        :root {
+            --accent: var(--accent-color);
+            --border: var(--border-color);
+            --warning: var(--warning-color);
+            --critical: var(--error-color);
+            --success: var(--success-color);
+            --info: var(--info-color);
+            --bg-header: var(--bg-tertiary);
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .popout-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        .popout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .popout-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .control-section {
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .control-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .control-header h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .control-description {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .control-content {
+            padding: 1.25rem;
+        }
+        
+        .control-actions {
+            padding: 1rem;
+        }
+        
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .action-card:hover {
+            border-color: var(--accent-color);
+            background: var(--bg-tertiary);
+        }
+        
+        .action-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .action-icon {
+            font-size: 1.75rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+        }
+        
+        .action-details {
+            flex: 1;
+        }
+        
+        .action-details strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+        
+        .action-details p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover-color);
+        }
+        
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: #1a1a1a;
+        }
+        
+        .btn-warning:hover {
+            opacity: 0.9;
+        }
+        
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+        
+        .toggle-switch .toggle-slider {
+            width: 48px;
+            height: 26px;
+            background: #dc2626;
+            border-radius: 26px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background: #22c55e;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+        
+        .toggle-switch input {
+            display: none;
+        }
+        
+        .toggle-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .control-hint {
+            margin: 0.5rem 0 0 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+        
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        
+        .status-badge.checking {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+        
+        .status-indicator {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="popout-container">
+        <header class="popout-header">
+            <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+            <h1><span>🎛️</span> <span data-i18n="controlPanel.title">Control Panel</span></h1>
+            <span id="serverStatus" class="status-badge checking">
+                <span class="status-indicator">⏳</span>
+                <span id="statusText" data-i18n="status.checking">Checking...</span>
+            </span>
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+        
+        <!-- Agent Enable/Disable -->
+        <div class="control-section">
+            <div class="control-header">
+                <h3><span>⚡</span> <span data-i18n="controlPanel.agentControl">Agent Control</span></h3>
+                <p class="control-description" data-i18n="controlPanel.agentControlDesc">Enable or disable the monitoring agent</p>
+            </div>
+            <div class="control-content">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="agentsEnabledToggle" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label" id="agentsEnabledLabel" data-i18n="controlPanel.agentsEnabled">Agents Enabled</span>
+                </label>
+                <p class="control-hint" id="agentsEnabledHint" data-i18n="controlPanel.agentsHint">
+                    When disabled, monitoring continues but no alerts are sent.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Trigger Actions -->
+        <div class="control-section">
+            <div class="control-header">
+                <h3><span>🔄</span> <span data-i18n="controlPanel.remoteActions">Remote Actions</span></h3>
+                <p class="control-description" data-i18n="controlPanel.remoteActionsDesc">Trigger actions on the remote agent</p>
+            </div>
+            <div class="control-actions">
+                <div class="action-card" onclick="triggerReinstall()">
+                    <div class="action-icon">🔄</div>
+                    <div class="action-details">
+                        <strong data-i18n="controlPanel.reinstallAgent">Reinstall Agent</strong>
+                        <p data-i18n="controlPanel.reinstallAgentDesc">Creates trigger file to reinstall agent on next check</p>
+                    </div>
+                    <button class="btn btn-action btn-warning" data-i18n="button.trigger">Trigger →</button>
+                </div>
+                <div class="action-card" onclick="triggerStopTray()">
+                    <div class="action-icon">⏹️</div>
+                    <div class="action-details">
+                        <strong data-i18n="controlPanel.stopTrayIcon">Stop Tray Icon</strong>
+                        <p data-i18n="controlPanel.stopTrayIconDesc">Creates trigger file to stop the tray icon process</p>
+                    </div>
+                    <button class="btn btn-action btn-danger" data-i18n="button.trigger">Trigger →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service Status -->
+        <div class="control-section">
+            <div class="control-header">
+                <h3><span>📊</span> <span data-i18n="controlPanel.agentStatus">Agent Status</span></h3>
+                <p class="control-description" data-i18n="controlPanel.agentStatusDesc">Current agent health and metrics</p>
+            </div>
+            <div class="control-content" id="agentStatusContainer">
+                <div class="loading" data-i18n="controlPanel.loadingStatus">Loading agent status...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DedgeAuth user menu and role permissions -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/role-permissions.js"></script>
+    
+    <script>
+        // Inherit theme from parent or localStorage
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Get server from URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const server = urlParams.get('server') || '';
+        
+        let pollingInterval = null;
+        
+        // Update status
+        async function updateStatus() {
+            const statusBadge = document.getElementById('serverStatus');
+            const statusText = document.getElementById('statusText');
+            const statusContainer = document.getElementById('agentStatusContainer');
+            const toggle = document.getElementById('agentsEnabledToggle');
+            const toggleLabel = document.getElementById('agentsEnabledLabel');
+            
+            try {
+                // Use Dashboard proxy to avoid CORS issues
+                const response = await fetch(`api/trayapi/${server}/agent-health`);
+                if (!response.ok) throw new Error('Failed to fetch health');
+                const health = await response.json();
+                
+                statusBadge.className = 'status-badge online';
+                statusBadge.innerHTML = '<span class="status-indicator">🟢</span><span>Online</span>';
+                
+                // Update toggle state
+                toggle.checked = health.alertsEnabled !== false;
+                toggleLabel.textContent = toggle.checked ? 'Agents Enabled' : 'Agents Disabled';
+                
+                // Update agent status display
+                statusContainer.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.25rem;">Version</div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">${health.version || 'Unknown'}</div>
+                        </div>
+                        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.25rem;">Uptime</div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">${formatUptime(health.uptimeSeconds)}</div>
+                        </div>
+                        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.25rem;">Active Alerts</div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">${health.activeAlertCount || 0}</div>
+                        </div>
+                        <div style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.25rem;">Last Check</div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                statusBadge.className = 'status-badge offline';
+                statusBadge.innerHTML = '<span class="status-indicator">🔴</span><span>Offline</span>';
+                statusContainer.innerHTML = `<div class="loading" style="color: var(--error-color);">Unable to connect to agent: ${error.message}</div>`;
+            }
+        }
+        
+        function formatUptime(seconds) {
+            if (!seconds) return 'N/A';
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            if (days > 0) return `${days}d ${hours}h`;
+            if (hours > 0) return `${hours}h ${mins}m`;
+            return `${mins}m`;
+        }
+        
+        // Toggle agents enabled
+        document.getElementById('agentsEnabledToggle').addEventListener('change', async function() {
+            const enabled = this.checked;
+            const label = document.getElementById('agentsEnabledLabel');
+            label.textContent = enabled ? 'Agents Enabled' : 'Agents Disabled';
+            
+            try {
+                // Use Dashboard proxy to avoid CORS issues
+                await fetch(`api/trayapi/${server}/agent-alerts/${enabled ? 'enable' : 'disable'}`, {
+                    method: 'POST'
+                });
+            } catch (error) {
+                console.error('Failed to toggle alerts:', error);
+            }
+        });
+        
+        async function triggerReinstall() {
+            if (!confirm('Create reinstall trigger file? The agent will reinstall on next check.')) return;
+            try {
+                // Use Dashboard proxy to avoid CORS issues
+                await fetch(`api/trayapi/${server}/agent-reinstall`, { method: 'POST' });
+                alert('Reinstall trigger created successfully');
+            } catch (error) {
+                alert('Failed to create trigger: ' + error.message);
+            }
+        }
+        
+        async function triggerStopTray() {
+            if (!confirm('Create stop trigger file? The tray icon will stop on next check.')) return;
+            try {
+                // Use Dashboard proxy to avoid CORS issues
+                await fetch(`api/trayapi/${server}/agent-stop-tray`, { method: 'POST' });
+                alert('Stop trigger created successfully');
+            } catch (error) {
+                alert('Failed to create trigger: ' + error.message);
+            }
+        }
+        
+        // Initialize
+        updateStatus();
+        pollingInterval = setInterval(updateStatus, 10000);
+        
+        // Cleanup on close
+        window.addEventListener('beforeunload', () => {
+            if (pollingInterval) clearInterval(pollingInterval);
+        });
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

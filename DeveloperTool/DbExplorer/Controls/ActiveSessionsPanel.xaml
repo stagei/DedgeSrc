@@ -1,0 +1,44 @@
+<UserControl x:Class="DbExplorer.Controls.ActiveSessionsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Grid.Row="0" Header="Filters" Margin="0,0,0,10">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="User:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox x:Name="UserComboBox" Width="150" SelectedIndex="0" Margin="0,0,20,0"/>
+                <TextBlock Text="Application:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox x:Name="ApplicationComboBox" Width="200" SelectedIndex="0" Margin="0,0,20,0"/>
+                <Button x:Name="RefreshButton" Content="🔄 Refresh" Click="RefreshButton_Click" Padding="10,5"/>
+            </StackPanel>
+        </GroupBox>
+        
+        <DataGrid Grid.Row="1" x:Name="SessionsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Agent ID" Binding="{Binding AgentId}" Width="80"/>
+                <DataGridTextColumn Header="Database" Binding="{Binding DatabaseName}" Width="120"/>
+                <DataGridTextColumn Header="User" Binding="{Binding AuthorizationId}" Width="120"/>
+                <DataGridTextColumn Header="Application" Binding="{Binding ApplicationName}" Width="200"/>
+                <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="150"/>
+                <DataGridTextColumn Header="Connected" Binding="{Binding ConnectTime, StringFormat=HH:mm:ss}" Width="100"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding DurationText}" Width="100"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Margin="0,0,20,0" Text="Ready"/>
+            <Button x:Name="GenerateScriptButton" Content="📝 Generate Force Script" Click="GenerateScript_Click" Padding="10,5" Margin="5,0"/>
+            <Button x:Name="ExportButton" Content="📊 Export" Click="ExportButton_Click" Padding="10,5" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

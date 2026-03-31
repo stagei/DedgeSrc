@@ -1,0 +1,50 @@
+{
+  "tableName": "TMS_FKNR_IKKE_TMS",
+  "futureName": "TmsFknrIkkeTms",
+  "namespace": "DBM",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNavn",
+      "description": "Identification number of the department",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "Fknr",
+      "description": "Reference number for freight or order line",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_KORRIGERINGER",
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "BrukerId",
+      "description": "User identifier",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Tidspunkt",
+      "description": "Timestamp of the record",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:00:58"
+}

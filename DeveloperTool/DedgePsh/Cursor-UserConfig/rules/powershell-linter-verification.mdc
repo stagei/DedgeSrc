@@ -1,0 +1,40 @@
+﻿---
+description: When investigating PowerShell linter errors, syntax errors, or "Missing closing '}'" warnings in .ps1 or .psm1 files
+globs: ["**/*.ps1", "**/*.psm1"]
+alwaysApply: false
+---
+
+# PowerShell Linter Verification -- Run Parser Before Investigating
+
+## Rule
+
+When the user reports a **linter error, syntax error, or "Missing closing '}'"** in a PowerShell file, **run the syntax checker FIRST** before any other research, code reading, or brace-counting.
+
+IDE linters (PSScriptAnalyzer, VS Code PowerShell extension) produce **false positives** on large or complex `.psm1` files. The PowerShell parser is the authoritative source of truth.
+
+## Step 1: Run the Syntax Checker
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\PowerShell-SyntaxChecker\PowerShell-SyntaxChecker.ps1" -Path "<file-with-reported-error>"
+```
+
+## Step 2: Interpret Results
+
+| Parser result | Action |
+|---|---|
+| **OK** -- no errors | The IDE linter error is a **false positive**. Tell the user. Do not attempt fixes. |
+| **Errors found** -- with line numbers | These are **real syntax errors**. Fix them using the line numbers from the parser output. |
+
+## Step 3: If Real Errors Exist
+
+1. Read the file at the line numbers reported by the parser
+2. Fix the actual syntax issue (missing brace, unclosed string, etc.)
+3. Re-run the syntax checker to confirm the fix
+4. Only then check IDE lints to see if the false positive cleared
+
+## Why This Matters
+
+- Large `.psm1` files (5000+ lines) routinely trigger false "Missing closing '}'" errors in the IDE
+- Brace-counting is unreliable because braces appear inside strings, comments, and hashtables
+- The PowerShell parser (`[System.Management.Automation.Language.Parser]::ParseFile`) is the same parser used by `pwsh.exe` itself -- if it says OK, the file is valid
+- Investigating false positives wastes time and can lead to unnecessary "fixes" that break working code

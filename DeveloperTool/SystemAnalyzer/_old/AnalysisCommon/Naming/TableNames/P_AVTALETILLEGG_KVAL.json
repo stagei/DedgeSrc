@@ -1,0 +1,106 @@
+{
+  "tableName": "P_AVTALETILLEGG_KVAL",
+  "futureName": "QualityTillageDetail",
+  "namespace": "Agriculture",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrainDealerCode",
+      "description": "The code or reference to the grain dealer",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "KONTRAKT_TYPE",
+      "futureName": "ContractTypeCode",
+      "description": "The type of contract or agreement",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "ANLEGGNR",
+      "futureName": "FacilityNumber",
+      "description": "The facility number related to the operation or installation",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "SLAG",
+      "futureName": "GradeCode",
+      "description": "The grade or type of product",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "ART",
+      "futureName": "ProductTypeCode",
+      "description": "The type of product or material",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "SORT",
+      "futureName": "SortCode",
+      "description": "The sort code or classification",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "OKOLOGISK",
+      "futureName": "OrganicFlag",
+      "description": "Indicates if the product is organic",
+      "foreignKey": null
+    },
+    {
+      "name": "FOR_MAT",
+      "futureName": "ForMatCode",
+      "description": "The format or material type",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "StartDate",
+      "description": "The start date of the contract or agreement",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "FRA_HLVEKT",
+      "futureName": "StartHalveWeight",
+      "description": "The starting half weight value",
+      "foreignKey": null
+    },
+    {
+      "name": "FRA_TUSENKORNVEKT",
+      "futureName": "StartThousandKernelWeight",
+      "description": "The starting thousand kernel weight in grams",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS",
+      "futureName": "RateAmount",
+      "description": "The rate or amount applied",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The user ID who made the entry or modification",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp of when the record was created or modified",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERANSE_STATUS",
+      "futureName": "DeliveryStatusCode",
+      "description": "The status code related to delivery",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "PROSENT",
+      "futureName": "PercentageAmount",
+      "description": "The percentage amount or value",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:59:35"
+}

@@ -1,0 +1,74 @@
+{
+  "tableName": "H_KUNDER_WEB_ENDR",
+  "futureName": "CustomerWebChange",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "created",
+      "futureName": "Created",
+      "description": "Timestamp when the record was created",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "Unique identifier of the user making the change",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    },
+    {
+      "name": "kundenr",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": [
+        "A_ORDREHODE",
+        "AH_ORDREHODE",
+        "AVVIST"
+      ]
+    },
+    {
+      "name": "feltNavn",
+      "futureName": "FieldName",
+      "description": "Name of the field being changed",
+      "foreignKey": [
+        "KUNDER_WEB_ENDR"
+      ]
+    },
+    {
+      "name": "verdiNum",
+      "futureName": "NumericValue",
+      "description": "Numerical value associated with the change",
+      "foreignKey": null
+    },
+    {
+      "name": "verdiChar",
+      "futureName": "StringValue",
+      "description": "String value associated with the change",
+      "foreignKey": [
+        "KUNDER_WEB_ENDR"
+      ]
+    },
+    {
+      "name": "verdiDato",
+      "futureName": "DateValue",
+      "description": "Date value associated with the change",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the change was made",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:32:56"
+}

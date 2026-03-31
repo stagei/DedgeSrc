@@ -1,0 +1,58 @@
+{
+  "tableName": "EDI_FAKT_HODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "FAKTNR",
+      "futureName": "InvoiceNumber",
+      "description": "Unique invoice identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTAAR",
+      "futureName": "FinancialYear",
+      "description": "The financial year the invoice belongs to",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTURA_TYPE",
+      "futureName": "InvoiceType",
+      "description": "Type of invoice (e.g., S for sales, D for delivery, K for credit note)",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENAVN",
+      "futureName": "CustomerName",
+      "description": "Name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKT_MERKNAD",
+      "futureName": "InvoiceRemark",
+      "description": "Remark or comment on the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "General comment related to the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "FORSTE_LEVDATO",
+      "futureName": "FirstDeliveryDate",
+      "description": "The first delivery date associated with this invoice",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:14:26"
+}

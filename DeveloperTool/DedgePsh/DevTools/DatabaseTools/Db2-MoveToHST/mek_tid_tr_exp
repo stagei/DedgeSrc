@@ -1,0 +1,20 @@
+-- Denne skal legges inn i ordre export "øvrige avd" men
+-- kjøres separat første gang
+-- Kjøres for 2012         2?/11-2022
+-- KJØRES VHA. FKSQL.REX
+--  
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL OG FILENAVN 
+--  
+--  Lager grunnlag for load. 
+connect to BASISREG;
+--
+  EXPORT TO P:\tru\mek_tidreg_trans2012.IXF OF IXF
+  SELECT 2012, a.*
+    FROM DBM.MEK_TIDSREG_TRANS A
+       , dbm.ah_ordre_til_hist h
+           WHERE a.avdnr = h.avdnr
+         and   A.ORDRENR     = h.ORDRENR;
+//
+     FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist T
+       WHERE H.AVDNR = T.AVDNR
+       AND   H.ORDRENR = T.ORDRENR;

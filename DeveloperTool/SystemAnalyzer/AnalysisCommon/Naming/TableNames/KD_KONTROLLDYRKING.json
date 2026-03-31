@@ -1,0 +1,136 @@
+{
+  "tableName": "KD_KONTROLLDYRKING",
+  "futureName": "Kontrolldyrking",
+  "namespace": "Kontraktdyrkersystemet",
+  "columns": [
+    {
+      "name": "partinr",
+      "futureName": "PartNumber",
+      "description": "Unique part number",
+      "foreignKey": null
+    },
+    {
+      "name": "utfylلننdeen_partinr",
+      "futureName": "ExtendedPartNumber",
+      "description": "Extended unique part number",
+      "foreignKey": null
+    },
+    {
+      "name": "foerste_reg_aar",
+      "futureName": "FirstRegistrationYear",
+      "description": "The year of the first registration",
+      "foreignKey": null
+    },
+    {
+      "name": "art",
+      "futureName": "Type",
+      "description": "Type or classification of the item",
+      "foreignKey": null
+    },
+    {
+      "name": "sort",
+      "futureName": "SortingOrder",
+      "description": "Sorting order or sequence number",
+      "foreignKey": null
+    },
+    {
+      "name": "dyrker_recno",
+      "futureName": "DyrfarerRecordNumber",
+      "description": "Unique record number for the dyrfarer (animal keeper)",
+      "foreignKey": "KD_DYRKER_INFO"
+    },
+    {
+      "name": "levnr",
+      "futureName": "LicenseNumber",
+      "description": "License or permit number",
+      "foreignKey": null
+    },
+    {
+      "name": "klasse_paameldt",
+      "futureName": "ClassifiedAsAmeliorated",
+      "description": "Indicates if classified as ameliorated (improved)",
+      "foreignKey": null
+    },
+    {
+      "name": "klasse_etter",
+      "futureName": "ClassifiedAfter",
+      "description": "Classification after a certain event or process",
+      "foreignKey": null
+    },
+    {
+      "name": "fremmed_sort",
+      "futureName": "ForeignSortingOrder",
+      "description": "Foreign sorting order or sequence number",
+      "foreignKey": null
+    },
+    {
+      "name": "naken_sot",
+      "futureName": "NakenSortingOrder",
+      "description": "Specific sorting order related to naken (a type of animal)",
+      "foreignKey": null
+    },
+    {
+      "name": "stripe_sjuke",
+      "futureName": "StripeDiseaseNumber",
+      "description": "Number associated with a stripe disease or condition",
+      "foreignKey": null
+    },
+    {
+      "name": "eksportert",
+      "futureName": "Exported",
+      "description": "Indicates if the item has been exported",
+      "foreignKey": "BILUTSTYR"
+    },
+    {
+      "name": "reg_dato",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration or first entry into the system",
+      "foreignKey": "KD_ANALYSE_BEST, KD_BESTILLING, KD_DELPARTI, KD_DYRKER_LOGG"
+    },
+    {
+      "name": "reg_bruker",
+      "futureName": "RegisteredByUser",
+      "description": "Username or identifier of the user who registered the item",
+      "foreignKey": null
+    },
+    {
+      "name": "sist_endr_dato",
+      "futureName": "LastModifiedDate",
+      "description": "Date of the last modification or update",
+      "foreignKey": "KD_BESTILLING, KD_DELPARTI"
+    },
+    {
+      "name": "sist_endr_bruker",
+      "futureName": "LastModifiedByUser",
+      "description": "Username or identifier of the user who made the last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "kundenr",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer number",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "dato_importert",
+      "futureName": "ImportedDate",
+      "description": "Date when the record was imported into the system",
+      "foreignKey": null
+    },
+    {
+      "name": "ikke_match",
+      "futureName": "NoMatch",
+      "description": "Indicates if there is no match in the database or system",
+      "foreignKey": "KD_FRO_JOURNAL"
+    },
+    {
+      "name": "manuell",
+      "futureName": "Manual",
+      "description": "Indicates a manual process or input",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:12:45"
+}

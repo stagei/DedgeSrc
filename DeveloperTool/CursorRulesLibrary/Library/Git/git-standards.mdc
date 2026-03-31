@@ -1,0 +1,64 @@
+---
+description: Git commit message standards and conventions
+alwaysApply: true
+---
+
+# Git Commit Message Standards
+
+Use conventional commits format: `<type>(<scope>): <description>`
+
+**Types:** feat, fix, docs, style, refactor, test, chore, perf
+
+## Commit Message Structure
+
+```
+<type>(<scope>): <short description>
+
+# <Size/Complexity> - FileName.Extension
+Brief description of change
+
+## General - Business-level heading
+
+<Business reason and context>
+
+## FileName.Extension - Changes
+
+<Technical description>
+```
+
+**Size descriptors:**
+- `# Minor Change` - Small tweaks, parameter updates
+- `# Medium Change` - Moderate functionality changes
+- `# Large Change` - Significant refactoring
+- `# Complex Functionality` - New complex features
+
+## What to Focus On
+
+- **Skip `_deploy.ps1` changes** unless they contain significant logic
+- **Business impact** over technical details
+- **Compare behavior** - what the code does differently now
+- **Functional changes only** - ignore formatting/whitespace
+
+## Type Guidelines
+
+- **feat**: New feature or functionality
+- **fix**: Bug fix
+- **docs**: Documentation only
+- **style**: Formatting (no code change)
+- **refactor**: Code change that neither fixes a bug nor adds a feature
+- **test**: Adding or correcting tests
+- **chore**: Updating build tasks, package configs
+- **perf**: Performance improvements
+
+## Code Analysis Documentation
+
+### File Placement
+- Place analysis documents in the same folder as the first file being analyzed
+
+### Naming Convention
+**Format:** `AnalysisResult-<what's-analyzed>.md`
+
+**Examples:**
+- `AnalysisResult-LinterWarnings.md`
+- `AnalysisResult-CodeCleanup.md`
+- `AnalysisResult-Performance.md`

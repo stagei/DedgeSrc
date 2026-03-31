@@ -1,0 +1,66 @@
+{
+  "program": "GMAMVAG",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:cffe311ac1c5b2a909be6d1bbf7a3db4b1671d5d7f635b1c1632560d4451d251",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAMVAG.CBL",
+    "actualName": "GMAMVAG",
+    "program": "GMAMVAG",
+    "copyElements": [
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SAL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAMVAG.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D3STAGE_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FAKT_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "K_ORDRELINJER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

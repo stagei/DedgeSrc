@@ -1,0 +1,59 @@
+{
+  "provider": "PostgreSQL",
+  "version": "15.0",
+  "profileName": "MyPostgreSQL",
+  "description": "PostgreSQL 15.0 test configuration template",
+  "testConnection": {
+    "server": "localhost",
+    "port": 5432,
+    "database": "testdb",
+    "username": "postgres"
+  },
+  "testObjects": {
+    "table": "public.customers",
+    "view": "public.customer_summary",
+    "procedure": "public.update_customer",
+    "function": "public.get_customer_count",
+    "index": "public.idx_customers_email",
+    "trigger": "public.customers_audit_trigger",
+    "sequence": "public.customer_id_seq",
+    "synonym": "N/A",
+    "type": "public.address_type",
+    "package": "N/A",
+    "user": "postgres",
+    "role": "readonly",
+    "group": "N/A",
+    "schema": "public"
+  },
+  "objectCounts": {
+    "tables": 0,
+    "views": 0,
+    "procedures": 0,
+    "functions": 0,
+    "indexes": 0,
+    "triggers": 0,
+    "sequences": 0,
+    "synonyms": 0,
+    "types": 0,
+    "packages": 0
+  },
+  "systemCatalog": {
+    "tablesTable": "pg_tables",
+    "columnsTable": "information_schema.columns",
+    "constraintsTable": "information_schema.table_constraints",
+    "foreignKeysTable": "information_schema.referential_constraints",
+    "indexesTable": "pg_indexes",
+    "viewsTable": "pg_views",
+    "routinesTable": "information_schema.routines",
+    "packagesTable": "N/A",
+    "usersTable": "pg_user"
+  },
+  "notes": [
+    "PostgreSQL does not have packages or synonyms",
+    "Use pg_catalog for system tables",
+    "Use information_schema for ANSI-standard views",
+    "Triggers are per-table, use pg_trigger",
+    "Sequences are first-class objects"
+  ]
+}
+

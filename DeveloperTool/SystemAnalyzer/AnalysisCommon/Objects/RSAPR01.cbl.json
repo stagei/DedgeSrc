@@ -1,0 +1,105 @@
+{
+  "program": "RSAPR01",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:53:29",
+  "extraction": {
+    "sourceHash": "sha256:88d4793fba374c968c9e4c850c297a483aefdfc6110fcdb9d7622739f8675732",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rsapr01.cbl",
+    "actualName": "RSAPR01",
+    "program": "RSAPR01",
+    "copyElements": [
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSAPR01.CPX",
+        "type": "cpx"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_KASSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KONTRAKT_RECNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KONTRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_VEKSTKONTROLL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_FRO_PARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_SAF_MOTTAKSPLAN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:53:29"
+  }
+}

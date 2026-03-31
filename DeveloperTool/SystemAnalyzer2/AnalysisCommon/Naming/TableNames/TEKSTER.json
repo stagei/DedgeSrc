@@ -1,0 +1,117 @@
+{
+  "tableName": "TEKSTER",
+  "futureName": "TextRecord",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "NUM_ID",
+      "futureName": "RecordId",
+      "description": "Unique record identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ALFA_ID",
+      "futureName": "AlphaIdentifier",
+      "description": "Alphanumeric identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KATEGORI",
+      "futureName": "Category",
+      "description": "Category code",
+      "foreignKey": [
+        "TILGBRUKER"
+      ]
+    },
+    {
+      "name": "SEKVENS",
+      "futureName": "SequenceNumber",
+      "description": "Sequential number",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "TextContent",
+      "description": "Full text content",
+      "foreignKey": [
+        "COBDOK_MENY",
+        "COPYSET",
+        "DELSYSTEM",
+        "DOHCHK",
+        "MODKOM",
+        "MODUL_LINJER",
+        "MODUL",
+        "PRINTERE"
+      ]
+    },
+    {
+      "name": "KORTTEKST",
+      "futureName": "ShortText",
+      "description": "Short text content",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST_ENG",
+      "futureName": "EnglishTextContent",
+      "description": "English full text content",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": [
+        "AD_BRUKER",
+        "BANKTERM_ID",
+        "BANKTERM_MASKIN",
+        "FIRMA",
+        "FK_LOG",
+        "KONTO",
+        "KUNDEKONTO_TEST",
+        "KUNDEKONTO",
+        "KUNDEKONTO",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of record creation or modification",
+      "foreignKey": [
+        "BANKTERM_ID",
+        "BANKTERM_MASKIN",
+        "FIRMA",
+        "FK_LOG",
+        "KONTO",
+        "KUNDEKONTO_TEST",
+        "KUNDEKONTO",
+        "KUNDEKONTO",
+        "KUNDER_M_AKTIV_KONTO",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "UTGATT",
+      "futureName": "Status",
+      "description": "Status indicator",
+      "foreignKey": [
+        "DOHCHK"
+      ]
+    },
+    {
+      "name": "UTGATT_BRUKERID",
+      "futureName": "OutboundUserId",
+      "description": "User identifier for outbound status",
+      "foreignKey": null
+    },
+    {
+      "name": "UTGATT_TIDSPUNKT",
+      "futureName": "OutboundTimestamp",
+      "description": "Timestamp of outbound status change",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:33:36"
+}

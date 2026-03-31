@@ -1,0 +1,117 @@
+{
+  "tableName": "LEVERINGSRABATT",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "LEVERINGSRABATT",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "VHGR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Varehovedgruppe"
+      },
+      {
+        "colNo": 1,
+        "name": "MND",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Måned nr. 1-12"
+      },
+      {
+        "colNo": 2,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "År settes til 9999 når rabatten er generell"
+      },
+      {
+        "colNo": 3,
+        "name": "FRA_DAG",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "99 hvis rabatten skal gjelde hel måned, ellers tom.dag"
+      },
+      {
+        "colNo": 4,
+        "name": "TIL_DAG",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "OPPRINNELSE",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Tilsvarere opprinnelse på ordre"
+      },
+      {
+        "colNo": 6,
+        "name": "FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "PROSENT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Prosentsats"
+      },
+      {
+        "colNo": 8,
+        "name": "TILLEGG_ABB",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Evt. tillegg for abonnent"
+      },
+      {
+        "colNo": 9,
+        "name": "KRONER",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

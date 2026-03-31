@@ -1,0 +1,124 @@
+{
+  "tableName": "KD_PAKKEORDRE",
+  "futureName": "PackageOrder",
+  "namespace": "Warehousing",
+  "columns": [
+    {
+      "name": "PAKKEORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique package order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_SEKK",
+      "futureName": "SackBinNumber",
+      "description": "Bin number for sacks",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED_SEKK",
+      "futureName": "SackWarehouseLocation",
+      "description": "Warehouse location for sacks",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_BULK",
+      "futureName": "BulkBinNumber",
+      "description": "Bin number for bulk materials",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED_BULK",
+      "futureName": "BulkWarehouseLocation",
+      "description": "Warehouse location for bulk materials",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL_SEKK",
+      "futureName": "SackCount",
+      "description": "Number of sacks",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANL_START_DATO",
+      "futureName": "PlannedStartDate",
+      "description": "Planned start date and time for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANL_START_TIME",
+      "futureName": "PlannedStartTime",
+      "description": "Start time of the planned packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANL_START_MIN",
+      "futureName": "PlannedStartMinute",
+      "description": "Minute part of the start time for planning",
+      "foreignKey": null
+    },
+    {
+      "name": "VIRK_START_DATO",
+      "futureName": "ActualStartDate",
+      "description": "Actual start date and time for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "VIRK_START_TIME",
+      "futureName": "ActualStartTime",
+      "description": "Start time of the actual packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "VIRK_START_MIN",
+      "futureName": "ActualStartMinute",
+      "description": "Minute part of the start time for actual packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "FERDIG_DATO",
+      "futureName": "FinishDate",
+      "description": "Finish date and time for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "FERDIG_TIME",
+      "futureName": "FinishTime",
+      "description": "Time part of the finish date for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "FERDIG_MIN",
+      "futureName": "FinishMinute",
+      "description": "Minute part of the finish time for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Date and time stamp",
+      "foreignKey": null
+    },
+    {
+      "name": "REST_ANTALL",
+      "futureName": "RemainingQuantity",
+      "description": "Remaining quantity of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "TID_SISTE_PAKKETRANS",
+      "futureName": "LastPackagingTimestamp",
+      "description": "Timestamp of the last packaging transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "NETTOVEKT",
+      "futureName": "NetWeight",
+      "description": "Net weight of the product",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:19:16"
+}

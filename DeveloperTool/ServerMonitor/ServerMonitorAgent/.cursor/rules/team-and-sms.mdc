@@ -1,0 +1,72 @@
+﻿---
+description: Team member configuration and SMS notifications
+alwaysApply: true
+---
+
+# Team Member Configuration
+
+**Current team members and their information:**
+
+```yaml
+Users:
+  - Username: FKGEISTA
+    FullName: Geir Helge Starholm
+    Email: geir.helge.starholm@Dedge.no
+    SmsNumber: +4797188358
+    
+  - Username: FKSVEERI
+    FullName: Svein Morten Erikstad
+    Email: svein.morten.erikstad@Dedge.no
+    SmsNumber: +4795762742
+    
+  - Username: FKMISTA
+    FullName: Mina Marie Starholm
+    Email: mina.marie.starholm@Dedge.no
+    SmsNumber: +4799348397
+    
+  - Username: FKCELERI
+    FullName: Celine Andreassen Erikstad
+    Email: Celine.Andreassen.Erikstad@Dedge.no
+    SmsNumber: +4745269945
+```
+
+## User Lookup Functions
+
+**Use these patterns for user-specific lookups (single source of truth):**
+
+```powershell
+# Get user SMS number
+$smsNumber = switch ($env:USERNAME) {
+    "FKGEISTA" { "+4797188358" }
+    "FKSVEERI" { "+4795762742" }
+    "FKMISTA"  { "+4799348397" }
+    "FKCELERI" { "+4745269945" }
+    default    { "+4797188358" }
+}
+
+# Get user email
+$userEmail = switch ($env:USERNAME) {
+    "FKGEISTA" { "geir.helge.starholm@Dedge.no" }
+    "FKSVEERI" { "svein.morten.erikstad@Dedge.no" }
+    "FKMISTA"  { "mina.marie.starholm@Dedge.no" }
+    "FKCELERI" { "Celine.Andreassen.Erikstad@Dedge.no" }
+    default    { "geir.helge.starholm@Dedge.no" }
+}
+```
+
+## Long-Running Operations Notification
+
+When an agent operation takes more than **5 minutes**, automatically send SMS to current user.
+
+**Use User Lookup Functions above** to get the SMS number.
+
+```powershell
+Send-Sms $smsNumber "<summary of what changed and short result>"
+```
+
+**SMS message format:**
+- Keep under 1024 characters (160 is not a service limit)
+- Include: operation type, files affected, and status (success/failure)
+
+**When to send:** After operation completes (success or failure)
+**Do NOT send for:** Operations under 5 minutes, interactive operations

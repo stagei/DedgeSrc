@@ -1,0 +1,130 @@
+{
+  "tableName": "V_VAREMAAL",
+  "futureName": "VaremaalEntity",
+  "namespace": "LegacyDbModels",
+  "columns": [
+    {
+      "name": "innlesing",
+      "futureName": "Innlesing",
+      "description": "Source of the record input",
+      "foreignKey": null
+    },
+    {
+      "name": "innlesingsnr",
+      "futureName": "InnlesingNumber",
+      "description": "Unique number associated with the record input",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "FkNumber",
+      "description": "Foreign key reference to another table",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "levnr",
+      "futureName": "LevNumber",
+      "description": "Unique identifier for the supplier or vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "levvarenr",
+      "futureName": "LevVareNr",
+      "description": "Unique item identifier from the supplier",
+      "foreignKey": null
+    },
+    {
+      "name": "kode",
+      "futureName": "Code",
+      "description": "Code or category associated with the record",
+      "foreignKey": null
+    },
+    {
+      "name": "antall",
+      "futureName": "Antall",
+      "description": "Quantity of items",
+      "foreignKey": null
+    },
+    {
+      "name": "vekt",
+      "futureName": "Vekt",
+      "description": "Weight of the item",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "hoyde",
+      "futureName": "Hoyde",
+      "description": "Height of the item",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "bredde",
+      "futureName": "Bredde",
+      "description": "Width of the item",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "dybde",
+      "futureName": "Dybde",
+      "description": "Depth of the item",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "gtin13",
+      "futureName": "Gtin13",
+      "description": "GTIN-13 product identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "godkjent",
+      "futureName": "Godkjent",
+      "description": "Indicates if the record has been approved or accepted",
+      "foreignKey": null
+    },
+    {
+      "name": "oppdatert",
+      "futureName": "Oppdatert",
+      "description": "Timestamp of the last update to the record",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Tidspunkt",
+      "description": "Timestamp when the record was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "BrukerId",
+      "description": "Identifier for the user who last updated the record",
+      "foreignKey": null
+    },
+    {
+      "name": "vmal_type",
+      "futureName": "VMalType",
+      "description": "Type of VMal (Value-Added Tax)",
+      "foreignKey": "VAREMAAL"
+    },
+    {
+      "name": "skrive_over_vmal",
+      "futureName": "SkriveOverVMal",
+      "description": "Indicates if the VMal can be overridden",
+      "foreignKey": null
+    },
+    {
+      "name": "gtin14",
+      "futureName": "Gtin14",
+      "description": "GTIN-14 product identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "levvarenr_ekst",
+      "futureName": "LevVareNrEkst",
+      "description": "External unique item identifier from the supplier",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:18:47"
+}

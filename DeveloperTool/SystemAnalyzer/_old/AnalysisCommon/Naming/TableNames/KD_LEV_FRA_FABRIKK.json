@@ -1,0 +1,208 @@
+{
+  "tableName": "KD_LEV_FRA_FABRIKK",
+  "futureName": "DeliveryRecord",
+  "namespace": "ContractSystem",
+  "columns": [
+    {
+      "name": "RECNO",
+      "futureName": "RecordNumber",
+      "description": "Unique record identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "BILNR",
+      "futureName": "BillNumber",
+      "description": "Bill of lading number",
+      "foreignKey": null
+    },
+    {
+      "name": "AREALNR",
+      "futureName": "AreaNumber",
+      "description": "Area identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FactorNumber",
+      "description": "Factor number",
+      "foreignKey": "KD_FRO_LEVERANSER"
+    },
+    {
+      "name": "KOMMNR",
+      "futureName": "CommunityNumber",
+      "description": "Community identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartInumber",
+      "description": "Part inumber",
+      "foreignKey": null
+    },
+    {
+      "name": "KJOREDATO",
+      "futureName": "DrivingDate",
+      "description": "Driving date",
+      "foreignKey": null
+    },
+    {
+      "name": "STED",
+      "futureName": "Location",
+      "description": "Location identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "UKE",
+      "futureName": "WeekNumber",
+      "description": "Week number",
+      "foreignKey": null
+    },
+    {
+      "name": "DAG",
+      "futureName": "DayNumber",
+      "description": "Day number",
+      "foreignKey": null
+    },
+    {
+      "name": "TIME",
+      "futureName": "Time",
+      "description": "Time of day in two-digit format",
+      "foreignKey": null
+    },
+    {
+      "name": "VENTETID",
+      "futureName": "WaitTime",
+      "description": "Waiting time",
+      "foreignKey": null
+    },
+    {
+      "name": "DIV_TILLEGG",
+      "futureName": "DivisionAddition",
+      "description": "Division addition",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVERANSENR",
+      "futureName": "DeliveryNumber",
+      "description": "Delivery number",
+      "foreignKey": "KD_FRO_LEVERANSER"
+    },
+    {
+      "name": "VEIENR",
+      "futureName": "RouteNumber",
+      "description": "Route number",
+      "foreignKey": null
+    },
+    {
+      "name": "HEKTOLITERVEKT",
+      "futureName": "HectoliterWeight",
+      "description": "Hectoliter weight",
+      "foreignKey": null
+    },
+    {
+      "name": "VANN_PROS_MOTTAK",
+      "futureName": "WaterProcessingReceipt",
+      "description": "Water processing receipt",
+      "foreignKey": null
+    },
+    {
+      "name": "SILONR",
+      "futureName": "SiloNumber",
+      "description": "Silo number",
+      "foreignKey": "KD_LEVERANSE, SILOINFO"
+    },
+    {
+      "name": "VEKTNR",
+      "futureName": "WeightNumber",
+      "description": "Weight identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "RAAVARE_PROVENR",
+      "futureName": "RawMaterialProvenanceNumber",
+      "description": "Raw material provenance number",
+      "foreignKey": null
+    },
+    {
+      "name": "INNVEID_VEKT",
+      "futureName": "InvoicedWeight",
+      "description": "Invoiced weight",
+      "foreignKey": null
+    },
+    {
+      "name": "GODKJENT_TIL_FRAVR",
+      "futureName": "ApprovedToDeviations",
+      "description": "Approval to deviations",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHANDLET_FRAVR",
+      "futureName": "ProcessedDeviation",
+      "description": "Processed deviation",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHANDLET_KD",
+      "futureName": "ProcessedKd",
+      "description": "Processed Kd",
+      "foreignKey": null
+    },
+    {
+      "name": "FEIL",
+      "futureName": "Error",
+      "description": "Error message or details",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANLAGT",
+      "futureName": "Planned",
+      "description": "Planned status",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_PLANL_LEV",
+      "futureName": "PlannedDeliveryCount",
+      "description": "Planned delivery count",
+      "foreignKey": null
+    },
+    {
+      "name": "SUGEBIL",
+      "futureName": "SugarBil",
+      "description": "Sugar bil status",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUTTO_INNVEID",
+      "futureName": "GrossInvoicedWeight",
+      "description": "Gross invoiced weight",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUTTO_PROEVE_GR",
+      "futureName": "GrossSampleGroup",
+      "description": "Gross sample group",
+      "foreignKey": null
+    },
+    {
+      "name": "NETTO_PROEVE_GR",
+      "futureName": "NetSampleGroup",
+      "description": "Net sample group",
+      "foreignKey": null
+    },
+    {
+      "name": "SHIPMENTID",
+      "futureName": "ShipmentId",
+      "description": "Shipment identifier",
+      "foreignKey": "BEHKODER, TMS_A83_LASS, TMS_BILDE_SIGN, TMS_INNKJ_OPTIMA, TMS_MULTILEG, TMS_STATUS, TMS_SAAK_OPTIMA"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time stamp",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:15:02"
+}

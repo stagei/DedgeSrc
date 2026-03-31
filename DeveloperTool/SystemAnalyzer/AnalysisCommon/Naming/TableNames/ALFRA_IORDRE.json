@@ -1,0 +1,34 @@
+{
+  "tableName": "ALFRA_IORDRE",
+  "futureName": "InboundOrderHeader",
+  "namespace": "PurchaseOrders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "DBM.BESTHODE.ORDRENR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "OVERFORT_ALFRA",
+      "futureName": "TransferredAlfra",
+      "description": "Amount transferred from Alfra",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:29:28"
+}

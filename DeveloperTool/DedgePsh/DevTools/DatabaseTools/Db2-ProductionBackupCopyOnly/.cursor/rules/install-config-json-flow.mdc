@@ -1,0 +1,25 @@
+﻿# Db2-ProductionBackupCopyOnly install-config flow
+
+This folder's deployment and install flow is strict:
+
+1. Run `_deploy.ps1` first.
+2. `_deploy.ps1` is responsible for generating and transferring `install-config.json`.
+3. Run `_install.ps1` on the target server after deploy.
+
+`_install.ps1` must read config automatically from:
+
+```powershell
+Join-Path $PSScriptRoot "install-config.json"
+```
+
+On the server, this resolves to:
+
+`%OptPath%\DedgePshApps\Db2-ProductionBackupCopyOnly\install-config.json`
+
+## Rules
+
+- Do NOT require a manual config path parameter for `_install.ps1`.
+- Do NOT create alternate config file locations for this app.
+- Do NOT bypass `_deploy.ps1` when `install-config.json` must be updated.
+- If running via `/autocur`, keep the same contract: deploy first, then run `_install.ps1`.
+

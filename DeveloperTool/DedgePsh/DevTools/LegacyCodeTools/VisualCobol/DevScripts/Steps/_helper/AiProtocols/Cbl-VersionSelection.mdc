@@ -1,0 +1,63 @@
+# COBOL Source Version Selection Protocol
+
+## Purpose
+
+Given multiple candidate versions of the same COBOL program from the `cbl_uncertain` folder,
+determine which version is the most recent and complete.
+
+## Input Format
+
+A JSON object provided as the prompt body:
+
+```json
+{
+  "programName": "BSAUPKF",
+  "candidates": [
+    {
+      "filename": "bsaupkf_20120424.cbl",
+      "fileDate": "2012-05-01T08:30:00",
+      "dateFromName": "2012-04-24",
+      "headerLines": "first 30 lines of the file..."
+    }
+  ]
+}
+```
+
+## Analysis Rules
+
+1. **Change history comments** in the header use these date formats (NEVER month-first):
+   - `DD.MM.YY` (e.g. `17.01.08` = 2008-01-17)
+   - `DD.MM.YYYY` (e.g. `17.01.2008`)
+   - `YYYY.MM.DD` (e.g. `2008.01.17`)
+   Two-digit years: 00-49 = 2000s, 50-99 = 1900s.
+
+2. **Primary evidence**: The candidate with the LATEST change history date is the newest version.
+
+3. **Tie-breaker**: If latest dates are equal, prefer the file with MORE comment/change-log lines
+   (more changes = more complete).
+
+4. **Secondary evidence**: Date extracted from the filename (e.g. `_20120424`).
+
+5. **Tertiary evidence**: Filesystem LastWriteTime.
+
+## Required Response
+
+Respond with EXACTLY ONE JSON object, no surrounding text:
+
+```json
+{
+  "selectedFile": "bsaupkf_20120424.cbl",
+  "confidence": "high",
+  "latestCommentDate": "2012-04-24",
+  "reasoning": "Has change log entries up to 01.03.12, 2 more than other candidates"
+}
+```
+
+### Field definitions
+
+| Field | Type | Values |
+|-------|------|--------|
+| `selectedFile` | string | Exact filename of the chosen candidate |
+| `confidence` | string | `high` / `medium` / `low` |
+| `latestCommentDate` | string | `YYYY-MM-DD` format, latest date found in comments |
+| `reasoning` | string | Brief explanation (1-2 sentences) |

@@ -1,0 +1,80 @@
+﻿---
+description: Mandatory health check and authentication rules for IIS deployment scripts
+globs: "**/*.ps1,**/*.psm1,**/*.deploy.json"
+alwaysApply: true
+---
+
+# IIS Deploy — Health Check and Authentication Rules
+
+These rules exist because of a production incident on 2026-03-18 where DedgeAuth was broken (HTTP 500) but the deploy scripts reported success. See `AnalysisResult-IIS-Incident-20260318.md` for full details.
+
+## Rule 1: Never treat HTTP 5xx as success
+
+`Test-HealthUrl` and any health check logic MUST treat HTTP 500+ as a **failure**.
+
+- HTTP 200-299: PASS
+- HTTP 3xx: PASS (redirect)
+- HTTP 400-499 (except 404): contextual (WARN or PASS depending on app type)
+- HTTP 404: FAIL (endpoint not found)
+- **HTTP 500+: always FAIL — never return `$true`, never log as `[OK]`**
+
+If you modify `Test-HealthUrl` or any health-check logic, verify that 5xx status codes produce `$false` and log level `ERROR`.
+
+## Rule 2: DedgeAuth requires Windows Authentication in IIS
+
+The DedgeAuth ASP.NET Core app uses `.AddNegotiate()` which **requires** Windows Authentication to be enabled at the IIS virtual app level. Without it, the app crashes on startup with:
+
+```
+System.InvalidOperationException: The Negotiate Authentication handler cannot be used 
+on a server that directly supports Windows Authentication.
+```
+
+After every `iisreset`, IIS auth settings reset to defaults. The deployment MUST re-enable Windows Auth:
+
+```powershell
+appcmd set config "Default Web Site/DedgeAuth" `
+    /section:system.webServer/security/authentication/windowsAuthentication `
+    /enabled:true /commit:apphost
+```
+
+When modifying `Deploy-IISSite`, `DedgeAuth_WinApp.deploy.json`, or `IIS-RedeployAll.ps1`:
+- Verify that Windows Authentication is configured for DedgeAuth after creating the virtual app
+- The DedgeAuth template should declare `"WindowsAuthentication": true`
+- `Deploy-IISSite` Step 6b should handle this property via appcmd
+
+## Rule 3: Always check exit code after RedeployAll
+
+`IIS-RedeployAll.ps1` exits with the failure count. Exit code 0 = all apps deployed. Any non-zero exit code means at least one app failed.
+
+- **Never** report success based solely on the script completing without a PowerShell exception
+- **Always** check `$LASTEXITCODE` or the orchestrator `last_result.json` exit code
+- **Always** review the log for `[FAIL]` and `[ERROR]` entries before reporting success
+
+## Rule 4: Deploy template changes require single-app test first
+
+Before running `IIS-RedeployAll.ps1` after template or script changes:
+
+1. Test the changed app with `IIS-DeployApp.ps1 -SiteName <name>`
+2. Verify the health check returns HTTP 200
+3. Only then run `IIS-RedeployAll.ps1`
+
+This isolates failures and prevents a broken template from blocking the entire redeploy.
+
+## Rule 5: Port changes must be documented and verified
+
+When changing `ApiPort` in a `.deploy.json` template:
+
+1. Verify no other app uses the new port (check all templates)
+2. Verify the app's `ASPNETCORE_URLS` or `launchSettings.json` matches
+3. Verify firewall rules will be created for the new port
+4. Update the `app-publish-and-iis-deploy.mdc` rule if the port is listed there
+
+## Rule 6: DedgeAuth Windows Service conflicts with IIS hosting
+
+The DedgeAuth app can run as BOTH a Windows Service (standalone on port 8100) and an IIS virtual app (in-process via w3wp.exe). These modes conflict:
+
+- During `Install-OurWinApp`, the service is registered and started
+- During `Deploy-IISSite` Step 4, IIS creates the virtual app which also hosts the DLL
+- Both compete for port 8100
+
+If the DedgeAuth service fails to start but IIS hosting works, the deploy should still succeed. If IIS hosting also fails (HTTP 500), the service must be stopped and diagnosed separately.

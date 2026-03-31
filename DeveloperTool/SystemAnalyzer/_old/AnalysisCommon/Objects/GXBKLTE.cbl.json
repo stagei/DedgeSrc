@@ -1,0 +1,109 @@
+{
+  "program": "GXBKLTE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:873df84ea4d7f87978b4764d09653d7731bfa0ddc20ea3db7a640fac74be64b0",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GXBKLTE.CBL",
+    "actualName": "GXBKLTE",
+    "program": "GXBKLTE",
+    "copyElements": [
+      {
+        "name": "YILT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQL",
+        "type": "copybook"
+      },
+      {
+        "name": "XILT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AXKL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KLIENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AX_KLIENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_LAGERTELLING",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMASLEEP",
+      "VENT_SEK",
+      "GMACOCO",
+      "GMALAKT",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "GXBKLTE.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GXBKLTE.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "KLTEFILE",
+        "physicalName": "WW-KLTEFILE",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

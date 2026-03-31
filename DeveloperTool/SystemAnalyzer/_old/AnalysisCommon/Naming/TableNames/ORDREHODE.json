@@ -1,0 +1,58 @@
+{
+  "tableName": "ORDREHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Edhopeo",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTATT_EDI_OBK",
+      "futureName": "EdiObkReceived",
+      "description": "Flag indicating if EDI message was received without error",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVORDRENR",
+      "futureName": "LocationOrderNumber",
+      "description": "Location-specific order number",
+      "foreignKey": null
+    },
+    {
+      "name": "OBEKRDATO",
+      "futureName": "ReceivedDate",
+      "description": "Date when the EDI message was received",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERANSEORDRE",
+      "futureName": "ReferenceOrderNumber",
+      "description": "Reference order number for external use",
+      "foreignKey": null
+    },
+    {
+      "name": "REFTYPE",
+      "futureName": "ReferenceType",
+      "description": "Type of reference (e.g., internal, external)",
+      "foreignKey": null
+    },
+    {
+      "name": "TRANSPORT_TYPE",
+      "futureName": "TransportType",
+      "description": "Type of transport or delivery method",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:55:08"
+}

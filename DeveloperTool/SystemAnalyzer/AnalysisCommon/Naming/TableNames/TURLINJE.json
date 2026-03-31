@@ -1,0 +1,216 @@
+{
+  "tableName": "TURLINJE",
+  "futureName": "Urlinje",
+  "namespace": "Models",
+  "columns": [
+    {
+      "name": "INIT_TURNR",
+      "futureName": "InitialTurnr",
+      "description": "Initial turn number",
+      "foreignKey": null
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "LastNumber",
+      "description": "Last sequence number",
+      "foreignKey": [
+        "H_TURLASS",
+        "H_TURSTED",
+        "TURLASS",
+        "TURLOGG",
+        "TURSTED"
+      ]
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER_ENDR"
+      ]
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderLineNumber",
+      "description": "Unique order line identifier",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER_ENDR"
+      ]
+    },
+    {
+      "name": "ORDREKILDE",
+      "futureName": "OrderSourceCode",
+      "description": "Code indicating the source of the order",
+      "foreignKey": [
+        "H_TURLASS",
+        "H_TURSTED",
+        "TURLASS",
+        "TURSTED"
+      ]
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within the order",
+      "foreignKey": [
+        "A_KORRIGERINGER",
+        "A_ORDRELINJER_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_VILIN"
+      ]
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FileNumber",
+      "description": "File number for reference or categorization",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_KORRIGERINGER",
+        "A_ORDRELINJER_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "PRIS",
+      "futureName": "Price",
+      "description": "Price of the item or service",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_VILIN",
+        "AH_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "PRISKODE",
+      "futureName": "PriceCode",
+      "description": "Code associated with the price or pricing method",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_VILIN",
+        "AH_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "VHGR",
+      "futureName": "VehicleGroup",
+      "description": "Vehicle group or classification",
+      "foreignKey": [
+        "ALT_LEV_AVD",
+        "ALT_LEV_AVD",
+        "D365_LOKASJON_MAPPING",
+        "DBPROV_STRUKT",
+        "DBPROV_TRANS",
+        "FAKTHIST_SUMK",
+        "FAKTORDREHODE"
+      ]
+    },
+    {
+      "name": "LEVERES_NAA",
+      "futureName": "DeliveredNow",
+      "description": "Indicator for immediate delivery",
+      "foreignKey": [
+        "A_ORDRELINJER_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "AH_ORDRELINJER_ENDR",
+        "AH_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "PALLNR",
+      "futureName": "PaletteNumber",
+      "description": "Unique identifier for a palette or container",
+      "foreignKey": null
+    },
+    {
+      "name": "GODSTYPE",
+      "futureName": "GoodsTypeCode",
+      "description": "Code identifying the type of goods",
+      "foreignKey": [
+        "FAKT_ORDREHODE",
+        "H_FAKT_ORDREHODE",
+        "H_ORDREHODE",
+        "H_ORDREHODE",
+        "ORDREHODE"
+      ]
+    },
+    {
+      "name": "ENHET",
+      "futureName": "UnitCode",
+      "description": "Code representing the unit of measurement or quantity",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_VILIN",
+        "AC_NARINGSSTOFF_ENHET"
+      ]
+    },
+    {
+      "name": "ENHETSVEKT",
+      "futureName": "UnitWeight",
+      "description": "Weight of the unit or item",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "FORSLAGNR",
+      "futureName": "ProposalNumber",
+      "description": "Number of the proposal or suggestion",
+      "foreignKey": null
+    },
+    {
+      "name": "FOL_FORSLAGNR",
+      "futureName": "FollowUpProposalNumber",
+      "description": "Number related to a follow-up proposal",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:13:37"
+}

@@ -1,0 +1,58 @@
+{
+  "tableName": "P_HEKTOLITER_KORR",
+  "futureName": "HektorCorrection",
+  "namespace": "Utilities",
+  "columns": [
+    {
+      "name": "KornHandler",
+      "futureName": "KornHandler",
+      "description": "The handler or supplier of the grain",
+      "foreignKey": null
+    },
+    {
+      "name": "Art",
+      "futureName": "Art",
+      "description": "Type or category of product",
+      "foreignKey": "ART -> DBM.ART.ART (FK_ART)"
+    },
+    {
+      "name": "VannProsentFra",
+      "futureName": "VannProsentFrom",
+      "description": "Percentage of water content from the start point",
+      "foreignKey": null
+    },
+    {
+      "name": "VannProsentTil",
+      "futureName": "VannProsentTo",
+      "description": "Percentage of water content to the end point",
+      "foreignKey": null
+    },
+    {
+      "name": "FraDato",
+      "futureName": "FromDate",
+      "description": "Effective date from which the correction applies",
+      "foreignKey": "FRA_DATO -> AC_NAVN"
+    },
+    {
+      "name": "Endring",
+      "futureName": "ChangeAmount",
+      "description": "The amount of change in the correction",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "ID of the user who made the correction",
+      "foreignKey": "BRUKERID -> A_ORDREHODE (inferred)"
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The exact time when the correction was made",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:06:04"
+}

@@ -1,0 +1,187 @@
+{
+  "tableName": "FRAKT_TABNR_AVD",
+  "futureName": "ForkJoinTable",
+  "namespace": "DbTables",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Internal reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer identification number",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "FraDate",
+      "description": "Start date of the delivery period",
+      "foreignKey": null
+    },
+    {
+      "name": "KRFOR_BULK",
+      "futureName": "BulkForKrfor",
+      "description": "Bulk for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "KRFOR_SEKK",
+      "futureName": "SecKrfor",
+      "description": "SekKrfor for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "KRFOR_SEKK_FORH",
+      "futureName": "ForhKrfor",
+      "description": "ForhKrfor for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "FJORFE_BULK",
+      "futureName": "BulkForFjorfe",
+      "description": "Bulk for FJORFE classification",
+      "foreignKey": null
+    },
+    {
+      "name": "TILSKFOR",
+      "futureName": "Tilskfor",
+      "description": "Type of supply",
+      "foreignKey": null
+    },
+    {
+      "name": "GJODSEL",
+      "futureName": "GoodsSel",
+      "description": "Goods selection code",
+      "foreignKey": [
+        "TMS_EMB_AVDELING"
+      ]
+    },
+    {
+      "name": "SAAKORN",
+      "futureName": "Saakorn",
+      "description": "Type of saaakorn classification",
+      "foreignKey": null
+    },
+    {
+      "name": "SAAFRO",
+      "futureName": "Saafro",
+      "description": "Type of saafro classification",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANTEVERN",
+      "futureName": "PlantVerne",
+      "description": "Plant conservation code",
+      "foreignKey": null
+    },
+    {
+      "name": "KUTTERSPON_STRO",
+      "futureName": "CutterSpoStro",
+      "description": "Cutter spore string classification",
+      "foreignKey": null
+    },
+    {
+      "name": "KONSMIDDEL",
+      "futureName": "Consmid",
+      "description": "Conservative medium code",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "TimePoint",
+      "description": "Timestamp of the operation or event",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "OMR_KRFOR_BULK",
+      "futureName": "OmKrforBulk",
+      "description": "Overridden bulk for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_KRFOR_SEKK",
+      "futureName": "OmKrforSekk",
+      "description": "Overridden sekKrfor for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_KRFOR_SEKK_FORH",
+      "futureName": "OmKrforForh",
+      "description": "Overridden forhKrfor for KRFOR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_FJORFE_BULK",
+      "futureName": "OmFjorfeBulk",
+      "description": "Overridden bulk for FJORFE classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_TILSKFOR",
+      "futureName": "OmTilskfor",
+      "description": "Overridden tilskfor type of supply",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_GJODSEL",
+      "futureName": "OmGoodsSel",
+      "description": "Overridden goods selection code",
+      "foreignKey": [
+        "TMS_EMB_AVDELING"
+      ]
+    },
+    {
+      "name": "OMR_SAAKORN",
+      "futureName": "OmSaakorn",
+      "description": "Overridden type of saaakorn classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_SAAFRO",
+      "futureName": "OmSaafro",
+      "description": "Overridden type of saafro classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_PLANTEVERN",
+      "futureName": "OmPlantVerne",
+      "description": "Overridden plant conservation code",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_KUTTERSPON_STRO",
+      "futureName": "OmCutterSpoStro",
+      "description": "Overridden cutter spore string classification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_KONSMIDDEL",
+      "futureName": "OmConsmid",
+      "description": "Overridden conservative medium code",
+      "foreignKey": null
+    },
+    {
+      "name": "GJODSEL_BAAT",
+      "futureName": "GoodsSelBaat",
+      "description": "Goods selection for bat",
+      "foreignKey": null
+    },
+    {
+      "name": "OMR_GJODSEL_BAAT",
+      "futureName": "OmGoodsSelBaat",
+      "description": "Overridden goods selection for bat",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:27:32"
+}

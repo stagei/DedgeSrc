@@ -1,0 +1,111 @@
+{
+  "program": "PAHASTD",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:40:47",
+  "extraction": {
+    "sourceHash": "sha256:f33d0829e2621282447b8af257a8941bc5478ff21d014a1bda59bcbd71465b24",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAHASTD.CBL",
+    "actualName": "PAHASTD",
+    "program": "PAHASTD",
+    "copyElements": [
+      {
+        "name": "ASTV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHASTD.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ART_STD_VERDIER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ART_STD_VERDIER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ART_STD_VERDIER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_ART_STD_VERDIER",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "PAVASTD",
+      "GMACNCT",
+      "PAFTRAP",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:40:47"
+  }
+}

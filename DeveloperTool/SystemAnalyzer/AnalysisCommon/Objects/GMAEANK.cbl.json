@@ -1,0 +1,62 @@
+{
+  "program": "GMAEANK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:31",
+  "extraction": {
+    "sourceHash": "sha256:e2633bcafb6bda1e352b9dbb18d96deb1de53c4b841db79da936a5b933249078",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAEANK.CBL",
+    "actualName": "GMAEANK",
+    "program": "GMAEANK",
+    "copyElements": [
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EANK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "PARAM",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "EANKODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARAM",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMATEXT",
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:31"
+  }
+}

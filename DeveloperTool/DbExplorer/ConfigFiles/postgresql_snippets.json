@@ -1,0 +1,118 @@
+{
+  "snippets": [
+    {
+      "trigger": "seltop",
+      "name": "SELECT LIMIT",
+      "template": "SELECT * FROM ${1:table} LIMIT ${2:100} OFFSET ${3:0}",
+      "description": "Select with LIMIT and OFFSET"
+    },
+    {
+      "trigger": "cte",
+      "name": "Common Table Expression",
+      "template": "WITH ${1:cte_name} AS (\n\tSELECT ${2:*}\n\tFROM ${3:table}\n)\nSELECT * FROM ${1:cte_name}",
+      "description": "Create a CTE query"
+    },
+    {
+      "trigger": "join",
+      "name": "INNER JOIN",
+      "template": "INNER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add an INNER JOIN clause"
+    },
+    {
+      "trigger": "leftjoin",
+      "name": "LEFT OUTER JOIN",
+      "template": "LEFT OUTER JOIN ${1:table} ${2:alias} ON ${2:alias}.${3:column} = ${4:other}.${5:column}",
+      "description": "Add a LEFT OUTER JOIN clause"
+    },
+    {
+      "trigger": "ins",
+      "name": "INSERT INTO",
+      "template": "INSERT INTO ${1:table} (${2:columns})\nVALUES (${3:values})",
+      "description": "Insert statement"
+    },
+    {
+      "trigger": "upd",
+      "name": "UPDATE SET WHERE",
+      "template": "UPDATE ${1:table}\nSET ${2:column} = ${3:value}\nWHERE ${4:condition}",
+      "description": "Update statement with WHERE clause"
+    },
+    {
+      "trigger": "del",
+      "name": "DELETE WHERE",
+      "template": "DELETE FROM ${1:table}\nWHERE ${2:condition}",
+      "description": "Delete statement with WHERE clause"
+    },
+    {
+      "trigger": "createtable",
+      "name": "CREATE TABLE",
+      "template": "CREATE TABLE ${1:schema}.${2:table_name} (\n\t${3:id} SERIAL PRIMARY KEY,\n\t${4:name} VARCHAR(100) NOT NULL,\n\t${5:created_at} TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n)",
+      "description": "Create a new table"
+    },
+    {
+      "trigger": "proc",
+      "name": "CREATE PROCEDURE",
+      "template": "CREATE OR REPLACE PROCEDURE ${1:schema}.${2:proc_name}(\n\t${3:IN param1 VARCHAR(100)}\n)\nLANGUAGE plpgsql\nAS $$\nBEGIN\n\t${4:-- procedure body}\nEND;\n$$",
+      "description": "Create a stored procedure"
+    },
+    {
+      "trigger": "func",
+      "name": "CREATE FUNCTION",
+      "template": "CREATE OR REPLACE FUNCTION ${1:schema}.${2:func_name}(${3:param1 VARCHAR(100)})\nRETURNS ${4:VARCHAR(100)}\nLANGUAGE plpgsql\nAS $$\nBEGIN\n\tRETURN ${5:result};\nEND;\n$$",
+      "description": "Create a function"
+    },
+    {
+      "trigger": "case",
+      "name": "CASE WHEN",
+      "template": "CASE \n\tWHEN ${1:condition} THEN ${2:result}\n\tWHEN ${3:condition2} THEN ${4:result2}\n\tELSE ${5:default}\nEND",
+      "description": "CASE expression"
+    },
+    {
+      "trigger": "exists",
+      "name": "EXISTS subquery",
+      "template": "WHERE EXISTS (\n\tSELECT 1\n\tFROM ${1:table}\n\tWHERE ${2:condition}\n)",
+      "description": "EXISTS clause with subquery"
+    },
+    {
+      "trigger": "groupby",
+      "name": "GROUP BY with HAVING",
+      "template": "GROUP BY ${1:column}\nHAVING ${2:condition}",
+      "description": "GROUP BY clause with HAVING"
+    },
+    {
+      "trigger": "window",
+      "name": "Window Function",
+      "template": "ROW_NUMBER() OVER (PARTITION BY ${1:column} ORDER BY ${2:column} ${3:ASC}) AS ${4:row_num}",
+      "description": "Window function with PARTITION BY"
+    },
+    {
+      "trigger": "merge",
+      "name": "INSERT ON CONFLICT (UPSERT)",
+      "template": "INSERT INTO ${1:target_table} (${2:columns})\nVALUES (${3:values})\nON CONFLICT (${4:key}) DO UPDATE SET\n\t${5:column} = EXCLUDED.${5:column}",
+      "description": "Upsert with ON CONFLICT"
+    },
+    {
+      "trigger": "infoschema",
+      "name": "Query information_schema.tables",
+      "template": "SELECT table_schema, table_name, table_type\nFROM information_schema.tables\nWHERE table_schema = '${1:schema}'\nORDER BY table_name",
+      "description": "Query information_schema tables"
+    },
+    {
+      "trigger": "analyze",
+      "name": "ANALYZE table",
+      "template": "ANALYZE ${1:schema}.${2:table}",
+      "description": "Update table statistics"
+    },
+    {
+      "trigger": "vacuum",
+      "name": "VACUUM table",
+      "template": "VACUUM (ANALYZE) ${1:schema}.${2:table}",
+      "description": "Vacuum and analyze table"
+    },
+    {
+      "trigger": "reindex",
+      "name": "REINDEX",
+      "template": "REINDEX TABLE ${1:schema}.${2:table}",
+      "description": "Rebuild indexes"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿---
+description: When user says /publish or /deploy, run Build-And-Publish.ps1 for AutoDocJson
+alwaysApply: true
+---
+
+# AutoDocJson Build and Deploy
+
+## Commands /publish and /deploy
+
+When the user requests **`/publish`** or **`/deploy`** (or "publish", "deploy", "build and deploy"):
+
+Run from this project root:
+
+```powershell
+.\Build-And-Publish.ps1
+```
+
+This publishes the AutoDocJson.Web project to the staging share on `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\AutoDocJson`. The IIS app pool picks up the new files automatically.
+
+## Rules
+
+- Do **not** run `Build-And-Publish-ALL.ps1` or any other repo's publish script unless the user explicitly asks.
+- Do **not** run `IIS-DeployApp.ps1` or `IIS-RedeployAll.ps1` unless the user explicitly asks for IIS redeploy.
+- Do **not** run `git add/commit/push` unless the user explicitly asks (use `/commit` for that).
+- Do **not** manually stop `dotnet` or `AutoDocJson.Web` processes before publishing — the script handles this automatically.

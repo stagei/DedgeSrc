@@ -1,0 +1,117 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <!-- Version must be 4-part for AssemblyVersion/FileVersion to work correctly -->
+    <VersionPrefix>1.0.304</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+    <InformationalVersion>$(VersionPrefix)</InformationalVersion>
+    <Company>Dedge</Company>
+    <Product>ServerMonitor</Product>
+    <Description>Server health monitoring service with REST API</Description>
+    <Copyright>Copyright © Dedge 2026</Copyright>
+    <ApplicationIcon>dedge.ico</ApplicationIcon>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+    <UserSecretsId>bb07997d-995b-48e0-bfbc-775be22489cf</UserSecretsId>
+    <!-- Framework-dependent: requires .NET 10 runtime to be installed -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="10.0.0" />
+    <PackageReference Include="NLog.WindowsEventLog" Version="6.0.6" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.12.36" />
+    <PackageReference Include="NLog" Version="6.0.6" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.1.0" />
+    <PackageReference Include="System.Management" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ServerMonitor.Core\ServerMonitor.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ScheduledTaskExitCodes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Db2DiagMessageMap.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ServerMonitorAgent.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="NotificationRecipients.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Run PowerShell scripts before build (do NOT copy to output or publish) -->
+  <!-- These scripts are build-time only and should NOT be included in output or publish -->
+  <!-- Config folder is "source of truth" - sync FROM config folder TO local project -->
+  <Target Name="PreBuildScripts" BeforeTargets="PreBuildEvent">
+    <Message Importance="high" Text="Running pre-build scripts..." />
+    
+    <!-- Sync appsettings.json FROM config folder (source of truth) -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(MSBuildProjectDirectory)\Copy-AppSettingsFromConfigFolder.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
+    
+    <!-- Copy ServerMonitorAgent.ps1 from DedgePsh -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(MSBuildProjectDirectory)\Copy-ServerMonitorAgentInstallScriptFromDedgePsh.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
+    
+    <!-- Sync NotificationRecipients.json FROM config folder (source of truth) -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -NoProfile -File &quot;$(MSBuildProjectDirectory)\Copy-NotificationRecipientsFromConfigFolder.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
+  </Target>
+  
+  <!-- Explicitly exclude build scripts from output and publish -->
+  <ItemGroup>
+    <None Remove="Copy-AppSettingsFromConfigFolder.ps1" />
+    <None Remove="Copy-ServerMonitorAgentInstallScriptFromDedgePsh.ps1" />
+    <None Remove="Copy-NotificationRecipientsFromConfigFolder.ps1" />
+  </ItemGroup>
+
+  <!-- Debug configuration to verify what's happening -->
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+  </Target>
+
+  <!-- Sign the assembly after build in Release mode using DedgeSign.ps1 -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+    <Message Importance="high" Text="Signing assembly with DedgeSign.ps1..." />
+    <Message Importance="high" Text="Target: $(TargetPath)" />
+    
+    <!-- Use DedgeSign.ps1 for code signing -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+
+  <!-- Sign the published executable after Publish -->
+  <Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <PublishExePath>$(PublishDir)ServerMonitor.exe</PublishExePath>
+    </PropertyGroup>
+    
+    <Message Importance="high" Text="Signing published executable: $(PublishExePath)" />
+    
+    <!-- Use DedgeSign.ps1 to sign the published EXE -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+  </Target>
+
+
+</Project>
+

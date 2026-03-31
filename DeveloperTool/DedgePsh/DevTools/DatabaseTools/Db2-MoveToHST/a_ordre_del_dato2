@@ -1,0 +1,45 @@
+-- NB! Husk ordre fra før 2012
+-- Denne har alle dager - bare endre årstall
+--connect to BASISPRO; endret ifbm.kjøring 02.12.2018
+connect to BASISREG;
+--
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20150911
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20150919
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20150920
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20151024
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20151103
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20151104
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20151124
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+  DELETE FROM DBM.AH_ORDREHODE h WHERE OPPRETTET_DATO =      20151217
+ and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');

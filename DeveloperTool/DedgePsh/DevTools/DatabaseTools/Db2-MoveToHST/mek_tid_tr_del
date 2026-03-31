@@ -1,0 +1,12 @@
+--Kjørt for seg selv første gang, skal inn i den vanlige jobben
+--Kjørt sist 22/11-2022
+--select count(*)
+--CONNECT TO BASISPRO; Endret til BASISREG kjøring 02.12.2018
+--CONNECT TO BASISREG;
+      delete
+ FROM DBM.MEK_TIDSREG_TRANS h
+  where date(h.tidspunkt) < (current date - 6 years)
+  and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               );

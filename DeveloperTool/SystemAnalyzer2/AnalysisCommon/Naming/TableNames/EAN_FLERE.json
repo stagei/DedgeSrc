@@ -1,0 +1,46 @@
+{
+  "tableName": "EAN_FLERE",
+  "futureName": "EanFleresLine",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "LEVNR",
+      "futureName": "LineItemNumber",
+      "description": "The unique line item number for the product.",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVVARENR",
+      "futureName": "ProductCode",
+      "description": "The code or identifier of the product.",
+      "foreignKey": "ORDERLINE"
+    },
+    {
+      "name": "EANKODE",
+      "futureName": "EanCode",
+      "description": "The EAN (European Article Number) code for the product.",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "OrderLineNumber",
+      "description": "The line number within an order.",
+      "foreignKey": "ORDERLINE"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The unique identifier of the user associated with this record.",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp indicating when this line item was created or updated.",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:12:08"
+}

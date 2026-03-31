@@ -1,0 +1,72 @@
+{
+  "tableName": "TRFRAKT_HL",
+  "futureName": "TrFrafKtHL",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "TR_VARE",
+      "futureName": "ArticleCode",
+      "description": "Article code or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "TR_TEKST",
+      "futureName": "Description",
+      "description": "Text description of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": [
+        "A_BESTHODE"
+      ]
+    },
+    {
+      "name": "ORDREKLASSE",
+      "futureName": "OrderClass",
+      "description": "Order class or category",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "VHGR",
+      "futureName": "VatGroupCode",
+      "description": "VAT group code",
+      "foreignKey": null
+    },
+    {
+      "name": "TIL_DATO",
+      "futureName": "DueDate",
+      "description": "Due date for the record",
+      "foreignKey": [
+        "ALT_INNKJ_PRIS"
+      ]
+    },
+    {
+      "name": "TIL_AVDNR",
+      "futureName": "DestinationDepartmentNumber",
+      "description": "Destination department number",
+      "foreignKey": null
+    },
+    {
+      "name": "FRAKTSATS",
+      "futureName": "FreightRateAmount",
+      "description": "Freight rate amount",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_FRAKT",
+      "futureName": "FreightOrderNumber",
+      "description": "Freight order number",
+      "foreignKey": [
+        "A_FRAKT_OLINJER"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:09:28"
+}

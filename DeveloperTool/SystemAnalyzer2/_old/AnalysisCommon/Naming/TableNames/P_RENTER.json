@@ -1,0 +1,112 @@
+{
+  "tableName": "P_RENTER",
+  "futureName": "RenterCalculation",
+  "namespace": "Finance",
+  "columns": [
+    {
+      "name": "aar",
+      "futureName": "Year",
+      "description": "The year of the calculation or reference.",
+      "foreignKey": null
+    },
+    {
+      "name": "avdnr",
+      "futureName": "DocumentNumber",
+      "description": "Unique document identifier.",
+      "foreignKey": null
+    },
+    {
+      "name": "anleggnr",
+      "futureName": "InstallationNumber",
+      "description": "The number of the installation or site involved in the calculation.",
+      "foreignKey": null
+    },
+    {
+      "name": "partinr",
+      "futureName": "PartNumber",
+      "description": "The part number related to the item being calculated.",
+      "foreignKey": null
+    },
+    {
+      "name": "leveransenr",
+      "futureName": "SupplyOrderNumber",
+      "description": "The supply order or delivery number associated with the calculation.",
+      "foreignKey": "P_AVREGNING"
+    },
+    {
+      "name": "korrnr",
+      "futureName": "CorrectionNumber",
+      "description": "The correction number for related calculations or entries.",
+      "foreignKey": null
+    },
+    {
+      "name": "trekktype",
+      "futureName": "ChargingType",
+      "description": "The type of charging involved in the calculation.",
+      "foreignKey": null
+    },
+    {
+      "name": "dato",
+      "futureName": "Date",
+      "description": "The date associated with the calculation or reference.",
+      "foreignKey": null
+    },
+    {
+      "name": "dager",
+      "futureName": "Days",
+      "description": "The number of days for which the calculation is applied.",
+      "foreignKey": null
+    },
+    {
+      "name": "prosent",
+      "futureName": "Percentage",
+      "description": "The percentage rate used in the calculation.",
+      "foreignKey": null
+    },
+    {
+      "name": "grunnlag",
+      "futureName": "BaseAmount",
+      "description": "The base amount or value on which calculations are based.",
+      "foreignKey": null
+    },
+    {
+      "name": "rente_beloep",
+      "futureName": "InterestAmount",
+      "description": "The calculated interest amount.",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "The user ID or identifier of the entity performing or associated with the calculation.",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last modified.",
+      "foreignKey": null
+    },
+    {
+      "name": "journalnr",
+      "futureName": "JournalNumber",
+      "description": "The journal number associated with financial or transactional entries.",
+      "foreignKey": null
+    },
+    {
+      "name": "oppgjbrev_nr",
+      "futureName": "OpportunityLetterNumber",
+      "description": "The opportunity letter number for related business documents.",
+      "foreignKey": null
+    },
+    {
+      "name": "linjenr",
+      "futureName": "LineNumber",
+      "description": "The line number within a document or calculation set.",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:15:31"
+}

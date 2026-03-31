@@ -1,0 +1,469 @@
+﻿{
+  "server": "p-no1fkmprd-app",
+  "relationships": [
+    {
+      "sourceId": "p-no1fkmprd-app-ConfigureDb2Client",
+      "targetId": "p-no1fkmprd-app-VerifyDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-ConfigureDb2Client",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfig",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-db-CatalogDb2Kerberos_FKMPRD",
+      "targetId": "p-no1fkmprd-db-OrderDb2Key_FKMPRD",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-VerifyKerberosConfig",
+      "targetId": "p-no1fkmprd-app-ConfigureDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-db-CatalogDb2KerberosOnFkWorkstation_FKMPRD",
+      "targetId": "p-no1fkmprd-db-OrderDb2Key_FKMPRD",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-ConfigureDb2ClientOnFkWorkstation",
+      "targetId": "p-no1fkmprd-app-VerifyDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-ConfigureDb2ClientOnFkWorkstation",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfig",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstation",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfigOnDbServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfigOnAppServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-VerifyCobolRuntimeWindows",
+      "targetId": "p-no1fkmprd-app-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-InstallRefreshCobolEnvironments",
+      "targetId": "p-no1fkmprd-app-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-RunRefreshCobolEnvironments",
+      "targetId": "p-no1fkmprd-app-InstallRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-TestShortcuts",
+      "targetId": "p-no1fkmprd-app-RunRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1fkmprd-app-TestShortcutsOnFkWorkstation",
+      "targetId": "p-no1fkmprd-app-RunRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "p-no1fkmprd-app-InitServer",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-InitServer"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-VerifyDb2Client",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-VerifyDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.\n\nComment: IBM Db2 klient må være installert for å kunne koble til databasen",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-VerifyDb2Client"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-ConfigureDb2Client",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-ConfigureDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten\n\nComment: Konfigurerer Db2 klienten for Kerberos-autentisering\n\nPrerequisites Note: Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-VerifyDb2Client; p-no1fkmprd-db-VerifyKerberosConfig",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-ConfigureDb2Client"
+    },
+    {
+      "taskname": "p-no1fkmprd-db-CatalogDb2Kerberos",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-db-CatalogDb2Kerberos",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMPRD_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Database=FKMPRD;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-db-CatalogDb2Kerberos_FKMPRD"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-VerifyKerberosConfig",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-VerifyKerberosConfig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.\n\nComment: Verifiser tilkobling fra appserver til database\n\nPrerequisites Note: Db2 klient må være konfigurert",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-ConfigureDb2Client",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-VerifyKerberosConfig"
+    },
+    {
+      "taskname": "p-no1fkmprd-db-CatalogDb2KerberosOnFkWorkstation",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-db-CatalogDb2KerberosOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMPRD_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Database=FKMPRD;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-db-CatalogDb2KerberosOnFkWorkstation_FKMPRD"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-ConfigureDb2ClientOnFkWorkstation",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-ConfigureDb2ClientOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten på FkWorkstation\n\nComment: Konfigurerer Db2 klienten for Kerberos-autentisering\n\nPrerequisites Note: Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-VerifyDb2Client; p-no1fkmprd-db-VerifyKerberosConfig",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-ConfigureDb2ClientOnFkWorkstation"
+    },
+    {
+      "taskname": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstation",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.\n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-db-VerifyKerberosConfigOnDbServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstation"
+    },
+    {
+      "taskname": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. \n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-db-VerifyKerberosConfigOnAppServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-db-VerifyKerberosConfigOnFkWorkstationDbeaver"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-VerifyCobolRuntime",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-VerifyCobolRuntime",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe\n\nComment: Sjekker at run.exe for konsolapplikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-VerifyCobolRuntime"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-VerifyCobolRuntimeWindows",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-VerifyCobolRuntimeWindows",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe\n\nComment: Sjekker at runw.exe for Windows-applikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-VerifyCobolRuntimeWindows"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-InstallRefreshCobolEnvironments",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-InstallRefreshCobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I pwsh.exe kjør kommandoen: Install-FkPshApp -Name 'Refresh-CobolEnvironments'\n\nComment: Installer Refresh-CobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-InstallRefreshCobolEnvironments"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-RunRefreshCobolEnvironments",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I pwsh.exe kjør kommandoen: cd $env:OptPath\\DedgePshApps\\Refresh-CobolEnvironments\nKjør kommandoen: .\\Refresh-CobolEnvironments.ps1\n\nComment: Lager en nytt Cobol-miljø med source fra tilsvarende produksjonsmiljø eller testmiljø",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-InstallRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-RunRefreshCobolEnvironments"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-TestShortcuts",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-TestShortcuts",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Åpne Explorer og gå til katalog: C:\\CobSysMf\\FKM\\XXX\\LNK\nSjekk at Dedge.lnk, Fk-Meny Brukerregister.lnk, Fk-Meny Kt Ordre.lnk og Fk-Meny.lnk eksisterer\nStart så hver av dem å sjekk at de starter\n\nComment: Sjekker at lenkene starter applikasjonene",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-TestShortcuts"
+    },
+    {
+      "taskname": "p-no1fkmprd-app-TestShortcutsOnFkWorkstation",
+      "server": "p-no1fkmprd-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1fkmprd-app-TestShortcutsOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kopier lenkene fra Explorer og legg dem på skrivebordet på din lokale maskin. Endre path til runtime til C:\\Netexpress\\nStart så hver av dem å sjekk at de starter\n\nComment: TODO: Endre script til å lage lenker som kan brukes  på skrivebordet med Micro Focus NetExpress. Muligens batfiler istedenfor",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1fkmprd-app;ServerPart=p-no1fkmprd;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkmprd-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1fkmprd-app-TestShortcutsOnFkWorkstation"
+    }
+  ],
+  "serverPart": "p-no1fkmprd",
+  "templateName": "init-app-servers"
+}

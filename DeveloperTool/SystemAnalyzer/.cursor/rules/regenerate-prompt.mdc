@@ -1,0 +1,17 @@
+---
+description: Prompt before running Regenerate-All-Analyses.ps1
+globs:
+  - Regenerate-All-Analyses.ps1
+---
+
+# Regenerate-All-Analyses — Always Ask Before Running
+
+When the user asks to run `Regenerate-All-Analyses.ps1`, **always ask first** whether to reset the AnalysisCommon cache or not, using the AskQuestion tool:
+
+- **Question:** "Reset AnalysisCommon cache before regeneration? This deletes all cached JSON in Objects/ and Naming/ (keeps .md files and folders). Saying No uses warm cache for faster runs."
+- **Options:**
+  - Yes — run with `-ResetCache:$true` (cold start, full regeneration)
+  - No — run with `-NoResetCache` (warm cache, incremental)
+- **Default if the user doesn't answer within a reasonable time:** `-NoResetCache` (safe default, no data loss)
+
+After getting the answer, run the script accordingly. Never run `Regenerate-All-Analyses.ps1` without asking this question first.

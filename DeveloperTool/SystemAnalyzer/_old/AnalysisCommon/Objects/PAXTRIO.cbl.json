@@ -1,0 +1,99 @@
+{
+  "program": "PAXTRIO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:52:02",
+  "extraction": {
+    "sourceHash": "sha256:77412904df78c99757b6f6ef1cfa89682306a57bbf9b43dc620e4b687081b3dc",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\paxtrio.cbl",
+    "actualName": "PAXTRIO",
+    "program": "PAXTRIO",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLCA.",
+        "type": "copybook"
+      },
+      {
+        "name": "TRIO.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MULIGE_PROD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKT_PROD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DYRKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DYRKER_RECNO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DYRKER_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "D01B998",
+      "OKALOGG"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "PAXTRIO.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\PAXTRIO.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:52:02"
+  }
+}

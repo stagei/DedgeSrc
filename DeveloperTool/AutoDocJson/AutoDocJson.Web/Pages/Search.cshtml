@@ -1,0 +1,123 @@
+﻿@page
+@model SearchModel
+@{
+    ViewData["Title"] = "Search";
+}
+
+<!-- Header -->
+<div class="autodoc-navbar">
+    <div id="DedgeAuthHeader" data-app-title="AutoDoc" data-home-url="/AutoDocJson/"></div>
+    <div class="header-controls">
+        <div id="DedgeAuthUserMenu"></div>
+        <div id="DedgeAuthThemePill"></div>
+    </div>
+</div>
+
+<div class="container" style="max-width: 2100px; margin: 0 auto; padding: 1.5rem;">
+
+    <!-- Search Controls Bar -->
+    <div class="controls-bar">
+        <div class="filter-row search-input-row">
+            <label data-i18n="search.label">Search</label>
+            <div class="search-input-wrapper" id="search-container">
+                <input type="text" id="search-input" value="@Model.Query" data-i18n-placeholder="search.placeholderSimple" placeholder="Search docs... (Ctrl+K)" autocomplete="off" />
+                <div class="search-dropdown" id="search-dropdown"></div>
+            </div>
+        </div>
+        <div class="filter-row">
+            <label data-i18n="search.types">Types</label>
+            <div class="preset-buttons" id="type-presets">
+                <button type="button" class="btn-preset active" data-type="all" data-i18n="button.all">All</button>
+                <button type="button" class="btn-preset" data-type="CBL">CBL</button>
+                <button type="button" class="btn-preset" data-type="SQL">SQL</button>
+                <button type="button" class="btn-preset" data-type="BAT">BAT</button>
+                <button type="button" class="btn-preset" data-type="PS1">PS1</button>
+                <button type="button" class="btn-preset" data-type="REX">REX</button>
+                <button type="button" class="btn-preset" data-type="CSharp">C#</button>
+            </div>
+        </div>
+        <div class="filter-row field-filter-row">
+            <label data-i18n="search.field">Field</label>
+            <select id="field-filter">
+                <option value="" data-i18n="search.allFields">All fields</option>
+            </select>
+        </div>
+        <div class="refresh-controls">
+            <button class="btn btn-primary" onclick="runSimpleSearch()">🔍 <span data-i18n="search.searchBtn">Search</span></button>
+            <div class="search-history-container">
+                <button class="btn btn-outline" onclick="toggleSavedSearches()">🕐 <span data-i18n="search.recent">Recent</span></button>
+                <div id="search-history-dropdown" class="search-history-dropdown" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Query Builder (always visible on search page) -->
+    <div class="query-builder" id="advanced-panel">
+        <div class="query-builder-header">
+            <h2 data-i18n="search.queryBuilder">Query Builder</h2>
+            <button class="btn btn-outline btn-sm" onclick="clearAdvancedFilters()" data-i18n="search.clearAll">Clear All</button>
+        </div>
+        <div class="query-rows" id="advanced-filters"></div>
+        <button class="add-row-btn" onclick="addFilterRow()" data-i18n="search.addFieldFilter">+ Add Field Filter</button>
+        <div class="query-actions">
+            <div class="logic-toggle">
+                <label data-i18n="search.logic">Logic:</label>
+                <label><input type="radio" name="logic" value="AND" checked /> AND</label>
+                <label><input type="radio" name="logic" value="OR" /> OR</label>
+            </div>
+            <button class="btn btn-primary" onclick="runAdvancedSearch()">🔍 <span data-i18n="search.searchBtn">Search</span></button>
+            <button class="btn btn-outline" onclick="saveCurrentSearch()">💾 <span data-i18n="search.saveFilter">Save Filter</span></button>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="panel" id="search-results-wrapper" style="display: none;">
+        <div class="panel-header">
+            <span class="panel-title" data-i18n="search.results">Results</span>
+            <span class="panel-summary" id="results-count"></span>
+        </div>
+        <div class="panel-body">
+            <div id="search-results"></div>
+            <div id="results-empty" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">🔍</div>
+                <div class="empty-state-title" data-i18n="search.readyTitle">Ready to Search</div>
+                <div class="empty-state-message" data-i18n="search.readyMessageAdvanced">Use the controls above or build a query to search documentation files.</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 1rem;">
+        <a href="~/" style="color: var(--accent-primary); font-size: 0.85rem;"><i class="bi bi-arrow-left"></i> <span data-i18n="nav.backToDashboard">Back to Dashboard</span></a>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    if (typeof setTheme === 'undefined') {
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('autodoc-theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('autodoc-theme', theme);
+            const lightBtn = document.getElementById('theme-light');
+            const darkBtn = document.getElementById('theme-dark');
+            if (lightBtn) lightBtn.classList.toggle('active', theme === 'light');
+            if (darkBtn) darkBtn.classList.toggle('active', theme === 'dark');
+        }
+        setTheme(getPreferredTheme());
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof addFilterRow === 'function') addFilterRow();
+        if (typeof loadFieldOptions === 'function') loadFieldOptions();
+
+        const q = '@Html.Raw(Model.Query.Replace("'", "\\'"))';
+        if (q) {
+            initSearchPage(q);
+        }
+    });
+</script>
+}

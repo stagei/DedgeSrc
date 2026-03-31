@@ -1,0 +1,80 @@
+{
+  "tableName": "DBPROV_STRUKT",
+  "futureName": "DbmProvStrukt",
+  "namespace": "LegacyConversion",
+  "columns": [
+    {
+      "name": "periodeFom",
+      "futureName": "PeriodFrom",
+      "description": "Start date of the period",
+      "foreignKey": null
+    },
+    {
+      "name": "selgerAvtType",
+      "futureName": "SalesAgentContractType",
+      "description": "Type of sales agent contract",
+      "foreignKey": null
+    },
+    {
+      "name": "selger",
+      "futureName": "SalesAgent",
+      "description": "Code or ID of the sales agent",
+      "foreignKey": "DBPROV_SELGER"
+    },
+    {
+      "name": "vhgr",
+      "futureName": "HgranCode",
+      "description": "Hgran code",
+      "foreignKey": [
+        "ALT_LEV_AVD",
+        "DBPROV_TRANS",
+        "FAKTHIST_SUMK",
+        "FK_AVANSE",
+        "GROSSIST"
+      ]
+    },
+    {
+      "name": "grenseBel",
+      "futureName": "LimitAmount",
+      "description": "Limit amount or threshold value",
+      "foreignKey": null
+    },
+    {
+      "name": "periodeTom",
+      "futureName": "PeriodTo",
+      "description": "End date of the period",
+      "foreignKey": "DBPROV_SELGER"
+    },
+    {
+      "name": "provSatsEgen",
+      "futureName": "SurchargeRateOwn",
+      "description": "Own surcharge rate or percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "provSatsOvf",
+      "futureName": "OverSurchargeRate",
+      "description": "Over-surcharge rate or percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "foersteKrFlg",
+      "futureName": "FirstChargeFlag",
+      "description": "Indicator for the first charge",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:08:02"
+}

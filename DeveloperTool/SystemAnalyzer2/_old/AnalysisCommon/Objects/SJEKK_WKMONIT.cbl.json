@@ -1,0 +1,167 @@
+﻿{
+  "program": "SJEKK_WKMONIT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:33:55",
+  "variableFilenames": {
+    "HIST-FILE": {
+      "logicalName": "HIST-FILE",
+      "physicalVariable": "W-HIST-FILENAVN",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\MONITOR\\",
+      "filenamePattern": "<maskinnavn>-<tid>.MON",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\MONITOR\\<maskinnavn>-<tid>.MON",
+      "description": "Log file path constructed from maskinnavn and tid",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:33:55"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "SJEKK_WKMONIT",
+    "program": "SJEKK_WKMONIT",
+    "copyElements": [
+      {
+        "name": "KT-MEM-WS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KTHTSTM.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "KRHLST2.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAGKJ1.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KPABPLA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASTLA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OSATISO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RKAVEKT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OLAKOKV.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "D365_ENH_OMR",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMAQVER",
+      "GMFTRAP",
+      "GMACOCO",
+      "GMACURT",
+      "D01B912",
+      "GMAPRTR",
+      "DATANAME"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "TIL-WKMONITOR",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FILER-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "VEKT-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "HIST-FILE",
+        "physicalName": "W-HIST-FILENAVN",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\MONITOR\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\MONITOR\\<maskinnavn>-<tid>.MON",
+        "filenamePattern": "<maskinnavn>-<tid>.MON",
+        "filenameDescription": "Log file path constructed from maskinnavn and tid"
+      },
+      {
+        "logicalName": "FEIL-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:33:55"
+  }
+}

@@ -1,0 +1,82 @@
+﻿---
+description: DedgeAuth i18n multi-language support for Norwegian (nb) and English (en)
+globs:
+  - "**/wwwroot/**/*.html"
+  - "**/wwwroot/i18n/**"
+  - "**/Pages/**/*.cshtml"
+alwaysApply: false
+---
+
+# DedgeAuth i18n Support
+
+## Required Files
+
+- `wwwroot/i18n/nb.json` — Norwegian translations (default language)
+- `wwwroot/i18n/en.json` — English translations
+- Both files must have the **exact same set of keys**
+
+## Required HTML
+
+Add before closing `</body>`, after `user.js`:
+
+```html
+<script src="api/DedgeAuth/ui/i18n.js"></script>
+```
+
+## HTML Patterns
+
+Static text elements:
+
+```html
+<h1 data-i18n="page.title">Page Title</h1>
+<th data-i18n="table.email">Email</th>
+<button data-i18n="button.save">Save</button>
+```
+
+Input placeholders:
+
+```html
+<input data-i18n-placeholder="placeholder.search" placeholder="Search...">
+```
+
+HTML content (entities, links):
+
+```html
+<a data-i18n-html="nav.back">&#8592; Back</a>
+```
+
+## JavaScript Pattern
+
+For dynamically rendered text:
+
+```javascript
+const text = DedgeAuth.t('table.email', 'Email');
+const msg = DedgeAuth.t('message.count', { count: 5 });
+```
+
+## Key Naming Convention
+
+| Prefix | Usage | Examples |
+|---|---|---|
+| `nav.*` | Navigation items | `nav.dashboard`, `nav.settings` |
+| `page.*` | Page titles | `page.title`, `page.subtitle` |
+| `table.*` | Table headers | `table.email`, `table.name` |
+| `button.*` | Button labels | `button.save`, `button.cancel` |
+| `label.*` | Form labels | `label.email`, `label.password` |
+| `placeholder.*` | Input placeholders | `placeholder.search` |
+| `message.*` | User messages | `message.success`, `message.error` |
+| `dialog.*` | Modal/dialog text | `dialog.confirm` |
+
+## Rules
+
+- Norwegian (`nb`) is the default language — all users start with Norwegian
+- English text in HTML serves as fallback if translation is missing
+- No `Program.cs` changes needed — `DedgeAuth.Client` auto-registers `/api/i18n/` endpoints via `MapDedgeAuthProxy()`
+- Every visible text element in HTML must have a `data-i18n` attribute
+- No hardcoded user-facing strings in JavaScript without `DedgeAuth.t()` wrapper
+- Translation quality: use natural Norwegian Bokmål, not machine translation
+
+## Reference
+
+- Full guide: `docs/integration/i18n-guide.md`
+- Reference implementation: DedgeAuth's own `admin.html` and `login.html`

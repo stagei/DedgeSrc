@@ -1,0 +1,209 @@
+﻿---
+description: When user says /deploy or /publish, run Build-And-Publish.ps1 then git add/commit/push
+alwaysApply: true
+---
+
+# Deploy / Publish
+
+## User Commands
+
+| Command | Scope | What it does |
+|---------|-------|-------------|
+| `/deploy` | **This project only** | `Build-And-Publish.ps1` + `IIS-DeployApp.ps1 -SiteName GenericLogHandler` + GrabScreenShot |
+| `/deployAll` | **All apps** | `Build-And-Publish-ALL.ps1` + `IIS-RedeployAll.ps1` + GrabScreenShot |
+| `/commit` | **This project only** | git add + commit + push (only files in this repo) |
+| `/commitAll` | **All repos** | git add + commit + push across all affected repos |
+
+**CRITICAL: NEVER use `IIS-RedeployAll.ps1` unless the user explicitly says `/deployAll`.** Redeploying all apps tears down and rebuilds 7 IIS virtual applications and takes 5+ minutes. For single-app changes, always use `IIS-DeployApp.ps1 -SiteName <name>`.
+
+## /deploy (Single App Deploy)
+
+When the user requests `/deploy` or `/publish` (without "All"):
+
+1. **Build and publish this project only:**
+   ```powershell
+   pwsh.exe -NoProfile -File ".\Build-And-Publish.ps1"
+   ```
+2. **Deploy this app only to IIS:**
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName GenericLogHandler
+   ```
+3. **Post-deploy verification:**
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"
+   ```
+
+## /deployAll (All Apps Deploy)
+
+Only when the user explicitly requests `/deployAll`:
+
+1. **Build and publish all apps:**
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+   ```
+2. **Redeploy all IIS apps:**
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+   ```
+3. **Post-deploy verification:**
+   ```powershell
+   pwsh.exe -NoProfile -File "C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"
+   ```
+
+**When /deployAll is appropriate:**
+- Any edit to `DedgeAuth.Client` (middleware, endpoints, extensions, options)
+- Any edit to `DedgeAuth.Api` wwwroot assets (CSS, JS, HTML)
+- Any edit to `DedgeAuth.Services` (seeder, auth service, JWT)
+- Changes that affect multiple apps simultaneously
+
+**Do NOT auto-deploy for:**
+- Documentation-only changes (`.md`, `.mdc` files)
+- Test files or scripts that don't affect deployed apps
+- Changes the user explicitly says not to deploy
+
+If either step fails, diagnose and fix the issue before proceeding.
+
+## Live Environment
+
+| Component | Server | URL / Port |
+|-----------|--------|------------|
+| **DedgeAuth API (IIS)** | `dedge-server` | `http://dedge-server/DedgeAuth/` (port 80) |
+| **PostgreSQL database** | `t-no1fkxtst-db` | Port **8432** |
+
+- The API is **not** started locally -- it runs on `dedge-server` under IIS as a virtual application.
+- The database runs on `t-no1fkxtst-db` on port **8432**.
+
+When the user requests **/deploy** or **/publish**, perform the following in order:
+
+## 1. Run Build-And-Publish.ps1
+
+- From the project root, run: `.\Build-And-Publish.ps1`
+- The script handles: version bump (Patch by default), publish to `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DedgeAuth` (using WebApp-FileSystem profile), and deploying DedgePsh server scripts via `_deploy.ps1`.
+- **Version:** Use the lowest level (Patch) unless the user explicitly asks for Major or Minor (e.g. `.\Build-And-Publish.ps1 -VersionPart Minor`).
+- If the build or script fails, resolve errors before proceeding to git.
+
+### Build-And-Publish-ALL.ps1
+
+To rebuild DedgeAuth **and** all consumer apps that reference `DedgeAuth.Client`:
+
+```powershell
+.\Build-And-Publish-ALL.ps1           # Build DedgeAuth first, then all consumer apps
+.\Build-And-Publish-ALL.ps1 -DryRun   # Show what would be built without building
+.\Build-And-Publish-ALL.ps1 -SkipDedgeAuth  # Only rebuild consumer apps
+```
+
+- Scans `$env:OptPath\src` for `.csproj` files referencing `DedgeAuth.Client`
+- Builds DedgeAuth first (auth server must be published before consumers)
+- Then builds each discovered consumer app sequentially via its own `Build-And-Publish.ps1`
+
+## Publishing Profile
+
+- **ALWAYS use `WebApp-FileSystem.pubxml` -- it is the ONLY publish profile in the project**
+- **Command:** `dotnet publish -c Release -p:PublishProfile=WebApp-FileSystem`
+- **Publish (staging) location:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\DedgeAuth`
+- **IIS install location:** `$env:OptPath\DedgeWinApps\DedgeAuth` (UNC: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\DedgeWinApps\DedgeAuth`)
+- The publish location is the staging area; `IIS-DeployApp.ps1` on the server copies from staging to the install location
+- The profile uses FileSystem method and publishes as framework-dependent win-x64 runtime
+- When using Build-And-Publish.ps1, it defaults to WebApp-FileSystem profile
+- IIS on the server points at the install location, not the publish location
+- **Do NOT create or suggest Web Deploy (MSDeploy) profiles -- they are not used in this project**
+- **Do NOT run scripts remotely via WinRM/Invoke-Command** -- remote script execution is blocked on the servers
+- After publishing, run `IIS-DeployApp.ps1 -SiteName GenericLogHandler` to copy from staging to IIS install path and recycle the app pool. Only use `IIS-RedeployAll.ps1` when `/deployAll` is requested.
+
+## Server-Side IIS Deployment (IIS-DeployApp)
+
+IIS deployment is handled by the **generic IIS-DeployApp system** in `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\`. This system manages **all** IIS virtual applications (DedgeAuth, GenericLogHandler, DocView, ServerMonitorDashboard, AutoDoc) using JSON deploy profiles.
+
+| Script | Purpose |
+|--------|---------|
+| `IIS-DeployApp.ps1` | Deploy or update an IIS virtual app from a `.deploy.json` profile |
+| `IIS-UninstallApp.ps1` | Remove an IIS virtual app and its app pool |
+| `IIS-RedeployAll.ps1` | Full teardown + iisreset + rebuild all apps from templates |
+| `Test-IISSite.ps1` | Run diagnostics and health checks on a deployed site |
+| `_deploy.ps1` | Push scripts and templates to `*fkxtst-app` servers |
+
+### Deploy Profile for DedgeAuth
+
+DedgeAuth's deploy profile: `templates\DedgeAuth_WinApp.deploy.json`
+
+```json
+{
+  "SiteName": "DedgeAuth",
+  "PhysicalPath": "$env:OptPath\\DedgeWinApps\\DedgeAuth",
+  "AppType": "AspNetCore",
+  "DotNetDll": "DedgeAuth.Api.dll",
+  "InstallSource": "WinApp",
+  "VirtualPath": "/DedgeAuth",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/health",
+  "ApiPort": 8100
+}
+```
+
+Deploy steps on the server: Teardown existing → Install files (WinApp) → Create app pool → Create virtual app → Generate web.config → Set permissions → Start → Health check
+
+### Deploy Profiles for All Apps
+
+| Profile | SiteName | AppType | InstallSource | ApiPort | HealthEndpoint |
+|---------|----------|---------|---------------|---------|----------------|
+| `DedgeAuth_WinApp.deploy.json` | DedgeAuth | AspNetCore | WinApp | 8100 | /health |
+| `GenericLogHandler_WinApp.deploy.json` | GenericLogHandler | AspNetCore | WinApp | 8110 | /health |
+| `DocView_WinApp.deploy.json` | DocView | AspNetCore | WinApp | 8282 | (none) |
+| `ServerMonitorDashboard_WinApp.deploy.json` | ServerMonitorDashboard | AspNetCore | WinApp | 8998 | /api/IsAlive |
+| `AutoDoc_None.deploy.json` | AutoDoc | Static | None | 0 | (none) |
+| `DefaultWebSite_None.deploy.json` | DefaultWebSite | Static | None | 0 | (none) |
+
+Profile naming convention: `<SiteName>_<InstallSource>.deploy.json`
+
+## DedgeAuth-Specific Server Scripts (DedgePsh)
+
+DedgeAuth-specific scripts live in `C:\opt\src\DedgePsh\DevTools\WebSites\DedgeAuth\` -- there are NO local copies in this project.
+
+| Script | Location | Deploy Target | Purpose |
+|--------|----------|---------------|---------|
+| Database setup | `DedgeAuth-DatabaseSetup\DedgeAuth-DatabaseSetup.ps1` | `*fkxtst-db` | PostgreSQL database + role setup |
+| App registration | `DedgeAuth-AddAppSupport\DedgeAuth-AddAppSupport.ps1` | (all servers) | Register apps in DedgeAuth DB, create IIS deploy templates |
+
+**Note:** The old `DedgeAuth-IISConfig` folder no longer exists. IIS configuration for all apps (including DedgeAuth) is now handled by the generic `IIS-DeployApp` system described above.
+
+- **Always edit the files at the DedgePsh paths above** -- not in this project
+- Distribution to servers is handled automatically by `Build-And-Publish.ps1` (runs each `_deploy.ps1` after every publish)
+
+## Log Files
+
+### Application Logs (Serilog)
+
+Written to `%OptPath%\data\DedgeAuth\Logs\` using Serilog with daily rolling files.
+
+| Method | Path |
+|--------|------|
+| **UNC path** | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\DedgeAuth\Logs\DedgeAuth-YYYYMMDD.log` |
+| **Local path on server** | `E:\opt\data\DedgeAuth\Logs\DedgeAuth-YYYYMMDD.log` |
+| **API endpoint** | `GET /api/debug/logfile` (requires GlobalAdmin JWT) |
+
+- The API endpoint returns today's log file path (local + UNC), existence, and size.
+- Log files are retained for 31 days.
+- If `%OptPath%` is not set, the application **will not start** and sends an SMS alert.
+
+### IIS-DeployApp Logs
+
+IIS deployment operations are logged separately:
+
+| Method | Path |
+|--------|------|
+| **UNC path** | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+| **Local path on server** | `$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log` |
+
+- Written by `IIS-DeployApp.ps1`, `Test-IISSite.ps1`, `IIS-RedeployAll.ps1`, etc.
+- Use these logs to diagnose IIS deployment failures, health check results, and app startup issues.
+
+## 2. Git add, commit, and push
+
+### /commit (default, this repo only)
+- **git add** – Stage changes in this repo only.
+- **git commit** – Commit with a message that describes what has changed.
+- **git push** – Push to the remote.
+
+### /commitAll (all affected repos)
+- Stage, commit, and push changes across all affected repos (e.g. DedgeAuth, GenericLogHandler, DedgePsh).
+- Only use when changes span multiple repositories.

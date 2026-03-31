@@ -1,0 +1,90 @@
+﻿---
+description: DedgeAuth authentication integration and deployment for this project
+globs:
+  - "**/Program.cs"
+  - "**/*.csproj"
+  - "**/wwwroot/**/*.html"
+  - "**/appsettings*.json"
+alwaysApply: true
+---
+
+# DedgeAuth Integration
+
+This project uses **DedgeAuth** for authentication. DedgeAuth is the central auth server for all FK web applications.
+
+DedgeAuth source: `C:\opt\src\DedgeAuth` | Full integration docs: `C:\opt\src\DedgeAuth\docs\integration\`
+
+## Server Portability
+
+All apps are designed to run on **any server** without code changes. When deploying to a new environment:
+
+1. Update `appsettings.json` -> `DedgeAuth:AuthServerUrl` to the new DedgeAuth URL
+2. Register the app in DedgeAuth database on the new server (via `DedgeAuth-AddAppSupport.ps1`)
+3. Run `IIS-DeployApp.ps1` on the new server to create the IIS virtual application
+4. No HTML, JavaScript, or C# code changes needed
+
+The current DedgeAuth installation is on `dedge-server` (test environment). **NEVER hardcode this hostname** in runtime code (C#, HTML, JS). It belongs ONLY in `appsettings.json` and build/deploy infrastructure (`.pubxml`, `Build-And-Publish.ps1`).
+
+## Deployment (IIS-DeployApp)
+
+This app is deployed as an IIS virtual application using the standard two-step process:
+
+1. `Build-And-Publish.ps1` publishes to staging: `\\<server>\DedgeCommon\Software\DedgeWinApps\<AppName>`
+2. `IIS-DeployApp.ps1` (in `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\`) copies to local install path and creates IIS virtual app
+
+All FK web apps (DedgeAuth, DocView, GenericLogHandler, ServerMonitorDashboard) follow this pattern and run as virtual applications under `Default Web Site` on the same IIS server.
+
+## Backend (Program.cs)
+
+```csharp
+using DedgeAuth.Client.Extensions;
+using DedgeAuth.Client.Endpoints;
+
+builder.Services.AddDedgeAuth(builder.Configuration);
+// ...
+// UseRouting() is implicit in .NET 6+ minimal hosting — do NOT call it explicitly
+app.UseDedgeAuth();         // token/code extraction + JWT auth + session validation + visit tracking + redirect
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapControllers();
+app.MapDedgeAuthProxy();    // registers /api/DedgeAuth/me, /api/DedgeAuth/logout, and /api/DedgeAuth/ui/{path} proxy
+```
+
+- Do NOT call `UseAuthentication()` or `UseAuthorization()` separately — `UseDedgeAuth()` handles both.
+- Do NOT add `builder.Services.AddHttpClient()` — `AddDedgeAuth()` registers it.
+
+## HTML Pages
+
+All FK apps run as IIS virtual applications (e.g. at `/MyApp`). **ALL** `href` and `src` references in HTML must use **relative paths** (no leading `/`) — this applies to DedgeAuth proxy assets AND the app's own CSS/JS. Absolute paths like `/css/app.css` resolve from the site root and 404 under a virtual path.
+
+DedgeAuth assets are served through a local proxy (`MapDedgeAuthProxy()`) — do NOT hardcode server URLs, do NOT copy files locally:
+
+```html
+<!-- App CSS — relative path, no leading / -->
+<link rel="stylesheet" href="css/app.css">
+<!-- DedgeAuth assets — via local proxy -->
+<link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+<style id="DedgeAuth-tenant-css"></style>
+<link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+<!-- ... -->
+<div id="DedgeAuthUserMenu"></div>
+<!-- ... -->
+<script src="api/DedgeAuth/ui/user.js"></script>
+<!-- App JS — relative path, no leading / -->
+<script src="js/app.js"></script>
+```
+
+The proxy fetches from `AuthServerUrl` and caches for 1 hour. Relative paths ensure correct resolution under IIS virtual application paths.
+
+## Configuration (appsettings.json)
+
+Required `DedgeAuth` section: `Enabled`, `AuthServerUrl`, `JwtSecret`, `JwtIssuer`, `JwtAudience`, `AppId`.
+Default proxy route prefix: `/api/DedgeAuth` (PascalCase F and A — must match).
+
+## Authorization
+
+Use `[RequireAppPermission("Admin")]` for role-based access or standard `[Authorize]`.
+
+## Code Signing
+
+The `.csproj` must include DedgeSign targets for Release builds. See `C:\opt\src\DedgeAuth\docs\integration\setup-guide.md` Step 8.

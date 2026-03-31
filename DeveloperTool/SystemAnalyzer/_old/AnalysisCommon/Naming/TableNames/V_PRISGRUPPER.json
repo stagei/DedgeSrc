@@ -1,0 +1,58 @@
+{
+  "tableName": "V_PRISGRUPPER",
+  "futureName": "PriceGroup",
+  "namespace": "Database",
+  "columns": [
+    {
+      "name": "LEVNR",
+      "futureName": "Levnr",
+      "description": "Account number or unique identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PRISGRUPPE",
+      "futureName": "PriceGroup",
+      "description": "Price group code or name",
+      "foreignKey": [
+        "VAREREGISTER"
+      ]
+    },
+    {
+      "name": "VHGR",
+      "futureName": "Vhgr",
+      "description": "Some numeric identifier related to the price group",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "Additional text or description",
+      "foreignKey": [
+        "COPYSET"
+      ]
+    },
+    {
+      "name": "LAGET_AV_FK",
+      "futureName": "CreatedByFk",
+      "description": "User who created the record (FK)",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier or login",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Creation timestamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:18:28"
+}

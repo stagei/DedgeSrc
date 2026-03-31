@@ -1,0 +1,94 @@
+{
+  "tableName": "P_JOURNAL",
+  "futureName": "JournalEntry",
+  "namespace": "FinancialRecords",
+  "columns": [
+    {
+      "name": "JOURNALNR",
+      "futureName": "JournalNumber",
+      "description": "Unique journal entry identifier",
+      "foreignKey": "JOURNALNR -> KD_FRO_JOURNAL.JOURNALNR"
+    },
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrainDealerId",
+      "description": "Identifier for the grain dealer",
+      "foreignKey": "KORNHANDLER -> ANLEGG.ANLEGG_NR"
+    },
+    {
+      "name": "KODE",
+      "futureName": "Code",
+      "description": "Code reference",
+      "foreignKey": "KODE -> BEHKODER.KODE"
+    },
+    {
+      "name": "OPPGJORSDATO",
+      "futureName": "PostingDate",
+      "description": "Date of journal posting",
+      "foreignKey": null
+    },
+    {
+      "name": "UTBETALDATO",
+      "futureName": "PaymentDate",
+      "description": "Date of payment",
+      "foreignKey": null
+    },
+    {
+      "name": "REGN_PERIODE",
+      "futureName": "RegulationPeriod",
+      "description": "Regulation period",
+      "foreignKey": null
+    },
+    {
+      "name": "TID_STARTET",
+      "futureName": "TimestampStarted",
+      "description": "Timestamp when the process started",
+      "foreignKey": null
+    },
+    {
+      "name": "TID_SKREVET",
+      "futureName": "TimestampWritten",
+      "description": "Timestamp when the data was written",
+      "foreignKey": null
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year of the journal entry",
+      "foreignKey": "AAR -> AH_BESTHODE.AAR"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": "BRUKERID -> A_ORDREHODE_BRUKER.BRUKER_ID"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event",
+      "foreignKey": "TIDSPUNKT -> A_BESTHODE.TIDSPUNKT"
+    },
+    {
+      "name": "TREKKOPPDRAG_SKREVET",
+      "futureName": "WithdrawalDate",
+      "description": "Date when withdrawal was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "FILER_ANDRE",
+      "futureName": "OtherFilesDate",
+      "description": "Date of other files",
+      "foreignKey": null
+    },
+    {
+      "name": "VENTE_DAGER_AVREGNING",
+      "futureName": "WaitingDaysForAdjustment",
+      "description": "Minimum number of days between receipt and adjustment, as of 2013",
+      "foreignKey": "VENTE_DAGER_AVREGNING -> P_BEHKODER.KODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:08:52"
+}

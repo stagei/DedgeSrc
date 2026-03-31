@@ -1,0 +1,713 @@
+<Window x:Class="DbExplorer.Dialogs.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Settings"
+        Icon="pack://application:,,,/Resources/dEdge.ico" 
+        SizeToContent="Height"
+        Width="700"
+        MinHeight="400"
+        MaxHeight="900"
+        MinWidth="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+        Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" Margin="10">
+            <!-- Editor Tab -->
+            <TabItem Header="📝 Editor">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Editor Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- Theme -->
+                        <TextBlock Text="Theme:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <ComboBox x:Name="ThemeComboBox" Width="200" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="System" Tag="System"/>
+                            <ComboBoxItem Content="Light" Tag="Light"/>
+                            <ComboBoxItem Content="Dark" Tag="Dark"/>
+                        </ComboBox>
+                        <TextBlock Text="Theme preference (Ctrl+D to cycle)" 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Font Family -->
+                        <TextBlock Text="Font Family:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <ComboBox x:Name="FontFamilyComboBox" Width="200" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="Consolas" Tag="Consolas"/>
+                            <ComboBoxItem Content="Courier New" Tag="Courier New"/>
+                            <ComboBoxItem Content="Cascadia Code" Tag="Cascadia Code"/>
+                            <ComboBoxItem Content="Cascadia Mono" Tag="Cascadia Mono"/>
+                            <ComboBoxItem Content="JetBrains Mono" Tag="JetBrains Mono"/>
+                            <ComboBoxItem Content="Fira Code" Tag="Fira Code"/>
+                        </ComboBox>
+
+                        <!-- Font Size -->
+                        <TextBlock Text="Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="FontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="24" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"/>
+                            <TextBlock x:Name="FontSizeText" 
+                                       Text="14" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Tab Size -->
+                        <TextBlock Text="Tab Size (spaces):" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="TabSizeSlider" 
+                                    Width="200" 
+                                    Minimum="2" 
+                                    Maximum="8" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TabSizeText" 
+                                       Text="4" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Database Tab -->
+            <TabItem Header="🗄️ Database">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Database Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- Max Rows Per Query -->
+                        <TextBlock Text="Max Rows Per Query:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="MaxRowsTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"/>
+                            <TextBlock Text="(Use pagination for larger results)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Command Timeout -->
+                        <TextBlock Text="Command Timeout (seconds):" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="CommandTimeoutTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"/>
+                            <TextBlock Text="(0 = no timeout)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Handle Decimal Errors -->
+                        <CheckBox x:Name="HandleDecimalErrorsCheckBox" 
+                                  Content="Handle decimal format errors gracefully" 
+                                  Margin="0,20,0,5"/>
+                        <TextBlock Text="Automatically fallback to string reading for problematic decimal values" 
+                                   FontSize="11" 
+                                   Foreground="Gray" 
+                                   Margin="20,0,0,0"/>
+
+                        <!-- Auto-Refresh Objects -->
+                        <CheckBox x:Name="AutoRefreshObjectsCheckBox" 
+                                  Content="Auto-refresh database objects on connect" 
+                                  Margin="0,20,0,5"/>
+                        <TextBlock Text="Automatically load tables, views, and schemas when connecting" 
+                                   FontSize="11" 
+                                   Foreground="Gray" 
+                                   Margin="20,0,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Logging Tab -->
+            <TabItem Header="📋 Logging">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Logging Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- Log Level -->
+                        <TextBlock Text="Log Level:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <ComboBox x:Name="LogLevelComboBox" Width="200" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="Trace" Tag="Trace" ToolTip="Most verbose - includes every detail for deep troubleshooting"/>
+                            <ComboBoxItem Content="Debug" Tag="Debug" ToolTip="Detailed diagnostic information for developers"/>
+                            <ComboBoxItem Content="Info" Tag="Info" ToolTip="General operational events (recommended default)"/>
+                            <ComboBoxItem Content="Warn" Tag="Warn" ToolTip="Unexpected but recoverable situations"/>
+                            <ComboBoxItem Content="Error" Tag="Error" ToolTip="Error events that might still allow the app to continue"/>
+                            <ComboBoxItem Content="Fatal" Tag="Fatal" ToolTip="Only critical errors that prevent the app from continuing"/>
+                        </ComboBox>
+                        <TextBlock Text="Minimum level to log to file. Changes take effect immediately." 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Log Level Descriptions -->
+                        <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
+                                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                BorderThickness="1"
+                                Padding="10" 
+                                Margin="0,15,0,0"
+                                CornerRadius="4">
+                            <StackPanel>
+                                <TextBlock Text="Log Level Guide:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                <TextBlock FontSize="11" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}">
+                                    <Run FontWeight="SemiBold">Trace:</Run> Every detail (SQL queries, all parameters)
+                                    <LineBreak/>
+                                    <Run FontWeight="SemiBold">Debug:</Run> Developer diagnostics
+                                    <LineBreak/>
+                                    <Run FontWeight="SemiBold">Info:</Run> Normal operations (recommended)
+                                    <LineBreak/>
+                                    <Run FontWeight="SemiBold">Warn:</Run> Recoverable issues
+                                    <LineBreak/>
+                                    <Run FontWeight="SemiBold">Error:</Run> Errors allowing continuation
+                                    <LineBreak/>
+                                    <Run FontWeight="SemiBold">Fatal:</Run> Critical failures only
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Open Logs Folder -->
+                        <TextBlock Text="Log Files Location:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <Button x:Name="OpenLogsButton" 
+                                Content="📂 Open Logs Folder" 
+                                Width="200" 
+                                HorizontalAlignment="Left"
+                                Click="OpenLogsButton_Click"
+                                Padding="10,5"/>
+                        
+                        <!-- Current Log Level Display -->
+                        <TextBlock x:Name="CurrentLogLevelText" 
+                                   Text="Current level: Info" 
+                                   FontSize="11" 
+                                   Foreground="Gray" 
+                                   Margin="0,10,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Data Files Tab -->
+            <TabItem Header="📁 Data Files">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Data Files Location" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- User Data Folder Configuration -->
+                        <TextBlock Text="User Data Folder:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="UserDataFolderTextBox" 
+                                     Grid.Column="0"
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     Margin="0,0,10,0"
+                                     IsReadOnly="True"/>
+                            <Button x:Name="BrowseUserDataFolderButton" 
+                                    Grid.Column="1"
+                                    Content="📂 Browse..."
+                                    Click="BrowseUserDataFolderButton_Click"
+                                    Padding="10,5"/>
+                        </Grid>
+                        <TextBlock Text="Location where all user-specific files are stored (connections, history, Missing FK projects)" 
+                                   FontSize="11" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,5,0,15"/>
+
+                        <!-- Info Box -->
+                        <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
+                                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                BorderThickness="1"
+                                Padding="15" 
+                                Margin="0,0,0,20"
+                                CornerRadius="4">
+                            <StackPanel>
+                                <TextBlock Text="ℹ️ Folder Structure" 
+                                           FontWeight="SemiBold" 
+                                           Margin="0,0,0,5"/>
+                                <TextBlock x:Name="DataFolderPathText" 
+                                           Text="" 
+                                           TextWrapping="Wrap"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Files List -->
+                        <TextBlock Text="Configuration Files:" FontWeight="SemiBold" Margin="0,10,0,10"/>
+                        <StackPanel Margin="10,0,0,0">
+                            <TextBlock Text="• connections.json - Saved database connections (encrypted)" Margin="0,3"/>
+                            <TextBlock Text="• preferences.json - Application preferences" Margin="0,3"/>
+                            <TextBlock Text="• query-history.json - Query execution history (encrypted)" Margin="0,3"/>
+                            <TextBlock Text="• missing-fk-search-history.json - Missing FK search patterns" Margin="0,3"/>
+                            <TextBlock Text="• missing-fk-ignore-history.json - Missing FK ignore configurations" Margin="0,3"/>
+                        </StackPanel>
+
+                        <!-- Subfolders List -->
+                        <TextBlock Text="Subfolders:" FontWeight="SemiBold" Margin="0,15,0,10"/>
+                        <StackPanel Margin="10,0,0,0">
+                            <TextBlock Text="• MissingFK/IgnorePatterns/ - Ignore pattern JSON files" Margin="0,3"/>
+                            <TextBlock Text="• MissingFK/Projects/ - Missing FK discovery job outputs" Margin="0,3"/>
+                        </StackPanel>
+
+                        <!-- Open Data Folder Button -->
+                        <Button x:Name="OpenDataFolderButton" 
+                                Content="📂 Open Data Folder" 
+                                Width="200" 
+                                HorizontalAlignment="Left"
+                                Margin="0,20,0,0"
+                                Click="OpenDataFolderButton_Click"
+                                Padding="10,5"
+                                FontSize="14"
+                                FontWeight="SemiBold"/>
+
+                        <!-- Warning -->
+                        <Border Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" 
+                                BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                BorderThickness="1"
+                                Padding="15" 
+                                Margin="0,20,0,0"
+                                CornerRadius="4">
+                            <StackPanel>
+                                <TextBlock Text="⚠️ Warning" 
+                                           FontWeight="Bold" 
+                                           Margin="0,0,0,5"/>
+                                <TextBlock Text="Manually editing these files may cause data loss or application errors. Always backup before making changes. Changing the data folder will NOT migrate existing files - you must move them manually." 
+                                           TextWrapping="Wrap"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- AI Settings Tab -->
+            <TabItem Header="🤖 AI">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="AI Provider Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- AI Provider Selection -->
+                        <TextBlock Text="AI Provider:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" x:Name="AiProviderComboBox" Width="250" SelectionChanged="AiProvider_SelectionChanged">
+                                <ComboBoxItem Content="Ollama (Local)" Tag="ollama" IsSelected="True"/>
+                                <ComboBoxItem Content="LM Studio (Local)" Tag="lmstudio"/>
+                                <ComboBoxItem Content="OpenAI (Cloud)" Tag="openai"/>
+                                <ComboBoxItem Content="Azure OpenAI (Cloud)" Tag="azure"/>
+                                <ComboBoxItem Content="Claude (Cloud)" Tag="claude"/>
+                                <ComboBoxItem Content="Google Gemini (Cloud)" Tag="gemini"/>
+                            </ComboBox>
+                            <Button Grid.Column="1" x:Name="AutoDetectOllamaButton" Content="🔍 Auto-Detect" 
+                                    Margin="10,0,0,0" Padding="10,5" Click="AutoDetectOllama_Click"/>
+                        </Grid>
+                        <TextBlock Text="Ollama and LM Studio are free, local AI options" 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Ollama Status Banner -->
+                        <Border x:Name="OllamaStatusBorder" Background="#1E3A1E" CornerRadius="4" 
+                                Padding="10" Margin="0,15,0,0" Visibility="Collapsed">
+                            <StackPanel>
+                                <TextBlock x:Name="OllamaStatusText" Text="✅ Ollama detected" 
+                                           FontWeight="SemiBold" Foreground="LightGreen"/>
+                                <TextBlock x:Name="OllamaStatusDetails" Text="" 
+                                           FontSize="11" Foreground="LightGray" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Ollama Settings -->
+                        <TextBlock Text="Ollama Endpoint:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <TextBox x:Name="OllamaEndpointTextBox" 
+                                 Width="300" 
+                                 Height="32"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalAlignment="Left"
+                                 Text="http://localhost:11434"/>
+                        <TextBlock Text="Default: http://localhost:11434" 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Model Selection (ComboBox for auto-detected, TextBox as fallback) -->
+                        <TextBlock Text="Model:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" x:Name="AiModelComboBox" Height="32" IsEditable="True"
+                                      Text="llama3.2" Visibility="Collapsed"/>
+                            <TextBox Grid.Column="0" x:Name="AiModelNameTextBox" 
+                                     Width="300" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Text="llama3.2"/>
+                            <Button Grid.Column="1" x:Name="RefreshModelsButton" Content="🔄" 
+                                    ToolTip="Refresh available models"
+                                    Margin="5,0,0,0" Padding="8,5" Click="RefreshModels_Click" Visibility="Collapsed"/>
+                        </Grid>
+                        <TextBlock Text="Examples: llama3.2, codellama, mistral, phi3" 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Available Models List (shown after auto-detect) -->
+                        <Expander x:Name="AvailableModelsExpander" Header="Available Models (0)" 
+                                  Margin="0,15,0,0" Visibility="Collapsed">
+                            <ListBox x:Name="AvailableModelsList" MaxHeight="150" Margin="0,5,0,0"
+                                     SelectionChanged="AvailableModelsList_SelectionChanged"/>
+                        </Expander>
+
+                        <!-- API Key (for cloud providers) -->
+                        <TextBlock Text="API Key (Cloud Providers):" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <PasswordBox x:Name="AiApiKeyPasswordBox" 
+                                     Width="300" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"/>
+                        <TextBlock Text="Required for OpenAI, Claude, Gemini. Stored securely." 
+                                   FontSize="11" Foreground="Gray" Margin="0,3,0,0"/>
+
+                        <!-- Test Connection -->
+                        <Button x:Name="TestAiConnectionButton" 
+                                Content="🧪 Test AI Connection" 
+                                Width="200" 
+                                HorizontalAlignment="Left"
+                                Margin="0,20,0,0"
+                                Click="TestAiConnection_Click"
+                                Padding="10,5"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Font Size Settings Tab -->
+            <TabItem Header="🔤 Fonts">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Font Size Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                        <!-- Object Browser Font Size -->
+                        <TextBlock Text="Object Browser Font Size:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="ObjectBrowserFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="24" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="12"/>
+                            <TextBlock x:Name="ObjectBrowserFontSizeText" 
+                                       Text="12" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Dialog Font Size -->
+                        <TextBlock Text="Dialog Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="DialogFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="24" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="14"/>
+                            <TextBlock x:Name="DialogFontSizeText" 
+                                       Text="14" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Menu Font Size -->
+                        <TextBlock Text="Menu Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="MenuFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="18" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="12"/>
+                            <TextBlock x:Name="MenuFontSizeText" 
+                                       Text="12" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Status Bar Font Size -->
+                        <TextBlock Text="Status Bar Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="StatusBarFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="16" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="11"/>
+                            <TextBlock x:Name="StatusBarFontSizeText" 
+                                       Text="11" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Property Window Font Size -->
+                        <TextBlock Text="Property Window Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="PropertyWindowFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="20" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="12"/>
+                            <TextBlock x:Name="PropertyWindowFontSizeText" 
+                                       Text="12" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Grids Tab -->
+            <TabItem Header="📊 Grids">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="Data Grid Settings" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                        <TextBlock Text="These settings apply to all DataGrid controls throughout the application" 
+                                   FontSize="11" 
+                                   Foreground="Gray" 
+                                   Margin="0,0,0,20"/>
+
+                        <!-- Grid Background Color -->
+                        <TextBlock Text="Grid Background Color:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="GridBackgroundColorTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Text="#FFFFFF"/>
+                            <Button x:Name="GridBackgroundColorPickerButton" 
+                                    Content="🎨 Pick Color" 
+                                    Margin="10,0,0,0"
+                                    Padding="10,5"
+                                    Click="GridBackgroundColorPickerButton_Click"/>
+                            <TextBlock Text="(Hex format: #FFFFFF)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Grid Foreground Color -->
+                        <TextBlock Text="Grid Foreground (Text) Color:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="GridForegroundColorTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Text="#000000"/>
+                            <Button x:Name="GridForegroundColorPickerButton" 
+                                    Content="🎨 Pick Color" 
+                                    Margin="10,0,0,0"
+                                    Padding="10,5"
+                                    Click="GridForegroundColorPickerButton_Click"/>
+                            <TextBlock Text="(Hex format: #000000)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Grid Selected Background Color -->
+                        <TextBlock Text="Grid Selected Row Background Color:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="GridSelectedBackgroundColorTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Text="#0078D4"/>
+                            <Button x:Name="GridSelectedBackgroundColorPickerButton" 
+                                    Content="🎨 Pick Color" 
+                                    Margin="10,0,0,0"
+                                    Padding="10,5"
+                                    Click="GridSelectedBackgroundColorPickerButton_Click"/>
+                            <TextBlock Text="(Hex format: #0078D4)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Grid Selected Foreground Color -->
+                        <TextBlock Text="Grid Selected Row Foreground (Text) Color:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="GridSelectedForegroundColorTextBox" 
+                                     Width="150" 
+                                     Height="32"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Text="#FFFFFF"/>
+                            <Button x:Name="GridSelectedForegroundColorPickerButton" 
+                                    Content="🎨 Pick Color" 
+                                    Margin="10,0,0,0"
+                                    Padding="10,5"
+                                    Click="GridSelectedForegroundColorPickerButton_Click"/>
+                            <TextBlock Text="(Hex format: #FFFFFF)" 
+                                       FontSize="11" 
+                                       Foreground="Gray" 
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Grid Font Size -->
+                        <TextBlock Text="Grid Font Size:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="GridFontSizeSlider" 
+                                    Width="200" 
+                                    Minimum="8" 
+                                    Maximum="24" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="12"/>
+                            <TextBlock x:Name="GridFontSizeText" 
+                                       Text="12" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- Grid Font Family -->
+                        <TextBlock Text="Grid Font Family:" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <ComboBox x:Name="GridFontFamilyComboBox" Width="200" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="Segoe UI" Tag="Segoe UI" IsSelected="True"/>
+                            <ComboBoxItem Content="Arial" Tag="Arial"/>
+                            <ComboBoxItem Content="Calibri" Tag="Calibri"/>
+                            <ComboBoxItem Content="Consolas" Tag="Consolas"/>
+                            <ComboBoxItem Content="Courier New" Tag="Courier New"/>
+                            <ComboBoxItem Content="Tahoma" Tag="Tahoma"/>
+                            <ComboBoxItem Content="Verdana" Tag="Verdana"/>
+                        </ComboBox>
+
+                        <!-- Grid Cell Height -->
+                        <TextBlock Text="Grid Cell Height (pixels):" FontWeight="SemiBold" Margin="0,20,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="GridCellHeightSlider" 
+                                    Width="200" 
+                                    Minimum="20" 
+                                    Maximum="50" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="25"/>
+                            <TextBlock x:Name="GridCellHeightText" 
+                                       Text="25" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+
+                        <!-- TreeView Settings Section -->
+                        <TextBlock Text="🌳 Object Browser (TreeView)" FontWeight="Bold" FontSize="14" Margin="0,30,0,15"/>
+                        
+                        <!-- TreeView Item Spacing -->
+                        <TextBlock Text="Item Vertical Spacing (pixels):" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="TreeViewSpacingSlider" 
+                                    Width="200" 
+                                    Minimum="0" 
+                                    Maximum="10" 
+                                    TickFrequency="1" 
+                                    IsSnapToTickEnabled="True"
+                                    VerticalAlignment="Center"
+                                    Value="2"/>
+                            <TextBlock x:Name="TreeViewSpacingText" 
+                                       Text="2" 
+                                       Width="30" 
+                                       VerticalAlignment="Center" 
+                                       Margin="10,0,0,0"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="Tip: Use Ctrl+Shift++ and Ctrl+Shift+- to adjust spacing quickly" 
+                                   FontSize="11" 
+                                   FontStyle="Italic"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="10">
+            <Button Content="Reset to Defaults" 
+                    Width="130" 
+                    Height="32" 
+                    Margin="0,0,10,0"
+                    Click="ResetToDefaults_Click"/>
+            <Button Content="Save" 
+                    Width="100" 
+                    Height="32" 
+                    Margin="0,0,10,0"
+                    Click="Save_Click"
+                    IsDefault="True"
+                    Style="{StaticResource AccentButtonStyle}"/>
+            <Button Content="Cancel" 
+                    Width="100" 
+                    Height="32"
+                    Click="Cancel_Click"
+                    IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

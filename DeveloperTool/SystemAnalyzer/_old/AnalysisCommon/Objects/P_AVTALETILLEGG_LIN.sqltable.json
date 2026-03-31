@@ -1,0 +1,208 @@
+{
+  "tableName": "P_AVTALETILLEGG_LIN",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Avtale-/kontr.till - linjer med kvantum og satser.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KONTRAKT_TYPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "ANLEGGNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "SLAG",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "ART",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "SORT",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "OKOLOGISK",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "FOR_MAT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "KVANTUM",
+        "typeName": "DECIMAL",
+        "length": 7,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "PROSENT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "KORNHANDLER",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "KORNHANDLER"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "KONTRAKT_TYPE",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "KONTRAKT_TYPE"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "ANLEGGNR",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "ANLEGGNR"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "SLAG",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "SLAG"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "ART",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "ART"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "SORT",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "SORT"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "OKOLOGISK",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "OKOLOGISK"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "FOR_MAT",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "FOR_MAT"
+      },
+      {
+        "constraintName": "FK_AVTT",
+        "childColumn": "FRA_DATO",
+        "parentTable": "P_AVTALETILLEGG",
+        "parentSchema": "DBM",
+        "parentColumn": "FRA_DATO"
+      }
+    ]
+  }
+}

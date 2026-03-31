@@ -1,0 +1,64 @@
+{
+  "tableName": "PARTIHIST",
+  "futureName": "PartiHistory",
+  "namespace": "HistoricalData",
+  "columns": [
+    {
+      "name": "TIDSPUNKT_ENDRET",
+      "futureName": "LastUpdatedTimestamp",
+      "description": "Timestamp indicating when the record was last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year of the event or transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number associated with the entity",
+      "foreignKey": null
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "Unique identifier for a party involved in transactions",
+      "foreignKey": [
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "ANLEGGNR",
+      "futureName": "EstablishmentNumber",
+      "description": "Number of the establishment where the transaction occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP",
+      "futureName": "Amount",
+      "description": "Monetary amount related to the transaction or event",
+      "foreignKey": [
+        "MOTTAK"
+      ]
+    },
+    {
+      "name": "LAGERBOKBLADNR",
+      "futureName": "InventoryJournalNumber",
+      "description": "Number of the inventory journal entry",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user who performed the transaction or event",
+      "foreignKey": [
+        "A_ORDREHODE"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:25:34"
+}

@@ -1,0 +1,112 @@
+{
+  "tableName": "PAKK_LINJER",
+  "futureName": "OrderLine",
+  "namespace": "Packings",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKSEDDELNR",
+      "futureName": "DeliveryNoteNumber",
+      "description": "Unique delivery note identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR_ORDRE",
+      "futureName": "OrderLineNumber",
+      "description": "Line number within the order (duplicate of LINJENR)",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FunctionNumber",
+      "description": "Function number",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR_VARE",
+      "futureName": "SupplierPartNumber",
+      "description": "Supplier part number",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVVARENR",
+      "futureName": "MaterialCode",
+      "description": "Material code or supplier reference",
+      "foreignKey": "LEVNR_VARE"
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ItemName",
+      "description": "Item name",
+      "foreignKey": "LEVVARENR"
+    },
+    {
+      "name": "ANT_BESTILT",
+      "futureName": "QuantityOrdered",
+      "description": "Quantity ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_MOTTATT",
+      "futureName": "QuantityReceived",
+      "description": "Quantity received",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_LEVERT",
+      "futureName": "QuantityShipped",
+      "description": "Quantity shipped",
+      "foreignKey": null
+    },
+    {
+      "name": "INNGANGNR",
+      "futureName": "EntryNumber",
+      "description": "Entry number",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Order line status",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the last update",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User who performed the action",
+      "foreignKey": null
+    },
+    {
+      "name": "KOSTPRIS",
+      "futureName": "CostPrice",
+      "description": "Cost price of the item",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:22:27"
+}

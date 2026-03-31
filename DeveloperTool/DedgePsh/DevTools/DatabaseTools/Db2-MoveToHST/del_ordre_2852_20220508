@@ -1,0 +1,85 @@
+CONNECT TO BASISPRO 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT TO BASISREG
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISREG
+
+
+***** SQLCODE: 0 *****
+ 
+
+delete from dbm.ah_ordrehode h where date(h.tidspunkt) < (current date - 6 years) and h.avdnr = 2852 and month(h.tidspunkt) between 01 and 03 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  h.avdnr = a.avdnr and    h.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 20216
+Antall rader berørt pga. relasjoner : 98354
+ 
+
+delete from dbm.ah_ordrehode h where date(h.tidspunkt) < (current date - 6 years) and h.avdnr = 2852 and month(h.tidspunkt) between 04 and 06 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  h.avdnr = a.avdnr and    h.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 29953
+Antall rader berørt pga. relasjoner : 141082
+ 
+
+delete from dbm.ah_ordrehode h where date(h.tidspunkt) < (current date - 6 years) and h.avdnr = 2852 and month(h.tidspunkt) between 07 and 09 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  h.avdnr = a.avdnr and    h.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 25015
+Antall rader berørt pga. relasjoner : 117969
+ 
+
+delete from dbm.ah_ordrehode h where date(h.tidspunkt) < (current date - 6 years) and h.avdnr = 2852 and month(h.tidspunkt) between 10 and 12 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  h.avdnr = a.avdnr and    h.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 23432
+Antall rader berørt pga. relasjoner : 115473
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 6 years) and v.avdnr = 2852 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 215091
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.h_verkstedhode v where date(v.tidspunkt) < (current date - 6 years) and v.avdnr = 2852 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 2
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_frakt_olinjer v where date(v.tidspunkt) < (current date - 6 years) and v.avdnr = 2852 and  exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 12
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.mh_ordrelinjer v where avdnr = 2852 and    exists (select 1 from dbm.ah_ordre_til_hist_2852 a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 51
+Antall rader berørt pga. relasjoner : 0
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

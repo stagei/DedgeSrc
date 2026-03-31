@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>13</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- NuGet Package Metadata -->
+    <PackageId>SqlMermaidErdTools</PackageId>
+    <Version>0.3.1</Version>
+    <Authors>Geir Helge Starholm</Authors>
+    <Company>Dedge AS</Company>
+    <Product>SqlMermaidErdTools</Product>
+    <Description>Bidirectional converter between SQL DDL and Mermaid ERD diagrams with advanced features. Transform database schemas to Mermaid diagrams (SQL→MMD), generate SQL from Mermaid diagrams (MMD→SQL), translate between SQL dialects (SQL→SQL), and generate ALTER statements from diagram changes (MMD DIFF→SQL). Supports 31+ SQL dialects including SQL Server (T-SQL), PostgreSQL, MySQL, Oracle, SQLite, Snowflake, BigQuery, Redshift, Databricks, DuckDB, ClickHouse, Apache Spark, Presto, Trino, and more. Perfect for database design, documentation, schema migration, and multi-database deployments. Zero-configuration - includes embedded Python runtime. Powered by SQLGlot (https://github.com/tobymao/sqlglot) by Toby Mao.</Description>
+    <!-- Keywords for discoverability (semicolon-separated) -->
+    <PackageTags>sql;mermaid;erd;diagram;converter;database;schema;ddl;entity-relationship;sqlglot;sql-to-mermaid;mermaid-to-sql;bidirectional;database-schema;schema-visualization;er-diagram;entity-relationship-diagram;sql-parser;database-diagram;database-documentation;schema-converter;mermaid-js;dialect-translation;schema-migration;alter-statements;diff;tsql;postgresql;mysql;sqlite;oracle;snowflake;bigquery;redshift;databricks;duckdb;clickhouse;spark;hive;presto;trino;database-tools;developer-tools;documentation;visualization;cloud-database;data-warehouse</PackageTags>
+    <!-- Licensing & Legal -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2025 Dedge AS</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <!-- Project URLs -->
+    <PackageProjectUrl>https://www.dedge.no</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/geirtul/SqlMermaidErdTools</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- Package Icon (128x128 or 256x256 PNG recommended) -->
+    <PackageIcon>icon.png</PackageIcon>
+    <!-- README -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- Release Notes -->
+    <PackageReleaseNotes>Version 0.3.1 - FIXED: Scripts and runtimes now auto-deploy to consuming projects. Added MSBuild targets for proper NuGet integration. Package now truly zero-configuration!</PackageReleaseNotes>
+    <!-- Build Options -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\Docs\THIRD-PARTY-LICENSES.md" Pack="true" PackagePath="THIRD-PARTY-LICENSES.md" />
+    <None Include="..\..\Resources\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <!-- Include scripts in package -->
+  <ItemGroup>
+    <Content Include="scripts\**\*">
+      <PackagePath>scripts</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <!-- Include runtime files in package and output -->
+  <ItemGroup>
+    <Content Include="runtimes\**\*">
+      <PackagePath>runtimes</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>runtimes\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  <!-- Include MSBuild targets for NuGet package consumers -->
+  <ItemGroup>
+    <None Include="build\SqlMermaidErdTools.targets" Pack="true" PackagePath="build" />
+    <None Include="build\SqlMermaidErdTools.targets" Pack="true" PackagePath="buildTransitive" />
+  </ItemGroup>
+</Project>

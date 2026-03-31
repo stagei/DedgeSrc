@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Date>2025-06-10T00:41:53.730798</Date>
+    <Author>DEDGE\p1_srv_fkmprd_app</Author>
+    <URI>\Dedge batchjobber\AD_BRUKER export og import til DB</URI>
+  </RegistrationInfo>
+  <Principals>
+    <Principal id="Author">
+      <UserId>DEDGE\p1_srv_fkmprd_app</UserId>
+      <LogonType>Password</LogonType>
+    </Principal>
+  </Principals>
+  <Settings>
+    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <IdleSettings>
+      <StopOnIdleEnd>true</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+  </Settings>
+  <Triggers>
+    <CalendarTrigger>
+      <StartBoundary>2025-06-09T09:00:00.000000</StartBoundary>
+      <ScheduleByDay>
+        <DaysInterval>1</DaysInterval>
+      </ScheduleByDay>
+    </CalendarTrigger>
+  </Triggers>
+  <Actions Context="Author">
+    <Exec>
+      <Command>E:\opt\DedgePshApps\ad\RunExportImportAD.bat</Command>
+      <WorkingDirectory>E:\opt\DedgePshApps\ad</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>

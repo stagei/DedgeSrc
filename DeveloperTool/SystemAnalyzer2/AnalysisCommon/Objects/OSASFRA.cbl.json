@@ -1,0 +1,93 @@
+{
+  "program": "OSASFRA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:27b0ed639899f1fc7bb86d35623d2d37d6435736206c2ed78cb188a5ac2f6787",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OSASFRA.cbl",
+    "actualName": "OSASFRA",
+    "program": "OSASFRA",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASQLL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "FRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRAN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TR_POSTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRFRAKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TR_AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRFRAKT_NORD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

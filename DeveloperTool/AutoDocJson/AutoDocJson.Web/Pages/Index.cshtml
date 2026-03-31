@@ -1,0 +1,242 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var tabs = new[] {
+        ("cbl", "COBOL", "bi-cpu", Model.CblFiles, "tab.cobol"),
+        ("bat", "Batch", "bi-terminal", Model.BatFiles, "tab.batch"),
+        ("ps1", "PowerShell", "bi-code-slash", Model.Ps1Files, "tab.powershell"),
+        ("rex", "Rexx", "bi-filetype-raw", Model.RexFiles, "tab.rexx"),
+        ("sql", "SQL Tables", "bi-database", Model.SqlFiles, "tab.sqlTables"),
+        ("csharp", "C# Solutions", "bi-braces", Model.CSharpFiles, "tab.csharpSolutions")
+    };
+}
+
+<!-- Dashboard Header -->
+<div class="autodoc-navbar">
+    <div id="DedgeAuthHeader" data-app-title="AutoDoc" data-home-url="/AutoDocJson/"></div>
+    <div class="header-controls">
+        <!-- Scheduler Job Menu -->
+        <div class="scheduler-dropdown" id="scheduler-menu">
+            <button class="btn btn-outline scheduler-trigger" onclick="toggleSchedulerMenu()">
+                <span class="scheduler-status-dot" id="scheduler-dot"></span>
+                <i class="bi bi-clock-history"></i> <span data-i18n="scheduler.job">Job</span>
+                <i class="bi bi-chevron-down" style="font-size: 0.7rem;"></i>
+            </button>
+            <div class="scheduler-panel" id="scheduler-panel" style="display: none;">
+                <div class="scheduler-panel-header">
+                    <span class="scheduler-panel-title" data-i18n="scheduler.title">AutoDocJson Batch Runner</span>
+                    <span class="scheduler-badge" id="scheduler-state-badge">--</span>
+                </div>
+                <div class="scheduler-info" id="scheduler-info">
+                    <div class="scheduler-info-row">
+                        <span class="scheduler-info-label" data-i18n="scheduler.status">Status</span>
+                        <span class="scheduler-info-value" id="sched-status">--</span>
+                    </div>
+                    <div class="scheduler-info-row">
+                        <span class="scheduler-info-label" data-i18n="scheduler.lastRun">Last Run</span>
+                        <span class="scheduler-info-value" id="sched-lastrun">--</span>
+                    </div>
+                    <div class="scheduler-info-row">
+                        <span class="scheduler-info-label" data-i18n="scheduler.lastResult">Last Result</span>
+                        <span class="scheduler-info-value" id="sched-lastresult">--</span>
+                    </div>
+                    <div class="scheduler-info-row">
+                        <span class="scheduler-info-label" data-i18n="scheduler.nextRun">Next Run</span>
+                        <span class="scheduler-info-value" id="sched-nextrun">--</span>
+                    </div>
+                    <div class="scheduler-info-row">
+                        <span class="scheduler-info-label" data-i18n="scheduler.schedule">Schedule</span>
+                        <span class="scheduler-info-value" id="sched-schedule">--</span>
+                    </div>
+                </div>
+                <div class="scheduler-actions" id="scheduler-actions">
+                    <button class="btn btn-sm btn-primary" id="sched-btn-start" onclick="schedulerAction('start')">
+                        <i class="bi bi-play-fill"></i> <span data-i18n="scheduler.runNow">Run Now</span>
+                    </button>
+                    <button class="btn btn-sm btn-warning" id="sched-btn-regenerate" onclick="schedulerAction('regenerate-all', true)">
+                        <i class="bi bi-arrow-repeat"></i> <span data-i18n="scheduler.regenerateAll">Regenerate All</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline" id="sched-btn-stop" onclick="schedulerAction('stop')" disabled>
+                        <i class="bi bi-stop-fill"></i> <span data-i18n="scheduler.stop">Stop</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline" id="sched-btn-enable" onclick="schedulerAction('enable')" style="display:none;">
+                        <i class="bi bi-toggle-on"></i> <span data-i18n="scheduler.enable">Enable</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline" id="sched-btn-disable" onclick="schedulerAction('disable')">
+                        <i class="bi bi-toggle-off"></i> <span data-i18n="scheduler.disable">Disable</span>
+                    </button>
+                </div>
+                <div class="scheduler-error" id="scheduler-error" style="display: none;"></div>
+            </div>
+        </div>
+        <div id="DedgeAuthUserMenu"></div>
+        <div id="DedgeAuthThemePill"></div>
+    </div>
+</div>
+
+<div class="container" style="max-width: 2100px; margin: 0 auto; padding: 1.5rem;">
+
+    <!-- Search Controls Bar -->
+    <div class="controls-bar">
+        <div class="filter-row search-input-row">
+            <label data-i18n="search.label">Search</label>
+            <div class="search-input-wrapper" id="search-container">
+                <input type="text" id="search-input" data-i18n-placeholder="search.placeholder" placeholder="Search @Model.TotalCount docs... (Ctrl+K)" autocomplete="off" />
+                <div class="search-dropdown" id="search-dropdown"></div>
+            </div>
+        </div>
+        <div class="filter-row">
+            <label data-i18n="search.types">Types</label>
+            <div class="preset-buttons" id="type-presets">
+                <button type="button" class="btn-preset active" data-type="all" data-i18n="button.all">All</button>
+                <button type="button" class="btn-preset" data-type="CBL">CBL</button>
+                <button type="button" class="btn-preset" data-type="SQL">SQL</button>
+                <button type="button" class="btn-preset" data-type="BAT">BAT</button>
+                <button type="button" class="btn-preset" data-type="PS1">PS1</button>
+                <button type="button" class="btn-preset" data-type="REX">REX</button>
+                <button type="button" class="btn-preset" data-type="CSharp">C#</button>
+            </div>
+        </div>
+        <div class="filter-row field-filter-row">
+            <label data-i18n="search.field">Field</label>
+            <select id="field-filter">
+                <option value="" data-i18n="search.allFields">All fields</option>
+            </select>
+        </div>
+        <div class="refresh-controls">
+            <button class="btn btn-primary" onclick="runSimpleSearch()">🔍 <span data-i18n="search.searchBtn">Search</span></button>
+            <div class="search-history-container">
+                <button class="btn btn-outline" onclick="toggleSavedSearches()">🕐 <span data-i18n="search.recent">Recent</span></button>
+                <div id="search-history-dropdown" class="search-history-dropdown" style="display: none;"></div>
+            </div>
+            <button class="btn btn-outline" id="btn-toggle-advanced" onclick="toggleAdvanced()">🔎 <span data-i18n="search.advanced">Advanced</span></button>
+        </div>
+    </div>
+
+    <!-- Advanced Search - Query Builder (initially hidden) -->
+    <div class="query-builder" id="advanced-panel" style="display: none;">
+        <div class="query-builder-header">
+            <h2 data-i18n="search.queryBuilder">Query Builder</h2>
+            <button class="btn btn-outline btn-sm" onclick="clearAdvancedFilters()" data-i18n="search.clearAll">Clear All</button>
+        </div>
+        <div class="query-rows" id="advanced-filters"></div>
+        <button class="add-row-btn" onclick="addFilterRow()" data-i18n="search.addFieldFilter">+ Add Field Filter</button>
+        <div class="query-actions">
+            <div class="logic-toggle">
+                <label data-i18n="search.logic">Logic:</label>
+                <label><input type="radio" name="logic" value="AND" checked /> AND</label>
+                <label><input type="radio" name="logic" value="OR" /> OR</label>
+            </div>
+            <button class="btn btn-primary" onclick="runAdvancedSearch()">🔍 <span data-i18n="search.searchBtn">Search</span></button>
+            <button class="btn btn-outline" onclick="saveCurrentSearch()">💾 <span data-i18n="search.saveFilter">Save Filter</span></button>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="panel" id="search-results-wrapper" style="display: none;">
+        <div class="panel-header">
+            <span class="panel-title" data-i18n="search.results">Results</span>
+            <span class="panel-summary" id="results-count"></span>
+        </div>
+        <div class="panel-body">
+            <div id="search-results"></div>
+            <div id="results-empty" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">🔍</div>
+                <div class="empty-state-title" data-i18n="search.readyTitle">Ready to Search</div>
+                <div class="empty-state-message" data-i18n="search.readyMessage">Use the filters above to search documentation files.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card-tabs -->
+    <div class="dashboard-cardtabs">
+        @{ var isFirst = true; }
+        @foreach (var (id, label, icon, files, i18nKey) in tabs)
+        {
+            <button class="dashboard-cardtab @(isFirst ? "active" : "")" onclick="showTab('@id', this)">
+                <i class="bi @icon cardtab-icon"></i>
+                <span class="cardtab-count">@files.Count</span>
+                <span class="cardtab-label" data-i18n="@i18nKey">@label</span>
+            </button>
+            isFirst = false;
+        }
+    </div>
+
+    <!-- Tab content -->
+    @{ isFirst = true; }
+    @foreach (var (id, label, icon, files, i18nKey) in tabs)
+    {
+        <div class="dashboard-tab-content" id="tab-@id" style="@(isFirst ? "" : "display:none;")">
+            @if (files.Count == 0)
+            {
+                <div class="empty-state">
+                    <div class="empty-state-icon">📂</div>
+                    <div class="empty-state-title" data-i18n="empty.noFiles">No @label files</div>
+                    <div class="empty-state-message" data-i18n="empty.noFilesMessage">No @label files documented yet.</div>
+                </div>
+            }
+            else
+            {
+                <table class="file-list-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.file">File</th>
+                            <th data-i18n="table.description">Description</th>
+                            <th data-i18n="table.generated">Generated</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var f in files)
+                        {
+                            <tr>
+                                <td><a href="~/Doc?file=@f.JsonFile" style="color: var(--accent-primary);">@DisplayHelpers.ToTitleCase(f.FileName)</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@f.Description</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+                                    @if (DateTime.TryParse(f.GeneratedAt, out var dt))
+                                    { @dt.ToString("yyyy-MM-dd HH:mm") }
+                                </td>
+                                <td>
+                                    <a href="~/docs/@(f.JsonFile.Replace(".json", ".html"))" data-i18n-title="button.viewStaticHtml" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        isFirst = false;
+    }
+</div>
+
+@section Scripts {
+<script>
+    function showTab(tabId, btn) {
+        document.querySelectorAll('.dashboard-tab-content').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.dashboard-cardtab').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).style.display = '';
+        btn.classList.add('active');
+    }
+
+    if (typeof setTheme === 'undefined') {
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('autodoc-theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('autodoc-theme', theme);
+            const lightBtn = document.getElementById('theme-light');
+            const darkBtn = document.getElementById('theme-dark');
+            if (lightBtn) lightBtn.classList.toggle('active', theme === 'light');
+            if (darkBtn) darkBtn.classList.toggle('active', theme === 'dark');
+        }
+        setTheme(getPreferredTheme());
+    }
+</script>
+}

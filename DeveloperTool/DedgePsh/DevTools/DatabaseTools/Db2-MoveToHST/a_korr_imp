@@ -1,0 +1,13 @@
+-- Kjørt for 2016          10/02-2023
+-- Kjørt for 2017+2018     12/11-2023
+-- Kjørt for 2019          20/07-2025
+--
+-- Husk å sjekke om det har kommet til nye felt
+-- Husk å endre filenavn
+--
+  connect to BASISHST;
+  LOAD from  p:\tru\A_korrigeringer_2019.IXF OF IXF INSERT INTO
+       DBM.A_KORRIGERINGER      NONRECOVERABLE; 
+  SET INTEGRITY FOR DBM.A_KORRIGERINGER CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED;
+--
+//

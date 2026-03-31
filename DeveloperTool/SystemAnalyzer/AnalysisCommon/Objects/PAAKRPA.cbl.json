@@ -1,0 +1,93 @@
+{
+  "program": "PAAKRPA",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:03",
+  "extraction": {
+    "sourceHash": "sha256:cd54318189d6e2ef9f996ff55c639cf3742650b3d88dcc96d1631720d7372461",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAAKRPA.CBL",
+    "actualName": "PAAKRPA",
+    "program": "PAAKRPA",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RENT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFEI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRPA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_RENTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_RENTER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FEILMELD",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "OKALOGG",
+      "PAFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:03"
+  }
+}

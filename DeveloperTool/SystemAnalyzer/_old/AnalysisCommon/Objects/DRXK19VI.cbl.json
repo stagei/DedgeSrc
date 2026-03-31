@@ -1,0 +1,52 @@
+{
+  "program": "DRXK19VI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:39",
+  "extraction": {
+    "sourceHash": "sha256:1734a83ee33648829938f2eb4af31748664b325284cb79aea65f01ad3009882d",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DRXK19VI.CBL",
+    "actualName": "DRXK19VI",
+    "program": "DRXK19VI",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVD_FOMR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [],
+    "fileIO": [
+      {
+        "logicalName": "UT-FILE",
+        "physicalName": "TO",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:39"
+  }
+}

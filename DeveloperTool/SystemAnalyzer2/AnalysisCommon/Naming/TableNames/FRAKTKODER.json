@@ -1,0 +1,94 @@
+{
+  "tableName": "FRAKTKODER",
+  "futureName": "FrafTkoCode",
+  "namespace": "Freight",
+  "columns": [
+    {
+      "name": "FRAKTKODE",
+      "futureName": "FraktCode",
+      "description": "Unique code for shipping rates",
+      "foreignKey": null
+    },
+    {
+      "name": "BESKRIVELSE",
+      "futureName": "Description",
+      "description": "Detailed description of the frakt code",
+      "foreignKey": null
+    },
+    {
+      "name": "FRAKTTABNR",
+      "futureName": "FrachtTableNumber",
+      "description": "Identifier for shipping rate table",
+      "foreignKey": null
+    },
+    {
+      "name": "FRAKTTABNR_TILLAG",
+      "futureName": "TillaggedTableNumber",
+      "description": "Optional additional identifier for shipping rate table",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the record was created or modified",
+      "foreignKey": null
+    },
+    {
+      "name": "STEDSFRAKT",
+      "futureName": "PlaceFrakt",
+      "description": "Indicates if place-specific shipping charges apply",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_LAGERTILLEGG",
+      "futureName": "StorageAmount",
+      "description": "Amount for storage related to the fracht code",
+      "foreignKey": null
+    },
+    {
+      "name": "VISES_I_VAREAJOURHOLD",
+      "futureName": "DisplayedInVareajourhold",
+      "description": "Indicates if this frakt code is displayed in vareajourhold (inventory management system)",
+      "foreignKey": null
+    },
+    {
+      "name": "FRAKTKODE_SAM_SUM",
+      "futureName": "CombinedFrachtCode",
+      "description": "Code indicating whether different frakt codes should be combined for the same order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_STEDSFRAKT",
+      "futureName": "PlaceFrachtAmount",
+      "description": "Amount of place-specific shipping charges",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_STEDSFRAKT_TILSKUDD",
+      "futureName": "AdditionalPlaceFrachtAmount",
+      "description": "Additional amount for place-specific shipping charges",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_STEDSFRAKT_TILSK_UREF",
+      "futureName": "UnreferencedPlaceFrachtAmount",
+      "description": "Unreferenced additional amount for place-specific shipping charges",
+      "foreignKey": null
+    },
+    {
+      "name": "SESONG_RABNR",
+      "futureName": "SeasonDiscountNumber",
+      "description": "Number identifying the season discount applicable to this frakt code",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:28:26"
+}

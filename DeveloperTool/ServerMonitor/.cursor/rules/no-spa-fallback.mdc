@@ -1,0 +1,25 @@
+---
+description: MANDATORY — Prevent MapFallbackToFile from breaking CSS under IIS virtual apps
+globs: src/ServerMonitorDashboard/Program.cs
+alwaysApply: true
+---
+
+# NEVER Use MapFallbackToFile
+
+## Prohibition
+
+**NEVER add `MapFallbackToFile`, `MapFallback`, or any SPA-style catch-all fallback** to this application.
+
+This is a **multi-page application** with separate HTML files. It is **NOT** a Single-Page Application (SPA). There is no client-side router.
+
+## Why This Exists
+
+`MapFallbackToFile("index.html")` prevents IIS from issuing its built-in trailing-slash redirect on virtual application roots (`/ServerMonitorDashboard` → `/ServerMonitorDashboard/`). Without the redirect, the browser URL lacks a trailing slash and every relative CSS/JS path resolves to the wrong location, breaking all styling.
+
+## Correct Static File Configuration
+
+```csharp
+app.UseDefaultFiles();    // Rewrites / → /index.html
+app.UseStaticFiles();     // Serves wwwroot/* files
+// No fallback. No catch-all.
+```

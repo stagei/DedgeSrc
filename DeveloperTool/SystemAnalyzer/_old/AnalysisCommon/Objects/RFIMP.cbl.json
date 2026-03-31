@@ -1,0 +1,254 @@
+{
+  "program": "RFIMP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:12:09",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Printer output spool",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:11:58"
+    },
+    "FILFAST": {
+      "logicalName": "FILFAST",
+      "physicalVariable": "ww-filfast",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File assigned to ww-filfast, construction details not provided",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:12:02"
+    },
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-INNFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date, but specific values are dynamic",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:12:05"
+    },
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-UTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and pattern not explicitly defined for WW-UTFIL, but based on program context, it seems filenames follow a userid-date pattern with .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:12:09"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "RFIMP",
+    "program": "RFIMP",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFVGSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSFF046.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2018",
+        "type": "copybook"
+      },
+      {
+        "name": "DB.",
+        "type": "copybook"
+      },
+      {
+        "name": "FKSQL.",
+        "type": "copybook"
+      },
+      {
+        "name": "DIRBIND.LOG",
+        "type": "log"
+      },
+      {
+        "name": "DB2019",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2020",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2022",
+        "type": "copybook"
+      },
+      {
+        "name": "DB2021",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FWIL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR21.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR13.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [],
+    "callTargets": [
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "RHASMS",
+      "TIL_MONITOR",
+      "SJEKK_FKSQL",
+      "COPYMON",
+      "SQLEXEC",
+      "D01B998",
+      "GMAPATH",
+      "FTPSETUSER",
+      "TIL_BORG_SKIP",
+      "FTP_LOGON_BORG_SKIPT",
+      "FTP_LOGOFF",
+      "FTP_LOGON",
+      "SEND_FILES_MODERN",
+      "SEND_REQUESTS_MODERN",
+      "FTP_SEND_BORGSKIP",
+      "LOGG_FELTER",
+      "SAVEMF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "WW-PRINTER",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Printer output spool"
+      },
+      {
+        "logicalName": "FILFAST",
+        "physicalName": "ww-filfast",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File assigned to ww-filfast, construction details not provided"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date, but specific values are dynamic"
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and pattern not explicitly defined for WW-UTFIL, but based on program context, it seems filenames follow a userid-date pattern with .CSV extension"
+      }
+    ],
+    "extractedAt": "2026-03-28T19:12:09"
+  }
+}

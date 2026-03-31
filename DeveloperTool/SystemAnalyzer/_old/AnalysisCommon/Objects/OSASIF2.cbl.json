@@ -1,0 +1,78 @@
+{
+  "program": "OSASIF2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:f8a4b0e4de2f33393619c40074896702690c79386bf2c77dac271d2cb3713802",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OSASIF2.CBL",
+    "actualName": "OSASIF2",
+    "program": "OSASIF2",
+    "copyElements": [
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OSASIFR.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAME",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AD_BRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDEADR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTSTED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACNCT",
+      "GMAVHTM",
+      "GMADATO",
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

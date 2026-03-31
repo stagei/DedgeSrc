@@ -1,0 +1,102 @@
+CONNECT TO basishst 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 8.2.7
+ SQL authorization ID   = NETADM
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  LOAD FROM \\SFKDC02\EDB\FKAVD\BASISHST\ORDREH03.IXF OF IXF INSERT INTO
+       DBM.H_ORDREHODE      NONRECOVERABLE USING F:\DRLOAD;
+ 
+SQL3501W  The table space(s) in which the table resides will not be placed in 
+backup pending state since forward recovery is disabled for the database.
+
+SQL3109N  The utility is beginning to load data from file 
+"\\SFKDC02\EDB\FKAVD\BASISHST\ORDREH03.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "18.06.2007 
+18.01.05.488186".
+
+SQL2061N  An attempt to access media 
+"\\SFKDC02\EDB\FKAVD\BASISHST\ORDREH03.IXF" is denied.
+
+SQL1652N  File I/O error occurred.
+
+
+ sqlcaid : SQLCA     sqlcabc: 136   sqlcode: -1652   sqlerrml: 0
+ sqlerrmc: 
+ sqlerrp : SQLULMRR
+ sqlerrd : (1) 0                (2) 0                (3) 0
+           (4) 0                (5) 0                (6) 0
+ sqlwarn : (1)      (2)      (3)      (4)        (5)       (6)
+           (7)      (8)      (9)      (10)       (11)
+ sqlstate:
+db2 [option ...] [db2-command | sql-statement |
+    [? [phrase | message | sqlstate | class-code]]]
+option: -a, -c, -e{c|s}, -finfile, -lhistfile, -o, -n, -p, -rreport, -s,
+        -t, -td;, -v, -w, -x, -zoutputfile.
+db2-command:
+ ACTIVATE DATABASE        GET/UPDATE DB CFG          RECONCILE
+ ADD CONTACT              GET/UPDATE DBM CFG         RECOVER
+ ADD CONTACTGROUP         GET DBM MONITOR SWITCHES   REDISTRIBUTE DB PARTITION
+ ADD DATALINKS MANAGER    GET DESCRIPTION FOR HEALTH REFRESH LDAP
+ ADD DBPARTITIONNUM       GET NOTIFICATION LIST      REGISTER
+ ARCHIVE LOG              GET HEALTH SNAPSHOT        REORG INDEXES/TABLE
+ ATTACH                   GET INSTANCE               REORGCHK
+ AUTOCONFIGURE            GET MONITOR SWITCHES       RESET ADMIN CFG
+ BACKUP DATABASE          GET RECOMMENDATIONS        RESET ALERT CFG
+ BIND                     GET ROUTINE                RESET DB CFG
+ CATALOG APPC NODE        GET SNAPSHOT               RESET DBM CFG
+ CATALOG APPN NODE        HELP                       RESET MONITOR
+ CATALOG DATABASE         HISTORY                    RESTART DATABASE
+ CATALOG DCS DATABASE     IMPORT                     RESTORE DATABASE
+ CATALOG LDAP DATABASE    INITIALIZE TAPE            REWIND TAPE
+ CATALOG LDAP NODE        INSPECT                    ROLLFORWARD DATABASE
+ CATALOG LOCAL NODE       LIST ACTIVE DATABASES      RUNCMD
+ CATALOG NPIPE NODE       LIST APPLICATIONS          RUNSTATS
+ CATALOG NETBIOS NODE     LIST COMMAND OPTIONS       SET CLIENT
+ CATALOG ODBC DATA SOURCE LIST DATABASE DIRECTORY    SET RUNTIME DEGREE
+ CATALOG TCPIP NODE       LIST DB PARTITION GROUPS   SET TABLESPACE CONTAINERS
+ CHANGE DATABASE COMMENT  LIST DATALINKS MANAGERS    SET TAPE POSITION
+ CHANGE ISOLATION LEVEL   LIST DBPARTITIONNUMS       SET UTIL_IMPACT_PRIORITY
+ CREATE DATABASE          LIST DCS APPLICATIONS      SET WRITE
+ CREATE TOOLS CATALOG     LIST DCS DIRECTORY         START DATABASE MANAGER
+ DEACTIVATE DATABASE      LIST DRDA INDOUBT          START HADR
+ DEREGISTER               LIST HISTORY               STOP DATABASE MANAGER
+ DESCRIBE                 LIST INDOUBT TRANSACTIONS  STOP HADR
+ DETACH                   LIST NODE DIRECTORY        TAKEOVER
+ DROP CONTACT             LIST ODBC DATA SOURCES     TERMINATE
+ DROP CONTACTGROUP        LIST PACKAGES/TABLES       UNCATALOG DATABASE
+ DROP DATABASE            LIST TABLESPACE CONTAINERS UNCATALOG DCS DATABASE
+ DROP DATALINKS MANAGER   LIST TABLESPACES           UNCATALOG LDAP DATABASE
+ DROP DBPARTITIONNUM      LIST UTILITIES             UNCATALOG LDAP NODE
+ DROP TOOLS CATALOG       LOAD                       UNCATALOG NODE
+ ECHO                     LOAD QUERY                 UNCATALOG ODBC DATA
+ EDIT                     MIGRATE DATABASE           UNQUIESCE DATABASE
+ EXPORT                   PING                       UNQUIESCE INSTANCE
+ FORCE APPLICATION        PREP/PRECOMPILE            UPDATE ALERT CFG
+ GET/UPDATE ADMIN CFG     PRUNE HISTORY/LOGFILE      UPDATE COMMAND OPTIONS
+ GET ALERT CFG            PUT ROUTINE                UPDATE CONTACT
+ GET AUTHORIZATIONS       QUERY CLIENT               UPDATE CONTACTGROUP
+ GET/UPDATE CLI CFG       QUIESCE DATABASE           UPDATE NOTIFICATION LIST
+ GET CONNECTION STATE     QUIESCE INSTANCE           UPDATE HISTORY
+ GET CONTACTGROUP         QUIESCE TABLESPACES        UPDATE LDAP NODE
+ GET CONTACTGROUPS        QUIT                       UPDATE MONITOR SWITCHES
+ GET CONTACTS             REBIND
+
+Note:  Some commands are operating system specific and may not be available.
+
+For further help:
+                  ? db2-command   - help for specified command
+                  ? OPTIONS       - help for all command options
+                  ? HELP          - help for reading help screens
+The preceding three options can be run as db2 <option> from an OS prompt.
+
+                  !db2ic          - DB2 Information Center (Windows only)
+This command can also be run as db2ic from an OS prompt.
+ 
+

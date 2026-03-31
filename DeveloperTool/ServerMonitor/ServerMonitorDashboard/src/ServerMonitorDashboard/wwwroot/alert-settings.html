@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.alertSettings">Agent Alert Settings - ServerMonitor</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    <link rel="stylesheet" href="css/form-editor.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+</head>
+<body>
+    <div class="form-editor-page">
+        <!-- Header -->
+        <header class="form-header">
+            <div class="header-left">
+                <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+                <button class="btn btn-back" onclick="window.close()" title="Close window">
+                    <span>←</span> <span data-i18n="button.back">Back</span>
+                </button>
+                <h1><span>⚙️</span> <span data-i18n="alertSettings.title">Agent Alert Settings</span></h1>
+            </div>
+            <div class="header-right">
+                <span class="file-info" id="fileInfo" data-i18n="status.loading">Loading...</span>
+                <button class="btn btn-outline btn-sm" id="editJsonBtn" title="Edit raw JSON">
+                    { } JSON
+                </button>
+                <button class="btn btn-outline" id="reloadBtn" title="Reload from server">
+                    <span>🔄</span> <span data-i18n="button.reload">Reload</span>
+                </button>
+                <button class="btn btn-primary" id="saveBtn" title="Save changes">
+                    <span>💾</span> <span data-i18n="button.save">Save</span>
+                </button>
+            </div>
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <span class="status-message" id="statusMessage" data-i18n="status.ready">Ready</span>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="channels">
+                <span>📢</span> <span data-i18n="alertSettings.channels">Alert Channels</span>
+            </button>
+            <button class="tab-btn" data-tab="throttling">
+                <span>⏱️</span> <span data-i18n="alertSettings.throttling">Throttling</span>
+            </button>
+            <button class="tab-btn" data-tab="export">
+                <span>📤</span> <span data-i18n="alertSettings.exportSettings">Export Settings</span>
+            </button>
+            <button class="tab-btn" data-tab="scaling">
+                <span>📊</span> <span data-i18n="alertSettings.performanceScaling">Performance Scaling</span>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <main class="form-content">
+            <!-- Alert Channels Tab -->
+            <div class="tab-panel active" id="tab-channels">
+                <div class="panel-header">
+                    <h2 data-i18n="alertSettings.channelConfig">Alert Channel Configuration</h2>
+                    <p data-i18n="alertSettings.channelConfigDesc">Configure how alerts are delivered. Each channel can be enabled/disabled and configured independently.</p>
+                </div>
+                <div class="cards-container" id="channelsContainer">
+                    <!-- Channel cards will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Throttling Tab -->
+            <div class="tab-panel" id="tab-throttling">
+                <div class="panel-header">
+                    <h2 data-i18n="alertSettings.throttlingTitle">Alert Throttling</h2>
+                    <p data-i18n="alertSettings.throttlingDesc">Configure rate limiting and deduplication to prevent alert storms.</p>
+                </div>
+                <div class="form-card">
+                    <div class="card-body">
+                        <div class="form-group" data-json-path="Alerting.Throttling.Enabled">
+                            <label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="throttlingEnabled">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label" data-i18n="alertSettings.enableThrottling">Enable Alert Throttling</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="form-grid" id="throttlingSettings">
+                            <div class="form-group" data-json-path="Alerting.Throttling.MaxAlertsPerHour">
+                                <label data-i18n="alertSettings.maxAlertsPerHour">Max Alerts Per Hour</label>
+                                <input type="number" class="form-control" id="maxAlertsPerHour" min="1" max="1000">
+                            </div>
+                            <div class="form-group" data-json-path="Alerting.Throttling.InformationalSuppressionMinutes">
+                                <label data-i18n="alertSettings.infoSuppression">Informational Suppression (minutes)</label>
+                                <input type="number" class="form-control" id="infoSuppression" min="0" max="1440">
+                            </div>
+                            <div class="form-group" data-json-path="Alerting.Throttling.WarningSuppressionMinutes">
+                                <label data-i18n="alertSettings.warningSuppression">Warning Suppression (minutes)</label>
+                                <input type="number" class="form-control" id="warningSuppression" min="0" max="1440">
+                            </div>
+                            <div class="form-group" data-json-path="Alerting.Throttling.ErrorSuppressionMinutes">
+                                <label data-i18n="alertSettings.errorSuppression">Error Suppression (minutes)</label>
+                                <input type="number" class="form-control" id="errorSuppression" min="0" max="1440">
+                            </div>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <h4 data-i18n="alertSettings.globalSuppressions">Global Channel Suppressions</h4>
+                        </div>
+                        <p class="help-text" style="margin-bottom: 1rem;" data-i18n="alertSettings.globalSuppressionsHelp">
+                            Select channels to suppress globally for all alerts. Per-monitor suppressions are configured in Surveillance section.
+                        </p>
+                        <div class="channels-grid" id="globalSuppressions" data-json-path="Alerting.SuppressedChannels">
+                            <!-- Will be rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Settings Tab -->
+            <div class="tab-panel" id="tab-export">
+                <div class="panel-header">
+                    <h2 data-i18n="alertSettings.snapshotExport">Snapshot Export Settings</h2>
+                    <p data-i18n="alertSettings.snapshotExportDesc">Configure how monitoring snapshots are exported and retained.</p>
+                </div>
+                <div class="form-card">
+                    <div class="card-body">
+                        <div class="form-group" data-json-path="ExportSettings.Enabled">
+                            <label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="exportEnabled">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label" data-i18n="alertSettings.enableExport">Enable Snapshot Export</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="ExportSettings.OutputDirectory">
+                                <label data-i18n="alertSettings.outputDirectory">Output Directory</label>
+                                <input type="text" class="form-control" id="outputDirectory" placeholder="\\server\share\path">
+                            </div>
+                            <div class="form-group" data-json-path="ExportSettings.FileNamePattern">
+                                <label data-i18n="alertSettings.fileNamePattern">File Name Pattern</label>
+                                <input type="text" class="form-control" id="fileNamePattern" placeholder="{ServerName}_{Timestamp:yyyyMMdd_HHmmss}.json">
+                            </div>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <h4 data-i18n="alertSettings.exportIntervals">Export Intervals</h4>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="ExportSettings.ExportIntervals.IntervalMinutes">
+                                <label data-i18n="alertSettings.intervalMinutes">Interval (minutes)</label>
+                                <input type="number" class="form-control" id="exportIntervalMinutes" min="1" max="1440">
+                            </div>
+                            <div class="form-group" data-json-path="ExportSettings.ExportIntervals.OnAlertTrigger">
+                                <label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="exportOnAlert">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label" data-i18n="alertSettings.exportOnAlert">Export on Alert Trigger</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="form-group" data-json-path="ExportSettings.ExportIntervals.OnDemand">
+                                <label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="exportOnDemand">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label" data-i18n="alertSettings.exportOnDemand">Allow On-Demand Export via API</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <h4 data-i18n="alertSettings.retention">Retention</h4>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="ExportSettings.Retention.MaxAgeHours">
+                                <label data-i18n="alertSettings.maxAgeHours">Max Age (hours)</label>
+                                <input type="number" class="form-control" id="maxAgeHours" min="1" max="8760">
+                                <span class="help-text" data-i18n="alertSettings.maxAgeHelp">Delete files older than this</span>
+                            </div>
+                            <div class="form-group" data-json-path="ExportSettings.Retention.MaxFileCount">
+                                <label data-i18n="alertSettings.maxFileCount">Max File Count</label>
+                                <input type="number" class="form-control" id="maxFileCount" min="1" max="10000">
+                                <span class="help-text" data-i18n="alertSettings.maxFileCountHelp">Keep only N most recent files</span>
+                            </div>
+                            <div class="form-group" data-json-path="ExportSettings.Retention.CompressionEnabled">
+                                <label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="compressionEnabled">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label" data-i18n="alertSettings.enableCompression">Enable Compression (.gz)</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Scaling Tab -->
+            <div class="tab-panel" id="tab-scaling">
+                <div class="panel-header">
+                    <h2 data-i18n="alertSettings.perfScaling">Performance Scaling</h2>
+                    <p data-i18n="alertSettings.perfScalingDesc">Configure reduced monitoring intensity for low-capacity servers.</p>
+                </div>
+                <div class="form-card">
+                    <div class="card-body">
+                        <div class="form-group" data-json-path="PerformanceScaling.Enabled">
+                            <label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="scalingEnabled">
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label" data-i18n="alertSettings.enableScaling">Enable Performance Scaling</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="PerformanceScaling.LowCapacityServerPattern">
+                                <label data-i18n="alertSettings.lowCapacityPattern">Low Capacity Server Pattern (Regex)</label>
+                                <input type="text" class="form-control" id="lowCapacityPattern" placeholder="-app$">
+                                <span class="help-text" data-i18n="alertSettings.lowCapacityPatternHelp">Regex pattern to match server names (e.g., -app$ for servers ending with -app)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <h4 data-i18n="alertSettings.multipliers">Multipliers</h4>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="PerformanceScaling.IntervalMultiplier">
+                                <label data-i18n="alertSettings.intervalMultiplier">Interval Multiplier</label>
+                                <input type="number" class="form-control" id="intervalMultiplier" min="1" max="20" step="0.5">
+                                <span class="help-text" data-i18n="alertSettings.intervalMultiplierHelp">Multiply all polling intervals by this factor</span>
+                            </div>
+                            <div class="form-group" data-json-path="PerformanceScaling.StartupDelayMultiplier">
+                                <label data-i18n="alertSettings.startupDelayMultiplier">Startup Delay Multiplier</label>
+                                <input type="number" class="form-control" id="startupDelayMultiplier" min="1" max="20" step="0.5">
+                                <span class="help-text" data-i18n="alertSettings.startupDelayMultiplierHelp">Multiply startup delays by this factor</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="PerformanceScaling.ApplyToExportIntervals">
+                                <label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="applyToExportIntervals">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label" data-i18n="alertSettings.applyToExport">Apply to Export Intervals</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="form-group" data-json-path="PerformanceScaling.ApplyToCleanupIntervals">
+                                <label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="applyToCleanupIntervals">
+                                        <span class="toggle-slider"></span>
+                                        <span class="toggle-label" data-i18n="alertSettings.applyToCleanup">Apply to Cleanup Intervals</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <h4 data-i18n="alertSettings.bounds">Bounds</h4>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" data-json-path="PerformanceScaling.MinimumIntervalSeconds">
+                                <label data-i18n="alertSettings.minInterval">Minimum Interval (seconds)</label>
+                                <input type="number" class="form-control" id="minIntervalSeconds" min="1" max="3600">
+                            </div>
+                            <div class="form-group" data-json-path="PerformanceScaling.MaximumIntervalSeconds">
+                                <label data-i18n="alertSettings.maxInterval">Maximum Interval (seconds)</label>
+                                <input type="number" class="form-control" id="maxIntervalSeconds" min="60" max="86400">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- JSON Editor Modal -->
+        <div class="modal-overlay hidden" id="jsonModal">
+            <div class="modal json-modal">
+                <div class="modal-header">
+                    <h2 data-i18n="dialog.editRawJson">{ } Edit Raw JSON</h2>
+                    <button class="modal-close" id="closeJsonModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="json-editor-container">
+                        <textarea class="json-editor" id="jsonEditor" spellcheck="false"></textarea>
+                    </div>
+                    <div class="json-validation" id="jsonValidation">
+                        <span class="validation-status"><span>✅</span> <span data-i18n="message.validJson">Valid JSON</span></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="cancelJsonBtn" data-i18n="button.cancel">Cancel</button>
+                    <button class="btn btn-primary" id="applyJsonBtn" data-i18n="button.applyChanges">Apply Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Confirmation Modal -->
+        <div class="modal-overlay hidden" id="saveModal">
+            <div class="modal save-modal">
+                <div class="modal-header">
+                    <h2><span>💾</span> <span data-i18n="dialog.saveConfig">Save Configuration</span></h2>
+                    <button class="modal-close" id="closeSaveModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="dialog.saveConfirm">Are you sure you want to save these changes?</p>
+                    <p class="save-warning" data-i18n-html="dialog.saveBackup">⚠️ A backup will be created automatically before saving.</p>
+                    <p class="save-note" data-i18n="dialog.saveSync">Changes will be synced to all agents within 15 minutes.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="cancelSaveBtn" data-i18n="button.cancel">Cancel</button>
+                    <button class="btn btn-primary" id="confirmSaveBtn" data-i18n="button.saveChanges">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/alert-settings.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

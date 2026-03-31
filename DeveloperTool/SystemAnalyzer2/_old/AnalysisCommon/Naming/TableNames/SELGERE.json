@@ -1,0 +1,100 @@
+{
+  "tableName": "SELGERE",
+  "futureName": "CustomerProfile",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "ID",
+      "futureName": "CustomerProfileId",
+      "description": "Unique customer profile identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "NAVN",
+      "futureName": "Name",
+      "description": "Full name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "ADRESSE",
+      "futureName": "Address",
+      "description": "Customer address",
+      "foreignKey": null
+    },
+    {
+      "name": "POSTNR",
+      "futureName": "PostalCode",
+      "description": "Customer postal code",
+      "foreignKey": null
+    },
+    {
+      "name": "POSTADRESSE",
+      "futureName": "PostalAddress",
+      "description": "Full postal address of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "TLF_DAG",
+      "futureName": "WorkPhone",
+      "description": "Customer work phone number",
+      "foreignKey": null
+    },
+    {
+      "name": "TLF_PRIV",
+      "futureName": "PrivatePhone",
+      "description": "Customer private phone number",
+      "foreignKey": "MailAddress"
+    },
+    {
+      "name": "TLF_MOB",
+      "futureName": "MobilePhone",
+      "description": "Customer mobile phone number",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALETYPE",
+      "futureName": "AgreementType",
+      "description": "Type of agreement between the customer and company",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "AgreementNumber",
+      "description": "Unique identifier for the agreement",
+      "foreignKey": "A_BESTHODE"
+    },
+    {
+      "name": "MAIL_ADRESSE",
+      "futureName": "Email",
+      "description": "Customer email address",
+      "foreignKey": null
+    },
+    {
+      "name": "SLETTET",
+      "futureName": "Deleted",
+      "description": "Indicates if the customer profile is deleted",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user",
+      "foreignKey": null
+    },
+    {
+      "name": "SIGNATUR",
+      "futureName": "Signature",
+      "description": "Signature of the customer or related entity",
+      "foreignKey": null
+    },
+    {
+      "name": "ANSATTNR",
+      "futureName": "EmployeeNumber",
+      "description": "Employee number associated with the customer profile",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:41:14"
+}

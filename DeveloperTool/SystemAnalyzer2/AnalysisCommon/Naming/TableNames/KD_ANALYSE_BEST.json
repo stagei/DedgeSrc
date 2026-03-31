@@ -1,0 +1,46 @@
+{
+  "tableName": "KD_ANALYSE_BEST",
+  "futureName": "KdAnalyseBest",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "RECNO",
+      "futureName": "RecNo",
+      "description": "Unique record identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "JOURNAL_RECNO",
+      "futureName": "JournalRecNo",
+      "description": "Journal record number, foreign key to KD_FRO_JOURNAL.RECNO",
+      "foreignKey": "KD_FRO_JOURNAL.RECNO"
+    },
+    {
+      "name": "ANALYSE_LAB",
+      "futureName": "AnalyseLab",
+      "description": "Laboratory performing the analysis, code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration, date value",
+      "foreignKey": "KD_BESTILLING.REG_DATO"
+    },
+    {
+      "name": "SENDT_DATO",
+      "futureName": "SentDate",
+      "description": "Date sent, date value",
+      "foreignKey": null
+    },
+    {
+      "name": "TIL_KIMEN_DATO",
+      "futureName": "ToKimensDate",
+      "description": "Date to Kimens, date value, foreign key to KD_FRO_JOURNAL.RECNO",
+      "foreignKey": "KD_FRO_JOURNAL.RECNO"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:58:47"
+}

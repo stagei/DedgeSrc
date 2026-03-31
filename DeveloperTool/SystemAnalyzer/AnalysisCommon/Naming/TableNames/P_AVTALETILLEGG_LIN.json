@@ -1,0 +1,94 @@
+{
+  "tableName": "P_AVTALETILLEGG_LIN",
+  "futureName": "AvtaleTillLinje",
+  "namespace": "AvtaleKontor",
+  "columns": [
+    {
+      "name": "KornHandler",
+      "futureName": "KornHandlerId",
+      "description": "Korn handler identifier",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "KontraktType",
+      "futureName": "ContractTypeId",
+      "description": "Contract type identifier",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "AnleggNr",
+      "futureName": "FacilityNumber",
+      "description": "Facility number",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "Slag",
+      "futureName": "Category",
+      "description": "Category identifier",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "Art",
+      "futureName": "ItemType",
+      "description": "Item type identifier",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "Sort",
+      "futureName": "SortingOrder",
+      "description": "Sorting order",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "Okologisk",
+      "futureName": "IsOrganic",
+      "description": "Indicates if the product is organic",
+      "foreignKey": null
+    },
+    {
+      "name": "ForMat",
+      "futureName": "Format",
+      "description": "Format identifier",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "FraDato",
+      "futureName": "StartDate",
+      "description": "Start date",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "Kvantum",
+      "futureName": "Quantum",
+      "description": "Quantum value",
+      "foreignKey": null
+    },
+    {
+      "name": "Sats",
+      "futureName": "Rate",
+      "description": "Rate value",
+      "foreignKey": "FK_AVTT"
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp",
+      "foreignKey": null
+    },
+    {
+      "name": "Prosent",
+      "futureName": "Percentage",
+      "description": "Percentage value",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:00:05"
+}

@@ -1,0 +1,69 @@
+---
+description: When user writes /test in chat, run full test workflow (build, test, logs, browser, report)
+alwaysApply: true
+---
+
+# Chat Command: /test
+
+When the user writes **/test** in chat (either alone or as the only substantive command), execute the following workflow **in order**. Do not skip steps.
+
+## 1. Compile all projects and fix errors
+
+- Run: `dotnet build AutoDocJson.slnx` from repo root `c:\opt\src\AutoDocJson`.
+- If the build fails, fix compilation errors (syntax, missing references, etc.) and rebuild until the build succeeds.
+- Do not proceed to step 2 until the solution builds with zero errors.
+
+## 2. Run the test program (local C# implementation)
+
+- Run the test project with the TestGeneration mode that uses `TestFileList.json`:
+  ```bash
+  dotnet run --project AutoDocJson.Tests -- /testGeneration
+  ```
+- Run from repo root: `c:\opt\src\AutoDocJson`.
+- Wait for the process to complete. Note exit code (0 = success, non-zero = failures).
+
+## 3. Evaluate log files for errors after completion (using AI)
+
+- Open and analyze these log files for errors, exceptions, and failures:
+  - **Test run log:** `AutoDocJson.Tests\bin\Debug\net10.0\Test-AutoDocGeneration.log` (or same path under the test project output folder).
+  - **AutoDocJson app log:** `C:\opt\data\AutoDocJson\` (today’s log file, if present).
+  - **Global log (if relevant):** `C:\opt\data\AllPwshLog\<ComputerName>_<yyyyMMdd>.log` for the current date.
+- Use AI to summarize: any ERROR/FATAL/FAIL lines, stack traces, failed file names, and whether the run is considered pass or fail.
+
+## 4. Run Chrome remoting to 2 of each type
+
+- Start (or ensure) a web server serving the AutoDocJson output folder, e.g. `C:\opt\Webs\AutoDocJson`, on a known port (e.g. 8765). Use `Serve-AutoDocJson.ps1` or equivalent if needed.
+- Using browser remoting (cursor-ide-browser / Chrome), open the search page and then **2 generated doc pages per type**:
+  - **CBL:** 2 `.CBL.html` files
+  - **BAT:** 2 `.BAT.html` files
+  - **PS1:** 2 `.ps1.html` or `.psm1.html` files
+  - **REX:** 2 `.REX.html` files
+  - **SQL:** 2 `.sql.html` files
+  - **C#:** 2 `.csharp.html` files
+  - **GS (if present):** 2 `.screen.html` or `.gs.html` files
+- Verify each page loads and key elements (tabs, diagrams, content) are present. Note any broken or empty pages.
+
+## 5. Create a short status report (overwrite if exists)
+
+- Write a single status report file that overwrites any previous one.
+- **Path:** `c:\opt\src\AutoDocJson\Test-StatusReport.md`
+- **Contents (short):**
+  - **Date/Time** of the run
+  - **Build:** Success / Failed (and brief reason if failed)
+  - **Test run:** Exit code, Success count, Failed count (from Test-AutoDocGeneration.results.json or log)
+  - **Log evaluation:** Pass / Fail and one or two sentences on errors found (or “No errors”)
+  - **Browser check:** Pass / Fail and one sentence on what was checked (2 per type, any issues)
+  - **Overall:** PASS or FAIL and optional one-line summary
+- Keep the report concise (under one page). Overwrite the file entirely on each /test run.
+
+## Summary
+
+| Step | Action |
+|------|--------|
+| 1 | `dotnet build AutoDocJson.slnx`; fix errors until build succeeds |
+| 2 | `dotnet run --project AutoDocJson.Tests -- /testGeneration` |
+| 3 | Read and evaluate Test-AutoDocGeneration.log, AutoDocJson logs, global log; summarize errors with AI |
+| 4 | Serve output folder; use Chrome remoting to open 2 docs per type and verify |
+| 5 | Write/overwrite `Test-StatusReport.md` with short status (build, test, logs, browser, overall) |
+
+When the user message is **/test**, execute all five steps in order and deliver the status report.

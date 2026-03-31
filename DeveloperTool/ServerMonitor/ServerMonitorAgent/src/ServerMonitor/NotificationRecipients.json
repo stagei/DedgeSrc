@@ -1,0 +1,159 @@
+﻿{
+  "version": "2.0",
+  "lastUpdated": "2026-01-22T21:33:11.433Z",
+  "environments": [
+    {
+      "name": "Production",
+      "description": "Production servers - full alerting enabled",
+      "computerNamePatterns": [
+        "*PRD*",
+        "*RAP*",
+        "PROD-*",
+        "*-PROD-*",
+        "PRODUCTION-*"
+      ],
+      "isDefault": false,
+      "channels": {
+        "_notes": "Channel enable/disable for production servers. SMS/Email/WKMonitor enabled for critical alerts.",
+        "sms": false,
+        "email": false,
+        "eventLog": false,
+        "file": true,
+        "wkMonitor": false
+      }
+    },
+    {
+      "name": "NonProduction",
+      "description": "Test/Development servers - minimal alerting to avoid noise",
+      "computerNamePatterns": [
+        "*"
+      ],
+      "isDefault": true,
+      "channels": {
+        "_notes": "Channel enable/disable for non-production servers. Only file logging, no external notifications.",
+        "sms": false,
+        "email": false,
+        "eventLog": false,
+        "file": true,
+        "wkMonitor": false
+      }
+    }
+  ],
+  "people": [
+    {
+      "id": "person1",
+      "name": "Geir Helge Starholm",
+      "email": "geir.helge.starholm@Dedge.no",
+      "phone": "\u002B4797188358",
+      "enabled": true,
+      "environments": {
+        "Production": {
+          "Monday": {
+            "email": {
+              "from": "06:00",
+              "to": "18:00"
+            },
+            "sms": {
+              "from": "06:00",
+              "to": "18:00"
+            }
+          },
+          "Tuesday": {
+            "email": {
+              "from": "06:00",
+              "to": "18:00"
+            },
+            "sms": {
+              "from": "06:00",
+              "to": "18:00"
+            }
+          },
+          "Wednesday": {
+            "email": {
+              "from": "06:00",
+              "to": "18:00"
+            },
+            "sms": {
+              "from": "06:00",
+              "to": "18:00"
+            }
+          },
+          "Thursday": {
+            "email": {
+              "from": "06:00",
+              "to": "18:00"
+            },
+            "sms": {
+              "from": "06:00",
+              "to": "18:00"
+            }
+          },
+          "Friday": {
+            "email": {
+              "from": "06:00",
+              "to": "21:00"
+            },
+            "sms": {
+              "from": "06:00",
+              "to": "21:00"
+            }
+          },
+          "Saturday": {
+            "email": null,
+            "sms": null
+          },
+          "Sunday": {
+            "email": null,
+            "sms": null
+          }
+        },
+        "NonProduction": {
+          "Monday": {
+            "email": {
+              "from": "08:00",
+              "to": "17:00"
+            },
+            "sms": null
+          },
+          "Tuesday": {
+            "email": {
+              "from": "08:00",
+              "to": "17:00"
+            },
+            "sms": null
+          },
+          "Wednesday": {
+            "email": {
+              "from": "08:00",
+              "to": "17:00"
+            },
+            "sms": null
+          },
+          "Thursday": {
+            "email": {
+              "from": "08:00",
+              "to": "17:00"
+            },
+            "sms": null
+          },
+          "Friday": {
+            "email": {
+              "from": "08:00",
+              "to": "17:00"
+            },
+            "sms": null
+          },
+          "Saturday": {
+            "email": null,
+            "sms": null
+          },
+          "Sunday": {
+            "email": null,
+            "sms": null
+          }
+        }
+      },
+      "absences": []
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "tableName": "ILEGG_HODE",
+  "futureName": "OrderHeader",
+  "namespace": "LegacyDbModels",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "A_BESTLIN, A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number or identifier",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "VERSJON",
+      "futureName": "VersionNumber",
+      "description": "Version number of the order header",
+      "foreignKey": null
+    },
+    {
+      "name": "BLANDINGSNR",
+      "futureName": "MixingNumber",
+      "description": "Mixing or batch number related to the product",
+      "foreignKey": "VAREREGISTER, VAREREGISTER, VAREREGISTER, VAREREGISTER, VAREREGISTER, VAREREGISTER"
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Name of the product or service",
+      "foreignKey": "A_BESTLIN, A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_VILIN"
+    },
+    {
+      "name": "GODKJENNINGSNR",
+      "futureName": "ApprovalNumber",
+      "description": "Approval or authorization number for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "DEBIO",
+      "futureName": "DebitIndicator",
+      "description": "Indicator for debit transaction (1) or credit (0)",
+      "foreignKey": null
+    },
+    {
+      "name": "AKTIV",
+      "futureName": "ActiveFlag",
+      "description": "Indicates if the order header is active ('Y' or 'N')",
+      "foreignKey": "AKTIVISER, AVD_FOMR, KD_BEIS, KUNDE_EPOST, P_KORNHANDLER, SLAG, SLAG, Z_AVDTAB"
+    },
+    {
+      "name": "TID_AKTIV",
+      "futureName": "ActivationTimestamp",
+      "description": "Timestamp indicating when the order header was activated",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of an event or record creation/update",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "ILEGG_FILNAVN",
+      "futureName": "InputFileName",
+      "description": "Name of the input file from which the order header was loaded",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:43:09"
+}

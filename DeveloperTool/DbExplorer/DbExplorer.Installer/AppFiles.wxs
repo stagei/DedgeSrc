@@ -1,0 +1,15 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+  <Fragment>
+    <!--
+      All files from the published DbExplorer output are included via a WiX v6 glob.
+      Each matched file gets its own auto-generated component, keyed by file path.
+      The app must be published before building the installer:
+        dotnet publish -c Release -r win-x64 - -self-contained true
+    -->
+    <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <Files Include="..\bin\Release\net10.0-windows\win-x64\publish\**\*" />
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>

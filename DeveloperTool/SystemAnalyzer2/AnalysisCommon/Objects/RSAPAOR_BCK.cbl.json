@@ -1,0 +1,195 @@
+{
+  "program": "RSAPAOR_BCK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:53:31",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "ww-printer",
+      "basePath": null,
+      "filenamePattern": null,
+      "resolvedPath": null,
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:53:31"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:432839a05908da92793b79bcecca788173e444f6162a147e4c10a1a445603391",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rsapaor_bck.cbl",
+    "actualName": "RSAPAOR_BCK",
+    "program": "RSAPAOR_BCK",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPATH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KDL1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL4.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL5.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDV1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDV4.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOLI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KONT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DELPARTINR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_DELPARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FACKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_KASSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "PARTINR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "AREALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_RAAVARE_PARTI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORTTEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KD_BEIS",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMAPATH",
+      "GMFFELL",
+      "GMAPRTR",
+      "GMACOCO",
+      "GMAOSNT",
+      "GMFSQLF",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "ww-printer",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:53:31"
+  }
+}

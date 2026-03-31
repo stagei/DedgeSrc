@@ -1,0 +1,123 @@
+{
+  "program": "BSAGESO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:37",
+  "extraction": {
+    "sourceHash": "sha256:91b15a98da7f0ba6751683021b815ce1bf1bace84c75230fc12fd41ea2d7ba19",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BSAGESO.CBL",
+    "actualName": "BSAGESO",
+    "program": "BSAGESO",
+    "copyElements": [
+      {
+        "name": "BSAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GLAOIN2.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "WOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OLVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BSAGESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDEPOSTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VAREADRESSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREADRESSE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOMP",
+      "GMACOCO",
+      "GMAPATH",
+      "GMACURT",
+      "BSAAUTO",
+      "BSABEKR1",
+      "GLAOIN2",
+      "GMADATO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:37"
+  }
+}

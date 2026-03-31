@@ -1,0 +1,224 @@
+﻿{
+  "Version": "1.0",
+  "General": {
+    "ServiceName": "GenericLogHandler",
+    "LogLevel": "INFO",
+    "MaxConcurrentImports": 4,
+    "BatchSize": 1000,
+    "RunOnce": false,
+    "RetryAttempts": 3,
+    "RetryDelaySeconds": 5,
+    "HealthCheckInterval": 60
+  },
+  "Database": {
+    "Type": "postgres",
+    "ConnectionString": "Host=t-no1fkxtst-db;Port=8432;Database=GenericLogHandler;Username=postgres;Password=postgres",
+    "DatabaseName": "loghandler",
+    "ConnectionTimeout": 30,
+    "CommandTimeout": 300,
+    "MaxConnections": 10,
+    "BatchInsertSize": 1000,
+    "EnableCompression": true
+  },
+  "Retention": {
+    "DefaultDays": 90,
+    "ByLevel": {
+      "FATAL": 365,
+      "ERROR": 180,
+      "WARN": 120,
+      "INFO": 90,
+      "DEBUG": 30,
+      "TRACE": 7
+    },
+    "CleanupSchedule": "0 2 * * *",
+    "CleanupBatchSize": 10000,
+    "ArchiveBeforeDelete": true,
+    "ArchiveLocation": "C:\\opt\\data\\LogArchive",
+    "ArchiveCompression": "gzip"
+  },
+  "ImportSources": [
+    {
+      "Name": "ServerMonitor Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 1,
+      "Config": {
+        "Path": "\\dedge-server\\CommonLogging\\Server\\ServerMonitor\\*.*",
+        "Format": "delimited",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 10,
+        "SkipHeaderLines": 0,
+        "IsAppendOnly": true,
+        "MaxFileAgeDays": 30,
+        "Parser": {
+          "Name": "servermonitor_pipe",
+          "Delimiter": "|",
+          "FieldMappings": {
+            "0": { "TargetColumn": "Timestamp", "DateFormat": "yyyy-MM-dd HH:mm:ss" },
+            "1": { "TargetColumn": "ComputerName" },
+            "2": { "TargetColumn": "Level" },
+            "3": { "TargetColumn": "JobName" },
+            "4": { "TargetColumn": "ProcessId" },
+            "5": { "TargetColumn": "FunctionName" },
+            "6": { "TargetColumn": "LineNumber" },
+            "7": { "TargetColumn": "UserName" },
+            "8": { "TargetColumn": "Message" }
+          },
+          "MessageExtractors": [
+            {
+              "Name": "ordrenr",
+              "Pattern": "(?:ordrenr|ordrenummer|orderno)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Ordrenr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "avdnr",
+              "Pattern": "(?:avdnr|avdeling)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Avdnr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "alert_id",
+              "Pattern": "(?:alert_id|alertid|alarm_id)[:\\s=]+(?<value>[A-Za-z0-9_-]+)",
+              "TargetColumn": "AlertId",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Name": "PowerShell Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 2,
+      "Config": {
+        "Path": "\\dedge-server\\CommonLogging\\Psh\\*.*",
+        "Format": "delimited",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 10,"SkipHeaderLines": 0,"IsAppendOnly": true,"MaxFileAgeDays": 30,"Parser": {
+          "Name": "powershell_pipe",
+          "Delimiter": "|",
+          "FieldMappings": {
+            "0": { "TargetColumn": "Timestamp", "DateFormat": "yyyy-MM-dd HH:mm:ss.fff" },
+            "1": { "TargetColumn": "ComputerName" },
+            "2": { "TargetColumn": "Level" },
+            "3": { "TargetColumn": "JobName" },
+            "4": { "TargetColumn": "ProcessId" },
+            "5": { "TargetColumn": "Location" },
+            "6": { "TargetColumn": "FunctionName" },
+            "7": { "TargetColumn": "LineNumber" },
+            "8": { "TargetColumn": "UserName" },
+            "9": { "TargetColumn": "Message" }
+          },
+          "MessageExtractors": [
+            {
+              "Name": "ordrenr",
+              "Pattern": "(?:ordrenr|ordrenummer|orderno)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Ordrenr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "avdnr",
+              "Pattern": "(?:avdnr|avdeling)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Avdnr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "alert_id",
+              "Pattern": "(?:alert_id|alertid|alarm_id)[:\\s=]+(?<value>[A-Za-z0-9_-]+)",
+              "TargetColumn": "AlertId",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Name": "DB2 Client Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 3,
+      "Config": {
+        "Path": "\\dedge-server\\CommonLogging\\Db2\\Client\\*.json",
+        "Format": "json",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 10,
+        "SkipHeaderLines": 0,
+        "IsAppendOnly": false,
+        "MaxFileAgeDays": 30
+      }
+    },
+    {
+      "Name": "DB2 Server Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 4,
+      "Config": {
+        "Path": "\\dedge-server\\CommonLogging\\Db2\\Server\\*.json",
+        "Format": "json",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 10,
+        "SkipHeaderLines": 0,
+        "IsAppendOnly": false,
+        "MaxFileAgeDays": 30
+      }
+    },
+    {
+      "Name": "COBNT WKMONIT",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 5,
+      "Config": {
+        "Path": "\\\\DEDGE.fk.no\\erpprog\\COBNT\\WKMONIT.LOG",
+        "Format": "log",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 1,
+        "SkipHeaderLines": 0,
+        "IsAppendOnly": true,
+        "PollInterval": 30,
+        "MaxFileAgeDays": 7,
+        "CopyToLocalPath": "C:\\opt\\data\\GenericLogHandler\\LocalCopy"
+      }
+    }
+  ],
+  "ErrorHandling": {
+    "OnParseError": "skip_and_log",
+    "OnValidationError": "skip_and_log",
+    "OnDatabaseError": "retry_and_log",
+    "ErrorLogPath": "C:\\opt\\logs\\import_errors.log",
+    "MaxErrorsPerSource": 100,
+    "MaxErrorRatePercent": 5,
+    "QuarantineBadFiles": true,
+    "QuarantinePath": "C:\\opt\\data\\quarantine"
+  },
+  "Monitoring": {
+    "EnablePerformanceCounters": true,
+    "MetricsCollectionInterval": 60,
+    "MetricsRetentionDays": 30,
+    "AlertThresholds": {
+      "ImportRateMinimum": 100,
+      "ErrorRateMaximum": 5,
+      "QueueSizeMaximum": 10000,
+      "MemoryUsageMaximum": 80,
+      "DiskSpaceMinimum": 10
+    },
+    "Notifications": {
+      "WindowsEvents": {
+        "Enabled": true,
+        "SourceName": "GenericLogHandler"
+      }
+    }
+  }
+}

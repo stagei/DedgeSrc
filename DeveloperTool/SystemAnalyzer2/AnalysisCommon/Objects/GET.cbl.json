@@ -1,0 +1,516 @@
+﻿{
+  "program": "GET",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:01:10",
+  "variableFilenames": {
+    "ALFRAST": {
+      "logicalName": "ALFRAST",
+      "physicalVariable": "W-INTREQ-ST-FIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File ALFRAST is assigned to W-INTREQ-ST-FIL, but no specific construction pattern is shown.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:55"
+    },
+    "ALFRA": {
+      "logicalName": "ALFRA",
+      "physicalVariable": "W-INTREQ-FIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program constructs filename using userid and date, likely from WORKING-STORAGE or other variables",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:59"
+    },
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "BSASPRT-DIVRAPP-FILNAVN",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "\\250-GMBRCKO.LAS.\\250-GMBRCKO.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\GMBRCKO.LAS.GMBRCKO.CSV",
+      "description": "Laser file and CSV file for validation",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:01:03"
+    },
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-INNFIL",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Program processes input file with dynamic userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:01:07"
+    },
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-UTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and pattern for UT-FIL (WW-UTFIL) is not explicitly defined in the provided COBOL programs.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:01:10"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "GET",
+    "program": "GET",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BDHSAST.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TELB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TELH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLHTESL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "BLHTAVI.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TRMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAHVETM.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "ENHD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ONHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUNM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEMA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAVH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OIHIKTR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "OPVA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KORA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BLAKOKV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKORR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DS-CALL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELLENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TELL_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MOTTAKERNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKMOTTAKERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "DOHCHK",
+      "DOHNOTR",
+      "DOHSJEKK",
+      "DOHPARTI",
+      "DOHCONN",
+      "DOHBYTT",
+      "DOHKOMM",
+      "GMACOCO",
+      "AAAMLEV",
+      "GMVMAL2",
+      "GMFFELL"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "ALFRAST",
+        "physicalName": "W-INTREQ-ST-FIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File ALFRAST is assigned to W-INTREQ-ST-FIL, but no specific construction pattern is shown."
+      },
+      {
+        "logicalName": "ALFRA",
+        "physicalName": "W-INTREQ-FIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename using userid and date, likely from WORKING-STORAGE or other variables"
+      },
+      {
+        "logicalName": "IAKT-FILE",
+        "physicalName": "OKBLATF.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBLATF.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-DIVRAPP-FILNAVN",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\GMBRCKO.LAS.GMBRCKO.CSV",
+        "filenamePattern": "\\250-GMBRCKO.LAS.\\250-GMBRCKO.CSV",
+        "filenameDescription": "Laser file and CSV file for validation"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program processes input file with dynamic userid and date"
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and pattern for UT-FIL (WW-UTFIL) is not explicitly defined in the provided COBOL programs."
+      },
+      {
+        "logicalName": "UT-JDPL-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "BLBJDPL.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\BLBJDPL.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:01:10"
+  }
+}

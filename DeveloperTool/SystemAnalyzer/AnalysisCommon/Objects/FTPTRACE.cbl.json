@@ -1,0 +1,234 @@
+﻿{
+  "program": "FTPTRACE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:00:51",
+  "variableFilenames": {
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-INNFIL",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "<program>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<program>-<date>.CSV",
+      "description": "Sjekker rc-kode for å se om programmet går i prod.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:47"
+    },
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-UTFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "File path constructed using userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:51"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTPTRACE",
+    "program": "FTPTRACE",
+    "copyElements": [
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNACONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNATDEFS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LNAFKDE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FLEX.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BKFBATE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BATE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BSASPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SFANETS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAKSAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FRDG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAVVAR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FAFFASC.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLHKOFO.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFLOOL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAHRAGR.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "GMFSAKU.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_SALDO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "GMAMOMS",
+      "GMACURT",
+      "GMACOCO",
+      "GMAPATH",
+      "GMFFELL",
+      "GMVSAKU"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<program>-<date>.CSV",
+        "filenamePattern": "<program>-<date>.CSV",
+        "filenameDescription": "Sjekker rc-kode for å se om programmet går i prod."
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path constructed using userid and date"
+      },
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:00:51"
+  }
+}

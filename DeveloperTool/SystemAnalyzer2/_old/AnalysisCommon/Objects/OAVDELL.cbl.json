@@ -1,0 +1,78 @@
+{
+  "program": "OAVDELL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:54",
+  "extraction": {
+    "sourceHash": "sha256:d2c178c212261dc423e18638df8f6735fc694521467ec99c09de42c0edbf2503",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\oavdell.cbl",
+    "actualName": "OAVDELL",
+    "program": "OAVDELL",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFDELL.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "T",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "NAME",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AD_BRUKER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMADATO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:54"
+  }
+}

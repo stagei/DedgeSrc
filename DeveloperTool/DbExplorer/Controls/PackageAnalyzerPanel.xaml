@@ -1,0 +1,37 @@
+<UserControl x:Class="DbExplorer.Controls.PackageAnalyzerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Schema:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="SchemaComboBox" Width="150" SelectionChanged="SchemaComboBox_SelectionChanged"/>
+            <Button x:Name="RefreshButton" Content="🔄 Refresh" Click="RefreshButton_Click" Padding="10,5" Margin="20,0,0,0"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListBox Grid.Column="0" x:Name="PackagesListBox" SelectionChanged="PackagesListBox_SelectionChanged"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Column="2" x:Name="StatementsTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Auto" FontFamily="Consolas" FontSize="11"/>
+        </Grid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Margin="0,0,20,0" Text="Ready"/>
+            <Button x:Name="ExportButton" Content="📊 Export" Click="ExportButton_Click" Padding="10,5"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

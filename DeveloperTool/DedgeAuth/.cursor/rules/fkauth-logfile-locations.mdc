@@ -1,0 +1,57 @@
+﻿---
+description: Log file locations for DedgeAuth.Api and IIS-AutoDeploy.Tray on all servers
+alwaysApply: true
+---
+
+# DedgeAuth Solution — Log File Locations
+
+All log paths are relative to `%OptPath%` (typically `E:\opt` on servers, `C:\opt` on dev machines). The relative folder is configured in each project's `appsettings.json` and joined with `%OptPath%` at runtime.
+
+## DedgeAuth.Api
+
+| Item | Value |
+|---|---|
+| Config key | `LogFileSettings:LogFolder` |
+| Config value | `data\DedgeAuth.Api` |
+| File pattern | `DedgeAuth-YYYYMMDD.log` (Serilog daily rolling) |
+| Retention | 31 files |
+
+| Environment | Local path | UNC path |
+|---|---|---|
+| **TST** | `E:\opt\data\DedgeAuth.Api\DedgeAuth-YYYYMMDD.log` | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\DedgeAuth.Api\DedgeAuth-YYYYMMDD.log` |
+| **PRD** | `E:\opt\data\DedgeAuth.Api\DedgeAuth-YYYYMMDD.log` | `\\p-no1fkxprd-app\Opt\data\DedgeAuth.Api\DedgeAuth-YYYYMMDD.log` |
+| **Dev** | `C:\opt\data\DedgeAuth.Api\DedgeAuth-YYYYMMDD.log` | (local only) |
+
+## IIS-AutoDeploy.Tray
+
+| Item | Value |
+|---|---|
+| Config key | `IIS-AutoDeploy:LogFolder` |
+| Config value | `data\IIS-AutoDeploy.Tray` |
+| File pattern | `IIS-AutoDeploy.Tray-YYYYMMDD.log` (daily rolling) |
+
+| Environment | Local path | UNC path |
+|---|---|---|
+| **TST** | `E:\opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-YYYYMMDD.log` | `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-YYYYMMDD.log` |
+| **PRD** | `E:\opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-YYYYMMDD.log` | `\\p-no1fkxprd-app\Opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-YYYYMMDD.log` |
+| **Dev** | `C:\opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-YYYYMMDD.log` | (local only) |
+
+## Quick Access (PowerShell)
+
+```powershell
+# Today's DedgeAuth.Api log on TST
+$today = Get-Date -Format 'yyyyMMdd'
+Copy-Item "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\DedgeAuth.Api\DedgeAuth-$($today).log" $env:TEMP -Force
+code "$env:TEMP\DedgeAuth-$($today).log"
+
+# Today's IIS-AutoDeploy.Tray log on TST
+Copy-Item "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-AutoDeploy.Tray\IIS-AutoDeploy.Tray-$($today).log" $env:TEMP -Force
+code "$env:TEMP\IIS-AutoDeploy.Tray-$($today).log"
+```
+
+## Convention
+
+When adding new projects to this solution, follow the same pattern:
+1. Add `"LogFolder": "data\\<ProjectName>"` to `appsettings.json`
+2. Join `%OptPath%` + config value at runtime to form the log directory
+3. Never hardcode absolute log paths in code

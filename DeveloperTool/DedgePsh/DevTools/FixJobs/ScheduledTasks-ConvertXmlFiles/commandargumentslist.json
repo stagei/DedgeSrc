@@ -1,0 +1,1082 @@
+﻿[
+  {
+    "TaskName": "FixJob",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\apps\\FixJob\\FixJob.exe",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\apps\\FixJob\\FixJob.exe",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge batchjobber\\AD_BRUKER export og import til DB",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\DedgePshApps\\ad\\RunExportImportAD.bat",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\psh\\ad\\RunExportImportAD.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge batchjobber\\BRREG Delta refresh",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-file E:\\opt\\psh\\BRREG\\BRREGAPIClient\\run_brregdelta.ps1"
+  },
+  {
+    "TaskName": "Dedge batchjobber\\DedgeDailyRoutine",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\apps\\DedgeDailyRoutine\\DedgeDailyRoutine.exe",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\apps\\DedgeDailyRoutine\\DedgeDailyRoutine.exe",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge batchjobber\\GetPeppolDirectory",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\apps\\GetPeppolDirectory\\GetPeppolDirectory.exe",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\apps\\GetPeppolDirectory\\GetPeppolDirectory.exe",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge batchjobber\\HentSLF",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\DedgePshApps\\HentSLF\\HentSLF.bat",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\psh\\HentSLF\\HentSLF.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge batchjobber\\SanitizeFkLog",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\apps\\FkmUtils\\FkmUtils.exe",
+    "ToArguments": "",
+    "FromServer": "p-no1batch-vm01",
+    "FromCommand": "E:\\opt\\apps\\FkmUtils\\FkmUtils.exe",
+    "FromArguments": "FkLogPurger --KeepDays=30"
+  },
+  {
+    "TaskName": "MIG\\DM010 - Leverandørintegrasjon - MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\DM010Runner\\start_dm010.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\DM010Runner\\start_dm010.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT007 - Kundeintegrasjon MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\MT007Runner\\RUN_MT007.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\MT007Runner\\RUN_MT007.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT014 - Filkopiering MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\CopyToMIG\\RUN_ProcessMT014MIG.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\CopyToFAT\\RUN_ProcessMT014FAT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT014 - Innkjøpsordre MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\MT014Runner\\RUN_MT014.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\MT014Runner\\RUN_MT014.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT015 - Filkopiering MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\CopyToMIG\\RUN_ProcessHoldingMIG.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\CopyToFAT\\RUN_ProcessHoldingFAT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT015 - Varemottak MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\MT015Runner\\RUN_MT015.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\MT015Runner\\RUN_MT015.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT038 - Kundesaldo MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\MT038Runner\\RUN_MT038.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\MT038Runner\\RUN_MT038.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "MIG\\MT039 - Kredittgrense MIG",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MIG\\MT039Runner\\RUN_MT039.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\FAT\\MT039Runner\\RUN_MT039.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\DM010 - Leverandørintegrasjon SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\DM010Runner\\start_dm010.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\DM010Runner\\start_dm010.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT007 - kundeintegrasjon SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\MT007Runner\\RUN_MT007.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\MT007Runner\\RUN_MT007.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT014 filprosessering SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\CopyToSIT\\RUN_ProcessMT014SIT.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\CopyToKAT\\RUN_ProcessMT014KAT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT014Runner - Innkjøpsordre SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\MT014Runner\\RUN_MT014.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\MT014Runner\\RUN_MT014.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT015 - Varemottak - filprosessering - SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\CopyToSIT\\RUN_ProcessHoldingSIT.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\CopyToKAT\\RUN_ProcessHoldingKAT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT015Runner Varemottak SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\MT015Runner\\RUN_MT015.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\MT015Runner\\RUN_MT015.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT038 - Kundesaldo - SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\MT038Runner\\RUN_MT038.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\MT038Runner\\RUN_MT038.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "SIT\\MT039 - Kredittgrense - SIT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\SIT\\MT039Runner\\RUN_MT039.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\MT039Runner\\RUN_MT039.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT003 - Varer",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT003Runner\\RUN_MT003_D5BARTIN.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT003Runner\\RUN_MT003_D5BARTIN.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT007 - Kundeintegrasjon",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT007Runner\\RUN_MT007.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT007Runner\\RUN_MT007.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT014 Filkopiering VFK",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\CopyToVFK\\RUN_ProcessMT014VFK.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\CopyToVFK\\RUN_ProcessMT014VFK.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT014 Innkjøpsordre VFK",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT014Runner\\RUN_MT014.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT014Runner\\RUN_MT014.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT015 Filkopiering VFK",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\CopyToVFK\\RUN_ProcessHoldingVFK.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\CopyToVFK\\RUN_ProcessHoldingVFK.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT015 Varemottak VFK",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT015Runner\\RUN_MT015.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT015Runner\\RUN_MT015.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT020 - D4BINNKP - Innkjøpspriser",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT020Runner\\RUN_MT020.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT020Runner\\RUN_MT020.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT041 VFK Salgsordre",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT041Runner\\RUN_MT041.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT041Runner\\RUN_MT041.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT042 - D4BPLUT - Plukk og utlevering",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT042Runner\\RUN_MT042.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT042Runner\\RUN_MT042.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT047Runner - D4BPLID",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT047Runner\\RUN_MT047.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT047Runner\\RUN_MT047.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT055 - d5bprko - eksport priskost",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT055Runner\\RUN_MT055.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT055Runner\\RUN_MT055.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT056 VFK Import Gjennomsnittskost",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT056Runner\\RUN_MT056.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT056Runner\\RUN_MT056.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT063 VFK Oppdatering av varer fra D365",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT063Runner\\RUN_MT063.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT063Runner\\RUN_MT063.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFK\\MT068 - D4BVAV - speiling av lagerbeholdning",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFK\\MT068Runner\\RUN_MT068.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFK\\MT068Runner\\RUN_MT068.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\CDSImport V3 VFT VFK",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "E:\\COBVFT\\cdsimport\\start_cdsimport.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "F:\\COBVFT\\cdsimport\\start_cdsimport.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\CMD",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "cmd.exe",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "cmd.exe",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT003 - Varer",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT003Runner\\RUN_MT003_D4BARTIN.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT003Runner\\RUN_MT003_D4BARTIN.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT004Runner - Varegrupper",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT004Runner\\RUN_MT004_D4BGRPIN.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT004Runner\\RUN_MT004_D4BGRPIN.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT007 - Kundeintegrasjon",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT007Runner\\RUN_MT007.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT007Runner\\RUN_MT007.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT014 Filkopiering VFT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\CopyToVFT\\RUN_ProcessMT014VFT.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\CopyToVFT\\RUN_ProcessMT014VFT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT014 Innkjøpsordre VFT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT014Runner\\RUN_MT014.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT014Runner\\RUN_MT014.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT015 Filkopiering VFT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\CopyToVFT\\RUN_ProcessHoldingVFT.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\CopyToVFT\\RUN_ProcessHoldingVFT.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT015 Varemottak VFT",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT015Runner\\RUN_MT015.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT015Runner\\RUN_MT015.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT020 - D4BINNKP - Innkjøpspriser",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT020Runner\\RUN_MT020.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT020Runner\\RUN_MT020.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT041 VFT Salgsordre",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT041Runner\\RUN_MT041.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT041Runner\\RUN_MT041.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT042 - D4BPLUT - Plukk og utlevering",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\mt042runner\\RUN_MT042.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\mt042runner\\RUN_MT042.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT047Runner - D4BPLID",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT047Runner\\RUN_MT047.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT047Runner\\RUN_MT047.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT050 - Utrekk av embalerte varebeholdnignsoppdateringer til Forsprang",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT050Runner\\RUN_MT050.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT050Runner\\RUN_MT050.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT055 - d5bprko - eksport priskost",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT055Runner\\RUN_MT055.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT055Runner\\RUN_MT055.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT056 VFT Import Gjennomsnittskost",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT056Runner\\RUN_MT056.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT056Runner\\RUN_MT056.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT060 VFT Import maskin enhetsregister",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT060Runner\\RUN_MT060.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT060Runner\\RUN_MT060.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT063 VFT Oppdatering av varer fra D365",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT063Runner\\RUN_MT063.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT063Runner\\RUN_MT063.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "VFT\\MT068 - D4BVAV - speiling av lagerbeholdning",
+    "ToServer": "t-no1fkmfsp-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VFT\\MT068Runner\\RUN_MT068.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "C:\\opt\\psh\\VFT\\MT068Runner\\RUN_MT068.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "BASISTST - WKDM010 - Leverandørintegrasjon",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "db2cmd",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "db2cmd",
+    "FromArguments": "-c rexx wkdm010tst BASISTST"
+  },
+  {
+    "TaskName": "E03START",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "N:\\COBNT\\E03START.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "N:\\COBNT\\E03START.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Ehandel-test",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\Ehandel-Test\\ehandel.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "F:\\batch\\ehandel.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Starter COBDOK",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "K:\\COBDOK\\STARTCOBDOK.BAT",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "STARTCOBDOK.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "TESTORDRE",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "n:\\cobtst\\testordre1.bat",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "n:\\cobtst\\testordre1.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "TMSRYDD",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "REXX",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "REXX",
+    "FromArguments": "TMSRYDD.REX"
+  },
+  {
+    "TaskName": "WTNATT",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "db2cmd",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "db2cmd",
+    "FromArguments": "-c rexx wtnatt.rex"
+  },
+  {
+    "TaskName": "WTSTART",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "REXX",
+    "ToArguments": "",
+    "FromServer": "sfk-erp-03",
+    "FromCommand": "REXX",
+    "FromArguments": "WTSTART"
+  },
+  {
+    "TaskName": "Agrideler - Move Inventory to EDI server",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-c c:\\opt\\psh\\Agrideler\\MoveInventoryToEDI.ps1"
+  },
+  {
+    "TaskName": "BRREG API Import",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "powershell.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "powershell.exe",
+    "FromArguments": "-executionpolicy remotesigned -command \"c:\\opt\\psh\\brreg\\brregapiclient\\run_brregdelta.ps1\""
+  },
+  {
+    "TaskName": "BRREGWebImport",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\BRREG\\BRREGAPIClient\\run_lastorgfraweb.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\BRREG\\BRREGAPIClient\\run_lastorgfraweb.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "BSBAOR2",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\DedgePshApps\\Start-BsbaorScripts\\start_bsbaor2.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\sched\\start_bsbaor2.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "BSBAORD",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\DedgePshApps\\Start-BsbaorScripts\\start_bsbaord.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\sched\\start_bsbaord.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "CheckWKStyrLog",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\startwkstyrcheck.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\startwkstyrcheck.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D4BSUPLx - Leverandørintegrasjon - PROD",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\DM010Runner\\start_dm010.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\DM010Runner\\start_dm010.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "ExportScheduledTasks",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-c C:\\opt\\psh\\ExportAllScheduledTasks\\ExportAllScheduledTasks.ps1"
+  },
+  {
+    "TaskName": "FLOG - GXBFLOI",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\Run-Gxbfloi\\Run-Gxbfloi.ps1",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\run_gxbfloi.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "FLOG regelimport",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\FLogRulesRunner\\RUN_FLogRules.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\FLogRulesRunner\\RUN_FLogRules.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "FraSkansen",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\Skansen\\RUN_MoveFromSkansen.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\Skansen\\RUN_MoveFromSkansen.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "GetKSLData - RKBFKS4  - Import",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\KSL\\RunGetKSLData.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\KSL\\RunGetKSLData.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "HentEnhetsregister",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\Enhetsregisteret\\start_underenheter.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\Enhetsregisteret\\start_enhetsregister.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "HentSLF",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\hentslf\\hentslf.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "c:\\opt\\psh\\hentslf\\hentslf.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Kveldssjekk",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-file C:\\opt\\psh\\Kveldssjekk\\kveldssjekk.ps1"
+  },
+  {
+    "TaskName": "Kveldssjekk - helg",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-file C:\\opt\\psh\\Kveldssjekk\\kveldssjekk.ps1"
+  },
+  {
+    "TaskName": "KvernelandGarantiExport",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\KvernelandGarantiExport\\RunGarantiExport.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\KvernelandGarantiExport\\RunGarantiExport.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "LeverandørerTilPUFF",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\LandaxPUFF\\LevTilPUFF.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\LandaxPUFF\\LevTilPUFF.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Sophos_InstTask",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "\\\\SFK-MGM-SEC-01\\SophosUpdate\\CIDs\\S067\\SAVSCFXP\\setup.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "\\\\SFK-MGM-SEC-01\\SophosUpdate\\CIDs\\S067\\SAVSCFXP\\setup.exe",
+    "FromArguments": "-ouser \"BwgbGVh1gf5z0aQF29Y1PI+7w3O2h4Rm7oTnSY2TnusQZ9lALvtjMw2b/BH7+OxMk7oVoJv9jgWd2ovJLOPQjqMj\" -opwd \"Bwj43aZ3hExK7T3ucbzP6xa0zzn66+mEsIXwNsMpI2lE2Q==\" -mng yes -s -updp \"\\\\SFK-MGM-SEC-01\\SophosUpdate\\CIDs\\S067\\SAVSCFXP\" -hmpa -crt R"
+  },
+  {
+    "TaskName": "Start CDS-Import",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgeWinApps\\FKAFSWatcherActions\\start_cdsimport.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\APPS\\FKAFSWatcherActions\\start_cdsimport.bat",
+    "FromArguments": "C:\\APPS\\FKAFSWatcherActions\\"
+  },
+  {
+    "TaskName": "Starter WKSTYR",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "n:\\cobnt\\wkstartup.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "n:\\cobnt\\wkstartup.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "TilSkansen",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\Skansen\\RUN_MoveToSkansen.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\Skansen\\RUN_MoveToSkansen.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "WKERPLOG",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "REXX",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "REXX",
+    "FromArguments": "WKERPLOG"
+  },
+  {
+    "TaskName": "WKRYDD",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "REXX",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "REXX",
+    "FromArguments": "WKRYDD"
+  },
+  {
+    "TaskName": "WKSHOPPA",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "n:\\cobnt\\wkshoppastartup.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "n:\\cobnt\\wkshoppastartup.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "WKSTARTUP",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "N:\\COBNT\\WKSTARTUP.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "N:\\COBNT\\WKSTARTUP.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "WKSTOPP",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "n:\\cobnt\\wkstop.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "n:\\cobnt\\wkstop.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "WKTMB09",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "n:\\cobnt\\wktmb09startup.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "n:\\cobnt\\wktmb09startup.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "XXBUTOMC - PickupPointReport",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\PickupPointReport\\RUN_PickupPointReport.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\PickupPointReport\\RUN_PickupPointReport.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "AABPIMPE - helg",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\CBLRun\\RUN_AABPIMPE_helg.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\CBLRun\\RUN_AABPIMPE_helg.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "AABPIMPE - hverdager",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\CBLRun\\RUN_AABPIMPE.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\CBLRun\\RUN_AABPIMPE.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\CDSMonitor",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "powershell.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "powershell.exe",
+    "FromArguments": "-executionpolicy remotesigned -command \"c:\\opt\\psh\\cdsmonitor\\cdsmonitor.ps1\""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\CopyToProd",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "powershell.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "powershell.exe",
+    "FromArguments": "-executionpolicy remotesigned -c \"c:\\opt\\psh\\copytoprod\\copytoprod.ps1\""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\D4BPLUKKRunner.ps1",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "pwsh.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "pwsh.exe",
+    "FromArguments": "-file C:\\opt\\psh\\D4BPlukkRunner\\d4bplukkrunner.ps1"
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\DM010Runner - Leverandør",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\DM010Runner\\start_dm010.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\DM010Runner\\start_dm010.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\DM021Runner - ALLE - DAGTID",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\DM021Runner\\RUN_DM021B.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\DM021Runner\\RUN_DM021B.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\DM021Runner - D4BFAKT - dagtid",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\DM021Runner\\RUN_DM021.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\DM021Runner\\RUN_DM021.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\ED001 - Innkjøpsordre fra D365",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "db2cmd",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "db2cmd",
+    "FromArguments": "-c \"rexx N:\\COBNT\\WK4BDIOI BASISPRO\""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\ED007 - EDI faktura",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "db2cmd.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "db2cmd.exe",
+    "FromArguments": "-c \"rexx N:\\COBNT\\WK4BEFAO BASISPRO\""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\ED007Check",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\ED007Check\\RUN_ED007Check.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\ED007Check\\RUN_ED007Check.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT003Runner - Varer",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT003Runner\\RUN_MT003_D4BARTIN.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT003Runner\\RUN_MT003_D4BARTIN.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT004Runner - Varegrupper",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT004Runner\\RUN_MT004_D4BGRPIN.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT004Runner\\RUN_MT004_D4BGRPIN.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT007Runner - Kunder",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT007Runner\\RUN_MT007.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT007Runner\\RUN_MT007.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT014Runner - Innkjøpsordre",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT014Runner\\RUN_MT014.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT014Runner\\RUN_MT014.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT014Runner - Innkjøpsordre - filkopiering",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\CopyToProd\\RUN_ProcessMT014Prod.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\CopyToProd\\RUN_ProcessMT014Prod.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT015Runner - Varemottak",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT015Runner\\RUN_MT015.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT015Runner\\RUN_MT015.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT015Runner - Varemottak - filprosessering",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\CopyToProd\\RUN_ProcessHoldingProd.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\CopyToProd\\RUN_ProcessHoldingProd.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT038Runner - Kundesaldo",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT038Runner\\RUN_MT038.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT038Runner\\RUN_MT038.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\MT039Runner - Kredittstopp",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT039Runner\\RUN_MT039.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT039Runner\\RUN_MT039.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Integrasjoner\\VI001Runner - Kassetransaksjoner",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\VI001Runner\\RUN_VI001.BAT",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\VI001Runner\\RUN_VI001.BAT",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "D365 Performance\\D6BARTIN - VAREINTEGRASJON - PERFORMANCE",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\MT003Runner\\RUN_MT003_D6BARTIN_perf.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\MT003Runner\\RUN_MT003_D6BARTIN_perf.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "PIM\\Eksport prisdata til Riversand og netthandel",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "C:\\opt\\DedgePshApps\\PIMEKSP\\RUN_PIMEKSP.bat",
+    "ToArguments": "",
+    "FromServer": "sfkerp13",
+    "FromCommand": "C:\\opt\\psh\\PIMEKSP\\RUN_PIMEKSP.bat",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "KimenExport",
+    "ToServer": "p-no1fkmprd-app",
+    "ToCommand": "c:\\opt\\apps\\KimenExport\\KimenExport.exe",
+    "ToArguments": "",
+    "FromServer": "sfkerp14",
+    "FromCommand": "E:\\opt\\apps\\KimenExport\\KimenExport.exe",
+    "FromArguments": ""
+  },
+  {
+    "TaskName": "Dedge Avtalegiro import",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+    "ToArguments": "",
+    "FromServer": "t-no1batch-vm01",
+    "FromCommand": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+    "FromArguments": "-w Hidden e:\\opt\\psh\\DedgePsh\\avtalegiroimport\\AvtalegiroImport.ps1"
+  },
+  {
+    "TaskName": "Dedge Postnummerregister import",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+    "ToArguments": "",
+    "FromServer": "t-no1batch-vm01",
+    "FromCommand": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+    "FromArguments": "-w Hidden e:\\opt\\psh\\DedgePsh\\postenimport\\GetPostnummerAlle.ps1"
+  },
+  {
+    "TaskName": "DedgeDailyRoutine",
+    "ToServer": "t-no1fkmtst-app",
+    "ToCommand": "c:\\opt\\apps\\DedgeDailyRoutine\\DedgeDailyRoutine.exe",
+    "ToArguments": "",
+    "FromServer": "t-no1batch-vm01",
+    "FromCommand": "E:\\opt\\apps\\DedgeDailyRoutine\\DedgeDailyRoutine.exe",
+    "FromArguments": ""
+  }
+]

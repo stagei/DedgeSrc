@@ -1,0 +1,172 @@
+{
+  "program": "ILXKTAJ",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:08",
+  "variableFilenames": {
+    "KGR95-FIL": {
+      "logicalName": "KGR95-FIL",
+      "physicalVariable": "WW-KGR95-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "KGR95-FILNAVN/<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\KGR95-FILNAVN\\<dynamic>.CSV",
+      "description": "File name constructed using date and dynamic part",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:21:44"
+    },
+    "ENDRE-FIL": {
+      "logicalName": "ENDRE-FIL",
+      "physicalVariable": "WW-endra-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "short description",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:22:08"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:527a118e3b9403683e57e86e4df8f98b084480867cf01e8693ea962faa5ce75a",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilxktaj.cbl",
+    "actualName": "ILXKTAJ",
+    "program": "ILXKTAJ",
+    "copyElements": [
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "M",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER_M_AKTIV_KONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO_TEST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDE_ENDRING_TIL_KONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OVFNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OVFNR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO_TEST",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "OKALOGG"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "ILXKTAJ.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\ILXKTAJ.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "KGR95-FIL",
+        "physicalName": "WW-KGR95-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\KGR95-FILNAVN\\<dynamic>.CSV",
+        "filenamePattern": "KGR95-FILNAVN/<date>.CSV",
+        "filenameDescription": "File name constructed using date and dynamic part"
+      },
+      {
+        "logicalName": "ENDRE-FIL",
+        "physicalName": "WW-endra-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE",
+          "READ"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "short description"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:22:08"
+  }
+}

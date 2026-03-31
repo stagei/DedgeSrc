@@ -1,0 +1,3397 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DedgeAuth Admin</title>
+    <link id="tenant-favicon" rel="icon" href="">
+    <style>
+        /* Light Theme (Default) - Clean, bright, professional */
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #cbd5e1;
+            --accent: #0369a1;
+            --accent-hover: #0284c7;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --info: #0284c7;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Theme - Medium dark gray, professional */
+        [data-theme="dark"] {
+            --bg-primary: #1f1f1f;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #333333;
+            --bg-card: #000000;
+            --text-primary: #f8fafc;
+            --text-secondary: #e4e4e7;
+            --text-muted: #d4d4d8;
+            --border: #444444;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --info: #38bdf8;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* User Menu Component */
+        .gk-user-menu {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .gk-user-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .gk-user-button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .gk-user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #008942, #00b359);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .gk-user-name {
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .gk-dropdown-arrow {
+            font-size: 10px;
+            opacity: 0.7;
+            transition: transform 0.2s ease;
+        }
+
+        .gk-user-menu.open .gk-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .gk-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 280px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .gk-user-menu.open .gk-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .gk-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .gk-user-email {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .gk-user-role {
+            display: inline-block;
+            padding: 2px 8px;
+            background: linear-gradient(135deg, #008942, #00b359);
+            color: white;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .gk-user-tenant {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .gk-dropdown-section {
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gk-section-title {
+            padding: 8px 12px 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .gk-app-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .gk-app-link:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .gk-app-icon {
+            font-size: 16px;
+        }
+
+        .gk-app-name {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .gk-app-role {
+            padding: 2px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .gk-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .gk-menu-link:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .gk-menu-icon {
+            font-size: 16px;
+        }
+
+        .gk-dropdown-footer {
+            padding: 12px;
+        }
+
+        .gk-logout-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+        }
+
+        .gk-logout-button:hover {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .gk-logout-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .gk-logout-icon {
+            font-size: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .gk-user-name {
+                display: none;
+            }
+            .gk-dropdown {
+                min-width: 260px;
+                right: -10px;
+            }
+        }
+
+        /* Theme Toggle - Reusable Sun/Moon Switch (compact) */
+        .theme {
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            font-size: 14px;
+        }
+        .theme__fill,
+        .theme__icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .theme__icon,
+        .theme__toggle {
+            z-index: 1;
+        }
+        .theme__icon,
+        .theme__icon-part {
+            position: absolute;
+        }
+        .theme__icon {
+            display: block;
+            top: 0.25em;
+            left: calc(0.25em - 1px);
+            width: 1.2em;
+            height: 1.2em;
+        }
+        .theme__icon-part {
+            border-radius: 50%;
+            box-shadow: 0.3em -0.3em 0 0.4em hsl(0,0%,100%) inset;
+            top: calc(50% - 0.4em);
+            left: calc(50% - 0.4em);
+            width: 0.8em;
+            height: 0.8em;
+            transition:
+                box-shadow 0.3s ease-in-out,
+                opacity 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+            transform: scale(0.5);
+        }
+        .theme__icon-part ~ .theme__icon-part {
+            background-color: hsl(0,0%,100%);
+            border-radius: 0.05em;
+            box-shadow: none;
+            top: 50%;
+            left: calc(50% - 0.04em);
+            transform: rotate(0deg) translateY(0.4em);
+            transform-origin: 50% 0;
+            width: 0.08em;
+            height: 0.16em;
+        }
+        .theme__icon-part:nth-child(3) { transform: rotate(45deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(4) { transform: rotate(90deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(5) { transform: rotate(135deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(6) { transform: rotate(180deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(7) { transform: rotate(225deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(8) { transform: rotate(270deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(9) { transform: rotate(315deg) translateY(0.4em); }
+        .theme__toggle,
+        .theme__toggle-wrap {
+            position: relative;
+        }
+        .theme__toggle,
+        .theme__toggle:before {
+            display: block;
+        }
+        .theme__toggle {
+            background-color: hsl(48,90%,85%);
+            border-radius: 25% / 50%;
+            box-shadow: 0 0 0 0.1em transparent;
+            padding: 0.15em;
+            width: 3.4em;
+            height: 1.7em;
+            border: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            transition:
+                background-color 0.3s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+        }
+        .theme__toggle:before {
+            background-color: hsl(48,90%,55%);
+            border-radius: 50%;
+            content: "";
+            width: 1.4em;
+            height: 1.4em;
+            transition:
+                background-color 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+        }
+        .theme__toggle:focus {
+            box-shadow: 0 0 0 0.1em var(--accent);
+            outline: transparent;
+        }
+        /* Checked = Dark Mode */
+        .theme__toggle:checked {
+            background-color: hsl(223,50%,20%);
+        }
+        .theme__toggle:checked:before,
+        .theme__toggle:checked ~ .theme__icon {
+            transform: translateX(1.7em);
+        }
+        .theme__toggle:checked:before {
+            background-color: hsl(223,90%,55%);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(1) {
+            box-shadow: 0.15em -0.15em 0 0.15em hsl(0,0%,100%) inset;
+            transform: scale(1);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part ~ .theme__icon-part {
+            opacity: 0;
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(2) { transform: rotate(45deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(3) { transform: rotate(90deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(4) { transform: rotate(135deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(5) { transform: rotate(180deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(6) { transform: rotate(225deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(7) { transform: rotate(270deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(8) { transform: rotate(315deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(9) { transform: rotate(360deg) translateY(0.6em); }
+        .theme__toggle-wrap {
+            margin: 0;
+        }
+        @supports selector(:focus-visible) {
+            .theme__toggle:focus { box-shadow: 0 0 0 0.1em transparent; }
+            .theme__toggle:focus-visible { box-shadow: 0 0 0 0.1em var(--accent); }
+        }
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            border-right: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--bg-tertiary);
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 500;
+        }
+
+        .nav-item .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .db-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .db-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .db-info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .db-info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .db-tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .db-table-chip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .db-table-chip .table-name {
+            color: var(--text);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .db-table-chip .table-rows {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: black;
+        }
+
+        .btn-warning:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .badge-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .badge-success { background: rgba(76, 175, 80, 0.2); color: var(--success); }
+        .badge-warning { background: rgba(255, 152, 0, 0.2); color: var(--warning); }
+        .badge-danger { background: rgba(244, 67, 54, 0.2); color: var(--danger); }
+        .badge-info { background: rgba(74, 144, 217, 0.2); color: var(--accent); }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.15);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        select.form-control:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--bg-tertiary);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+        }
+
+        .access-level-select {
+            width: 120px;
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            font-weight: 500;
+        }
+
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        .toast.warning { background: var(--warning); color: #0f172a; }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .url-mismatch-banner {
+            background: var(--warning);
+            color: #0f172a;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+        }
+
+        .url-mismatch-banner .banner-text {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .url-mismatch-banner .banner-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .url-mismatch-banner .btn {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .inline-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .app-routing-list {
+            margin-top: 0.5rem;
+        }
+
+        .app-routing-item {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .app-routing-item input {
+            flex: 1;
+        }
+
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .permission-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .permission-card:hover {
+            transform: translateY(-1px);
+        }
+
+        .permission-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .permission-card-app {
+            font-weight: 600;
+        }
+
+        .permission-card-role {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DedgeAuth Admin</h1>
+        <div class="header-right">
+            <label class="theme" title="Toggle theme">
+                <span class="theme__toggle-wrap">
+                    <input id="theme-toggle" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+                    <span class="theme__icon">
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                        <span class="theme__icon-part"></span>
+                    </span>
+                </span>
+            </label>
+            
+            <!-- User Menu -->
+            <div class="gk-user-menu" id="userMenu">
+                <button class="gk-user-button" id="userMenuButton" onclick="toggleUserMenu()">
+                    <span class="gk-user-avatar" id="userAvatar">?</span>
+                    <span class="gk-user-name" id="userName">Loading...</span>
+                    <span class="gk-dropdown-arrow">▼</span>
+                </button>
+                <div class="gk-dropdown" id="userDropdown">
+                    <div class="gk-dropdown-header">
+                        <div class="gk-user-email" id="userEmail">user@example.com</div>
+                        <div class="gk-user-role" id="userRole">Admin</div>
+                        <div class="gk-user-tenant" id="userTenant"></div>
+                    </div>
+                    
+                    <div class="gk-dropdown-section" id="appsSection" style="display:none;">
+                        <div class="gk-section-title">Switch Application</div>
+                        <div id="appsList"></div>
+                    </div>
+                    
+                    <div class="gk-dropdown-section">
+                        <a href="login.html" class="gk-menu-link" title="Back to Login Portal">
+                            <span class="gk-menu-icon">🏠</span>
+                            <span>Back to Portal</span>
+                        </a>
+                    </div>
+                    
+                    <div class="gk-dropdown-footer">
+                        <button class="gk-logout-button" id="logoutButton" onclick="logout()">
+                            <span class="gk-logout-icon">🚪</span>
+                            <span>Sign Out</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-item active" data-section="dashboard">
+                <span data-i18n="admin.nav.dashboard">Dashboard</span>
+            </div>
+            <div class="nav-item" data-section="users">
+                <span data-i18n="admin.nav.users">Users</span>
+            </div>
+            <div class="nav-item" data-section="pending">
+                <span data-i18n="admin.nav.pending">Pending Approvals</span>
+                <span class="badge" id="pendingBadge" style="display:none;">0</span>
+            </div>
+            <div class="nav-item" data-section="apps">
+                <span data-i18n="admin.nav.apps">Applications</span>
+            </div>
+            <div class="nav-item" data-section="tenants">
+                <span data-i18n="admin.nav.tenants">Tenants</span>
+            </div>
+            <div class="nav-item" data-section="groups">
+                <span>Groups</span>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h2 class="page-title" data-i18n="admin.dashboard.title">Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statUsers">-</div>
+                        <div class="stat-label" data-i18n="admin.dashboard.totalUsers">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statPending">-</div>
+                        <div class="stat-label" data-i18n="admin.dashboard.pendingApprovals">Pending Approvals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statApps">-</div>
+                        <div class="stat-label" data-i18n="admin.dashboard.applications">Applications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTenants">-</div>
+                        <div class="stat-label" data-i18n="admin.dashboard.tenants">Tenants</div>
+                    </div>
+                </div>
+                <div class="card" id="dbInfoCard" style="display: none;">
+                    <h3 class="card-title" data-i18n="admin.dashboard.database">Database</h3>
+                    <div class="db-info-grid">
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.server">Server</span>
+                            <span class="db-info-value" id="dbHost">—</span>
+                        </div>
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.port">Port</span>
+                            <span class="db-info-value" id="dbPort">—</span>
+                        </div>
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.databaseName">Database</span>
+                            <span class="db-info-value" id="dbName">—</span>
+                        </div>
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.size">Size</span>
+                            <span class="db-info-value" id="dbSize">—</span>
+                        </div>
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.postgresql">PostgreSQL</span>
+                            <span class="db-info-value" id="dbVersion">—</span>
+                        </div>
+                        <div class="db-info-item">
+                            <span class="db-info-label" data-i18n="admin.dashboard.serverUptime">Server Uptime</span>
+                            <span class="db-info-value" id="dbUptime">—</span>
+                        </div>
+                    </div>
+                    <h4 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;" data-i18n="admin.dashboard.tables">Tables</h4>
+                    <div class="db-tables-grid" id="dbTablesGrid">
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Loading...</span>
+                    </div>
+                </div>
+                <div class="card" id="latestVisitsCard" style="display: none;">
+                    <h3 class="card-title" data-i18n="admin.dashboard.latestVisits">Latest Visits</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.user">User</th>
+                                <th data-i18n="admin.table.app">App</th>
+                                <th data-i18n="admin.table.path">Path</th>
+                                <th data-i18n="admin.table.ip">IP</th>
+                                <th data-i18n="admin.table.time">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="latestVisitsTable">
+                            <tr><td colspan="5" class="loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card" id="maintenanceCard" style="display: none;">
+                    <h3 class="card-title" data-i18n="admin.dashboard.maintenance">Maintenance</h3>
+                    <div id="maintenanceStats" style="margin-bottom: 1rem;">
+                        <p class="loading" data-i18n="admin.dashboard.loading">Loading...</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                        <button class="btn btn-primary btn-sm" onclick="runTokenCleanup()" data-i18n="admin.btn.cleanTokens">Clean Tokens</button>
+                        <button class="btn btn-primary btn-sm" onclick="runVisitCleanup()" data-i18n="admin.btn.cleanVisits">Clean Visits</button>
+                        <button class="btn btn-sm" onclick="runAllCleanup()" style="background: var(--warning-color, #f59e0b); color: #000;" data-i18n="admin.btn.runAll">Run All</button>
+                        <label style="margin-left: 1rem; font-size: 0.85rem;">
+                            <span data-i18n="admin.dashboard.retentionDays">Retention days:</span>
+                            <input type="number" id="visitRetentionDays" value="30" min="1" max="365" style="width: 60px; padding: 2px 4px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color, #444); border-radius: 4px;">
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title" data-i18n="admin.dashboard.recentUsers">Recent Users</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.email">Email</th>
+                                <th data-i18n="admin.table.name">Name</th>
+                                <th data-i18n="admin.table.accessLevel">Access Level</th>
+                                <th data-i18n="admin.table.status">Status</th>
+                                <th data-i18n="admin.table.joined">Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentUsersTable">
+                            <tr><td colspan="5" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users" class="section">
+                <h2 class="page-title">
+                    <span data-i18n="admin.users.title">User Management</span>
+                    <button class="btn btn-primary" onclick="showAddUserModal()" data-i18n="admin.btn.addUser">Add User</button>
+                </h2>
+                <div class="search-bar">
+                    <input type="text" class="form-control" id="userSearch" data-i18n-placeholder="admin.placeholder.search" placeholder="Search users by email or name...">
+                    <button class="btn btn-primary" onclick="searchUsers()" data-i18n="admin.btn.search">Search</button>
+                </div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.email">Email</th>
+                                <th data-i18n="admin.table.name">Name</th>
+                                <th data-i18n="admin.table.accessLevel">Access Level</th>
+                                <th data-i18n="admin.table.status">Status</th>
+                                <th data-i18n="admin.table.lastLogin">Last Login</th>
+                                <th data-i18n="admin.table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <tr><td colspan="6" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pending Approvals Section -->
+            <section id="pending" class="section">
+                <h2 class="page-title" data-i18n="admin.pending.title">Pending Approvals</h2>
+                <div class="card">
+                    <h3 class="card-title">User Registrations</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.email">Email</th>
+                                <th data-i18n="admin.table.name">Name</th>
+                                <th data-i18n="admin.table.requested">Requested</th>
+                                <th data-i18n="admin.table.status">Status</th>
+                                <th data-i18n="admin.table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingTable">
+                            <tr><td colspan="5" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card" style="margin-top: 1rem;">
+                    <h3 class="card-title">Access Requests</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th data-i18n="admin.table.email">Email</th>
+                                <th data-i18n="admin.table.app">App</th>
+                                <th>Requested</th>
+                                <th>Reason</th>
+                                <th data-i18n="admin.table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accessRequestsTable">
+                            <tr><td colspan="6" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Applications Section -->
+            <section id="apps" class="section">
+                <h2 class="page-title">
+                    <span data-i18n="admin.apps.title">Applications</span>
+                    <button class="btn btn-primary" onclick="showAddAppModal()" data-i18n="admin.btn.addApp">Add Application</button>
+                </h2>
+                <div id="urlMismatchBanner"></div>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.appId">App ID</th>
+                                <th data-i18n="admin.table.displayName">Display Name</th>
+                                <th data-i18n="admin.table.baseUrl">Base URL</th>
+                                <th data-i18n="admin.table.roles">Roles</th>
+                                <th data-i18n="admin.table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appsTable">
+                            <tr><td colspan="5" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tenants Section -->
+            <section id="tenants" class="section">
+                <h2 class="page-title">
+                    <span data-i18n="admin.tenants.title">Tenants</span>
+                    <button class="btn btn-primary" onclick="showAddTenantModal()" data-i18n="admin.btn.addTenant">Add Tenant</button>
+                </h2>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.table.domain">Domain</th>
+                                <th data-i18n="admin.table.displayName">Display Name</th>
+                                <th data-i18n="admin.table.color">Color</th>
+                                <th data-i18n="admin.table.css">CSS</th>
+                                <th data-i18n="admin.table.actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tenantsTable">
+                            <tr><td colspan="5" class="loading" data-i18n="common.loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Groups Section -->
+            <section id="groups" class="section">
+                <h2 class="page-title">
+                    <span>App Groups</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <select id="groupsTenantSelect" onchange="loadGroupsTree()" style="padding:6px 10px; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-card); color:var(--text-primary); font-size:14px;"></select>
+                        <button class="btn btn-primary" onclick="showAddGroupModal()">Add Group</button>
+                        <button class="btn" onclick="syncAdGroups()" title="Refresh AD group cache">Sync AD Groups</button>
+                    </div>
+                </h2>
+                <div class="card" style="display:flex; gap:20px; min-height:400px;">
+                    <div id="groupsTreePanel" style="flex:1; overflow:auto; padding:16px; border-right:1px solid var(--border-color);">
+                        <div class="loading">Select a tenant...</div>
+                    </div>
+                    <div id="groupsDetailPanel" style="flex:1; padding:16px;">
+                        <div style="color:var(--text-muted); text-align:center; padding-top:80px;">Select a group from the tree</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add/Edit Group Modal -->
+            <div class="modal-overlay" id="groupModal" style="display:none;">
+                <div class="modal" style="max-width:550px;">
+                    <div class="modal-header">
+                        <h2 id="groupModalTitle">Add Group</h2>
+                        <button class="modal-close" onclick="closeModal('groupModal')">&times;</button>
+                    </div>
+                    <form id="groupForm" onsubmit="saveGroup(event)">
+                        <input type="hidden" id="groupEditId">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="groupName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Slug</label>
+                            <input type="text" class="form-control" id="groupSlug" required placeholder="url-safe-identifier">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" id="groupDescription">
+                        </div>
+                        <div class="form-group">
+                            <label>Parent Group</label>
+                            <select class="form-control" id="groupParent">
+                                <option value="">(Root — no parent)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ACL AD Groups <small style="color:var(--text-muted);">(type to search, leave empty to inherit)</small></label>
+                            <div id="aclGroupTags" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;"></div>
+                            <input type="text" class="form-control" id="aclGroupSearch" placeholder="Search AD groups..." autocomplete="off">
+                            <div id="aclGroupDropdown" style="display:none; position:relative;">
+                                <div id="aclGroupResults" style="position:absolute; top:0; left:0; right:0; max-height:200px; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-color); border-radius:var(--radius); box-shadow:var(--shadow-lg); z-index:100;"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" onclick="closeModal('groupModal')">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add App To Group Modal -->
+            <div class="modal-overlay" id="addAppToGroupModal" style="display:none;">
+                <div class="modal" style="max-width:400px;">
+                    <div class="modal-header">
+                        <h2>Add App to Group</h2>
+                        <button class="modal-close" onclick="closeModal('addAppToGroupModal')">&times;</button>
+                    </div>
+                    <div style="padding:16px;">
+                        <input type="hidden" id="addAppGroupId">
+                        <div class="form-group">
+                            <label>Select App</label>
+                            <select class="form-control" id="addAppSelect"></select>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" onclick="closeModal('addAppToGroupModal')">Cancel</button>
+                            <button class="btn btn-primary" onclick="confirmAddAppToGroup()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 data-i18n="admin.modal.editUser">Edit User</h2>
+                <button class="modal-close" onclick="closeModal('editUserModal')">&times;</button>
+            </div>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="editUserEmail" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" class="form-control" id="editUserName">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" class="form-control" id="editUserDept">
+                </div>
+                <div class="form-group">
+                    <label>Global Access Level</label>
+                    <select class="form-control" id="editUserLevel">
+                        <option value="0">ReadOnly (0)</option>
+                        <option value="1">User (1)</option>
+                        <option value="2">PowerUser (2)</option>
+                        <option value="3">Admin (3)</option>
+                        <option value="5">TenantAdmin (5)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="editUserActive"> Active
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="editUserVerified"> Email Verified
+                    </label>
+                </div>
+                <h4 style="margin: 1rem 0;">App Permissions</h4>
+                <div id="userPermissions" class="permissions-grid"></div>
+                <h4 style="margin: 1rem 0; cursor: pointer;" onclick="toggleVisitHistory()">
+                    Visit History <span id="visitHistoryToggle" style="font-size: 0.8rem;">&#9654;</span>
+                    <span id="visitHistoryCount" style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;"></span>
+                </h4>
+                <div id="visitHistorySection" style="display: none;">
+                    <table style="font-size: 0.85rem;">
+                        <thead>
+                            <tr>
+                                <th>App</th>
+                                <th>Path</th>
+                                <th>IP</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userVisitHistoryTable">
+                            <tr><td colspan="4" class="loading">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center; margin-top: 0.5rem;">
+                        <button type="button" class="btn btn-sm" id="loadMoreVisitsBtn" onclick="loadMoreUserVisits()" style="display: none;">Load more</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="revokeUserTokens()">Revoke All Sessions</button>
+                    <button type="button" class="btn" onclick="closeModal('editUserModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Permission Modal -->
+    <div class="modal-overlay" id="addPermissionModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add App Permission</h2>
+                <button class="modal-close" onclick="closeModal('addPermissionModal')">&times;</button>
+            </div>
+            <form id="addPermissionForm">
+                <input type="hidden" id="permUserId">
+                <div class="form-group">
+                    <label>Application</label>
+                    <select class="form-control" id="permAppId" onchange="updateRoleOptions()">
+                        <option value="">Select an application...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select class="form-control" id="permRole">
+                        <option value="">Select application first...</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('addPermissionModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Grant Permission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit App Modal -->
+    <div class="modal-overlay" id="appModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="appModalTitle">Add Application</h2>
+                <button class="modal-close" onclick="closeModal('appModal')">&times;</button>
+            </div>
+            <form id="appForm">
+                <input type="hidden" id="appEditMode">
+                <div class="form-group">
+                    <label>App ID (unique identifier)</label>
+                    <input type="text" class="form-control" id="appId" required>
+                </div>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" class="form-control" id="appName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" id="appDesc"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Base URL</label>
+                    <input type="url" class="form-control" id="appUrl" placeholder="https://app.example.com">
+                </div>
+                <div class="form-group">
+                    <label>Available Roles (comma-separated)</label>
+                    <input type="text" class="form-control" id="appRoles" value="ReadOnly, User, PowerUser, Admin">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('appModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Tenant Modal -->
+    <div class="modal-overlay" id="tenantModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 id="tenantModalTitle">Add Tenant</h2>
+                <button class="modal-close" onclick="closeModal('tenantModal')">&times;</button>
+            </div>
+            <form id="tenantForm">
+                <input type="hidden" id="tenantEditId">
+                <div class="form-group">
+                    <label>Domain</label>
+                    <input type="text" class="form-control" id="tenantDomain" required placeholder="example.com">
+                </div>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" class="form-control" id="tenantName" required>
+                </div>
+                <div class="form-group">
+                    <label>Logo</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <input type="file" class="form-control" id="tenantLogoFile" accept="image/svg+xml,image/png,image/jpeg,image/gif" style="margin-bottom: 6px;">
+                            <input type="url" class="form-control" id="tenantLogo" placeholder="Or enter external URL (overrides file)" style="font-size: 0.85rem;">
+                        </div>
+                        <div id="tenantLogoPreview" style="min-width: 80px; min-height: 40px; border: 1px dashed var(--border-color); border-radius: 4px; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                            <img id="tenantLogoPreviewImg" src="" alt="" style="max-width: 120px; max-height: 50px; display: none;">
+                            <span id="tenantLogoPreviewPlaceholder" style="color: var(--text-muted); font-size: 0.75rem;">No logo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Favicon / Icon <small style="color: var(--text-muted); font-weight: normal;">(.ico, .png — shown in browser tab)</small></label>
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <input type="file" class="form-control" id="tenantIconFile" accept="image/x-icon,image/png,image/svg+xml" style="margin-bottom: 6px;">
+                        </div>
+                        <div id="tenantIconPreview" style="min-width: 40px; min-height: 40px; border: 1px dashed var(--border-color); border-radius: 4px; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                            <img id="tenantIconPreviewImg" src="" alt="" style="max-width: 32px; max-height: 32px; display: none;">
+                            <span id="tenantIconPreviewPlaceholder" style="color: var(--text-muted); font-size: 0.65rem;">No icon</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Primary Color</label>
+                    <input type="color" class="form-control" id="tenantColor" value="#4a90d9" style="height: 50px;">
+                </div>
+                <div class="form-group">
+                    <label>CSS Overrides <small style="color: var(--text-muted); font-weight: normal;">(leave empty to use system default)</small></label>
+                    <textarea class="form-control" id="tenantCss" rows="8" style="font-family: monospace; font-size: 0.85rem;" placeholder="/* Custom CSS for this tenant */
+:root {
+  --primary-color: #008942;
+  --accent-color: #0369a1;
+}
+[data-theme='dark'] {
+  --bg-primary: #1f1f1f;
+  --bg-card: #000000;
+}"></textarea>
+                    <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center;">
+                        <button type="button" class="btn btn-sm" onclick="document.getElementById('tenantCss').value = ''; document.getElementById('tenantCss').focus();" title="Clear custom CSS to use system default">
+                            🔄 Reset to Default
+                        </button>
+                        <small style="color: var(--text-muted);">Clear to use system default CSS</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>AD Domain <small style="color:var(--text-muted); font-weight:normal;">(NetBIOS name for LDAP sync, e.g. DEDGE)</small></label>
+                    <input type="text" class="form-control" id="tenantAdDomain" placeholder="DEDGE" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>App Routing (App ID to URL mapping)</label>
+                    <div id="appRoutingList" class="app-routing-list"></div>
+                    <button type="button" class="btn btn-sm" onclick="addAppRoutingRow()">+ Add Route</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('tenantModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal-overlay" id="addUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add User</h2>
+                <button class="modal-close" onclick="closeModal('addUserModal')">&times;</button>
+            </div>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="newUserEmail" required placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" class="form-control" id="newUserDisplayName" required>
+                </div>
+                <div class="form-group">
+                    <label>Password (optional — user can set via magic link)</label>
+                    <input type="password" class="form-control" id="newUserPassword" placeholder="Leave blank for magic link only">
+                </div>
+                <div class="form-group">
+                    <label>Access Level</label>
+                    <select class="form-control" id="newUserAccessLevel">
+                        <option value="0">ReadOnly</option>
+                        <option value="1" selected>User</option>
+                        <option value="2">PowerUser</option>
+                        <option value="3">Admin</option>
+                        <option value="5">TenantAdmin</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('addUserModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+    <script>
+        // Detect base path for IIS sub-application hosting (e.g. /DedgeAuth/)
+        const basePath = (() => {
+            const path = window.location.pathname;
+            const base = path.substring(0, path.lastIndexOf('/'));
+            return base || '';
+        })();
+
+        let token = localStorage.getItem('accessToken');
+        let currentUser = null;
+        let allApps = [];
+        let allUsers = [];
+        let pendingUsers = [];
+        let protectedEmails = [];
+
+        // Theme management - checkbox checked = dark mode
+        // Keep Admin in sync with the shared DedgeAuth theme used by other pages/components.
+        const THEME_KEYS = ['DedgeAuth-theme', 'theme', 'admin-theme'];
+
+        function getSavedTheme() {
+            for (const key of THEME_KEYS) {
+                const value = localStorage.getItem(key);
+                if (value === 'dark' || value === 'light') return value;
+            }
+            return null;
+        }
+
+        function initTheme() {
+            const savedTheme = getSavedTheme();
+            const fallbackTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+            applyTheme(savedTheme || fallbackTheme);
+        }
+
+        function applyTheme(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if (toggle) toggle.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (toggle) toggle.checked = false;
+            }
+            // Persist to all known keys for backward compatibility and cross-page sync.
+            localStorage.setItem('DedgeAuth-theme', theme);
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('admin-theme', theme);
+        }
+
+        function toggleTheme() {
+            const toggle = document.getElementById('theme-toggle');
+            applyTheme(toggle && toggle.checked ? 'dark' : 'light');
+        }
+
+        // Initialize theme immediately
+        initTheme();
+
+        // Theme toggle change handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('theme-toggle');
+            if (toggle) {
+                toggle.addEventListener('change', toggleTheme);
+                // Re-sync checkbox state with current theme
+                const isDark = document.documentElement.hasAttribute('data-theme');
+                toggle.checked = isDark;
+            }
+        });
+
+        // Check auth on load
+        if (!token) {
+            window.location.href = `${basePath}/login.html?returnUrl=` + encodeURIComponent(window.location.href);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadCurrentUser();
+            await loadDashboard();
+            setupNavigation();
+            setupForms();
+
+            // Set favicon from tenant icon endpoint (falls back to logo on server)
+            try {
+                const tenantResp = await api('/tenants/default');
+                if (tenantResp?.domain && (tenantResp.hasIconData || tenantResp.hasLogoData)) {
+                    const fav = document.getElementById('tenant-favicon');
+                    if (fav) {
+                        fav.href = `${basePath}/tenants/${tenantResp.domain}/icon`;
+                        fav.type = tenantResp.hasIconData ? (tenantResp.iconContentType || 'image/x-icon') : (tenantResp.logoContentType || 'image/svg+xml');
+                    }
+                }
+            } catch (_) { /* favicon is non-critical */ }
+        });
+
+        // API helper
+        async function api(endpoint, options = {}) {
+            const response = await fetch(`${basePath}/api${endpoint}`, {
+                ...options,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                }
+            });
+            
+            if (response.status === 401) {
+                localStorage.removeItem('accessToken');
+                window.location.href = `${basePath}/login.html`;
+                return null;
+            }
+            
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({ message: 'Request failed' }));
+                throw new Error(error.message || 'Request failed');
+            }
+            
+            return response.json();
+        }
+
+        // Load current user
+        async function loadCurrentUser() {
+            try {
+                currentUser = await api('/auth/me');
+                
+                // Check if admin
+                const level = parseInt(currentUser.globalAccessLevel);
+                if (level < 3 && level !== 5) {
+                    document.body.innerHTML = `<div style="padding:2rem;text-align:center;"><h1>Access Denied</h1><p>You need Admin access level to view this page.</p><a href="${basePath}/login.html">Back to Login</a></div>`;
+                    return;
+                }
+                
+                // Populate user menu
+                await populateUserMenu(currentUser);
+            } catch (e) {
+                console.error('Failed to load user:', e);
+                window.location.href = `${basePath}/login.html`;
+            }
+        }
+        
+        // Populate user menu with current user data
+        async function populateUserMenu(user) {
+            console.log('Populating user menu with:', user);
+            
+            // Avatar initials
+            const name = user.displayName || user.email;
+            const initials = getInitials(name);
+            document.getElementById('userAvatar').textContent = initials;
+            
+            // User name
+            document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
+            
+            // Email
+            document.getElementById('userEmail').textContent = user.email;
+            
+            // Role - use globalAccessLevelName from response
+            const roleMap = { 0: 'ReadOnly', 1: 'User', 2: 'PowerUser', 3: 'Admin', 5: 'TenantAdmin' };
+            const accessLevel = parseInt(user.globalAccessLevel) || 0;
+            const roleName = user.globalAccessLevelName || roleMap[accessLevel] || 'User';
+            document.getElementById('userRole').textContent = roleName;
+            
+            // Parse tenant if it's a string
+            let tenant = user.tenant;
+            if (typeof tenant === 'string') {
+                try {
+                    tenant = JSON.parse(tenant);
+                } catch (e) {
+                    console.warn('Failed to parse tenant JSON:', e);
+                    tenant = null;
+                }
+            }
+            
+            // Tenant name
+            if (tenant?.displayName) {
+                document.getElementById('userTenant').textContent = tenant.displayName;
+            }
+            
+            // Parse appPermissions if it's a string
+            let appPermissions = user.appPermissions;
+            if (typeof appPermissions === 'string') {
+                try {
+                    appPermissions = JSON.parse(appPermissions);
+                } catch (e) {
+                    console.warn('Failed to parse appPermissions JSON:', e);
+                    appPermissions = {};
+                }
+            }
+            appPermissions = appPermissions || {};
+            
+            // Apps list - fetch appRouting from API (not in token to keep URL size small)
+            const appsList = document.getElementById('appsList');
+            const appsSection = document.getElementById('appsSection');
+            
+            // Fetch tenant with appRouting from API
+            try {
+                const tenantDomain = tenant?.domain || 'Dedge.no';
+                const tenantResponse = await api(`/tenants/by-domain/${tenantDomain}`);
+                const appRouting = tenantResponse?.appRouting || {};
+                
+                console.log('App routing from API:', appRouting, 'App permissions:', appPermissions);
+                
+                if (Object.keys(appRouting).length > 0) {
+                    appsSection.style.display = 'block';
+                    appsList.innerHTML = Object.entries(appRouting).map(([appId, url]) => {
+                        const role = appPermissions[appId] || 'User';
+                        return `
+                            <a href="${escapeHtml(url)}?token=${token}" class="gk-app-link" title="${escapeHtml(appId)}">
+                                <span class="gk-app-icon">📦</span>
+                                <span class="gk-app-name">${escapeHtml(appId)}</span>
+                                <span class="gk-app-role">${escapeHtml(role)}</span>
+                            </a>
+                        `;
+                    }).join('');
+                }
+            } catch (e) {
+                console.warn('Failed to fetch app routing:', e);
+            }
+        }
+        
+        // Get initials from name or email
+        function getInitials(nameOrEmail) {
+            if (!nameOrEmail) return '?';
+            
+            if (nameOrEmail.includes('@')) {
+                return nameOrEmail.charAt(0).toUpperCase();
+            }
+            
+            const parts = nameOrEmail.split(' ');
+            if (parts.length >= 2) {
+                return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+            }
+            return nameOrEmail.charAt(0).toUpperCase();
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.classList.toggle('open');
+        }
+        
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('userMenu');
+            if (menu && !menu.contains(e.target)) {
+                menu.classList.remove('open');
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('userMenu')?.classList.remove('open');
+            }
+        });
+
+        // Check if email is a protected admin
+        function isProtectedAdmin(email) {
+            return protectedEmails.some(e => e.toLowerCase() === (email || '').toLowerCase());
+        }
+
+        let pendingAccessRequests = [];
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const [users, pending, apps, tenants, protEmails, accessReqs] = await Promise.all([
+                    api('/users'),
+                    api('/users/pending'),
+                    api('/apps'),
+                    api('/tenants'),
+                    api('/users/protected-emails'),
+                    api('/access-requests/pending')
+                ]);
+
+                protectedEmails = protEmails || [];
+
+                allUsers = users || [];
+                pendingUsers = pending || [];
+                allApps = apps || [];
+                pendingAccessRequests = accessReqs || [];
+
+                // Update stats
+                const totalPending = pendingUsers.length + pendingAccessRequests.length;
+                document.getElementById('statUsers').textContent = allUsers.length;
+                document.getElementById('statPending').textContent = totalPending;
+                document.getElementById('statApps').textContent = allApps.length;
+                document.getElementById('statTenants').textContent = (tenants || []).length;
+
+                // Update pending badge
+                const badge = document.getElementById('pendingBadge');
+                if (totalPending > 0) {
+                    badge.textContent = totalPending;
+                    badge.style.display = 'inline';
+                } else {
+                    badge.style.display = 'none';
+                }
+
+                // Render tables
+                renderRecentUsers(allUsers.slice(0, 5));
+                renderUsers(allUsers);
+                renderPending(pendingUsers);
+                renderAccessRequests(pendingAccessRequests);
+                renderApps(allApps);
+                renderTenants(tenants || []);
+
+                // Load database info, latest visits, and maintenance stats (non-blocking)
+                loadDatabaseInfo();
+                loadLatestVisits();
+                loadMaintenanceStats();
+            } catch (e) {
+                console.error('Failed to load dashboard:', e);
+                showToast('Failed to load data: ' + e.message, 'error');
+            }
+        }
+
+        async function loadDatabaseInfo() {
+            try {
+                const db = await api('/debug/db-info');
+                const card = document.getElementById('dbInfoCard');
+                card.style.display = '';
+
+                document.getElementById('dbHost').textContent = db.host || '—';
+                document.getElementById('dbPort').textContent = db.port || '—';
+                document.getElementById('dbName').textContent = db.database || '—';
+                document.getElementById('dbSize').textContent = db.sizeFormatted || '—';
+                document.getElementById('dbUptime').textContent = db.serverUptime || '—';
+
+                // Extract short version (e.g. "PostgreSQL 16.2" from the full version string)
+                const verMatch = (db.postgresVersion || '').match(/PostgreSQL\s+[\d.]+/);
+                document.getElementById('dbVersion').textContent = verMatch ? verMatch[0] : (db.postgresVersion || '—');
+
+                // Render table chips
+                const grid = document.getElementById('dbTablesGrid');
+                if (db.tables && db.tables.length > 0) {
+                    grid.innerHTML = db.tables.map(t => `
+                        <div class="db-table-chip">
+                            <span class="table-name">${escapeHtml(t.name)}</span>
+                            <span class="table-rows">${t.rows.toLocaleString()}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = '<span style="color: var(--text-muted); font-size: 0.85rem;">No tables found</span>';
+                }
+            } catch (e) {
+                console.warn('Could not load database info:', e);
+            }
+        }
+
+        async function loadLatestVisits() {
+            try {
+                const visits = await api('/visits/latest?count=10');
+                const card = document.getElementById('latestVisitsCard');
+                card.style.display = '';
+
+                const tbody = document.getElementById('latestVisitsTable');
+                if (!visits || visits.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No visits recorded yet</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = visits.map(v => `
+                    <tr>
+                        <td>${escapeHtml(v.userEmail || v.userId)}</td>
+                        <td><span class="badge-status badge-success">${escapeHtml(v.appId)}</span></td>
+                        <td>${escapeHtml(v.path || '/')}</td>
+                        <td>${escapeHtml(v.ipAddress || '—')}</td>
+                        <td>${formatDate(v.visitedAt)}</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.warn('Could not load latest visits:', e);
+            }
+        }
+
+        async function loadMaintenanceStats() {
+            try {
+                const stats = await api('/maintenance/stats');
+                const card = document.getElementById('maintenanceCard');
+                card.style.display = '';
+                const el = document.getElementById('maintenanceStats');
+                document.getElementById('visitRetentionDays').value = stats.visitRetentionDays || 30;
+                el.innerHTML = `
+                    <table style="font-size: 0.85rem; width: 100%;">
+                        <tr><td>Login tokens</td><td>${stats.totalLoginTokens} total, ${stats.expiredLoginTokens} expired, ${stats.usedLoginTokens} used</td></tr>
+                        <tr><td>Refresh tokens</td><td>${stats.totalRefreshTokens} total, ${stats.expiredRefreshTokens} expired, ${stats.revokedRefreshTokens} revoked</td></tr>
+                        <tr><td>User visits</td><td>${stats.totalVisits} total, ${stats.visitsOlderThanRetention} older than ${stats.visitRetentionDays}d</td></tr>
+                    </table>`;
+            } catch (e) {
+                console.warn('Could not load maintenance stats:', e);
+            }
+        }
+
+        async function runTokenCleanup() {
+            if (!confirm('Clean up all expired and used tokens?')) return;
+            try {
+                const r = await api('/maintenance/cleanup-tokens', { method: 'POST' });
+                showToast(`Removed ${r.loginTokensRemoved} login + ${r.refreshTokensRemoved} refresh tokens`);
+                loadMaintenanceStats();
+            } catch (e) { showToast('Token cleanup failed: ' + e.message, 'error'); }
+        }
+
+        async function runVisitCleanup() {
+            const days = parseInt(document.getElementById('visitRetentionDays').value) || 30;
+            if (!confirm(`Delete visits older than ${days} days?`)) return;
+            try {
+                const r = await api(`/maintenance/cleanup-visits?retentionDays=${days}`, { method: 'POST' });
+                showToast(`Removed ${r.visitsRemoved} old visits`);
+                loadMaintenanceStats();
+            } catch (e) { showToast('Visit cleanup failed: ' + e.message, 'error'); }
+        }
+
+        async function runAllCleanup() {
+            const days = parseInt(document.getElementById('visitRetentionDays').value) || 30;
+            if (!confirm(`Run full maintenance (tokens + visits older than ${days}d)?`)) return;
+            try {
+                const r = await api(`/maintenance/run-all?visitRetentionDays=${days}`, { method: 'POST' });
+                showToast(`Removed ${r.loginTokensRemoved} login tokens, ${r.refreshTokensRemoved} refresh tokens, ${r.visitsRemoved} visits`);
+                loadMaintenanceStats();
+            } catch (e) { showToast('Maintenance failed: ' + e.message, 'error'); }
+        }
+
+        // Render recent users
+        function renderRecentUsers(users) {
+            const tbody = document.getElementById('recentUsersTable');
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No users found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${escapeHtml(u.email)}</td>
+                    <td>${escapeHtml(u.displayName)}</td>
+                    <td>${getAccessLevelName(u.globalAccessLevel)}</td>
+                    <td>${u.isActive ? '<span class="badge-status badge-success">Active</span>' : '<span class="badge-status badge-danger">Inactive</span>'}</td>
+                    <td>${formatDate(u.createdAt)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Render users table
+        function renderUsers(users) {
+            const tbody = document.getElementById('usersTable');
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No users found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = users.map(u => {
+                const locked = isProtectedAdmin(u.email);
+                return `
+                <tr>
+                    <td>${escapeHtml(u.email)}${locked ? ' <span class="badge-status badge-info" title="Protected admin - configured in appsettings">🔒</span>' : ''}</td>
+                    <td>${escapeHtml(u.displayName)}</td>
+                    <td>
+                        <select class="form-control access-level-select" onchange="updateUserLevel('${u.id}', this.value)" ${locked ? 'disabled title="Protected admin - access level cannot be changed"' : ''}>
+                            <option value="0" ${u.globalAccessLevel === 0 ? 'selected' : ''}>ReadOnly</option>
+                            <option value="1" ${u.globalAccessLevel === 1 ? 'selected' : ''}>User</option>
+                            <option value="2" ${u.globalAccessLevel === 2 ? 'selected' : ''}>PowerUser</option>
+                            <option value="3" ${u.globalAccessLevel === 3 ? 'selected' : ''}>Admin</option>
+                            <option value="5" ${u.globalAccessLevel === 5 ? 'selected' : ''}>TenantAdmin</option>
+                        </select>
+                    </td>
+                    <td>${u.isActive ? '<span class="badge-status badge-success">Active</span>' : '<span class="badge-status badge-danger">Inactive</span>'}</td>
+                    <td>${u.lastLoginAt ? formatDate(u.lastLoginAt) : 'Never'}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-primary" onclick="editUser('${u.id}')">Edit</button>
+                            ${locked ? '' : (u.isActive 
+                                ? `<button class="btn btn-sm btn-danger" onclick="deactivateUser('${u.id}')">Deactivate</button>`
+                                : `<button class="btn btn-sm btn-success" onclick="activateUser('${u.id}')">Activate</button>`
+                            )}
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Render pending users
+        function renderPending(users) {
+            const tbody = document.getElementById('pendingTable');
+            if (!users.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No pending approvals</td></tr>';
+                return;
+            }
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${escapeHtml(u.email)}</td>
+                    <td>${escapeHtml(u.displayName)}</td>
+                    <td>${formatDate(u.createdAt)}</td>
+                    <td><span class="badge-status badge-warning">${u.status}</span></td>
+                    <td>
+                        <div class="btn-group">
+                            <select class="form-control access-level-select" id="approveLevel_${u.id}">
+                                <option value="1">User</option>
+                                <option value="2">PowerUser</option>
+                                <option value="3">Admin</option>
+                                <option value="5">TenantAdmin</option>
+                            </select>
+                            <button class="btn btn-sm btn-success" onclick="approveUser('${u.id}')">Approve</button>
+                            <button class="btn btn-sm btn-danger" onclick="rejectUser('${u.id}')">Reject</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render pending access requests
+        function renderAccessRequests(requests) {
+            const tbody = document.getElementById('accessRequestsTable');
+            if (!requests.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No pending access requests</td></tr>';
+                return;
+            }
+
+            const typeLabels = { AppAccess: 'App Access', RoleChange: 'Role Change', AccessLevelChange: 'Access Level' };
+            const levelNames = { 0: 'ReadOnly', 1: 'User', 2: 'PowerUser', 3: 'Admin', 5: 'TenantAdmin' };
+
+            tbody.innerHTML = requests.map(r => {
+                const typeBadge = `<span class="badge-status badge-info">${typeLabels[r.requestType] || r.requestType}</span>`;
+                const requested = r.requestType === 'AccessLevelChange'
+                    ? `Level: ${levelNames[r.requestedAccessLevel] || r.requestedAccessLevel}`
+                    : `Role: ${r.requestedRole || '-'}`;
+                const disabled = !r.userApproved;
+                const tooltip = disabled ? 'title="Approve the user registration first"' : '';
+                const roleOptions = (r.availableRoles || []).map(role =>
+                    `<option value="${role}" ${role === r.requestedRole ? 'selected' : ''}>${role}</option>`
+                ).join('');
+                const roleSelect = r.requestType !== 'AccessLevelChange' && r.availableRoles
+                    ? `<select class="form-control access-level-select" id="reqRole_${r.id}" ${disabled ? 'disabled' : ''}>${roleOptions}</select>`
+                    : '';
+                const levelSelect = r.requestType === 'AccessLevelChange'
+                    ? `<select class="form-control access-level-select" id="reqLevel_${r.id}" ${disabled ? 'disabled' : ''}>
+                        <option value="0" ${r.requestedAccessLevel===0?'selected':''}>ReadOnly</option>
+                        <option value="1" ${r.requestedAccessLevel===1?'selected':''}>User</option>
+                        <option value="2" ${r.requestedAccessLevel===2?'selected':''}>PowerUser</option>
+                        <option value="3" ${r.requestedAccessLevel===3?'selected':''}>Admin</option>
+                        <option value="5" ${r.requestedAccessLevel===5?'selected':''}>TenantAdmin</option>
+                       </select>`
+                    : '';
+
+                return `<tr style="${disabled ? 'opacity: 0.5;' : ''}">
+                    <td>${typeBadge}</td>
+                    <td>${escapeHtml(r.userEmail || '')}</td>
+                    <td>${escapeHtml(r.appName || '-')}</td>
+                    <td>${requested}</td>
+                    <td>${escapeHtml(r.reason || '-')}</td>
+                    <td>
+                        <div class="btn-group">
+                            ${roleSelect}${levelSelect}
+                            <button class="btn btn-sm btn-success" onclick="approveAccessRequest('${r.id}')" ${disabled ? 'disabled ' + tooltip : ''}>Approve</button>
+                            <button class="btn btn-sm btn-danger" onclick="rejectAccessRequest('${r.id}')">Reject</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function approveAccessRequest(id) {
+            const roleEl = document.getElementById('reqRole_' + id);
+            const levelEl = document.getElementById('reqLevel_' + id);
+            const body = {};
+            if (roleEl) body.role = roleEl.value;
+            if (levelEl) body.accessLevel = parseInt(levelEl.value);
+            try {
+                const res = await fetch(apiBase + '/access-requests/' + id + '/approve', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message || 'Request approved');
+                    loadDashboard();
+                } else {
+                    alert(data.message || 'Failed to approve');
+                }
+            } catch (e) { alert('Error: ' + e.message); }
+        }
+
+        async function rejectAccessRequest(id) {
+            const note = prompt('Rejection note (optional):');
+            try {
+                const res = await fetch(apiBase + '/access-requests/' + id + '/reject', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note: note || null })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message || 'Request rejected');
+                    loadDashboard();
+                } else {
+                    alert(data.message || 'Failed to reject');
+                }
+            } catch (e) { alert('Error: ' + e.message); }
+        }
+
+        // Render apps table and check for URL hostname mismatches
+        function renderApps(apps) {
+            const tbody = document.getElementById('appsTable');
+            if (!apps.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No applications</td></tr>';
+                checkUrlMismatch([]);
+                return;
+            }
+            tbody.innerHTML = apps.map(a => `
+                <tr>
+                    <td><code>${escapeHtml(a.appId)}</code></td>
+                    <td>${escapeHtml(a.displayName)}</td>
+                    <td>${a.baseUrl ? `<a href="${escapeHtml(a.baseUrl)}" target="_blank">${escapeHtml(a.baseUrl)}</a>` : '-'}</td>
+                    <td>${(a.availableRoles || []).join(', ')}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-primary" onclick="editApp('${a.appId}')">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteApp('${a.appId}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            checkUrlMismatch(apps);
+        }
+
+        // Detect URL hostname mismatches and show notification banner
+        function checkUrlMismatch(apps) {
+            const banner = document.getElementById('urlMismatchBanner');
+            if (!banner) return;
+
+            // Don't show if user dismissed in this session
+            if (sessionStorage.getItem('urlMismatchDismissed')) {
+                banner.innerHTML = '';
+                return;
+            }
+
+            const currentHost = window.location.hostname;
+            const mismatchedHosts = new Set();
+
+            for (const app of apps) {
+                if (!app.baseUrl) continue;
+                try {
+                    const urlHost = new URL(app.baseUrl).hostname;
+                    if (urlHost.toLowerCase() !== currentHost.toLowerCase()) {
+                        mismatchedHosts.add(urlHost);
+                    }
+                } catch { /* invalid URL, skip */ }
+            }
+
+            if (mismatchedHosts.size === 0) {
+                banner.innerHTML = '';
+                return;
+            }
+
+            const foreignHosts = Array.from(mismatchedHosts).join(', ');
+            banner.innerHTML = `
+                <div class="url-mismatch-banner">
+                    <span class="banner-text">
+                        Application URLs reference server <strong>${escapeHtml(foreignHosts)}</strong>
+                        but DedgeAuth is running on <strong>${escapeHtml(currentHost)}</strong>.
+                    </span>
+                    <div class="banner-actions">
+                        <button class="btn btn-primary" onclick="updateAllBaseUrls()">Update All to ${escapeHtml(currentHost)}</button>
+                        <button class="btn" onclick="dismissUrlMismatch()">Keep Current</button>
+                    </div>
+                </div>`;
+        }
+
+        async function updateAllBaseUrls() {
+            try {
+                const result = await api('/apps/update-base-urls', {
+                    method: 'POST',
+                    body: JSON.stringify({ serverBaseUrl: window.location.origin })
+                });
+                showToast(`Updated ${result.updated} application URL(s)`, 'success');
+                sessionStorage.removeItem('urlMismatchDismissed');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed to update URLs: ' + e.message, 'error');
+            }
+        }
+
+        function dismissUrlMismatch() {
+            sessionStorage.setItem('urlMismatchDismissed', 'true');
+            const banner = document.getElementById('urlMismatchBanner');
+            if (banner) banner.innerHTML = '';
+        }
+
+        // Render tenants table
+        function renderTenants(tenants) {
+            const tbody = document.getElementById('tenantsTable');
+            if (!tenants.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No tenants</td></tr>';
+                return;
+            }
+            tbody.innerHTML = tenants.map(t => `
+                <tr>
+                    <td><code>${escapeHtml(t.domain)}</code></td>
+                    <td>${escapeHtml(t.displayName)}</td>
+                    <td>${t.primaryColor ? `<span class="color-preview" style="background:${t.primaryColor}"></span> ${t.primaryColor}` : '-'}</td>
+                    <td>${t.cssOverrides ? '<span class="badge-status badge-info">Custom</span>' : '-'}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-primary" onclick="editTenant('${t.id}')">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteTenant('${t.id}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Navigation
+        function setupNavigation() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    item.classList.add('active');
+                    document.getElementById(item.dataset.section).classList.add('active');
+                });
+            });
+        }
+
+        // Forms
+        function setupForms() {
+            document.getElementById('editUserForm').addEventListener('submit', saveUser);
+            document.getElementById('addPermissionForm').addEventListener('submit', grantPermission);
+            document.getElementById('appForm').addEventListener('submit', saveApp);
+            document.getElementById('tenantForm').addEventListener('submit', saveTenant);
+            document.getElementById('userSearch').addEventListener('keyup', e => {
+                if (e.key === 'Enter') searchUsers();
+            });
+        }
+
+        // User actions
+        async function updateUserLevel(userId, level) {
+            try {
+                await api(`/users/${userId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ globalAccessLevel: parseInt(level) })
+                });
+                showToast('Access level updated', 'success');
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+                loadDashboard();
+            }
+        }
+
+        async function editUser(userId) {
+            try {
+                const user = await api(`/users/${userId}`);
+                const locked = isProtectedAdmin(user.email);
+
+                document.getElementById('editUserId').value = userId;
+                document.getElementById('editUserEmail').value = user.email;
+                document.getElementById('editUserName').value = user.displayName;
+                document.getElementById('editUserDept').value = user.department || '';
+                document.getElementById('editUserLevel').value = user.globalAccessLevel;
+                document.getElementById('editUserLevel').disabled = locked;
+                document.getElementById('editUserActive').checked = user.isActive;
+                document.getElementById('editUserActive').disabled = locked;
+                document.getElementById('editUserVerified').checked = user.emailVerified;
+                
+                // Load permissions
+                const perms = await api(`/permissions/user/${userId}`);
+                renderUserPermissions(perms || [], userId);
+
+                // Reset visit history section
+                document.getElementById('visitHistorySection').style.display = 'none';
+                document.getElementById('visitHistoryToggle').innerHTML = '&#9654;';
+                document.getElementById('visitHistoryCount').textContent = '';
+                document.getElementById('userVisitHistoryTable').innerHTML = '<tr><td colspan="4" class="loading">Loading...</td></tr>';
+                document.getElementById('loadMoreVisitsBtn').style.display = 'none';
+                window._visitHistoryPage = 0;
+                window._visitHistoryUserId = userId;
+
+                openModal('editUserModal');
+                loadUserVisitHistory(userId, 0);
+            } catch (e) {
+                showToast('Failed to load user: ' + e.message, 'error');
+            }
+        }
+
+        function toggleVisitHistory() {
+            const section = document.getElementById('visitHistorySection');
+            const toggle = document.getElementById('visitHistoryToggle');
+            if (section.style.display === 'none') {
+                section.style.display = '';
+                toggle.innerHTML = '&#9660;';
+            } else {
+                section.style.display = 'none';
+                toggle.innerHTML = '&#9654;';
+            }
+        }
+
+        async function loadUserVisitHistory(userId, page) {
+            try {
+                const data = await api(`/visits/user/${userId}?page=${page}&pageSize=50`);
+                const tbody = document.getElementById('userVisitHistoryTable');
+                const countSpan = document.getElementById('visitHistoryCount');
+                const loadMoreBtn = document.getElementById('loadMoreVisitsBtn');
+
+                countSpan.textContent = `(${data.totalCount} total)`;
+
+                if (data.totalCount === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No visits recorded</td></tr>';
+                    loadMoreBtn.style.display = 'none';
+                    return;
+                }
+
+                const rows = data.visits.map(v => `
+                    <tr>
+                        <td><span class="badge-status badge-success">${escapeHtml(v.appId)}</span></td>
+                        <td>${escapeHtml(v.path || '/')}</td>
+                        <td>${escapeHtml(v.ipAddress || '—')}</td>
+                        <td>${formatDate(v.visitedAt)}</td>
+                    </tr>
+                `).join('');
+
+                if (page === 0) {
+                    tbody.innerHTML = rows;
+                } else {
+                    tbody.insertAdjacentHTML('beforeend', rows);
+                }
+
+                const loaded = (page + 1) * data.pageSize;
+                loadMoreBtn.style.display = loaded < data.totalCount ? '' : 'none';
+            } catch (e) {
+                console.warn('Could not load visit history:', e);
+            }
+        }
+
+        function loadMoreUserVisits() {
+            window._visitHistoryPage = (window._visitHistoryPage || 0) + 1;
+            loadUserVisitHistory(window._visitHistoryUserId, window._visitHistoryPage);
+        }
+
+        function renderUserPermissions(perms, userId) {
+            const container = document.getElementById('userPermissions');
+            let html = perms.map(p => `
+                <div class="permission-card">
+                    <div class="permission-card-header">
+                        <span class="permission-card-app">${escapeHtml(p.appName || p.appId)}</span>
+                        <button class="btn btn-sm btn-danger" onclick="revokePermission('${p.id}')">Revoke</button>
+                    </div>
+                    <div class="permission-card-role">Role: ${escapeHtml(p.role)}</div>
+                </div>
+            `).join('');
+            html += `<div class="permission-card" style="border-style:dashed;cursor:pointer;" onclick="showAddPermissionModal('${userId}')">
+                <div style="text-align:center;color:var(--text-secondary);">+ Add Permission</div>
+            </div>`;
+            container.innerHTML = html;
+        }
+
+        async function saveUser(e) {
+            e.preventDefault();
+            const userId = document.getElementById('editUserId').value;
+            const levelSelect = document.getElementById('editUserLevel');
+            const activeCheckbox = document.getElementById('editUserActive');
+            const payload = {
+                displayName: document.getElementById('editUserName').value,
+                department: document.getElementById('editUserDept').value,
+                emailVerified: document.getElementById('editUserVerified').checked
+            };
+            // Only include access level and active status if not a protected admin
+            if (!levelSelect.disabled) {
+                payload.globalAccessLevel = parseInt(levelSelect.value);
+            }
+            if (!activeCheckbox.disabled) {
+                payload.isActive = activeCheckbox.checked;
+            }
+            try {
+                await api(`/users/${userId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload)
+                });
+                closeModal('editUserModal');
+                showToast('User updated', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function deactivateUser(userId) {
+            if (!confirm('Deactivate this user?')) return;
+            try {
+                await api(`/users/${userId}`, { method: 'DELETE' });
+                showToast('User deactivated', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function activateUser(userId) {
+            try {
+                await api(`/users/${userId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ isActive: true })
+                });
+                showToast('User activated', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function approveUser(userId) {
+            const level = document.getElementById(`approveLevel_${userId}`).value;
+            try {
+                await api(`/users/${userId}/approve`, {
+                    method: 'POST',
+                    body: JSON.stringify({ globalAccessLevel: parseInt(level) })
+                });
+                showToast('User approved', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function rejectUser(userId) {
+            if (!confirm('Reject and delete this user?')) return;
+            try {
+                await api(`/users/${userId}/reject`, { method: 'POST' });
+                showToast('User rejected', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function revokeUserTokens() {
+            const userId = document.getElementById('editUserId').value;
+            if (!confirm('Revoke all sessions for this user?')) return;
+            try {
+                const result = await api(`/users/${userId}/revoke-tokens`, { method: 'POST' });
+                showToast(result.message, 'success');
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        function searchUsers() {
+            const q = document.getElementById('userSearch').value.toLowerCase();
+            const filtered = allUsers.filter(u => 
+                u.email.toLowerCase().includes(q) || 
+                u.displayName.toLowerCase().includes(q)
+            );
+            renderUsers(filtered);
+        }
+
+        // Permission actions
+        function showAddPermissionModal(userId) {
+            document.getElementById('permUserId').value = userId;
+            const select = document.getElementById('permAppId');
+            select.innerHTML = '<option value="">Select an application...</option>' + 
+                allApps.map(a => `<option value="${a.appId}" data-roles='${JSON.stringify(a.availableRoles || [])}'>${escapeHtml(a.displayName)}</option>`).join('');
+            document.getElementById('permRole').innerHTML = '<option value="">Select application first...</option>';
+            openModal('addPermissionModal');
+        }
+
+        function updateRoleOptions() {
+            const appSelect = document.getElementById('permAppId');
+            const roleSelect = document.getElementById('permRole');
+            const option = appSelect.options[appSelect.selectedIndex];
+            const roles = option.dataset.roles ? JSON.parse(option.dataset.roles) : [];
+            roleSelect.innerHTML = roles.length 
+                ? roles.map(r => `<option value="${r}">${r}</option>`).join('')
+                : '<option value="">No roles defined</option>';
+        }
+
+        async function grantPermission(e) {
+            e.preventDefault();
+            const userId = document.getElementById('permUserId').value;
+            const appId = document.getElementById('permAppId').value;
+            const role = document.getElementById('permRole').value;
+            if (!appId || !role) {
+                showToast('Select an app and role', 'error');
+                return;
+            }
+            try {
+                await api('/permissions', {
+                    method: 'POST',
+                    body: JSON.stringify({ userId, appId, role })
+                });
+                closeModal('addPermissionModal');
+                showToast('Permission granted', 'success');
+                editUser(userId);
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function revokePermission(permId) {
+            if (!confirm('Revoke this permission?')) return;
+            const userId = document.getElementById('editUserId').value;
+            try {
+                await api(`/permissions/${permId}`, { method: 'DELETE' });
+                showToast('Permission revoked', 'success');
+                editUser(userId);
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        // Add User actions
+        function showAddUserModal() {
+            document.getElementById('newUserEmail').value = '';
+            document.getElementById('newUserDisplayName').value = '';
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('newUserAccessLevel').value = '1';
+            openModal('addUserModal');
+        }
+
+        document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const body = {
+                email: document.getElementById('newUserEmail').value,
+                displayName: document.getElementById('newUserDisplayName').value,
+                password: document.getElementById('newUserPassword').value || null,
+                globalAccessLevel: parseInt(document.getElementById('newUserAccessLevel').value)
+            };
+            try {
+                const res = await fetch(apiBase + '/users/create', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    closeModal('addUserModal');
+                    showToast(data.message || 'User created', 'success');
+                    loadDashboard();
+                } else {
+                    alert(data.message || 'Failed to create user');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+
+        // App actions
+        function showAddAppModal() {
+            document.getElementById('appModalTitle').textContent = 'Add Application';
+            document.getElementById('appEditMode').value = '';
+            document.getElementById('appId').value = '';
+            document.getElementById('appId').disabled = false;
+            document.getElementById('appName').value = '';
+            document.getElementById('appDesc').value = '';
+            document.getElementById('appUrl').value = '';
+            document.getElementById('appRoles').value = 'ReadOnly, User, PowerUser, Admin';
+            openModal('appModal');
+        }
+
+        async function editApp(appId) {
+            try {
+                const app = await api(`/apps/${appId}`);
+                document.getElementById('appModalTitle').textContent = 'Edit Application';
+                document.getElementById('appEditMode').value = appId;
+                document.getElementById('appId').value = app.appId;
+                document.getElementById('appId').disabled = true;
+                document.getElementById('appName').value = app.displayName;
+                document.getElementById('appDesc').value = app.description || '';
+                document.getElementById('appUrl').value = app.baseUrl || '';
+                document.getElementById('appRoles').value = (app.availableRoles || []).join(', ');
+                openModal('appModal');
+            } catch (e) {
+                showToast('Failed to load app: ' + e.message, 'error');
+            }
+        }
+
+        async function saveApp(e) {
+            e.preventDefault();
+            const editMode = document.getElementById('appEditMode').value;
+            const data = {
+                appId: document.getElementById('appId').value,
+                displayName: document.getElementById('appName').value,
+                description: document.getElementById('appDesc').value,
+                baseUrl: document.getElementById('appUrl').value,
+                availableRoles: document.getElementById('appRoles').value.split(',').map(r => r.trim()).filter(r => r)
+            };
+            try {
+                if (editMode) {
+                    await api(`/apps/${editMode}`, { method: 'PUT', body: JSON.stringify(data) });
+                } else {
+                    await api('/apps', { method: 'POST', body: JSON.stringify(data) });
+                }
+                closeModal('appModal');
+                showToast('Application saved', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function deleteApp(appId) {
+            if (!confirm('Delete this application?')) return;
+            try {
+                await api(`/apps/${appId}`, { method: 'DELETE' });
+                showToast('Application deleted', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        // Tenant actions
+        let currentTenants = [];
+        let pendingLogoFile = null;
+        let pendingIconFile = null;
+
+        function updateLogoPreview(src) {
+            const img = document.getElementById('tenantLogoPreviewImg');
+            const placeholder = document.getElementById('tenantLogoPreviewPlaceholder');
+            if (src) {
+                img.src = src;
+                img.style.display = '';
+                placeholder.style.display = 'none';
+            } else {
+                img.src = '';
+                img.style.display = 'none';
+                placeholder.style.display = '';
+            }
+        }
+
+        function updateIconPreview(src) {
+            const img = document.getElementById('tenantIconPreviewImg');
+            const placeholder = document.getElementById('tenantIconPreviewPlaceholder');
+            if (src) {
+                img.src = src;
+                img.style.display = '';
+                placeholder.style.display = 'none';
+            } else {
+                img.src = '';
+                img.style.display = 'none';
+                placeholder.style.display = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('tenantLogoFile');
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        pendingLogoFile = file;
+                        const reader = new FileReader();
+                        reader.onload = (ev) => updateLogoPreview(ev.target.result);
+                        reader.readAsDataURL(file);
+                    } else {
+                        pendingLogoFile = null;
+                    }
+                });
+            }
+            const iconInput = document.getElementById('tenantIconFile');
+            if (iconInput) {
+                iconInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        pendingIconFile = file;
+                        const reader = new FileReader();
+                        reader.onload = (ev) => updateIconPreview(ev.target.result);
+                        reader.readAsDataURL(file);
+                    } else {
+                        pendingIconFile = null;
+                    }
+                });
+            }
+        });
+
+        function showAddTenantModal() {
+            document.getElementById('tenantModalTitle').textContent = 'Add Tenant';
+            document.getElementById('tenantEditId').value = '';
+            document.getElementById('tenantDomain').value = '';
+            document.getElementById('tenantDomain').disabled = false;
+            document.getElementById('tenantName').value = '';
+            document.getElementById('tenantLogo').value = '';
+            document.getElementById('tenantLogoFile').value = '';
+            pendingLogoFile = null;
+            updateLogoPreview(null);
+            document.getElementById('tenantIconFile').value = '';
+            pendingIconFile = null;
+            updateIconPreview(null);
+            document.getElementById('tenantColor').value = '#4a90d9';
+            document.getElementById('tenantCss').value = '';
+            document.getElementById('appRoutingList').innerHTML = '';
+            addAppRoutingRow();
+            openModal('tenantModal');
+        }
+
+        async function editTenant(tenantId) {
+            try {
+                const tenants = await api('/tenants');
+                const tenant = tenants.find(t => t.id === tenantId);
+                if (!tenant) throw new Error('Tenant not found');
+                
+                document.getElementById('tenantModalTitle').textContent = 'Edit Tenant';
+                document.getElementById('tenantEditId').value = tenantId;
+                document.getElementById('tenantDomain').value = tenant.domain;
+                document.getElementById('tenantDomain').disabled = true;
+                document.getElementById('tenantName').value = tenant.displayName;
+                document.getElementById('tenantLogo').value = tenant.logoUrl || '';
+                document.getElementById('tenantLogoFile').value = '';
+                pendingLogoFile = null;
+                const previewUrl = tenant.logoUrl || (tenant.hasLogoData ? `${basePath}/tenants/${tenant.domain}/logo` : null);
+                updateLogoPreview(previewUrl);
+                document.getElementById('tenantIconFile').value = '';
+                pendingIconFile = null;
+                const iconPreviewUrl = tenant.hasIconData ? `${basePath}/tenants/${tenant.domain}/icon` : null;
+                updateIconPreview(iconPreviewUrl);
+                document.getElementById('tenantColor').value = tenant.primaryColor || '#4a90d9';
+                // Use cssOverridesRaw to show what's actually stored (not the effective CSS with fallback)
+                document.getElementById('tenantCss').value = tenant.cssOverridesRaw || '';
+                
+                document.getElementById('tenantAdDomain').value = tenant.adDomain || '';
+
+                // App routing
+                document.getElementById('appRoutingList').innerHTML = '';
+                const routing = tenant.appRouting || {};
+                Object.entries(routing).forEach(([appId, url]) => addAppRoutingRow(appId, url));
+                if (Object.keys(routing).length === 0) addAppRoutingRow();
+                
+                openModal('tenantModal');
+            } catch (e) {
+                showToast('Failed to load tenant: ' + e.message, 'error');
+            }
+        }
+
+        function addAppRoutingRow(appId = '', url = '') {
+            const list = document.getElementById('appRoutingList');
+            const row = document.createElement('div');
+            row.className = 'app-routing-item';
+            row.innerHTML = `
+                <input type="text" class="form-control" placeholder="App ID" value="${escapeHtml(appId)}">
+                <input type="url" class="form-control" placeholder="URL" value="${escapeHtml(url)}">
+                <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">X</button>
+            `;
+            list.appendChild(row);
+        }
+
+        async function saveTenant(e) {
+            e.preventDefault();
+            const editId = document.getElementById('tenantEditId').value;
+            
+            // Collect app routing
+            const appRouting = {};
+            document.querySelectorAll('#appRoutingList .app-routing-item').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                const appId = inputs[0].value.trim();
+                const url = inputs[1].value.trim();
+                if (appId && url) appRouting[appId] = url;
+            });
+
+            const data = {
+                domain: document.getElementById('tenantDomain').value,
+                displayName: document.getElementById('tenantName').value,
+                logoUrl: document.getElementById('tenantLogo').value || null,
+                primaryColor: document.getElementById('tenantColor').value,
+                cssOverrides: document.getElementById('tenantCss').value || null,
+                adDomain: document.getElementById('tenantAdDomain').value || null,
+                appRouting: Object.keys(appRouting).length > 0 ? appRouting : null
+            };
+
+            if (pendingLogoFile) {
+                const fileData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        const base64 = ev.target.result.split(',')[1];
+                        resolve({ base64, contentType: pendingLogoFile.type });
+                    };
+                    reader.readAsDataURL(pendingLogoFile);
+                });
+                data.logoDataBase64 = fileData.base64;
+                data.logoContentType = fileData.contentType;
+                data.logoUrl = null;
+            }
+
+            if (pendingIconFile) {
+                const iconFileData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        const base64 = ev.target.result.split(',')[1];
+                        resolve({ base64, contentType: pendingIconFile.type });
+                    };
+                    reader.readAsDataURL(pendingIconFile);
+                });
+                data.iconDataBase64 = iconFileData.base64;
+                data.iconContentType = iconFileData.contentType;
+            }
+
+            try {
+                if (editId) {
+                    await api(`/tenants/${editId}`, { method: 'PUT', body: JSON.stringify(data) });
+                } else {
+                    await api('/tenants', { method: 'POST', body: JSON.stringify(data) });
+                }
+                closeModal('tenantModal');
+                showToast('Tenant saved', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        async function deleteTenant(tenantId) {
+            if (!confirm('Delete this tenant?')) return;
+            try {
+                await api(`/tenants/${tenantId}`, { method: 'DELETE' });
+                showToast('Tenant deleted', 'success');
+                loadDashboard();
+            } catch (e) {
+                showToast('Failed: ' + e.message, 'error');
+            }
+        }
+
+        // Modal helpers
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleDateString('en-GB', {
+                day: '2-digit', month: 'short', year: 'numeric'
+            });
+        }
+
+        function getAccessLevelName(level) {
+            const map = { 0: 'ReadOnly', 1: 'User', 2: 'PowerUser', 3: 'Admin', 5: 'TenantAdmin' };
+            return map[level] || level;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function logout() {
+            const logoutBtn = document.getElementById('logoutButton');
+            if (logoutBtn) {
+                logoutBtn.disabled = true;
+                logoutBtn.innerHTML = '<span class="gk-logout-icon">⏳</span><span>Signing out...</span>';
+            }
+            
+            fetch(`${basePath}/api/auth/logout`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).finally(() => {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('user');
+                window.location.href = `${basePath}/login.html`;
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // GROUPS MANAGEMENT
+        // ═══════════════════════════════════════════════════════════════════════
+
+        let groupsTenantId = null;
+        let groupsTreeData = [];
+
+        // ── Groups DnD Editor ──────────────────────────────────────────
+        let groupsFlat = [];
+        let selectedAclGroups = [];
+
+        function populateGroupsTenantSelect() {
+            const sel = document.getElementById('groupsTenantSelect');
+            if (!sel) return;
+            fetch(`${basePath}/api/tenants`, { headers: { 'Authorization': `Bearer ${token}` } })
+                .then(r => r.json())
+                .then(tenants => {
+                    sel.innerHTML = '<option value="">-- Select tenant --</option>' +
+                        tenants.map(t => `<option value="${t.id}">${escapeHtml(t.displayName)} (${escapeHtml(t.domain)})</option>`).join('');
+                });
+        }
+
+        function loadGroupsTree() {
+            const sel = document.getElementById('groupsTenantSelect');
+            groupsTenantId = sel ? sel.value : null;
+            const panel = document.getElementById('groupsTreePanel');
+            const detail = document.getElementById('groupsDetailPanel');
+            if (!groupsTenantId) {
+                panel.innerHTML = '<div style="color:var(--text-muted);">Select a tenant...</div>';
+                detail.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding-top:80px;">Select a group from the tree</div>';
+                return;
+            }
+            panel.innerHTML = '<div class="loading">Loading...</div>';
+            Promise.all([
+                fetch(`${basePath}/api/app-groups?tenantId=${groupsTenantId}`, { headers: { 'Authorization': `Bearer ${token}` } }).then(r => r.json()),
+                fetch(`${basePath}/api/app-groups/tree?tenantId=${groupsTenantId}`, { headers: { 'Authorization': `Bearer ${token}` } }).then(r => r.json())
+            ]).then(([flat, tree]) => {
+                groupsFlat = flat;
+                groupsTreeData = tree;
+                renderDndTree(tree, panel);
+            }).catch(() => { panel.innerHTML = '<div style="color:var(--error-color);">Failed to load groups</div>'; });
+        }
+
+        function renderDndTree(nodes, container) {
+            if (!nodes || nodes.length === 0) {
+                container.innerHTML = '<div style="color:var(--text-muted);">No groups yet. Click "Add Group" to create one.</div>';
+                return;
+            }
+            container.innerHTML = '';
+            const list = document.createElement('div');
+            list.id = 'sortable-groups-root';
+            list.style.cssText = 'min-height:40px;';
+            buildTreeNodes(nodes, list, 0);
+            container.appendChild(list);
+            initSortable(list);
+        }
+
+        function buildTreeNodes(nodes, container, depth) {
+            for (const node of nodes) {
+                if (node.type !== 'group') continue;
+                const el = document.createElement('div');
+                el.dataset.id = node.id;
+                el.dataset.parentId = node.parentId || '';
+                el.style.cssText = `margin-left:${depth * 20}px; margin-bottom:2px;`;
+                const aclBadge = node.aclGroupsJson ? '<span style="font-size:10px; background:var(--accent-color); color:white; padding:1px 5px; border-radius:8px; margin-left:4px;">ACL</span>' : '';
+                const appCount = node.children ? node.children.filter(c => c.type === 'app').length : 0;
+                const appBadge = appCount > 0 ? `<span style="font-size:10px; background:var(--primary-color); color:white; padding:1px 5px; border-radius:8px; margin-left:4px;">${appCount} apps</span>` : '';
+                el.innerHTML = `<div style="padding:6px 10px; cursor:grab; border-radius:4px; display:flex; align-items:center; gap:6px; background:var(--bg-secondary); border:1px solid var(--border-color);" 
+                    onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--border-color)'"
+                    onclick="selectGroup('${node.id}')">
+                    <span style="cursor:grab; font-size:14px;">&#8942;&#8942;</span>
+                    <span style="font-size:14px;">${node.children && node.children.some(c => c.type === 'group') ? '📂' : '📁'}</span>
+                    <strong style="flex:1; font-size:13px;">${escapeHtml(node.name)}</strong>
+                    ${aclBadge}${appBadge}
+                    <span style="font-size:11px; color:var(--text-muted);">${node.slug || ''}</span>
+                </div>`;
+                container.appendChild(el);
+
+                const childGroups = node.children ? node.children.filter(c => c.type === 'group') : [];
+                if (childGroups.length > 0) {
+                    const childContainer = document.createElement('div');
+                    childContainer.dataset.parentId = node.id;
+                    childContainer.style.cssText = `min-height:10px; margin-left:${(depth + 1) * 20}px;`;
+                    buildTreeNodes(childGroups, childContainer, 0);
+                    container.appendChild(childContainer);
+                    initSortable(childContainer);
+                }
+            }
+        }
+
+        function initSortable(el) {
+            if (typeof Sortable === 'undefined') return;
+            Sortable.create(el, {
+                group: 'groups-tree',
+                animation: 150,
+                fallbackOnBody: true,
+                swapThreshold: 0.65,
+                handle: 'div',
+                ghostClass: 'sortable-ghost',
+                onEnd: function() { saveGroupOrder(); }
+            });
+        }
+
+        function saveGroupOrder() {
+            const rootList = document.getElementById('sortable-groups-root');
+            if (!rootList) return;
+            const items = [];
+            collectOrder(rootList, null, items);
+            if (items.length === 0) return;
+            fetch(`${basePath}/api/app-groups/reorder`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(items)
+            }).then(r => {
+                if (r.ok) showToast('Group order saved', 'success');
+                else showToast('Failed to save order', 'error');
+            });
+        }
+
+        function collectOrder(container, parentId, items) {
+            let idx = 0;
+            for (const child of container.children) {
+                if (child.dataset && child.dataset.id) {
+                    items.push({ id: child.dataset.id, sortOrder: idx++, parentId: parentId || null });
+                }
+                if (child.dataset && child.dataset.parentId && !child.dataset.id) {
+                    collectOrder(child, child.dataset.parentId, items);
+                }
+            }
+        }
+
+        function selectGroup(groupId) {
+            const detail = document.getElementById('groupsDetailPanel');
+            detail.innerHTML = '<div class="loading">Loading...</div>';
+            const group = groupsFlat.find(g => g.id === groupId);
+            if (!group) {
+                fetch(`${basePath}/api/app-groups?tenantId=${groupsTenantId}`, { headers: { 'Authorization': `Bearer ${token}` } })
+                    .then(r => r.json())
+                    .then(groups => { groupsFlat = groups; renderGroupDetail(groups.find(g => g.id === groupId), detail); });
+                return;
+            }
+            renderGroupDetail(group, detail);
+        }
+
+        function renderGroupDetail(group, detail) {
+            if (!group) { detail.innerHTML = '<div style="color:var(--error-color);">Group not found</div>'; return; }
+            const acl = group.aclGroupsJson ? JSON.parse(group.aclGroupsJson) : [];
+            const appsHtml = group.apps && group.apps.length > 0
+                ? `<div id="sortable-apps-${group.id}" style="min-height:20px;">${group.apps.map(a => `<div data-id="${a.id}" style="display:flex; align-items:center; gap:8px; padding:5px 8px; margin:2px 0; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:4px; cursor:grab;">
+                    <span style="cursor:grab;">&#8942;&#8942;</span>
+                    <span>📋</span> <span style="flex:1;">${escapeHtml(a.app.displayName)}</span>
+                    <button class="btn" style="font-size:11px; padding:2px 8px;" onclick="event.stopPropagation(); removeAppFromGroup('${group.id}', '${a.app.appId}')">Remove</button>
+                </div>`).join('')}</div>`
+                : '<em>No apps assigned</em>';
+
+            detail.innerHTML = `
+                <h3 style="margin:0 0 16px 0;">${escapeHtml(group.name)}</h3>
+                <div style="margin-bottom:12px;">
+                    <label style="font-size:12px; color:var(--text-muted);">Slug</label>
+                    <div>${escapeHtml(group.slug)}</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="font-size:12px; color:var(--text-muted);">Description</label>
+                    <div>${group.description ? escapeHtml(group.description) : '<em>None</em>'}</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="font-size:12px; color:var(--text-muted);">Sort Order</label>
+                    <div>${group.sortOrder}</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="font-size:12px; color:var(--text-muted);">ACL Groups</label>
+                    <div>${acl.length > 0 ? acl.map(g => `<span style="display:inline-block; background:var(--bg-secondary); padding:2px 8px; border-radius:4px; margin:2px; font-size:12px; border:1px solid var(--border-color);">${escapeHtml(g)}</span>`).join('') : '<em>Inherited from parent</em>'}</div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:12px; color:var(--text-muted);">Apps in this group <small>(drag to reorder)</small></label>
+                    ${appsHtml}
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="showAddAppToGroupModal('${group.id}')">Add App</button>
+                    <button class="btn" onclick="showEditGroupModal('${group.id}')">Edit</button>
+                    <button class="btn" style="color:var(--error-color);" onclick="deleteGroup('${group.id}')">Delete</button>
+                </div>`;
+
+            // Init sortable on apps list
+            const appsContainer = document.getElementById(`sortable-apps-${group.id}`);
+            if (appsContainer && typeof Sortable !== 'undefined') {
+                Sortable.create(appsContainer, {
+                    animation: 150,
+                    onEnd: function() {
+                        const items = [];
+                        let idx = 0;
+                        for (const child of appsContainer.children) {
+                            if (child.dataset.id) items.push({ id: child.dataset.id, sortOrder: idx++ });
+                        }
+                        fetch(`${basePath}/api/app-groups/${group.id}/apps/reorder`, {
+                            method: 'PUT',
+                            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify(items)
+                        }).then(r => { if (r.ok) showToast('App order saved', 'success'); });
+                    }
+                });
+            }
+        }
+
+        function showAddGroupModal() {
+            if (!groupsTenantId) { alert('Select a tenant first.'); return; }
+            document.getElementById('groupModalTitle').textContent = 'Add Group';
+            document.getElementById('groupEditId').value = '';
+            document.getElementById('groupName').value = '';
+            document.getElementById('groupSlug').value = '';
+            document.getElementById('groupDescription').value = '';
+            populateGroupParentSelect(null);
+            selectedAclGroups = [];
+            renderAclTags();
+            openModal('groupModal');
+        }
+
+        function showEditGroupModal(groupId) {
+            const group = groupsFlat.find(g => g.id === groupId);
+            if (!group) return;
+            document.getElementById('groupModalTitle').textContent = 'Edit Group';
+            document.getElementById('groupEditId').value = groupId;
+            document.getElementById('groupName').value = group.name;
+            document.getElementById('groupSlug').value = group.slug;
+            document.getElementById('groupDescription').value = group.description || '';
+            populateGroupParentSelect(groupId, group.parentId);
+            selectedAclGroups = group.aclGroupsJson ? JSON.parse(group.aclGroupsJson) : [];
+            renderAclTags();
+            openModal('groupModal');
+        }
+
+        function populateGroupParentSelect(excludeId, currentParentId) {
+            const sel = document.getElementById('groupParent');
+            sel.innerHTML = '<option value="">(Root — no parent)</option>';
+            for (const g of groupsFlat) {
+                if (g.id === excludeId) continue;
+                const selected = g.id === currentParentId ? 'selected' : '';
+                sel.innerHTML += `<option value="${g.id}" ${selected}>${escapeHtml(g.name)} (${escapeHtml(g.slug)})</option>`;
+            }
+        }
+
+        async function saveGroup(e) {
+            e.preventDefault();
+            const editId = document.getElementById('groupEditId').value;
+            const name = document.getElementById('groupName').value;
+            const slug = document.getElementById('groupSlug').value;
+            const description = document.getElementById('groupDescription').value || null;
+            const parentId = document.getElementById('groupParent').value || null;
+            const aclJson = selectedAclGroups.length > 0 ? JSON.stringify(selectedAclGroups) : null;
+
+            try {
+                if (editId) {
+                    await api(`/app-groups/${editId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ name, slug, description, parentId, aclGroupsJson: aclJson })
+                    });
+                    showToast('Group updated', 'success');
+                } else {
+                    await api('/app-groups', {
+                        method: 'POST',
+                        body: JSON.stringify({ tenantId: groupsTenantId, name, slug, description, parentId, aclGroupsJson: aclJson })
+                    });
+                    showToast('Group created', 'success');
+                }
+                closeModal('groupModal');
+                loadGroupsTree();
+                if (editId) selectGroup(editId);
+            } catch (err) {
+                showToast('Failed: ' + err.message, 'error');
+            }
+        }
+
+        function deleteGroup(groupId) {
+            if (!confirm('Delete this group? All child groups and app assignments must be removed first.')) return;
+            fetch(`${basePath}/api/app-groups/${groupId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).then(r => {
+                if (r.ok) { showToast('Group deleted', 'success'); loadGroupsTree(); }
+                else r.json().then(d => showToast(d.message || 'Error', 'error'));
+            });
+        }
+
+        function showAddAppToGroupModal(groupId) {
+            document.getElementById('addAppGroupId').value = groupId;
+            fetch(`${basePath}/api/apps`, { headers: { 'Authorization': `Bearer ${token}` } })
+                .then(r => r.json())
+                .then(apps => {
+                    const sel = document.getElementById('addAppSelect');
+                    sel.innerHTML = apps.map(a => `<option value="${a.appId}">${escapeHtml(a.displayName)} (${a.appId})</option>`).join('');
+                    openModal('addAppToGroupModal');
+                });
+        }
+
+        function confirmAddAppToGroup() {
+            const groupId = document.getElementById('addAppGroupId').value;
+            const appId = document.getElementById('addAppSelect').value;
+            if (!appId) return;
+            fetch(`${basePath}/api/app-groups/${groupId}/apps`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ appId })
+            }).then(r => {
+                if (r.ok) { closeModal('addAppToGroupModal'); loadGroupsTree(); selectGroup(groupId); showToast('App added', 'success'); }
+                else r.json().then(d => showToast(d.message || 'Error', 'error'));
+            });
+        }
+
+        function removeAppFromGroup(groupId, appId) {
+            if (!confirm(`Remove ${appId} from this group?`)) return;
+            fetch(`${basePath}/api/app-groups/${groupId}/apps/${appId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).then(r => { if (r.ok) { loadGroupsTree(); selectGroup(groupId); showToast('App removed', 'success'); } });
+        }
+
+        // ── AD Group Picker (ACL) ─────────────────────────────────────
+        let aclSearchTimeout = null;
+        const aclSearchInput = document.getElementById('aclGroupSearch');
+        if (aclSearchInput) {
+            aclSearchInput.addEventListener('input', function() {
+                clearTimeout(aclSearchTimeout);
+                const q = this.value.trim();
+                if (q.length < 2) { document.getElementById('aclGroupDropdown').style.display = 'none'; return; }
+                aclSearchTimeout = setTimeout(() => searchAdGroups(q), 300);
+            });
+            aclSearchInput.addEventListener('blur', function() {
+                setTimeout(() => { document.getElementById('aclGroupDropdown').style.display = 'none'; }, 200);
+            });
+        }
+
+        function searchAdGroups(q) {
+            if (!groupsTenantId) return;
+            fetch(`${basePath}/api/ad-groups/search?tenantId=${groupsTenantId}&q=${encodeURIComponent(q)}&limit=20`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).then(r => r.json()).then(results => {
+                const dropdown = document.getElementById('aclGroupDropdown');
+                const container = document.getElementById('aclGroupResults');
+                if (results.length === 0) {
+                    container.innerHTML = '<div style="padding:8px; color:var(--text-muted); font-size:13px;">No groups found</div>';
+                } else {
+                    container.innerHTML = results.map(g => `<div style="padding:6px 10px; cursor:pointer; font-size:13px; border-bottom:1px solid var(--border-color);" 
+                        onmouseover="this.style.background='var(--bg-tertiary)'" onmouseout="this.style.background=''" 
+                        onmousedown="addAclGroup('${escapeHtml(g.samAccountName)}')">
+                        <strong>${escapeHtml(g.samAccountName)}</strong>
+                        ${g.description ? `<div style="font-size:11px; color:var(--text-muted);">${escapeHtml(g.description)}</div>` : ''}
+                        <span style="font-size:10px; color:var(--text-muted);">${g.memberCount} members</span>
+                    </div>`).join('');
+                }
+                dropdown.style.display = 'block';
+            }).catch(() => {});
+        }
+
+        function addAclGroup(name) {
+            if (!selectedAclGroups.includes(name)) {
+                selectedAclGroups.push(name);
+                renderAclTags();
+            }
+            document.getElementById('aclGroupSearch').value = '';
+            document.getElementById('aclGroupDropdown').style.display = 'none';
+        }
+
+        function removeAclGroup(name) {
+            selectedAclGroups = selectedAclGroups.filter(g => g !== name);
+            renderAclTags();
+        }
+
+        function renderAclTags() {
+            const container = document.getElementById('aclGroupTags');
+            if (!container) return;
+            container.innerHTML = selectedAclGroups.map(g => `<span style="display:inline-flex; align-items:center; gap:4px; background:var(--bg-secondary); border:1px solid var(--border-color); padding:2px 8px; border-radius:4px; font-size:12px;">
+                ${escapeHtml(g)}
+                <span style="cursor:pointer; color:var(--error-color); font-weight:bold;" onclick="removeAclGroup('${escapeHtml(g)}')">&times;</span>
+            </span>`).join('');
+        }
+
+        function syncAdGroups() {
+            if (!groupsTenantId) { showToast('Select a tenant first', 'error'); return; }
+            showToast('Syncing AD groups...', 'success');
+            fetch(`${basePath}/api/ad-groups/sync?tenantId=${groupsTenantId}`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }).then(r => r.json()).then(d => {
+                showToast(d.message || 'Sync complete', 'success');
+            }).catch(() => showToast('Sync failed', 'error'));
+        }
+
+        // Init groups tenant select on load
+        populateGroupsTenantSelect();
+    </script>
+    <script>
+        // i18n for admin.html — loads translations from local DedgeAuth i18n files
+        (function() {
+            const lang = localStorage.getItem('DedgeAuth_language') || 'nb';
+            const basePath = document.querySelector('base')?.getAttribute('href')?.replace(/\/$/, '') || '';
+            fetch(basePath + '/i18n/' + lang + '.json')
+                .then(r => r.ok ? r.json() : {})
+                .then(translations => {
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        const key = el.getAttribute('data-i18n');
+                        if (translations[key]) el.textContent = translations[key];
+                    });
+                    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                        const key = el.getAttribute('data-i18n-placeholder');
+                        if (translations[key]) el.placeholder = translations[key];
+                    });
+                    window._adminTranslations = translations;
+                })
+                .catch(() => {});
+
+            document.addEventListener('DedgeAuth:language-changed', function(e) {
+                const newLang = e.detail && e.detail.language;
+                if (!newLang) return;
+                fetch(basePath + '/i18n/' + newLang + '.json')
+                    .then(r => r.ok ? r.json() : {})
+                    .then(translations => {
+                        document.querySelectorAll('[data-i18n]').forEach(el => {
+                            const key = el.getAttribute('data-i18n');
+                            if (translations[key]) el.textContent = translations[key];
+                        });
+                        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                            const key = el.getAttribute('data-i18n-placeholder');
+                            if (translations[key]) el.placeholder = translations[key];
+                        });
+                        window._adminTranslations = translations;
+                    })
+                    .catch(() => {});
+            });
+        })();
+    </script>
+</body>
+</html>

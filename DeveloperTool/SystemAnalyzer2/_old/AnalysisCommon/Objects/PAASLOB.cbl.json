@@ -1,0 +1,200 @@
+{
+  "program": "PAASLOB",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:0d69e7888653580b79c70fdbccf6b80d6c1afece5550fc519ba8a1d95b50c921",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAASLOB.CBL",
+    "actualName": "PAASLOB",
+    "program": "PAASLOB",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPGJ.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPGL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFSK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RENT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRIO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFEI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLOB.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PLASSERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV_LIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "R",
+        "tableName": "AAR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_RENTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_JOURNAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRODUSENTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "JOURNALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FORSKUDD",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKK_I_OPPGJOR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_RENTER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_RENTER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_SLETTA_OPPGJORSBREV",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPPGJBREV_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_FEILMELD",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMACURT",
+      "OKALOGG",
+      "PAFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

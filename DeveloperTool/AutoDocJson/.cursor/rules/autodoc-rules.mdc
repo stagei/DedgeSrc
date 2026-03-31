@@ -1,0 +1,111 @@
+﻿---
+description: AutoDoc folder structure, templates, and testing
+alwaysApply: true
+---
+
+# AutoDoc Local Rules
+
+## Folder Structure
+
+### Source Folders (in AutoDoc/)
+
+```
+DevTools/LegacyCodeTools/AutoDoc/
+├── _css/                           # CSS stylesheets
+│   ├── autodoc-shared.css          # Main shared styles
+│   └── css-override.css            # Theme overrides
+├── _images/                        # Image assets
+│   ├── dedge.svg                      # FK logo (SVG)
+│   └── dedge.ico                      # Favicon (ICO)
+├── _js/                            # JavaScript files
+│   ├── autodoc-diagram-controls.js # Diagram pan/zoom/fullscreen
+│   ├── autodoc-mermaid-config.js   # Mermaid initialization & themes
+│   └── svg-pan-zoom.js             # Pan-zoom library
+├── _json/                          # Parser output data
+├── _templates/                     # HTML templates
+├── AutoDocBatchRunner.ps1          # Main generation script
+├── Test-AutoDocGeneration.ps1      # Test wrapper script
+└── _deploy.ps1                     # Deployment script
+```
+
+### Output Folder Structure
+
+```
+$env:OptPath\Webs\AutoDoc\
+├── _css/, _images/, _js/           # Copied from source
+├── _json/                          # Parser results
+├── _templates/                     # Copied from source
+├── index.html, web.config          # Copied from _templates/
+└── *.html                          # Generated documentation files
+```
+
+### Folder Naming Convention
+
+**All asset folders use underscore prefix (`_`) instead of dot (`.`):**
+- This ensures IIS serves static files without hidden segment filtering issues
+- Folders starting with `.` are blocked by IIS by default
+
+### Folder Behavior During CleanRegenerate
+
+**PRESERVED (never deleted):**
+- `_css/`, `_js/`, `_images/` folders
+- `index.html`, `web.config`
+
+**CLEARED (content deleted, folder preserved):**
+- `_json/` folder content (parser results regenerated)
+
+## Template Placeholder Reference
+
+| Placeholder | Replacement | Purpose |
+|-------------|-------------|---------|
+| `[controlsscripturl]` | `./_js/autodoc-diagram-controls.js?v={timestamp}` | Diagram controls |
+| `[mermaidconfigurl]` | `./_js/autodoc-mermaid-config.js?v={timestamp}` | Mermaid config |
+| `[imageurl]` | `./_images/dedge.svg` | FK logo |
+| `[iconurl]` | `./_images/dedge.ico` | Favicon |
+| `[css]` | Contents of `_css/autodoc-shared.css` | Inline styles |
+
+**Note:** JS URLs include cache-busting timestamps (`?v=yyyyMMddHHmm`).
+
+## AutoDocBatchRunner Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `$Regenerate` | `"std"` | Mode: `std`, `all`, `err`, `json`, `single` |
+| `$SingleFile` | `""` | File path for `-Regenerate single` mode |
+| `$CleanRegenerate` | `$true` | Full reset |
+| `$MaxFilesPerType` | `0` | Limit files per type (0 = unlimited) |
+| `$ClientSideRender` | `$true` | Use Mermaid.js in browser |
+| `$UseRamDisk` | `$false` | Use RAM disk (V:) for work files |
+| `$RamDiskSizeGB` | `4` | Size of RAM disk in GB |
+
+**Regeneration Modes:**
+- `std` - Only files changed since last run (default)
+- `all` - Regenerate everything
+- `err` - Only files with previous errors
+- `json` - Only regenerate JSON index files
+- `single` - Process only `$SingleFile`
+
+## Testing
+
+```powershell
+# Test all file types from start
+.\Test-AutoDocGeneration.ps1 -StartFromIndex 0
+
+# Resume from specific index
+.\Test-AutoDocGeneration.ps1 -StartFromIndex 2
+```
+
+## Troubleshooting
+
+**Mermaid not rendering:**
+- Ensure `<pre class="mermaid">` tags are used
+- Check Mermaid CDN is accessible
+- Check for "Maximum text size exceeded" → increase `maxTextSize`
+
+**Text invisible in diagrams:**
+- Mermaid 11 bug: foreignObject has 0x0 dimensions
+- Fix: `fixForeignObjectDimensions()` runs on page load
+
+**Dark mode lines not visible:**
+- Ensure `autodoc-mermaid-config.js` is loaded
+- Check `applyDarkModeLineStyles()` is being called

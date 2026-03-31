@@ -1,0 +1,40 @@
+{
+  "tableName": "AH_ORDREHODE_ENDR",
+  "futureName": "OrderHeader",
+  "namespace": "LegacyDbModels",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "BranchNumber",
+      "description": "Branch identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "GML_KUNDENR",
+      "futureName": "CustomerReference",
+      "description": "Customer reference number",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:27:55"
+}

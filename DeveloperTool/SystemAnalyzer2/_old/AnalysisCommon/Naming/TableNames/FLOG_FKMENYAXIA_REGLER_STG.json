@@ -1,0 +1,82 @@
+﻿{
+  "tableName": "FLOG_DedgeAXIA_REGLER_STG",
+  "futureName": "RegelStg",
+  "namespace": "LegacyConversion",
+  "columns": [
+    {
+      "name": "REGEL_ID",
+      "futureName": "RuleId",
+      "description": "Unique rule identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FK_AVDNR",
+      "futureName": "DepartmentCode",
+      "description": "Foreign key linking to department code",
+      "foreignKey": "AVDNR"
+    },
+    {
+      "name": "FK_KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Foreign key linking to customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "FK_SENDES_PR",
+      "futureName": "SenderCode",
+      "description": "Foreign key linking to sender code",
+      "foreignKey": null
+    },
+    {
+      "name": "FK_OKL",
+      "futureName": "StatusKey",
+      "description": "Foreign key linking to status key",
+      "foreignKey": null
+    },
+    {
+      "name": "SPLITT_AUTOSTORE",
+      "futureName": "AutoSplitFlag",
+      "description": "Flag indicating automatic splitting is enabled",
+      "foreignKey": null
+    },
+    {
+      "name": "AX_LEVERINGSDATO",
+      "futureName": "DeliveryDate",
+      "description": "Timestamp of the delivery date",
+      "foreignKey": null
+    },
+    {
+      "name": "AX_TRANSP",
+      "futureName": "TransportDetails",
+      "description": "Description of transportation details",
+      "foreignKey": null
+    },
+    {
+      "name": "AX_TRANSP_KODE",
+      "futureName": "TransportCode",
+      "description": "Code associated with the transportation method",
+      "foreignKey": null
+    },
+    {
+      "name": "AX_ORDRETYPE",
+      "futureName": "OrderType",
+      "description": "Type of order",
+      "foreignKey": null
+    },
+    {
+      "name": "AX_IKKE_ALLOKER_ORDRE",
+      "futureName": "UnallocatedOrderFlag",
+      "description": "Flag indicating if the order is not allocated",
+      "foreignKey": null
+    },
+    {
+      "name": "SISTE_EKSPORT",
+      "futureName": "LastExportTimestamp",
+      "description": "Timestamp of the last export",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:23:42"
+}

@@ -1,0 +1,131 @@
+{
+  "program": "RKBEVKT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:52:02",
+  "extraction": {
+    "sourceHash": "sha256:6840b91e4480282cd1f2cdfb5301177d63c7db9ba16eff18b5e1e970a241426b",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RKBEVKT.CBL",
+    "actualName": "RKBEVKT",
+    "program": "RKBEVKT",
+    "copyElements": [
+      {
+        "name": "EVKT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ANL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RKAVEKT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ANLEGGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PRODUSENTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MOTTAK",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "D01B998",
+      "RKAVEKT",
+      "GMADATO"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RKBEVKT.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\RKBEVKT.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "LOGG",
+        "physicalName": "RKBEVKT.LOG",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\RKBEVKT.LOG",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "INNFIL",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "READ"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:52:02"
+  }
+}

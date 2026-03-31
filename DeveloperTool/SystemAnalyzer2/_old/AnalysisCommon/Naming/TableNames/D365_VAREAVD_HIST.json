@@ -1,0 +1,184 @@
+{
+  "tableName": "D365_VAREAVD_HIST",
+  "futureName": "D365InventoryHistory",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "kilde",
+      "futureName": "Source",
+      "description": "The source of the inventory data",
+      "foreignKey": null
+    },
+    {
+      "name": "periode",
+      "futureName": "Period",
+      "description": "The period for which the inventory data is valid",
+      "foreignKey": null
+    },
+    {
+      "name": "avdnr",
+      "futureName": "LocationNumber",
+      "description": "The location number where the inventory is recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "ProductNumber",
+      "description": "The product number associated with the inventory record",
+      "foreignKey": [
+        "A_BESTHODE, A_BESTLIN, A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "lagersted",
+      "futureName": "WarehouseId",
+      "description": "The warehouse identifier where the inventory is stored",
+      "foreignKey": null
+    },
+    {
+      "name": "plasnr",
+      "futureName": "StorageLocation",
+      "description": "The storage location within the warehouse",
+      "foreignKey": [
+        "A_BESTLIN, A_VAREAVD"
+      ]
+    },
+    {
+      "name": "kgrad",
+      "futureName": "Grade",
+      "description": "The grade or category of the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "beholdning",
+      "futureName": "InventoryQuantity",
+      "description": "The current quantity of the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "regdato",
+      "futureName": "RegistrationDate",
+      "description": "The date when the inventory record was registered",
+      "foreignKey": null
+    },
+    {
+      "name": "sisteSalgDato",
+      "futureName": "LastSaleDate",
+      "description": "The last sale date of the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "sisteInnDato",
+      "futureName": "LastIncomingDate",
+      "description": "The last incoming date of the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the inventory record was updated",
+      "foreignKey": [
+        "A_BESTHODE, A_BESTLIN"
+      ]
+    },
+    {
+      "name": "sistPlukkPartinr",
+      "futureName": "LastPickedPartNumber",
+      "description": "The part number of the last picked item in this location",
+      "foreignKey": null
+    },
+    {
+      "name": "iordre",
+      "futureName": "OrderQuantity",
+      "description": "The quantity ordered for the product",
+      "foreignKey": [
+        "A_VAREAVD, FORSLAG_LOGG"
+      ]
+    },
+    {
+      "name": "ibestilling",
+      "futureName": "ReorderQuantity",
+      "description": "The quantity to be reordered for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "avdkost",
+      "futureName": "AverageCost",
+      "description": "The average cost of the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "reservert",
+      "futureName": "ReservedQuantity",
+      "description": "The quantity reserved for specific purposes",
+      "foreignKey": [
+        "A_VAREAVD"
+      ]
+    },
+    {
+      "name": "varegr",
+      "futureName": "ProductGroup",
+      "description": "The product group to which the inventory item belongs",
+      "foreignKey": null
+    },
+    {
+      "name": "system",
+      "futureName": "SystemCode",
+      "description": "The code of the system from which the data is sourced",
+      "foreignKey": [
+        "AVDKOST_LOGG, AVDKOST"
+      ]
+    },
+    {
+      "name": "antEnhetsnr",
+      "futureName": "UnitNumber",
+      "description": "The number of units associated with the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "partivare",
+      "futureName": "PartOfInventory",
+      "description": "Indicates if the item is part of the inventory",
+      "foreignKey": [
+        "A_BESTLIN, A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "eksportert",
+      "futureName": "ExportedAt",
+      "description": "The timestamp when the record was exported",
+      "foreignKey": null
+    },
+    {
+      "name": "filnr",
+      "futureName": "FileNumber",
+      "description": "The file number associated with the inventory data",
+      "foreignKey": null
+    },
+    {
+      "name": "partistyringD365fo",
+      "futureName": "D365InventoryManagement",
+      "description": "Indicates if D365 is managing the inventory for this product",
+      "foreignKey": [
+        "V_VENTEVARER_DEL2, VAREREGISTER_DEL2"
+      ]
+    },
+    {
+      "name": "enhetsnr",
+      "futureName": "UnitNumber",
+      "description": "The unit number associated with the inventory item",
+      "foreignKey": null
+    },
+    {
+      "name": "eiernr",
+      "futureName": "OwnerNumber",
+      "description": "The owner number of the inventory item",
+      "foreignKey": [
+        "MASKIN_SLETTET, MASKINKARTOTEK"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:02:18"
+}

@@ -1,0 +1,75 @@
+﻿---
+description: Rules for maintaining DedgeAuth integration documentation
+globs:
+  - "docs/integration/**"
+  - "src/DedgeAuth.Api/Controllers/**"
+  - "src/DedgeAuth.Services/**"
+  - "src/DedgeAuth.Client/**"
+alwaysApply: false
+---
+
+# Integration Documentation Maintenance
+
+## Documentation Location
+
+DedgeAuth integration documentation lives in `docs/integration/`:
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Overview, architecture diagram, quick-start checklist |
+| `setup-guide.md` | Step-by-step integration from scratch |
+| `configuration-reference.md` | All DedgeAuthOptions properties with defaults |
+| `api-endpoints.md` | JSON schemas for /api/DedgeAuth/me and /logout |
+| `frontend-assets.md` | How to reference JS/CSS from DedgeAuth API |
+| `css-fallback-plan.md` | Tenant CSS vs DedgeAuth default fallback when theme empty or unreachable |
+| `search-dialog-pattern.md` | Modal and search-history dialog pattern for consumer apps |
+| `migration-from-v1.md` | Migrate from manual integration to V2 components |
+| `publish-and-deploy-guide.md` | Publish profiles, IIS-DeployApp, deploy templates |
+| `cursor-rules/DedgeAuth-integration.mdc` | Cursor rule for DedgeAuth integration in consumer projects |
+| `cursor-rules/ecosystem-architecture.mdc` | Cursor rule for ecosystem architecture reference |
+| `cursor-rules/publish-and-deploy.mdc` | Cursor rule for publish and deploy conventions |
+| `cursor-rules/DedgeSign-code-signing.mdc` | Cursor rule for DedgeSign code signing |
+| `cursor-rules/team-and-sms.mdc` | Cursor rule for team members and SMS notifications |
+
+Legacy V1 docs are archived in `docs/_old/integration/` for reference only.
+
+## When to Update Documentation
+
+Update the relevant documentation when:
+
+1. **Adding/changing API endpoints** → Update `api-endpoints.md`
+2. **Changing middleware or auth flow** → Update `setup-guide.md`
+3. **Modifying DedgeAuth.Client** → Update `setup-guide.md` and `configuration-reference.md`
+4. **Adding tenant features** → Update `frontend-assets.md` (tenant CSS), `css-fallback-plan.md` if fallback behaviour changes, `search-dialog-pattern.md` if modal/search dialog pattern changes, and `configuration-reference.md`
+5. **Changing JWT claims or /me response** → Update `api-endpoints.md`
+6. **Adding new configuration options** → Update `configuration-reference.md`
+7. **Changing DedgeAuth.Client cursor rule** → Update `cursor-rules/DedgeAuth-integration.mdc`
+
+## Automatic Triggers
+
+After completing these types of changes, proactively update docs:
+
+1. **Controller changes** (`*Controller.cs`):
+   - New `[HttpGet/Post/Put/Delete]` attributes → Add to `api-endpoints.md`
+   - Authorization policy changes → Update endpoint docs
+
+2. **AuthService changes**:
+   - New public methods → Document if exposed via API
+   - Flow changes → Update `setup-guide.md`
+
+3. **DedgeAuth.Client changes**:
+   - Middleware changes → Update `setup-guide.md` and `migration-from-v1.md`
+   - Configuration options → Update `configuration-reference.md`
+   - Endpoint changes → Update `api-endpoints.md`
+
+4. **UI asset changes** (wwwroot JS/CSS):
+   - New or changed assets → Update `frontend-assets.md`
+   - Tenant CSS changes → Update `frontend-assets.md`
+
+## Documentation Standards
+
+- Use C# for backend examples, JavaScript for frontend examples
+- Keep examples minimal but complete with necessary imports
+- Use Markdown tables for structured data
+- Include "Last updated" date at bottom of each file
+- Update cross-references between docs when renaming endpoints or config properties

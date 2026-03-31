@@ -1,0 +1,46 @@
+{
+  "tableName": "Z_PNRTAB_2024",
+  "futureName": "PostalCodeInfo",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "POSTNR",
+      "futureName": "PostalCode",
+      "description": "Postal code",
+      "foreignKey": "Kommune"
+    },
+    {
+      "name": "POSTSTED",
+      "futureName": "TownName",
+      "description": "Town name",
+      "foreignKey": null
+    },
+    {
+      "name": "POSTKOMMUNE",
+      "futureName": "MunicipalityCode",
+      "description": "Municipality code",
+      "foreignKey": "Municipality"
+    },
+    {
+      "name": "REGIONL",
+      "futureName": "RegionCode",
+      "description": "Region code",
+      "foreignKey": null
+    },
+    {
+      "name": "ENDRET_DATO",
+      "futureName": "LastUpdatedDate",
+      "description": "Date of last update",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_GYLDIG_DATO",
+      "futureName": "LatestValidDate",
+      "description": "Latest valid date",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:38:08"
+}

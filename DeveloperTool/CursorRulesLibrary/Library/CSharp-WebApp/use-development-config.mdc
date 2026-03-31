@@ -1,0 +1,19 @@
+---
+description: Always use Development config (appsettings.Development.json) until the user says otherwise
+globs:
+  - "**/appsettings*.json"
+  - "**/Program.cs"
+alwaysApply: true
+---
+
+# Use Development Config Until Told Otherwise
+
+**Default:** Always assume and use **appsettings.Development.json** (and the Development environment) for running, testing, and any config changes.
+
+- When suggesting how to run the app: use `dotnet run` (Development) so **appsettings.Development.json** is loaded.
+- When changing settings for local work: edit **appsettings.Development.json**, not appsettings.json.
+- Do not switch to or recommend production config unless the user explicitly says otherwise.
+
+This keeps testing against local/dev paths and avoids touching production configuration.
+
+**When to stop:** Only when the user explicitly says to use production config, use appsettings.json instead, or "you can use production now" (or similar).

@@ -1,0 +1,131 @@
+CONNECT TO basispro 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.7
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT TO BASISPRO
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.7
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+TRUNCATE TABLE DBM.AH_ORDRE_TIL_HIST IMMEDIATE
+
+***** SQLCODE: 0 *****
+ 
+
+insert into dbm.ah_ordre_til_hist (select INT(OPPRETTET_DATO/10000), avdnr, ordrenr, current timestamp, ' ' from dbm.ah_ordrehode where opprettet_dato between 20080101 and 20081231)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 2736680
+Antall rader berørt pga. relasjoner : 0
+ 
+
+runstats on table dbm.ah_ordre_til_hist and indexes all
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_ORDREH08.ixf OF IXF SELECT 2008, H.* FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist T WHERE H.AVDNR = T.AVDNR AND   H.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_ORDREH08.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "2736680" rows.
+
+
+Number of rows exported: 2736680
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_ORDREL08.ixf OF IXF SELECT 2008, L.* FROM DBM.AH_ORDRELINJER L, dbm.ah_ordre_til_hist T WHERE L.AVDNR = T.AVDNR AND   L.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_ORDREL08.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "6051025" rows.
+
+
+Number of rows exported: 6051025
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTEDHODE08.ixf OF IXF SELECT 2008, M.* FROM DBM.H_VERKSTEDHODE M, dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTEDHODE08.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "55548" rows.
+
+
+Number of rows exported: 55548
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTED_TIMER08.ixf OF IXF SELECT 2008, M.* FROM DBM.H_VERKSTED_TIMER M,  dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTED_TIMER08.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "71464" rows.
+
+
+Number of rows exported: 71464
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTEDTEKST08.ixf OF IXF SELECT 2008, M.* FROM DBM.H_VERKSTEDTEKST M,  dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTEDTEKST08.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "180044" rows.
+
+
+Number of rows exported: 180044
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

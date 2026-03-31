@@ -1,0 +1,63 @@
+---
+description: C# coding conventions for this project
+globs: "**/*.cs"
+alwaysApply: false
+---
+
+# Coding Conventions
+
+## Project Dependencies
+
+```
+Core → (no dependencies)
+Data → Core
+ImportService → Core, Data
+WebApi → Core, Data
+```
+
+**Never** add dependencies from Core to Data/Web.
+
+## Adding New Features
+
+### New Importer Type
+1. Implement `ILogImporter` in `ImportService/Importers/`
+2. Register in `ImportService.CreateImporter()` switch
+
+### New LogEntry Field
+1. Add property to `Core/Models/LogEntry.cs`
+2. Add `[Column("snake_case")]` attribute
+3. Update `LoggingDbContext.OnModelCreating()`
+4. Update `DatabaseSchemas/PostgreSQL_Schema.sql`
+5. Add to `GenerateConcatenatedSearchString()` if searchable
+
+### New API Endpoint
+1. Add method to appropriate controller
+2. Use `ApiResponse<T>` wrapper
+3. Map request DTO → domain criteria → response DTO
+
+## Async/Await
+
+- All I/O operations use `async/await`
+- Repository methods: `SearchAsync`, `AddBatchAsync`, etc.
+- Importer methods: `ImportAsync`, `InitializeAsync`
+
+## Error Handling
+
+```csharp
+try
+{
+    await _repository.AddBatchAsync(entries, cancellationToken);
+}
+catch (Exception ex)
+{
+    _logger.LogError(ex, "Failed to save {Count} entries", entries.Count);
+    throw;
+}
+```
+
+## Logging
+
+Use structured logging with Serilog:
+```csharp
+_logger.LogInformation("Processed {Count} entries from {Source}", count, sourceName);
+```

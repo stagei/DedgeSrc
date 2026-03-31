@@ -1,0 +1,58 @@
+{
+  "tableName": "ARTSORT",
+  "futureName": "ArtSort",
+  "namespace": "DbModels",
+  "columns": [
+    {
+      "name": "art",
+      "futureName": "Art",
+      "description": "Product code or unique identifier",
+      "foreignKey": "ART"
+    },
+    {
+      "name": "sort",
+      "futureName": "Sort",
+      "description": "Sorting code or category",
+      "foreignKey": "SORT"
+    },
+    {
+      "name": "sortnavn",
+      "futureName": "SortName",
+      "description": "Description of the sorting code or category",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status or condition",
+      "foreignKey": null
+    },
+    {
+      "name": "produkt",
+      "futureName": "Product",
+      "description": "Associated product code",
+      "foreignKey": "PRODUKT"
+    },
+    {
+      "name": "produktdetalj",
+      "futureName": "ProductDetail",
+      "description": "Additional details of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "produktkvalitet",
+      "futureName": "ProductQuality",
+      "description": "Quality level or specification of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "varekode_df",
+      "futureName": "ItemCode",
+      "description": "Inventory item code",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:32:40"
+}

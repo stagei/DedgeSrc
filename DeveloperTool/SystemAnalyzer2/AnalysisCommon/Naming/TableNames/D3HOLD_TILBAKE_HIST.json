@@ -1,0 +1,64 @@
+{
+  "tableName": "D3HOLD_TILBAKE_HIST",
+  "futureName": "OrderHistory",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Type code for the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMER_FRA",
+      "futureName": "OriginCode",
+      "description": "Code indicating the origin of the data or process",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT_LINJE",
+      "futureName": "TimestampLine",
+      "description": "Timestamp when the line was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT_OK",
+      "futureName": "ApprovalTimestamp",
+      "description": "Timestamp indicating when the order line was approved",
+      "foreignKey": null
+    },
+    {
+      "name": "SLETTE_TS",
+      "futureName": "DeletionTimestamp",
+      "description": "Timestamp recording when the record was deleted",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:03:24"
+}

@@ -1,0 +1,186 @@
+﻿<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SystemAnalyzer Graph</title>
+  <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+  <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+  <style id="DedgeAuth-tenant-css"></style>
+  <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+  <link rel="stylesheet" href="css/app.css" />
+  <script>
+    function getPreferredTheme(){var s=localStorage.getItem('sa-theme');if(s)return s;return window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('sa-theme',t)}
+    setTheme(getPreferredTheme());
+  </script>
+</head>
+<body class="graph-page">
+
+<div class="header">
+  <h1>Dependency Graph</h1>
+  <label for="aliasSelect">Analysis</label>
+  <select id="aliasSelect"></select>
+  <button class="btn" id="btnLoadAnalysis" title="Load a previously exported graph JSON file" style="margin-left:6px;font-size:12px;padding:4px 10px">Load JSON…</button>
+  <input type="file" id="fileLoadAnalysis" accept=".json" style="display:none">
+  <div class="badge" id="rendererBadge">Loading...</div>
+  <div style="flex:1"></div>
+  <a href="index.html" style="font-size:12px;color:var(--text2)">Home</a>
+  <a id="viewerLink" href="viewer.html" style="font-size:12px;color:var(--text2)">Viewer</a>
+  <div id="DedgeAuthUserMenu"></div>
+</div>
+
+<div class="toolbar" id="toolbar1">
+  <button class="btn btn-filters" id="btnOpenFilters">Filters</button>
+  <div class="sep"></div>
+  <!-- Renderer combobox hidden: always GoJS -->
+  <select id="selRenderer" style="display:none"><option value="gojs" selected>GoJS</option></select>
+  <label>Layout
+    <select id="selLayout">
+      <option value="force">Force Directed</option>
+      <option value="layered">Layered Digraph</option>
+      <option value="layeredTD">Layered Top-Down</option>
+      <option value="tree">Tree</option>
+      <option value="circular">Circular</option>
+    </select>
+  </label>
+  <label>Links
+    <select id="selLinkStyle">
+      <option value="avoids">Avoids Nodes</option>
+      <option value="straight">Straight</option>
+      <option value="orthogonal">Orthogonal</option>
+      <option value="bezier">Bezier</option>
+      <option value="jumpOver">Jump Over</option>
+      <option value="jumpGap">Jump Gap</option>
+    </select>
+  </label>
+  <!-- Mermaid Dir hidden: mermaid renderer disabled -->
+  <select id="selMermaidDir" style="display:none"><option value="LR">LR</option></select>
+  <label>Icons
+    <select id="selIconProfile">
+      <option value="standard">Standard</option>
+      <option value="custom1">Custom1</option>
+    </select>
+  </label>
+  <label style="cursor:pointer"><input type="checkbox" id="chkGroupByArea" style="vertical-align:middle"> Group by Area</label>
+  <div class="sep"></div>
+  <label>Threshold <input type="number" id="inpThreshold" value="200" min="10" max="5000" step="10" style="width:60px"></label>
+  <button class="btn" id="btnExportSvg" title="Export graph as SVG file">Export SVG</button>
+  <button class="btn" id="btnExportJson" title="Export filtered graph data as JSON for further analysis">Export JSON</button>
+  <div class="sep"></div>
+  <button class="btn" id="btnSavePositions" title="Save node positions into dependency_master.json" style="font-weight:600">💾 Save Positions</button>
+  <div class="sep"></div>
+  <button class="btn" id="btnSaveLayout" title="Save full layout snapshot to server">Save Layout</button>
+  <button class="btn" id="btnLoadLayout" title="Load a saved layout from server">Load Layout</button>
+  <button class="btn" id="btnFocusedProfile" title="Create focused profile from visible programs">Focused Profile</button>
+  <button class="btn" id="btnReset">Reset All</button>
+</div>
+
+<div class="fp-overlay" id="filterPanelOverlay">
+  <div class="fp-modal">
+    <div class="fp-header">
+      <h2>Graph Filters</h2>
+      <span class="fp-hint">Drag boxes to reorder. Press Apply when done.</span>
+      <div class="fp-actions">
+        <button class="btn fp-btn-reset" id="fpReset">Reset</button>
+        <button class="btn fp-btn-cancel" id="fpCancel">Cancel</button>
+        <button class="btn fp-btn-apply" id="fpApply">Apply</button>
+      </div>
+    </div>
+    <div class="fp-body" id="fpBody"></div>
+  </div>
+</div>
+
+<div id="drillBreadcrumb" class="drill-breadcrumb" style="display:none">
+  <span id="drillCrumbs"></span>
+  <button class="btn drill-back" id="btnDrillBack" title="Go back to previous view">Back</button>
+  <button class="btn drill-reset" id="btnDrillReset" title="Reset to original view">Reset</button>
+</div>
+
+<div id="nodeContextMenu" class="ctx-menu" style="display:none"></div>
+
+<div class="main-area">
+  <div class="graph-detail-panel collapsed" id="detailPanel">
+    <div id="detailContent"><p style="color:var(--text2);font-size:12px">Click a node to see details</p></div>
+  </div>
+  <div class="graph-area">
+    <div id="graphContainer" style="display:none"></div>
+    <div id="mermaidContainer" class="diagram-container" style="display:none;background:transparent;border:none;border-radius:0;padding:0"></div>
+    <div class="loading" id="loadingMsg">
+      <div id="loadingText" style="font-size:16px;font-weight:500;margin-bottom:16px">Initializing...</div>
+      <div id="progressWrap" style="width:400px;height:12px;background:rgba(255,255,255,.08);border-radius:6px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)">
+        <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#4f8cff,#6fa8ff);border-radius:6px;transition:width .3s ease;box-shadow:0 0 8px rgba(79,140,255,.4)"></div>
+      </div>
+      <div id="progressPct" style="font-size:13px;color:var(--text2,#999);margin-top:8px">0%</div>
+    </div>
+    <div id="zoomControls">
+      <button class="btn" id="btnZoomIn" title="Zoom In">+</button>
+      <button class="btn" id="btnZoomOut" title="Zoom Out">&minus;</button>
+      <button class="btn" id="btnZoomFit" title="Zoom to Fit" style="font-size:11px">Fit</button>
+      <span id="zoomPct">100%</span>
+    </div>
+  </div>
+</div>
+
+<div id="flowchartOverlay" class="flowchart-overlay" style="display:none">
+  <div class="flowchart-header">
+    <span id="flowchartTitle" class="flowchart-title"></span>
+    <div class="flowchart-toolbar">
+      <select id="flowchartLayout">
+        <option value="layeredTD">Layered Top-Down</option>
+        <option value="layered">Layered LR</option>
+        <option value="force">Force Directed</option>
+        <option value="tree">Tree</option>
+      </select>
+      <button class="btn" id="flowchartZoomIn" title="Zoom In">+</button>
+      <button class="btn" id="flowchartZoomOut" title="Zoom Out">&minus;</button>
+      <button class="btn" id="flowchartZoomFit" title="Zoom to Fit">Fit</button>
+      <button class="btn" id="flowchartClose" title="Close">&times; Close</button>
+    </div>
+  </div>
+  <div id="flowchartContainer" class="flowchart-gojs-container"></div>
+</div>
+
+<div id="saveLayoutModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h3>Save Layout</h3>
+    <label>Comment <input type="text" id="saveLayoutComment" placeholder="e.g. grain-quality-focus" maxlength="60" style="width:100%"></label>
+    <div class="modal-actions">
+      <button class="btn" id="saveLayoutCancel">Cancel</button>
+      <button class="btn btn-primary" id="saveLayoutConfirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="loadLayoutModal" class="modal-overlay" style="display:none">
+  <div class="modal-box modal-wide">
+    <h3>Load Saved Layout</h3>
+    <div id="loadLayoutList" style="max-height:400px;overflow-y:auto"></div>
+    <div class="modal-actions">
+      <button class="btn" id="loadLayoutCancel">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="focusedProfileModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h3>Create Focused Profile</h3>
+    <p id="fpInfo" style="font-size:12px;color:var(--text2)"></p>
+    <label>Profile Name <input type="text" id="fpNewAlias" placeholder="e.g. KD_Korn_GrainQuality" style="width:100%"></label>
+    <label>Comment <input type="text" id="fpComment" placeholder="Optional description" style="width:100%"></label>
+    <div class="modal-actions">
+      <button class="btn" id="fpCancel2">Cancel</button>
+      <button class="btn btn-primary" id="fpCreate">Create</button>
+    </div>
+  </div>
+</div>
+
+<script src="api/DedgeAuth/ui/user.js"></script>
+<script src="lib/go.js"></script>
+<script src="lib/Figures.js"></script>
+<script src="lib/autodoc-renderer.js"></script>
+<script src="lib/svg-pan-zoom.min.js"></script>
+<script src="lib/mermaid.min.js"></script>
+<script type="module" src="js/graph.js?v=23"></script>
+</body>
+</html>

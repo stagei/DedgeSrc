@@ -1,0 +1,1092 @@
+﻿# DedgeCommon Project - Cursor AI Rules
+
+## 📦 Project Overview
+
+**DedgeCommon** is a comprehensive .NET 8.0 library providing common utilities for database operations, logging, environment management, and cloud integration for the Dedge ecosystem.
+
+**Current Version:** 1.5.4+  
+**Target Framework:** .NET 8.0  
+**Primary Language:** C#  
+**Package Name:** Dedge.DedgeCommon  
+
+---
+
+## 📝 Documentation Standards - IMPORTANT!
+
+### ⚠️ Avoid Creating Temporary Markdown Files
+**DO NOT create these types of files (they waste tokens and clutter the repo):**
+- ❌ Session summaries (*_SUMMARY.md, *_COMPLETE.md, *_IMPLEMENTATION.md)
+- ❌ Fix summaries after each bug fix
+- ❌ Deployment status reports
+- ❌ Step-by-step implementation logs
+- ❌ Temporary TODO files that duplicate main TODO
+
+**Exception:** ONE release notes file per major version (RELEASE_NOTES_vX.Y.Z.md)
+
+### ✅ What TO Create/Update Instead:
+1. **README.md** - Keep updated with functionality overview (WHAT it does, not HOW)
+2. **RELEASE_NOTES_vX.Y.Z.md** - ONE file per version with features and usage examples
+3. **Permanent TODO files** - For tracking ongoing work (e.g., COBOL_FIX_TODO.md)
+4. **Architecture docs** - Only for complex design decisions requiring explanation
+5. **Class User Guides** - Per-class usage documentation (see below)
+
+### Documentation Content Rules:
+- **Focus on WHAT and WHY**, not implementation details
+- **Show usage examples**, not code listings
+- **Keep it concise** - quality over quantity
+- **Update existing docs** rather than creating new ones
+- **Archive completed work** - Move old docs to _old folder after completion
+- **No redundant documentation** - One source of truth per topic
+
+### After Completing Work:
+1. Update README.md with new features (functionality only)
+2. Create ONE release notes file if it's a new version
+3. Update affected class user guides (see below)
+4. Archive any temporary TODO lists to _old folder
+5. DO NOT create completion summaries or implementation logs
+
+---
+
+## 📖 Class User Guide Standards
+
+### When to Create/Update Class User Guides
+
+**REQUIRED for these class types:**
+- ✅ Public API classes (Db2Handler, SqlServerHandler, etc.)
+- ✅ Core utility classes (DedgeConnection, FkEnvironmentSettings, etc.)
+- ✅ Complex classes with multiple interactions (WorkObject, WorkObjectExporter)
+- ✅ Classes with non-obvious usage patterns
+
+**NOT required for:**
+- ❌ Simple data models (POCOs)
+- ❌ Internal/private classes
+- ❌ Exception classes
+- ❌ Test classes
+
+### File Naming Convention
+
+**Format:** `<ClassBaseName>UserGuide.md`
+
+**Examples:**
+- `Db2Handler` → `Db2HandlerUserGuide.md`
+- `DedgeConnection` → `DedgeConnectionUserGuide.md`
+- `WorkObject` → `WorkObjectUserGuide.md`
+- `FkEnvironmentSettings` → `FkEnvironmentSettingsUserGuide.md`
+
+**Location:** Same folder as the class (DedgeCommon/ folder)
+
+### User Guide Structure
+
+Each class user guide MUST include:
+
+1. **Header** - Class name, version, purpose
+2. **Quick Start** - Minimal working example
+3. **Usage Patterns** - Common scenarios with code examples
+4. **Class Interactions** - Mermaid diagram showing dependencies
+5. **Complete Example** - Real-world usage scenario
+6. **Properties/Methods** - Key members with descriptions
+7. **Error Handling** - Common errors and solutions
+
+### Mermaid Diagram Requirements
+
+**Include TWO Mermaid diagrams:**
+
+1. **Usage Flow Diagram** - How developer uses the class
+   ```mermaid
+   sequenceDiagram
+       Developer->>ClassName: Create instance
+       ClassName->>DependencyClass: Initialize
+       Developer->>ClassName: Call method
+       ClassName->>Database: Execute operation
+       Database-->>ClassName: Return result
+       ClassName-->>Developer: Return response
+   ```
+
+2. **Class Dependency Diagram** - Relationships with other classes
+   ```mermaid
+   graph TD
+       ClassName[ClassName]
+       ClassName --> Dependency1[Dependency1]
+       ClassName --> Dependency2[Dependency2]
+       Dependency1 --> SharedResource[DatabasesV2.json]
+       ClassName -.uses.-> HelperClass[HelperClass]
+   ```
+
+### Template Structure
+
+```markdown
+# ClassName User Guide
+
+**Class:** `DedgeCommon.ClassName`  
+**Version:** 1.5.x  
+**Purpose:** One-line description of what this class does
+
+---
+
+## 🎯 Quick Start
+
+[Minimal working example - 3-5 lines of code]
+
+---
+
+## 📋 Common Usage Patterns
+
+### Pattern 1: [Common scenario name]
+[Code example with explanation]
+
+### Pattern 2: [Another common scenario]
+[Code example with explanation]
+
+---
+
+## 🔄 Class Interactions
+
+### Usage Flow
+[Mermaid sequence diagram showing how developer uses the class]
+
+### Dependencies
+[Mermaid graph showing class dependencies and relationships]
+
+---
+
+## 💡 Complete Example
+
+[Real-world scenario with full code example]
+
+---
+
+## 📚 Key Members
+
+### Properties
+- **PropertyName** - Description and usage
+
+### Methods
+- **MethodName(params)** - Description, parameters, return value
+
+---
+
+## ⚠️ Error Handling
+
+### Common Errors
+- **ErrorType** - Cause and solution
+
+---
+
+## 🔗 Related Classes
+
+- **RelatedClass1** - How it relates
+- **RelatedClass2** - How it relates
+
+---
+
+**Last Updated:** YYYY-MM-DD  
+**Included in Package:** Yes
+```
+
+### When to Update User Guides
+
+**MUST update when:**
+- ✅ Adding new public methods or properties
+- ✅ Changing method signatures
+- ✅ Changing usage patterns
+- ✅ Adding new dependencies on other classes
+- ✅ Fixing bugs that affect usage
+
+**Update immediately after:**
+- Class changes are committed
+- Before deploying new NuGet version
+
+### Include in NuGet Package
+
+User guides must be included in the NuGet package. Update `DedgeCommon.csproj`:
+
+```xml
+<ItemGroup>
+  <None Include="README.md" Pack="true" PackagePath="\" />
+  <None Include="*UserGuide.md" Pack="true" PackagePath="docs\" />
+</ItemGroup>
+```
+
+This ensures all `*UserGuide.md` files are packaged in the `docs/` folder.
+
+### Example: Db2HandlerUserGuide.md
+
+**Must show:**
+- Creating Db2Handler instance
+- Executing queries
+- Transaction handling
+- Interaction with DedgeConnection
+- Dependency on DatabasesV2.json
+- Mermaid diagram of usage flow
+- Mermaid diagram of class dependencies
+
+### Priority Order for Creating Guides
+
+**High Priority (Create First):**
+1. Db2Handler, SqlServerHandler, PostgresHandler
+2. DedgeConnection, DedgeDbHandler
+3. FkEnvironmentSettings
+4. WorkObject, WorkObjectExporter
+5. RunCblProgram
+
+**Medium Priority:**
+6. NetworkShareManager
+7. AzureKeyVaultManager
+8. DedgeNLog
+9. FkFolders
+
+**Low Priority (Only if time permits):**
+- GlobalFunctions
+- Notification
+- Helper classes
+
+---
+
+## 🎯 Project Purpose
+
+DedgeCommon serves as the foundational library for all Dedge .NET applications, providing:
+
+1. **Database Operations** - Unified API for IBM DB2, SQL Server, and PostgreSQL
+2. **Authentication** - Kerberos/SSO authentication across all database providers
+3. **Environment Management** - Automatic server/workstation detection and configuration
+4. **Network Infrastructure** - Automated network drive mapping
+5. **Cloud Integration** - Azure Key Vault credential management
+6. **COBOL Integration** - Execute COBOL programs with auto-configuration
+7. **Logging** - Comprehensive logging with NLog integration
+8. **Server Verification** - Tools for testing and reporting server environments
+
+---
+
+## 🏗️ Key Components
+
+### Database Providers
+- **Db2Handler** - IBM DB2 with Kerberos authentication (tested ✅)
+- **SqlServerHandler** - SQL Server with Integrated Security
+- **PostgresHandler** - PostgreSQL with GSSAPI support (new in v1.4.8)
+
+### Core Features
+- **DedgeConnection** - Database configuration with dual lookup (name or alias)
+- **FkEnvironmentSettings** - Auto-detects environment from server name
+- **NetworkShareManager** - Win32 API-based network drive mapping
+- **AzureKeyVaultManager** - Complete CRUD operations for Key Vault
+- **RunCblProgram** - COBOL program execution with environment integration
+- **DedgeNLog** - Enhanced logging with shutdown summary
+
+### Tools
+- **TestEnvironmentReport** - Server verification tool (tests 31 databases)
+- **TestAzureKeyVault** - Azure Key Vault testing suite
+
+---
+
+## 🏛️ General Architecture
+
+### Library Structure
+DedgeCommon follows a layered architecture:
+
+1. **Core Layer** - Base utilities (DedgeNLog, GlobalFunctions, FkFolders)
+2. **Database Layer** - Provider interfaces and implementations (IDbHandler, Db2Handler, etc.)
+3. **Connection Layer** - Connection management (DedgeConnection, DatabasesV2.json)
+4. **Environment Layer** - Auto-detection and configuration (FkEnvironmentSettings)
+5. **Infrastructure Layer** - Network, Azure, COBOL integration
+6. **Reporting Layer** - WorkObject pattern for execution tracking (v1.5.19+)
+
+### Key Design Patterns
+- **Factory Pattern** - DedgeDbHandler creates appropriate database handlers
+- **Singleton Pattern** - FkEnvironmentSettings caches configuration
+- **Strategy Pattern** - Different authentication strategies per provider
+- **Dynamic Object Pattern** - WorkObject for flexible data accumulation
+
+### Shared Resources
+- **DatabasesV2.json** - Central database configuration
+- **GlobalSettings.json** - Organization-wide settings
+- **HtmlTemplate.html** - Shared HTML template (PowerShell & C#)
+
+---
+
+## 🚀 NuGet Deployment
+
+### Deployment Script Locations (Search Order)
+
+When deploying DedgeCommon, use Azure-NugetVersionPush script. Search in this order:
+
+1. **Primary Location:**
+   ```
+   C:\opt\src\DedgePsh\DevTools\GitTools\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1
+   ```
+
+2. **Alternative Location (if primary not found):**
+   ```
+   $env:OptPath\DedgePshApps\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1
+   ```
+
+3. **Auto-Install (if neither found):**
+   ```powershell
+   # Run installation batch script
+   Inst-Psh Azure-NugetVersionPush
+   
+   # Then search both locations again
+   ```
+
+### PowerShell Logic for Finding Script:
+```powershell
+$primaryPath = "C:\opt\src\DedgePsh\DevTools\GitTools\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1"
+$alternatePath = "$env:OptPath\DedgePshApps\Azure-NugetVersionPush\Azure-NugetVersionPush.ps1"
+
+$scriptPath = $null
+if (Test-Path $primaryPath) {
+    $scriptPath = $primaryPath
+}
+elseif (Test-Path $alternatePath) {
+    $scriptPath = $alternatePath
+}
+else {
+    Write-Host "Azure-NugetVersionPush not found, installing..." -ForegroundColor Yellow
+    Inst-Psh Azure-NugetVersionPush
+    
+    # Search again after installation
+    if (Test-Path $primaryPath) { $scriptPath = $primaryPath }
+    elseif (Test-Path $alternatePath) { $scriptPath = $alternatePath }
+    else { throw "Failed to install Azure-NugetVersionPush script" }
+}
+
+# Deploy using found script
+& $scriptPath -ProjectFile "C:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj" -Force
+```
+
+### Deployment Commands
+
+```bash
+# Interactive deployment with menu (recommended)
+Azure-NugetVersionPush.ps1
+
+# Automated deployment (if config already saved)
+Azure-NugetVersionPush.ps1 -ProjectFile "C:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj" -Force
+
+# Jump to specific version
+Azure-NugetVersionPush.ps1 -ProjectFile "C:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj" -SpecificVersion "2.0" -Force
+
+# Minor version bump
+Azure-NugetVersionPush.ps1 -ProjectFile "C:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj" -VersionBump Minor -Force
+```
+
+**What the script does:**
+- Auto-bumps version (Patch by default)
+- Builds Release package
+- Loads PAT from `OneDrive\AzureAccessTokens.json`
+- Interactive menu for saved configurations
+- Pushes to configured Azure DevOps feed
+- Opens browser to package page
+- Saves deployment config for future use
+- Searches multiple locations for config files
+- Detects duplicate configs and notifies
+
+---
+
+## 🎮 Cursor Commands - Special Shortcuts
+
+**Commands are ONLY triggered if they are the ONLY text in the user's message.**
+
+If user types other text with the command, assume it relates to the current task and ask for confirmation if unclear about whether they mean a Cursor command.
+
+### Available Commands:
+
+**`--help`** - Show this command list with descriptions
+
+**`--regressiontest`** - Run all 5 test suites (mandatory before deploy)
+
+**`--deploy`** - Full deployment workflow (regression tests → NuGet deploy → git commit+push)
+
+**`--test`** - Quick test of current changes (build only, no full regression)
+
+### Command: `--help`
+
+Display formatted list of all available commands:
+
+```
+═══════════════════════════════════════════════════════════
+   DedgeCommon Cursor Commands
+═══════════════════════════════════════════════════════════
+
+--help              Show this command list
+
+--regressiontest    Run all 5 test suites
+                    - DedgeCommonVerifyFkDatabaseHandler
+                    - TestWorkObject (C#)
+                    - Test-WorkObjectExport.ps1
+                    - TestNotification
+                    - TestGlobalSettings
+                    Required: All must pass
+
+--deploy            Full deployment workflow
+                    1. Run regression tests
+                    2. Deploy NuGet (if tests pass)
+                    3. Git commit and push
+                    Aborts if any step fails
+
+--test              Quick test (build only)
+                    Fast verification without full regression
+
+═══════════════════════════════════════════════════════════
+```
+
+### Command: `--regressiontest`
+
+When user types **"--regressiontest"** or before deploying ANY new NuGet version, **MUST run all test suites:**
+
+**Test Suite 1: DedgeCommonVerifyFkDatabaseHandler**
+```bash
+cd c:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler
+dotnet run
+```
+**Expected:** All database handler tests pass, email+SMS sent
+
+**Test Suite 2: TestWorkObject (C#)**
+```bash
+cd c:\opt\src\DedgeCommon\TestWorkObject
+dotnet run
+```
+**Expected:** 15/15 assertions pass, HTML/JSON exported
+
+**Test Suite 3: Test-WorkObjectExport.ps1 (PowerShell)**
+```bash
+pwsh -File "C:\opt\src\DedgePsh\_Modules\GlobalFunctions\Test-WorkObjectExport.ps1"
+```
+**Expected:** 15/15 assertions pass, HTML/JSON exported
+
+**Test Suite 4: TestNotification**
+```bash
+cd c:\opt\src\DedgeCommon\TestNotification
+dotnet run
+```
+**Expected:** All notification tests pass, monitor file created
+
+**Test Suite 5: TestGlobalSettings**
+```bash
+cd c:\opt\src\DedgeCommon\TestGlobalSettings
+dotnet test
+```
+**Expected:** 23/23 tests pass
+
+### Command: `--deploy`
+
+**Full automated deployment workflow with SMS notification.**
+
+⚠️ **CRITICAL: MUST run ALL 5 test suites - NO EXCEPTIONS**
+
+**Failure to run all tests is a PROTOCOL VIOLATION and results in invalid deployment.**
+
+**Steps executed automatically (IN THIS EXACT ORDER):**
+
+1. **Verify UserGuides**
+   ```powershell
+   # Check all public classes have UserGuides
+   # Verify UserGuide examples match current code
+   # Check method signatures are up-to-date
+   # If ANY missing or outdated, ABORT deployment
+   ```
+   
+   **Verification steps:**
+   - List all .cs files (exclude AssemblyInfo, UserGuide, Old, Test files)
+   - For each public class, check if `{ClassName}UserGuide.md` exists
+   - Read UserGuide and verify:
+     - Quick Start example compiles with current signatures
+     - Method parameters match current code
+     - Usage patterns use correct API
+     - Version number is current
+   - Report: "✅ All UserGuides verified" or "❌ Missing/outdated guides"
+
+2. **Run Regression Tests** (only if UserGuides verified)
+   
+   ⚠️ **MANDATORY: Execute ALL 5 test suites in this exact order:**
+   
+   ```powershell
+   # Suite 1: DedgeCommonVerifyFkDatabaseHandler (MANDATORY)
+   cd c:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler
+   dotnet run
+   # Expected: Database tests pass, email+SMS sent
+   
+   # Suite 2: TestWorkObject C# (MANDATORY)
+   cd c:\opt\src\DedgeCommon\TestWorkObject
+   dotnet run
+   # Expected: 15/15 assertions pass
+   
+   # Suite 3: Test-WorkObjectExport.ps1 PowerShell (MANDATORY)
+   pwsh -File "C:\opt\src\DedgePsh\_Modules\GlobalFunctions\Test-WorkObjectExport.ps1"
+   # Expected: 15/15 assertions pass
+   
+   # Suite 4: TestNotification (MANDATORY)
+   cd c:\opt\src\DedgeCommon\TestNotification
+   dotnet run
+   # Expected: 4/4 tests pass
+   
+   # Suite 5: TestGlobalSettings (MANDATORY)
+   cd c:\opt\src\DedgeCommon\TestGlobalSettings
+   dotnet test
+   # Expected: 23/23 tests pass
+   
+   # If ANY fail, ABORT deployment
+   # ALL 5 must pass to proceed
+   ```
+   
+   **Validation Checklist:**
+   - [ ] DedgeCommonVerifyFkDatabaseHandler executed and passed
+   - [ ] TestWorkObject executed and passed
+   - [ ] Test-WorkObjectExport.ps1 executed and passed
+   - [ ] TestNotification executed and passed
+   - [ ] TestGlobalSettings executed and passed
+   - [ ] Total: 5/5 test suites passed
+   
+   **If you skip ANY test suite, the deployment is INVALID.**
+
+3. **Deploy NuGet Package** (only if tests pass)
+   ```powershell
+   # Find Azure-NugetVersionPush.ps1 (primary or alternate location)
+   # Auto-increment version
+   # Build and push to feed
+   ```
+
+4. **Git Commit and Push** (only if deploy succeeds)
+   ```powershell
+   # Stage all changes: git add -A
+   # Commit with auto-generated message
+   # Push to master: git push
+   ```
+
+5. **Send SMS Notification** (only if all succeeded)
+   ```powershell
+   # Auto-detect user SMS number
+   $smsNumber = switch ($env:USERNAME) {
+       "FKGEISTA" { "+4797188358" }
+       "FKSVEERI" { "+4795762742" }
+       "FKMISTA"  { "+4799348397" }
+       "FKCELERI" { "+4745269945" }
+       default    { "+4797188358" }
+   }
+   
+   # Send deployment success SMS
+   $message = "DedgeCommon v{version} deployed! Tests: {testCount} passed. " +
+              "Changes: {filesChanged} files. Size: {packageSize}MB. Git: {commitHash}"
+   
+   Send-Sms $smsNumber $message
+   ```
+
+**Auto-generated commit message format:**
+```
+chore(deploy): Deploy DedgeCommon v{version}
+
+Automated deployment via --deploy command
+
+Verification:
+- UserGuides: {guideCount} verified and up-to-date
+- Regression Tests: All passed (5 suites)
+- Build: 0 errors, 0 warnings
+
+Changes:
+- Version bump: {oldVersion} -> {newVersion}
+- Package size: {size} MB
+- Files changed: {fileCount}
+
+Deployment successful to Azure DevOps NuGet feed.
+SMS notification sent to {username}.
+```
+
+**SMS message metadata:**
+- **Version:** New version number (e.g., v1.5.36)
+- **Tests:** Number of test suites passed (e.g., "5 suites passed")
+- **Changes:** Number of files changed (e.g., "12 files")
+- **Package Size:** NuGet package size in MB (e.g., "0.13MB")
+- **Git Commit:** Short commit hash (e.g., "a1b2c3d")
+- **Duration:** Total deployment time
+
+**Example SMS:**
+```
+DedgeCommon v1.5.36 deployed! Tests: 5/5 passed. Changes: 12 files. Size: 0.13MB. Git: a1b2c3d. Duration: 2.5min
+```
+
+**Abort conditions:**
+- ❌ UserGuides missing or outdated → Stop, don't proceed
+- ❌ **Skipped ANY of the 5 test suites** → PROTOCOL VIOLATION, deployment invalid
+- ❌ Any test fails → Stop, don't deploy, send failure SMS
+- ❌ Build fails → Stop, don't deploy, send failure SMS
+- ❌ NuGet push fails → Stop, don't commit, send failure SMS
+- ✅ Only commit if deployment succeeds
+- ✅ Send success SMS with metadata
+
+**REMINDER: Running only 3 of 5 tests is NOT acceptable.**  
+**You MUST run ALL 5 test suites listed above.**  
+**There are NO shortcuts.**
+
+**UserGuide Verification Details:**
+
+For each public class in DedgeCommon/:
+1. Check file `{ClassName}UserGuide.md` exists
+2. Verify Quick Start example uses current method signatures
+3. Check Usage Patterns match current API
+4. Verify Mermaid diagrams show correct dependencies
+5. Check version number is current or recent
+6. Verify method list includes all public methods
+
+**Example verification:**
+```csharp
+// Check Db2HandlerUserGuide.md
+// Quick Start should show:
+//   var db = DedgeDbHandler.CreateByDatabaseName("FKMPRD");  ← Verify this compiles
+//   var data = db.ExecuteQueryAsDataTable("SELECT...");   ← Verify signature matches
+
+// If signature changed but guide not updated → ABORT deployment
+```
+
+### Command: `--test`
+
+Quick build and basic verification without full regression suite.
+
+```powershell
+dotnet build c:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj
+```
+
+Shows: Errors, warnings, build time
+Use for: Quick verification during development
+
+---
+
+### Deployment Checklist
+
+**When using `--deploy` command:**
+- ✅ Regression tests run automatically
+- ✅ All tests must pass (0 failures)
+- ✅ Build with 0 errors, 0 warnings
+- ✅ NuGet deployed automatically
+- ✅ Git commit+push automatic
+- ✅ One command does everything
+
+**Manual deployment (not recommended):**
+- [ ] Run `--regressiontest` command (all 5 test suites)
+- [ ] All tests must pass (0 failures)
+- [ ] Build with 0 errors, 0 warnings
+- [ ] Update PROJECT_STATUS.md with version
+- [ ] Review changes in git diff
+- [ ] Deploy via Azure-NugetVersionPush.ps1
+- [ ] Git commit and push manually
+
+**If ANY test fails:**
+- ❌ DO NOT deploy
+- 🔍 Investigate and fix the failure
+- ✅ Re-run all tests
+- ✅ Only deploy when all tests pass
+
+### Quick Test Command
+
+```powershell
+# Run all regression tests
+Write-Host "Running Regression Tests..." -ForegroundColor Cyan
+$results = @()
+
+$results += dotnet run --project c:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler\VerifyFunctionality.csproj
+$results += dotnet run --project c:\opt\src\DedgeCommon\TestWorkObject\TestWorkObject.csproj
+$results += pwsh -File "C:\opt\src\DedgePsh\_Modules\GlobalFunctions\Test-WorkObjectExport.ps1"
+$results += dotnet run --project c:\opt\src\DedgeCommon\TestNotification\TestNotification.csproj
+$results += dotnet test c:\opt\src\DedgeCommon\TestGlobalSettings\TestGlobalSettings.csproj
+
+if ($results -contains 1) {
+    Write-Host "❌ REGRESSION TESTS FAILED - DO NOT DEPLOY" -ForegroundColor Red
+    exit 1
+} else {
+    Write-Host "✅ ALL REGRESSION TESTS PASSED - OK TO DEPLOY" -ForegroundColor Green
+    exit 0
+}
+```
+
+---
+
+## 📋 Development Guidelines
+
+### Code Style
+- Use XML documentation comments for all public classes and methods
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+- Implement IDisposable for database handlers
+- Use async/await for I/O operations where applicable
+
+### Logging
+- **TRACE** - Connection details, internal operations (not shown by default)
+- **DEBUG** - Detailed diagnostic information
+- **INFO** - General informational messages
+- **WARN** - Warning conditions
+- **ERROR** - Error events
+- **FATAL** - Critical failures
+
+**Recent Change:** Connection logging moved from INFO to TRACE (v1.5.2+) for cleaner console output.
+
+### Database Operations
+- Always use parameterized queries (SQL injection protection)
+- Use `using` statements for handlers (proper disposal)
+- Transactions for multi-statement operations
+- Connection strings via `DedgeConnection.GenerateConnectionString()`
+
+### Testing
+- Run `DedgeCommonVerifyFkDatabaseHandler` for comprehensive testing
+- Run `TestEnvironmentReport --test-all-databases` for environment verification
+- All tests must pass before deployment (31/31 databases, 7/7 functionality)
+
+---
+
+## 🔐 Configuration
+
+### NuGet Deployment Config
+**Location:** `%OneDriveCommercial%\AzureAccessTokens.json`
+
+**Format:**
+```json
+[
+  {
+    "Id": "Dedge_NugetAccessToken",
+    "Token": "YOUR_PAT",
+    "Email": "your.email@company.com",
+    "ProjectName": "Dedge",
+    "ExpirationDate": "2026-12-17",
+    "LastUpdated": "2025-12-18",
+    "Notes": "PAT requires 'Packaging (Read, write, & manage)' permissions."
+  }
+]
+```
+
+### Database Configuration
+**Location:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\DatabasesV2.json`
+
+Contains configurations for all databases (FKMTST, FKMPRD, INLTST, etc.) with:
+- Database names and aliases
+- Server connections
+- Access points (Alias, PrimaryDb)
+- Authentication types (Kerberos, Password)
+
+---
+
+## 📂 Project Structure
+
+```
+DedgeCommon/
+├── DedgeCommon/                    # Main library source code
+│   ├── DedgeConnection.cs         # Database connection management
+│   ├── Db2Handler.cs           # IBM DB2 handler
+│   ├── SqlServerHandler.cs     # SQL Server handler
+│   ├── PostgresHandler.cs      # PostgreSQL handler (v1.4.8+)
+│   ├── FkEnvironmentSettings.cs # Environment auto-detection (v1.4.8+)
+│   ├── NetworkShareManager.cs  # Network drive automation (v1.4.8+)
+│   ├── AzureKeyVaultManager.cs # Azure Key Vault integration (v1.4.8+)
+│   ├── RunCblProgram.cs        # COBOL execution
+│   ├── DedgeNLog.cs               # Logging infrastructure
+│   └── README.md               # Package documentation
+├── TestEnvironmentReport/      # Server verification tool
+├── TestAzureKeyVault/          # Key Vault testing
+├── Deploy-NuGetPackage.ps1     # Deployment script
+└── _old/                       # Archived documentation and scripts
+```
+
+---
+
+## 🔄 Version History
+
+### v1.5.x (Current)
+- **v1.5.2** - Connection logging moved to TRACE level
+- **v1.5.1** - Suppressed recursive log messages
+- **v1.5.0** - Minor improvements and cleanup
+
+### v1.4.x (Major Update)
+- **v1.4.18** - First successful deployment
+- **v1.4.8** - Kerberos/SSO, PostgreSQL, FkEnvironmentSettings, NetworkShareManager, AzureKeyVaultManager
+- **v1.4.7** - Previous stable version
+
+---
+
+## 🧪 Testing Commands
+
+### Run All Tests
+```bash
+# Database handler verification (7 tests)
+cd DedgeCommonVerifyFkDatabaseHandler
+dotnet run
+
+# Environment report with all databases (31 databases)
+cd TestEnvironmentReport
+dotnet run -- --test-all-databases
+
+# Network drive mapping test
+cd TestEnvironmentReport
+dotnet run -- --map-drives
+```
+
+### Build Commands
+```bash
+# Debug build
+dotnet build DedgeCommon/DedgeCommon.csproj
+
+# Release build
+dotnet build DedgeCommon/DedgeCommon.csproj -c Release
+
+# Run specific test
+cd SimpleFkkTotstTest
+dotnet run
+```
+
+---
+
+## 📚 Key Documentation
+
+**Essential Reading:**
+- `DedgeCommon/README.md` - Complete API documentation (750+ lines)
+- `MASTER_SUMMARY_v1.4.8.md` - Feature overview
+- `POSTGRESQL_SUPPORT.md` - PostgreSQL integration guide
+- `AZURE_TODO_REPORT.md` - Azure Key Vault dependencies (11 items)
+
+**Deployment:**
+- `Deploy-NuGetPackage-README.md` - Deployment script guide
+- `QUICK_DEPLOY_GUIDE.md` - Quick reference
+- `NuGetDeployment-Config-Guide.md` - Configuration guide
+
+**Testing:**
+- `TestEnvironmentReport/README.md` - Server verification
+- `TestEnvironmentReport/TEST_RESULTS_SUMMARY.md` - Test results
+
+---
+
+## 🎯 Common Tasks
+
+### Add New Database Provider
+1. Create handler class implementing `IDbHandler`
+2. Add enum value to `DedgeConnection.DatabaseProvider`
+3. Update `DedgeConnection.GenerateConnectionString()`
+4. Update `DedgeDbHandler.Create()` factory methods
+5. Add connection logging (use `DedgeNLog.Trace`)
+6. Update README.md with provider information
+
+### Add New Feature
+1. Implement feature in appropriate class
+2. Add XML documentation comments
+3. Update `DedgeCommon/README.md`
+4. Add tests if applicable
+5. Update version (Minor for new features)
+6. Deploy to feed
+
+### Fix Bug
+1. Identify and fix issue
+2. Add/update tests
+3. Update version (Patch for bug fixes)
+4. Deploy to feed
+
+---
+
+## ⚠️ Important Notes
+
+### Testing Status
+- ✅ **DB2 with Kerberos** - Extensively tested and verified
+- ⚠️ **SQL Server** - Implementation complete, pending v1.5.x testing
+- ⚠️ **PostgreSQL** - Implementation complete, pending real server testing
+- ✅ **FkEnvironmentSettings** - 31/31 databases verified
+- ✅ **NetworkShareManager** - 5/5 drives verified
+
+### Deployment Requirements
+- PAT with **"Packaging (Read, write, & manage)"** permission
+- NuGet source configured with credentials
+- README.md in package root (takes 5-10 min to appear in Azure DevOps)
+
+### Breaking Changes
+- **None** - v1.5.x is fully backward compatible with v1.4.x
+- All new features are additive
+
+---
+
+## 🔧 Environment Variables
+
+- `AZURE_ACCESS_TOKENS` - Override config file location
+- `OneDriveCommercial` - Used to locate default config
+- `OptPath` - Base path for Dedge installation
+
+---
+
+## 📊 Project Statistics
+
+- **Lines of Code:** ~15,000+
+- **Documentation:** ~6,000+ lines across 20+ files
+- **Test Coverage:** 100% (31/31 databases, 7/7 functionality tests)
+- **Build Errors:** 0
+- **Supported Databases:** 3 (DB2, SQL Server, PostgreSQL)
+- **Supported Environments:** 15 (DEV, TST, PRD, RAP, KAT, FUT, PER, VFT, VFK, HST, MIG, SIT)
+- **Supported Applications:** 9 (FKM, INL, HST, VIS, VAR, AGP, AGK, DBQA, DOC)
+
+---
+
+## 🚨 Error Investigation Protocol - CRITICAL!
+
+### When User Reports an Error - MANDATORY DEEP DIVE
+
+**NEVER accept errors as "expected" or "normal" without thorough investigation!**
+
+**When user shows an error message or log, IMMEDIATELY:**
+
+1. **Extract the exact error** - Read the full stack trace
+2. **Identify the failing method** - What method threw the exception?
+3. **Check if method exists** - Verify the method is valid for that type
+4. **Verify library compatibility** - Check if mixing library syntax (e.g., System.Text.Json vs Newtonsoft.Json)
+5. **Read the actual code** - Don't assume, read the source
+6. **Test the hypothesis** - Verify the fix will work
+
+### Red Flags That Require Immediate Investigation:
+
+❌ **"Method not found" errors** - Method doesn't exist on that type  
+❌ **"Cannot convert" errors** - Type mismatch  
+❌ **Repeated FATAL/ERROR logs** - Not "expected", investigate root cause  
+❌ **Fallback behavior triggered** - Why did primary path fail?  
+❌ **Same error on every run** - Not transient, it's a bug  
+
+### DO NOT Say These Without Investigation:
+
+❌ "This is expected behavior" - Verify first!  
+❌ "The fallback is working correctly" - But why did it fallback?  
+❌ "This is normal on this server" - Check if it's actually a bug  
+❌ "Just warnings, not critical" - Warnings indicate problems  
+
+### Investigation Checklist:
+
+When error reported:
+- [ ] Read the actual code at the line number
+- [ ] Check method exists on the object type
+- [ ] Verify library version compatibility
+- [ ] Check for syntax mixing (System.Text.Json vs Newtonsoft.Json)
+- [ ] Test with minimal reproduction
+- [ ] Fix the root cause, not the symptom
+
+### Example: The .GetString() Bug
+
+**What I Did Wrong:**
+- ❌ Saw "Unable to read from GlobalSettings"
+- ❌ Assumed it was network access issue
+- ❌ Said "fallback working correctly"
+- ❌ Didn't investigate why `.GetString()` was failing
+
+**What I Should Have Done:**
+- ✅ Check line 337: `settings.Paths.Common.GetString()`
+- ✅ Ask: What type is `settings.Paths.Common`?
+- ✅ Research: Does Newtonsoft.Json.Linq.JValue have `.GetString()`?
+- ✅ Answer: NO! It's System.Text.Json syntax
+- ✅ Fix: Change to `(string)settings.Paths.Common`
+- ✅ Result: Bug fixed in 2 minutes instead of multiple iterations
+
+### Time Limits for Investigation:
+
+**Simple errors:** Investigate within 1 response  
+**Complex errors:** Maximum 2-3 responses before fixing  
+**Never:** Accept as "expected" without investigation
+
+---
+
+## 🎓 Cursor AI Assistance Tips
+
+When working on this project, Cursor should:
+
+1. **Understand Context** - This is an enterprise library with 3 database providers
+2. **Follow Patterns** - Use existing handlers (Db2Handler) as templates
+3. **Maintain Compatibility** - No breaking changes allowed
+4. **Update Documentation** - Always update README.md for public API changes
+5. **Use TRACE for Connections** - Connection logging should use `DedgeNLog.Trace()`
+6. **Test Before Deploy** - Run verification tests
+7. **Version Appropriately** - Patch for fixes, Minor for features, Major for breaking changes
+8. **INVESTIGATE ERRORS IMMEDIATELY** - Deep dive on first error report, don't accept as "expected"
+
+---
+
+## 👥 Team Member Configuration
+
+**Current team members:**
+
+```yaml
+Users:
+  - Username: FKGEISTA
+    FullName: Geir Helge Starholm
+    Email: geir.helge.starholm@Dedge.no
+    SmsNumber: +4797188358
+    
+  - Username: FKSVEERI
+    FullName: Svein Morten Erikstad
+    Email: svein.morten.erikstad@Dedge.no
+    SmsNumber: +4795762742
+    
+  - Username: FKMISTA
+    FullName: Mina Marie Starholm
+    Email: mina.marie.starholm@Dedge.no
+    SmsNumber: +4799348397
+    
+  - Username: FKCELERI
+    FullName: Celine Andreassen Erikstad
+    Email: Celine.Andreassen.Erikstad@Dedge.no
+    SmsNumber: +4745269945
+```
+
+---
+
+## 📱 Long-Running Operations Notification
+
+**ONLY send SMS when operation takes more than 5 minutes from when agent started working.**
+
+**How to track time:**
+- Note when agent started working on the task
+- Before sending SMS, calculate elapsed time
+- Only send if elapsed time > 5 minutes
+- Track time from first tool call, not from user message
+
+**Auto-detect SMS number:**
+```powershell
+# Calculate elapsed time first
+$elapsedMinutes = ([DateTime]::Now - $startTime).TotalMinutes
+
+if ($elapsedMinutes -gt 5) {
+    $smsNumber = switch ($env:USERNAME) {
+        "FKGEISTA" { "+4797188358" }
+        "FKSVEERI" { "+4795762742" }
+        "FKMISTA"  { "+4799348397" }
+        "FKCELERI" { "+4745269945" }
+        default    { "+4797188358" } # Fallback to FKGEISTA
+    }
+    Send-Sms $smsNumber "<summary of what changed and short result>"
+}
+```
+
+**SMS message format:**
+- Keep under 160 characters
+- Include: operation type, files affected, and status (success/failure)
+- Example: `Send-Sms "+4797188358" "DedgeCommon v1.5.20 deployed. WorkObject pattern added. All tests passed."`
+
+**When to send:**
+- ONLY after operation completes AND elapsed time > 5 minutes
+- Before final response to user
+- Include error summary if operation failed
+- **Send to the current logged-in user** based on `$env:USERNAME`
+
+**Do NOT send SMS for:**
+- Operations under 5 minutes (MOST IMPORTANT - check elapsed time!)
+- Interactive operations requiring user input during execution
+- Simple read-only queries
+- Quick fixes, simple builds, or fast deployments
+
+**Example logic:**
+```powershell
+# At start of task
+$taskStartTime = [DateTime]::Now
+
+# At end of task  
+$elapsedTime = ([DateTime]::Now - $taskStartTime).TotalMinutes
+
+if ($elapsedTime -gt 5) {
+    # Send SMS notification
+    Send-Sms $smsNumber "Task completed after $([Math]::Round($elapsedTime, 1)) minutes: <summary>"
+}
+else {
+    # Skip SMS for quick operations
+    Write-Host "Operation completed in $([Math]::Round($elapsedTime, 1)) minutes (no SMS sent)"
+}
+```
+
+---
+
+**Created:** 2025-12-18  
+**Last Updated:** 2025-12-16  
+**Maintained By:** Geir Helge Starholm  
+**Company:** Dedge AS

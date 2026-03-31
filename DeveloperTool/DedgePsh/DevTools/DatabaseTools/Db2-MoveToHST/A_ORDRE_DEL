@@ -1,0 +1,119 @@
+--23.11.2022 MEH Tatt med dbm.mek_tidsreg_trans
+--Oktober 2017 MEH Tatt med dbm.Kass_transer
+--Kjørt sist 10/12 2012
+--Kjørt sist 17/06 2015
+--Kjørt sist 12/11 2017
+--Kjørt sist 12/08 2018
+-- Kjøres for 2010 02/12 2018 
+--Kjørt sist 2011 19/12 2021 
+--Kjørt sist 2012 13/11 2022 
+connect to BASISREG;
+--select count(*)
+--  Delete av ah_ordrehode må tas på annen måte - bruk A_ORDRE_DEL_DATO for denne.
+--  Delete av ah_ordrehode må tas på annen måte - bruk A_ORDRE_DEL_DATO for denne.
+--  Delete av ah_ordrehode må tas på annen måte - bruk A_ORDRE_DEL_DATO for denne.
+--
+--  delete
+--from dbm.ah_ordrehode h
+--where date(h.tidspunkt) < (current date - 5 years)
+--and  h.avdnr between 0 and 1999
+--and  exists (select 1 from dbm.ah_ordre_til_hist a
+--             where  h.avdnr = a.avdnr
+--             and    h.ordrenr = a.ordrenr
+--             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 0000 and 1999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 2000 and 3999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 4000 and 4999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 5000 and 5999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 6000 and 6999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 7000 and 7999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 5 years)
+and avdnr between 8000 and 9999
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 5 years)
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_frakt_olinjer v
+where date(v.tidspunkt) < (current date - 5 years)
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.mh_ordrelinjer v
+where  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--NY oktober 2017
+--select count(*)
+  delete
+from dbm.kass_transer v
+where date(v.tidspunkt) < (current date - 5 years)
+and  exists (select 1 from dbm.ah_ordre_til_hist a
+             where  v.avdnr = a.avdnr
+             and    v.bilagnr = a.ordrenr
+             and a.status = ' ');
+ delete
+ FROM DBM.MEK_TIDSREG_TRANS h
+  where date(h.tidspunkt) < (current date - 6 years)
+  and  exists (select 1 from dbm.ah_ordre_til_hist a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               );

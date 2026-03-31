@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.dashboardSettings">Dashboard Settings - ServerMonitor</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    <link rel="stylesheet" href="css/form-editor.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <style>
+        .json-editor-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            padding: 1rem;
+        }
+        
+        .json-editor {
+            flex: 1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            resize: none;
+            tab-size: 2;
+        }
+        
+        .json-editor:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+        }
+        
+        .settings-info {
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .settings-info h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-color);
+        }
+        
+        .settings-info p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .settings-info code {
+            background: var(--bg-secondary);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .json-error {
+            color: var(--error-color);
+            padding: 0.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: var(--radius);
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .json-valid {
+            color: var(--success-color);
+            padding: 0.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: var(--radius);
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-editor-page">
+        <!-- Header -->
+        <header class="form-header">
+            <div class="header-left">
+                <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+                <button class="btn btn-back" onclick="window.close()" title="Close window">
+                    <span>←</span> <span data-i18n="button.back">Back</span>
+                </button>
+                <h1><span>🖥️</span> <span data-i18n="dashSettings.title">Dashboard Settings</span></h1>
+            </div>
+            <div class="header-right">
+                <span class="file-info" id="fileInfo" data-i18n="status.loading">Loading...</span>
+                <button class="btn btn-outline" id="formatBtn" title="Format JSON">
+                    <span>✨</span> <span data-i18n="button.format">Format</span>
+                </button>
+                <button class="btn btn-outline" id="reloadBtn" title="Reload from server">
+                    <span>🔄</span> <span data-i18n="button.reload">Reload</span>
+                </button>
+                <button class="btn btn-primary" id="saveBtn" title="Save changes">
+                    <span>💾</span> <span data-i18n="button.save">Save</span>
+                </button>
+                <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+            </div>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <span class="status-message" id="statusMessage" data-i18n="status.ready">Ready</span>
+        </div>
+
+        <!-- Main Content -->
+        <main class="json-editor-container">
+            <div class="settings-info">
+                <h3 data-i18n="dashSettings.serviceConfig">Dashboard Service Configuration</h3>
+                <p>
+                    This is the <code>appsettings.json</code> file for the Dashboard service itself. 
+                    Key sections include:
+                </p>
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                    <li><code>Dashboard.AlertPolling</code> - Configure alert polling (enabled, interval, severity filter)</li>
+                    <li><code>Dashboard</code> - Server paths, ports, polling intervals</li>
+                    <li><code>Authentication</code> - User access control (FullAccess, Standard, Blocked)</li>
+                    <li><code>Kestrel</code> - Dashboard web server port configuration</li>
+                </ul>
+                <p style="margin-top: 0.5rem;">
+                    <strong>Note:</strong> Changes to some settings (like Kestrel port) require a service restart.
+                </p>
+            </div>
+            
+            <div class="editor-toolbar">
+                <button class="btn btn-sm btn-outline" id="validateBtn" title="Validate JSON syntax">
+                    <span>✓</span> <span data-i18n="button.validate">Validate</span>
+                </button>
+                <span id="validationStatus"></span>
+            </div>
+            
+            <textarea class="json-editor" id="jsonEditor" spellcheck="false"></textarea>
+        </main>
+    </div>
+
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script>
+        // Initialize theme
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        const apiEndpoint = 'api/config/dashboard-settings';
+        let originalContent = '';
+        let hasChanges = false;
+        
+        // DOM elements
+        const jsonEditor = document.getElementById('jsonEditor');
+        const statusMessage = document.getElementById('statusMessage');
+        const fileInfo = document.getElementById('fileInfo');
+        const validationStatus = document.getElementById('validationStatus');
+        
+        // Load config
+        async function loadConfig() {
+            try {
+                statusMessage.textContent = 'Loading...';
+                const response = await fetch(apiEndpoint);
+                const result = await response.json();
+                
+                if (!result.success) {
+                    statusMessage.textContent = `Error: ${result.error}`;
+                    return;
+                }
+                
+                originalContent = result.content;
+                jsonEditor.value = formatJson(result.content);
+                hasChanges = false;
+                
+                if (result.lastModified) {
+                    const date = new Date(result.lastModified);
+                    fileInfo.textContent = `Last modified: ${date.toLocaleString()}`;
+                }
+                
+                statusMessage.textContent = 'Loaded successfully';
+                validateJson();
+            } catch (error) {
+                statusMessage.textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Save config
+        async function saveConfig() {
+            const content = jsonEditor.value;
+            
+            // Validate JSON first
+            try {
+                JSON.parse(content);
+            } catch (e) {
+                statusMessage.textContent = `Invalid JSON: ${e.message}`;
+                return;
+            }
+            
+            try {
+                statusMessage.textContent = 'Saving...';
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        content: content,
+                        editedBy: 'DashboardUI'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    statusMessage.textContent = `Error: ${result.error}`;
+                    return;
+                }
+                
+                originalContent = content;
+                hasChanges = false;
+                statusMessage.textContent = 'Saved successfully!';
+                
+                if (result.backupPath) {
+                    fileInfo.textContent = `Backup created`;
+                }
+                
+                // Reload to get updated lastModified
+                setTimeout(loadConfig, 500);
+            } catch (error) {
+                statusMessage.textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Format JSON
+        function formatJson(text) {
+            try {
+                const parsed = JSON.parse(text);
+                return JSON.stringify(parsed, null, 2);
+            } catch {
+                return text;
+            }
+        }
+        
+        // Validate JSON
+        function validateJson() {
+            try {
+                JSON.parse(jsonEditor.value);
+                validationStatus.innerHTML = '<span class="json-valid">✓ Valid JSON</span>';
+                return true;
+            } catch (e) {
+                validationStatus.innerHTML = `<span class="json-error">✗ ${e.message}</span>`;
+                return false;
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('saveBtn').addEventListener('click', saveConfig);
+        document.getElementById('reloadBtn').addEventListener('click', loadConfig);
+        document.getElementById('validateBtn').addEventListener('click', validateJson);
+        document.getElementById('formatBtn').addEventListener('click', () => {
+            jsonEditor.value = formatJson(jsonEditor.value);
+            validateJson();
+        });
+        
+        jsonEditor.addEventListener('input', () => {
+            hasChanges = jsonEditor.value !== originalContent;
+            validateJson();
+        });
+        
+        // Tab key support
+        jsonEditor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = jsonEditor.selectionStart;
+                const end = jsonEditor.selectionEnd;
+                jsonEditor.value = jsonEditor.value.substring(0, start) + '  ' + jsonEditor.value.substring(end);
+                jsonEditor.selectionStart = jsonEditor.selectionEnd = start + 2;
+            }
+        });
+        
+        // Warn before leaving with unsaved changes
+        window.addEventListener('beforeunload', (e) => {
+            if (hasChanges) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+        
+        // Initialize
+        loadConfig();
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

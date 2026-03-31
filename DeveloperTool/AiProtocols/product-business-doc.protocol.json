@@ -1,0 +1,30 @@
+{
+  "id": "product-business-doc",
+  "description": "Generate a per-product business English markdown document with Mermaid diagrams",
+  "model": "claude-sonnet-4-20250514",
+  "mode": "ask",
+  "outputFormat": "text",
+  "noMcp": false,
+  "force": false,
+  "promptTemplate": "product-business-doc.prompt.md",
+  "placeholders": {
+    "ProductName": "from all-projects.json .name",
+    "ProductDescription": "from all-projects.json .description",
+    "ProductCategory": "from all-projects.json .category",
+    "ProductStack": "from all-projects.json .stack",
+    "CopyToPath": "from convertapps.json .copyToPath (rebranded source folder)",
+    "CompetitorJson": "path to _BusinessDocs/competitors/{ProductName}-competitors.json if it exists"
+  },
+  "contextFiles": ["{{CompetitorJson}}"],
+  "contextFolder": "{{CopyToPath}}",
+  "workspacePath": null,
+  "validation": {
+    "responseFormat": "markdown",
+    "requiredFields": null,
+    "minArrayLength": null
+  },
+  "output": {
+    "markdownPath": "_BusinessDocs/{{ProductName}}.md",
+    "skipIfExists": true
+  }
+}

@@ -1,0 +1,94 @@
+--Kjørt sist 26/12 2015
+--Kjørt sist 15/02 2017
+--Kjørt sist 12/11 2017
+--Kjørt sist 02/12 2018
+--Kjørt sist 08/09 2019
+--Kjørt sist 17/04 2022
+--Kjørt sist 02/04 2023
+--Kjørt sist 24/03 2024
+--Kjørt sist 16/03 2025
+--select count(*)
+--CONNECT TO BASISPRO; Endret til BASISREG kjøring 02.12.2018
+CONNECT TO BASISREG;
+      delete
+  from dbm.ah_ordrehode h
+  where date(h.tidspunkt) < (current date - 4 years)
+  and h.avdnr = 8039
+  and month(h.tidspunkt) between 01 and 03
+  and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+               where  h.avdnr = a.avdnr
+               and    h.ordrenr = a.ordrenr
+               and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 4 years)
+and h.avdnr = 8039
+and month(h.tidspunkt) between 04 and 06
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 4 years)
+and h.avdnr = 8039
+and month(h.tidspunkt) between 07 and 09
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+    delete
+from dbm.ah_ordrehode h
+where date(h.tidspunkt) < (current date - 4 years)
+and h.avdnr = 8039
+and month(h.tidspunkt) between 10 and 12
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  h.avdnr = a.avdnr
+             and    h.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_ordrelinjer_endr v
+where date(v.tidspunkt) < (current date - 4 years)
+and v.avdnr = 8039
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.h_verkstedhode v
+where date(v.tidspunkt) < (current date - 4 years)
+and v.avdnr = 8039
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.ah_frakt_olinjer v
+where date(v.tidspunkt) < (current date - 4 years)
+and v.avdnr = 8039
+and  exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select count(*)
+  delete
+from dbm.mh_ordrelinjer v
+where avdnr = 8039
+and    exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  v.avdnr = a.avdnr
+             and    v.ordrenr = a.ordrenr
+             and a.status = ' ');
+--select *
+delete
+ FROM DBM.H_VERKSTEDTEKST M
+      WHERE avdnr = 8039
+and    exists (select 1 from dbm.ah_ordre_til_hist_8039 a
+             where  m.avdnr = a.avdnr
+             and    m.ordrenr = a.ordrenr
+             and a.status = ' ');

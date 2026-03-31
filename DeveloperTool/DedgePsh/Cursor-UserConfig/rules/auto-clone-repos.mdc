@@ -1,0 +1,51 @@
+﻿---
+description: "Auto-clone missing repos when user commands reference scripts under c:\\opt\\src\\*"
+alwaysApply: true
+---
+
+# Auto-Clone Missing Repos
+
+When any user command or rule references a script path under `c:\opt\src\<RepoName>\...` and the repo folder does not exist, the agent must attempt to clone it before failing.
+
+## Detection
+
+Before running any script path matching `c:\opt\src\<name>\...`:
+
+```powershell
+$repoName = ($scriptPath -replace '^[Cc]:\\opt\\src\\([^\\]+).*', '$1')
+$repoRoot = "C:\opt\src\$repoName"
+if (-not (Test-Path $repoRoot)) {
+    # Repo missing — attempt auto-clone
+}
+```
+
+## Auto-Clone
+
+Clone from Azure DevOps using the standard org/project URL:
+
+```powershell
+$cloneUrl = "https://Dedge@dev.azure.com/Dedge/Dedge/_git/$repoName"
+git clone $cloneUrl $repoRoot
+```
+
+If the clone succeeds, continue with the original task.
+
+## On Failure
+
+If `git clone` fails, report to the user:
+
+1. **What failed:** The exact `git clone` command that was attempted
+2. **Why it likely failed:** Based on the error message:
+   - `fatal: Authentication failed` → PAT or credential issue
+   - `fatal: repository ... not found` → repo name may differ from folder name, or no access
+   - `fatal: unable to access` → network/proxy issue
+   - Other → include the raw error
+3. **How to fix:**
+   - **Auth failure:** Run `git credential-manager configure` or set up a PAT. If Azure DevOps PAT Manager exists locally: `DevTools/AzureTools/Azure-DevOpsPAT-Manager/Setup-AzureDevOpsPAT.ps1`
+   - **Repo not found:** The repo may have a different name in Azure DevOps. List repos with: `az repos list --org https://dev.azure.com/Dedge --project Dedge -o table`
+   - **Network:** Check VPN/proxy connectivity to `dev.azure.com`
+   - **Manual clone:** Provide the corrected command for the user to run
+
+## Scope
+
+This applies to **all** user commands and rules that reference `c:\opt\src\*` paths. The check runs once per missing repo per session — do not retry a failed clone for the same repo within the same conversation.

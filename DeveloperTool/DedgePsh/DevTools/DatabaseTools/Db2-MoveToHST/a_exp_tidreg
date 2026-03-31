@@ -1,0 +1,29 @@
+-- 23.11.2022 MEH Lagt inn dbm.h_mek_tidsreg_trans også
+-- Kjørt for 2002 (< 2003) 30/1 2011
+-- Kjørt for 2003 (between 20030101 og 20031231) 10/12 2012
+-- Kjørt for 2004 (between 20040101 og 20041231) 17/06 2015
+-- Kjørt for 2005 (between 20050101 og 20051231) 26/12 2015
+-- Kjørt for 2006 (between 20060101 og 20061231) 27/12 2015
+-- Kjørt for 2007 (between 20070101 og 20071231) 15/01 2017 
+-- Kjørt for 2008 (between 20080101 og 20081231) 08/11 2017 
+-- Kjørt for 2009 (between 20090101 og 20091231) 09/08 2018 
+-- Kjøres for 2010 (between 20100101 og 20101231) 02/12 2018 
+-- Kjøres for 2011 (between 20110101 og 20111231) 19/12 2021 
+-- Kjøres for 2012 (between 20120101 og 20121231) 13/11 2022 
+-- Kjøres for 2013 (between 20130101 og 20131231) 01/10 2023 
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+--delete from dbm.ah_ordre_til_hist;
+--CONNECT TO BASISPRO;  Byttet til BASISREG v. kjøring 01.12.2018 - ny server
+CONNECT TO BASISREG;
+--
+  EXPORT TO P:\tru\mek_tidreg_trans2013.IXF OF IXF
+  SELECT h.aar, a.*
+    FROM DBM.MEK_TIDSREG_TRANS A
+       , dbm.ah_ordre_til_hist h
+           WHERE a.avdnr = h.avdnr
+         and   A.ORDRENR     = h.ORDRENR;
+//

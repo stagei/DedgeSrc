@@ -1,0 +1,183 @@
+CONNECT TO BASISPRO 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT TO BASISREG
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISREG
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_ORDRE_FLYTTES_2012.ixf OF IXF SELECT INT(OPPRETTET_DATO/10000), AVDNR, ORDRENR, CURRENT TIMESTAMP, ' ' FROM DBM.AH_ORDREHODE WHERE OPPRETTET_DATO BETWEEN 20120101 AND 20121231
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_ORDRE_FLYTTES_2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "2994751" rows.
+
+
+Number of rows exported: 2994751
+
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\AH_ORDRE_FLYTTES_2012.ixf OF IXF REPLACE INTO DBM.AH_ORDRE_TIL_HIST      NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\AH_ORDRE_FLYTTES_2012.ixf".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "13.11.2022 
+12.25.10.321093".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20221113", and time "122451".
+
+SQL3153N  The T record in the PC/IXF file has name 
+"P:\tru\AH_ORDRE_FLYTTES_2012.ixf", qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "2994751" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "2994751".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "13.11.2022 
+12.25.13.262399".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "13.11.2022 
+12.25.13.279848".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "13.11.2022 
+12.25.16.064760".
+
+
+Number of rows read         = 2994751
+Number of rows skipped      = 0
+Number of rows loaded       = 2994751
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 2994751
+
+
+***** SQLCODE: 0 *****
+ 
+
+runstats on table dbm.ah_ordre_til_hist and indexes all
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_ORDREH2012.ixf OF IXF SELECT 2012, H.* FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist T WHERE H.AVDNR = T.AVDNR AND   H.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_ORDREH2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "2994751" rows.
+
+
+Number of rows exported: 2994751
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_ORDREL2012.ixf OF IXF SELECT 2012, L.* FROM DBM.AH_ORDRELINJER L, dbm.ah_ordre_til_hist T WHERE L.AVDNR = T.AVDNR AND   L.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_ORDREL2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "6966653" rows.
+
+
+Number of rows exported: 6966653
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTEDHODE2012.ixf OF IXF SELECT 2012, M.* FROM DBM.H_VERKSTEDHODE M, dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTEDHODE2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "53441" rows.
+
+
+Number of rows exported: 53441
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTED_TIMER2012.ixf OF IXF SELECT 2012, M.* FROM DBM.H_VERKSTED_TIMER M,  dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTED_TIMER2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "69220" rows.
+
+
+Number of rows exported: 69220
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\AH_VERKSTEDTEKST2012.ixf OF IXF SELECT 2012, M.* FROM DBM.H_VERKSTEDTEKST M,  dbm.ah_ordre_til_hist T WHERE M.AVDNR = T.AVDNR AND M.ORDRENR = T.ORDRENR
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\AH_VERKSTEDTEKST2012.ixf".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "225367" rows.
+
+
+Number of rows exported: 225367
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

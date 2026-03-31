@@ -1,0 +1,504 @@
+﻿# AutoDoc Local Rules
+
+## Folder Structure
+
+### Source Folders (in AutoDoc/)
+
+```
+DevTools/LegacyCodeTools/AutoDoc/
+├── _css/                           # CSS stylesheets
+│   ├── autodoc-shared.css          # Main shared styles
+│   └── css-override.css            # Theme overrides
+├── _images/                        # Image assets
+│   ├── dedge.svg                      # FK logo (SVG)
+│   └── dedge.ico                      # Favicon (ICO)
+├── _js/                            # JavaScript files
+│   ├── autodoc-diagram-controls.js # Diagram pan/zoom/fullscreen
+│   ├── autodoc-mermaid-config.js   # Mermaid initialization & themes
+│   └── svg-pan-zoom.js             # Pan-zoom library
+├── _json/                          # Parser output data
+│   ├── CblParseResult.json
+│   ├── ScriptParseResult.json
+│   ├── SqlParseResult.json
+│   └── CSharpParseResult.json
+├── _templates/                     # HTML templates
+│   ├── batmmdtemplate.html
+│   ├── cblmmdtemplate.html
+│   ├── csharpmmdtemplate.html
+│   ├── index.html
+│   ├── ps1mmdtemplate.html
+│   ├── rexmmdtemplate.html
+│   ├── scriptindex.html
+│   ├── sqlmmdtemplate.html
+│   └── web.config
+├── AutoDocBatchRunner.ps1          # Main generation script
+├── Test-AutoDocGeneration.ps1      # Test wrapper script
+└── _deploy.ps1                     # Deployment script
+```
+
+### Output Folder Structure
+
+```
+$env:OptPath\Webs\AutoDoc\
+├── _css/                           # Copied from source
+│   ├── autodoc-shared.css
+│   └── css-override.css
+├── _images/                        # Copied from source
+│   ├── dedge.svg
+│   └── dedge.ico
+├── _js/                            # Copied from source
+│   ├── autodoc-diagram-controls.js
+│   ├── autodoc-mermaid-config.js
+│   └── svg-pan-zoom.js
+├── _json/                          # Parser results
+│   ├── CblParseResult.json
+│   ├── ScriptParseResult.json
+│   ├── SqlParseResult.json
+│   └── CSharpParseResult.json
+├── _templates/                     # Copied from source
+├── index.html                      # Copied from _templates/
+├── web.config                      # Copied from _templates/
+└── *.html                          # Generated documentation files
+```
+
+### Folder Naming Convention
+
+**All asset folders use underscore prefix (`_`) instead of dot (`.`):**
+- This ensures IIS serves static files without hidden segment filtering issues
+- Folders starting with `.` are blocked by IIS by default
+- Underscore prefix provides same visual "hidden" effect without IIS restrictions
+
+### Folder Behavior During CleanRegenerate
+
+**PRESERVED (never deleted):**
+- `_css/` - CSS stylesheets
+- `_js/` - JavaScript libraries
+- `_images/` - Logo and favicon
+- `index.html` - Index page
+- `web.config` - IIS configuration
+
+**CLEARED (content deleted, folder preserved):**
+- `_json/` - Parser results (regenerated with fresh data)
+
+---
+
+## External JavaScript Architecture
+
+### Problem Solved
+The HTML templates had inline JavaScript with variable names like `type` which collided with template placeholders like `[type]`. This caused JavaScript syntax errors in generated HTML files.
+
+### Solution: External JavaScript Files
+All JavaScript is now in separate files in the `_js/` subfolder:
+- `autodoc-diagram-controls.js` - Pan/zoom, fullscreen, theme switching
+- `autodoc-mermaid-config.js` - Mermaid initialization and theme variables
+- `svg-pan-zoom.js` - Third-party pan-zoom library
+
+---
+
+## Template Placeholder Reference
+
+| Placeholder | Replacement | Purpose |
+|-------------|-------------|---------|
+| `[controlsscripturl]` | `./_js/autodoc-diagram-controls.js?v={timestamp}` | Diagram controls script |
+| `[mermaidconfigurl]` | `./_js/autodoc-mermaid-config.js?v={timestamp}` | Mermaid config script |
+| `[imageurl]` | `./_images/dedge.svg` | FK logo |
+| `[iconurl]` | `./_images/dedge.ico` | Favicon |
+| `[cssoverrideurl]` | `./_css/css-override.css` | CSS overrides |
+| `[autodochomepageurl]` | `{baseUrl}/AutoDoc/index.html` | Home link |
+| `[css]` | Contents of `_css/autodoc-shared.css` | Inline styles (injected) |
+| `[type]` | Program type (e.g., "B - Batchprogram") | Metadata display only |
+
+**Note:** JS URLs include cache-busting timestamps (`?v=yyyyMMddHHmm`) to prevent browser caching issues.
+
+---
+
+## Functions in autodoc-diagram-controls.js
+
+**Theme Management:**
+- `getPreferredTheme()` - Gets stored or system theme
+- `setTheme(theme)` - Sets light/dark theme
+- `updateThemeButtons(theme)` - Updates button active states
+- `applyDarkModeLineStyles()` - Applies dark mode styling to SVG elements
+
+**Diagram Controls:**
+- `showDiagram(diagramType, btn)` - Switches between diagram tabs
+- `initPanZoom(diagramType)` - Initializes svg-pan-zoom for a container
+- `updateZoomIndicator(diagramType, level)` - Updates zoom percentage display
+- `zoomIn(diagramType)`, `zoomOut(diagramType)` - Zoom controls
+- `resetZoom(diagramType)`, `fitToScreen(diagramType)` - Reset/fit controls
+
+**Mermaid 11 Fixes:**
+- `fixForeignObjectDimensions(svg)` - Fixes 0x0 foreignObject elements
+- `fixInvalidTransforms(svg)` - Fixes `translate(undefined, NaN)` errors
+- `fixAllForeignObjects()` - Applies all fixes to all SVGs on page
+
+**Advanced Features:**
+- `openInNewWindow(diagramType)` - Opens diagram in new browser window
+- `toggleFullscreen(diagramType)` - Opens fullscreen overlay
+- `closeFullscreen()` - Closes fullscreen overlay
+- `zoomInFullscreen()`, `zoomOutFullscreen()`, etc. - Fullscreen zoom controls
+
+---
+
+## Mermaid Configuration (autodoc-mermaid-config.js)
+
+```javascript
+mermaid.initialize({
+  startOnLoad: true,
+  theme: theme,
+  securityLevel: 'loose',
+  maxTextSize: 5000000,  // Increased for large diagrams
+  maxEdges: 5000,        // Increased for complex graphs
+  themeVariables: { ... },
+  flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+});
+```
+
+**Theme-aware colors** for dark mode visibility:
+- Lines: `#64b5f6` (bright blue)
+- Node backgrounds: `#3a3a5c`
+- Text: `#f5f5f5` (bright white)
+
+---
+
+## Testing (Test-AutoDocGeneration.ps1)
+
+Automated test wrapper that validates single-file generation:
+
+```powershell
+# Test all file types from start
+.\Test-AutoDocGeneration.ps1 -StartFromIndex 0
+
+# Resume from specific index (uses QuickRun for index > 0)
+.\Test-AutoDocGeneration.ps1 -StartFromIndex 2
+```
+
+**Test Workflow:**
+1. Calls `AutoDocBatchRunner.ps1 -Regenerate single -SingleFile <path>`
+2. Validates generated HTML (CSS, icon, image refs)
+3. Opens HTML in Edge browser
+4. Extracts Mermaid content to `.extracted.mmd` files
+5. Converts MMD to SVG using `mmdc` (if available)
+6. Opens SVG in browser for visual verification
+7. Auto-continues to next file (non-interactive)
+
+**Test Files:**
+| Index | Type | File |
+|-------|------|------|
+| 0 | CBL | AABELMA.CBL |
+| 1 | REX | WKMONIT.REX |
+| 2 | BAT | Catalog-All-Db2-Azure-Databases-Using-Kerberos-For-Db2Client.bat |
+| 3 | PS1 | Db2-CreateInitialDatabases.ps1 |
+| 4 | SQL | DBM.FAKTHIST99B (table name, not file) |
+| 5 | CSHARP | ServerMonitor.sln |
+
+**Output Files:**
+- `Test-AutoDocGeneration.log` - Execution log
+- `Test-AutoDocGeneration.results.json` - Structured results
+- `$env:OptPath\data\AutoDoc\extracted\` - MMD/SVG files
+
+---
+
+## AutoDocBatchRunner Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `$Regenerate` | `"std"` | Mode: `std`, `all`, `err`, `json`, `single` |
+| `$SingleFile` | `""` | File path for `-Regenerate single` mode |
+| `$CleanRegenerate` | `$true` | Full reset: removes tmp, .dat, git checkouts, clears _json/ |
+| `$MaxFilesPerType` | `0` | Limit files per type (0 = unlimited) |
+| `$ClientSideRender` | `$true` | Use client-side Mermaid.js rendering |
+| `$SaveMmdFiles` | `$true` | Save .mmd source files alongside HTML |
+| `$Parallel` | `$true` | Enable parallel processing |
+| `$ThreadPercentage` | `75` | Percentage of CPU cores for parallel |
+| `$OutputFolder` | `$env:OptPath\Webs\AutoDoc` | Output location |
+| `$QuickRun` | `$false` | Skip git clone (for testing) |
+| `$UseRamDisk` | `$false` | Use RAM disk (V:) for work files |
+| `$RamDiskSizeGB` | `4` | Size of RAM disk in GB |
+
+**Regeneration Modes:**
+- `std` - Only files changed since last run (default)
+- `all` - Regenerate everything
+- `err` - Only files with previous errors
+- `json` - Only regenerate JSON index files
+- `single` - Process only `$SingleFile`
+
+### CleanRegenerate Behavior
+
+When `CleanRegenerate` is set:
+1. ✅ Removes: `tmp/` folder, `.dat` file, git checkouts
+2. ✅ Removes: All `*.html`, `*.mmd`, `*.err` files (except `index.html`)
+3. ✅ Clears: `_json/` folder content (parser results regenerated)
+4. ❌ Preserves: `_css/`, `_js/`, `_images/` folders
+5. ❌ Preserves: `index.html`, `web.config`
+
+### RAM Disk Mode (-UseRamDisk)
+
+When `-UseRamDisk` is specified, AutoDoc uses a RAM disk on `V:` for faster I/O:
+
+**What uses RAM disk (V:\AutoDoc\):**
+- Git repository clones (`V:\AutoDoc\tmp\DedgeRepository\`)
+- Cobdok export files (`V:\AutoDoc\tmp\cobdok\`)
+- Temporary processing files
+- Thread-specific work folders
+
+**What stays on local disk ($env:OptPath\data\AutoDoc\):**
+- Output HTML files (Content folder)
+- Last execution info (.dat file)
+- JSON index files (_json folder)
+- Configuration files
+
+**Usage:**
+```powershell
+# Enable RAM disk with default 4 GB
+.\AutoDocBatchRunner.ps1 -Regenerate all -UseRamDisk
+
+# Enable RAM disk with custom size (8 GB)
+.\AutoDocBatchRunner.ps1 -Regenerate all -UseRamDisk -RamDiskSizeGB 8
+```
+
+**Requirements:**
+- Administrator privileges (for ImDisk installation/usage)
+- Sufficient RAM (4+ GB recommended)
+- Drive letter V: must be available
+
+**Fallback:**
+If RAM disk creation fails (insufficient RAM, V: in use, not admin), the script automatically falls back to the standard folder system and continues execution.
+
+---
+
+## Diagram Types by Template
+
+| Template | Diagram Types |
+|----------|---------------|
+| cblmmdtemplate.html | flow, sequence |
+| rexmmdtemplate.html | flow, sequence |
+| batmmdtemplate.html | flow, process |
+| ps1mmdtemplate.html | flow |
+| csharpmmdtemplate.html | ecosystem, flow, class, project, namespace, rest, process |
+
+---
+
+## Troubleshooting
+
+**JavaScript errors in generated HTML:**
+- Check if `[controlsscripturl]` is being replaced correctly
+- Verify `_js/` folder exists in output with all JS files
+- Check browser console for specific errors
+
+**Mermaid not rendering:**
+- Ensure `<pre class="mermaid">` tags are used (not `<div>`)
+- Check Mermaid CDN is accessible
+- Verify ESM module script is present
+- Check for "Maximum text size exceeded" → increase `maxTextSize`
+
+**Buttons not working:**
+- Check that external JS files loaded (Network tab)
+- Verify no console errors
+- Ensure svg-pan-zoom.js loaded before controls script
+
+**Images not showing:**
+- Verify `_images/` folder copied to output
+- Check image paths in generated HTML (`./_images/dedge.svg`)
+
+**Text invisible in diagrams:**
+- Mermaid 11 bug: foreignObject has 0x0 dimensions
+- Fix: `fixForeignObjectDimensions()` runs on page load
+- Also check for `translate(undefined, NaN)` in transforms
+
+**Dark mode lines not visible:**
+- Ensure `autodoc-mermaid-config.js` is loaded
+- Check `applyDarkModeLineStyles()` is being called
+- Verify theme variables are set in Mermaid config
+
+---
+
+## Browser Automation Testing
+
+When testing generated HTML pages, use a **temporary web server** and **browser automation** to verify all functionality:
+
+### Start Local Web Server
+
+```powershell
+# Start Python web server on output folder
+cd $env:OptPath\Webs\AutoDoc
+python -m http.server 8088
+
+# Access at: http://127.0.0.1:8088/
+```
+
+### Browser Testing Workflow
+
+1. **Start web server** on the output folder (port 8088)
+2. **Navigate** to the page using `browser_navigate`
+3. **Take snapshot** to get element references
+4. **Test all interactive elements:**
+   - Tab buttons (flow, sequence, process, etc.)
+   - Zoom controls (zoom in, zoom out, reset, fit)
+   - Theme toggle (light/dark mode)
+   - Fullscreen button
+   - Open in new window button
+5. **Check console** for JavaScript errors
+6. **Take screenshots** to verify visual appearance
+7. **Verify Mermaid diagrams** rendered (not raw text)
+
+### Elements to Verify
+
+| Element | Check |
+|---------|-------|
+| Logo (`_images/dedge.svg`) | Visible in header |
+| Favicon (`_images/dedge.ico`) | Browser tab icon |
+| CSS styles | Theme colors, fonts applied |
+| Mermaid diagrams | Rendered as SVG (not raw text) |
+| Tab switching | Diagrams change on click |
+| Zoom controls | Pan-zoom works |
+| Dark mode | Toggle works, lines visible |
+| Fullscreen | Opens overlay, diagram centered |
+
+### Testing Commands (MCP Browser Tools)
+
+```javascript
+// Navigate to page
+browser_navigate({ url: "http://127.0.0.1:8088/AABELMA.CBL.html" })
+
+// Get element references
+browser_snapshot()
+
+// Click tab button
+browser_click({ element: "Flow tab", ref: "e60" })
+
+// Check console for errors
+browser_console_messages()
+
+// Take screenshot
+browser_take_screenshot({ filename: "cbl-flow-diagram.png" })
+
+// Test zoom controls
+browser_click({ element: "Zoom in button", ref: "e65" })
+
+// Test dark mode
+browser_click({ element: "Dark mode button", ref: "e45" })
+```
+
+### Common Test Issues
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| `file://` URLs blocked | Security restriction | Use web server instead |
+| Cached old JS/CSS | Browser cache | Add `?v=timestamp` or hard refresh |
+| Elements not found | Dynamic loading | Wait for Mermaid to render |
+| Diagrams show raw text | Mermaid not initialized | Check CDN and ESM import |
+
+---
+
+## File Paths in Code
+
+### AutodocFunctions.psm1 Path Patterns
+
+```powershell
+# Templates folder
+$templatePath = Join-Path $PSScriptRoot "..\..\DevTools\LegacyCodeTools\AutoDoc\_templates"
+
+# CSS folder
+$cssFolder = Join-Path $sharedFolder "_css"
+$sharedCssPath = Join-Path $cssFolder "autodoc-shared.css"
+
+# Image paths (relative in output)
+$Template.Replace("[iconurl]", "./_images/dedge.ico")
+$Template.Replace("[imageurl]", "./_images/dedge.svg")
+
+# JS paths (relative in output, with cache bust)
+$Template.Replace("[controlsscripturl]", "./_js/autodoc-diagram-controls.js?v=$cacheBust")
+$Template.Replace("[mermaidconfigurl]", "./_js/autodoc-mermaid-config.js?v=$cacheBust")
+```
+
+### AutoDocBatchRunner.ps1 Copy Logic
+
+```powershell
+# Source folders (use underscore prefix)
+$jsSourceFolder = Join-Path $PSScriptRoot "_js"
+$cssSourceFolder = Join-Path $PSScriptRoot "_css"
+$imagesSourceFolder = Join-Path $PSScriptRoot "_images"
+$templatesSourceFolder = Join-Path $PSScriptRoot "_templates"
+
+# Target folders (same underscore prefix)
+$targetJsFolder = Join-Path $webFolderRoot "_js"
+$targetCssFolder = Join-Path $webFolderRoot "_css"
+$targetImagesFolder = Join-Path $webFolderRoot "_images"
+```
+
+---
+
+## Parser Functions (AutodocFunctions.psm1)
+
+Main parser entry points:
+
+| Function | Purpose | Input |
+|----------|---------|-------|
+| `Start-CblParse` | Parse COBOL source files | `.cbl` file path |
+| `Start-RexParse` | Parse Object REXX scripts | `.rex` file path |
+| `Start-Ps1Parse` | Parse PowerShell scripts | `.ps1` file path |
+| `Start-BatParse` | Parse Windows batch files | `.bat` file path |
+| `Start-SqlParse` | Parse SQL table definitions | Table name (SCHEMA.TABLE) |
+| `Start-CSharpParse` | Parse C# solution/project | `.sln` or `.csproj` path |
+| `Start-CSharpEcosystemParse` | Parse multi-project C# ecosystem | Root folder path |
+
+**Common Parameters:**
+- `-SourceFile` / `-SourceFolder` - Input path
+- `-OutputFolder` - Where to write HTML
+- `-Show` - Open in browser after generation
+- `-CleanUp` - Remove temp files
+- `-ClientSideRender` - Use Mermaid.js in browser
+- `-SaveMmdFiles` - Keep .mmd source files
+
+---
+
+## IIS Local Deployment (_deployLocalIIS.ps1)
+
+Deploy AutoDoc as IIS virtual application:
+
+```powershell
+# Deploy
+.\_deployLocalIIS.ps1 -Action Deploy
+
+# Check status
+.\_deployLocalIIS.ps1 -Action Status
+
+# Teardown
+.\_deployLocalIIS.ps1 -Action Teardown
+
+# Full redeploy with cleaning
+.\_deployLocalIIS.ps1 -Action Redeploy -CleanGeneratedFiles
+```
+
+**After deployment:** `http://localhost/AutoDoc/`
+
+---
+
+## Handler Functions (AutoDocBatchRunner.ps1)
+
+| Function | Purpose |
+|----------|---------|
+| `HandleCblFiles` | Process all COBOL files |
+| `HandleScriptFiles` | Process REX, BAT, PS1 files |
+| `HandleSqlTables` | Process SQL tables from DB2 |
+| `HandleCSharpProjects` | Process C# solutions |
+| `HandleCobdokExport` | Export metadata from cobdok database |
+| `CreateJsonFileCbl` | Generate CblParseResult.json |
+| `CreateJsonFileScript` | Generate ScriptParseResult.json |
+| `CreateJsonFileSql` | Generate SqlParseResult.json |
+| `CreateJsonFileCSharp` | Generate CSharpParseResult.json |
+
+---
+
+## Version History
+
+| Date | Change |
+|------|--------|
+| 2026-01-29 | Renamed all asset folders from `.` to `_` prefix for IIS compatibility |
+| 2026-01-27 | Added `-UseRamDisk` parameter for faster processing using RAM disk on V: |
+| 2026-01-26 | Refactored to `_css/`, `_js/`, `_images/`, `_templates/` subfolders |
+| 2026-01-25 | Added `fixInvalidTransforms()` for Mermaid 11 layout bugs |
+| 2026-01-24 | Added `fixForeignObjectDimensions()` for 0x0 text containers |
+| 2026-01-23 | Increased `maxTextSize` to 5,000,000 for large diagrams |
+| 2026-01-22 | Externalized JavaScript to `autodoc-diagram-controls.js` |

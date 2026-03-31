@@ -1,0 +1,69 @@
+-- 23.11.2022 MEH Lagt inn dbm.h_mek_tidsreg_trans også
+-- Kjørt for 2002 (< 2003) 30/1 2011
+-- Kjørt for 2003 (between 20030101 og 20031231) 10/12 2012
+-- Kjørt for 2004 (between 20040101 og 20041231) 17/06 2015
+-- Kjørt for 2005 (between 20050101 og 20051231) 26/12 2015
+-- Kjørt for 2006 (between 20060101 og 20061231) 27/12 2015
+-- Kjørt for 2007 (between 20070101 og 20071231) 15/01 2017 
+-- Kjørt for 2008 (between 20080101 og 20081231) 08/11 2017 
+-- Kjørt for 2009 (between 20090101 og 20091231) 09/08 2018 
+-- Kjøres for 2010 (between 20100101 og 20101231) 02/12 2018 
+-- Kjøres for 2011 (between 20110101 og 20111231) 19/12 2021 
+-- Kjøres for 2012 (between 20120101 og 20121231) 13/11 2022 
+-- Kjøres for 2013 (between 20130101 og 20131231) 01/10 2023 
+-- Kjøres for 2014 (between 20140101 og 20141231) 02/06 2024 
+-- Kjøres for 2015 (between 20150101 og 20151231) 16/03 2025 
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL og FILENAVN !!! 
+--delete from dbm.ah_ordre_til_hist;
+--CONNECT TO BASISPRO;  Byttet til BASISREG v. kjøring 01.12.2018 - ny server
+CONNECT TO BASISREG;
+TRUNCATE TABLE DBM.AH_ORDRE_TIL_HIST IMMEDIATE;
+--
+--          FROM DBM.AH_ORDREHODE WHERE OPPRETTET_DATO BETWEEN 20150101 AND 20151231;
+    EXPORT TO P:\tru\AH_ORDRE_FLYTTES_2015.ixf OF IXF
+         SELECT INT(OPPRETTET_DATO/10000), AVDNR, ORDRENR, CURRENT TIMESTAMP, ' '
+          FROM DBM.AH_ORDREHODE WHERE OPPRETTET_DATO <= 20151231;
+    LOAD FROM P:\tru\AH_ORDRE_FLYTTES_2015.ixf OF IXF REPLACE INTO DBM.AH_ORDRE_TIL_HIST      NONRECOVERABLE;
+    runstats on table dbm.ah_ordre_til_hist and indexes all;
+--
+  EXPORT TO P:\tru\AH_ORDREH2015.ixf OF IXF
+      SELECT t.aar, H.*
+       FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist T
+       WHERE H.AVDNR = T.AVDNR
+       AND   H.ORDRENR = T.ORDRENR;
+  EXPORT TO P:\tru\AH_ORDREL2015.ixf OF IXF
+      SELECT T.aar, L.*
+      FROM DBM.AH_ORDRELINJER L, dbm.ah_ordre_til_hist T 
+       WHERE L.AVDNR = T.AVDNR 
+       AND   L.ORDRENR = T.ORDRENR;
+  EXPORT TO P:\tru\AH_VERKSTEDHODE2015.ixf OF IXF
+      SELECT T.aar, M.*
+      FROM DBM.H_VERKSTEDHODE M, dbm.ah_ordre_til_hist T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR;
+  EXPORT TO P:\tru\AH_VERKSTED_TIMER2015.ixf OF IXF
+      SELECT T.AAR, M.*
+      FROM DBM.H_VERKSTED_TIMER M,  dbm.ah_ordre_til_hist T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR;
+  EXPORT TO P:\tru\AH_VERKSTEDTEKST2015.ixf OF IXF
+      SELECT t.aar, M.*
+      FROM DBM.H_VERKSTEDTEKST M,  dbm.ah_ordre_til_hist T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR;
+  EXPORT TO P:\tru\H_KASS_TRANSER2015.ixf OF IXF
+      SELECT t.aar, K.*
+      FROM DBM.kass_transer k,  dbm.ah_ordre_til_hist T
+      WHERE k.AVDNR = T.AVDNR
+        AND k.bilagNR = T.ORDRENR;
+  EXPORT TO P:\tru\mek_tidreg_trans2015.IXF OF IXF
+  SELECT h.aar, a.*
+    FROM DBM.MEK_TIDSREG_TRANS A
+       , dbm.ah_ordre_til_hist h
+           WHERE a.avdnr = h.avdnr
+         and   A.ORDRENR     = h.ORDRENR;
+//

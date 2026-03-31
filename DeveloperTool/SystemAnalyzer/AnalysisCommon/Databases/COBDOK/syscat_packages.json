@@ -1,0 +1,134 @@
+﻿{
+  "database": "COBDOK",
+  "db2Alias": "COBDOK",
+  "server": "DOCPRD",
+  "description": "CobDok document handling database",
+  "exportedAt": "2026-03-30T21:04:24",
+  "exportedBy": "FKGEISTA",
+  "query": "SELECT\r\n    TRIM(PKGSCHEMA)  AS PKGSCHEMA,\r\n    TRIM(PKGNAME)    AS PKGNAME,\r\n    TRIM(PKGNAME)    AS QUALIFIED_NAME,\r\n    TRIM(PKGNAME) || '.CBL' AS SOURCE_FILENAME\r\nFROM SYSCAT.PACKAGES\r\nWHERE PKGSCHEMA IN ('FK','FKPROC','LOG','HST','CRM','TV','F0001','TCA','INL','DBM','Dedge')\r\nORDER BY PKGSCHEMA, PKGNAME",
+  "summary": {
+    "totalPackages": 19,
+    "schemas": [
+      "DBM"
+    ],
+    "perSchema": {
+      "DBM": 19
+    }
+  },
+  "packages": [
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "dohcbld",
+      "qualifiedName": "dohcbld",
+      "sourceFilename": "dohcbld.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOACBLD",
+      "qualifiedName": "DOACBLD",
+      "sourceFilename": "DOACBLD.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOBCBLD",
+      "qualifiedName": "DOBCBLD",
+      "sourceFilename": "DOBCBLD.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOBMOLI",
+      "qualifiedName": "DOBMOLI",
+      "sourceFilename": "DOBMOLI.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCBLD",
+      "qualifiedName": "DOHCBLD",
+      "sourceFilename": "DOHCBLD.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK",
+      "qualifiedName": "DOHCHK",
+      "sourceFilename": "DOHCHK.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK2",
+      "qualifiedName": "DOHCHK2",
+      "sourceFilename": "DOHCHK2.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK3",
+      "qualifiedName": "DOHCHK3",
+      "sourceFilename": "DOHCHK3.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK4",
+      "qualifiedName": "DOHCHK4",
+      "sourceFilename": "DOHCHK4.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK5",
+      "qualifiedName": "DOHCHK5",
+      "sourceFilename": "DOHCHK5.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHCHK6",
+      "qualifiedName": "DOHCHK6",
+      "sourceFilename": "DOHCHK6.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "DOHSCAN",
+      "qualifiedName": "DOHSCAN",
+      "sourceFilename": "DOHSCAN.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "GMACNCT",
+      "qualifiedName": "GMACNCT",
+      "sourceFilename": "GMACNCT.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "GMACURT",
+      "qualifiedName": "GMACURT",
+      "sourceFilename": "GMACURT.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "GMASQLB",
+      "qualifiedName": "GMASQLB",
+      "sourceFilename": "GMASQLB.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "GMATITP",
+      "qualifiedName": "GMATITP",
+      "sourceFilename": "GMATITP.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "GMFTRAP",
+      "qualifiedName": "GMFTRAP",
+      "sourceFilename": "GMFTRAP.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "SQLKODE",
+      "qualifiedName": "SQLKODE",
+      "sourceFilename": "SQLKODE.CBL"
+    },
+    {
+      "pkgSchema": "DBM",
+      "pkgName": "TPBSCAN",
+      "qualifiedName": "TPBSCAN",
+      "sourceFilename": "TPBSCAN.CBL"
+    }
+  ]
+}

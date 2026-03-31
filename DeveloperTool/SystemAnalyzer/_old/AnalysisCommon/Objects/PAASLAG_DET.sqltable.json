@@ -1,0 +1,89 @@
+{
+  "tableName": "PAASLAG_DET",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:42:01",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:42:01",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "TIDSPUNKT_INIT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "VHGR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "LINJENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "PAASLAG_BELOP",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "PAASLAG_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "PAASLAG_TEKST",
+        "typeName": "VARCHAR",
+        "length": 256,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "PSLA_HODE",
+        "childColumn": "TIDSPUNKT_INIT",
+        "parentTable": "PAASLAG",
+        "parentSchema": "DBM",
+        "parentColumn": "TIDSPUNKT_INIT"
+      }
+    ]
+  }
+}

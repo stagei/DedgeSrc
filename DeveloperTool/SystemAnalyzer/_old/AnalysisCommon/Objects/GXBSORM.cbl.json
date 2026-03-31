@@ -1,0 +1,164 @@
+{
+  "program": "GXBSORM",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:40",
+  "extraction": {
+    "sourceHash": "sha256:45dc0684d86a4124392895fc8672c390e792a34f1804ccd7224b8c8d61c647ac",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GXBSORM.cbl",
+    "actualName": "GXBSORM",
+    "program": "GXBSORM",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "XIOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "XIOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FBLP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PLAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TILL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AX_AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_ORDREMOT_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_ORDREMOT_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XI_ORDREMOT_HODE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPPDATERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_BESTHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XI_ORDREMOT_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XI_ORDREMOT_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XI_ORDREMOT_LINJE",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_XI_ORDREMOT_LINJE",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_ORDREMOT_HODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_BESTHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_ORDREMOT_LINJE",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "XI_ORDREMOT_HODE",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMALAKT",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "GXBSORM.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GXBSORM.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:40"
+  }
+}

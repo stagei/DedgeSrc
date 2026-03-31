@@ -1,0 +1,79 @@
+{
+  "tableName": "BERITAK_HIST",
+  "futureName": "OrderHistory",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date of the event",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Identifier for the user who made the change",
+      "foreignKey": null
+    },
+    {
+      "name": "ITAK",
+      "futureName": "TransactionAmount",
+      "description": "Amount of the transaction",
+      "foreignKey": [
+        "PRISHISTORIKK"
+      ]
+    },
+    {
+      "name": "BERITAK_GML",
+      "futureName": "BaseAmount",
+      "description": "Base amount for the change",
+      "foreignKey": null
+    },
+    {
+      "name": "BERITAK_NY",
+      "futureName": "NewValue",
+      "description": "The new value after the change",
+      "foreignKey": null
+    },
+    {
+      "name": "BERITAKDATO",
+      "futureName": "ChangeDate",
+      "description": "Date of the change",
+      "foreignKey": [
+        "PRISHISTORIKK"
+      ]
+    },
+    {
+      "name": "KVANTUM_INN",
+      "futureName": "QuantityIn",
+      "description": "Quantity added to the inventory",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHOLDNING",
+      "futureName": "StockLevel",
+      "description": "Current stock level",
+      "foreignKey": [
+        "A_VAREAVD",
+        "D365_VAREAVD_HIST",
+        "FORSLAG_LINJE",
+        "FORSLAG_LOGG",
+        "JOHN_DEERE_PL",
+        "PARTI",
+        "RETURPLAST_BEH",
+        "TELL_BEHOLDNING",
+        "TELL_HT_BEHOLDNING",
+        "VAREAVD"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:48:03"
+}

@@ -1,0 +1,141 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
+  <Package Name="IIS Auto-Deploy Tray"
+           Language="1033"
+           Version="$(var.ProductVersion)"
+           Manufacturer="Dedge"
+           UpgradeCode="A4C8E219-5F3B-4D72-9A01-6E8F7C2D3B5A"
+           Compressed="yes">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of IIS Auto-Deploy Tray is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PRODUCT METADATA (visible in Add/Remove Programs)                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <Property Id="ARPCOMMENTS"      Value="System tray monitor for IIS auto-deployment. Watches DedgeWinApps staging and deploy templates, triggers IIS-DeployApp on changes. For internal use within Dedge AS." />
+    <Property Id="ARPCONTACT"       Value="IT-support, Dedge AS" />
+    <Property Id="ARPHELPLINK"      Value="https://www.Dedge.no" />
+    <Property Id="ARPURLINFOABOUT"  Value="https://www.Dedge.no" />
+    <Property Id="ARPHELPTELEPHONE" Value="+47 22 31 50 00" />
+
+    <!-- Kill any running instance before files are copied so nothing is locked -->
+    <util:CloseApplication Id="CloseExistingTray"
+                           Target="IIS-AutoDeploy.Tray.exe"
+                           CloseMessage="yes"
+                           RebootPrompt="no"
+                           TerminateProcess="0"
+                           Timeout="5" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- DIRECTORIES                                                         -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Directory structure uses ProgramFiles64Folder so WiX can auto-generate
+         component GUIDs. SetProperty overrides INSTALLFOLDER at runtime to
+         $env:OptPath\DedgeWinApps\IIS-AutoDeploy-Tray\ (AppLocker-approved). -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="IIS-AutoDeploy-Tray" />
+    </StandardDirectory>
+
+    <SetProperty Id="INSTALLFOLDER"
+                 Value="[%OptPath]\DedgeWinApps\IIS-AutoDeploy-Tray\"
+                 Before="AppSearch"
+                 Sequence="both" />
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="AppMenuFolder" Name="Dedge" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder" />
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- COMPONENTS                                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <ComponentGroup Id="Shortcuts" Directory="AppMenuFolder">
+      <Component Id="StartMenuShortcut" Guid="1A2B3C4D-E5F6-7890-AB12-CD3456789EF0">
+        <Shortcut Id="AppStartMenuShortcut"
+                  Name="IIS Auto-Deploy Tray"
+                  Description="System tray monitor for IIS auto-deployment"
+                  Target="[INSTALLFOLDER]IIS-AutoDeploy.Tray.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="TrayIcon" />
+        <RemoveFolder Id="RemoveAppMenuFolder" Directory="AppMenuFolder" On="uninstall" />
+        <RegistryValue Root="HKCU"
+                       Key="Software\Dedge\IISAutoDeployTray"
+                       Name="StartMenuInstalled"
+                       Type="integer" Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="DesktopShortcuts" Directory="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="2B3C4D5E-F6A7-8901-BC23-DE4567890FA1">
+        <Shortcut Id="AppDesktopShortcut"
+                  Name="IIS Auto-Deploy Tray"
+                  Description="System tray monitor for IIS auto-deployment"
+                  Target="[INSTALLFOLDER]IIS-AutoDeploy.Tray.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="TrayIcon" />
+        <RegistryValue Root="HKCU"
+                       Key="Software\Dedge\IISAutoDeployTray"
+                       Name="DesktopInstalled"
+                       Type="integer" Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="AutoStart" Directory="INSTALLFOLDER">
+      <Component Id="AutoStartEntry" Guid="3C4D5E6F-A7B8-9012-CD34-EF5678901AB2">
+        <RegistryValue Root="HKCU"
+                       Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+                       Name="IIS Auto-Deploy Tray"
+                       Type="string"
+                       Value="[INSTALLFOLDER]IIS-AutoDeploy.Tray.exe"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FEATURE                                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <Feature Id="ProductFeature" Title="IIS Auto-Deploy Tray" Level="1">
+      <ComponentGroupRef Id="TrayAppFiles" />
+      <ComponentGroupRef Id="Shortcuts" />
+      <ComponentGroupRef Id="DesktopShortcuts" />
+      <ComponentGroupRef Id="AutoStart" />
+    </Feature>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- CUSTOM ACTION                                                       -->
+    <!-- Launch the tray app immediately after install (fire and forget)     -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <CustomAction Id="LaunchTrayApp"
+                  Directory="INSTALLFOLDER"
+                  Execute="immediate"
+                  Return="asyncNoWait"
+                  ExeCommand="&quot;[INSTALLFOLDER]IIS-AutoDeploy.Tray.exe&quot;" />
+
+    <InstallExecuteSequence>
+      <Custom Action="LaunchTrayApp" After="InstallFinalize" Condition="NOT Installed AND NOT REMOVE" />
+    </InstallExecuteSequence>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- UI                                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <Icon Id="TrayIcon" SourceFile="..\IIS-AutoDeploy.Tray\dedge.ico" />
+    <Property Id="ARPPRODUCTICON" Value="TrayIcon" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+  </Package>
+
+</Wix>

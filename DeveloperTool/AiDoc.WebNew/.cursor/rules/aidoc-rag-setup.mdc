@@ -1,0 +1,176 @@
+﻿---
+description: How to set up and use all MCP servers (RAG, DB2 Query, PostgreSQL, AutoDoc) in Cursor and Ollama
+alwaysApply: false
+---
+
+# MCP Servers — Setup and Usage
+
+All MCP servers for Cursor and Ollama are managed from a single location:
+
+```
+C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\
+```
+
+## One-Time Setup (all servers at once)
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Setup-AllMcpServers.ps1"
+```
+
+Detects whether Cursor and/or Ollama is installed, runs all relevant setup scripts, and reports a summary. Restart Cursor after running.
+
+To run setup only (skip tests):
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Setup-AllMcpServers.ps1" -SkipTest
+```
+
+## Test All Servers
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AllMcpServers\Test-AllMcpServers.ps1"
+```
+
+Runs pre-flight checks (mcp.json validation, endpoint connectivity) then tests each server individually.
+
+---
+
+## Available MCP Servers
+
+| Cursor Server Name | Type | Backend | Description |
+|----|----|----|---|
+| `db2-docs` | RAG stdio proxy | `dedge-server:8484` | DB2 12.1 LUW manuals |
+| `visual-cobol-docs` | RAG stdio proxy | `dedge-server:8485` | Visual COBOL 11 compiler messages |
+| `Dedge-code` | RAG stdio proxy | `dedge-server:8486` | Dedge source code and DB2 schemas |
+| `db2-query` | HTTP (IIS) | `dedge-server/CursorDb2McpServer/` | Read-only DB2 SQL queries |
+| `postgresql-query` | stdio (Node.js) | `t-no1fkxtst-db:8432` | Read-only PostgreSQL queries |
+| `autodoc-query` | HTTP (IIS) | `dedge-server/AutoDocJson/mcp` | AutoDoc JSON document search |
+
+---
+
+## Individual Setup Scripts
+
+### RAG Servers (db2-docs, visual-cobol-docs, Dedge-code)
+
+```powershell
+# Setup
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1"
+
+# Test
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Test-RagMcpCursor.ps1"
+
+# Revert mcp.json to pre-RAG state
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpCursor\Setup-RagMcpCursor.ps1" -Revert
+```
+
+Fetches RAG config from `http://dedge-server/AiDocNew/api/Rags/setup/cursor-mcp`, creates a Python venv at `~/.cursor/rag-proxy/`, and updates `~/.cursor/mcp.json`.
+
+### DB2 Query
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpCursor\Setup-Db2QueryMcpCursor.ps1"
+```
+
+### PostgreSQL
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-PostgreSqlMcpCursor\Setup-PostgreSqlMcpCursor.ps1"
+```
+
+### AutoDoc
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-AutoDocMcpCursor\Setup-AutoDocMcpCursor.ps1"
+```
+
+---
+
+## Ollama Setup
+
+```powershell
+# RAG search via Ask-Rag
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-RagMcpOllama\Setup-RagMcpOllama.ps1"
+
+# DB2 queries via Ollama
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-Db2QueryMcpOllama\Setup-Db2QueryMcpOllama.ps1"
+```
+
+Restart PowerShell, then use:
+
+```powershell
+Ask-Rag "What does SQL30082N reason code 36 mean?"
+Ask-Rag "COBCH0779 error" -Rag visual-cobol-docs
+Ask-Rag "Deploy-Files" -Rag Dedge-code
+```
+
+---
+
+## Using RAGs in Cursor Chat
+
+Each RAG appears as an MCP server with a `query_docs` tool. The agent calls them automatically based on the question topic:
+
+- **DB2 questions** (SQL errors, security, configuration) → `db2-docs`
+- **Visual COBOL questions** (compiler messages, language reference) → `visual-cobol-docs`
+- **Dedge code questions** (where is a function, schema layout) → `Dedge-code`
+
+Do not use `db2-docs` for COBOL questions or vice versa.
+
+---
+
+## RAG Health Endpoints
+
+Each RAG Python service exposes two health checks on `dedge-server`:
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /health` | Shallow liveness — process is alive |
+| `GET /ready` | Deep readiness — ChromaDB collection is openable (use this to verify the venv is functional) |
+
+```powershell
+Invoke-RestMethod "http://dedge-server:8484/ready"  # db2-docs
+Invoke-RestMethod "http://dedge-server:8485/ready"  # visual-cobol-docs
+Invoke-RestMethod "http://dedge-server:8486/ready"  # Dedge-code
+```
+
+---
+
+## How RAG Access Works
+
+RAG services run as Python HTTP servers (NSSM Windows Services) on `dedge-server` (ports 8484-8486). They are unauthenticated. The Cursor MCP proxy (`~/.cursor/rag-proxy/server_mcp_proxy.py`) forwards queries over HTTP, bypassing the C# API entirely.
+
+```
+Developer Machine                          dedge-server
+┌──────────────────┐                      ┌──────────────────┐
+│ Cursor IDE       │                      │ Python HTTP RAGs  │
+│  └─ MCP proxy ───┼── HTTP :8484-8486 ──►│  db2-docs         │
+│     (stdio)      │                      │  visual-cobol-docs│
+│                  │                      │  Dedge-code      │
+│ PowerShell       │                      │                   │
+│  └─ Ask-Rag ─────┼── HTTP :8484-8486 ──►│  (ChromaDB +      │
+│     + Ollama     │                      │   ONNX embedding) │
+└──────────────────┘                      └──────────────────┘
+```
+
+NSSM services: `AiDocRagDb2` (8484), `AiDocRagCobol` (8485), `AiDocRagCode` (8486)  
+Management UI: `http://dedge-server/AiDocNew`  
+Registry endpoint: `http://dedge-server:8484/rags`
+
+## If a RAG is broken (HTTP 500 / "No module named 'chromadb'")
+
+The Python venv on the server is missing packages. Run the recovery script:
+
+```powershell
+# Via orchestrator (from dev machine)
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+Invoke-ServerCommand -ServerName 'dedge-server' `
+    -Command '%OptPath%\DedgeWinApps\AiDocNew-Web\scripts\Fix-VenvAndRestart.ps1' `
+    -Project 'aidoc-fix' -Timeout 300
+```
+
+## Prerequisites
+
+- Windows 11 / Windows Server 2025
+- PowerShell 7+ (`pwsh.exe`)
+- Python 3.11+ (RAG Cursor setup only)
+- Node.js (PostgreSQL MCP setup only)
+- Ollama installed from [ollama.com](https://ollama.com) (Ollama setup only)
+- Network access to `dedge-server`

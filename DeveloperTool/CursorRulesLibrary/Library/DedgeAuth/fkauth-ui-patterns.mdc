@@ -1,0 +1,87 @@
+﻿---
+description: Standard UI patterns for modal dialogs and search components in DedgeAuth consumer apps
+globs:
+  - "**/wwwroot/**/*.html"
+  - "**/wwwroot/**/*.css"
+  - "**/wwwroot/**/js/**/*.js"
+alwaysApply: false
+---
+
+# DedgeAuth Consumer App UI Patterns
+
+When adding or changing **modal dialogs** or **search history / search dialogs**, follow these standard patterns so tenant/fallback CSS applies consistently across all consumer apps.
+
+## Modal Dialog Pattern
+
+### HTML Structure
+
+```html
+<div class="modal-overlay hidden" id="myModal">
+  <div class="modal-container modal-md">
+    <div class="modal-header">
+      <h2 class="modal-title">Dialog Title</h2>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Dialog content -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-action="cancel">Cancel</button>
+      <button class="btn btn-primary" data-action="confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+```
+
+### Size Classes on `.modal-container`
+
+| Class | Width |
+|-------|-------|
+| `modal-sm` | 400px |
+| `modal-md` | 600px |
+| `modal-lg` | 900px |
+| `modal-fullscreen` | Full viewport |
+
+### Behavior
+
+- Toggle visibility with class `hidden` or `active`/`show` on the overlay
+- Close on: close button click, overlay click, Escape key
+- Optionally trap focus and restore body scroll
+
+### CSS Rule
+
+Do **not** redefine `.modal-overlay`, `.modal-container`, `.modal-header`, `.modal-close`, `.modal-body`, `.modal-footer`, or the modal size classes in app-local CSS. These are provided by tenant/fallback theme.
+
+## Search History Dropdown Pattern
+
+### HTML Structure
+
+```html
+<div class="search-history-container">
+  <button class="search-history-trigger">Recent</button>
+  <div class="search-history-dropdown hidden">
+    <div class="search-history-item">
+      <span class="search-history-text">Previous search term</span>
+      <span class="search-history-time">2 min ago</span>
+    </div>
+    <div class="search-history-empty">No recent searches</div>
+    <button class="search-history-clear">Clear history</button>
+  </div>
+</div>
+```
+
+### Behavior
+
+- Toggle dropdown visibility with `hidden` class
+- Close on click outside the container
+
+### CSS Rule
+
+Do **not** redefine search-history classes in app CSS. These are provided by tenant/fallback theme.
+
+## Reference Implementation
+
+GenericLogHandler serves as the canonical reference:
+- `wwwroot/log-search.html` -- search page with modal and history
+- `wwwroot/js/components/modal.js` -- modal component
+- `wwwroot/js/log-search.js` -- search with history

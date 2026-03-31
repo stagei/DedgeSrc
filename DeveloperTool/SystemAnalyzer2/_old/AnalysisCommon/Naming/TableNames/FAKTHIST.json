@@ -1,0 +1,76 @@
+{
+  "tableName": "FAKTHIST",
+  "futureName": "FactHistory",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionCode",
+      "description": "Division code",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PRINT",
+      "futureName": "PrintFlag",
+      "description": "Print flag indicating if the document should be printed",
+      "foreignKey": null
+    },
+    {
+      "name": "EDI",
+      "futureName": "EdiFlag",
+      "description": "EDI flag indicating Electronic Data Interchange usage for this order",
+      "foreignKey": null
+    },
+    {
+      "name": "EPOST",
+      "futureName": "EmailFlag",
+      "description": "Email flag indicating if email notifications should be sent for this order",
+      "foreignKey": null
+    },
+    {
+      "name": "EFAKTURA",
+      "futureName": "ElectronicInvoiceFlag",
+      "description": "eFaktura flag indicating if e-invoicing is enabled for this order",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALEGIRO",
+      "futureName": "AgreedPaymentFlag",
+      "description": "Agreed payment flag, possibly related to a specific payment agreement or method",
+      "foreignKey": null
+    },
+    {
+      "name": "AUTOGIRO",
+      "futureName": "AutoPaymentFlag",
+      "description": "Automatic payment flag indicating if automatic payments are enabled for this order",
+      "foreignKey": null
+    },
+    {
+      "name": "LOKAL_UTSKRIFT",
+      "futureName": "LocalPrintingFlag",
+      "description": "Local printing flag, indicating if the document should be printed locally or remotely",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTUDATO_SENTRAL",
+      "futureName": "CentralInvoiceDate",
+      "description": "Central invoice date, likely related to when the central system processed the order or issued an invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRTYPE",
+      "futureName": "OrderType",
+      "description": "Type of order, distinguishing between different types of orders (e.g., sales, purchase)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:21:31"
+}

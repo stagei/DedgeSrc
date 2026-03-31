@@ -1,0 +1,81 @@
+{
+  "program": "ILVMKTO",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:00335927d8eaceb95006d12bb60e14e4808704f6dd3da8a8139f9cabee1f2ff2",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilvmkto.cbl",
+    "actualName": "ILVMKTO",
+    "program": "ILVMKTO",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILFI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILHMKTO.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FORNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KONTOTYPE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "program": "GMAAKTI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:35",
+  "extraction": {
+    "sourceHash": "sha256:8a844e6095511497c71cc4fb9fec7d94dcfb81a22498736cc1f266b5c2df41cc",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAAKTI.CBL",
+    "actualName": "GMAAKTI",
+    "program": "GMAAKTI",
+    "copyElements": [
+      {
+        "name": "AKTI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAAKTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKTIV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AKTIVISER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:35"
+  }
+}

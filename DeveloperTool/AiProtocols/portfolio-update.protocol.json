@@ -1,0 +1,27 @@
+{
+  "id": "portfolio-update",
+  "description": "Regenerate the master Dedge-Business-Portfolio.md from all per-product docs and project catalog",
+  "model": "claude-sonnet-4-20250514",
+  "mode": "ask",
+  "outputFormat": "text",
+  "noMcp": false,
+  "force": false,
+  "promptTemplate": "portfolio-update.prompt.md",
+  "placeholders": {
+    "TotalProducts": "count from all-projects.json",
+    "ProductListJson": "JSON string of all products (name, category, description)",
+    "ExistingPortfolioPath": "path to current Dedge-Business-Portfolio.md"
+  },
+  "contextFiles": ["{{ExistingPortfolioPath}}"],
+  "contextFolder": "_BusinessDocs",
+  "workspacePath": null,
+  "validation": {
+    "responseFormat": "markdown",
+    "requiredFields": null,
+    "minArrayLength": null
+  },
+  "output": {
+    "markdownPath": "_BusinessDocs/Dedge-Business-Portfolio.md",
+    "skipIfExists": false
+  }
+}

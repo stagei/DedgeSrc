@@ -1,0 +1,158 @@
+# Column Name Translation Registry
+
+## Purpose
+
+Build a cross-analysis translation registry that maps each legacy DB2 column name to a modern CamelCase C# property name, a unified English description (`finalContext`), and per-analysis context entries showing how each analysis profile interprets the column.
+
+This protocol has two roles:
+
+1. **Per-table column naming** — Generate CamelCase property names and descriptions for all columns in a given table. These are saved as `columns[]` inside `TableNames/{TABLE}.json` and individually upserted into the column registry.
+
+2. **Cross-analysis conflict resolution** — When a second analysis encounters a column already in the registry with a different description, the `Naming-ColumnConflict.mdc` protocol resolves the conflict.
+
+## When to Use
+
+During Phase 8f, after table naming succeeds. For each table where column naming has not yet been done (the `TableNames/{TABLE}.json` file has an empty `columns[]` array), invoke this protocol.
+
+## Per-Table Column Naming Prompt
+
+```
+You are analyzing columns of a legacy DB2 table for modernization to C#.
+Generate a CamelCase property name and English description for EACH column.
+Also identify any foreign key relationships (explicit or inferred).
+
+TABLE: {TableName} (Future C# name: {FutureTableName})
+TABLE COMMENT (Norwegian): {TableRemarks}
+
+COLUMNS:
+| # | Name | Type | Length | Nullable | Comment (Norwegian) |
+{ColumnGrid}
+
+EXPLICIT FOREIGN KEYS (from DB2 catalog):
+{ExplicitFKs}
+
+COLUMN NAME MATCHES (same column name appears in these other tables):
+{ColumnMatches}
+
+COBOL USAGE (from source code — shows JOINs and WHERE clauses):
+{RagSnippets}
+
+For EACH column, provide:
+1. A CamelCase C# property name (PascalCase, no abbreviations)
+2. An English description of what the column contains
+3. If the column is a foreign key (explicit or inferred from name match + usage),
+   specify the target table and column, with confidence level
+
+IMPORTANT:
+- Norwegian comments are hints: "Kundenummer" = customer number, "Ordrenummer" = order number
+- Column names like KUNDNR, AVDNR, VARENR typically reference master tables (KUNDE, AVDELING, VARE)
+- Columns ending in NR, DATO, BELOP, KODE are number, date, amount, code respectively
+- Use high confidence for explicit DB2 FKs, medium for name+usage match, low for name-only match
+
+Respond with EXACTLY one JSON object (no markdown, no explanation):
+{"columns":[{"name":"ORDRNR","futureName":"OrderNumber","description":"Unique order identifier","foreignKey":null}]}
+
+JSON:
+{"columns":[
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{TableName}` | The legacy DB2 table name |
+| `{FutureTableName}` | CamelCase name from table naming step (or "unknown") |
+| `{TableRemarks}` | Norwegian REMARKS from SYSCAT.TABLES |
+| `{ColumnGrid}` | Markdown table with all column metadata |
+| `{ExplicitFKs}` | List of DB2 FK constraints from `.sqltable.json`, or "None" |
+| `{ColumnMatches}` | Per column: `KUNDNR -> also in: KUNDE, FAKTURA, ORDRELINJER` |
+| `{RagSnippets}` | RAG code excerpts showing JOIN/WHERE patterns |
+
+## Per-Table Response Format
+
+```json
+{
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDNR",
+      "futureName": "CustomerNumber",
+      "description": "Reference to customer who placed the order",
+      "foreignKey": {
+        "targetTable": "KUNDE",
+        "targetColumn": "KUNDNR",
+        "confidence": "high",
+        "evidence": "Explicit DB2 FK + column name match + JOIN in BDHETIK.CBL"
+      }
+    }
+  ]
+}
+```
+
+## Column Registry File Format
+
+After per-table column naming, each column is upserted into `ColumnNames/{COLUMN}.json`:
+
+```json
+{
+  "originalName": "AVDNR",
+  "futureName": "DepartmentNumber",
+  "finalContext": "Numeric department/branch identifier. Foreign key to Z_AVDTAB. Used across ordering, inventory, and accounting to scope data to a physical location.",
+  "contexts": [
+    {
+      "analysis": "CobDok",
+      "description": "Department number for COBDOK documentation module ownership",
+      "analyzedAt": "2026-03-26T11:00:00"
+    },
+    {
+      "analysis": "FkKonto",
+      "description": "Department number for accounting transactions and cost center allocation",
+      "analyzedAt": "2026-03-26T14:30:00"
+    }
+  ],
+  "usedInTables": ["A_BESTHODE", "A_ORDREHODE", "Z_AVDTAB", "TILGBRUKER"],
+  "isTypicalForeignKey": true,
+  "typicalTarget": "Z_AVDTAB.AVDNR",
+  "model": "qwen2.5:7b",
+  "lastResolvedAt": "2026-03-26T14:31:00"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `originalName` | string | Original DB2 column name (uppercase) |
+| `futureName` | string | CamelCase C# property name |
+| `finalContext` | string | Unified description resolved across all analyses |
+| `contexts[]` | array | Per-analysis descriptions with timestamps |
+| `contexts[].analysis` | string | Analysis profile alias (e.g. "CobDok") |
+| `contexts[].description` | string | How this analysis interprets the column |
+| `contexts[].superseded` | bool | If true, this context was determined to be wrong |
+| `usedInTables` | array | All tables containing this column |
+| `isTypicalForeignKey` | bool | Whether this column commonly acts as a FK |
+| `typicalTarget` | string | Most common FK target (e.g. "Z_AVDTAB.AVDNR") |
+| `lastResolvedAt` | string | Timestamp of last conflict resolution |
+
+## Cache Location
+
+- Per-table columns: embedded in `AnalysisCommon/Naming/TableNames/{TABLENAME}.json`
+- Cross-analysis registry: `AnalysisCommon/Naming/ColumnNames/{COLUMNNAME}.json`
+
+## Upsert Logic
+
+When a column is processed:
+1. **New column** (no registry entry): create `ColumnNames/{COLUMN}.json` with single context
+2. **Existing, similar description**: add analysis tag to `contexts[]`, keep `finalContext`
+3. **Existing, different description**: invoke `Naming-ColumnConflict.mdc` protocol to resolve
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` (Ollama) — handles well when Norwegian comments are present
+- **Better model**: Claude Sonnet/Opus — significantly better at FK inference from COBOL patterns
+- Norwegian column comments are the strongest naming signal
+- Cross-table column index is the strongest FK signal
+- Tables with many columns (30+) may need source truncation to fit token limits

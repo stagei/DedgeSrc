@@ -1,0 +1,167 @@
+{
+  "technologies": [
+    {
+      "technologyId": "cobol",
+      "vendors": [
+        {
+          "vendorId": "rocket",
+          "vendorName": "Rocket Software",
+          "products": [
+            {
+              "productId": "visual-cobol",
+              "productName": "Rocket Visual COBOL",
+              "versions": ["7.0", "8.0", "9.0", "10.0", "11.0"],
+              "platforms": [
+                "windows-x64", "windows-x86",
+                "linux-x64", "linux-arm64",
+                "aix-ppc64", "solaris-sparc"
+              ],
+              "ides": ["visual-studio", "eclipse", "vscode"],
+              "runtimes": [".net", "jvm", "native"],
+              "analyzerClass": "RocketVisualCobolAnalyzer",
+              "implemented": true
+            },
+            {
+              "productId": "enterprise-developer",
+              "productName": "Rocket Enterprise Developer",
+              "versions": ["7.0", "8.0", "9.0", "10.0", "11.0"],
+              "platforms": ["windows-x64"],
+              "analyzerClass": "RocketVisualCobolAnalyzer",
+              "implemented": true,
+              "note": "Shares analyzer with Visual COBOL (superset IDE)"
+            },
+            {
+              "productId": "cobol-server",
+              "productName": "Rocket COBOL Server",
+              "versions": ["7.0", "8.0", "9.0", "10.0", "11.0"],
+              "platforms": ["windows-x64", "linux-x64"],
+              "analyzerClass": "RocketVisualCobolAnalyzer",
+              "implemented": true,
+              "note": "Runtime-only, analysis uses same patterns"
+            }
+          ]
+        },
+        {
+          "vendorId": "ibm",
+          "vendorName": "IBM",
+          "products": [
+            {
+              "productId": "enterprise-cobol-zos",
+              "productName": "IBM Enterprise COBOL for z/OS",
+              "versions": ["3.x", "4.x", "5.1", "5.2", "6.1", "6.2", "6.3", "6.4", "6.5"],
+              "platforms": ["zos"],
+              "analyzerClass": "IbmEnterpriseCobolAnalyzer",
+              "implemented": false,
+              "notes": "z/OS JCL integration, CICS, IMS, VSAM, DB2 for z/OS"
+            },
+            {
+              "productId": "cobol-aix",
+              "productName": "IBM COBOL for AIX",
+              "versions": ["5.1"],
+              "platforms": ["aix-ppc64"],
+              "analyzerClass": "IbmCobolAixAnalyzer",
+              "implemented": false
+            },
+            {
+              "productId": "cobol-linux-x86",
+              "productName": "IBM COBOL for Linux on x86",
+              "versions": ["1.1", "1.2"],
+              "platforms": ["linux-x64"],
+              "analyzerClass": "IbmCobolLinuxAnalyzer",
+              "implemented": false
+            },
+            {
+              "productId": "cobol-os390-vm",
+              "productName": "IBM COBOL for OS/390 & VM",
+              "versions": ["legacy"],
+              "platforms": ["os390", "zvm"],
+              "analyzerClass": "IbmEnterpriseCobolAnalyzer",
+              "implemented": false,
+              "note": "Legacy — use Enterprise COBOL analyzer as baseline"
+            }
+          ]
+        },
+        {
+          "vendorId": "fujitsu",
+          "vendorName": "Fujitsu",
+          "products": [
+            {
+              "productId": "netcobol-windows",
+              "productName": "Fujitsu NetCOBOL for Windows",
+              "versions": ["12.x"],
+              "platforms": ["windows-x64", "windows-x86"],
+              "analyzerClass": "FujitsuNetCobolAnalyzer",
+              "implemented": false
+            },
+            {
+              "productId": "netcobol-dotnet",
+              "productName": "Fujitsu NetCOBOL for .NET",
+              "versions": ["6.x"],
+              "platforms": ["windows-x64"],
+              "analyzerClass": "FujitsuNetCobolAnalyzer",
+              "implemented": false
+            },
+            {
+              "productId": "netcobol-linux",
+              "productName": "Fujitsu NetCOBOL for Linux",
+              "versions": ["10.x"],
+              "platforms": ["linux-x64"],
+              "analyzerClass": "FujitsuNetCobolAnalyzer",
+              "implemented": false
+            }
+          ]
+        },
+        {
+          "vendorId": "gnu",
+          "vendorName": "GnuCOBOL (Open Source)",
+          "products": [
+            {
+              "productId": "gnucobol",
+              "productName": "GnuCOBOL",
+              "versions": ["3.x"],
+              "platforms": ["windows-x64", "linux-x64", "macos-x64", "macos-arm64"],
+              "analyzerClass": "GnuCobolAnalyzer",
+              "implemented": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "technologyId": "powershell",
+      "vendors": [
+        {
+          "vendorId": "microsoft",
+          "vendorName": "Microsoft",
+          "products": [
+            { "productId": "pwsh7", "productName": "PowerShell 7+", "versions": ["7.x"], "platforms": ["windows-x64", "linux-x64"], "analyzerClass": "PowerShellAnalyzer", "implemented": true }
+          ]
+        }
+      ]
+    },
+    {
+      "technologyId": "csharp",
+      "vendors": [
+        {
+          "vendorId": "microsoft",
+          "vendorName": "Microsoft",
+          "products": [
+            { "productId": "dotnet", "productName": ".NET SDK", "versions": ["8.0", "9.0", "10.0"], "platforms": ["windows-x64", "linux-x64"], "analyzerClass": "CSharpAnalyzer", "implemented": true }
+          ]
+        }
+      ]
+    },
+    {
+      "technologyId": "python",
+      "vendors": [{ "vendorId": "python", "vendorName": "Python Software Foundation", "products": [{ "productId": "cpython", "productName": "CPython", "versions": ["3.x"], "platforms": ["any"], "analyzerClass": "PythonAnalyzer", "implemented": false }] }]
+    },
+    {
+      "technologyId": "node",
+      "vendors": [{ "vendorId": "openjs", "vendorName": "OpenJS Foundation", "products": [{ "productId": "nodejs", "productName": "Node.js", "versions": ["20.x", "22.x"], "platforms": ["any"], "analyzerClass": "NodeAnalyzer", "implemented": false }] }]
+    },
+    {
+      "technologyId": "go",
+      "vendors": [{ "vendorId": "google", "vendorName": "Google", "products": [{ "productId": "go", "productName": "Go", "versions": ["1.21+"], "platforms": ["any"], "analyzerClass": "GoAnalyzer", "implemented": false }] }]
+    }
+  ]
+}

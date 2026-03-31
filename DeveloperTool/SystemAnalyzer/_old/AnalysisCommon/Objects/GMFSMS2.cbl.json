@@ -1,0 +1,130 @@
+{
+  "program": "GMFSMS2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:12",
+  "extraction": {
+    "sourceHash": "sha256:4fd27765a1eb232e4cd1ae1a23e5243eb27a467db63fbac4273eaf7f51f5d3bf",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFSMS2.CBL",
+    "actualName": "GMFSMS2",
+    "program": "GMFSMS2",
+    "copyElements": [
+      {
+        "name": "GMFSMS2.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFPTH.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SMSM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SMSA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUFI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFSMS2.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "MAIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AD_BRUKER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMVSMS2",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMASMSS",
+      "GMASEMA",
+      "GMAOSNT",
+      "GMAPATH",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "EPOST-FIL",
+        "physicalName": "ww-epost-fil",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "EPOST-BAT-FIL",
+        "physicalName": "ww-epost-bat-fil",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:22:12"
+  }
+}

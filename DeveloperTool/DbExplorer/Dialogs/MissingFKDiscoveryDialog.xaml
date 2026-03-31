@@ -1,0 +1,292 @@
+<Window x:Class="DbExplorer.Dialogs.MissingFKDiscoveryDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Missing FK Discovery"
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Width="1170"
+        Height="750"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Text="Missing Foreign Key Discovery" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+        
+        <!-- Tab Control for Configuration and Job Progress -->
+        <TabControl Grid.Row="1" x:Name="MainTabControl">
+            <!-- Configuration Tab -->
+            <TabItem Header="Configuration">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Left Panel: Table Selection -->
+            <GroupBox Grid.Column="0" Header="Available Tables" Margin="0,0,5,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Schema Dropdown and Search -->
+                    <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="Schema:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox x:Name="SchemaComboBox" Width="150" Margin="0,0,20,0" SelectionChanged="SchemaComboBox_SelectionChanged"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Search:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox x:Name="SearchTypeComboBox" Width="120" Margin="0,0,5,0" SelectionChanged="SearchTypeComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Table Name" Tag="TableName" IsSelected="True"/>
+                                <ComboBoxItem Content="Column Name" Tag="ColumnName"/>
+                            </ComboBox>
+                            <ComboBox x:Name="PatternTypeComboBox" Width="100" Margin="0,0,5,0">
+                                <ComboBoxItem Content="Standard" Tag="Standard" IsSelected="True"/>
+                                <ComboBoxItem Content="Regex" Tag="Regex"/>
+                            </ComboBox>
+                            <TextBox x:Name="SearchTextBox" ui:ControlHelper.PlaceholderText="Enter search pattern..." Width="200" Margin="0,0,5,0" TextChanged="SearchTextBox_TextChanged"/>
+                            <Button x:Name="SearchHistoryButton" Content="📋" Width="44" MinWidth="44" ToolTip="Load previous search pattern" Click="SearchHistoryButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Content="Add Selected" Click="AddSelected_Click" Padding="8,4" Margin="0,0,5,0"/>
+                        <Button Content="Add All in Schema" Click="AddAllInSchema_Click" Padding="8,4" Margin="0,0,5,0"/>
+                        <Button x:Name="AddAllFromSearchButton" Content="Add All from Search" Click="AddAllFromSearch_Click" 
+                                Padding="8,4" Margin="0,0,5,0" ToolTip="Add all tables matching the current search filter"/>
+                        <Button Content="Remove Selected" Click="RemoveSelected_Click" Padding="8,4"/>
+                    </StackPanel>
+                    
+                    <!-- Table List -->
+                    <Border Grid.Row="3" BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" Padding="5">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="TablesList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="5,4">
+                                            <TextBlock Text="{Binding FullName}" FontSize="13"/>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                    
+                    <!-- Selection Count -->
+                    <TextBlock Grid.Row="4" x:Name="LeftSelectionCountText" Margin="0,5,0,0" FontSize="12" Foreground="#AAAAAA"/>
+                </Grid>
+            </GroupBox>
+            
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+            
+            <!-- Right Panel: Selected Tables -->
+            <GroupBox Grid.Column="2" Header="Selected Tables" Margin="5,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Selected Tables List -->
+                    <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" Padding="5" Margin="0,0,0,10">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="SelectedTablesList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FullName}" FontSize="13" Margin="5,4"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                    
+                    <!-- FK Navigation Buttons -->
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <Button x:Name="FollowFKButton" Content="Follow Foreign Keys →" Click="FollowFK_Click" 
+                                Padding="10,5" Margin="0,0,0,5" ToolTip="Add tables referenced by selected tables"/>
+                        <Button x:Name="FollowIncomingFKButton" Content="← Follow Incoming FKs" Click="FollowIncomingFK_Click" 
+                                Padding="10,5" Margin="0,0,0,5" ToolTip="Add tables that reference selected tables"/>
+                        <Button Content="Clear Selection" Click="ClearSelection_Click" Padding="10,5"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+                </Grid>
+            </TabItem>
+            
+            <!-- Job Progress Tab -->
+            <TabItem Header="Job Progress" x:Name="JobProgressTab">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0" x:Name="JobProgressStatusText" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"
+                               Text="No job running. Start a job to see progress here."/>
+                    
+                    <Border Grid.Row="1" BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                            BorderThickness="1" Padding="5">
+                        <ScrollViewer x:Name="LogScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <TextBox x:Name="JobLogTextBox" 
+                                   IsReadOnly="True" 
+                                   FontFamily="Consolas" 
+                                   FontSize="12" 
+                                   TextWrapping="NoWrap"
+                                   AcceptsReturn="True"
+                                   VerticalScrollBarVisibility="Disabled"
+                                   HorizontalScrollBarVisibility="Disabled"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                                   Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+                        </ScrollViewer>
+                    </Border>
+                    
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                        <Button Content="Refresh" Click="RefreshJobLog_Click" Padding="10,5" Margin="0,0,5,0"/>
+                        <Button Content="Clear" Click="ClearJobLog_Click" Padding="10,5" Margin="0,0,5,0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+        <!-- Bottom Panel: Options and Actions -->
+        <GroupBox Grid.Row="2" Header="Options and Actions" Margin="0,15,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- File Paths -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" Text="Output Folder:" VerticalAlignment="Center" Margin="0,0,10,0" Width="100"/>
+                    <TextBox Grid.Column="1" x:Name="OutputFolderTextBox" Margin="0,0,5,0" IsReadOnly="True"/>
+                    <Button Grid.Column="2" Content="Browse..." Click="BrowseOutputFolder_Click" Padding="8,4" Width="80"/>
+                </Grid>
+                
+                <Grid Grid.Row="1" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" Text="Ignore JSON:" VerticalAlignment="Center" Margin="0,0,10,0" Width="100"/>
+                    <TextBox Grid.Column="1" x:Name="IgnoreJsonTextBox" Margin="0,0,5,0" IsReadOnly="True"/>
+                    <Button Grid.Column="2" Content="Browse..." Click="BrowseIgnoreJson_Click" Padding="8,4" Width="80"/>
+                </Grid>
+                
+                <!-- Ignore Column Editor Button -->
+                <Grid Grid.Row="2" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" Text="Ignore Rules:" VerticalAlignment="Center" Margin="0,0,10,0" Width="100"/>
+                    <TextBlock Grid.Column="1" x:Name="IgnoreRulesSummaryText" 
+                               Text="No ignore rules configured" 
+                               VerticalAlignment="Center" 
+                               FontStyle="Italic" 
+                               Foreground="Gray"
+                               Margin="0,0,10,0"/>
+                    <Button Grid.Column="2" Content="Edit Ignore Rules..." 
+                            Click="EditIgnoreRules_Click" 
+                            Padding="8,4" Width="150"
+                            ToolTip="Open ignore rules editor in a separate window"/>
+                </Grid>
+                
+                <!-- Options -->
+                <Grid Grid.Row="3" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <TextBlock Text="Min Row Count:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="MinRowCountTextBox" Text="100" Width="100" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                        <TextBlock Text="Min Match Ratio:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="MinMatchRatioTextBox" Text="0.95" Width="100" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Max Parallel Tables:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="MaxParallelTablesTextBox" Text="4" Width="100" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Grid>
+                
+                <!-- Status and Action Buttons -->
+                <Grid Grid.Row="4" Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock x:Name="StatusText" Text="Ready" 
+                                   FontSize="12" Foreground="#AAAAAA" Margin="0,0,0,3"/>
+                        <TextBlock x:Name="JobStatusText" Text="No job running" 
+                                   FontSize="11" Foreground="Gray" FontWeight="SemiBold"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="StartBatchJobButton" Content="Start Batch Job" Click="StartBatchJob_Click" 
+                                Padding="12,6" Margin="0,0,5,0" IsEnabled="False"/>
+                        <Button x:Name="ViewJobLogButton" Content="View Job Log" Click="ViewJobLog_Click" 
+                                Padding="12,6" Margin="0,0,5,0" IsEnabled="False"/>
+                        <Button Content="Open Output Folder" Click="OpenOutputFolder_Click" Padding="12,6" Margin="0,0,5,0"/>
+                        <Button Content="Close" IsCancel="True" Padding="12,6"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingOverlay" Visibility="Collapsed" Background="#CC1E1E1E" Panel.ZIndex="9999">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!-- Red Spinner with animation controlled from code-behind -->
+                <Border Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse x:Name="SpinnerEllipse" Width="60" Height="60" Stroke="#FF4444" StrokeThickness="4" 
+                             StrokeDashArray="15,10" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform>
+                            <RotateTransform x:Name="SpinnerRotateTransform" Angle="0"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                </Border>
+                <TextBlock x:Name="LoadingText" Text="Processing..." FontSize="16" 
+                           Foreground="White" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

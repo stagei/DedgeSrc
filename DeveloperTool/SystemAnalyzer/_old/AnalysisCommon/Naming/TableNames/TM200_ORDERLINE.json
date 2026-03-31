@@ -1,0 +1,244 @@
+{
+  "tableName": "TM200_ORDERLINE",
+  "futureName": "OrderLineItem",
+  "namespace": "ECommerce",
+  "columns": [
+    {
+      "name": "TYPE",
+      "futureName": "Type",
+      "description": "Order line type",
+      "foreignKey": "DBM.TM200_ORDER.TYPE"
+    },
+    {
+      "name": "TRANSACTIONID",
+      "futureName": "TransactionId",
+      "description": "Unique transaction identifier",
+      "foreignKey": "DBM.TM200_ORDER.TRANSACTIONID"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "Avdnr",
+      "description": "Article or document number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Order identifier",
+      "foreignKey": "DBM.TM200_ORDER.TRANSACTIONID"
+    },
+    {
+      "name": "ORDRELINJENR",
+      "futureName": "OrderLineNr",
+      "description": "Order line number",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number in the order",
+      "foreignKey": null
+    },
+    {
+      "name": "EXTERNALID",
+      "futureName": "ExternalId",
+      "description": "External unique identifier for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "BOXNO",
+      "futureName": "BoxNumber",
+      "description": "Number of the box containing the item",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDERED",
+      "futureName": "OrderedQuantity",
+      "description": "Quantity ordered for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLENUMBER",
+      "futureName": "ArticleNumber",
+      "description": "Unique identifier of the article",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLEWIDTH",
+      "futureName": "Width",
+      "description": "Width of the article in centimeters",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLEHEIGHT",
+      "futureName": "Height",
+      "description": "Height of the article in centimeters",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLELENGTH",
+      "futureName": "Length",
+      "description": "Length of the article in centimeters",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLEVOLUME",
+      "futureName": "Volume",
+      "description": "Volume of the article in cubic meters",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLEWEIGHT",
+      "futureName": "Weight",
+      "description": "Weight of the article in kilograms",
+      "foreignKey": null
+    },
+    {
+      "name": "NUMBEROFPACKAGES",
+      "futureName": "NumberOfPackages",
+      "description": "Number of packages for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "WIDTH",
+      "futureName": "Width2",
+      "description": "Width in centimeters (likely redundant with ARTICLEWIDTH)",
+      "foreignKey": null
+    },
+    {
+      "name": "HEIGHT",
+      "futureName": "Height2",
+      "description": "Height in centimeters (likely redundant with ARTICLEHEIGHT)",
+      "foreignKey": null
+    },
+    {
+      "name": "LENGTH",
+      "futureName": "Length2",
+      "description": "Length in centimeters (likely redundant with ARTICLELENGTH)",
+      "foreignKey": null
+    },
+    {
+      "name": "CUBIC",
+      "futureName": "CubicContent",
+      "description": "Cubic content of the article in cubic meters",
+      "foreignKey": null
+    },
+    {
+      "name": "WEIGHT",
+      "futureName": "Weight2",
+      "description": "Weight in kilograms (likely redundant with ARTICLEWEIGHT)",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLEDESCRIPTION",
+      "futureName": "ArticleDescription",
+      "description": "Detailed description of the article",
+      "foreignKey": null
+    },
+    {
+      "name": "SHIPPERARTICLENO",
+      "futureName": "ShipperArticleNo",
+      "description": "Shipment article number from the shipper",
+      "foreignKey": null
+    },
+    {
+      "name": "UNITCODE",
+      "futureName": "UnitCode",
+      "description": "Measurement unit code",
+      "foreignKey": null
+    },
+    {
+      "name": "DELIVERED",
+      "futureName": "DeliveredQuantity",
+      "description": "Quantity delivered for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "COUNTRYOFORIGION",
+      "futureName": "CountryOfOrigin",
+      "description": "Country of origin",
+      "foreignKey": null
+    },
+    {
+      "name": "CURRENCYCODE",
+      "futureName": "CurrencyCode",
+      "description": "Currency code for the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_UNNUMBER",
+      "futureName": "AdrUnNumber",
+      "description": "ADR (United Nations number) of the dangerous goods article",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_UNNAME",
+      "futureName": "AdrUnName",
+      "description": "Description of the ADR (United Nations number)",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_DANGERCLASS",
+      "futureName": "AdrDangerClass",
+      "description": "Hazard class for dangerous goods article according to ADR",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_EMBGROUP",
+      "futureName": "AdrEmbGroup",
+      "description": "Emergency measure group for the ADR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_TUNNELRESTR",
+      "futureName": "AdrTunnelRestr",
+      "description": "Tunnel restrictions for dangerous goods article according to ADR",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_GROSSWEIGHT",
+      "futureName": "AdrGrossWeight",
+      "description": "Gross weight of the dangerous goods in kilograms",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_NETWEIGHT",
+      "futureName": "AdrNetWeight",
+      "description": "Net weight of the dangerous goods in kilograms",
+      "foreignKey": null
+    },
+    {
+      "name": "ADR_POINTS",
+      "futureName": "AdrPoints",
+      "description": "Transport points for the ADR classification",
+      "foreignKey": null
+    },
+    {
+      "name": "KONSOLIDERES",
+      "futureName": "Consolidate",
+      "description": "Flag indicating whether the line item should be consolidated",
+      "foreignKey": null
+    },
+    {
+      "name": "FROMDATE",
+      "futureName": "Fromdate",
+      "description": "Start date of validity for the transaction or document",
+      "foreignKey": null
+    },
+    {
+      "name": "FROZEN",
+      "futureName": "Frozen",
+      "description": "Flag indicating if the line item is frozen (inactive)",
+      "foreignKey": null
+    },
+    {
+      "name": "FROZENREASON",
+      "futureName": "FrozenReason",
+      "description": "Reason for freezing the line item",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:56:46"
+}

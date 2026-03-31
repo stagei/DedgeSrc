@@ -1,0 +1,106 @@
+{
+  "tableName": "P_INNFRAKT",
+  "futureName": "InfraktOrderHeader",
+  "namespace": "InfraktsProcessing",
+  "columns": [
+    {
+      "name": "KornHandler",
+      "futureName": "KornHandler",
+      "description": "The handler of the grain order",
+      "foreignKey": null
+    },
+    {
+      "name": "AnleggsNr",
+      "futureName": "InstallationNumber",
+      "description": "Installation number for mills, otherwise used avdnr",
+      "foreignKey": null
+    },
+    {
+      "name": "Oekologisk",
+      "futureName": "Organic",
+      "description": "Indicates if organic, 'J'=Yes, 'N'=No, 'B'=Both",
+      "foreignKey": null
+    },
+    {
+      "name": "Kommunenr",
+      "futureName": "MunicipalityCode",
+      "description": "Municipality code or 9999 for fixed rate regardless of municipality (applies to eco-grain)",
+      "foreignKey": null
+    },
+    {
+      "name": "Postnr",
+      "futureName": "PostalCode",
+      "description": "Postal code or 9999 for all postcodes in a municipality",
+      "foreignKey": null
+    },
+    {
+      "name": "SoneContainer",
+      "futureName": "ContainerNumber",
+      "description": "Municipality code or 9999 for fixed rate regardless of municipality",
+      "foreignKey": null
+    },
+    {
+      "name": "FraDato",
+      "futureName": "StartDate",
+      "description": "Start date",
+      "foreignKey": null
+    },
+    {
+      "name": "KvantumFRA",
+      "futureName": "MinimumQuantum",
+      "description": "Quantum limit. Start quantum in kg.",
+      "foreignKey": null
+    },
+    {
+      "name": "TilleggContainer",
+      "futureName": "AdditionalContainerRate",
+      "description": "Amount per ton for additional container rate",
+      "foreignKey": null
+    },
+    {
+      "name": "SatsVentetid",
+      "futureName": "WaitingTimeRate",
+      "description": "Amount per hour for waiting time rate",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event",
+      "foreignKey": null
+    },
+    {
+      "name": "SatsSugebil",
+      "futureName": "DieselRate",
+      "description": "Amount per ton for diesel rate",
+      "foreignKey": null
+    },
+    {
+      "name": "FraduktTilskudd",
+      "futureName": "FreightSubsidy",
+      "description": "Subsidy flag",
+      "foreignKey": null
+    },
+    {
+      "name": "FraduktTilskuddBelop",
+      "futureName": "FreightSubsidyAmount",
+      "description": "Amount for freight subsidy",
+      "foreignKey": null
+    },
+    {
+      "name": "ContainerBelop",
+      "futureName": "ContainerFee",
+      "description": "Total container fee amount",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:08:08"
+}

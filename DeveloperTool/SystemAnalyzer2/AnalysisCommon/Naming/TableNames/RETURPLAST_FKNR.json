@@ -1,0 +1,31 @@
+{
+  "tableName": "RETURPLAST_FKNR",
+  "futureName": "ReturnPlasticFknr",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "ReturnPlasticNumber",
+      "description": "Unique return plastic identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CustomerIdentifier",
+      "description": "Unique customer identifier",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time stamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:38:34"
+}

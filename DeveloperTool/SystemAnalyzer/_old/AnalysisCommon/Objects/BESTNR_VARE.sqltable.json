@@ -1,0 +1,51 @@
+{
+  "tableName": "BESTNR_VARE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "BEST_FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "BET_FKNR1",
+        "childColumn": "FKNR",
+        "parentTable": "VAREREGISTER",
+        "parentSchema": "DBM",
+        "parentColumn": "FKNR"
+      },
+      {
+        "constraintName": "BET_FKNR2",
+        "childColumn": "BEST_FKNR",
+        "parentTable": "VAREREGISTER",
+        "parentSchema": "DBM",
+        "parentColumn": "FKNR"
+      }
+    ]
+  }
+}

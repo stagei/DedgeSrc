@@ -1,0 +1,285 @@
+<Window x:Class="DbExplorer.Dialogs.PackagePropertiesDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Package Properties"
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Width="1000"
+        Height="750"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="📦" FontSize="32" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <TextBlock x:Name="PackageNameText" Text="Package Name" FontSize="20" FontWeight="Bold"
+                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                    <TextBlock x:Name="PackageInfoText" Text="Schema • Full Name" FontSize="12" Margin="0,5,0,0"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Tabs -->
+        <TabControl Grid.Row="1" Margin="0,10,0,10" x:Name="DetailsTabControl">
+            <!-- Properties Tab -->
+            <TabItem Header="⚙️ Properties" x:Name="PropertiesTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Package Name:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="PackageNameValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Schema:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="PackageSchemaValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Bound By:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="BoundByValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Owner:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" x:Name="OwnerValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Isolation Level:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" x:Name="IsolationValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Valid:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" x:Name="ValidValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Last Used:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" x:Name="LastUsedValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Created:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="7" Grid.Column="1" x:Name="CreateTimeValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="8" Grid.Column="0" Text="Last Bind Time:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="8" Grid.Column="1" x:Name="LastBindTimeValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="9" Grid.Column="0" Text="Unique ID:" FontWeight="SemiBold" Margin="0,5"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" x:Name="UniqueIdValue" IsReadOnly="True" Margin="0,5"/>
+
+                            <TextBlock Grid.Row="10" Grid.Column="0" Text="Remarks:" FontWeight="SemiBold" Margin="0,5" VerticalAlignment="Top"/>
+                            <TextBox Grid.Row="10" Grid.Column="1" x:Name="RemarksValue" IsReadOnly="True" Margin="0,5" 
+                                     TextWrapping="Wrap" MinHeight="60" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- SQL Statements Tab -->
+            <TabItem Header="📝 SQL Statements" x:Name="StatementsTab">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Status Bar -->
+                    <Border Grid.Row="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
+                            Padding="10" Margin="0,0,0,10" CornerRadius="4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📊 Statement Count: " FontWeight="SemiBold"/>
+                            <TextBlock x:Name="StatementCountText" Text="0" FontWeight="Bold" 
+                                       Foreground="{DynamicResource SystemControlHighlightAccentBrush}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Statements DataGrid -->
+                    <DataGrid Grid.Row="1" x:Name="StatementsGrid" 
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              SelectionMode="Single"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              AlternatingRowBackground="{DynamicResource SystemControlBackgroundAltMediumLowBrush}"
+                              Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                              MouseDoubleClick="StatementsGrid_DoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Stmt No" Binding="{Binding [StmtNo]}" Width="80"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding [StmtType]}" Width="100"/>
+                            <DataGridTextColumn Header="Section" Binding="{Binding [SectionNumber]}" Width="80"/>
+                            <DataGridTextColumn Header="Preview" Binding="{Binding [TextPreview]}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="ViewStatementButton" Content="👁️ View Full Statement" Width="160" Height="36" Margin="0,0,10,0"
+                                Click="ViewFullStatement_Click" IsEnabled="False"/>
+                        <Button x:Name="AddToEditorButton" Content="➕ Add to Editor" Width="140" Height="36"
+                                Click="AddToEditor_Click" IsEnabled="False"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
+            <!-- Objects Used By Package Tab -->
+            <TabItem Header="🔗 Objects Used By Package" x:Name="ObjectsUsedTab">
+                <Grid Margin="10">
+                    <TabControl>
+                        <!-- Tables Used -->
+                        <TabItem Header="📋 Tables Used">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0" x:Name="TablesUsedCount" Text="Loading..." 
+                                           Margin="10" FontWeight="SemiBold"/>
+                                
+                                <DataGrid Grid.Row="1" x:Name="TablesUsedGrid"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          SelectionMode="Single"
+                                          GridLinesVisibility="Horizontal"
+                                          AlternatingRowBackground="{DynamicResource SystemControlBackgroundAltMediumLowBrush}"
+                                          Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                                          MouseDoubleClick="DependencyItem_DoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Schema" Binding="{Binding Schema}" Width="150"/>
+                                        <DataGridTextColumn Header="Table Name" Binding="{Binding Name}" Width="250"/>
+                                        <DataGridTextColumn Header="Usage Count" Binding="{Binding UsageCount}" Width="120"/>
+                                        <DataGridTextColumn Header="Statements" Binding="{Binding StatementsText}" Width="*"/>
+                                        <DataGridTextColumn Header="Verified" Binding="{Binding VerifiedText}" Width="80"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        
+                        <!-- Views Used -->
+                        <TabItem Header="👁️ Views Used">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0" x:Name="ViewsUsedCount" Text="Loading..." 
+                                           Margin="10" FontWeight="SemiBold"/>
+                                
+                                <DataGrid Grid.Row="1" x:Name="ViewsUsedGrid"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          SelectionMode="Single"
+                                          GridLinesVisibility="Horizontal"
+                                          AlternatingRowBackground="{DynamicResource SystemControlBackgroundAltMediumLowBrush}"
+                                          Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                                          MouseDoubleClick="DependencyItem_DoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Schema" Binding="{Binding Schema}" Width="150"/>
+                                        <DataGridTextColumn Header="View Name" Binding="{Binding Name}" Width="250"/>
+                                        <DataGridTextColumn Header="Usage Count" Binding="{Binding UsageCount}" Width="120"/>
+                                        <DataGridTextColumn Header="Statements" Binding="{Binding StatementsText}" Width="*"/>
+                                        <DataGridTextColumn Header="Verified" Binding="{Binding VerifiedText}" Width="80"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        
+                        <!-- Procedures Called -->
+                        <TabItem Header="⚙️ Procedures Called">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0" x:Name="ProceduresCalledCount" Text="Loading..." 
+                                           Margin="10" FontWeight="SemiBold"/>
+                                
+                                <DataGrid Grid.Row="1" x:Name="ProceduresCalledGrid"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          SelectionMode="Single"
+                                          GridLinesVisibility="Horizontal"
+                                          AlternatingRowBackground="{DynamicResource SystemControlBackgroundAltMediumLowBrush}"
+                                          Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                                          MouseDoubleClick="DependencyItem_DoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Schema" Binding="{Binding Schema}" Width="150"/>
+                                        <DataGridTextColumn Header="Procedure Name" Binding="{Binding Name}" Width="250"/>
+                                        <DataGridTextColumn Header="Usage Count" Binding="{Binding UsageCount}" Width="120"/>
+                                        <DataGridTextColumn Header="Statements" Binding="{Binding StatementsText}" Width="*"/>
+                                        <DataGridTextColumn Header="Verified" Binding="{Binding VerifiedText}" Width="80"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        
+                        <!-- Functions Called -->
+                        <TabItem Header="🔧 Functions Called">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Grid.Row="0" x:Name="FunctionsCalledCount" Text="Loading..." 
+                                           Margin="10" FontWeight="SemiBold"/>
+                                
+                                <DataGrid Grid.Row="1" x:Name="FunctionsCalledGrid"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          SelectionMode="Single"
+                                          GridLinesVisibility="Horizontal"
+                                          AlternatingRowBackground="{DynamicResource SystemControlBackgroundAltMediumLowBrush}"
+                                          Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                                          MouseDoubleClick="DependencyItem_DoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Schema" Binding="{Binding Schema}" Width="150"/>
+                                        <DataGridTextColumn Header="Function Name" Binding="{Binding Name}" Width="250"/>
+                                        <DataGridTextColumn Header="Usage Count" Binding="{Binding UsageCount}" Width="120"/>
+                                        <DataGridTextColumn Header="Statements" Binding="{Binding StatementsText}" Width="*"/>
+                                        <DataGridTextColumn Header="Verified" Binding="{Binding VerifiedText}" Width="80"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Close" Width="100" Height="36" IsCancel="True" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

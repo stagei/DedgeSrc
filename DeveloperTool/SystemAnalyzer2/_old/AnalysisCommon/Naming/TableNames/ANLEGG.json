@@ -1,0 +1,203 @@
+{
+  "tableName": "ANLEGG",
+  "futureName": "Anlegging",
+  "namespace": "DataModels",
+  "columns": [
+    {
+      "name": "ANLEGGNR",
+      "futureName": "AnleggingNumber",
+      "description": "Unique identifier for the anlegging",
+      "foreignKey": [
+        "AVVIST",
+        "K_FORHANDSPROVE",
+        "K_KORRIGERING",
+        "KD_LOVL_ANLEGG",
+        "KOM_ANLEGG",
+        "MOTTAK",
+        "P_AVREGNING"
+      ]
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNumber",
+      "description": "Department or division number",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "AVDNAVN",
+      "futureName": "AvdName",
+      "description": "Name of the department or division",
+      "foreignKey": [
+        "D3_AVDTAB",
+        "KD_THERM_BEST",
+        "MOTTAK",
+        "Z_AVDTAB"
+      ]
+    },
+    {
+      "name": "MIDL_VANNPROS",
+      "futureName": "MiddleWaterProcessPercentage",
+      "description": "Percentage of middle water process",
+      "foreignKey": [
+        "K_KORRIGERING",
+        "K_KORRIGERING",
+        "MOTTAK",
+        "MOTTAK",
+        "PARTIHIST"
+      ]
+    },
+    {
+      "name": "AVD_MOLLE",
+      "futureName": "AvdMolleCode",
+      "description": "Molle code for the department or division",
+      "foreignKey": null
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartNumber",
+      "description": "Part number identifier",
+      "foreignKey": [
+        "A_ORDRELINJER",
+        "AH_ORDRELINJER",
+        "AVREGNING",
+        "AVVIST",
+        "D3STAGE_ORDRELINJER_HIST",
+        "D3STAGE_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "PARTINR2",
+      "futureName": "PartNumber2",
+      "description": "Second part number identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "RAAKORN",
+      "futureName": "RawMaterialCode",
+      "description": "Code for raw material",
+      "foreignKey": [
+        "BEHKODER",
+        "BEHKODER"
+      ]
+    },
+    {
+      "name": "KORNOMRAADE",
+      "futureName": "CornArea",
+      "description": "Area of corn production",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR_MA",
+      "futureName": "MainAvdNumber",
+      "description": "Main department or division number",
+      "foreignKey": null
+    },
+    {
+      "name": "NOMINELL_KAPASITET",
+      "futureName": "NominalCapacity",
+      "description": "Nominal capacity of the anlegging",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_NOMINELL",
+      "futureName": "NominalRate",
+      "description": "Nominal rate or price per unit",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_VARIABEL",
+      "futureName": "VariableRate",
+      "description": "Variable rate or price per unit",
+      "foreignKey": null
+    },
+    {
+      "name": "HOVEDANLEGG",
+      "futureName": "MainAnleggingCode",
+      "description": "Code for the main anlegging",
+      "foreignKey": null
+    },
+    {
+      "name": "EGEN_PRODUKSJON",
+      "futureName": "OwnProductionIndicator",
+      "description": "Indicates if production is own or external",
+      "foreignKey": null
+    },
+    {
+      "name": "FOR_TIL_AVD",
+      "futureName": "ForwardToAvdAmount",
+      "description": "Amount forwarded to another department or division",
+      "foreignKey": null
+    },
+    {
+      "name": "MAT_TIL_AVD",
+      "futureName": "MaterialsForAvdAmount",
+      "description": "Amount of materials for another department or division",
+      "foreignKey": null
+    },
+    {
+      "name": "UT_TYPE",
+      "futureName": "OutputTypeCode",
+      "description": "Code indicating the type of output",
+      "foreignKey": null
+    },
+    {
+      "name": "ADMINISTRASJON",
+      "futureName": "AdministrationInfo",
+      "description": "Administrative information or code",
+      "foreignKey": null
+    },
+    {
+      "name": "OKO_ANLEGGNR",
+      "futureName": "OkonometricAnleggingNumber",
+      "description": "Okonometric anlegging number for statistical purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "DATO_FIL_TIL_SK",
+      "futureName": "DateFileToSk",
+      "description": "Date when the file was sent to Sk (likely a regulatory body)",
+      "foreignKey": null
+    },
+    {
+      "name": "KORNHANDLER",
+      "futureName": "CornDealerCode",
+      "description": "Code for corn dealer or supplier",
+      "foreignKey": [
+        "P_ANALYSE_AVREGN",
+        "P_ART_STD_VERDIER",
+        "P_AVREGNING_DATAFLYT",
+        "P_AVREGNING",
+        "P_AVREGNING",
+        "P_AVTALETILLEGG_KVAL",
+        "P_AVTALETILLEGG_LIN",
+        "P_AVTALETILLEGG",
+        "P_AVVIKENDE_DATO_PRIS",
+        "P_BASISPRIS"
+      ]
+    },
+    {
+      "name": "VISES_WEB",
+      "futureName": "WebVisibleIndicator",
+      "description": "Indicates if the data is visible on a web platform or not",
+      "foreignKey": [
+        "V_VARE_ENDRINGER",
+        "V_VENTEVARER",
+        "VAREREGISTER",
+        "VAREREGISTER",
+        "VAREREGISTER",
+        "Z_AVDTAB"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:30:32"
+}

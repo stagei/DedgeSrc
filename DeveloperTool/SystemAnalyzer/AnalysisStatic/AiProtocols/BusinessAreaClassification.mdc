@@ -1,0 +1,73 @@
+# Business Area Classification Protocol
+
+## Purpose
+
+Classify programs from a COBOL analysis into fine-grained business areas/domains based on
+program names, SQL tables used, call relationships, descriptions, CobDok metadata, and
+AutoDoc system/subsystem information.
+
+## When Used
+
+Phase 8g of the analysis pipeline, after naming (Phase 8f). Runs once per analysis profile.
+
+## Input Context
+
+Ollama receives a structured prompt with enriched per-program lines containing:
+
+- Program name and AI-generated futureProjectName
+- Architectural classification (from Phase 7)
+- AutoDoc `metadata.system` (e.g., "IL - Innlan", "KD - Korndata")
+- AutoDoc `metadata.typeLabel` (e.g., "A - Common module", "H - Batch program")
+- CobDok or AutoDoc description (Norwegian)
+- SQL tables with AI-generated semantic names (e.g., `Z_PNRTAB(CustomerAccountTable)`)
+- Direct call targets (up to 10)
+
+## Multi-Pass Strategy
+
+For profiles with >100 programs, classification uses a multi-pass approach:
+
+1. **Group by system**: Programs are grouped by their AutoDoc `metadata.system` prefix
+   (IL, KD, OA, GM, etc.) or by 2-character program name prefix as fallback
+2. **Classify per group**: Each system group gets its own Ollama call with a system-prefixed
+   area naming convention (e.g., `il-interest-calculation`, `kd-grain-quality`)
+3. **Merge**: Results from all groups are combined into a single classification
+
+For profiles with <=100 programs, a single-pass Ollama call is used.
+
+## Enriched Program Line Format
+
+```
+  ILALKTN (AccountStatement): main-ui — system: IL - Innlan — type: A - Common module — UTSKRIFT AV KONTOUTDRAG — tables: Z_PNRTAB(CustomerAccountTable) — calls: ILAREBE, GMAPRTR
+```
+
+## Prompt Rules
+
+1. Area count scales with profile size (3-6 for <=10 programs, 5-12 for <=50, 8-15 for <=100, 5-15 per system group for multi-pass)
+2. Each area: id (kebab-case), name (English), description (1-2 sentences)
+3. Every program assigned to exactly one area
+4. System-aware: programs in same system (IL, KD, OA) belong to related areas
+5. Call-cluster-aware: programs calling each other belong to same area
+6. Table-cluster-aware: programs sharing tables belong to same area
+7. GM* prefix programs go to "common-infrastructure"
+8. Domain-specific names required (NOT "batch-processing", "legacy-modernization")
+9. Norwegian description hints provided
+10. programAreaMap maps PROGRAM -> area-id (NOT inverted)
+
+## Expected Response
+
+Pure JSON: `{"areas":[...],"programAreaMap":{"PROG":"area-id",...}}`
+
+## Post-Parse Normalization
+
+If Ollama returns an inverted map (area-id -> program[] instead of program -> area-id),
+the code detects and auto-normalizes it.
+
+## Caching
+
+Result cached at `AnalysisCommon/BusinessAreas/{alias}_business_areas.json`.
+Cache includes `"version": 2` field. Old v1 caches are invalidated automatically.
+If cache exists with matching version AND program list, skip Ollama.
+
+## Fallback
+
+If Ollama fails for a system group in multi-pass mode, programs are assigned to "unclassified".

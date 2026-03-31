@@ -1,0 +1,250 @@
+{
+  "tableName": "KD_SAF_MOTTAKSPLAN",
+  "futureName": "MottakPlan",
+  "namespace": "Contracts",
+  "columns": [
+    {
+      "name": "MOTTAKSNR",
+      "futureName": "MottakNumber",
+      "description": "Unique mottak identification number",
+      "foreignKey": "KD_SAF_FRO_PARTI"
+    },
+    {
+      "name": "KONTRAKT_LIN_RECNO",
+      "futureName": "ContractLineRecno",
+      "description": "Record number of the contract line",
+      "foreignKey": "K_HENTEAVTALE_DET, KD_BESTILLING, KD_DELPARTI, KD_FORGROEDE, KD_GJENL_KONTR, KD_KASSE, KD_LEVERANSE, KD_RAAVARE_PARTI, KD_VEKSTKONTROLL"
+    },
+    {
+      "name": "PROD_AAR",
+      "futureName": "ProdYear",
+      "description": "Production year",
+      "foreignKey": null
+    },
+    {
+      "name": "AREAL_KLASSE",
+      "futureName": "AreaClass",
+      "description": "Area class",
+      "foreignKey": "KD_VEKSTKONTROLL, KD_VEKSTKONTROLL"
+    },
+    {
+      "name": "SERT_KLASSE",
+      "futureName": "CertificationClass",
+      "description": "Certification class",
+      "foreignKey": "KD_THERM_BEST"
+    },
+    {
+      "name": "HOESTET_AREAL",
+      "futureName": "HarvestedArea",
+      "description": "Harvested area",
+      "foreignKey": "KD_VEKSTKONTROLL, KD_VEKSTKONTROLL"
+    },
+    {
+      "name": "UTSATT",
+      "futureName": "Exposure",
+      "description": "Exposure status",
+      "foreignKey": "KD_RAAVARE_PARTI"
+    },
+    {
+      "name": "ONS_UTS_OPPGJ_FRA",
+      "futureName": "OngoingUpliftFrom",
+      "description": "Date of ongoing uplift from",
+      "foreignKey": "KD_RAAVARE_PARTI"
+    },
+    {
+      "name": "OTS_OPPGJ_DAT",
+      "futureName": "OutgoingUpliftDate",
+      "description": "Date of outgoing uplift",
+      "foreignKey": "KD_RAAVARE_PARTI"
+    },
+    {
+      "name": "PAAM_DATO",
+      "futureName": "PaamDate",
+      "description": "Paam date",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_M3",
+      "futureName": "PaamM3",
+      "description": "Paam volume in cubic meters",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_ANT_STORS",
+      "futureName": "PaamNumberOfLargeUnits",
+      "description": "Number of large units for Paam",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_TRANSP_EGEN",
+      "futureName": "PaamOwnTransport",
+      "description": "Paam own transport status",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_VIL_HOESTES",
+      "futureName": "PaamWillBeHarvested",
+      "description": "Paam will be harvested status",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_LEV_UKE",
+      "futureName": "PaamLevWeek",
+      "description": "Paam loading week",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_LEV_DAG",
+      "futureName": "PaamLevDay",
+      "description": "Paam loading day of the week",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_LEV_TIME",
+      "futureName": "PaamLevTime",
+      "description": "Paam loading time",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_AVSLUTTET",
+      "futureName": "PaamCompleted",
+      "description": "Paam completion status",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_MERKNAD",
+      "futureName": "PaamNote",
+      "description": "Paam note",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_ANT_STORS1",
+      "futureName": "PaamNumberOfLargeUnits1",
+      "description": "Number of large units for Paam 1",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_ANT_STORS2",
+      "futureName": "PaamNumberOfLargeUnits2",
+      "description": "Number of large units for Paam 2",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_ANT_STORS3",
+      "futureName": "PaamNumberOfLargeUnits3",
+      "description": "Number of large units for Paam 3",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_DELKVANT1",
+      "futureName": "PaamDeliveryQuant1",
+      "description": "Paam delivery quantity 1",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_DELKVANT2",
+      "futureName": "PaamDeliveryQuant2",
+      "description": "Paam delivery quantity 2",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_DELKVANT3",
+      "futureName": "PaamDeliveryQuant3",
+      "description": "Paam delivery quantity 3",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_MERKNAD1",
+      "futureName": "PaamNote1",
+      "description": "Paam note 1",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_MERKNAD2",
+      "futureName": "PaamNote2",
+      "description": "Paam note 2",
+      "foreignKey": null
+    },
+    {
+      "name": "PAAM_MERKNAD3",
+      "futureName": "PaamNote3",
+      "description": "Paam note 3",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_DATO",
+      "futureName": "ReceiptDate",
+      "description": "Receipt date",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_ANT_STORS",
+      "futureName": "ReceiptNumberOfLargeUnits",
+      "description": "Number of large units for receipt",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_RET_TOMS",
+      "futureName": "ReceiptRetentionTomes",
+      "description": "Receipt retention tomes",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_MERKNAD",
+      "futureName": "ReceiptNote",
+      "description": "Receipt note",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_BILNR",
+      "futureName": "ReceiptBillNumber",
+      "description": "Receipt bill number",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_ERKL_OKO",
+      "futureName": "ReceiptAcknowledgmentOK",
+      "description": "Receipt acknowledgment OK status",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_UTS_OPPGJ",
+      "futureName": "ReceiptUpliftDate",
+      "description": "Receipt uplift date",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_DELKVANT1",
+      "futureName": "ReceiptDeliveryQuant1",
+      "description": "Receipt delivery quantity 1",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_DELKVANT2",
+      "futureName": "ReceiptDeliveryQuant2",
+      "description": "Receipt delivery quantity 2",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAK_DELKVANT3",
+      "futureName": "ReceiptDeliveryQuant3",
+      "description": "Receipt delivery quantity 3",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Registration date",
+      "foreignKey": "KD_ANALYSE_BEST, KD_BESTILLING, KD_DELPARTI, KD_DYRKER_LOGG, KD_DYRKER, KD_EIEND_OVERFARDE, KD_LEGEROVERFARDE, KD_TIDSSRISMERKET_MORSING"
+    },
+    {
+      "name": "REG_MOTTAK_NR",
+      "futureName": "RegistrationReceiptNumber",
+      "description": "Registration receipt number",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:22:33"
+}

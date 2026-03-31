@@ -1,0 +1,106 @@
+﻿# GitChangeActivityReport Local Rules
+
+## Overview
+
+This folder contains scripts for generating Git change activity reports across multiple repositories.
+
+**Main Script:** `New-GitChangeActivityReport.ps1`
+
+---
+
+## Standards
+
+### Default Exclusions
+
+Exclude downloaded/generated/vendor/build/runtime folders from reporting and totals:
+- `bin`, `obj`, `node_modules`, `dist`, `build`
+- `runtimes`, `site-packages`, `venv`, `.venv`
+- `__pycache__`, `.pytest_cache`
+- Any path containing `_old`
+
+### Report Format
+
+**Compact overview report (default):**
+- Per-repo summary with max ~10 lines per repo
+- No individual file listings
+- Summarize "value added" using commit subjects (offline heuristics)
+- Keep code vs documentation metrics separate
+
+### Author Matching
+
+✅ **PREFERRED:** Email addresses (shorter, more reliable)
+```powershell
+-Authors "geir.helge.starholm@Dedge.no"
+```
+
+❌ **AVOID:** Display names (vary across repos)
+```powershell
+-Authors "Geir Starholm"  # May not match all commits
+```
+
+**Multiple authors:** Comma-separated
+```powershell
+-Authors "email1@domain.com,email2@domain.com"
+```
+
+### FKGEISTA Secondary Email
+
+When generating a report for FKGEISTA, the script automatically includes `geir@starholm.net` in the Authors list to improve matching across repos with different author configurations.
+
+This only happens when:
+- Current user is FKGEISTA
+- Primary email (`geir.helge.starholm@Dedge.no`) is in Authors list
+
+---
+
+## Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `-Root` | `C:\opt\src` | Root directory to scan for git repos |
+| `-DaysBack` | `21` | Days to look back |
+| `-Authors` | Current user | Comma-separated email addresses |
+| `-FromDate` | - | Start date (YYYY-MM-DD) |
+| `-ToDate` | - | End date (YYYY-MM-DD) |
+| `-Compact` | `$true` | Compact format (no file listings) |
+| `-Detailed` | - | Full file-by-file listing |
+| `-WriteJson` | - | Also write JSON output |
+| `-VerifyTotals` | - | Verify totals against git |
+| `-SendEmail` | - | Send report via email |
+| `-SendSms` | - | Send summary via SMS |
+
+---
+
+## Notifications
+
+If the user requests it, the report script may send:
+- **Email**: Using `Send-Email` (GlobalFunctions) with the report attached
+- **SMS**: Using `Send-Sms` (GlobalFunctions) with a short "report ready" message
+
+---
+
+## Output Files
+
+- `change_activity_report_YYYYMMDD_HHMMSS.md` - Markdown report
+- `change_activity_report_YYYYMMDD_HHMMSS.json` - JSON data (if `-WriteJson`)
+- `change_activity_report_YYYYMMDD_HHMMSS.AI_SUMMARY.md` - AI summary (if generated)
+
+---
+
+## Quick Usage
+
+```powershell
+# Default: Last 21 days, current user, compact format
+.\New-GitChangeActivityReport.ps1 -Compact -VerifyTotals
+
+# Specific author and time period
+.\New-GitChangeActivityReport.ps1 `
+    -Authors "svein.morten.erikstad@Dedge.no" `
+    -DaysBack 14 -Compact -VerifyTotals -SendSms
+
+# Date range with email notification
+.\New-GitChangeActivityReport.ps1 `
+    -Authors "email1@domain.com,email2@domain.com" `
+    -FromDate "2025-12-01" -ToDate "2025-12-18" `
+    -Compact -WriteJson -SendEmail
+```

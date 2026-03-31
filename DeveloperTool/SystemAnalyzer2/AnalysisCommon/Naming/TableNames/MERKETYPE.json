@@ -1,0 +1,61 @@
+{
+  "tableName": "MERKETYPE",
+  "futureName": "MerkeType",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "merke",
+      "futureName": "Merke",
+      "description": "Vehicle or product make",
+      "foreignKey": null
+    },
+    {
+      "name": "type",
+      "futureName": "Type",
+      "description": "Product type or category",
+      "foreignKey": null
+    },
+    {
+      "name": "varehgr",
+      "futureName": "VareHGr",
+      "description": "Inventory group for goods",
+      "foreignKey": null
+    },
+    {
+      "name": "motorstyrske",
+      "futureName": "MotorStyrke",
+      "description": "Engine power or strength of the vehicle",
+      "foreignKey": [
+        "maskinSlettet",
+        "maskinkartotek"
+      ]
+    },
+    {
+      "name": "varemgr",
+      "futureName": "VareMGr",
+      "description": "Goods group",
+      "foreignKey": null
+    },
+    {
+      "name": "vareugr",
+      "futureName": "VareUGr",
+      "description": "Unit of goods",
+      "foreignKey": null
+    },
+    {
+      "name": "model",
+      "futureName": "Model",
+      "description": "Product model or variant",
+      "foreignKey": null
+    },
+    {
+      "name": "model_old",
+      "futureName": "OldModel",
+      "description": "Previous product model",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:47:47"
+}

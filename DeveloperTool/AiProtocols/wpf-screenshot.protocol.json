@@ -1,0 +1,29 @@
+{
+  "id": "wpf-screenshot",
+  "description": "Use agent mode with shell to launch WPF/WinForms executables and capture window screenshots via Win32 PrintWindow API",
+  "model": "claude-sonnet-4-20250514",
+  "mode": null,
+  "outputFormat": "text",
+  "noMcp": true,
+  "force": true,
+  "promptTemplate": "wpf-screenshot.prompt.md",
+  "placeholders": {
+    "AppKey": "identifier for the app (e.g. DbExplorer)",
+    "ExePath": "path to the compiled .exe (or dotnet run command)",
+    "ProjectPath": "path to .csproj if needs building first",
+    "WindowTitle": "expected main window title substring for matching",
+    "ScreenshotDir": "absolute path to output directory for PNGs",
+    "StartupWaitSec": "seconds to wait for the window to appear (default 15)"
+  },
+  "contextFiles": [],
+  "contextFolder": null,
+  "workspacePath": null,
+  "validation": {
+    "responseFormat": "text",
+    "requiredFields": null,
+    "minArrayLength": null
+  },
+  "output": {
+    "skipIfExists": false
+  }
+}

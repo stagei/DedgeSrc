@@ -1,0 +1,352 @@
+CONNECT TO basishst 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.1
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\ORDREH10.IXF OF IXF INSERT INTO DBM.H_ORDREHODE      NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\ORDREH10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+12.29.22.056267".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121336".
+
+SQL3153N  The T record in the PC/IXF file has name "p:\tru\ORDREH10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "411952" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "411952".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+12.30.17.061772".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+12.30.17.062119".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+12.38.58.196856".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "12.03.2012 
+12.38.59.917420".
+
+SQL3509W  The utility has deleted "401" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "12.03.2012 
+12.39.04.675716".
+
+
+Number of rows read         = 411952
+Number of rows skipped      = 0
+Number of rows loaded       = 411952
+Number of rows rejected     = 0
+Number of rows deleted      = 401
+Number of rows committed    = 411952
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_ORDREHODE CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\ORDREL10.IXF OF IXF INSERT INTO DBM.H_ORDRELINJER    NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\ORDREL10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+12.39.17.545764".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121405".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\ORDREL10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "1939458" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "1939458".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+12.45.20.315150".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+12.45.20.315559".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+12.51.53.338538".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "12.03.2012 
+12.51.53.483357".
+
+SQL3509W  The utility has deleted "842" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "12.03.2012 
+12.52.05.457606".
+
+
+Number of rows read         = 1939458
+Number of rows skipped      = 0
+Number of rows loaded       = 1939458
+Number of rows rejected     = 0
+Number of rows deleted      = 842
+Number of rows committed    = 1939458
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_ORDRELINJER CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\ORDREM10.IXF OF IXF INSERT INTO DBM.H_ORDREMERKNAD    NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\ORDREM10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+12.52.12.419174".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121550".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\ORDREM10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "141908" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "141908".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+12.52.13.629616".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+12.52.13.629964".
+
+SQL3213I  The indexing mode is "INCREMENTAL".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+12.52.23.234982".
+
+SQL3500W  The utility is beginning the "DELETE" phase at time "12.03.2012 
+12.52.23.248808".
+
+SQL3509W  The utility has deleted "92" rows from the table.
+
+SQL3515W  The utility has finished the "DELETE" phase at time "12.03.2012 
+12.52.23.286310".
+
+
+Number of rows read         = 141908
+Number of rows skipped      = 0
+Number of rows loaded       = 141908
+Number of rows rejected     = 0
+Number of rows deleted      = 92
+Number of rows committed    = 141908
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.H_ORDREMERKNAD CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\LASS10.IXF OF IXF INSERT INTO DBM.LASS             NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file "P:\tru\LASS10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+12.52.24.667206".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121604".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\LASS10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "135361" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "135361".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+12.52.27.437922".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+12.52.27.438274".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+12.52.39.576613".
+
+
+Number of rows read         = 135361
+Number of rows skipped      = 0
+Number of rows loaded       = 135361
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 135361
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.LASS CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\VAREBEV10.IXF OF IXF INSERT INTO DBM.VAREBEVEGELSE    NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\VAREBEV10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+12.52.50.424691".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121611".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\VAREBEV10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "1821629" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "1821629".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+12.53.09.602867".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+12.53.09.603612".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+13.11.55.134067".
+
+
+Number of rows read         = 1821629
+Number of rows skipped      = 0
+Number of rows loaded       = 1821629
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 1821629
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.VAREBEVEGELSE CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+LOAD FROM P:\tru\BEHOLDKORR10.IXF OF IXF INSERT INTO DBM.KORRIGERINGER    NONRECOVERABLE
+SQL3109N  The utility is beginning to load data from file 
+"P:\tru\BEHOLDKORR10.IXF".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "12.03.2012 
+13.12.06.393475".
+
+SQL3150N  The H record in the PC/IXF file has product "DB2    02.00", date 
+"20120312", and time "121642".
+
+SQL3153N  The T record in the PC/IXF file has name "P:\tru\BEHOLDKORR10.IXF", 
+qualifier "", and source "            ".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "117621" rows were read from 
+the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "117621".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "12.03.2012 
+13.12.08.627988".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "12.03.2012 
+13.12.08.628445".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "12.03.2012 
+13.12.11.917540".
+
+
+Number of rows read         = 117621
+Number of rows skipped      = 0
+Number of rows loaded       = 117621
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 117621
+
+
+***** SQLCODE: 0 *****
+ 
+
+SET INTEGRITY FOR DBM.KORRIGERINGER CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

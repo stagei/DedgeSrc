@@ -1,0 +1,77 @@
+{
+  "program": "GMAHENU",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:51",
+  "extraction": {
+    "sourceHash": "sha256:a5068e9dcbd282129e8f53873a0b4503d014c73b0bac407c4fe86d1d9d52fa5d",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAHENU.CBL",
+    "actualName": "GMAHENU",
+    "program": "GMAHENU",
+    "copyElements": [
+      {
+        "name": "NUM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "NUMMER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "NUMMER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FORSLAGNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "NUMMER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:50:51"
+  }
+}

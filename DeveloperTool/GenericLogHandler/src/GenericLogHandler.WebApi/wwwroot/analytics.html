@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.analytics">Analytics - Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 1200px) {
+            .chart-grid { grid-template-columns: 1fr; }
+        }
+        .chart-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+        }
+        .chart-panel h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .chart-full {
+            grid-column: 1 / -1;
+        }
+        .date-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .date-preset {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        .date-preset.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" class="active" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 style="margin: 0 0 1rem 0;" data-i18n="analytics.title">Analytics</h2>
+        
+        <div class="date-controls">
+            <button class="date-preset" data-hours="1" data-i18n="preset.lastHour">Last Hour</button>
+            <button class="date-preset active" data-hours="24" data-i18n="preset.last24h">Last 24h</button>
+            <button class="date-preset" data-hours="168" data-i18n="preset.last7Days">Last 7 Days</button>
+            <button class="date-preset" data-hours="720" data-i18n="preset.last30Days">Last 30 Days</button>
+            <span style="margin-left: auto; color: var(--text-secondary);" id="lastUpdated">Loading...</span>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-panel chart-full">
+                <h3 data-i18n="analytics.logVolume">Log Volume Over Time</h3>
+                <div class="chart-container">
+                    <canvas id="volumeChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-panel">
+                <h3 data-i18n="analytics.levelDistribution">Log Level Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="levelChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-panel">
+                <h3 data-i18n="analytics.bySourceType">Logs by Source Type</h3>
+                <div class="chart-container">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-panel">
+                <h3 data-i18n="analytics.top10Computers">Top 10 Computers</h3>
+                <div class="chart-container">
+                    <canvas id="computersChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-panel">
+                <h3 data-i18n="analytics.errorRateTrend">Error Rate Trend</h3>
+                <div class="chart-container">
+                    <canvas id="errorRateChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

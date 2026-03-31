@@ -1,0 +1,58 @@
+{
+  "tableName": "EGETBRUK_LINJE",
+  "futureName": "OrderItem",
+  "namespace": "InnkjopEgetBruk",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": "EB_AVDORDRE"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "EB_AVDORDRE"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENR",
+      "futureName": "ProductCode",
+      "description": "Product code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Product name",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Number of items ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "RABATT",
+      "futureName": "DiscountAmount",
+      "description": "Discount amount or percentage applied to the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS",
+      "futureName": "Price",
+      "description": "Unit price of the product",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:17:37"
+}

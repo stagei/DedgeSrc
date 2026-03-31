@@ -1,0 +1,97 @@
+{
+  "program": "AAAM035",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:55",
+  "extraction": {
+    "sourceHash": "sha256:15a8d8780565706f6e3582aebf67fbfa779b78e9bebe5329ab2987ac08f2d378",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\aaam035.cbl",
+    "actualName": "AAAM035",
+    "program": "AAAM035",
+    "copyElements": [
+      {
+        "name": "GMAHENU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FKNR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "EANK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HKAKAKU.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KAKU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM035.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GRUNNRAB1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "IAVTALE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VALUTAKURSER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUTA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "HKAKAKU",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:23:55"
+  }
+}

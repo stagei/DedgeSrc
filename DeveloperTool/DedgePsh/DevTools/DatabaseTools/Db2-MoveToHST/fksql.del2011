@@ -1,0 +1,143 @@
+CONNECT TO basispro 
+
+   Tilkoblingsopplysninger for databasen
+
+ Databasetjener               = DB2/NT64 9.7.1
+ Autorisasjons-ID for SQL     = TRU
+ Lokalt databasealias         = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+DELETE   FROM DBM.A_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR  and ordrenr < 700000)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 13609
+Antall rader berørt pga. relasjoner : 79180
+ 
+
+DELETE   FROM DBM.A_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR  and ordrenr < 800000)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 22152
+Antall rader berørt pga. relasjoner : 129882
+ 
+
+DELETE   FROM DBM.A_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR  and ordrenr < 830000)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 28823
+Antall rader berørt pga. relasjoner : 181457
+ 
+
+DELETE   FROM DBM.A_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR  and ordrenr < 860000)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 27068
+Antall rader berørt pga. relasjoner : 157826
+ 
+
+DELETE   FROM DBM.A_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR  and ordrenr < 900000)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 30905
+Antall rader berørt pga. relasjoner : 174039
+ 
+
+DELETE   FROM DBM.BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 5420
+Antall rader berørt pga. relasjoner : 1
+ 
+
+DELETE   FROM DBM.BESTLIN  A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 14248
+Antall rader berørt pga. relasjoner : 649
+ 
+
+DELETE   FROM DBM.A_VIHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 108499
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.A_VILIN  A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 414594
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.VIHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 7097
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.VILIN  A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 14974
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.INNGANG_FAKO A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR AND AVDNR = A.AVDNR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 59768
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.EDI_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 103456
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.EDI_LOGG A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr_FKOV < 1000000 and ORDRENR = A.ORDRENR_FKOV) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 2860
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.EDI_OBKR_HODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.iordrenr < 1000000 and ORDRENR = A.IORDRENR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 22164
+Antall rader berørt pga. relasjoner : 118099
+ 
+
+DELETE   FROM DBM.INNGANG_FAKO_LOGG A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 2669
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.KONTR_BESTHODE A WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 62040
+Antall rader berørt pga. relasjoner : 0
+ 
+
+DELETE   FROM DBM.besthode_email a WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE a.ordrenr < 1000000 and ORDRENR = A.ORDRENR) 
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 20665
+Antall rader berørt pga. relasjoner : 0
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

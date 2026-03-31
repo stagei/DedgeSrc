@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.importStatus">Import Status - Generic Log Handler</title>
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+
+    <style>
+        .import-status-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .auto-refresh-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            user-select: none;
+        }
+        .auto-refresh-toggle input { cursor: pointer; }
+        .refresh-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-color, #3b82f6);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 0.3rem;
+        }
+        .refresh-spinner.hidden { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .last-refresh-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .import-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .import-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1rem 1.25rem;
+            transition: border-color 0.15s;
+        }
+        .import-card:hover { border-color: var(--accent-color, #3b82f6); }
+        .import-card.status-failed { border-left: 3px solid var(--error-color, #ef4444); }
+        .import-card.status-completed { border-left: 3px solid var(--success-color, #22c55e); }
+        .import-card.status-processing { border-left: 3px solid var(--warning-color, #f59e0b); }
+
+        .import-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+        .import-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            min-width: 0;
+        }
+        .import-card-title .source-type {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            background: var(--bg-secondary, rgba(255,255,255,0.06));
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .import-card-filepath {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            word-break: break-all;
+            margin-bottom: 0.6rem;
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            line-height: 1.4;
+        }
+
+        .import-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 0.5rem 1.5rem;
+        }
+        .import-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .import-meta-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .import-meta-value {
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .import-meta-value.mono {
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        .error-message-row {
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 4px;
+            font-size: 0.82rem;
+            color: var(--error-color, #ef4444);
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            word-break: break-all;
+        }
+
+        .summary-bar {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+        }
+        .summary-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+        }
+        .summary-stat-value {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .summary-stat-label {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" class="active" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" class="active" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <div class="maintenance-container">
+        <div class="maintenance-header">
+            <div>
+                <h1 style="margin: 0; font-size: 1.5rem;" data-i18n="importStatus.title">📊 Import Status</h1>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: var(--text-muted);" data-i18n="importStatus.subtitle">Per-source/file tracking with processing details</p>
+            </div>
+            <div class="import-status-controls">
+                <span class="last-refresh-time" id="lastRefreshTime"></span>
+                <label class="auto-refresh-toggle">
+                    <input type="checkbox" id="autoRefreshCheck" checked>
+                    <span data-i18n="importStatus.autoRefresh">Auto-refresh (10s)</span>
+                </label>
+                <button id="refreshBtn" class="btn btn-outline">
+                    <span class="refresh-spinner hidden" id="refreshSpinner"></span>
+                    <span id="refreshLabel">🔄 Refresh</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="summaryBar" class="summary-bar hidden"></div>
+
+        <div id="importCards" class="import-cards"></div>
+        <div id="statusEmpty" class="empty-state hidden"><p data-i18n="importStatus.noRecords">No import status records.</p></div>
+        <div id="statusError" class="empty-state hidden" style="color: var(--error-color);"></div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <!-- Page Script -->
+    <script src="js/import-status.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

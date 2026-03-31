@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown to HTML</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default'
+        });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    # Test Markdown with Mermaid
+
+This is a test markdown file that includes a Mermaid diagram.
+
+## Sample Flowchart
+
+```mermaid
+graph TD
+    A[Start] --> B{Is it working?}
+    B -- Yes --> C[Great!]
+    B -- No --> D[Debug]
+    D --> B
+    C --> E[End]
+```
+
+## Sample Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant System
+    User->>System: Convert Markdown
+    System->>System: Process Content
+    System->>User: Return HTML
+    Note right of System: With Mermaid support!
+```
+
+## Regular Markdown
+
+You can also use regular markdown features:
+
+- Bullet points
+- **Bold text**
+- *Italic text*
+- [Links](https://example.com)
+
+### Code Block
+
+```powershell
+Get-Process | Where-Object { $_.CPU -gt 10 }
+``` 
+</body>
+</html>

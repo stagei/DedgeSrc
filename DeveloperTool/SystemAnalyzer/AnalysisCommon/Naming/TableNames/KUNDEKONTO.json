@@ -1,0 +1,227 @@
+{
+  "tableName": "KUNDEKONTO",
+  "futureName": "CustomerAccount",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "FIRMA",
+      "futureName": "Company",
+      "description": "Company identification number",
+      "foreignKey": "KUNDE_FIR"
+    },
+    {
+      "name": "TIDSPUNKT_LOG",
+      "futureName": "LogTime",
+      "description": "Timestamp of the log entry",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDEKONTO",
+      "futureName": "CustomerAccount",
+      "description": "Unique customer account identifier",
+      "foreignKey": [
+        "KONTO",
+        "KUNDER_M_AKTIV_KONTO"
+      ]
+    },
+    {
+      "name": "HANDLING",
+      "futureName": "Action",
+      "description": "Type of action or transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "FORNAVN",
+      "futureName": "FirstName",
+      "description": "First name of the customer",
+      "foreignKey": [
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "ETTERNAVN",
+      "futureName": "LastName",
+      "description": "Last name of the customer",
+      "foreignKey": [
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "ADRESSE1",
+      "futureName": "AddressLine1",
+      "description": "First line of the address",
+      "foreignKey": [
+        "FIRMA",
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "POSTNR",
+      "futureName": "Postcode",
+      "description": "Postal code of the customer's address",
+      "foreignKey": [
+        "Z_PNRTAB"
+      ]
+    },
+    {
+      "name": "KUNDESTATUS",
+      "futureName": "CustomerStatus",
+      "description": "Current status of the customer account",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDETYPE",
+      "futureName": "CustomerType",
+      "description": "Type of customer (e.g., individual, business)",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "PERSON_ORG_NR",
+      "futureName": "PersonOrgNumber",
+      "description": "Personal or organization number",
+      "foreignKey": null
+    },
+    {
+      "name": "BANKGIRO",
+      "futureName": "BankAccount",
+      "description": "Bank account identifier",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "TELEFON",
+      "futureName": "PhoneNumber",
+      "description": "Customer's phone number",
+      "foreignKey": [
+        "FIRMA",
+        "KUNDEKONTO_TEST",
+        "Z_AVDTAB"
+      ]
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "KUNDER_M_AKTIV_KONTO",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record or event",
+      "foreignKey": [
+        "BANKTERM_ID",
+        "BANKTERM_MASKIN",
+        "FK_LOG",
+        "KONTO",
+        "KONTOTYPE",
+        "KUNDEKONTO_TEST",
+        "KUNDER_M_AKTIV_KONTO",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserID",
+      "description": "User ID associated with the record",
+      "foreignKey": [
+        "AD_BRUKER",
+        "BANKTERM_ID",
+        "BANKTERM_MASKIN, BILAGNR, FIRMA, FK_LOG, KONTO, KONTOTYPE, KUNDEKONTO_TEST, KUNDER"
+      ]
+    },
+    {
+      "name": "RENTEBREV",
+      "futureName": "InterestLetter",
+      "description": "Indicator for interest letter (e.g., Y/N)",
+      "foreignKey": [
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "KUNDENR_SAP",
+      "futureName": "SAPCustomerNumber",
+      "description": "Customer number in SAP system",
+      "foreignKey": null
+    },
+    {
+      "name": "DISPONENT",
+      "futureName": "Agent",
+      "description": "Person or entity acting as an agent",
+      "foreignKey": [
+        "KUNDEKONTO_TEST"
+      ]
+    },
+    {
+      "name": "FULLMAKT",
+      "futureName": "PowerOfAttorney",
+      "description": "Indicator for power of attorney (e.g., Y/N)",
+      "foreignKey": null
+    },
+    {
+      "name": "LANDKODE",
+      "futureName": "CountryCode",
+      "description": "Country code associated with the address",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "EPOST_KONTOHAVER",
+      "futureName": "EmailAccountHolder",
+      "description": "Email address of the account holder",
+      "foreignKey": null
+    },
+    {
+      "name": "PERSNR_DISP1",
+      "futureName": "DispPersonNumber1",
+      "description": "First personal number for agent (if applicable)",
+      "foreignKey": null
+    },
+    {
+      "name": "FULLMAKT",
+      "futureName": "PowerOfAttorney2",
+      "description": "Second indicator for power of attorney (e.g., Y/N)",
+      "foreignKey": null
+    },
+    {
+      "name": "PERSNR_DISP2",
+      "futureName": "DispPersonNumber2",
+      "description": "Second personal number for agent (if applicable)",
+      "foreignKey": null
+    },
+    {
+      "name": "EPOST_DISPONENT",
+      "futureName": "AgentEmail",
+      "description": "Email address of the agent",
+      "foreignKey": null
+    },
+    {
+      "name": "MEDLEM",
+      "futureName": "Member",
+      "description": "Indicator for membership (e.g., Y/N)",
+      "foreignKey": [
+        "KUNDEKONTO_TEST",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "MEDLEMSDATO",
+      "futureName": "MembershipDate",
+      "description": "Date of membership or subscription",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:28:32"
+}

@@ -1,0 +1,129 @@
+﻿---
+description: COBOL copy element naming conventions, file extensions, and program-to-copybook relationships for the Dedge codebase
+globs: 
+alwaysApply: false
+---
+
+# COBOL Copy Element Naming Conventions
+
+## Program Name Structure: `PPTNNNNN.CBL`
+
+| Position | Meaning | Examples |
+|---|---|---|
+| **PP** (2 chars) | Subsystem prefix | GM, OK, OS, RS, RK, IL, DB, VDH, AA, BR, D3/D4/D5, TM, VS, SF, XX, GX |
+| **T** (1 char) | Program type | H, V, B, F, X, A |
+| **NNNNN** | Functional name | KORN, OPER, FATR, DELI |
+
+### Program Type Codes (3rd character)
+
+| Code | Type | Norwegian | Purpose |
+|---|---|---|---|
+| **H** | Main screen | Hovedbilde | Interactive screen program |
+| **V** | Validation | Validering | Validation for an H-program |
+| **B** | Batch | Batch | Background/batch program |
+| **F** | Function | Funksjon | Shared function/subroutine |
+| **X** | Extract | Eksport | Data extraction |
+| **A** | API | API/DLL | API/DLL interface |
+
+### Subsystem Prefixes
+
+| Prefix | Subsystem | Norwegian |
+|---|---|---|
+| GM | General Menu/Framework | Generell Meny |
+| OK | Orders/Feed | Ordre/Kraftfor |
+| OS | Order System | Ordre System |
+| RS | Commodity System | Ravare System |
+| RK | Grain Commodity | Ravare Korn |
+| IL | Loans/Deposits | Innlan |
+| DB | Budget/Contribution | Driftsbudsjett/Bidrag |
+| VDH | Maintenance | Vedlikehold |
+| AA | Agri Admin | Agri Admin |
+| BR | Spare Parts | Bestilling Reservedeler |
+| D3/D4/D5 | D365 Integration | D365 versjonert |
+| TM | Time tracking | Timeregistrering |
+| VS | Screen maintenance | Vedlikehold Skjerm |
+| SF | Service/Invoicing | Service/Fakturering |
+| XX | Web Services | Web Services |
+| GX | General Extended | Generell eXtended |
+
+## Copy Element Extensions and Roles
+
+| Extension | Full Name | Folder | Role |
+|---|---|---|---|
+| **.CPB** | Copy Program Block | `cpy/` | Screen data blocks (LINKAGE SECTION), name matches H-program |
+| **.CPY** | Copy | `cpy/` | General working-storage copybooks |
+| **.DCL** | Declare | `sys/cpy/` | DB2 host variable declarations (2-4 char table abbreviation) |
+| **.CPX** | Copy Extended | `sys/cpy/` | Extended copybooks (RS/OA subsystems) |
+| **.MF** | Micro Focus | runtime | Micro Focus system copybooks (e.g. `DS-CNTRL.MF`) |
+| **.GS** | Generated Screen | `gs/` | Binary screen layout file |
+| **.IMP** | Import | `imp/` | Dialog System import files, mirrors CPB names |
+
+## COPY Statement Syntax Variants
+
+```cobol
+COPY "DEFCPY.CPY".        -- Quoted with extension (most common)
+COPY 'KUN.DCL'.           -- Single-quoted with extension
+COPY SQLENV.              -- Bare name, no quotes (DB2 precompiler convention)
+EXEC SQL INCLUDE SQLCA END-EXEC.  -- Only used for SQLCA
+```
+
+- Both single and double quotes are used interchangeably
+- `COPY ... REPLACING` is NOT used anywhere in this codebase
+- `$SET DB2(COPY)` directive tells the precompiler to process COPY inside SQL DECLARE sections
+
+## Program-to-Copybook Relationships
+
+### Rule 1: H-programs always have a self-named .CPB
+`RSHKORN.CBL` -> `COPY "RSHKORN.CPB"` (screen data block in LINKAGE SECTION)
+
+### Rule 2: V-programs reference their H-program's .CPB
+`GMVVDIK.CBL` -> `COPY 'GMHVDIK.CPB'` (validates data from the H-screen)
+
+### Rule 3: Some programs have a matching .CPY
+`RSHKORN.CBL` -> `COPY "RSHKORN.CPY"` (working-storage fields)
+
+### Rule 4: DCL files use short DB2 table abbreviations
+`KUN.DCL` = Kunder, `SOH.DCL` = Ordrehoder, `SOL.DCL` = Ordrelinjer, `VAR.DCL` = Vareregister
+
+### Rule 5: EXEC SQL INCLUDE is only for SQLCA
+All other DB2 copies use `COPY 'xxx.DCL'` inside `EXEC SQL DECLARE SECTION`
+
+## Framework Copybooks (shared across all subsystems)
+
+| Copybook | Purpose |
+|---|---|
+| DEFCPY.CPY | SQL error handling block (nearly universal) |
+| REQFELL.CPY | Request/authorization framework |
+| DSRUNNER.CPY | Dialog System runner interface |
+| DSSYSINF.CPY | Dialog System info block |
+| DS-CNTRL.MF | Dialog System control block |
+| CURT.CPY | Date/time utilities |
+| GMAUTILS.CPY | General utility functions |
+| FLEX.CPY | Flexible parameter passing |
+| LBLP.CPY | Label printing interface |
+| GMASEMA.CPY | Semaphore/locking (batch) |
+
+## File Exclusion Patterns (from AzureDevOpsGitCheckIn)
+
+Files with these patterns are excluded as old/backup copies:
+- Suffixes: `-OLD`, `_OLD`, `-GML`, `_GML`, `-GAMMEL`, `_GAMMEL`
+- Names containing 8 consecutive digits (date stamps)
+- Names containing spaces
+
+## Folder Layout (VCPATH)
+
+```
+$VCPATH\src\cbl\          -- .CBL source files
+$VCPATH\src\cbl\cpy\      -- .CPY and .CPB copybooks
+$VCPATH\src\cbl\cpy\sys\cpy\  -- .DCL and .CPX system copybooks
+$VCPATH\src\cbl\imp\      -- .IMP import files
+$VCPATH\src\rex\           -- .REX REXX scripts
+$VCPATH\src\bat\           -- .BAT/.CMD batch files
+```
+
+## Copybook Search Order (for COPY resolution)
+
+1. Same folder as the CBL file
+2. `cpy/` folder (`.CPY`, `.CPB`)
+3. `sys/cpy/` folder (`.DCL`, `.CPX`)
+4. COBCPY environment variable paths

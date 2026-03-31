@@ -1,0 +1,266 @@
+{
+  "program": "OAVBILR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:55",
+  "variableFilenames": {
+    "LESFILE": {
+      "logicalName": "LESFILE",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Validation program for vehicle register maintenance",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:51:55"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:1d6726f2e67afe3508811c603e74a7684daf72c66eb8dd132582a7d1c8bfc977",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\oavbilr.cbl",
+    "actualName": "OAVBILR",
+    "program": "OAVBILR",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMALIKE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAHCTV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TA1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FME.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FIN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FPK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FSA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VEN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IFF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SIN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VET.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PLV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TA2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TA3.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TTE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFBILR.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_BILER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSP_NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRANSPORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRANSP_BILEIER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMADATO"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LESFILE",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Validation program for vehicle register maintenance"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:55"
+  }
+}

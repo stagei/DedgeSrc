@@ -1,0 +1,112 @@
+{
+  "tableName": "P_TREKK_I_OPPGJOR",
+  "futureName": "TrekkIOppgjor",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "KornHandler",
+      "futureName": "KornHandler",
+      "description": "The handler of the grain",
+      "foreignKey": "FK_MOTTAKER"
+    },
+    {
+      "name": "Trekknr",
+      "futureName": "TrekkNumber",
+      "description": "Unique identifier for the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "Mottakernr",
+      "futureName": "MottakerNumber",
+      "description": "The number of the mottaker",
+      "foreignKey": "FK_MOTTAKER"
+    },
+    {
+      "name": "Kundenr",
+      "futureName": "CustomerNumber",
+      "description": "The customer's unique identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "Produsentnr",
+      "futureName": "ProducerNumber",
+      "description": "The producer's unique identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "Trekktype",
+      "futureName": "TrekkType",
+      "description": "The type of trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "Prigruppe",
+      "futureName": "PriorityGroup",
+      "description": "The priority group for the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "PrioSekvens",
+      "futureName": "PrioritySequence",
+      "description": "The sequence number within the priority group",
+      "foreignKey": null
+    },
+    {
+      "name": "TrekkFraDato",
+      "futureName": "TrekkFromDate",
+      "description": "The date from which the trekk starts",
+      "foreignKey": null
+    },
+    {
+      "name": "TrekkBelop",
+      "futureName": "TrekkAmount",
+      "description": "Total amount of the trekk in kr.",
+      "foreignKey": null
+    },
+    {
+      "name": "TrekkHittil",
+      "futureName": "TrekkPaidAmount",
+      "description": "The total amount paid so far, in kr.",
+      "foreignKey": null
+    },
+    {
+      "name": "OppgjortDato",
+      "futureName": "SettlementDate",
+      "description": "The date when the trekk was settled",
+      "foreignKey": null
+    },
+    {
+      "name": "ManOppgjortDato",
+      "futureName": "ManualSettlementDate",
+      "description": "The manual settlement date if different from the actual settlement date",
+      "foreignKey": null
+    },
+    {
+      "name": "Brukerid",
+      "futureName": "UserId",
+      "description": "The identifier of the user who performed the action",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "FraOppgjbrevNr",
+      "futureName": "FromOppegjorsBrevNumber",
+      "description": "The number of the beginning oppegjorsbrev if applicable",
+      "foreignKey": null
+    },
+    {
+      "name": "Avregningstype",
+      "futureName": "ReconciliationType",
+      "description": "The type of reconciliation",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:20:05"
+}

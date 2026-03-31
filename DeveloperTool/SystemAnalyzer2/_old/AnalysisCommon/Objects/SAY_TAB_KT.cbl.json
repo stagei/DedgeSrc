@@ -1,0 +1,122 @@
+{
+  "program": "SAY_TAB_KT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:51:01",
+  "variableFilenames": {
+    "SLFFRTL-FIL": {
+      "logicalName": "SLFFRTL-FIL",
+      "physicalVariable": "W-SLFFRTL-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "File path and name pattern for SLFFRTL-FIL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:51:01"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "SAY_TAB_KT",
+    "program": "SAY_TAB_KT",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "COMPUTE",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OPTIONAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "CHASSISNR20",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MASKINKARTOTEK",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "SQLEXEC",
+      "TIL_MONITOR"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "IAKT-FILE",
+        "physicalName": "OKBFRTL.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OKBFRTL.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "SLFFRTL-FIL",
+        "physicalName": "W-SLFFRTL-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and name pattern for SLFFRTL-FIL"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "OSBTCOM.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSBTCOM.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "OSBTCOMLOG.LOG",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\OSBTCOMLOG.LOG",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T19:51:01"
+  }
+}

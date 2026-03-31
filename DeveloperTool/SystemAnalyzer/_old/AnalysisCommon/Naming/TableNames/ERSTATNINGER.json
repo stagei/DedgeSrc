@@ -1,0 +1,46 @@
+{
+  "tableName": "ERSTATNINGER",
+  "futureName": "Erstatninger",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "GMLFKNR",
+      "futureName": "OriginalProductNumber",
+      "description": "The original product number being replaced or complemented.",
+      "foreignKey": "VAREERSTATNINGER.FKNR"
+    },
+    {
+      "name": "NYTTFKNR",
+      "futureName": "NewProductNumber",
+      "description": "The new product number replacing or complementing the original product.",
+      "foreignKey": "VAREERSTATNINGER.FKNR"
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "The quantity of products involved in the replacement or complementation process.",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Indicates whether the record represents a replacement (erstattet) or a complement (erstatter).",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserID",
+      "description": "The unique identifier of the user performing the replacement or complementation action.",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp indicating when the replacement or complementation was performed.",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:19:26"
+}

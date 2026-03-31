@@ -1,0 +1,85 @@
+{
+  "tableName": "AH_ORDREHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "BranchNumber",
+      "description": "Branch or location number",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVORDRNR",
+      "futureName": "LevOrderNumber",
+      "description": "Lev order reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "OBEKRDATO",
+      "futureName": "ObekrDate",
+      "description": "Date of objection",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERANSEORDRE",
+      "futureName": "ReferenceOrder",
+      "description": "Reference order number",
+      "foreignKey": null
+    },
+    {
+      "name": "REFTYPE",
+      "futureName": "ReferenceType",
+      "description": "Type of reference",
+      "foreignKey": null
+    },
+    {
+      "name": "TRANSPORT_TYPE",
+      "futureName": "TransportType",
+      "description": "Type of transport",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREDATO",
+      "futureName": "OrderDate",
+      "description": "Order date",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTATT_EDI_OBK",
+      "futureName": "EdiObkReceived",
+      "description": "Indication if EDI object received",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "LevNumber",
+      "description": "Lev number or supplier identifier",
+      "foreignKey": {
+        "table": "TEKSTER",
+        "column": "NUM_ID"
+      }
+    },
+    {
+      "name": "FKA_H_STATUS",
+      "futureName": "FkaHStatus",
+      "description": "Status from FKA system",
+      "foreignKey": null
+    },
+    {
+      "name": "FKA_TIDSPUNKT",
+      "futureName": "FkaTimestamp",
+      "description": "Time stamp from FKA system",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:28:10"
+}

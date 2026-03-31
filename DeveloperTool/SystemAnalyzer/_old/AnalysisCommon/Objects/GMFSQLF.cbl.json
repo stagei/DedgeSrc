@@ -1,0 +1,54 @@
+{
+  "program": "GMFSQLF",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T23:38:36",
+  "extraction": {
+    "sourceHash": "sha256:7c715d571c78027e009493322870417f78360d4d159a5f04361491a702a24f7c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFSQLF.CBL",
+    "actualName": "GMFSQLF",
+    "program": "GMFSQLF",
+    "copyElements": [],
+    "sqlOperations": [],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-28T23:38:36"
+  },
+  "variableFilenames": {
+    "EPOST-FIL": {
+      "logicalName": "EPOST-FIL",
+      "physicalVariable": "ww-epost-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Contains epost-tekst for sending SMS and e-mail",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:10:15"
+    },
+    "EPOST-BAT-FIL": {
+      "logicalName": "EPOST-BAT-FIL",
+      "physicalVariable": "ww-epost-bat-fil",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and pattern for WW-EPOST-BAT-FIL construction",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:10:18"
+    },
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Filepath construction for WW-FILNAVN involves dynamic userid and date, resulting in a CSV file.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:10:22"
+    }
+  }
+}

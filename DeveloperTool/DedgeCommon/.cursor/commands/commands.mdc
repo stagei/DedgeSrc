@@ -1,0 +1,75 @@
+﻿---
+description: Custom Cursor commands for DedgeCommon
+alwaysApply: true
+---
+
+# Cursor Commands - Special Shortcuts
+
+**Commands are ONLY triggered if they are the ONLY text in the user's message.**
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/help` | Show command list |
+| `/regressiontest` | Run all 5 test suites (mandatory before deploy) |
+| `/deploy` | Full deployment workflow |
+| `/test` | Quick test of current changes (build only) |
+
+## Command: `/regressiontest`
+
+**MUST run all 5 test suites before deploying ANY new NuGet version:**
+
+1. **DedgeCommonVerifyFkDatabaseHandler**
+   ```powershell
+   cd c:\opt\src\DedgeCommon\DedgeCommonVerifyFkDatabaseHandler
+   dotnet run
+   ```
+
+2. **TestWorkObject (C#)**
+   ```powershell
+   cd c:\opt\src\DedgeCommon\TestWorkObject
+   dotnet run
+   ```
+
+3. **Test-WorkObjectExport.ps1 (PowerShell)**
+   ```powershell
+   pwsh -File "C:\opt\src\DedgePsh\_Modules\GlobalFunctions\Test-WorkObjectExport.ps1"
+   ```
+
+4. **TestNotification**
+   ```powershell
+   cd c:\opt\src\DedgeCommon\TestNotification
+   dotnet run
+   ```
+
+5. **TestGlobalSettings**
+   ```powershell
+   cd c:\opt\src\DedgeCommon\TestGlobalSettings
+   dotnet test
+   ```
+
+## Command: `/deploy`
+
+**Full automated deployment workflow with SMS notification.**
+
+**Steps executed automatically:**
+
+1. **Verify UserGuides** - Check all public classes have up-to-date guides
+2. **Run Regression Tests** - ALL 5 test suites must pass
+3. **Deploy NuGet Package** - Auto-increment version, build, push
+4. **Git Commit and Push**
+5. **Send SMS Notification**
+
+**Abort conditions:**
+- UserGuides missing or outdated → Stop
+- Any test fails → Stop, send failure SMS
+- Build fails → Stop, send failure SMS
+- NuGet push fails → Stop, don't commit
+
+## Command: `/test`
+
+Quick build and basic verification:
+```powershell
+dotnet build c:\opt\src\DedgeCommon\DedgeCommon\DedgeCommon.csproj
+```

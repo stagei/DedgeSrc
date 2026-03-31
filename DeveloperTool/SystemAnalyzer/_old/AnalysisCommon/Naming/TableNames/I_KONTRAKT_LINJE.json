@@ -1,0 +1,58 @@
+{
+  "tableName": "I_KONTRAKT_LINJE",
+  "futureName": "ContractLine",
+  "namespace": "Contracts",
+  "columns": [
+    {
+      "name": "LEVNR",
+      "futureName": "VendorNumber",
+      "description": "Vendor identification number",
+      "foreignKey": "I_KONTRAKT_HODE"
+    },
+    {
+      "name": "KONTRAKTNR",
+      "futureName": "ContractNumber",
+      "description": "Unique contract identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within the contract",
+      "foreignKey": null
+    },
+    {
+      "name": "KVANTUM_KONTRAKT",
+      "futureName": "ContractQuantity",
+      "description": "Total quantity in the contract",
+      "foreignKey": "I_KONTRAKT_HODE"
+    },
+    {
+      "name": "KVANTUM_MOTTATT",
+      "futureName": "ReceivedQuantity",
+      "description": "Quantity received so far",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS",
+      "futureName": "Price",
+      "description": "Unit price",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID associated with the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:41:27"
+}

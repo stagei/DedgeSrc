@@ -1,0 +1,403 @@
+﻿{
+    "explorer.confirmDelete": false,
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "security.workspace.trust.enabled": false,
+    "git.confirmSync": false,
+    "files.autoGuessEncoding": true,
+    "github.copilot.enable": {
+        "COBOL": true,
+        "COBOLIT": true,
+        "ACUCOBOL": true,
+        "COBOL_MF_LISTFILE": false,
+        "COBOL_PCOB_LISTFILE": false,
+        "COBOL_ACU_LISTFILE": false,
+        "COBOL_MF_PREP": false,
+        "mfu": false,
+        "utreport": false,
+        "*": true
+    },
+    "security.allowedUNCHosts": [
+        "DEDGE.fk.no",
+        "t-no1batch-vm01",
+        "t-no1batch-vm01.DEDGE.fk.no",
+        "p-no1batch-vm01.DEDGE.fk.no",
+        "tfk-batch-vm01.DEDGE.fk.no",
+        "sfk-batch-vm01.DEDGE.fk.no",
+        "*.DEDGE.fk.no",
+        "logviewer",
+        "FK08C4QZ",
+        "p-Dedge-vm01",
+        "sfk-erp-03",
+        "p-Dedge-vm02.DEDGE.fk.no",
+        "p-Dedge-vm02",
+        "p-no1fkx-app01",
+        "t-no1fkmvft-db"
+    ],
+    "extensions.ignoreRecommendations": true,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "explorer.confirmDragAndDrop": false,
+    "powershell.promptToUpdatePowerShell": false,
+    "files.associations": {
+        "*.log-viewer": "log"
+    },
+    "logViewer.watch": [
+        {
+            "groupName": "Production",
+            "watches": [
+                {
+                    "groupName": "POS PROD INACTIVE - p-no1batch-vm01",
+                    "watches": [
+                        {
+                            "title": "VerifoneVIM",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\vim_*.log"
+                        },
+                        {
+                            "title": "ServiceHostRunner",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\ServiceHostRunner.log"
+                        },
+                        {
+                            "title": "VIMWrapper",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\VIMWrapper.log"
+                        },
+                        {
+                            "title": "DedgePosAPI",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\DedgePosAPI.log"
+                        },
+                        {
+                            "title": "AllLoggingInfo",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\AllLoggingInfo.log"
+                        },
+                        {
+                            "title": "AllLogging",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\AllLogging.log"
+                        },
+                        {
+                            "title": "WarnErrorFatal",
+                            "pattern": "X:\\apps\\DedgePosServiceHostRunner\\log\\WarnErrorFatal.log"
+                        },
+                        {
+                            "title": "Broken Network Connection",
+                            "pattern": "N:\\COBNT\\DedgePosAPIBrokenNetworkConnection.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans Log",
+                            "pattern": "X:\\data\\ValidateAndFixPosTrans\\log\\ValidateAndFixPosTrans.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans FollowUp",
+                            "pattern": "X:\\data\\ValidateAndFixPosTrans\\followUp_**.log"
+                        },
+                        {
+                            "title": "Maintainance Log",
+                            "pattern": "X:\\apps\\DedgePosApiMaintainance\\Logging.log"
+                        },
+                        {
+                            "title": "ExportTransactionFiles",
+                            "pattern": "X:\\apps\\ExportTransactionFiles\\Logging.log"
+                        }
+                    ]
+                },
+                {
+                    "groupName": "POS PROD ACTIVE - skf-batch-vm01",
+                    "watches": [
+                        {
+                            "title": "VerifoneVIM",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\vim_*.log"
+                        },
+                        {
+                            "title": "ServiceHostRunner",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\ServiceHostRunner.log"
+                        },
+                        {
+                            "title": "VIMWrapper",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\VIMWrapper.log"
+                        },
+                        {
+                            "title": "DedgePosAPI",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\DedgePosAPI.log"
+                        },
+                        {
+                            "title": "AllLoggingInfo",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\AllLoggingInfo.log"
+                        },
+                        {
+                            "title": "AllLogging",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\AllLogging.log"
+                        },
+                        {
+                            "title": "WarnErrorFatal",
+                            "pattern": "W:\\apps\\DedgePosServiceHostRunner\\log\\WarnErrorFatal.log"
+                        },
+                        {
+                            "title": "Broken Network Connection",
+                            "pattern": "N:\\COBNT\\DedgePosAPIBrokenNetworkConnection.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans Log",
+                            "pattern": "W:\\data\\ValidateAndFixPosTrans\\log\\ValidateAndFixPosTrans.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans FollowUp",
+                            "pattern": "W:\\data\\ValidateAndFixPosTrans\\followUp_**.log"
+                        },
+                        {
+                            "title": "Maintainance Log",
+                            "pattern": "W:\\apps\\DedgePosApiMaintainance\\Logging.log"
+                        },
+                        {
+                            "title": "BT_* Log (...\\COBDATA\\LOG)",
+                            "pattern": "A:\\BT_**.log"
+                        }
+                    ]
+                },
+                {
+                    "groupName": "EHF Peppol Import",
+                    "watches": [
+                        {
+                            "title": "Get EHF Participants Log (N:\\COBNT)",
+                            "pattern": "N:\\COBNT\\**_get_ehf_participants.log"
+                        },
+                        {
+                            "title": "Get Peppol Directory",
+                            "pattern": "\\\\p-no1batch-vm01.DEDGE.fk.no\\opt\\data\\GetPeppolDirectory\\GetPeppolDirectory.log"
+                        }
+                    ]
+                },
+                {
+                    "groupName": "Andre",
+                    "watches": [
+                        {
+                            "title": "Dedge DailyRoutine",
+                            "pattern": "X:\\apps\\DedgeDailyRoutine\\log\\DedgeDailyRoutine.log"
+                        },
+                        {
+                            "title": "FixJob",
+                            "pattern": "X:\\apps\\FixJob\\FixJob.log"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "groupName": "DevTools",
+            "watches": [
+                {
+                    "title": "AzureDevOpsGitCheckIn.ps1.log",
+                    "pattern": "\\\\t-no1batch-vm01\\opt\\data\\AzureDevOpsGitCheckIn\\log\\AzureDevOpsGitCheckIn.ps1.log"
+                },
+                {
+                    "title": "AzureDevOpsGitCheckIn.bat.log",
+                    "pattern": "\\\\t-no1batch-vm01\\opt\\data\\AzureDevOpsGitCheckIn\\log\\AzureDevOpsGitCheckIn.bat.log"
+                },
+                {
+                    "title": "CBLDialogSystemExport.log",
+                    "pattern": "Z:\\work\\CBLDialogSystemExport\\Content\\**_CBLDialogSystemExport.log"
+                },
+                {
+                    "title": "AutoDoc",
+                    "pattern": "Z:\\src\\DedgePsh\\DevTools\\AutoDoc\\AutoDoc.log"
+                }
+            ]
+        },
+        {
+            "groupName": "Local",
+            "watches": [
+                {
+                    "groupName": "DedgePOS",
+                    "watches": [
+                        {
+                            "title": "VerifoneVIM",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\vim_*.log"
+                        },
+                        {
+                            "title": "ServiceHostRunner",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\ServiceHostRunner.log"
+                        },
+                        {
+                            "title": "VIMWrapper",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\VIMWrapper.log"
+                        },
+                        {
+                            "title": "DedgePosAPI",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\DedgePosAPI.log"
+                        },
+                        {
+                            "title": "AllLoggingInfo",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\AllLoggingInfo.log"
+                        },
+                        {
+                            "title": "AllLogging",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\AllLogging.log"
+                        },
+                        {
+                            "title": "WarnErrorFatal",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\WarnErrorFatal.log"
+                        },
+                        {
+                            "title": "Telemetry",
+                            "pattern": "C:\\opt\\apps\\DedgePosServiceHostRunner\\log\\Telemetry.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans Log",
+                            "pattern": "C:\\data\\ValidateAndFixPosTrans\\log\\ValidateAndFixPosTrans.log"
+                        },
+                        {
+                            "title": "ValidateAndFixPosTrans FollowUp",
+                            "pattern": "C:\\opt\\data\\ValidateAndFixPosTrans\\followUp_**.log"
+                        },
+                        {
+                            "title": "GHSTST1 Log (...\\COBDATA\\LOG)",
+                            "pattern": "A:\\GHSTST1_**_FKAVDNT_FKGEISTA.log"
+                        }
+                    ]
+                },
+                {
+                    "groupName": "EHF Peppol Import",
+                    "watches": [
+                        {
+                            "title": "EHF",
+                            "pattern": "C:\\opt\\src\\DedgePsh\\EHF\\elma.log"
+                        },
+                        {
+                            "title": "Get EHF Participants Log (N:\\COBNT)",
+                            "pattern": "N:\\COBNT\\get_ehfparticipants_new.log"
+                        },
+                        {
+                            "title": "CmdExec",
+                            "pattern": "C:\\opt\\src\\DedgePsh\\EHF\\CmdExec.log"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "logViewer.chunkSizeKb": 256,
+    "logViewer.options": {},
+    "[cobol]": {
+        "editor.guides.indentation": false,
+        "editor.rulers": [
+            7,
+            11,
+            132,
+            148
+        ],
+        "editor.wordSeparators": "!\"#$%&'()*+,./:;<=>?@[\\]^`{|}~"
+    },
+    "microFocusCOBOL.editor.sourceFormat": "variable",
+    "microFocusCOBOL.installLocation": "C:\\Program Files (x86)\\Micro Focus\\Net Express 5.1\\Base\\Bin",
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "terminal.integrated.enablePersistentSessions": false,
+    "git.openRepositoryInParentFolders": "always",
+    "code-for-ibmi.connections": [
+        {
+            "name": "BASISPRO (Full Access)",
+            "host": "erp1db2.DEDGE.fk.no",
+            "port": 3700,
+            "username": "DEDGE\\fkgeista"
+        }
+    ],
+    "code-for-ibmi.connectionSettings": [
+        {
+            "name": "BASISPRO (Full Access)",
+            "host": "",
+            "objectFilters": [],
+            "libraryList": [],
+            "autoClearTempData": false,
+            "customVariables": [],
+            "connectionProfiles": [],
+            "commandProfiles": [],
+            "ifsShortcuts": [],
+            "autoSortIFSShortcuts": false,
+            "homeDirectory": ".",
+            "tempLibrary": "ILEDITOR",
+            "tempDir": "/tmp",
+            "currentLibrary": "",
+            "sourceASP": null,
+            "sourceFileCCSID": "*FILE",
+            "autoConvertIFSccsid": false,
+            "hideCompileErrors": [],
+            "enableSourceDates": false,
+            "sourceDateMode": "diff",
+            "sourceDateGutter": false,
+            "encodingFor5250": "default",
+            "terminalFor5250": "default",
+            "setDeviceNameFor5250": false,
+            "connectringStringFor5250": "localhost",
+            "autoSaveBeforeAction": true,
+            "showDescInLibList": false,
+            "debugPort": "8005",
+            "debugSepPort": "8008",
+            "debugUpdateProductionFiles": false,
+            "debugEnableDebugTracing": false,
+            "readOnlyMode": false,
+            "quickConnect": true,
+            "defaultDeploymentMethod": "",
+            "protectedPaths": [],
+            "showHiddenFiles": true,
+            "lastDownloadLocation": "C:\\Users\\fkgeista",
+            "buttons": "save"
+        }
+    ],
+    "vsicons.dontShowNewVersionMessage": true,
+    "workbench.editor.enablePreview": false,
+    "workbench.iconTheme": "icons",
+    "workbench.preferredHighContrastColorTheme": "Cursor Dark",
+    "workbench.preferredHighContrastLightColorTheme": "Cursor Dark",
+    "workbench.tree.indent": 20,
+    "workbench.colorCustomizations": {
+        "tab.activeBackground": "#925d3f",
+        "tab.activeForeground": "#ffffff",
+        "tab.inactiveBackground": "#333232",
+        "tab.inactiveForeground": "#cccccc"
+    },
+    "workbench.settings.applyToAllProfiles": [
+        
+    ],
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "diffEditor.maxComputationTime": 0,
+    "workbench.colorTheme": "Visual Studio Dark",
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "dbcode.connections": [
+        {
+            "connectionId": "N_ilWiHVoxPZfGX1PLIgm",
+            "name": "INLPRD",
+            "driver": "db2",
+            "host": "p-no1inlprd-db",
+            "port": 50050,
+            "ssl": true,
+            "sslTrustCertificate": true,
+            "username": "DEDGE\\FKGEISTA",
+            "password": "",
+            "savePassword": "secretStorage",
+            "database": "INLPRD",
+            "readOnly": false,
+            "connectionTimeout": 30,
+            "connectionType": "host"
+        },
+        {
+            "connectionId": "keL7sArv1LLsqFGWa22-J",
+            "name": "XINLPRD",
+            "driver": "db2",
+            "host": "p-no1inlprd-db",
+            "port": 50000,
+            "ssl": true,
+            "sslTrustCertificate": true,
+            "username": "DEDGE\\FKGEISTA",
+            "password": "",
+            "savePassword": "secretStorage",
+            "database": "XINLPRD",
+            "readOnly": false,
+            "connectionTimeout": 30,
+            "connectionType": "host"
+        }
+    ]
+}

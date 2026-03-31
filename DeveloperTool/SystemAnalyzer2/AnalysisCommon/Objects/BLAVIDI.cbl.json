@@ -1,0 +1,95 @@
+{
+  "program": "BLAVIDI",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:46",
+  "extraction": {
+    "sourceHash": "sha256:694d3c91f8f6d6031d27149eae8be99b13fccd514f9ff9a657fb135e980dc96d",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\blavidi.cbl",
+    "actualName": "BLAVIDI",
+    "program": "BLAVIDI",
+    "copyElements": [
+      {
+        "name": "GMAAUTI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VILA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BLAVIDI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "VH",
+        "tableName": "ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VIHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "P",
+        "tableName": "DEL_LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PAKKE_VARER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VILIN",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMAAUTI",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:46"
+  }
+}

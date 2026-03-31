@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[title]</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="icon" href="[iconurl]" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+[css]
+
+    /* Page-specific: Batch accent color (purple) */
+    :root {
+      --accent-primary: #7c3aed;
+    }
+    [data-theme="dark"] {
+      --accent-primary: #a78bfa;
+    }
+
+    .diagram-thumb {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+
+    input[type="checkbox"] {
+      accent-color: var(--accent-primary);
+    }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .detail-table th {
+      background: var(--bg-secondary);
+      padding: 0.5rem;
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-table tr:last-child td {
+      border-bottom: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <a href="[autodochomepageurl]" style="text-decoration: none;">
+        <img src="[imageurl]" alt="Dedge" />
+      </a>
+      <h4>[title]</h4>
+      <span class="badge">Batch</span>
+    </div>
+    <div class="theme-toggle" title="Toggle theme">
+      <button class="theme-toggle-btn" id="theme-light" onclick="setTheme('light')" title="Light mode">
+        <i class="bi bi-sun-fill"></i>
+      </button>
+      <button class="theme-toggle-btn" id="theme-dark" onclick="setTheme('dark')" title="Dark mode">
+        <i class="bi bi-moon-fill"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Info Panel -->
+    <div class="info-panel">
+      <div class="info-card">
+        <table class="info-table">
+          <tr>
+            <td>Filename</td>
+            <td>
+              <a href="https://Dedge.visualstudio.com/Dedge/_search?action=contents&text=[sourcefile]&type=code&filters=ProjectFilters%7BDedge%7D">[sourcefile]</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>[type]</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>[desc]</td>
+          </tr>
+          <tr>
+            <td>Uses SQL</td>
+            <td><input type="checkbox" [usesql] onclick="return false" /></td>
+          </tr>
+          <tr>
+            <td>Uses Object Rexx</td>
+            <td><input type="checkbox" [userex] onclick="return false" /></td>
+          </tr>
+          <tr>
+            <td>Created</td>
+            <td>[created]</td>
+          </tr>
+          <tr>
+            <td>Diagram</td>
+            <td>
+              <a href="[diagram]">
+                <img src="[diagram]" alt="Diagram" class="diagram-thumb" style="max-width: 150px;">
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>Generated</td>
+            <td>[generated]</td>
+          </tr>
+        </table>
+      </div>
+
+      <details>
+        <summary><i class="bi bi-terminal"></i> Called Scripts</summary>
+        <table class="detail-table">
+          <tr>
+            <th>Module</th>
+          </tr>
+          [calllist]
+        </table>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-code-square"></i> Called COBOL Programs</summary>
+        <table class="detail-table">
+          <tr>
+            <th>Program</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>System</th>
+          </tr>
+          [calllistcbl]
+        </table>
+      </details>
+
+      <details>
+        <summary><i class="bi bi-clock-history"></i> Change Log</summary>
+        <table class="detail-table">
+          <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Comment</th>
+          </tr>
+          [changelog]
+        </table>
+      </details>
+    </div>
+
+    <!-- Diagram Panel -->
+    <div class="diagram-panel">
+      <div class="diagram-tabs">
+        <button class="diagram-tab active" onclick="showDiagram('flow', this)">
+          <i class="bi bi-diagram-2"></i> Flow Diagram
+        </button>
+        <button class="diagram-tab" onclick="showDiagram('process', this)">
+          <i class="bi bi-gear"></i> Process Execution
+        </button>
+      </div>
+      
+      <!-- Flow Diagram -->
+      <div class="diagram-content active" id="flow-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('flow')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('flow')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('flow')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="flow-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('flow')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('flow')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('flow')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="flow-container">
+          <pre class="mermaid" id="flowDiagram" data-diagram-type="flow">
+[flowmmd_content]
+          </pre>
+        </div>
+      </div>
+      
+      <!-- Process Diagram -->
+      <div class="diagram-content" id="process-content">
+        <div class="diagram-controls">
+          <div class="diagram-controls-left">
+            <div class="diagram-btn-group">
+              <button class="diagram-btn" onclick="zoomIn('process')" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+              <button class="diagram-btn" onclick="zoomOut('process')" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+              <button class="diagram-btn" onclick="resetZoom('process')" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+            </div>
+            <span class="zoom-indicator" id="process-zoom">100%</span>
+            <button class="diagram-btn" onclick="fitToScreen('process')" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+          </div>
+          <div class="diagram-controls-right">
+            <button class="diagram-btn" onclick="openInNewWindow('process')" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+            <button class="diagram-btn" onclick="toggleFullscreen('process')" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+          </div>
+        </div>
+        <div class="diagram-container" id="process-container">
+          <pre class="mermaid" id="processDiagram" data-diagram-type="process">
+[processmmd_content]
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Overlay -->
+  <div class="diagram-fullscreen-overlay" id="fullscreen-overlay">
+    <div class="diagram-fullscreen-header">
+      <span class="diagram-fullscreen-title" id="fullscreen-title">Diagram</span>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div class="diagram-btn-group">
+          <button class="diagram-btn" onclick="zoomInFullscreen()" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+          <button class="diagram-btn" onclick="zoomOutFullscreen()" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+          <button class="diagram-btn" onclick="resetZoomFullscreen()" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+        <span class="zoom-indicator" id="fullscreen-zoom">100%</span>
+        <button class="diagram-btn" onclick="fitToScreenFullscreen()" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+        <button class="diagram-btn" onclick="closeFullscreen()" title="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+    <div class="diagram-fullscreen-content" id="fullscreen-content"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <!-- Mermaid config (theme variables) -->
+  <script src="[mermaidconfigurl]"></script>
+  
+  <!-- Mermaid 11 ESM Module -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const theme = window.getMermaidTheme ? window.getMermaidTheme() : 'default';
+    const themeVars = window.getThemeVariables ? window.getThemeVariables() : { fontFamily: '"Courier New", Courier, monospace', fontSize: '14px' };
+    mermaid.initialize({ startOnLoad: true, theme: theme, securityLevel: 'loose', themeVariables: themeVars, flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' } });
+    window.mermaidInstance = mermaid;
+  </script>
+
+  <!-- Diagram controls (pan-zoom, fullscreen, theme) -->
+  <script src="[controlsscripturl]"></script>
+</body>
+</html>

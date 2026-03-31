@@ -1,0 +1,2108 @@
+# DbExplorer - Cursor AI Rules
+
+## Project Overview
+This is a C# WPF application for Windows 11 that provides a DBeaver-like database editor specifically for IBM DB2 databases. The application targets .NET 10, uses native DB2 drivers, supports offline deployment, and includes features like multiple connection tabs, dark mode, Monaco-like SQL editor, and auto-formatting.
+
+## Framework & Technology Stack
+
+### Required Technologies
+- **Framework**: .NET 10 (net10.0-windows)
+- **UI Framework**: WPF (Windows Presentation Foundation)
+- **Database Driver**: IBM.Data.DB2.Core (native drivers)
+- **Logging**: NLog (NOT Serilog)
+- **SQL Editor**: AvalonEdit
+- **SQL Formatter**: PoorMansTSqlFormatter
+- **UI Theme**: ModernWpfUI
+- **Language**: C# 13
+
+### Key Dependencies
+```xml
+<PackageReference Include="Net.IBM.Data.Db2" Version="9.0.0.400" />
+<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+<PackageReference Include="PoorMansTSqlFormatter" Version="1.4.3.1" />
+<PackageReference Include="ModernWpfUI" Version="0.9.6" />
+<PackageReference Include="NLog" Version="6.0.6" />
+<PackageReference Include="NLog.Extensions.Logging" Version="6.0.6" />
+<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+```
+
+### DB2 Client Configuration
+**IMPORTANT**: The application uses **Net.IBM.Data.Db2 9.0.0.400** which provides native DB2 connectivity without requiring external IBM DB2 Client installation. The package includes all necessary drivers and communicates directly with the DB2 database server over the network.
+
+## Documentation Standards
+
+### Markdown Documentation Location
+**CRITICAL**: All markdown documentation files MUST be placed in the `.\Docs` folder.
+
+**Rules:**
+- All new `.md` files (except README.md at project root) should be created in `.\Docs`
+- Feature specifications → `Docs/`
+- Implementation summaries → `Docs/`
+- Status reports → `Docs/`
+- Technical guides → `Docs/`
+- Analysis documents → `Docs/`
+- Only `README.md` stays in the project root
+
+**When creating documentation:**
+```bash
+# Correct path for new markdown files
+MarkdownDoc/MY_NEW_FEATURE.md
+
+# Incorrect - DO NOT create in root
+MY_NEW_FEATURE.md  # ❌ WRONG
+```
+
+**Existing Documentation:**
+All project markdown files are located in `MarkdownDoc/` including:
+- `TASKLIST.md` - Project task tracking
+- `NEXTSTEPS.md` - Implementation roadmap
+- `OBJECT_BROWSER_IMPROVEMENT_PLAN.md` - Object Browser specifications
+- All implementation summaries and status reports
+- All feature specifications and guides
+
+### Documentation Token Economy (CRITICAL)
+
+**ABSOLUTE RULE**: Do NOT waste tokens on non-permanent/temporary documentation.
+
+**❌ FORBIDDEN - Non-Permanent Documents:**
+- Progress summaries (use brief shell output instead)
+- Interim status reports
+- "FIXES.md" files that just describe what was fixed (code comments are enough)
+- Duplicate documentation explaining what the code already shows
+- Verbose implementation logs
+- Step-by-step change descriptions
+
+**✅ ALLOWED - Permanent/Reference Documents:**
+- Architecture documentation (`THEME_MANAGEMENT_SYSTEM.md`)
+- User guides and tutorials
+- API reference documentation
+- Design specifications that inform future development
+- Troubleshooting guides
+- Migration guides
+
+**Token Saving Guidelines:**
+1. **Instead of creating "FIXES.md"** → Add comments in code explaining the fix
+2. **Instead of progress summaries** → Use brief shell Write-Host output
+3. **Instead of verbose change logs** → Use git commit messages
+4. **Instead of interim reports** → Report completion only
+5. **Only create .md files that will be referenced long-term**
+
+**Example of Token Waste:**
+```markdown
+# ❌ BAD: DARK_THEME_FIXES.md (170 lines)
+Lists what was changed, what files were modified, step-by-step fixes
+→ This should just be code comments and git commits
+```
+
+**Example of Good Documentation:**
+```markdown
+# ✅ GOOD: THEME_MANAGEMENT_SYSTEM.md
+Architecture overview, usage examples, how to extend
+→ This will be referenced by developers for months/years
+```
+
+**When in doubt:** Ask "Will this document be useful 3 months from now?" If no, don't create it.
+
+## Logging Standards
+
+### Always Use NLog (Never Serilog)
+```csharp
+using NLog;
+
+private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+// Logging examples
+Logger.Info("Application started");
+Logger.Debug("Debug information: {value}", someValue);
+Logger.Error(exception, "Error occurred during operation");
+Logger.Warn("Warning message");
+```
+
+### NLog Configuration
+- Configuration file: `nlog.config` (XML format)
+- Log location: `logs/` directory
+- Log format: `${longdate}|${level:uppercase=true}|${logger}|${message}`
+- Archive daily, keep 30 days
+- Never log passwords or sensitive data (mask connection strings)
+
+### Logging Best Practices
+1. Log all DB2 connection attempts (success/failure)
+2. Log query executions with timing
+3. Log all exceptions with full context
+4. Use structured logging with parameters
+5. Mask sensitive data (passwords) in logs
+6. Log application lifecycle events (startup, shutdown)
+7. **ALWAYS implement DEBUG-level logging when encountering ANY issues** - this is critical for troubleshooting
+8. Include debug logs for: connection lifecycle, query parameters, configuration loading, UI state changes, and all error scenarios
+
+### Debug Logging Requirements
+**CRITICAL**: When encountering any issues, errors, or unexpected behavior:
+- Add `Logger.Debug()` statements before and after the operation
+- Log input parameters and state
+- Log intermediate steps and decisions
+- Log timing information
+- Log the full context of the operation
+- This debug logging is MANDATORY for troubleshooting and should be added proactively, not just reactively
+
+## Code Style & Naming Conventions
+
+### C# Conventions
+- Use C# 13 features when appropriate
+- Enable nullable reference types
+- Use `async`/`await` for DB operations
+- Use `using` statements for disposable resources
+- Follow Microsoft C# coding conventions
+
+### Naming Standards
+- Classes: PascalCase (e.g., `DB2ConnectionManager`)
+- Methods: PascalCase (e.g., `ExecuteQuery`)
+- Private fields: _camelCase with underscore (e.g., `_connectionString`)
+- Properties: PascalCase (e.g., `ConnectionStatus`)
+- Local variables: camelCase (e.g., `connectionString`)
+- Constants: PascalCase (e.g., `DefaultTimeout`)
+- Async methods: Suffix with `Async` (e.g., `ExecuteQueryAsync`)
+
+### File Organization
+```
+DbExplorer/
+├── Controls/          # UserControls (e.g., ConnectionTabControl)
+├── Data/             # DB2 connection and query logic
+├── Dialogs/          # Dialog windows
+├── Models/           # Data models and DTOs
+├── Services/         # Business logic (LoggingService, SqlFormatterService)
+├── Utils/            # Helper classes
+└── Resources/        # XSHD files, icons, themes
+```
+
+## Database & DB2 Standards
+
+### Connection Management
+- Always use `using` statements for connections
+- Use Net.IBM.Data.Db2 9.0.0.400 (self-contained, no DB2 client required)
+- Connection string format: `Server=host:port;Database=DBNAME;UID=user;PWD=pass;`
+- Enable connection pooling
+- Log all connection attempts
+- Namespace: `IBM.Data.Db2`
+
+### Query Execution
+- Always use parameterized queries (prevent SQL injection)
+- Use `DB2Parameter` for parameters
+- Log query execution with timing
+- Handle `DB2Exception` specifically with SqlState and ErrorCode
+- Implement timeout handling (default 30 seconds)
+
+### DB2 Syntax Verification Protocol
+
+**When encountering DB2 SQL errors after 2 failed attempts:**
+
+1. **Search IBM DB2 Documentation**:
+   - Use web search: "IBM DB2 12.1 [specific feature/table/column] syntax"
+   - Official IBM Knowledge Center is authoritative
+   - Check version-specific differences (10.5, 11.1, 11.5, 12.1)
+
+2. **Common Issue Sources**:
+   - Column names may differ between DB2 versions
+   - System catalog views (SYSCAT.*) have version-specific schemas
+   - Monitor table functions (MON_GET_*) may require admin privileges
+   - Admin views (SYSIBMADM.*) availability varies
+
+3. **Alternative Solutions**:
+   - Use simpler SYSCAT queries instead of monitoring functions
+   - Query SYSIBM.SYSDUMMY1 for basic validation
+   - Check SYSCAT.TABLES for available system catalog metadata
+   - Consult Stack Overflow for version-specific workarounds
+
+4. **Documentation Preservation**:
+   - Document discovered column name differences
+   - Note version-specific quirks in code comments
+   - Create reference docs for future database providers
+   - This aids multi-provider support (PostgreSQL, Oracle, SQL Server)
+
+**Search Pattern Example**:
+```
+"IBM DB2 12.1 SYSCAT.INDEXES columns"
+"DB2 MON_GET_LOCKS alternative"
+"DB2 version differences FIRSTKEYCARD vs FIRST_KEYCARD"
+```
+
+### Example Pattern
+```csharp
+using NLog;
+using IBM.Data.Db2;
+using DB2Conn = IBM.Data.Db2.DB2Connection;
+
+private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+public async Task<DataTable> ExecuteQueryAsync(string sql)
+{
+    Logger.Info("Executing query");
+    Logger.Debug($"SQL: {sql.Substring(0, Math.Min(100, sql.Length))}...");
+    
+    try
+    {
+        using var command = _db2Connection.CreateCommand();
+        command.CommandText = sql;
+        command.CommandTimeout = 30;
+        
+        using var adapter = new DB2DataAdapter(command);
+        var dataTable = new DataTable("Results");
+        await Task.Run(() => adapter.Fill(dataTable));
+        
+        Logger.Info($"Query returned {dataTable.Rows.Count} rows");
+        return dataTable;
+    }
+    catch (DB2Exception db2Ex)
+    {
+        Logger.Error(db2Ex, "DB2 error - SQL State: {SqlState}, Error Code: {ErrorCode}", 
+                     db2Ex.SqlState, db2Ex.ErrorCode);
+        throw;
+    }
+}
+```
+
+## WPF & UI Standards
+
+### XAML Conventions
+- Use ModernWpfUI theme system
+- Support both Dark and Light themes
+- Use dynamic resources for theme-aware colors
+- Follow Material Design principles
+- Use data binding over code-behind when possible
+
+### Theme Support
+- Default theme: Dark
+- Toggle via Ctrl+D or View menu
+- Use `ModernWpf.ThemeManager` for theme switching
+- All colors must support both themes
+
+### AvalonEdit Integration
+- Syntax highlighting: Custom DB2 SQL (DB2SQL.xshd)
+- Line numbers: Always enabled
+- Font: Consolas, size 14
+- Features: Code folding, find/replace, multiple cursors
+- Keyboard shortcuts: Standard VS Code bindings
+
+### TabControl Pattern
+- Each connection = separate tab
+- Tab header shows: `{Database} @ {Host}` with close button
+- Support Ctrl+N (new tab), Ctrl+W (close tab)
+- Each tab is a `ConnectionTabControl` UserControl
+
+## Feature-Specific Rules
+
+### Multiple Connection Tabs
+- Each tab maintains its own DB2 connection
+- Tabs are independent (separate connection managers)
+- Tab headers include close button (✕)
+- Support tab switching via Ctrl+Tab
+- Maximum tabs: No limit (performance dependent)
+
+### SQL Auto-Format
+- Use PoorMansTSqlFormatter
+- Trigger: Ctrl+Shift+F
+- Settings: 4-space indent, uppercase keywords, 120 char line width
+- Format on save: Optional (configurable)
+
+### Dark Mode
+- Use ModernWpfUI themes
+- Toggle: Ctrl+D or View menu
+- Persist preference in appsettings.json
+- Update syntax highlighting colors for dark theme
+
+### Offline Deployment
+- Self-contained: Include .NET 10 runtime
+- All dependencies bundled (no internet required)
+- Include: nlog.config, appsettings.json, DB2SQL.xshd
+- Publish command: `dotnet publish -c Release -r win-x64 --self-contained true -f net10.0-windows`
+
+## Error Handling
+
+### Exception Handling Pattern
+```csharp
+try
+{
+    Logger.Debug("Starting operation");
+    // Operation
+    Logger.Info("Operation completed successfully");
+}
+catch (DB2Exception db2Ex)
+{
+    Logger.Error(db2Ex, "DB2 error - SQL State: {SqlState}", db2Ex.SqlState);
+    MessageBox.Show($"Database error: {db2Ex.Message}", "Error", 
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+}
+catch (Exception ex)
+{
+    Logger.Error(ex, "Unexpected error");
+    MessageBox.Show($"Error: {ex.Message}", "Error",
+                   MessageBoxButton.OK, MessageBoxImage.Error);
+}
+```
+
+### Error Logging Requirements
+1. Always log exceptions with full context
+2. Log exception type, message, and stack trace
+3. Include operation context (what was being done)
+4. Mask sensitive data (passwords, connection strings)
+5. Show user-friendly messages to users
+
+## Configuration Management
+
+### appsettings.json
+- Store all configurable settings
+- Include framework version
+- Never commit passwords
+- Support environment-specific configs
+
+### Required Settings
+```json
+{
+  "Application": {
+    "Framework": "net10.0-windows"
+  },
+  "Editor": {
+    "DefaultTheme": "Dark",
+    "FontFamily": "Consolas",
+    "FontSize": 14
+  },
+  "Database": {
+    "DefaultCommandTimeout": 30
+  },
+  "Logging": {
+    "UseNLog": true,
+    "ConfigFile": "nlog.config"
+  }
+}
+```
+
+## Keyboard Shortcuts
+
+### Standard Shortcuts (Must Implement)
+- F5: Execute query
+- Ctrl+Enter: Execute current statement
+- Ctrl+Shift+F: Format SQL
+- Ctrl+N: New connection tab
+- Ctrl+W: Close current tab
+- Ctrl+S: Save script
+- Ctrl+O: Open script
+- Ctrl+D: Toggle dark mode
+- Ctrl+F: Find
+- Ctrl+H: Replace
+
+### Implementation
+Use WPF `RoutedCommand` with `KeyGesture` bindings in MainWindow.xaml.cs
+
+## Security Best Practices
+
+### Connection Strings
+- Never log passwords in plain text
+- Use regex to mask passwords: `PWD=([^;]*)` → `PWD=***`
+- Consider Windows Credential Manager for storage
+- Encrypt sensitive configuration values
+
+### SQL Injection Prevention
+- Always use parameterized queries
+- Never concatenate user input into SQL
+- Use `DB2Parameter` with proper data types
+- Validate and sanitize all user inputs
+
+## Testing Standards
+
+### Manual Testing Checklist
+- Test with multiple simultaneous connections
+- Test dark/light theme switching
+- Test SQL formatting with complex queries
+- Test offline deployment (no internet)
+- Test on clean Windows 11 VM
+- Test with various DB2 versions
+
+### Error Scenarios to Test
+- Invalid connection credentials
+- Network timeout
+- Invalid SQL syntax
+- Large result sets
+- Long-running queries
+- Connection loss during query
+
+## Performance Considerations
+
+### Database Operations
+- Use connection pooling (enabled by default)
+- Implement query timeouts (30 seconds default)
+- Use async operations for long-running queries
+- Display loading indicators for operations > 1 second
+- Implement query cancellation (Ctrl+Break)
+
+### UI Performance
+- Use virtualization for large DataGrid results
+- Implement pagination for > 10,000 rows
+- Use background threads for DB operations
+- Keep UI thread responsive
+
+## Deployment Rules
+
+### Offline Deployment Requirements
+- Target: win-x64, self-contained
+- Include all dependencies
+- Include nlog.config, appsettings.json, DB2SQL.xshd
+- Create Logs directory structure
+- Test on VM without .NET installed
+
+### Publishing Command
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true -f net10.0-windows \
+  /p:PublishSingleFile=true \
+  /p:IncludeNativeLibrariesForSelfExtract=true \
+  /p:PublishReadyToRun=true
+```
+
+### Files to Include
+- DbExplorer.exe
+- nlog.config
+- appsettings.json
+- DB2SQL.xshd
+- All DLL dependencies
+- .NET 10 runtime (if self-contained)
+
+## Code Review Checklist
+
+Before committing code, verify:
+- [ ] Uses .NET 10 (net10.0-windows)
+- [ ] Uses NLog for logging (not Serilog)
+- [ ] All exceptions are logged
+- [ ] DEBUG-level logging implemented for all critical operations
+- [ ] Passwords masked in logs
+- [ ] Parameterized queries used
+- [ ] Using statements for disposables
+- [ ] Dark mode compatible
+- [ ] Keyboard shortcuts implemented
+- [ ] Error messages user-friendly
+- [ ] No hardcoded connection strings
+- [ ] appsettings.json and nlog.config copy to output
+- [ ] TASKLIST.md updated with completed tasks
+- [ ] Uses IBM.Data.DB2.Core (self-contained drivers)
+
+## Common Patterns
+
+### Creating a New Service (with Debug Logging)
+```csharp
+using NLog;
+
+namespace DbExplorer.Services
+{
+    public class MyService
+    {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        
+        public MyService()
+        {
+            Logger.Debug("MyService initialized");
+        }
+        
+        public void DoWork(string parameter)
+        {
+            try
+            {
+                Logger.Info("Starting work");
+                Logger.Debug("DoWork called with parameter: {Parameter}", parameter);
+                
+                // Implementation step 1
+                Logger.Debug("Step 1: Validating input");
+                // validation code
+                
+                // Implementation step 2
+                Logger.Debug("Step 2: Processing data");
+                // processing code
+                
+                Logger.Info("Work completed successfully");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error during work with parameter: {Parameter}", parameter);
+                throw;
+            }
+        }
+    }
+}
+```
+
+### Debug Logging Pattern for Troubleshooting
+```csharp
+public void ComplexOperation(int id, string data)
+{
+    Logger.Debug("ComplexOperation started - ID: {Id}, Data length: {Length}", id, data?.Length ?? 0);
+    
+    try
+    {
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+        
+        Logger.Debug("Step 1: Fetching entity with ID: {Id}", id);
+        var entity = FetchEntity(id);
+        Logger.Debug("Entity fetched in {Ms}ms - Found: {Found}", stopwatch.ElapsedMilliseconds, entity != null);
+        
+        if (entity == null)
+        {
+            Logger.Warn("Entity not found for ID: {Id}", id);
+            return;
+        }
+        
+        stopwatch.Restart();
+        Logger.Debug("Step 2: Processing entity - Current state: {State}", entity.State);
+        ProcessEntity(entity, data);
+        Logger.Debug("Entity processed in {Ms}ms", stopwatch.ElapsedMilliseconds);
+        
+        Logger.Info("ComplexOperation completed successfully for ID: {Id}", id);
+    }
+    catch (Exception ex)
+    {
+        Logger.Error(ex, "ComplexOperation failed for ID: {Id}, Data: {Data}", id, data);
+        throw;
+    }
+}
+```
+
+### Creating a New Dialog
+```csharp
+public partial class MyDialog : Window
+{
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    
+    public MyDialog()
+    {
+        InitializeComponent();
+        Logger.Debug("MyDialog opened");
+    }
+    
+    private void OK_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
+        Logger.Info("MyDialog confirmed");
+        Close();
+    }
+}
+```
+
+## Documentation Requirements
+
+### XML Documentation
+- Document all public classes and methods
+- Include parameter descriptions
+- Include return value descriptions
+- Include exception documentation
+
+### Example
+```csharp
+/// <summary>
+/// Executes a SQL query and returns the results.
+/// </summary>
+/// <param name="sql">The SQL query to execute</param>
+/// <returns>DataTable containing query results</returns>
+/// <exception cref="DB2Exception">Thrown when database error occurs</exception>
+public DataTable ExecuteQuery(string sql)
+{
+    // Implementation
+}
+```
+
+## Task Management & Workflow
+
+### TASKLIST.md Updates
+**MANDATORY**: After completing ANY task:
+1. Open `TASKLIST.md`
+2. Locate the completed task
+3. Update the checkbox from `- [ ]` to `- [x]`
+4. Update the Status Summary with new counts
+5. Update the "Last Updated" date at the bottom
+6. Commit the updated tasklist with your code changes
+
+**This is NOT optional** - the tasklist MUST be kept up to date to track project progress accurately.
+
+### Bug Tracking Process
+**When user reports a bug:**
+1. Add bug to the "🐛 BUGS & ISSUES" section at the END of TASKLIST.md
+2. Create detailed subtasks with unchecked checkboxes `- [ ]`
+3. Mark status as "❌ NOT STARTED"
+4. Add note: "Pending verification of all preceding features"
+5. **DO NOT implement the bug fix immediately**
+6. Wait for user instruction to implement
+7. All preceding features/tasks must be verified complete first
+8. When ready to implement, change status to "IN PROGRESS"
+9. After completion, update all checkboxes to `- [x]` and status to "✅ COMPLETE"
+
+### Task Completion Verification (MANDATORY)
+
+**BEFORE claiming ANY task list is "complete" or "done":**
+
+**MANDATORY VERIFICATION STEPS:**
+```bash
+# 1. Count unchecked items in TASKLIST.md
+grep '^- \[ \]' TASKLIST.md | wc -l
+# MUST return: 0
+
+# 2. Count unchecked items in any *list.md files  
+grep '^- \[ \]' *list.md | wc -l
+# MUST return: 0
+
+# 3. Verify build succeeds
+dotnet build
+# MUST return: Exit code 0
+
+# 4. Verify CLI tests pass
+run_cli_tests
+# MUST return: All passed
+```
+
+**If ANY check fails:**
+- Task list is NOT complete
+- Continue implementing
+- DO NOT create "FINAL" reports
+- DO NOT ask user permission to continue
+- DO NOT declare completion
+
+**Only when ALL checks pass:**
+- Create final summary with verification proof
+- Report completion with evidence
+- Show: "grep '^- \[ \]' TASKLIST.md → 0 results"
+
+**NEVER claim completion without running these verifications.**
+
+### Continuous Implementation Mode
+
+**When user says: "continuous", "continue", "no interaction", "until done"**
+
+**CRITICAL RULE: NEVER STOP UNTIL COMPLETE**
+- **Work until 100% completion** - Do not stop for any reason except absolute necessity
+- **5 Retry Rule**: Attempt to fix each issue up to 5 times before moving on
+- **No Permission Needed**: Do not ask to continue, just continue
+- **Exhaust All Options**: Try all possible solutions before declaring something unfixable
+- **Only Stop If**: User explicitly requests stop, or all attempts exhausted
+
+**This means:**
+1. **Work continuously without stopping** to ask permission
+2. **Only report progress** at regular intervals (every 10-20% completion)
+3. **No status documents** until actual completion
+4. **No "should I continue?" questions** - just continue
+5. **No "FINAL" reports** at 70%, 80%, 90% - only at 100%
+6. **Use TASKLIST.md as source of truth** - not your mental model
+7. **Verify completion** with grep before any "done" claim
+8. **Retry up to 5 times** for each failing feature/command/test before moving on
+
+**Progress Reporting in Continuous Mode:**
+- Report every 20% completion (brief, no questions)
+- Format: "Progress: X% - Y tasks complete, Z remaining"
+- Continue working immediately
+- No multi-page status documents
+
+**Completion Reporting:**
+- Only when verification passes
+- Show proof: grep results, build output, test results
+- One final comprehensive report
+- No interim "final" reports
+
+**DO NOT:**
+- ❌ Stop to ask "should I continue?"
+- ❌ Stop to ask "which approach?"
+- ❌ Create multiple "FINAL" reports
+- ❌ Declare "done" without verification
+- ❌ Spend tokens on status docs instead of implementation
+- ❌ Rationalize "service layer complete = done"
+- ❌ Give up after 1-2 failures (must try 5 times)
+- ❌ Stop before attempting all possible solutions
+
+**VERIFICATION is the ONLY source of truth for completion.**
+
+**5-RETRY RULE:**
+For ANY failing test, command, feature, or functionality:
+1. **Attempt 1**: Initial implementation
+2. **Attempt 2**: Fix obvious errors
+3. **Attempt 3**: Research and apply documented solutions
+4. **Attempt 4**: Try alternative approaches
+5. **Attempt 5**: Web search for version-specific solutions
+
+**Only after 5 failed attempts** can you move to the next item.
+**Document each attempt** with what was tried and why it failed.
+
+### Stop Protocol (CRITICAL)
+
+**Battery Monitoring (Required)**:
+- Monitor battery state regularly (every 15-20 minutes)
+- Check using: `Get-WmiObject Win32_Battery | Select-Object EstimatedChargeRemaining`
+
+**If battery < 10% OR continuous implementation must be interrupted/stopped:**
+
+1. **Commit all changes**: Ensure all code is committed to git
+2. **Sync with remote**: Push changes to remote repository
+3. **Send SMS notification**: Execute the following PowerShell command:
+   ```powershell
+   Send-Sms "+4797188358" "DbExplorer: Implementation stopped at [X]% - Battery [Y]% - All changes committed & pushed"
+   ```
+4. **Shutdown PC (if battery < 10%)**: Execute after SMS:
+   ```powershell
+   shutdown /s /t 30 /c "Battery critical - DbExplorer implementation auto-shutdown"
+   ```
+
+**NEVER stop without:**
+- ✅ Committing changes
+- ✅ Syncing to remote
+- ✅ Sending SMS notification
+- ✅ Shutting down PC if battery < 10%
+
+**Battery Thresholds**:
+- **< 10%**: CRITICAL - Stop immediately, commit, push, SMS, shutdown
+- **10-20%**: WARNING - Complete current task quickly, prepare to stop
+- **20-50%**: CAUTION - Continue but monitor closely
+- **> 50%**: SAFE - Continue normal operations
+
+This ensures the user is immediately aware of implementation status and protects the PC from unexpected shutdown.
+
+### Development Workflow
+1. Review `TASKLIST.md` to identify next task
+2. **VERIFY functionality doesn't already exist** (use grep/glob_file_search to check Services/, Models/, Controls/)
+3. If exists: Update TASKLIST.md to mark as complete, enhance existing code if needed
+4. If doesn't exist: Proceed with implementation
+5. Read relevant section in `DB2_Application_Development_Guide.md` or `NEXTSTEPS.md`
+6. Implement the feature/component
+7. Add comprehensive NLog logging (including DEBUG level)
+8. **Kill, Build, and Run** - Follow the Build, Kill, and Run Workflow after EVERY change
+9. Fix any compilation errors immediately
+10. Test the implementation in the running application
+11. Update `TASKLIST.md` checkbox from `- [ ]` to `- [x]`
+12. Commit changes with meaningful message
+13. Move to next task
+
+### Build Frequently
+**CRITICAL**: Build the project regularly to catch compilation errors early:
+- After adding/modifying any class
+- After installing NuGet packages
+- After changing configuration files
+- Before marking tasks as complete
+- Command: `dotnet build` or `dotnet build -c Release`
+- Fix all errors and warnings before proceeding
+
+### Build, Kill, and Run Workflow
+**MANDATORY**: After EVERY code change, follow this exact sequence:
+1. **Git add, commit, and push**: `git add -A; git commit -m "Description of what changed"; git push`
+2. **Kill existing processes**: `taskkill /F /IM DbExplorer.exe 2>$null; taskkill /F /IM DbExplorerTray.exe 2>$null`
+3. **Build the tray app first**: `dotnet build DbExplorerTray\DbExplorerTray.csproj`
+4. **Build the main project (includes tray file copy)**: `dotnet build`
+5. **Run the project**: `Start-Process "bin\Debug\net10.0-windows\DbExplorer.exe"`
+
+**PowerShell one-liner**:
+```powershell
+git add -A; git commit -m "Description of changes"; git push; taskkill /F /IM DbExplorer.exe 2>$null; taskkill /F /IM DbExplorerTray.exe 2>$null; dotnet build DbExplorerTray\DbExplorerTray.csproj; dotnet build; if ($LASTEXITCODE -eq 0) { Start-Process "bin\Debug\net10.0-windows\DbExplorer.exe" }
+```
+
+### Deploy/Publish Commands (--deploy / --publish)
+**When user says `--deploy` or `--publish`** (both commands do the same thing):
+
+Execute this complete workflow in sequence:
+1. **Kill ALL existing running apps**:
+   ```powershell
+   taskkill /F /IM DbExplorer.exe 2>$null
+   taskkill /F /IM DbExplorerTray.exe 2>$null
+   # Also kill any batch job processes if running
+   ```
+
+2. **Compile ALL apps (tray first, then main)**:
+   ```powershell
+   dotnet build DbExplorerTray\DbExplorerTray.csproj
+   dotnet build
+   ```
+
+3. **Fix any compilation errors from the build log** - Do NOT proceed until build succeeds
+
+4. **Git add all changes**:
+   ```powershell
+   git add -A
+   ```
+
+5. **Git commit with descriptive message**:
+   ```powershell
+   git commit -m "<message describing what changed>"
+   ```
+
+6. **Git push to remote**:
+   ```powershell
+   git push
+   ```
+
+7. **Run the main application**:
+   ```powershell
+   Start-Process "bin\Debug\net10.0-windows\DbExplorer.exe"
+   ```
+
+**Complete Deploy/Publish one-liner**:
+```powershell
+taskkill /F /IM DbExplorer.exe 2>$null; taskkill /F /IM DbExplorerTray.exe 2>$null; dotnet build DbExplorerTray\DbExplorerTray.csproj; dotnet build; if ($LASTEXITCODE -eq 0) { git add -A; git commit -m "Deploy: <message>"; git push; Start-Process "bin\Debug\net10.0-windows\DbExplorer.exe" } else { Write-Host "BUILD FAILED - Fix errors first" -ForegroundColor Red }
+```
+
+**CRITICAL**: If build fails, DO NOT proceed to git commit. Fix the errors first and rebuild.
+
+**Why this is critical**:
+- Git commit ensures all changes are saved and tracked before testing
+- The executable is locked when running, preventing builds from succeeding
+- Kill BOTH main app AND tray app to avoid file lock errors
+- Always kill the processes BEFORE building to avoid file lock errors
+- Build tray app FIRST so that main app's PostBuild can copy the latest tray files
+- Only run the application if the build succeeds (check exit code)
+- This ensures you're always testing the latest code changes
+
+**When to apply**:
+- After modifying any .cs file
+- After modifying any .xaml file
+- After modifying any dialog or control
+- After adding new files to the project
+- Essentially: AFTER EVERY CHANGE that affects the compiled code
+
+### Log File Investigation (MANDATORY for Error Reports)
+**CRITICAL**: When user reports ANY error, ALWAYS check the log file FIRST before asking questions or making assumptions.
+
+**Log file location**: `logs\db2editor-YYYY-MM-DD.log`
+
+**Steps when user reports an error:**
+1. Read the log file for today's date: `Get-Content "logs\db2editor-$(Get-Date -Format 'yyyy-MM-dd').log" -Tail 100`
+2. Search for ERROR or FATAL entries: `Select-String -Path "logs\db2editor-*.log" -Pattern "ERROR|FATAL" | Select-Object -Last 20`
+3. Look for stack traces and exception details
+4. Use the log information to diagnose and fix the issue
+5. NEVER ask "what error did you see?" - check the logs instead
+
+**The log file contains:**
+- Full exception stack traces
+- SQL queries that failed
+- Connection issues
+- All ERROR and FATAL level messages
+- Timestamps to correlate with user actions
+
+**Example investigation:**
+```powershell
+# Get last 50 lines of today's log
+Get-Content "logs\db2editor-$(Get-Date -Format 'yyyy-MM-dd').log" -Tail 50
+
+# Search for errors in all recent logs
+Get-ChildItem "logs\db2editor-*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 3 | ForEach-Object { Select-String -Path $_.FullName -Pattern "ERROR|FATAL" }
+```
+
+## 🏭 Factory Pattern Usage (CRITICAL - DATABASE AGNOSTIC)
+
+### MANDATORY Rule: NEVER Directly Instantiate Provider Classes
+
+**❌ FORBIDDEN - Direct Instantiation:**
+```csharp
+// WRONG! Do NOT do this ANYWHERE except in factory classes
+var connectionManager = new DB2ConnectionManager(connection);
+var metadataService = new DB2MetadataService();
+```
+
+**✅ REQUIRED - Use Factory Pattern:**
+```csharp
+// CORRECT! Always use factories
+var connectionManager = ConnectionManagerFactory.CreateConnectionManager(connection);
+var metadataService = MetadataServiceFactory.CreateMetadataService(connectionManager);
+```
+
+### Factory Classes (THE ONLY PLACE for Provider References)
+
+**Only these files may reference provider-specific classes:**
+1. `Data/ConnectionManagerFactory.cs` - Creates connection managers
+2. `Services/MetadataServiceFactory.cs` - Creates metadata services
+
+**These factories MUST:**
+- Import provider namespaces: `using DbExplorer.Data.Providers.DB2;`
+- Use switch statements to select provider
+- Return interface types (`IConnectionManager`, not concrete types)
+- Throw `NotImplementedException` for unsupported providers
+
+### Correct Patterns for All Other Code
+
+**Services:**
+```csharp
+// ✅ CORRECT - Accept interface in constructor
+public class MyService
+{
+    private readonly IConnectionManager _connectionManager;
+    
+    public MyService(IConnectionManager connectionManager)
+    {
+        _connectionManager = connectionManager; // Works with ANY provider
+    }
+}
+```
+
+**Controls/Dialogs:**
+```csharp
+// ✅ CORRECT - Use factory to create connection manager
+public class MyControl : UserControl
+{
+    private readonly IConnectionManager _connectionManager;
+    
+    public MyControl(DatabaseConnection connection)
+    {
+        _connectionManager = ConnectionManagerFactory.CreateConnectionManager(connection);
+    }
+}
+```
+
+**Testing Connection:**
+```csharp
+// ✅ CORRECT - Use factory
+var connection = new DatabaseConnection { /* properties */ };
+var connectionManager = ConnectionManagerFactory.CreateConnectionManager(connection);
+var result = await connectionManager.TestConnectionAsync();
+```
+
+### Provider-Specific Type Checks (When Necessary)
+
+**If you MUST check provider type, use string comparison:**
+```csharp
+// ✅ CORRECT - Check provider string
+var providerType = connectionManager.ConnectionInfo.ProviderType?.ToUpperInvariant() ?? "DB2";
+if (providerType != "DB2")
+{
+    throw new NotSupportedException($"Feature not supported for provider: {providerType}");
+}
+
+// ❌ WRONG - Type check against concrete class
+if (connectionManager is not DB2ConnectionManager db2Manager)
+{
+    throw new NotSupportedException();
+}
+```
+
+### Namespace Import Rules
+
+**❌ FORBIDDEN in all files except factories:**
+```csharp
+using DbExplorer.Data.Providers.DB2;
+using DbExplorer.Data.Providers.PostgreSQL;
+using DbExplorer.Services.Providers.DB2;
+```
+
+**✅ ALWAYS use agnostic imports:**
+```csharp
+using DbExplorer.Data;           // ✅ Contains IConnectionManager
+using DbExplorer.Services;       // ✅ Contains factories
+using DbExplorer.Models;         // ✅ Provider-agnostic models
+```
+
+### Verification Commands
+
+**Check for violations:**
+```bash
+# Find direct DB2ConnectionManager instantiation (should return 0 results except factories)
+grep -r "new DB2ConnectionManager" --exclude-dir=obj --exclude-dir=bin | grep -v "Factory.cs"
+
+# Find provider namespace imports (should return 0 results except factories)
+grep -r "using.*Providers\.DB2" --exclude-dir=obj --exclude-dir=bin | grep -v "Factory.cs"
+
+# Find provider type checks (should use string comparison)
+grep -r "is.*DB2ConnectionManager" --exclude-dir=obj --exclude-dir=bin
+```
+
+### Why This Matters
+
+**Benefits of Factory Pattern:**
+- ✅ Add PostgreSQL support by updating 2 factory files (not 50+ service files)
+- ✅ Test with mock connections easily
+- ✅ Swap providers at runtime without code changes
+- ✅ Clear separation of concerns
+- ✅ Future-proof architecture
+
+**Consequences of Violations:**
+- ❌ Cannot add new database providers without massive refactoring
+- ❌ Code becomes tightly coupled to DB2
+- ❌ Testing becomes difficult
+- ❌ Maintenance nightmare
+
+### CODE REVIEW CHECKLIST
+
+Before committing, verify:
+- [ ] No `new DB2ConnectionManager()` outside factory
+- [ ] No `new DB2MetadataService()` outside factory
+- [ ] No `using DbExplorer.Data.Providers.DB2;` outside factory
+- [ ] All connection manager fields are `IConnectionManager` type
+- [ ] All provider checks use string comparison, not type checks
+- [ ] Factories return interface types, not concrete types
+
+---
+
+## AI Assistant Instructions
+
+When generating code for this project:
+
+1. **NEVER STOP until complete or 5 attempts exhausted** - Work continuously without asking permission
+2. **ALWAYS verify existing functionality FIRST** - Use grep/glob_file_search to check Services/, Models/, Controls/ folders before creating new files
+3. **Always use .NET 10** - Never suggest .NET 6, 7, or 8
+4. **Always use NLog** - Never use Serilog, log4net, or Console.WriteLine
+5. **Always add DEBUG-level logging** - Critical for troubleshooting issues
+6. **Use Net.IBM.Data.Db2 9.0.0.400** - The DB2 package with real connectivity (no external DB2 client required)
+7. **Update TASKLIST.md** - Mark tasks as complete immediately after implementation
+8. **Review TASKLIST.md BEFORE implementing** - Check what's already done to avoid duplicates
+9. **Git commit, Kill, Build Tray, Build Main, and Run after EVERY change** - Follow the Build, Kill, and Run Workflow (includes git add/commit and tray app build)
+10. **ALWAYS check log files when user reports errors** - Read logs/db2editor-*.log BEFORE asking questions (see Log File Investigation)
+11. **Implement access control checks** - Query DBAUTH, respect user permission levels
+11. **Tag menu items with access levels** - DBA, Middle, or Low level required
+12. **Follow WPF MVVM patterns** when appropriate
+13. **Support both dark and light themes** in all UI code
+14. **Include proper error handling** with logging
+15. **Use parameterized queries** for all SQL
+16. **Follow the project structure** (Controls, Data, Services, etc.)
+17. **Include keyboard shortcuts** for all major actions
+18. **Consider offline deployment** - no external dependencies
+19. **Add bugs to end of TASKLIST.md** - Do not implement until all preceding tasks verified
+20. **Retry 5 times before giving up** - Exhaust all solutions for each issue
+21. **🔄 ANALYZE before multi-file changes** - If change affects 3+ forms, evaluate creating a common class (see Generalization & Reusability Analysis)
+22. **🏭 ALWAYS use factory pattern** - Never instantiate provider classes directly
+22. **🏭 ALWAYS use IConnectionManager** - Never use concrete provider types in non-provider code
+23. **🏭 ALWAYS verify no provider leakage** - Run grep commands before committing
+
+### Testing & Development Connection Profile
+**AUTHORIZED CONNECTION**: You are explicitly authorized to use the **"FKKTOTST"** connection profile for:
+- Testing all database operations
+- Implementing and verifying features
+- Running automated tests
+- CLI command testing
+- UI dialog testing
+- Any development and verification activities
+
+**Connection Details**: "FKKTOTST" is the authorized test database connection profile. Use this for all implementation and testing without asking for permission.
+
+## Prohibited Patterns
+
+### Never Do This
+- ❌ Use Serilog (use NLog instead)
+- ❌ Use .NET 6, 7, or 8 (use .NET 10)
+- ❌ Concatenate SQL strings (use parameters)
+- ❌ Log passwords in plain text
+- ❌ Use Console.WriteLine for logging
+- ❌ Hardcode connection strings
+- ❌ Ignore exceptions without logging
+- ❌ Implement features without DEBUG-level logging
+- ❌ Complete tasks without updating TASKLIST.md
+- ❌ Make code changes without killing process, building, and running
+- ❌ Block UI thread for long operations
+- ❌ Use synchronous DB calls without async option
+- ❌ Create dependencies on external web services
+- ❌ Assume external IBM DB2 Client is installed (use Net.IBM.Data.Db2 9.0.0.400)
+- ❌ Create duplicate functionality without checking if it already exists
+- ❌ **DIRECTLY INSTANTIATE PROVIDER-SPECIFIC CLASSES** (`new DB2ConnectionManager()` is FORBIDDEN)
+- ❌ **USE PROVIDER-SPECIFIC TYPES** in non-provider code (use `IConnectionManager` instead)
+- ❌ **ADD `using` STATEMENTS** for provider namespaces outside of factory classes
+- ❌ **HARDCODE PROVIDER-SPECIFIC SQL** in C# code (use `MetadataHandler.GetQuery()`)
+
+## Pre-Implementation Verification Process
+
+**MANDATORY FIRST STEP:** Before implementing ANY new feature, service, model, or component:
+
+1. **Search for existing implementations:**
+   - Use `grep` to search for similar class names
+   - Use `glob_file_search` to find similar files
+   - Check Services/ folder for existing services
+   - Check Models/ folder for existing models
+   - Check Controls/ folder for existing UI components
+   - Review TASKLIST.md to see what's already completed
+
+2. **If functionality exists:**
+   - DO NOT duplicate it
+   - Enhance existing code instead
+   - Update TASKLIST.md to reflect what's already done
+
+3. **If functionality doesn't exist:**
+   - Proceed with implementation
+   - Follow all naming conventions
+   - Add to appropriate folder
+   - Update TASKLIST.md when complete
+
+**Example verification commands:**
+```bash
+# Search for existing service
+grep -r "LockMonitorService" Services/
+
+# Find similar model files
+glob_file_search "*Lock*.cs" Models/
+
+# Check if UI component exists
+list_dir Controls/
+```
+
+## Logical User Scenario Walkthrough (MANDATORY for ALL UIs and changes in the UI) 
+
+**BEFORE completing ANY user interface (dialog, panel, window):**
+
+**MUST perform comprehensive user scenario walkthrough:**
+
+1. **Think through ALL possible user actions:**
+   - What happens when user clicks each button?
+   - What happens when user enters invalid data?
+   - What happens when database operation fails?
+   - What happens when user cancels midway?
+   - What happens on connection loss during operation?
+
+2. **Identify missing elements:**
+   - Are all error cases handled?
+   - Are all edge cases covered?
+   - Is there a "Cancel" option for long operations?
+   - Can user recover from errors?
+   - Are success/failure states clear?
+
+3. **Check for missing features:**
+   - Should there be a "Help" button?
+   - Should there be a "Refresh" button?
+   - Should there be an "Export" option?
+   - Should there be keyboard shortcuts?
+   - Should there be tooltips explaining complex options?
+
+4. **Verify user flow completeness:**
+   - Can user accomplish their goal?
+   - Are there dead ends (no way back)?
+   - Is feedback provided for all actions?
+   - Are dangerous operations confirmed?
+   - Can user undo mistakes?
+
+5. **Document missing elements:**
+   - Add to TASKLIST.md or create new feature spec
+   - Mark as enhancement or bug
+   - Prioritize based on user impact
+
+**Example Walkthrough Questions:**
+- Connection Dialog: What if server is unreachable? → Show timeout error, allow retry
+- Export Dialog: What if file already exists? → Confirm overwrite
+- Query Execution: What if takes 5 minutes? → Show progress, allow cancel
+- Panel with filters: What if no data matches filter? → Show "No results" message
+- DDL Generator: What if table has no columns? → Show error, prevent generation
+
+**This walkthrough MUST be done for:**
+- Every new dialog created
+- Every new panel created  
+- Every new feature implemented
+- Any modified user interface
+
+**Purpose:** Ensure robust, professional user experience with no overlooked edge cases.
+
+## 🔄 Generalization & Reusability Analysis (MANDATORY)
+
+### When to Apply This Rule
+
+**TRIGGER**: Before implementing ANY change that affects 3+ forms, dialogs, controls, or services.
+
+### Deep Architecture Analysis Process
+
+**BEFORE implementing the same change in multiple places, STOP and ask:**
+
+1. **Is this a pattern that already exists in a common class?**
+   - Check `Services/UIStyleService.cs` for UI styling
+   - Check `Services/GridStyleHelper.cs` for DataGrid styling (legacy)
+   - Check `Utils/` for utility helpers
+   - Check existing base classes or interfaces
+
+2. **Should this become a common class/service?**
+   - If implementing in 3+ places → **CREATE A COMMON SERVICE**
+   - If adding same property to 3+ forms → **CREATE A SHARED BASE CLASS**
+   - If applying same styling to 3+ controls → **ADD TO UIStyleService**
+
+3. **Where should the common functionality live?**
+   - **UIStyleService** - For visual styling, icons, themes, colors
+   - **New base class** - For shared behavior across similar dialogs
+   - **Extension methods** - For adding functionality to existing types
+   - **Interface** - For shared contracts across implementations
+
+### Examples of Proper Generalization
+
+**❌ BAD - Same code in multiple files:**
+```csharp
+// In Dialog1.xaml
+Icon="pack://application:,,,/Resources/dEdge.ico"
+
+// In Dialog2.xaml
+Icon="pack://application:,,,/Resources/dEdge.ico"
+
+// In Dialog3.xaml
+Icon="pack://application:,,,/Resources/dEdge.ico"
+
+// ... repeated in 25 dialogs
+```
+
+**✅ GOOD - Centralized in common service:**
+```csharp
+// In UIStyleService.cs
+public const string ApplicationIconPath = "pack://application:,,,/Resources/dEdge.ico";
+
+public static void ApplyWindowIcon(Window window)
+{
+    if (window?.Icon == null)
+        window.Icon = GetApplicationIcon();
+}
+
+// In each dialog (or via App.xaml default style)
+UIStyleService.ApplyStyles(this); // Icon applied automatically
+```
+
+### Mandatory Checklist Before Multi-File Changes
+
+**Before making the same change to multiple files:**
+
+- [ ] **Search for existing common class** that handles this concern
+- [ ] **Count affected files** - If 3+, consider creating/extending common class
+- [ ] **Identify the concern type**:
+  - Styling/Theme → `UIStyleService`
+  - Connection handling → `IConnectionManager` pattern
+  - SQL execution → `MetadataHandler`
+  - Logging → NLog patterns
+  - Configuration → `PreferencesService`/`AppSettings`
+- [ ] **Evaluate maintenance burden** - Will this need to change again?
+- [ ] **Consider future needs** - Will other forms need this too?
+
+### Common Classes Reference
+
+| Concern | Common Class | Location |
+|---------|--------------|----------|
+| Window icons | `UIStyleService.ApplicationIconPath` | Services/UIStyleService.cs |
+| UI theming | `UIStyleService.ApplyStyles()` | Services/UIStyleService.cs |
+| DataGrid styling | `UIStyleService.ApplyDataGridStyle()` | Services/UIStyleService.cs |
+| Theme management | `UIStyleService` theme methods | Services/UIStyleService.cs |
+| SQL queries | `MetadataHandler.GetStatement()` | Services/MetadataHandler.cs |
+| Connection | `IConnectionManager` interface | Data/IConnectionManager.cs |
+| Preferences | `PreferencesService` | Services/PreferencesService.cs |
+| Grid preferences | `GridStyleHelper` (legacy) | Services/GridStyleHelper.cs |
+
+### When to Create NEW Common Classes
+
+**Create a new common service when:**
+1. Same logic appears in 3+ places
+2. The logic is likely to change/evolve
+3. Testing the logic independently would be valuable
+4. Multiple team members might implement it differently
+5. The concern is clearly separable from the hosting class
+
+**Naming Conventions for New Common Classes:**
+- `[Concern]Service.cs` - For services (e.g., `ExportService`, `ValidationService`)
+- `[Concern]Helper.cs` - For stateless utilities (e.g., `StringHelper`, `DateHelper`)
+- `[Concern]Manager.cs` - For stateful managers (e.g., `ThemeManager`, `ConnectionManager`)
+- `Base[Type].cs` - For base classes (e.g., `BaseDialog`, `BasePanel`)
+- `I[Concern].cs` - For interfaces (e.g., `IExportable`, `IRefreshable`)
+
+### Architecture Review Trigger
+
+**If you find yourself:**
+- Copying code from one dialog to another → **STOP - CREATE COMMON CLASS**
+- Adding the same property to multiple models → **STOP - CREATE BASE MODEL**
+- Implementing same event handler in multiple controls → **STOP - CREATE BEHAVIOR**
+- Applying same styling to multiple elements → **STOP - ADD TO UIStyleService**
+
+**Then:**
+1. Identify the common pattern
+2. Design the common abstraction
+3. Implement in ONE place
+4. Update all consumers to use the common class
+5. Document the common class for future use
+
+### Verification Commands
+
+```powershell
+# Find duplicate code patterns
+# Look for identical method implementations across files
+Get-ChildItem -Recurse -Include "*.cs" | Select-String "Icon.*dEdge" | Group-Object Pattern
+
+# Find potential candidates for common classes
+# Methods with same name in different files
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | Select-String "private void ApplyGridStyles" | Measure-Object
+```
+
+---
+
+## Questions to Ask Before Implementing
+
+1. **CRITICAL: Have I verified this functionality doesn't already exist?** (See Pre-Implementation Verification Process above)
+2. **CRITICAL: Have I performed logical user scenario walkthrough?** (See above - MANDATORY for UIs)
+3. **CRITICAL: Does this change affect 3+ forms/controls?** → Evaluate for common class (See Generalization & Reusability Analysis above)
+3. **What access level does this feature require?** (DBA, Middle, or Low level)
+4. **Have I tagged the menu item with the correct access level?**
+5. Does this work offline (no internet)?
+5. Is this logged with NLog at appropriate levels (Info, Debug, Error)?
+6. Have I added DEBUG-level logging for troubleshooting?
+7. Does this support dark mode?
+8. Is the SQL parameterized?
+9. Is the exception handled and logged (including DB2Exception with SqlState/ErrorCode)?
+10. Does this follow the project structure?
+11. Is this compatible with .NET 10?
+12. Are keyboard shortcuts implemented?
+13. Is the UI responsive during operation?
+14. Is sensitive data masked in logs?
+15. Have I updated TASKLIST.md after completing this task?
+16. Does this use Net.IBM.Data.Db2 9.0.0.400 (not requiring external DB2 client)?
+17. Have I killed the process, built, and run the application to test this change?
+
+---
+
+**Project Goal**: Create a professional, offline-capable DB2 database editor for Windows 11 using .NET 10, with enterprise-grade logging (NLog), modern UI (dark mode support), and DBeaver-like functionality.
+
+**Target Users**: Database administrators and developers working with IBM DB2 in offline/air-gapped environments.
+
+**Critical Requirements**: Offline deployment, multiple connections, dark mode, SQL formatting, native DB2 drivers, enterprise logging, role-based access control.
+
+## Security & Access Control
+
+### User Permission Levels
+After establishing a DB2 connection, query `SYSCAT.DBAUTH` to determine user's permission level:
+
+```sql
+SELECT * FROM SYSCAT.DBAUTH 
+WHERE GRANTEE = '<username_without_domain>'
+```
+
+**Access Levels:**
+1. **DBA Level** - User has DBA authority in DBAUTH table
+   - Full access to all functionality
+   - Can execute DDL, DML, DCL
+   - Can view all monitoring panels
+   - Can modify database objects
+
+2. **Middle Level** - User is present in DBAUTH but not DBA
+   - Standard DML operations (SELECT, INSERT, UPDATE, DELETE)
+   - Can view most monitoring panels
+   - Cannot execute DDL (CREATE, DROP, ALTER)
+   - Cannot force disconnect sessions
+   - Cannot modify database structure
+
+3. **Low Level** - User NOT present in DBAUTH table
+   - Read-only access only
+   - Can execute SELECT statements only
+   - Can view table properties (read-only)
+   - Cannot modify any data
+   - Cannot execute DML or DDL
+   - Monitoring panels are read-only
+
+### Menu Item Categorization
+Each menu item and feature must be tagged with minimum required access level:
+
+```csharp
+// Example menu item with access level
+<MenuItem Header="Database Load Monitor" 
+          Click="DatabaseLoadMonitor_Click"
+          Tag="AccessLevel:Middle"/>
+
+<MenuItem Header="Lock Monitor" 
+          Click="LockMonitor_Click"
+          Tag="AccessLevel:DBA"/>
+
+<MenuItem Header="Table Properties" 
+          Click="TableProperties_Click"
+          Tag="AccessLevel:Low"/>
+```
+
+**Feature Categories:**
+- **DBA Only:**
+  - Lock Monitor (force disconnect)
+  - Active Session Manager (force disconnect)
+  - RUNSTATS execution
+  - DDL generation and execution
+  - CDC management (ALTER TABLE)
+  - Migration assistant
+  - Unused object cleanup (DROP statements)
+
+- **Middle Level:**
+  - Database Load Monitor (view only)
+  - Table statistics (view only, no RUNSTATS)
+  - Query execution (DML allowed)
+  - Export functionality
+  - Source code browser (view only)
+  - Dependency analyzer (view only)
+  - Comment manager (view only)
+
+- **Low Level (Read-Only):**
+  - Query execution (SELECT only)
+  - Table properties (view only)
+  - Column details (view only)
+  - Export query results
+  - View metadata
+
+### Implementation Requirements
+1. Query DBAUTH immediately after successful connection
+2. Parse username from connection (remove domain prefix if present)
+3. Determine and store user's access level
+4. Show/hide menu items based on access level
+5. Validate access level before executing operations
+6. Log access level in connection logs
+7. Display access level indicator in UI (e.g., "🔒 READ-ONLY USER")
+
+### Username Parsing
+```csharp
+// Remove domain prefix from username
+// Example: "DOMAIN\username" -> "username"
+private string GetUsernameWithoutDomain(string fullUsername)
+{
+    if (fullUsername.Contains("\\"))
+        return fullUsername.Split('\\')[1];
+    if (fullUsername.Contains("@"))
+        return fullUsername.Split('@')[0];
+    return fullUsername;
+}
+```
+
+### Access Level Validation
+```csharp
+public enum UserAccessLevel
+{
+    Low,      // Read-only, not in DBAUTH
+    Middle,   // Standard user, in DBAUTH but not DBA
+    DBA       // Full access, has DBA authority
+}
+
+// Before executing operation
+if (_userAccessLevel < UserAccessLevel.DBA)
+{
+    throw new UnauthorizedException("This operation requires DBA privileges.");
+}
+```
+
+---
+
+## 🔥 CRITICAL ARCHITECTURE DECISIONS
+
+### DB2-Specific Code Isolation (MANDATORY)
+
+**ABSOLUTE RULE**: DB2-specific code MUST ONLY exist in designated files.
+
+**Allowed Files/Folders for DB2-Specific Code:**
+1. **`Data/Providers/DB2/DB2ConnectionManager.cs`** - Uses IBM.Data.Db2 driver directly for connection management
+2. **`Services/Providers/DB2/DB2MetadataService.cs`** - DB2 system catalog (SYSCAT) query implementations
+3. **`Resources/SyntaxHighlighting/DB2SQL.xshd`** - DB2 syntax highlighting definitions for AvalonEdit
+4. **`ConfigFiles/db2_*_sql_statements.json`** - DB2-specific SQL statements by version
+5. **`Data/ConnectionManagerFactory.cs`** - ONLY file that may reference provider-specific connection managers
+6. **`Services/MetadataServiceFactory.cs`** - ONLY file that may reference provider-specific metadata services
+
+**Code Abstraction Requirements:**
+- All other services, controls, and dialogs MUST use **database-agnostic interfaces**:
+  - Use `IConnectionManager` instead of `DB2ConnectionManager` directly
+  - Use `IConnectionInfo` instead of `DatabaseConnection` with provider checks
+  - Use `MetadataHandler.GetStatement()` to retrieve SQL from JSON files
+  - Never use `IBM.Data.Db2` types outside of `DB2ConnectionManager`
+
+**New DB2-Specific File Creation:**
+- **Explicit permission required** before creating any new file containing DB2-specific code
+- Must provide detailed explanation of:
+  1. Why the new class is necessary
+  2. Why existing abstractions (`IConnectionManager`, `DB2MetadataService`, JSON SQL files) are insufficient
+  3. How the new class will maintain provider-agnostic architecture
+  4. Migration plan for when other database providers (PostgreSQL, Oracle, SQL Server) are added
+
+**Examples:**
+
+✅ **CORRECT - Database-Agnostic Code:**
+```csharp
+// In any service/control/dialog
+public class TableService
+{
+    private readonly IConnectionManager _connectionManager;
+    private readonly MetadataHandler _metadataHandler;
+    
+    public async Task<DataTable> GetColumnsAsync(string schema, string table)
+    {
+        var sql = _metadataHandler.GetStatement("GetTableColumns");
+        return await _connectionManager.ExecuteQueryAsync(sql, schema, table);
+    }
+}
+```
+
+❌ **FORBIDDEN - DB2-Specific Code Outside Allowed Files:**
+```csharp
+// In any service/control/dialog (WRONG!)
+using IBM.Data.Db2;
+
+public class TableService
+{
+    public async Task<DataTable> GetColumnsAsync(DB2Connection connection)  // ❌ DB2-specific
+    {
+        var sql = "SELECT * FROM SYSCAT.COLUMNS WHERE...";  // ❌ Hardcoded DB2 SQL
+        using var cmd = new DB2Command(sql, connection);   // ❌ DB2-specific
+        // ...
+    }
+}
+```
+
+**Rationale:**
+- Enables future support for PostgreSQL, Oracle, SQL Server without code rewrites
+- Centralizes all provider-specific logic for easy maintenance
+- Makes testing easier with mock connections
+- Enforces separation of concerns
+
+**Enforcement - Run Before Every Commit:**
+```powershell
+# 1. Check for direct instantiation (MUST return 0 results)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | Select-String "new DB2ConnectionManager" | Where-Object { $_.Path -notmatch "Factory" }
+
+# 2. Check for provider namespace imports (MUST return 0 results)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | Select-String "using DbExplorer.Data.Providers.DB2" | Where-Object { $_.Path -notmatch "Factory" }
+
+# 3. Check for service provider imports (MUST return 0 results)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | Select-String "using DbExplorer.Services.Providers.DB2" | Where-Object { $_.Path -notmatch "Factory" }
+
+# 4. Check for IBM.Data.Db2 usage (MUST only be in DB2ConnectionManager.cs)
+Get-ChildItem -Recurse -Include "*.cs" -Exclude "obj","bin" | Select-String "using IBM.Data.Db2" | Where-Object { $_.Path -notmatch "DB2ConnectionManager" }
+```
+
+**All checks MUST return 0 results. Any violation must be refactored before commit.**
+
+---
+
+### Adding New Database Providers (MANDATORY ARCHITECTURE)
+
+**When implementing support for PostgreSQL, Oracle, SQL Server, MySQL, etc., follow these STRICT rules:**
+
+#### 1. Required New Files (Provider-Specific Only)
+
+For each new provider (e.g., PostgreSQL), create ONLY these files:
+
+**A. Connection Manager Implementation:**
+```
+Data/PostgreSQLConnectionManager.cs
+```
+- Must implement `IConnectionManager` interface
+- Uses provider-specific driver (e.g., Npgsql for PostgreSQL)
+- Handles provider-specific connection string format
+- Implements provider-specific parameter creation
+- Never used directly outside this file
+
+**B. Metadata Service Implementation:**
+```
+Services/PostgreSQLMetadataService.cs
+```
+- Queries provider-specific system catalogs (e.g., `pg_catalog` for PostgreSQL)
+- Implements provider-specific metadata retrieval
+- Used only by `MetadataHandler` to get provider-appropriate SQL
+
+**C. Syntax Highlighting:**
+```
+Resources/PostgreSQLSQL.xshd
+```
+- Provider-specific SQL syntax highlighting for AvalonEdit
+- Defines keywords, data types, functions specific to the provider
+
+**D. SQL Statements JSON Files:**
+```
+ConfigFiles/postgresql_16.0_sql_statements.json
+ConfigFiles/postgresql_15.0_sql_statements.json
+```
+- All SQL queries specific to this provider and version
+- Same statement names as DB2 (e.g., "GetTableColumns") for consistency
+- Provider-specific syntax variations
+
+#### 2. Files That MUST NOT Change (Database-Agnostic)
+
+**FORBIDDEN to make provider-specific:**
+- All files in `Controls/` - Must work with any `IConnectionManager`
+- All files in `Dialogs/` - Must work with any `IConnectionManager`
+- All files in `Services/` (except new `[Provider]MetadataService.cs`)
+- All files in `Models/` - Must be provider-agnostic data structures
+- All files in `Utils/` - Must be generic utilities
+- `MainWindow.xaml.cs` - Uses factory pattern for provider selection
+
+#### 3. Factory Pattern Usage
+
+**`ConnectionManagerFactory.cs` Example:**
+```csharp
+public static IConnectionManager CreateConnectionManager(DatabaseConnection connection)
+{
+    return connection.ProviderType?.ToUpperInvariant() switch
+    {
+        "DB2" => new DB2ConnectionManager(connection),
+        "POSTGRESQL" or "POSTGRES" => new PostgreSQLConnectionManager(connection),
+        "ORACLE" => new OracleConnectionManager(connection),
+        "SQLSERVER" or "MSSQL" => new SqlServerConnectionManager(connection),
+        "MYSQL" => new MySqlConnectionManager(connection),
+        _ => throw new NotSupportedException($"Provider '{connection.ProviderType}' not supported")
+    };
+}
+```
+
+#### 4. MetadataHandler Updates
+
+**`MetadataHandler.cs` must route to correct provider:**
+```csharp
+public string GetStatement(string provider, string version, string statementName)
+{
+    var fileName = provider.ToUpperInvariant() switch
+    {
+        "DB2" => $"db2_{version}_sql_statements.json",
+        "POSTGRESQL" => $"postgresql_{version}_sql_statements.json",
+        "ORACLE" => $"oracle_{version}_sql_statements.json",
+        "SQLSERVER" => $"sqlserver_{version}_sql_statements.json",
+        "MYSQL" => $"mysql_{version}_sql_statements.json",
+        _ => throw new NotSupportedException($"Provider '{provider}' not supported")
+    };
+    
+    // Load and return statement from JSON
+}
+```
+
+#### 5. SQL Statement Naming Consistency
+
+**CRITICAL**: All providers must use the SAME statement names for equivalent operations:
+
+| Statement Name | DB2 Query | PostgreSQL Equivalent | Oracle Equivalent |
+|----------------|-----------|----------------------|-------------------|
+| `GetTableColumns` | `SELECT * FROM SYSCAT.COLUMNS WHERE...` | `SELECT * FROM information_schema.columns WHERE...` | `SELECT * FROM ALL_TAB_COLUMNS WHERE...` |
+| `GetAllTables` | `SELECT * FROM SYSCAT.TABLES WHERE...` | `SELECT * FROM information_schema.tables WHERE...` | `SELECT * FROM ALL_TABLES WHERE...` |
+| `GetForeignKeys` | `SELECT * FROM SYSCAT.REFERENCES WHERE...` | `SELECT * FROM information_schema.table_constraints WHERE...` | `SELECT * FROM ALL_CONSTRAINTS WHERE...` |
+
+**Why**: This allows all UI code to remain unchanged when switching providers.
+
+#### 6. Testing Requirements for New Providers
+
+**Before marking provider support as complete:**
+
+1. **Create test connection profile** (e.g., `POSTGRESQLTST`)
+2. **Run all 119+ CLI commands** with new provider
+3. **Test all dialogs and panels** with new provider
+4. **Verify all tabs load correctly** in table properties, view properties, etc.
+5. **Test IntelliSense** with provider-specific keywords
+6. **Create comprehensive CLI test suite** for new provider
+7. **Achieve 100% parity** with DB2 functionality where applicable
+
+#### 7. supported_providers.json Updates
+
+**Add new provider to list:**
+```json
+{
+  "providers": [
+    {
+      "name": "DB2",
+      "displayName": "IBM DB2",
+      "versions": ["12.1", "11.5", "11.1"],
+      "driver": "IBM.Data.Db2",
+      "defaultPort": 50000
+    },
+    {
+      "name": "POSTGRESQL",
+      "displayName": "PostgreSQL",
+      "versions": ["16.0", "15.0", "14.0"],
+      "driver": "Npgsql",
+      "defaultPort": 5432
+    }
+  ]
+}
+```
+
+#### 8. NuGet Package Requirements
+
+**Add provider-specific driver package:**
+```xml
+<!-- For PostgreSQL -->
+<PackageReference Include="Npgsql" Version="8.0.0" />
+
+<!-- For Oracle -->
+<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.4.0" />
+
+<!-- For SQL Server -->
+<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+
+<!-- For MySQL -->
+<PackageReference Include="MySql.Data" Version="8.3.0" />
+```
+
+#### 9. Connection Dialog Updates
+
+**`ConnectionDialog.xaml` must include provider dropdown:**
+```xml
+<ComboBox x:Name="ProviderComboBox" SelectedIndex="0">
+    <ComboBoxItem Content="IBM DB2" Tag="DB2"/>
+    <ComboBoxItem Content="PostgreSQL" Tag="POSTGRESQL"/>
+    <ComboBoxItem Content="Oracle" Tag="ORACLE"/>
+    <ComboBoxItem Content="SQL Server" Tag="SQLSERVER"/>
+    <ComboBoxItem Content="MySQL" Tag="MYSQL"/>
+</ComboBox>
+```
+
+#### 10. Pre-Implementation Checklist
+
+**Before starting new provider implementation, verify:**
+
+- [ ] All existing code uses `IConnectionManager` (no direct `DB2ConnectionManager` references)
+- [ ] All SQL is externalized to JSON files (no hardcoded SQL in C#)
+- [ ] All UI code is provider-agnostic (no DB2-specific logic in Controls/Dialogs)
+- [ ] `ConnectionManagerFactory` pattern is in place
+- [ ] `MetadataHandler` can route to different JSON files
+- [ ] Test connection profile for new provider is available
+
+**If ANY checkbox is unchecked, DO NOT proceed with new provider implementation.**
+
+#### 11. Implementation Order
+
+**Recommended sequence for adding a new provider:**
+
+1. **Phase 1: Core Infrastructure**
+   - Create `[Provider]ConnectionManager.cs`
+   - Implement `IConnectionManager` interface
+   - Test basic connection, query execution, parameter handling
+
+2. **Phase 2: SQL Statements**
+   - Create `[provider]_[version]_sql_statements.json`
+   - Map all statement names from DB2 equivalent
+   - Test with simple metadata queries
+
+3. **Phase 3: Metadata Service**
+   - Create `[Provider]MetadataService.cs`
+   - Implement system catalog queries
+   - Test metadata retrieval
+
+4. **Phase 4: Syntax Highlighting**
+   - Create `[Provider]SQL.xshd`
+   - Define provider-specific keywords
+   - Test in SQL editor
+
+5. **Phase 5: CLI Testing**
+   - Run all CLI commands with new provider
+   - Fix any provider-specific issues
+   - Achieve 100% pass rate
+
+6. **Phase 6: UI Testing**
+   - Test all dialogs and panels
+   - Verify all tabs load correctly
+   - Test IntelliSense
+
+7. **Phase 7: Documentation**
+   - Update README with new provider support
+   - Document provider-specific quirks
+   - Create migration guide from DB2
+
+#### 12. Common Pitfalls to Avoid
+
+**❌ DO NOT:**
+- Hardcode provider-specific SQL in UI code
+- Use provider-specific types (e.g., `NpgsqlConnection`) outside connection manager
+- Create provider-specific methods in shared services
+- Modify existing agnostic models to add provider-specific fields
+- Skip CLI testing for new provider
+- Assume SQL syntax is identical across providers
+
+**✅ DO:**
+- Use `IConnectionManager` everywhere
+- Externalize ALL SQL to JSON files
+- Use `System.Data.Common` base classes (`DbConnection`, `DbCommand`, etc.)
+- Create comprehensive test suites for each provider
+- Document SQL dialect differences in JSON file comments
+- Test with multiple versions of the same provider
+
+#### 13. Permission Requirements
+
+**Before implementing a new provider:**
+- **User approval required** with business justification
+- **Architecture review required** to ensure adherence to these rules
+- **Test environment required** with access to target database
+- **Time estimate required** (typically 40-80 hours per provider)
+- **Maintenance plan required** for ongoing support
+
+#### 14. Success Criteria
+
+**Provider implementation is complete ONLY when:**
+- All 119+ CLI commands work with new provider
+- All dialogs and panels display data correctly
+- All tabs in table/view/procedure properties work
+- IntelliSense provides provider-specific suggestions
+- Syntax highlighting works correctly
+- 100% CLI test pass rate
+- Build succeeds without warnings
+- No provider-specific code leaked into agnostic areas
+- Documentation is complete
+
+**Verification Command:**
+```bash
+# Verify no provider leakage
+grep -r "using [Provider-specific-namespace]" --exclude-dir=obj --exclude-dir=bin | grep -v "ConnectionManager.cs" | grep -v "MetadataService.cs"
+# Must return: No results
+```
+
+---
+
+### System Metadata Reference Files (DEVELOPMENT REFERENCE ONLY)
+
+**CRITICAL**: The `<provider>_<version>_system_metadata.json` files are **REFERENCE ONLY** for developers and AI.
+
+**Purpose:**
+- Document the database provider's system catalog structure (tables, columns, relationships)
+- Provide column data types for proper TRIM() usage and data handling
+- Serve as the authoritative source when creating/validating SQL statements
+- NOT loaded by the application at runtime
+
+**File Naming Convention:**
+```
+ConfigFiles/<provider>_<version>_system_metadata.json
+```
+
+**Examples:**
+- `db2_12.1_system_metadata.json` - DB2 12.1 SYSCAT/SYSIBM/SYSIBMADM schema
+- `postgresql_16.0_system_metadata.json` - PostgreSQL pg_catalog/information_schema (future)
+- `oracle_19c_system_metadata.json` - Oracle ALL_/DBA_/USER_ views (future)
+- `sqlserver_2022_system_metadata.json` - SQL Server sys schema (future)
+
+**How to Use:**
+1. **Creating new SQL statements**: Consult the metadata JSON to verify table/column names exist
+2. **Checking data types**: Use to determine if TRIM() is needed (CHAR vs VARCHAR)
+3. **Understanding relationships**: Reference for JOINs between system tables
+4. **AI code generation**: Provides context for accurate SQL generation
+
+**When Adding a New Database Provider:**
+1. Create `<provider>_<version>_system_metadata.json` documenting the system catalog
+2. Include: catalog_tables, columns with types, relationships, common_queries
+3. Then create `<provider>_<version>_sql_statements.json` with actual SQL queries
+4. Validate all SQL statements against the metadata file
+
+**Content Structure (see db2_12.1_system_metadata.json for reference):**
+```json
+{
+  "provider": "DB2",
+  "version": "12.1",
+  "purpose": "Reference file for building SQL statements",
+  "catalog_tables": { /* table definitions with columns */ },
+  "relationships": { /* how tables relate */ },
+  "common_queries": { /* example query patterns */ },
+  "critical_notes": [ /* important gotchas */ ]
+}
+```
+
+---
+
+### Provider-Agnostic SQL Abstraction (MANDATORY)
+
+**ABSOLUTE RULE**: NO hardcoded SQL statements in C# code.
+
+**ALL SQL statements MUST be:**
+1. Stored in JSON files: `ConfigFiles/db2_12.1_sql_statements.json`
+2. Retrieved via `MetadataHandler.GetStatement("StatementName")`
+3. Parameterized with `?` placeholders
+4. **Validated against** the corresponding `<provider>_<version>_system_metadata.json` file
+
+**File Structure**:
+```
+ConfigFiles/
+├── supported_providers.json           # List of supported databases
+├── db2_12.1_sql_statements.json       # DB2 12.1 specific SQL
+├── db2_11.5_sql_statements.json       # DB2 11.5 specific SQL (future)
+├── postgresql_16.0_sql_statements.json # PostgreSQL (future)
+├── oracle_19c_sql_statements.json     # Oracle (future)
+└── sqlserver_2022_sql_statements.json # SQL Server (future)
+```
+
+**JSON Statement Format**:
+```json
+{
+  "StatementName": {
+    "sql": "SELECT TRIM(COLNAME) FROM SYSCAT.COLUMNS WHERE TABSCHEMA = ? AND TABNAME = ?",
+    "description": "Get columns for a table",
+    "parameters": ["TABSCHEMA", "TABNAME"],
+    "returns": "List of column names"
+  }
+}
+```
+
+**Code Pattern (CORRECT)**:
+```csharp
+// ✅ CORRECT - Use MetadataHandler
+var sql = _metadataHandler.GetStatement("GetColumnsForTable");
+var result = await _connectionManager.ExecuteQueryAsync(sql, schema, table);
+```
+
+**Code Pattern (FORBIDDEN)**:
+```csharp
+// ❌ FORBIDDEN - Hardcoded SQL
+var sql = "SELECT * FROM SYSCAT.COLUMNS WHERE TABSCHEMA = 'INL'";
+```
+
+**Benefits**:
+- Add PostgreSQL by creating JSON file (no code changes)
+- Update SQL queries without recompiling
+- Version-specific SQL per database version
+- Testable with mock data
+
+**Current Status**: 84+ hardcoded SQL statements MUST be moved to JSON
+
+---
+
+### CLI/WPF Parity (MANDATORY)
+
+**ABSOLUTE RULE**: Every WPF dialog tab MUST have a corresponding CLI command.
+
+**Parity Requirements**:
+1. Every tab in every property dialog = 1 CLI command
+2. CLI outputs JSON for automation
+3. Same data structure for CLI and WPF
+4. CLI commands are the "API" for the application
+
+**Example Parity**:
+```
+TableDetailsDialog (WPF)          CLI Commands
+├── Columns Tab             →     table-columns
+├── Foreign Keys Tab        →     table-foreign-keys  
+├── Indexes Tab             →     table-indexes
+├── Statistics Tab          →     table-statistics
+├── DDL Script Tab          →     table-ddl
+├── Incoming FK Tab         →     table-incoming-fks
+├── Used By Packages Tab    →     table-referencing-packages
+├── Used By Views Tab       →     table-referencing-views
+├── Used By Routines Tab    →     table-referencing-routines
+└── AI Assistant Tab        →     ai-explain-table
+```
+
+**Missing CLI Commands to Implement**:
+- `package-properties`, `package-statements`, `package-dependencies`
+- `view-definition`, `view-columns`, `view-dependencies`
+- `procedure-source`, `procedure-parameters`
+- `function-source`, `function-parameters`
+- All AI-related commands
+
+**CLI Command Naming Convention**:
+- Use kebab-case: `table-columns`, `view-definition`
+- Prefix with object type: `table-`, `view-`, `procedure-`, etc.
+- Action suffix when needed: `-ddl`, `-source`, `-sample-data`
+
+---
+
+### Comprehensive Automated CLI Testing (MANDATORY)
+
+**ABSOLUTE RULE**: ALL CLI commands MUST have automated tests.
+
+**Test Requirements**:
+1. Test ALL 119+ CLI commands
+2. Use FKKTOTST connection profile
+3. Output to `CLI_Test_Output/` directory
+4. Generate markdown test report
+5. Achieve 100% pass rate before completion
+
+**Test Script Location**: `_comprehensive_cli_test_all_119.ps1`
+
+**Test Execution**:
+```powershell
+# Run all CLI tests
+.\bin\Debug\net10.0-windows\DbExplorer.exe -profile FKKTOTST -command <cmd> -format json
+```
+
+**Test Categories**:
+- Connection commands (5)
+- Schema operations (10)
+- Table operations (15)
+- View operations (7)
+- Procedure operations (6)
+- Function operations (6)
+- Package operations (6)
+- User/privileges (5)
+- Statistics (8)
+- Monitoring (10)
+- AI commands (10)
+- Export/Import (8)
+- Mermaid (5)
+- Comparison (5)
+- Meta commands (3)
+
+**Test Report Format**:
+```markdown
+# CLI Test Report
+Date: YYYY-MM-DD HH:MM
+Profile: FKKTOTST
+Total: 119 | Passed: X | Failed: Y | Rate: Z%
+```
+
+---
+
+### Hourly Status SMS Updates (DURING CONTINUOUS IMPLEMENTATION)
+
+**RULE**: During continuous implementation, send hourly SMS updates.
+
+**Command**:
+```powershell
+Send-Sms "+4797188358" "DbExplorer: [TIME] Progress [X]% - [Y] tasks done, [Z] remaining. Current: [task]"
+```
+
+**Status Format**:
+- Time: HH:MM
+- Progress percentage
+- Tasks completed / remaining
+- Current task being worked on
+- Any blockers or issues
+
+**Example**:
+```powershell
+Send-Sms "+4797188358" "DbExplorer: 14:30 Progress 45% - 54/119 CLI tests passing. Current: Fixing table-statistics-full. No blockers."
+```
+
+---
+
+### UI Menu Wiring (MANDATORY)
+
+**All dialogs MUST be wired to menus**:
+
+1. **View Menu** additions needed:
+   - Database Comparison... (Ctrl+Shift+C)
+   - AI Settings...
+   
+2. **Context Menu** additions needed:
+   - Right-click table → Compare Across Databases...
+   - Right-click table → Deep Analysis...
+
+3. **Settings Dialog** additions needed:
+   - AI Provider tab (configure Ollama, OpenAI, etc.)
+   - Font Size Preferences tab
+
+---
+
+### IntelliSense Enhancements (FUTURE)
+
+**Planned Features**:
+1. SQL snippet templates from `sql_templates.json`
+2. Function signature hints
+3. Column suggestions from table aliases
+4. Query history learning
+
+**Required Package** (future): Microsoft.SqlServer.TransactSql.ScriptDom or similar SQL parser
+
+---
+
+### Font Size Management
+
+**FontSizeManager Service** controls:
+- Editor font size
+- Object Browser font size
+- Dialog font size
+- Menu font size
+- Status bar font size
+- Property window font size
+
+**All font sizes configurable in Settings Dialog** (must be implemented)
+
+---
+
+### Long Operation Completion SMS (MANDATORY)
+
+**RULE**: When completing any operation that took more than 10 minutes, send an SMS notification to the user.
+
+**Command**:
+```powershell
+Send-Sms "+4797188358" "DbExplorer: [TASK] completed successfully. [DETAILS]"
+```
+
+**When to send**:
+- After completing long refactoring operations (> 10 min)
+- After completing full test suite runs (> 10 min)
+- After completing database-wide operations (> 10 min)
+- After completing any user-requested multi-step task (> 10 min)
+- After completing migration or conversion operations (> 10 min)
+
+**Message Format**:
+```
+Send-Sms "+4797188358" "DbExplorer: [TaskName] complete. Build: [PASSED/FAILED]. Tests: [X/Y passed]. Duration: [Xm]."
+```
+
+**Examples**:
+```powershell
+# After refactoring
+Send-Sms "+4797188358" "DbExplorer: Database-agnostic column refactoring complete. Build: PASSED. All services updated."
+
+# After test run
+Send-Sms "+4797188358" "DbExplorer: CLI test suite complete. 113/113 tests passed. Duration: 15m."
+
+# After long implementation
+Send-Sms "+4797188358" "DbExplorer: SQL abstraction complete. 84 statements moved to JSON. Build: PASSED."
+```
+
+**IMPORTANT**: This rule is MANDATORY for any long-running operation to keep the user informed of completion status.
+

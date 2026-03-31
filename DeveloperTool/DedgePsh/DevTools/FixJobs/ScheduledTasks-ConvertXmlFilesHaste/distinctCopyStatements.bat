@@ -1,0 +1,91 @@
+﻿@REM xcopy \\p-no1batch-vm01\opt\apps\FixJob \\p-no1fkmprd-app\opt\DedgeWinApps\FixJob /E /I /Y
+@REM xcopy \\p-no1batch-vm01\opt\apps\DedgeDailyRoutine \\p-no1fkmprd-app\opt\DedgeWinApps\DedgeDailyRoutine /E /I /Y
+@REM xcopy \\p-no1batch-vm01\opt\apps\FkmUtils \\p-no1fkmprd-app\opt\DedgeWinApps\FkmUtils /E /I /Y
+@REM xcopy \\p-no1batch-vm01\opt\apps\GetPeppolDirectory \\p-no1fkmprd-app\opt\DedgeWinApps\GetPeppolDirectory /E /I /Y
+@REM xcopy \\p-no1batch-vm01\opt\psh\ad \\p-no1fkmprd-app\opt\DedgePshApps\ad /E /I /Y
+
+xcopy \\p-no1batch-vm01\opt\psh\BRREG\BRREGAPIClient \\p-no1fkmprd-app\opt\DedgePshApps\BRREG\BRREGAPIClient /E /I /Y
+xcopy \\p-no1batch-vm01\opt\psh\HentSLF \\p-no1fkmprd-app\opt\DedgePshApps\HentSLF /E /I /Y
+xcopy \\sfk-erp-03\batch \\t-no1fkmtst-app\opt\DedgePshApps\Batch /E /I /Y
+xcopy \\sfk-erp-03\COBVFT\cdsimport \\t-no1fkmfsp-app\COBVFT\cdsimport /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\CopyToKAT \\t-no1fkmfsp-app\opt\DedgePshApps\CopyToKAT /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\DM010Runner \\t-no1fkmfsp-app\opt\DedgePshApps\DM010Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\CopyToFAT \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\CopyToFAT /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\DM010Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\DM010Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\MT007Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\MT007Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\MT014Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\MT014Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\MT015Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\MT015Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\MT038Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\MT038Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\FAT\MT039Runner \\t-no1fkmfsp-app\opt\DedgePshApps\FAT\MT039Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\MT007Runner \\t-no1fkmfsp-app\opt\DedgePshApps\MT007Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\MT014Runner \\t-no1fkmfsp-app\opt\DedgePshApps\MT014Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\MT015Runner \\t-no1fkmfsp-app\opt\DedgePshApps\MT015Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\MT038Runner \\t-no1fkmfsp-app\opt\DedgePshApps\MT038Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\MT039Runner \\t-no1fkmfsp-app\opt\DedgePshApps\MT039Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\CopyToVFK \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\CopyToVFK /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT003Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT003Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT007Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT007Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT014Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT014Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT015Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT015Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT020Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT020Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT041Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT041Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT042Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT042Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT047Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT047Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT055Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT055Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT056Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT056Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT063Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT063Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFK\MT068Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFK\MT068Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\CopyToVFT \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\CopyToVFT /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT003Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT003Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT004Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT004Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT007Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT007Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT014Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT014Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT015Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT015Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT020Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT020Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT041Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT041Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\mt042runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\mt042runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT047Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT047Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT050Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT050Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT055Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT055Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT056Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT056Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT060Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT060Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT063Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT063Runner /E /I /Y
+xcopy \\sfk-erp-03\opt\psh\VFT\MT068Runner \\t-no1fkmfsp-app\opt\DedgePshApps\VFT\MT068Runner /E /I /Y
+xcopy \\sfkerp13\APPS\FKAFSWatcherActions \\p-no1fkmprd-app\opt\DedgeWinApps\FKAFSWatcherActions /E /I /Y
+xcopy \\sfkerp13\opt \\p-no1fkmprd-app\opt /E /I /Y
+xcopy \\sfkerp13\opt\psh \\p-no1fkmprd-app\opt\DedgePshApps /E /I /Y
+xcopy \\sfkerp13\opt\psh\Agrideler \\p-no1fkmprd-app\opt\DedgePshApps\Agrideler /E /I /Y
+xcopy \\sfkerp13\opt\psh\brreg\brregapiclient \\p-no1fkmprd-app\opt\DedgePshApps\brreg\brregapiclient /E /I /Y
+xcopy \\sfkerp13\opt\psh\CBLRun \\p-no1fkmprd-app\opt\DedgePshApps\CBLRun /E /I /Y
+xcopy \\sfkerp13\opt\psh\cdsmonitor \\p-no1fkmprd-app\opt\DedgePshApps\cdsmonitor /E /I /Y
+xcopy \\sfkerp13\opt\psh\CopyToProd \\p-no1fkmprd-app\opt\DedgePshApps\CopyToProd /E /I /Y
+xcopy \\sfkerp13\opt\psh\D4BPlukkRunner \\p-no1fkmprd-app\opt\DedgePshApps\D4BPlukkRunner /E /I /Y
+xcopy \\sfkerp13\opt\psh\DM010Runner \\p-no1fkmprd-app\opt\DedgePshApps\DM010Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\DM021Runner \\p-no1fkmprd-app\opt\DedgePshApps\DM021Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\ED007Check \\p-no1fkmprd-app\opt\DedgePshApps\ED007Check /E /I /Y
+xcopy \\sfkerp13\opt\psh\Enhetsregisteret \\p-no1fkmprd-app\opt\DedgePshApps\Enhetsregisteret /E /I /Y
+xcopy \\sfkerp13\opt\psh\ExportAllScheduledTasks \\p-no1fkmprd-app\opt\DedgePshApps\ExportAllScheduledTasks /E /I /Y
+xcopy \\sfkerp13\opt\psh\FLogRulesRunner \\p-no1fkmprd-app\opt\DedgePshApps\FLogRulesRunner /E /I /Y
+xcopy \\sfkerp13\opt\psh\hentslf \\p-no1fkmprd-app\opt\DedgePshApps\hentslf /E /I /Y
+xcopy \\sfkerp13\opt\psh\KSL \\p-no1fkmprd-app\opt\DedgePshApps\KSL /E /I /Y
+xcopy \\sfkerp13\opt\psh\Kveldssjekk \\p-no1fkmprd-app\opt\DedgePshApps\Kveldssjekk /E /I /Y
+xcopy \\sfkerp13\opt\psh\KvernelandGarantiExport \\p-no1fkmprd-app\opt\DedgePshApps\KvernelandGarantiExport /E /I /Y
+xcopy \\sfkerp13\opt\psh\LandaxPUFF \\p-no1fkmprd-app\opt\DedgePshApps\LandaxPUFF /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT003Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT003Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT004Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT004Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT007Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT007Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT014Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT014Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT015Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT015Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT038Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT038Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\MT039Runner \\p-no1fkmprd-app\opt\DedgePshApps\MT039Runner /E /I /Y
+xcopy \\sfkerp13\opt\psh\PickupPointReport \\p-no1fkmprd-app\opt\DedgePshApps\PickupPointReport /E /I /Y
+xcopy \\sfkerp13\opt\psh\PIMEKSP \\p-no1fkmprd-app\opt\DedgePshApps\PIMEKSP /E /I /Y
+xcopy \\sfkerp13\opt\psh\Skansen \\p-no1fkmprd-app\opt\DedgePshApps\Skansen /E /I /Y
+xcopy \\sfkerp13\opt\psh\VI001Runner \\p-no1fkmprd-app\opt\DedgePshApps\VI001Runner /E /I /Y
+xcopy \\sfkerp13\sched \\p-no1fkmprd-app\opt\DedgePshApps\Sched /E /I /Y
+xcopy \\sfkerp14\opt\apps\KimenExport \\p-no1fkmprd-app\opt\DedgeWinApps\KimenExport /E /I /Y
+xcopy \\t-no1batch-vm01\opt\apps\DedgeDailyRoutine \\t-no1fkmtst-app\opt\DedgeWinApps\DedgeDailyRoutine /E /I /Y
+xcopy \\t-no1batch-vm01\opt\psh\DedgePsh\avtalegiroimport \\t-no1fkmtst-app\opt\DedgePshApps\DedgePsh\avtalegiroimport /E /I /Y
+xcopy \\t-no1batch-vm01\opt\psh\DedgePsh\postenimport \\t-no1fkmtst-app\opt\DedgePshApps\DedgePsh\postenimport /E /I /Y
+xcopy \\t-no1batch-vm01\Program Files\PowerShell\7 \\t-no1fkmtst-app\Program Files\PowerShell\7 /E /I /Y
+

@@ -1,0 +1,64 @@
+{
+  "tableName": "VAREREGISTER",
+  "futureName": "DbmTmsVaregrKons",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "VAREGR",
+      "futureName": "Category",
+      "description": "Category of the product",
+      "foreignKey": {
+        "table": "VAREGRUPPENavn",
+        "column": "VAREGRUPE"
+      }
+    },
+    {
+      "name": "NAVN",
+      "futureName": "ProductName",
+      "description": "Name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FKNR",
+      "description": "Unique identifier for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVNNY",
+      "futureName": "AlternativeProductName",
+      "description": "Alternative name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "KONSSOLIDERES",
+      "futureName": "ConsolidatesWithOtherProducts",
+      "description": "Indicates if this product consolidates with other products",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "CreatedById",
+      "description": "Identifier of the user who created this record",
+      "foreignKey": {
+        "table": "BrukerNavn",
+        "column": "BID"
+      }
+    },
+    {
+      "name": "NAME",
+      "futureName": "CreatorName",
+      "description": "Name of the user who created this record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "CreatedDateTime",
+      "description": "Date and time when this record was created",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:25:37"
+}

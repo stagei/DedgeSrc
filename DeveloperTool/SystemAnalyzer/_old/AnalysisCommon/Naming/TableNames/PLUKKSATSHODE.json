@@ -1,0 +1,85 @@
+{
+  "tableName": "PLUKKSATSHODE",
+  "futureName": "PlukksatsShode",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "avdNr",
+      "futureName": "AvdNumber",
+      "description": "Unique identifier for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "plukksats",
+      "futureName": "PlukksatAmount",
+      "description": "The amount of the plukksat value",
+      "foreignKey": null
+    },
+    {
+      "name": "opprettetDato",
+      "futureName": "CreationDate",
+      "description": "Date when the record was created",
+      "foreignKey": null
+    },
+    {
+      "name": "opprettetAv",
+      "futureName": "CreatedBy",
+      "description": "User who created the record",
+      "foreignKey": null
+    },
+    {
+      "name": "plukketAv",
+      "futureName": "PluckedBy",
+      "description": "User or system that performed a specific action on the record",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status of the record",
+      "foreignKey": [
+        "D365_ORDRE_TRIGGER_HIST",
+        "D3HOLD_TILBAKE_HIST"
+      ]
+    },
+    {
+      "name": "komentar",
+      "futureName": "Comment",
+      "description": "Additional notes or comments about the record",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "Identifier for the user associated with the record",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the record was created or modified",
+      "foreignKey": null
+    },
+    {
+      "name": "type",
+      "futureName": "TypeCode",
+      "description": "A code representing the type of the record",
+      "foreignKey": [
+        "BEHKODER"
+      ]
+    },
+    {
+      "name": "lagersted",
+      "futureName": "WarehouseId",
+      "description": "Identifier for the warehouse or storage location",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:28:20"
+}

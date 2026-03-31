@@ -1,0 +1,1180 @@
+{
+,
+    "ListTables": {
+      "sql": "SELECT TABSCHEMA, TABNAME, TYPE, CARD, NPAGES, FPAGES, STATUS, REMARKS FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: ListTables. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListTablesAsync"
+    },
+    "GetTriggerUsage": {
+      "sql": "SELECT TRIGSCHEMA, TRIGNAME, TABSCHEMA, TABNAME, TRIGTIME, TRIGEVENT, ENABLED, VALID FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA LIKE ? ORDER BY TRIGSCHEMA, TABSCHEMA, TABNAME, TRIGNAME",
+      "description": "CLI command: GetTriggerUsage. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTriggerUsageAsync"
+    },
+    "GetFunctionInfo": {
+      "sql": "SELECT FUNCSCHEMA, FUNCNAME, LANGUAGE, TEXT FROM SYSCAT.FUNCTIONS WHERE FUNCSCHEMA = ? AND FUNCNAME = ?",
+      "description": "CLI command: GetFunctionInfo. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetFunctionInfoAsync"
+    },
+    "GetSearchSourceCode": {
+      "sql": "SELECT 'PROCEDURE' AS ObjectType, TRIM(ROUTINESCHEMA) AS Schema, TRIM(ROUTINENAME) AS Name, TEXT AS SourceCode FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'P' AND UPPER(TEXT) LIKE UPPER('%?%') UNION ALL SELECT 'FUNCTION' AS ObjectType, TRIM(ROUTINESCHEMA) AS Schema, TRIM(ROUTINENAME) AS Name, TEXT AS SourceCode FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'F' AND UPPER(TEXT) LIKE UPPER('%?%') UNION ALL SELECT 'VIEW' AS ObjectType, TRIM(VIEWSCHEMA) AS Schema, TRIM(VIEWNAME) AS Name, TEXT AS SourceCode FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? AND UPPER(TEXT) LIKE UPPER('%?%') UNION ALL SELECT 'TRIGGER' AS ObjectType, TRIM(TRIGSCHEMA) AS Schema, TRIM(TRIGNAME) AS Name, TEXT AS SourceCode FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = ? AND UPPER(TEXT) LIKE UPPER('%?%') ORDER BY ObjectType, Schema, Name",
+      "description": "CLI command: SearchSourceCode. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:SearchSourceCodeAsync"
+    },
+    "GetAnalyzePackage": {
+      "sql": "SELECT TRIM(BSCHEMA) AS DependsOnSchema, TRIM(BNAME) AS DependsOnObject, TRIM(BTYPE) AS DependsOnType, TRIM(DTYPE) AS DependencyType FROM SYSCAT.PACKAGEDEP WHERE PKGSCHEMA = ? AND PKGNAME = ? ORDER BY DependsOnSchema, DependsOnObject",
+      "description": "CLI command: AnalyzePackage. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:AnalyzePackageAsync"
+    },
+    "GetPackageDetails": {
+      "sql": "SELECT TRIM(PKGSCHEMA) AS PackageSchema, TRIM(PKGNAME) AS PackageName, CREATE_TIME, LAST_BIND_TIME, TRIM(ISOLATION) AS IsolationLevel, TRIM(BLOCKING) AS BlockingType FROM SYSCAT.PACKAGES WHERE PKGSCHEMA = ? AND PKGNAME = ?",
+      "description": "CLI command: GetPackageDetails. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetPackageDetailsAsync"
+    },
+    "GetStatisticsOverview": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, STATS_TIME AS LastStatsTime, CASE WHEN STATS_TIME IS NULL THEN 'NEVER' WHEN STATS_TIME < CURRENT DATE - 30 DAYS THEN 'STALE' ELSE 'CURRENT' END AS StatsStatus FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: GetStatisticsOverview. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetStatisticsOverviewAsync"
+    },
+    "GetStatisticsRecommendations": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, STATS_TIME AS LastStatsTime, CASE WHEN STATS_TIME IS NULL THEN 999 ELSE DAYS(CURRENT DATE) - DAYS(STATS_TIME) END AS DaysSinceStats, CASE WHEN STATS_TIME IS NULL THEN 'CRITICAL' WHEN STATS_TIME < CURRENT DATE - 60 DAYS THEN 'HIGH' WHEN STATS_TIME < CURRENT DATE - 30 DAYS THEN 'MEDIUM' ELSE 'LOW' END AS Priority FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND (STATS_TIME IS NULL OR STATS_TIME < CURRENT DATE - 30 DAYS) ORDER BY Priority, DaysSinceStats DESC",
+      "description": "CLI command: GetStatisticsRecommendations. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetStatisticsRecommendationsAsync"
+    },
+    "GetIndexStatistics": {
+      "sql": "SELECT TRIM(INDNAME) AS IndexName, TRIM(INDEXTYPE) AS IndexType, TRIM(UNIQUERULE) AS UniqueRule, COLCOUNT AS ColumnCount, FIRSTKEYCARD AS FirstKeyCard, FULLKEYCARD AS FullKeyCard, CLUSTERRATIO AS ClusterRatio, NLEAF AS LeafPages, NLEVELS AS TreeLevels FROM SYSCAT.INDEXES WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY INDNAME",
+      "description": "CLI command: GetIndexStatistics. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetIndexStatisticsAsync"
+    },
+    "FindUnusedIndexes": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, TRIM(INDNAME) AS IndexName, TRIM(UNIQUERULE) AS UniqueRule, COLNAMES FROM SYSCAT.INDEXES WHERE TABSCHEMA LIKE ? AND UNIQUERULE NOT IN ('P') ORDER BY TABSCHEMA, TABNAME, INDNAME",
+      "description": "CLI command: FindUnusedIndexes. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedIndexesAsync"
+    },
+    "FindUnusedViews": {
+      "sql": "SELECT TRIM(V.VIEWSCHEMA) AS Schema, TRIM(V.VIEWNAME) AS ViewName, TRIM(V.VALID) AS Valid, CASE WHEN NOT EXISTS ( SELECT 1 FROM SYSCAT.TABDEP D WHERE D.BSCHEMA = V.VIEWSCHEMA AND D.BNAME = V.VIEWNAME ) THEN 1 ELSE 0 END AS NoDependencies FROM SYSCAT.VIEWS V WHERE V.VIEWSCHEMA LIKE ? ORDER BY V.VIEWSCHEMA, V.VIEWNAME",
+      "description": "CLI command: FindUnusedViews. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedViewsAsync"
+    },
+    "FindUnusedRoutines": {
+      "sql": "SELECT TRIM(R.ROUTINESCHEMA) AS Schema, TRIM(R.ROUTINENAME) AS RoutineName, TRIM(R.ROUTINETYPE) AS RoutineType, TRIM(R.LANGUAGE) AS Language, R.CREATE_TIME AS CreateTime, CASE WHEN NOT EXISTS ( SELECT 1 FROM SYSCAT.ROUTINEDEP D WHERE D.BSCHEMA = R.ROUTINESCHEMA AND D.BNAME = R.ROUTINENAME ) THEN 1 ELSE 0 END AS NoDependencies FROM SYSCAT.ROUTINES R WHERE R.ROUTINESCHEMA LIKE ? ORDER BY R.ROUTINESCHEMA, R.ROUTINENAME",
+      "description": "CLI command: FindUnusedRoutines. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedRoutinesAsync"
+    },
+    "GetSchemaMetadata": {
+      "sql": "SELECT 'TABLES' AS ObjectType, COUNT(*) AS ObjectCount FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TYPE IN ('T', 'U') UNION ALL SELECT 'VIEWS', COUNT(*) FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? UNION ALL SELECT 'PROCEDURES', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'P' UNION ALL SELECT 'FUNCTIONS', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'F' UNION ALL SELECT 'TRIGGERS', COUNT(*) FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = ? UNION ALL SELECT 'INDEXES', COUNT(*) FROM SYSCAT.INDEXES WHERE INDSCHEMA = ?",
+      "description": "CLI command: GetSchemaMetadata. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSchemaMetadataAsync"
+    },
+    "GetDatabaseLoadFull": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, FPAGES AS FreePages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND CARD > 0 ORDER BY NPAGES DESC",
+      "description": "CLI command: GetDatabaseLoadFull. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDatabaseLoadFullAsync"
+    },
+    "GetTableActivity": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS CurrentRowCount, NPAGES AS DataPages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime, ALTER_TIME AS LastAlterTime FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "CLI command: GetTableActivity. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTableActivityAsync"
+    },
+    "GetTopActiveTables": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY NPAGES DESC, CARD DESC FETCH FIRST ? ROWS ONLY",
+      "description": "CLI command: GetTopActiveTables. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTopActiveTablesAsync"
+    },
+    "GetLockMonitorFull": {
+      "sql": "SELECT CURRENT USER AS CurrentUser, CURRENT TIMESTAMP AS CurrentTime, 'BASIC_CHECK' AS LockCheckType FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetLockMonitorFull. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetLockMonitorFullAsync"
+    },
+    "GetSessionDetails": {
+      "sql": "SELECT CURRENT USER AS SessionUser, CURRENT TIMESTAMP AS SessionTime, CURRENT SERVER AS DatabaseName, CURRENT SCHEMA AS CurrentSchema FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetSessionDetails. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSessionDetailsAsync"
+    },
+    "GetLongRunningSessions": {
+      "sql": "SELECT CURRENT USER AS User, CURRENT TIMESTAMP AS CheckTime, 0 AS LongRunningSessions FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetLongRunningSessions. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetLongRunningSessionsAsync"
+    },
+    "GetDependencyGraph": {
+      "sql": "SELECT TRIM(BTYPE) AS DependentType, TRIM(BSCHEMA) AS DependentSchema, TRIM(BNAME) AS DependentObject, 'TABLE' AS DependsOnType FROM SYSCAT.TABDEP WHERE TABSCHEMA = ? AND TABNAME = ? UNION ALL SELECT TRIM(BTYPE), TRIM(BSCHEMA), TRIM(BNAME), 'ROUTINE' AS DependsOnType FROM SYSCAT.ROUTINEDEP WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ?",
+      "description": "CLI command: GetDependencyGraph. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDependencyGraphAsync"
+    },
+    "GetDependencyImpact": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS AffectedSchema, TRIM(TABNAME) AS AffectedObject, TRIM(DTYPE) AS AffectedType, 'VIEW' AS ImpactType FROM SYSCAT.TABDEP WHERE BSCHEMA = ? AND BNAME = ? AND DTYPE = 'V' UNION ALL SELECT TRIM(ROUTINESCHEMA), TRIM(ROUTINENAME), TRIM(ROUTINETYPE), 'ROUTINE' FROM SYSCAT.ROUTINEDEP WHERE BSCHEMA = ? AND BNAME = ?",
+      "description": "CLI command: GetDependencyImpact. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDependencyImpactAsync"
+    },
+    "GetGenerateMigrationPlan": {
+      "sql": "SELECT 'TABLES' AS ObjectType, COUNT(*) AS ObjectCount FROM SYSCAT.TABLES WHERE TABSCHEMA = '?' AND TYPE IN ('T', 'U') UNION ALL SELECT 'VIEWS', COUNT(*) FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = '?' UNION ALL SELECT 'PROCEDURES', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = '?' AND ROUTINETYPE = 'P' UNION ALL SELECT 'FUNCTIONS', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = '?' AND ROUTINETYPE = 'F' UNION ALL SELECT 'TRIGGERS', COUNT(*) FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = '?'",
+      "description": "CLI command: GenerateMigrationPlan. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GenerateMigrationPlanAsync"
+    },
+    "GetExportTableData": {
+      "sql": "SELECT * FROM ?.? FETCH FIRST ? ROWS ONLY",
+      "description": "CLI command: ExportTableData. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ExportTableDataAsync"
+    },
+    "ListTablespaces": {
+      "sql": "SELECT TRIM(TBSPACE) AS TablespaceName, TRIM(DATATYPE) AS DataType, PAGESIZE FROM SYSCAT.TABLESPACES ORDER BY TBSPACE",
+      "description": "CLI command: ListTablespaces. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListTablespacesAsync"
+    },
+    "ListAllIndexes": {
+      "sql": "SELECT TRIM(INDSCHEMA) AS Schema, TRIM(INDNAME) AS IndexName, TRIM(TABNAME) AS TableName, TRIM(UNIQUERULE) AS UniqueRule FROM SYSCAT.INDEXES WHERE INDSCHEMA LIKE ? ORDER BY INDSCHEMA, TABNAME, INDNAME",
+      "description": "CLI command: ListAllIndexes. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListAllIndexesAsync"
+    },
+    "ListConstraints": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, TRIM(CONSTNAME) AS ConstraintName, TRIM(TYPE) AS Type FROM SYSCAT.TABCONST WHERE TABSCHEMA LIKE ? ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: ListConstraints. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListConstraintsAsync"
+    },
+    "ListSequences": {
+      "sql": "SELECT TRIM(SEQSCHEMA) AS Schema, TRIM(SEQNAME) AS SequenceName, START, INCREMENT, MINVALUE, MAXVALUE FROM SYSCAT.SEQUENCES WHERE SEQSCHEMA LIKE ? ORDER BY SEQSCHEMA, SEQNAME",
+      "description": "CLI command: ListSequences. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListSequencesAsync"
+    },
+    "GetTableSize": {
+      "sql": "SELECT CARD AS RowCount, NPAGES AS DataPages, NPAGES * 4 / 1024.0 AS SizeMB FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "CLI command: GetTableSize. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTableSizeAsync"
+    },
+    "GetSchemaSize": {
+      "sql": "SELECT SUM(CARD) AS TotalRows, SUM(NPAGES) AS TotalPages, SUM(NPAGES) * 4 / 1024.0 AS TotalSizeMB FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TYPE IN ('T', 'U')",
+      "description": "CLI command: GetSchemaSize. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSchemaSizeAsync"
+    },
+    "GetDbConfig": {
+      "sql": "SELECT CURRENT SERVER AS DatabaseName, CURRENT TIMESTAMP AS CurrentTime, CURRENT USER AS CurrentUser FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetDbConfig. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDbConfigAsync"
+    }  "provider": "DB2",
+  "version": "12.1",
+  "description": "SQL statements for DB2 12.1 database operations",
+  "statements": {
+    "GetSchemasStatement": {
+      "sql": "SELECT TRIM(SCHEMANAME) AS SCHEMANAME, TRIM(OWNER) AS OWNER, CREATE_TIME, TRIM(REMARKS) AS REMARKS FROM SYSCAT.SCHEMATA ORDER BY SCHEMANAME",
+      "description": "Get all schemas in the database with full details. Returns schema name, owner, creation time, and remarks. TRIM() applied to CHAR columns. Used by ObjectBrowserService.",
+      "parameters": [],
+      "returns": "List of all schemas with details",
+      "source": "ObjectBrowserService:341-344"
+    },
+    "GetSchemasCount": {
+      "sql": "SELECT COUNT(DISTINCT SCHEMANAME) FROM SYSCAT.SCHEMATA",
+      "description": "Count total number of schemas in the database.",
+      "parameters": [],
+      "returns": "Count of schemas",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesForSchema": {
+      "sql": "SELECT TRIM(TABNAME) AS TABNAME, TRIM(OWNER) AS OWNER, CREATED, CARD AS ROW_COUNT, TRIM(REMARKS) AS REMARKS FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TYPE IN ('T', 'S', 'G', 'H', 'L', 'N', 'U', 'W') ORDER BY TABNAME",
+      "description": "Get all tables in a specific schema. Returns table name, owner, creation date, row count, and remarks. TYPE IN (...) filters for various table types. TRIM() applied to all CHAR columns.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TABLES WHERE TYPE IN ('T', 'S', 'G', 'H', 'L', 'N', 'U', 'W')",
+      "description": "Count total number of tables in the database.",
+      "parameters": [],
+      "returns": "Count of tables",
+      "source": "ObjectBrowserService"
+    },
+    "GetViewsForSchema": {
+      "sql": "SELECT TRIM(V.VIEWNAME) AS VIEWNAME, TRIM(V.DEFINER) AS DEFINER, TRIM(T.REMARKS) AS REMARKS, T.ALTER_TIME FROM SYSCAT.TABLES T JOIN SYSCAT.VIEWS V ON TRIM(T.TABSCHEMA) = TRIM(V.VIEWSCHEMA) AND TRIM(T.TABNAME) = TRIM(V.VIEWNAME) WHERE T.TYPE = 'V' AND TRIM(T.TABSCHEMA) = ? ORDER BY V.VIEWNAME",
+      "description": "Get all views in a specific schema. CRITICAL: Start from SYSCAT.TABLES and join to SYSCAT.VIEWS. REMARKS comes from TABLES, not VIEWS. Filter by TYPE='V'. TRIM() applied to all CHAR columns for proper join and comparison.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of views in specified schema",
+      "source": "Db2CreateDBQA_NonRelated.sql:544-558"
+    },
+    "GetViewsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.VIEWS",
+      "description": "Count total number of views in the database.",
+      "parameters": [],
+      "returns": "Count of views",
+      "source": "ObjectBrowserService"
+    },
+    "GetFunctionsForSchema": {
+      "sql": "SELECT TRIM(ROUTINENAME) AS ROUTINENAME, TRIM(OWNER) AS OWNER, TRIM(REMARKS) AS REMARKS FROM SYSCAT.ROUTINES WHERE TRIM(ROUTINESCHEMA) = ? AND ROUTINETYPE = 'F' ORDER BY ROUTINENAME",
+      "description": "Get all functions in a specific schema. ROUTINETYPE='F' for functions. TRIM() applied to CHAR columns.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of functions in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetFunctionsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINETYPE = 'F'",
+      "description": "Count total number of functions in the database.",
+      "parameters": [],
+      "returns": "Count of functions",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresForSchema": {
+      "sql": "SELECT TRIM(ROUTINENAME) AS ROUTINENAME, TRIM(OWNER) AS OWNER, TRIM(REMARKS) AS REMARKS FROM SYSCAT.ROUTINES WHERE TRIM(ROUTINESCHEMA) = ? AND ROUTINETYPE = 'P' ORDER BY ROUTINENAME",
+      "description": "Get all stored procedures in a specific schema. ROUTINETYPE='P' for procedures. TRIM() applied to CHAR columns.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of procedures in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINETYPE = 'P'",
+      "description": "Count total number of procedures in the database.",
+      "parameters": [],
+      "returns": "Count of procedures",
+      "source": "ObjectBrowserService"
+    },
+    "GetPackagesForSchema": {
+      "sql": "SELECT TRIM(PKGNAME) AS PKGNAME, TRIM(BOUNDBY) AS BOUNDBY, TRIM(ISOLATION) AS ISOLATION, LASTUSED, VALID FROM SYSCAT.PACKAGES WHERE TRIM(PKGSCHEMA) = ? ORDER BY PKGNAME",
+      "description": "Get all DB2 packages in a specific schema. Returns package name, bound by user, isolation level, last used date, and validity status. TRIM() applied to CHAR columns.",
+      "parameters": ["PKGSCHEMA"],
+      "returns": "List of packages in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetPackagesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.PACKAGES",
+      "description": "Count total number of packages in the database.",
+      "parameters": [],
+      "returns": "Count of packages",
+      "source": "ObjectBrowserService"
+    },
+    "GetPackageStatements": {
+      "sql": "SELECT CAST(X.STMTNO AS VARCHAR(10)) AS STMTNO, CAST(X.SECTNO AS VARCHAR(10)) AS SECTNO, CAST(X.SEQNO AS VARCHAR(10)) AS SEQNO, TRIM(X.TEXT) AS STATEMENT_TEXT FROM SYSCAT.STATEMENTS X JOIN SYSCAT.PACKAGES Z ON TRIM(X.PKGSCHEMA) = TRIM(Z.PKGSCHEMA) AND TRIM(X.PKGNAME) = TRIM(Z.PKGNAME) WHERE TRIM(X.PKGSCHEMA) = ? AND TRIM(X.PKGNAME) = ? ORDER BY X.STMTNO, X.SECTNO, X.SEQNO",
+      "description": "Get all SQL statements in a DB2 package. CRITICAL: Must join SYSCAT.STATEMENTS to SYSCAT.PACKAGES on both PKGSCHEMA and PKGNAME. Order by STMTNO, SECTNO, SEQNO for proper sequence. TRIM() applied to all CHAR columns for proper join.",
+      "parameters": ["PKGSCHEMA", "PKGNAME"],
+      "returns": "List of SQL statements in a package",
+      "source": "Db2CreateDBQA_NonRelated.sql:680-692"
+    },
+    "GetIndexesForSchema": {
+      "sql": "SELECT TRIM(INDNAME) AS INDNAME, TRIM(TABNAME) AS TABNAME, TRIM(UNIQUERULE) AS UNIQUERULE, TRIM(INDEXTYPE) AS INDEXTYPE, TRIM(COLNAMES) AS COLNAMES FROM SYSCAT.INDEXES WHERE TRIM(INDSCHEMA) = ? ORDER BY INDNAME",
+      "description": "Get all indexes in a specific schema. Returns index name, table name, uniqueness rule, index type, and column names. TRIM() applied to CHAR columns.",
+      "parameters": ["INDSCHEMA"],
+      "returns": "List of indexes in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetIndexesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.INDEXES",
+      "description": "Count total number of indexes in the database.",
+      "parameters": [],
+      "returns": "Count of indexes",
+      "source": "ObjectBrowserService"
+    },
+    "GetTriggersForSchema": {
+      "sql": "SELECT TRIM(TRIGNAME) AS TRIGNAME, TRIM(TABNAME) AS TABNAME, TRIM(TRIGTIME) AS TRIGTIME, TRIM(TRIGEVENT) AS TRIGEVENT FROM SYSCAT.TRIGGERS WHERE TRIM(TRIGSCHEMA) = ? ORDER BY TRIGNAME",
+      "description": "Get all triggers in a specific schema. Returns trigger name, table name, trigger time (BEFORE/AFTER), and trigger event. TRIM() applied to CHAR columns.",
+      "parameters": ["TRIGSCHEMA"],
+      "returns": "List of triggers in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetTriggersCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TRIGGERS",
+      "description": "Count total number of triggers in the database.",
+      "parameters": [],
+      "returns": "Count of triggers",
+      "source": "ObjectBrowserService"
+    },
+    "GetSequencesForSchema": {
+      "sql": "SELECT TRIM(SEQNAME) AS SEQNAME, TRIM(OWNER) AS OWNER, TRIM(REMARKS) AS REMARKS FROM SYSCAT.SEQUENCES WHERE TRIM(SEQSCHEMA) = ? AND SEQTYPE = 'S' ORDER BY SEQNAME",
+      "description": "Get all sequences in a specific schema. SEQTYPE='S' for user-defined sequences. TRIM() applied to CHAR columns.",
+      "parameters": ["SEQSCHEMA"],
+      "returns": "List of sequences in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetSequencesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.SEQUENCES WHERE SEQTYPE = 'S'",
+      "description": "Count total number of sequences in the database.",
+      "parameters": [],
+      "returns": "Count of sequences",
+      "source": "ObjectBrowserService"
+    },
+    "GetTableColumnsForTable": {
+      "sql": "SELECT TRIM(COLNAME) AS COLNAME, COLNO, TRIM(TYPENAME) AS TYPENAME, LENGTH, SCALE, CASE WHEN NULLS = 'Y' THEN 'Yes' ELSE 'No' END AS NULLABLE, COALESCE(TRIM(CAST(DEFAULT AS VARCHAR(254))), '-') AS DEFAULT_VALUE, COALESCE(TRIM(REMARKS), '') AS REMARKS FROM SYSCAT.COLUMNS WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY COLNO",
+      "description": "Get all columns for a specific table. Returns column name, position (COLNO), data type, length, scale, nullable flag, default value, and remarks. Ordered by column position. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of columns for specified table",
+      "source": "Property Dialogs"
+    },
+    "GetPrimaryKeysForTable": {
+      "sql": "SELECT TRIM(KC.COLNAME) AS COLNAME, KC.COLSEQ FROM SYSCAT.KEYCOLUSE KC JOIN SYSCAT.TABCONST TC ON TRIM(KC.CONSTNAME) = TRIM(TC.CONSTNAME) AND TRIM(KC.TABSCHEMA) = TRIM(TC.TABSCHEMA) AND TRIM(KC.TABNAME) = TRIM(TC.TABNAME) WHERE TC.TYPE = 'P' AND TRIM(TC.TABSCHEMA) = ? AND TRIM(TC.TABNAME) = ? ORDER BY KC.COLSEQ",
+      "description": "Get primary key columns for a table. Returns column name and sequence. TRIM() applied to CHAR columns for proper join.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of primary key columns",
+      "source": "Property Dialogs"
+    },
+    "GetForeignKeysForTable": {
+      "sql": "SELECT TRIM(R.CONSTNAME) AS FK_NAME, TRIM(R.REFTABSCHEMA) AS REF_SCHEMA, TRIM(R.REFTABNAME) AS REF_TABLE, TRIM(R.FK_COLNAMES) AS FK_COLUMNS, TRIM(R.PK_COLNAMES) AS PK_COLUMNS, TRIM(R.DELETERULE) AS DELETE_RULE, TRIM(R.UPDATERULE) AS UPDATE_RULE FROM SYSCAT.REFERENCES R WHERE TRIM(R.TABSCHEMA) = ? AND TRIM(R.TABNAME) = ? ORDER BY R.CONSTNAME",
+      "description": "Get foreign key constraints for a table. Returns FK name, referenced schema/table, column mappings, and rules. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of foreign keys",
+      "source": "Property Dialogs"
+    },
+    "GetIndexesForTable": {
+      "sql": "SELECT TRIM(INDNAME) AS INDNAME, TRIM(UNIQUERULE) AS UNIQUERULE, TRIM(INDEXTYPE) AS INDEXTYPE, TRIM(COLNAMES) AS COLNAMES, CREATE_TIME FROM SYSCAT.INDEXES WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY INDNAME",
+      "description": "Get all indexes for a specific table. Returns index name, uniqueness rule, type, columns, and creation time. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes for table",
+      "source": "Property Dialogs"
+    },
+    "ExecuteUserQuery": {
+      "sql": "{user_sql}",
+      "description": "Execute user-provided SQL query. This is a placeholder for user-written queries in the SQL editor.",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "SQL Editor"
+    },
+    "GetUDTsForSchema": {
+      "sql": "SELECT TRIM(TYPENAME) AS TYPENAME, TRIM(OWNER) AS OWNER, TRIM(METATYPE) AS METATYPE, TRIM(REMARKS) AS REMARKS FROM SYSCAT.DATATYPES WHERE TRIM(TYPESCHEMA) = ? AND METATYPE IN ('S', 'D') ORDER BY TYPENAME",
+      "description": "Get all user-defined types in a specific schema. METATYPE 'S' = structured type, 'D' = distinct type. TRIM() applied to CHAR columns.",
+      "parameters": ["TYPESCHEMA"],
+      "returns": "List of UDTs in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetUDTsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.DATATYPES WHERE METATYPE IN ('S', 'D')",
+      "description": "Count total number of user-defined types in the database.",
+      "parameters": [],
+      "returns": "Count of UDTs",
+      "source": "ObjectBrowserService"
+    },
+    "GetSynonymsForSchema": {
+      "sql": "SELECT TRIM(TABNAME) AS SYNONYM_NAME, TRIM(BASE_TABSCHEMA) AS BASE_SCHEMA, TRIM(BASE_TABNAME) AS BASE_TABLE, TRIM(OWNER) AS OWNER FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TYPE = 'A' ORDER BY TABNAME",
+      "description": "Get all synonyms (aliases) in a specific schema. TYPE='A' for aliases/synonyms. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of synonyms in specified schema",
+      "source": "ObjectBrowserService"
+    },
+    "GetSynonymsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TABLES WHERE TYPE = 'A'",
+      "description": "Count total number of synonyms (aliases) in the database.",
+      "parameters": [],
+      "returns": "Count of synonyms",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablespacesStatement": {
+      "sql": "SELECT TRIM(TBSPACE) AS TBSPACE, TRIM(OWNER) AS OWNER, TRIM(TBSPACETYPE) AS TBSPACETYPE, TRIM(DATATYPE) AS DATATYPE, PAGESIZE, CREATE_TIME FROM SYSCAT.TABLESPACES ORDER BY TBSPACE",
+      "description": "Get all tablespaces in the database. Returns tablespace name, owner, type, data type, page size, and creation time. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of all tablespaces",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablespacesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TABLESPACES",
+      "description": "Count total number of tablespaces in the database.",
+      "parameters": [],
+      "returns": "Count of tablespaces",
+      "source": "ObjectBrowserService"
+    },
+    "GetRolesStatement": {
+      "sql": "SELECT TRIM(ROLENAME) AS ROLENAME, TRIM(OWNER) AS OWNER, CREATE_TIME FROM SYSCAT.ROLES ORDER BY ROLENAME",
+      "description": "Get all roles in the database. Returns role name, owner, and creation time. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of all roles",
+      "source": "ObjectBrowserService"
+    },
+    "GetGroupsStatement": {
+      "sql": "SELECT DISTINCT TRIM(GRANTEE) AS GROUPNAME FROM SYSCAT.DBAUTH WHERE GRANTEETYPE = 'G' ORDER BY GROUPNAME",
+      "description": "Get all groups with database privileges. GRANTEETYPE='G' indicates a group. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of all groups",
+      "source": "ObjectBrowserService"
+    },
+    "GetUsersStatement": {
+      "sql": "SELECT DISTINCT TRIM(GRANTEE) AS USERNAME FROM SYSCAT.DBAUTH WHERE GRANTEETYPE = 'U' ORDER BY USERNAME",
+      "description": "Get all users with database privileges. GRANTEETYPE='U' indicates a user. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of all users",
+      "source": "ObjectBrowserService"
+    },
+    "GetUserPrivileges": {
+      "sql": "SELECT TRIM(GRANTEE) AS USERNAME, DBADMAUTH, SECADMAUTH, ACCESSCTRLAUTH, DATAACCESS, CREATETABAUTH, BINDADDAUTH, CONNECTAUTH, NOFENCEAUTH, IMPLSCHEMAAUTH, LOADAUTH FROM SYSCAT.DBAUTH WHERE TRIM(GRANTEE) = ? AND GRANTEETYPE = 'U'",
+      "description": "Get database privileges for a specific user. Returns all authority flags (DBADMAUTH, SECADMAUTH, etc). TRIM() applied to CHAR columns.",
+      "parameters": ["USERNAME"],
+      "returns": "User privileges",
+      "source": "Property Dialogs"
+    },
+    "GetGroupPrivileges": {
+      "sql": "SELECT TRIM(GRANTEE) AS GROUPNAME, DBADMAUTH, SECADMAUTH, ACCESSCTRLAUTH, DATAACCESS, CREATETABAUTH, BINDADDAUTH, CONNECTAUTH, NOFENCEAUTH, IMPLSCHEMAAUTH, LOADAUTH FROM SYSCAT.DBAUTH WHERE TRIM(GRANTEE) = ? AND GRANTEETYPE = 'G'",
+      "description": "Get database privileges for a specific group. Returns all authority flags. TRIM() applied to CHAR columns.",
+      "parameters": ["GROUPNAME"],
+      "returns": "Group privileges",
+      "source": "Property Dialogs"
+    },
+    "GetTablePrivileges": {
+      "sql": "SELECT TRIM(GRANTEE) AS GRANTEE, TRIM(GRANTEETYPE) AS GRANTEETYPE, TRIM(GRANTOR) AS GRANTOR, CONTROLAUTH, ALTERAUTH, DELETEAUTH, INDEXAUTH, INSERTAUTH, SELECTAUTH, UPDATEAUTH, REFAUTH FROM SYSCAT.TABAUTH WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY GRANTEE",
+      "description": "Get table-level privileges for a specific table. Returns all authority flags for each grantee including INDEXAUTH. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table privileges for all grantees",
+      "source": "Property Dialogs"
+    },
+    "GetViewDefinition": {
+      "sql": "SELECT TRIM(V.TEXT) AS VIEW_DEFINITION FROM SYSCAT.VIEWS V WHERE TRIM(V.VIEWSCHEMA) = ? AND TRIM(V.VIEWNAME) = ?",
+      "description": "Get the SQL definition text for a view. Returns the CREATE VIEW statement text. TRIM() applied to CHAR columns.",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View definition SQL",
+      "source": "Property Dialogs"
+    },
+    "GetProcedureDefinition": {
+      "sql": "SELECT TRIM(R.TEXT) AS PROCEDURE_DEFINITION FROM SYSCAT.ROUTINES R WHERE TRIM(R.ROUTINESCHEMA) = ? AND TRIM(R.ROUTINENAME) = ? AND R.ROUTINETYPE = 'P'",
+      "description": "Get the SQL definition text for a stored procedure. Returns the CREATE PROCEDURE statement text. TRIM() applied to CHAR columns.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure definition SQL",
+      "source": "Property Dialogs"
+    },
+    "GetFunctionDefinition": {
+      "sql": "SELECT TRIM(R.TEXT) AS FUNCTION_DEFINITION FROM SYSCAT.ROUTINES R WHERE TRIM(R.ROUTINESCHEMA) = ? AND TRIM(R.ROUTINENAME) = ? AND R.ROUTINETYPE = 'F'",
+      "description": "Get the SQL definition text for a function. Returns the CREATE FUNCTION statement text. TRIM() applied to CHAR columns.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function definition SQL",
+      "source": "Property Dialogs"
+    },
+    "GetTriggerDefinition": {
+      "sql": "SELECT TRIM(T.TEXT) AS TRIGGER_DEFINITION FROM SYSCAT.TRIGGERS T WHERE TRIM(T.TRIGSCHEMA) = ? AND TRIM(T.TRIGNAME) = ?",
+      "description": "Get the SQL definition text for a trigger. Returns the CREATE TRIGGER statement text. TRIM() applied to CHAR columns.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger definition SQL",
+      "source": "Property Dialogs"
+    },
+    "GetPackageSqlStatements": {
+      "sql": "SELECT TRIM(z.PKGSCHEMA) AS PKGSCHEMA, TRIM(z.PKGNAME) AS PKGNAME, z.LASTUSED, TRIM(x.TEXT) AS TEXT FROM SYSCAT.STATEMENTS x JOIN SYSCAT.PACKAGES z ON x.PKGSCHEMA = z.PKGSCHEMA AND x.PKGNAME = z.PKGNAME WHERE TRIM(z.PKGSCHEMA) = ? AND TRIM(z.PKGNAME) = ? AND z.LASTUSED > CURRENT DATE - 3 YEARS",
+      "description": "Get SQL statements from a package. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 680-693). Returns all SQL statements from recently used packages (last 3 years). TRIM() applied to CHAR columns.",
+      "parameters": ["PKGSCHEMA", "PKGNAME"],
+      "returns": "List of SQL statements in the package",
+      "source": "Db2CreateDBQA_NonRelated.sql:680-693"
+    },
+    "GetColumnsForTable": {
+      "sql": "SELECT TRIM(X.COLNAME) AS COLNAME, X.COLNO, TRIM(X.TYPENAME) AS TYPENAME, X.LENGTH, X.SCALE, TRIM(X.NULLS) AS NULLS, TRIM(X.DEFAULT) AS DEFAULT, TRIM(X.REMARKS) AS REMARKS, X.KEYSEQ, TRIM(X.IDENTITY) AS IDENTITY FROM SYSCAT.COLUMNS X JOIN SYSCAT.TABLES Y ON X.TABSCHEMA = Y.TABSCHEMA AND X.TABNAME = Y.TABNAME WHERE TRIM(X.TABSCHEMA) = ? AND TRIM(X.TABNAME) = ? AND Y.TYPE IN ('T', 'V') ORDER BY X.COLNO",
+      "description": "Get all columns for a table or view. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 228-233). Returns column definitions with data types, constraints, and metadata. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of columns with full metadata",
+      "source": "Db2CreateDBQA_NonRelated.sql:228-233"
+    },
+    "GetPrimaryKeyColumns": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS TABSCHEMA, TRIM(TABNAME) AS TABNAME, TRIM(CONSTNAME) AS CONSTNAME, TRIM(COLNAME) AS COLNAME, COLSEQ FROM SYSCAT.KEYCOLUSE WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY COLSEQ",
+      "description": "Get primary key columns for a table. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 258). Returns column names in order. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of primary key columns in order",
+      "source": "Db2CreateDBQA_NonRelated.sql:258"
+    },
+    "GetForeignKeysForTable": {
+      "sql": "SELECT TRIM(FK.CONSTNAME) AS CONSTNAME, TRIM(FK.TABSCHEMA) AS TABSCHEMA, TRIM(FK.TABNAME) AS TABNAME, TRIM(FK.REFTABSCHEMA) AS REFTABSCHEMA, TRIM(FK.REFTABNAME) AS REFTABNAME, TRIM(FK.FK_COLNAMES) AS FK_COLNAMES, TRIM(FK.PK_COLNAMES) AS PK_COLNAMES, TRIM(FK.DELETERULE) AS DELETERULE, TRIM(FK.UPDATERULE) AS UPDATERULE FROM SYSCAT.REFERENCES FK WHERE TRIM(FK.TABSCHEMA) = ? AND TRIM(FK.TABNAME) = ?",
+      "description": "Get foreign keys for a table. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 390-396). Returns FK constraints with referenced table and columns. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of foreign keys with references",
+      "source": "Db2CreateDBQA_NonRelated.sql:274-396"
+    },
+    "GetIndexesForTable": {
+      "sql": "SELECT TRIM(I.INDNAME) AS INDNAME, TRIM(I.INDSCHEMA) AS INDSCHEMA, TRIM(I.UNIQUERULE) AS UNIQUERULE, TRIM(I.INDEXTYPE) AS INDEXTYPE, I.COLCOUNT, TRIM(I.COMPRESSION) AS COMPRESSION, I.CREATE_TIME, LISTAGG(TRIM(C.COLNAME) || ' ' || CASE WHEN C.COLORDER = 'A' THEN 'ASC' ELSE 'DESC' END, ', ') WITHIN GROUP (ORDER BY C.COLSEQ) AS COLUMNS FROM SYSCAT.INDEXCOLUSE C JOIN SYSCAT.INDEXES I ON C.INDNAME = I.INDNAME AND C.INDSCHEMA = I.INDSCHEMA WHERE TRIM(I.TABSCHEMA) = ? AND TRIM(I.TABNAME) = ? GROUP BY I.INDNAME, I.INDSCHEMA, I.UNIQUERULE, I.INDEXTYPE, I.COLCOUNT, I.COMPRESSION, I.CREATE_TIME ORDER BY I.INDNAME",
+      "description": "Get indexes for a table. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 446-465). Returns index definitions with columns. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes with column details",
+      "source": "Db2CreateDBQA_NonRelated.sql:402-465"
+    },
+    "GetLockMonitorInfo": {
+      "sql": "SELECT DISTINCT appls.DB_NAME, CASE WHEN PKG.PKGNAME IS NOT NULL THEN 'PACKAGE' WHEN T.TABNAME IS NOT NULL AND T.TYPE = 'T' THEN 'TABLE' WHEN T.TABNAME IS NOT NULL AND T.TYPE = 'V' THEN 'VIEW' ELSE 'UNKNOWN' END AS OBJECT_TYPE, TRIM(l.TABSCHEMA) AS OBJECT_SCHEMA_NAME, TRIM(l.TABNAME) AS OBJECT_NAME, TRIM(appls.PRIMARY_AUTH_ID) AS USER_ID, appls.CLIENT_NNAME, appls.APPL_NAME, TRIM(L.LOCK_STATUS) AS LOCK_STATUS, TRIM(L.LOCK_MODE) AS LOCK_MODE, L.AGENT_ID FROM SYSIBMADM.SNAPAPPL_INFO AS APPLS JOIN SYSIBMADM.SNAPLOCK L ON APPLS.AGENT_ID = L.AGENT_ID LEFT OUTER JOIN SYSCAT.PACKAGES PKG ON TRIM(L.TABSCHEMA) = TRIM(PKG.PKGSCHEMA) AND TRIM(L.TABNAME) = TRIM(PKG.PKGNAME) LEFT OUTER JOIN SYSCAT.TABLES T ON TRIM(L.TABSCHEMA) = TRIM(T.TABSCHEMA) AND TRIM(L.TABNAME) = TRIM(T.TABNAME) WHERE L.TABNAME <> ''",
+      "description": "Get lock monitoring information. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 71-125). Returns all active locks with object type, user, and application details. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of active locks with details",
+      "source": "Db2CreateDBQA_NonRelated.sql:71-125"
+    },
+    "GetRunstatsCommand": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS TABSCHEMA, TRIM(TABNAME) AS TABNAME, STATS_TIME, 'CALL SYSPROC.ADMIN_CMD(''RUNSTATS ON TABLE ' || TRIM(TABSCHEMA) || '.' || TRIM(TABNAME) || ' WITH DISTRIBUTION AND DETAILED INDEXES ALL'');' AS RUNSTATS_COMMAND FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TYPE = 'T'",
+      "description": "Generate RUNSTATS command for tables. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 149-158). Returns executable RUNSTATS command. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "RUNSTATS commands for tables",
+      "source": "Db2CreateDBQA_NonRelated.sql:149-165"
+    },
+    "GetTableDependencies": {
+      "sql": "SELECT DISTINCT TRIM(TABSCHEMA) AS DEPENDENCY_SCHEMA, TRIM(TABNAME) AS DEPENDENCY_TABLE, TRIM(DTYPE) AS DEPENDENCY_TYPE, TRIM(BTYPE) AS REFERENCE_TYPE, TRIM(BSCHEMA) AS REFERENCE_SCHEMA, TRIM(BNAME) AS REFERENCE_OBJECT FROM SYSCAT.TABDEP WHERE TRIM(TABSCHEMA) = ? OR TRIM(BSCHEMA) = ?",
+      "description": "Get table dependencies. PROVEN PATTERN from Db2CreateDBQA_NonRelated.sql (Line 632-649). Shows which objects depend on a table and which objects the table depends on. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABSCHEMA"],
+      "returns": "List of dependencies",
+      "source": "Db2CreateDBQA_NonRelated.sql:632-658"
+    },
+    "GetTableStatistics": {
+      "sql": "SELECT CARD AS RowCount, NPAGES AS NumberOfPages, FPAGES AS FormattedPages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime, TRIM(COMPRESSION) AS Compression, TRIM(TABLEORG) AS TableOrganization, AVGROWSIZE AS AvgRowSize FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ?",
+      "description": "Get table statistics. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 109-122). Returns cardinality, page counts, statistics time, and storage properties. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table statistics",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:109-122"
+    },
+    "GetTableColumnDetailed": {
+      "sql": "SELECT TRIM(COLNAME) AS ColumnName, TRIM(TYPENAME) AS DataType, LENGTH, SCALE, CASE WHEN NULLS = 'Y' THEN 'Yes' ELSE 'No' END AS Nullable, COALESCE(TRIM(DEFAULT), '-') AS DefaultValue, COALESCE(TRIM(REMARKS), '') AS Remarks, COLNO AS Position, KEYSEQ, TRIM(IDENTITY) AS IsIdentity, TRIM(GENERATED) AS Generated FROM SYSCAT.COLUMNS WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY COLNO",
+      "description": "Get detailed table columns. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 16-28). Returns all column metadata including data type, nullability, defaults, and remarks. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Detailed column information",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:16-28"
+    },
+    "GetPrimaryKeyDetailed": {
+      "sql": "SELECT TRIM(K.CONSTNAME) AS ConstraintName, TRIM(K.COLNAME) AS ColumnName, K.COLSEQ AS Position FROM SYSCAT.KEYCOLUSE K WHERE TRIM(K.TABSCHEMA) = ? AND TRIM(K.TABNAME) = ? AND K.CONSTNAME IN (SELECT CONSTNAME FROM SYSCAT.TABCONST WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? AND TYPE = 'P') ORDER BY K.COLSEQ",
+      "description": "Get primary key with details. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 37-56). Returns constraint name and columns in order. Uses TABCONST to verify PK type. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME", "TABSCHEMA", "TABNAME"],
+      "returns": "Primary key columns in order",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:37-56"
+    },
+    "GetForeignKeysDetailed": {
+      "sql": "SELECT TRIM(R.CONSTNAME) AS FKName, TRIM(R.REFTABSCHEMA) AS RefSchema, TRIM(R.REFTABNAME) AS RefTable, TRIM(K.COLNAME) AS ColumnName, K.COLSEQ AS Position, TRIM(R.DELETERULE) AS DeleteRule, TRIM(R.UPDATERULE) AS UpdateRule FROM SYSCAT.REFERENCES R JOIN SYSCAT.KEYCOLUSE K ON TRIM(R.CONSTNAME) = TRIM(K.CONSTNAME) AND TRIM(R.TABSCHEMA) = TRIM(K.TABSCHEMA) AND TRIM(R.TABNAME) = TRIM(K.TABNAME) WHERE TRIM(R.TABSCHEMA) = ? AND TRIM(R.TABNAME) = ? ORDER BY R.CONSTNAME, K.COLSEQ",
+      "description": "Get foreign keys with details. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 61-85). Returns FK constraints with referenced tables, columns, and rules. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Foreign keys with references and rules",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:61-85"
+    },
+    "GetTableIndexesDetailed": {
+      "sql": "SELECT TRIM(INDNAME) AS IndexName, TRIM(UNIQUERULE) AS UniqueRule, TRIM(COLNAMES) AS Columns, TRIM(INDEXTYPE) AS IndexType, TRIM(REMARKS) AS Remarks, COLCOUNT AS ColumnCount, UNIQUECOLCOUNT AS UniqueColumnCount, CREATE_TIME AS CreatedDate, TRIM(COMPRESSION) AS Compression FROM SYSCAT.INDEXES WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY INDNAME",
+      "description": "Get table indexes with details. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 90-104). Returns index metadata including uniqueness, type, and column list. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table indexes with details",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:90-104"
+    },
+    "GetPackageProperties": {
+      "sql": "SELECT TRIM(PKGSCHEMA) AS PackageSchema, TRIM(PKGNAME) AS PackageName, TRIM(BOUNDBY) AS BoundBy, TRIM(DEFINER) AS Definer, LASTUSED AS LastUsed, CREATE_TIME AS CreatedDate, VALID AS IsValid, TRIM(ISOLATION) AS IsolationLevel, TRIM(BLOCKING) AS Blocking, TRIM(SQLWARN) AS SqlWarnings, TRIM(FUNCPATH) AS FunctionPath, TRIM(REMARKS) AS Remarks FROM SYSCAT.PACKAGES WHERE TRIM(PKGSCHEMA) = ? AND TRIM(PKGNAME) = ?",
+      "description": "Get package properties. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md (Line 150-165). Returns comprehensive package metadata including binding info, last used date, and settings. TRIM() applied to CHAR columns.",
+      "parameters": ["PKGSCHEMA", "PKGNAME"],
+      "returns": "Package properties",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md:150-165"
+    },
+    "GetUserDetails": {
+      "sql": "SELECT TRIM(GRANTEE) AS Username, DBADMAUTH, SECADMAUTH, ACCESSCTRLAUTH, DATAACCESS AS DATAACCESSAUTH, CREATETABAUTH, BINDADDAUTH, CONNECTAUTH, NOFENCEAUTH, IMPLSCHEMAAUTH, LOADAUTH, QUIESCECONNECTAUTH, SQLADMAUTH, WLMADMAUTH, EXPLAINAUTH, CREATESECUREAUTH FROM SYSCAT.DBAUTH WHERE TRIM(GRANTEE) = ? AND GRANTEETYPE = 'U'",
+      "description": "Get user database authorities. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md. Returns all database-level authorities for a user. TRIM() applied to CHAR columns.",
+      "parameters": ["USERNAME"],
+      "returns": "User database authorities",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md"
+    },
+    "GetGroupDetails": {
+      "sql": "SELECT TRIM(GRANTEE) AS Groupname, DBADMAUTH, SECADMAUTH, ACCESSCTRLAUTH, DATAACCESS AS DATAACCESSAUTH, CREATETABAUTH, BINDADDAUTH, CONNECTAUTH, NOFENCEAUTH, IMPLSCHEMAAUTH, LOADAUTH, QUIESCECONNECTAUTH, SQLADMAUTH, WLMADMAUTH, EXPLAINAUTH, CREATESECUREAUTH FROM SYSCAT.DBAUTH WHERE TRIM(GRANTEE) = ? AND GRANTEETYPE = 'G'",
+      "description": "Get group database authorities. PROVEN PATTERN from PROPERTY_DIALOGS_SQL_QUERIES.md. Returns all database-level authorities for a group. TRIM() applied to CHAR columns.",
+      "parameters": ["GROUPNAME"],
+      "returns": "Group database authorities",
+      "source": "PROPERTY_DIALOGS_SQL_QUERIES.md"
+    },
+    "GetTablespacesDetailed": {
+      "sql": "SELECT TRIM(TBSPACE) AS TablespaceName, TRIM(OWNER) AS Owner, TRIM(TBSPACETYPE) AS TablespaceType, TRIM(DATATYPE) AS DataType, PAGESIZE AS PageSize, CREATE_TIME AS CreatedDate, TRIM(TBSPACEID) AS TablespaceId, TRIM(NGNAME) AS NodegroupName, TRIM(BUFFERPOOLID) AS BufferpoolId FROM SYSCAT.TABLESPACES ORDER BY TBSPACE",
+      "description": "Get detailed tablespace information. Returns comprehensive tablespace metadata. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "Tablespace details",
+      "source": "ObjectBrowserService"
+    },
+    "GetSequencesForSchema": {
+      "sql": "SELECT TRIM(SEQNAME) AS SequenceName, TRIM(SEQSCHEMA) AS SequenceSchema, TRIM(OWNER) AS Owner, START AS StartValue, INCREMENT AS IncrementBy, MAXVALUE AS MaxValue, MINVALUE AS MinValue, CYCLE AS IsCycle, CACHE AS CacheSize, CREATE_TIME AS CreatedDate FROM SYSCAT.SEQUENCES WHERE TRIM(SEQSCHEMA) = ? ORDER BY SEQNAME",
+      "description": "Get sequences in a schema. Returns sequence metadata including start, increment, min/max values, and cache settings. TRIM() applied to CHAR columns.",
+      "parameters": ["SEQSCHEMA"],
+      "returns": "List of sequences",
+      "source": "ObjectBrowserService"
+    },
+    "GetVariablesForSchema": {
+      "sql": "SELECT TRIM(VARNAME) AS VariableName, TRIM(VARSCHEMA) AS VariableSchema, TRIM(OWNER) AS Owner, TRIM(TYPENAME) AS DataType, LENGTH AS Length, SCALE AS Scale, TRIM(REMARKS) AS Remarks, CREATE_TIME AS CreatedDate FROM SYSCAT.VARIABLES WHERE TRIM(VARSCHEMA) = ? ORDER BY VARNAME",
+      "description": "Get global variables in a schema. Returns variable metadata including data type and length. TRIM() applied to CHAR columns.",
+      "parameters": ["VARSCHEMA"],
+      "returns": "List of global variables",
+      "source": "ObjectBrowserService"
+    },
+    "GetUserAuthorities": {
+      "sql": "SELECT TRIM(GRANTEE) AS USERNAME, DBADMAUTH, SECURITYADMAUTH AS SECADMAUTH, ACCESSCTRLAUTH, DATAACCESS AS DATAACCESSAUTH, CREATETABAUTH, BINDADDAUTH, CONNECTAUTH, NOFENCEAUTH, IMPLSCHEMAAUTH, LOADAUTH FROM SYSCAT.DBAUTH WHERE TRIM(GRANTEE) = ?",
+      "description": "Get user database authorities for access control. Used by AccessControlService to determine user access level. TRIM() applied to CHAR columns.",
+      "parameters": ["USERNAME"],
+      "returns": "User authorities row",
+      "source": "AccessControlService"
+    },
+    "GetRolesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.ROLES",
+      "description": "Count total roles in database.",
+      "parameters": [],
+      "returns": "Count of roles",
+      "source": "ObjectBrowserService"
+    },
+    "GetGroupsCount": {
+      "sql": "SELECT COUNT(DISTINCT GRANTEE) FROM SYSCAT.DBAUTH WHERE GRANTEETYPE = 'G'",
+      "description": "Count total groups with database privileges.",
+      "parameters": [],
+      "returns": "Count of groups",
+      "source": "ObjectBrowserService"
+    },
+    "GetUsersCount": {
+      "sql": "SELECT COUNT(DISTINCT GRANTEE) FROM SYSCAT.DBAUTH WHERE GRANTEETYPE = 'U'",
+      "description": "Count total users with database privileges.",
+      "parameters": [],
+      "returns": "Count of users",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINETYPE = 'P'",
+      "description": "Count total stored procedures.",
+      "parameters": [],
+      "returns": "Count of procedures",
+      "source": "ObjectBrowserService"
+    },
+    "GetFunctionsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINETYPE = 'F'",
+      "description": "Count total functions.",
+      "parameters": [],
+      "returns": "Count of functions",
+      "source": "ObjectBrowserService"
+    },
+    "GetIndexesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.INDEXES",
+      "description": "Count total indexes.",
+      "parameters": [],
+      "returns": "Count of indexes",
+      "source": "ObjectBrowserService"
+    },
+    "GetTriggersCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TRIGGERS",
+      "description": "Count total triggers.",
+      "parameters": [],
+      "returns": "Count of triggers",
+      "source": "ObjectBrowserService"
+    },
+    "GetSequencesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.SEQUENCES",
+      "description": "Count total sequences.",
+      "parameters": [],
+      "returns": "Count of sequences",
+      "source": "ObjectBrowserService"
+    },
+    "GetPackagesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.PACKAGES",
+      "description": "Count total packages.",
+      "parameters": [],
+      "returns": "Count of packages",
+      "source": "ObjectBrowserService"
+    },
+    "GetViewsCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.VIEWS",
+      "description": "Count total views.",
+      "parameters": [],
+      "returns": "Count of views",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesCount": {
+      "sql": "SELECT COUNT(*) FROM SYSCAT.TABLES WHERE TYPE = 'T'",
+      "description": "Count total tables (excluding views and system tables).",
+      "parameters": [],
+      "returns": "Count of tables",
+      "source": "ObjectBrowserService"
+    },
+    "GetIndexesForSchemaDetailed": {
+      "sql": "SELECT TRIM(INDNAME) AS INDNAME, TRIM(TABNAME) AS TABNAME, TRIM(TABSCHEMA) AS TABSCHEMA, TRIM(UNIQUERULE) AS UNIQUERULE, TRIM(INDEXTYPE) AS INDEXTYPE, TRIM(COLNAMES) AS COLNAMES, COLCOUNT, CREATE_TIME, TRIM(REMARKS) AS REMARKS FROM SYSCAT.INDEXES WHERE TRIM(INDSCHEMA) = ? ORDER BY INDNAME",
+      "description": "Get all indexes in a schema with details. TRIM() applied to CHAR columns.",
+      "parameters": ["INDSCHEMA"],
+      "returns": "List of indexes in schema",
+      "source": "OBJECT_BROWSER_SQL_QUERIES.md:248-260"
+    },
+    "GetModulesForSchema": {
+      "sql": "SELECT TRIM(MODULENAME) AS MODULENAME, TRIM(MODULESCHEMA) AS MODULESCHEMA, TRIM(OWNER) AS OWNER, CREATE_TIME, TRIM(REMARKS) AS REMARKS FROM SYSCAT.MODULES WHERE TRIM(MODULESCHEMA) = ? ORDER BY MODULENAME",
+      "description": "Get all modules in a schema. TRIM() applied to CHAR columns.",
+      "parameters": ["MODULESCHEMA"],
+      "returns": "List of modules",
+      "source": "ObjectBrowserService"
+    },
+    "GetXmlSchemasForSchema": {
+      "sql": "SELECT TRIM(OBJECTSCHEMA) AS OBJECTSCHEMA, TRIM(OBJECTNAME) AS OBJECTNAME, TRIM(TARGETNAMESPACE) AS TARGETNAMESPACE, CREATE_TIME FROM SYSCAT.XSROBJECTS WHERE TRIM(OBJECTSCHEMA) = ? ORDER BY OBJECTNAME",
+      "description": "Get XML schemas in a schema. TRIM() applied to CHAR columns.",
+      "parameters": ["OBJECTSCHEMA"],
+      "returns": "List of XML schemas",
+      "source": "ObjectBrowserService"
+    },
+    "GetAliasesForSchema": {
+      "sql": "SELECT TRIM(TABNAME) AS ALIASNAME, TRIM(BASE_TABSCHEMA) AS BASE_SCHEMA, TRIM(BASE_TABNAME) AS BASE_TABLE, TRIM(OWNER) AS OWNER, CREATE_TIME FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TYPE = 'A' ORDER BY TABNAME",
+      "description": "Get all aliases in a schema. TYPE='A' indicates alias. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of aliases",
+      "source": "ObjectBrowserService"
+    },
+    "GetBufferpools": {
+      "sql": "SELECT TRIM(BPNAME) AS BPNAME, NPAGES, PAGESIZE, BUFFERPOOLID, TRIM(NGNAME) AS NGNAME FROM SYSCAT.BUFFERPOOLS ORDER BY BPNAME",
+      "description": "Get all bufferpools. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of bufferpools",
+      "source": "ObjectBrowserService"
+    },
+    "GetStorageGroups": {
+      "sql": "SELECT TRIM(SGNAME) AS SGNAME, TRIM(OWNER) AS OWNER, CREATE_TIME, TRIM(OVERHEAD) AS OVERHEAD, TRIM(DEVICEREADRATE) AS DEVICEREADRATE FROM SYSCAT.STOGROUPS ORDER BY SGNAME",
+      "description": "Get all storage groups. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of storage groups",
+      "source": "ObjectBrowserService"
+    },
+    "GetTableConstraints": {
+      "sql": "SELECT TRIM(CONSTNAME) AS CONSTNAME, TRIM(TABSCHEMA) AS TABSCHEMA, TRIM(TABNAME) AS TABNAME, TRIM(TYPE) AS TYPE, TRIM(ENFORCED) AS ENFORCED, CREATE_TIME FROM SYSCAT.TABCONST WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY CONSTNAME",
+      "description": "Get all constraints for a table. Types: P=Primary Key, F=Foreign Key, U=Unique, K=Check. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of table constraints",
+      "source": "Property Dialogs"
+    },
+    "GetTableCheckConstraints": {
+      "sql": "SELECT TRIM(CONSTNAME) AS CONSTNAME, TRIM(TEXT) AS CHECK_CLAUSE, TRIM(ENFORCED) AS ENFORCED FROM SYSCAT.CHECKS WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY CONSTNAME",
+      "description": "Get check constraints for a table. TRIM() applied to CHAR columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of check constraints",
+      "source": "Property Dialogs"
+    },
+    "GetRoutineParameters": {
+      "sql": "SELECT TRIM(ROUTINESCHEMA) AS ROUTINESCHEMA, TRIM(ROUTINENAME) AS ROUTINENAME, TRIM(PARMNAME) AS PARMNAME, ORDINAL, TRIM(TYPENAME) AS TYPENAME, LENGTH, SCALE, TRIM(ROWTYPE) AS ROWTYPE FROM SYSCAT.ROUTINEPARMS WHERE TRIM(ROUTINESCHEMA) = ? AND TRIM(ROUTINENAME) = ? ORDER BY ORDINAL",
+      "description": "Get parameters for a stored procedure or function. ROWTYPE: P=Parameter, R=Return, C=Column. TRIM() applied to CHAR columns.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "List of routine parameters",
+      "source": "Property Dialogs"
+    },
+    "GetEventMonitors": {
+      "sql": "SELECT TRIM(EVMONNAME) AS EVMONNAME, TRIM(TARGET_TYPE) AS TARGET_TYPE, TRIM(AUTOSTART) AS AUTOSTART, CREATE_TIME FROM SYSCAT.EVENTMONITORS ORDER BY EVMONNAME",
+      "description": "Get all event monitors. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of event monitors",
+      "source": "ObjectBrowserService"
+    },
+    "GetWorkloads": {
+      "sql": "SELECT TRIM(WORKLOADNAME) AS WORKLOADNAME, WORKLOADID, TRIM(ENABLED) AS ENABLED, CREATE_TIME FROM SYSCAT.WORKLOADS ORDER BY WORKLOADNAME",
+      "description": "Get all workloads for workload management. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of workloads",
+      "source": "ObjectBrowserService"
+    },
+    "GetServiceClasses": {
+      "sql": "SELECT TRIM(SERVICECLASSNAME) AS SERVICECLASSNAME, SERVICECLASSID, TRIM(ENABLED) AS ENABLED, CREATE_TIME FROM SYSCAT.SERVICECLASSES ORDER BY SERVICECLASSNAME",
+      "description": "Get all service classes for workload management. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of service classes",
+      "source": "ObjectBrowserService"
+    },
+    "GetTrustedContexts": {
+      "sql": "SELECT TRIM(CONTEXTNAME) AS CONTEXTNAME, TRIM(SYSTEM_AUTHID) AS SYSTEM_AUTHID, TRIM(ENABLED) AS ENABLED, CREATE_TIME FROM SYSCAT.CONTEXTS ORDER BY CONTEXTNAME",
+      "description": "Get all trusted contexts. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of trusted contexts",
+      "source": "ObjectBrowserService"
+    },
+    "GetNicknames": {
+      "sql": "SELECT TRIM(TABNAME) AS NICKNAME, TRIM(TABSCHEMA) AS SCHEMA, TRIM(SERVERNAME) AS SERVER, TRIM(REMOTE_TABNAME) AS REMOTE_TABLE, TRIM(REMOTE_SCHEMA) AS REMOTE_SCHEMA FROM SYSCAT.TABLES WHERE TYPE = 'N' ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get all nicknames for federated databases. TYPE='N' indicates nickname. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of nicknames",
+      "source": "ObjectBrowserService"
+    },
+    "GetServers": {
+      "sql": "SELECT TRIM(SERVERNAME) AS SERVERNAME, TRIM(SERVERTYPE) AS SERVERTYPE, TRIM(SERVERVERSION) AS SERVERVERSION, TRIM(WRAPPER) AS WRAPPER, CREATE_TIME FROM SYSCAT.SERVERS ORDER BY SERVERNAME",
+      "description": "Get all remote servers for federated databases. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of servers",
+      "source": "ObjectBrowserService"
+    },
+    "GetWrappers": {
+      "sql": "SELECT TRIM(WRAPNAME) AS WRAPNAME, TRIM(WRAPTYPE) AS WRAPTYPE, TRIM(WRAPVERSION) AS WRAPVERSION, CREATE_TIME FROM SYSCAT.WRAPPERS ORDER BY WRAPNAME",
+      "description": "Get all wrappers for federated databases. TRIM() applied to CHAR columns.",
+      "parameters": [],
+      "returns": "List of wrappers",
+      "source": "ObjectBrowserService"
+    },
+    "GetTableColumns_Display": {
+      "sql": "SELECT TRIM(COLNAME) AS ColumnName, TRIM(TYPENAME) AS DataType, LENGTH, CASE WHEN NULLS = 'Y' THEN 'Yes' ELSE 'No' END AS Nullable, COALESCE(TRIM(DEFAULT), '-') AS DefaultValue, COALESCE(TRIM(REMARKS), '') AS Remarks FROM SYSCAT.COLUMNS WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY COLNO",
+      "description": "Get all columns for a table with full metadata. Returns column name, data type, length, nullable status (Yes/No), default value, and remarks. Used by TableDetailsDialog Tab 1 (Columns).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of columns with display-friendly metadata",
+      "source": "TableDetailsDialog:LoadColumnsAsync"
+    },
+    "GetTableForeignKeys_Detailed": {
+      "sql": "SELECT TRIM(FK.CONSTNAME) AS FKName, TRIM(FK.COLNAME) AS FKColumn, TRIM(PK.TABSCHEMA) || '.' || TRIM(PK.TABNAME) AS PKTable, TRIM(PK.COLNAME) AS PKColumn, TRIM(R.DELETERULE) AS DeleteRule, TRIM(R.UPDATERULE) AS UpdateRule FROM SYSCAT.REFERENCES R JOIN SYSCAT.KEYCOLUSE FK ON R.CONSTNAME = FK.CONSTNAME AND R.TABSCHEMA = FK.TABSCHEMA AND R.TABNAME = FK.TABNAME JOIN SYSCAT.KEYCOLUSE PK ON R.REFKEYNAME = PK.CONSTNAME AND R.REFTABSCHEMA = PK.TABSCHEMA AND R.REFTABNAME = PK.TABNAME AND FK.COLSEQ = PK.COLSEQ WHERE TRIM(R.TABSCHEMA) = ? AND TRIM(R.TABNAME) = ? ORDER BY FK.CONSTNAME, FK.COLSEQ",
+      "description": "Get all outgoing foreign keys for a table. Joins REFERENCES with KEYCOLUSE to get FK constraint names, source columns, referenced tables/columns, and rules. Used by TableDetailsDialog Tab 2 (Foreign Keys).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of foreign keys with full constraint details",
+      "source": "TableDetailsDialog:LoadForeignKeysAsync"
+    },
+    "GetTableIndexes_Aggregated": {
+      "sql": "SELECT TRIM(I.INDNAME) AS IndexName, CASE WHEN I.INDEXTYPE = 'CLUS' THEN 'Clustered' WHEN I.INDEXTYPE = 'REG' THEN 'Regular' WHEN I.INDEXTYPE = 'DIM' THEN 'Dimension' ELSE I.INDEXTYPE END AS IndexType, CASE WHEN I.UNIQUERULE = 'U' THEN 'Yes' WHEN I.UNIQUERULE = 'P' THEN 'Primary Key' ELSE 'No' END AS IsUnique, LISTAGG(TRIM(IC.COLNAME), ', ') WITHIN GROUP (ORDER BY IC.COLSEQ) AS Columns FROM SYSCAT.INDEXES I LEFT JOIN SYSCAT.INDEXCOLUSE IC ON I.INDSCHEMA = IC.INDSCHEMA AND I.INDNAME = IC.INDNAME WHERE TRIM(I.TABSCHEMA) = ? AND TRIM(I.TABNAME) = ? GROUP BY I.INDNAME, I.INDEXTYPE, I.UNIQUERULE ORDER BY I.INDNAME",
+      "description": "Get all indexes for a table with aggregated column lists. Uses LISTAGG to concatenate column names. Returns index name, type (user-friendly labels), uniqueness status, and comma-separated columns. Used by TableDetailsDialog Tab 3 (Indexes).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes with column lists",
+      "source": "TableDetailsDialog:LoadIndexesAsync"
+    },
+    "GetTableBasicInfo": {
+      "sql": "SELECT TRIM(TYPE), TRIM(TBSPACE) FROM SYSCAT.TABLES WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ?",
+      "description": "Get basic table information - table type and tablespace. Used by TableDetailsDialog Tab 4 (Statistics) to display table type and tablespace name.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table type and tablespace",
+      "source": "TableDetailsDialog:LoadStatisticsAsync"
+    },
+    "GetTableDdlColumns": {
+      "sql": "SELECT TRIM(COLNAME), TRIM(TYPENAME), LENGTH, SCALE, TRIM(NULLS), TRIM(DEFAULT) FROM SYSCAT.COLUMNS WHERE TRIM(TABSCHEMA) = ? AND TRIM(TABNAME) = ? ORDER BY COLNO",
+      "description": "Get column information for DDL generation. Returns column name, type, length, scale, nullable flag (Y/N), and default value. Used by TableDetailsDialog Tab 5 (DDL) to generate CREATE TABLE statements.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Column metadata for DDL generation",
+      "source": "TableDetailsDialog:GenerateDDLAsync"
+    },
+    "GetAllSelectableTables": {
+      "sql": "SELECT DISTINCT TABSCHEMA, TABNAME FROM SYSCAT.TABLES WHERE TYPE = 'T' AND (TABSCHEMA = ? OR TABSCHEMA NOT LIKE 'SYS%') ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get all user tables for schema/table selection dialog. Filters to TYPE='T' (tables only) and excludes system schemas (SYS%). Used by SchemaTableSelectionDialog to build tree view of selectable tables.",
+      "parameters": ["DEFAULT_SCHEMA"],
+      "returns": "List of schemas and tables for selection",
+      "source": "SchemaTableSelectionDialog:LoadSchemasAndTablesAsync"
+    },
+    "GetTableColumns_Basic": {
+      "sql": "SELECT TRIM(COLNAME), TRIM(TYPENAME), LENGTH, SCALE, TRIM(NULLS), TRIM(DEFAULT), TRIM(REMARKS) FROM SYSCAT.COLUMNS WHERE TRIM(TABNAME) = ? ORDER BY COLNO",
+      "description": "Get basic column information for a table. Returns column name, type, length, scale, nullable flag, default value, and remarks. Used by DB2ConnectionManager for internal operations.",
+      "parameters": ["TABNAME"],
+      "returns": "Column metadata",
+      "source": "DB2ConnectionManager:GetTableColumnsAsync"
+    },
+    "GetTableColumns_All": {
+      "sql": "SELECT * FROM SYSCAT.COLUMNS WHERE TABNAME = ? AND TABSCHEMA = ? ORDER BY COLNO",
+      "description": "Get all column metadata for a specific schema.table. Used by DB2MetadataService for structure analysis.",
+      "parameters": ["TABNAME", "TABSCHEMA"],
+      "returns": "All column metadata",
+      "source": "DB2MetadataService:AnalyzeTableStructure"
+    },
+    "GetTableIndexes_All": {
+      "sql": "SELECT * FROM SYSCAT.INDEXES WHERE TABNAME = ? AND TABSCHEMA = ?",
+      "description": "Get all index metadata for a specific schema.table. Used by DB2MetadataService for structure analysis.",
+      "parameters": ["TABNAME", "TABSCHEMA"],
+      "returns": "All index metadata",
+      "source": "DB2MetadataService:AnalyzeTableStructure"
+    },
+    "GetAllTablesAndViews": {
+      "sql": "SELECT TABSCHEMA, TABNAME, TYPE FROM SYSCAT.TABLES WHERE TYPE IN ('T', 'V')",
+      "description": "Get all user tables and views for metadata loading. Returns schema, table name, and type (T=table, V=view).",
+      "parameters": [],
+      "returns": "List of tables and views",
+      "source": "MetadataLoaderService:LoadAsync"
+    },
+    "GetTablesForSchema": {
+      "sql": "SELECT TABSCHEMA, TABNAME, TYPE FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TYPE = 'T' ORDER BY TABNAME",
+      "description": "Get all tables in a specific schema for metadata loading. Returns schema, table name, and type (T=table).",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables in schema",
+      "source": "MetadataLoaderService:LoadSchemaMetadata"
+    },
+    "GetColumnMetadataForTable": {
+      "sql": "SELECT COLNAME, TYPENAME, LENGTH, SCALE, NULLS, DEFAULT, REMARKS FROM SYSCAT.COLUMNS WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY COLNO",
+      "description": "Get column metadata for a specific table used in metadata loading. Similar to SERVICE_GetTableColumnsAll but with specific columns.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Column metadata",
+      "source": "MetadataLoaderService:LoadAsync"
+    },
+    "GetPackageList": {
+      "sql": "SELECT PKGSCHEMA, PKGNAME, LASTUSED, DEFINER FROM SYSCAT.PACKAGES WHERE PKGSCHEMA = ? ORDER BY PKGNAME",
+      "description": "Get all packages in a schema. Returns package schema, name, last used timestamp, and definer.",
+      "parameters": ["PKGSCHEMA"],
+      "returns": "List of packages",
+      "source": "PackageAnalyzerService:GetPackagesAsync"
+    },
+    "GetPackageStatements": {
+      "sql": "SELECT TEXT FROM SYSCAT.STATEMENTS WHERE PKGSCHEMA = ? AND PKGNAME = ? ORDER BY STMTNO",
+      "description": "Get all SQL statement texts from a package. Returns statement text for all statements in package, ordered by statement number.",
+      "parameters": ["PKGSCHEMA", "PKGNAME"],
+      "returns": "Statement texts",
+      "source": "PackageAnalyzerService:GetPackageStatementsAsync"
+    },
+    "GetProceduresSourceCode": {
+      "sql": "SELECT ROUTINETYPE AS OBJECT_TYPE, ROUTINESCHEMA AS SCHEMA, ROUTINENAME AS NAME, TEXT AS SOURCE_CODE, CREATE_TIME, LAST_REGEN_TIME, LANGUAGE FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'P' ORDER BY ROUTINENAME",
+      "description": "Get source code for all procedures in a schema. Filters ROUTINETYPE='P'. Returns type, schema, name, source code, timestamps, and language.",
+      "parameters": ["SCHEMA"],
+      "returns": "Procedure source code with metadata",
+      "source": "SourceCodeService:GetProceduresAsync"
+    },
+    "GetFunctionsSourceCode": {
+      "sql": "SELECT ROUTINETYPE AS OBJECT_TYPE, ROUTINESCHEMA AS SCHEMA, ROUTINENAME AS NAME, TEXT AS SOURCE_CODE, CREATE_TIME, LAST_REGEN_TIME, LANGUAGE FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'F' ORDER BY ROUTINENAME",
+      "description": "Get source code for all functions in a schema. Filters ROUTINETYPE='F'. Returns type, schema, name, source code, timestamps, and language.",
+      "parameters": ["SCHEMA"],
+      "returns": "Function source code with metadata",
+      "source": "SourceCodeService:GetFunctionsAsync"
+    },
+    "GetViewSourceCode": {
+      "sql": "SELECT 'VIEW' AS OBJECT_TYPE, VIEWSCHEMA AS SCHEMA, VIEWNAME AS NAME, TEXT AS SOURCE_CODE, CAST(NULL AS TIMESTAMP) AS CREATE_TIME, CAST(NULL AS TIMESTAMP) AS LAST_REGEN_TIME, CAST(NULL AS VARCHAR(1)) AS LANGUAGE FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? ORDER BY VIEWNAME",
+      "description": "Get source code for all views in a schema. Returns object type (VIEW), schema, name, SQL definition, and NULL timestamps/language for consistency.",
+      "parameters": ["SCHEMA"],
+      "returns": "View source code with metadata",
+      "source": "SourceCodeService:GetAllSourceCodeAsync"
+    },
+    "GetTriggerSourceCode": {
+      "sql": "SELECT 'TRIGGER' AS OBJECT_TYPE, TRIGSCHEMA AS SCHEMA, TRIGNAME AS NAME, TEXT AS SOURCE_CODE, CREATE_TIME, LAST_REGEN_TIME, CAST(NULL AS VARCHAR(1)) AS LANGUAGE FROM SYSCAT.TRIGGERS WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY TRIGNAME",
+      "description": "Get source code for all triggers on a specific table. Returns object type (TRIGGER), schema, name, source code, timestamps, and NULL language.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Trigger source code with metadata",
+      "source": "SourceCodeService:GetTriggersAsync"
+    },
+    "GetIncomingForeignKeys": {
+      "sql": "SELECT TABSCHEMA AS REFERENCING_SCHEMA, TABNAME AS REFERENCING_TABLE, CONSTNAME, FK_COLNAMES, PK_COLNAMES, DELETERULE, UPDATERULE FROM SYSCAT.REFERENCES WHERE REFTABSCHEMA = ? AND REFTABNAME = ? ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get all incoming foreign keys (tables that reference this table). Returns referencing schema/table, constraint name, column names, and rules.",
+      "parameters": ["REFTABSCHEMA", "REFTABNAME"],
+      "returns": "Incoming foreign keys with full details",
+      "source": "TableRelationshipService:GetIncomingForeignKeysAsync"
+    },
+    "GetReferencingPackages": {
+      "sql": "SELECT DISTINCT 'PACKAGE' AS OBJECT_TYPE, d.TABSCHEMA AS SCHEMA, d.TABNAME AS NAME, p.LASTUSED FROM SYSCAT.TABDEP d JOIN SYSCAT.PACKAGES p ON d.TABSCHEMA = p.PKGSCHEMA AND d.TABNAME = p.PKGNAME WHERE d.BSCHEMA = ? AND d.BNAME = ? AND d.DTYPE = 'O' ORDER BY d.TABSCHEMA, d.TABNAME",
+      "description": "Get all packages that reference a specific table via TABDEP join. Returns object type (PACKAGE), schema, name, and last used timestamp.",
+      "parameters": ["BSCHEMA", "BNAME"],
+      "returns": "Referencing packages with timestamps",
+      "source": "TableRelationshipService:GetReferencingPackagesAsync"
+    },
+    "GetReferencingViews": {
+      "sql": "SELECT DISTINCT 'VIEW' AS OBJECT_TYPE, TABSCHEMA AS SCHEMA, TABNAME AS NAME, CAST(NULL AS TIMESTAMP) AS LASTUSED FROM SYSCAT.TABDEP WHERE BSCHEMA = ? AND BNAME = ? AND DTYPE = 'V' ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get all views that reference a specific table via TABDEP. Returns object type (VIEW), schema, name, and NULL timestamp.",
+      "parameters": ["BSCHEMA", "BNAME"],
+      "returns": "Referencing views",
+      "source": "TableRelationshipService:GetReferencingViewsAsync"
+    },
+    "GetReferencingRoutines": {
+      "sql": "SELECT DISTINCT CASE WHEN DTYPE = 'P' THEN 'PROCEDURE' WHEN DTYPE = 'F' THEN 'FUNCTION' ELSE DTYPE END AS OBJECT_TYPE, TABSCHEMA AS SCHEMA, TABNAME AS NAME, CAST(NULL AS TIMESTAMP) AS LASTUSED FROM SYSCAT.TABDEP WHERE BSCHEMA = ? AND BNAME = ? AND DTYPE IN ('P', 'F') ORDER BY OBJECT_TYPE, SCHEMA, NAME",
+      "description": "Get all routines (functions, procedures) that reference a specific table via TABDEP. Returns object type (FUNCTION/PROCEDURE), schema, name, and NULL timestamp.",
+      "parameters": ["BSCHEMA", "BNAME"],
+      "returns": "Referencing routines",
+      "source": "TableRelationshipService:GetReferencingRoutinesAsync"
+    },
+    "GetTriggerInfo": {
+      "sql": "SELECT TRIGNAME, TRIGSCHEMA, TABSCHEMA, TABNAME, TRIGTIME, TRIGEVENT, GRANULARITY, ENABLED, VALID, REMARKS, TEXT, CREATE_TIME FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = ? AND TRIGNAME = ?",
+      "description": "Get detailed information about a specific trigger. Returns trigger metadata, target table, timing, event, body text, and creation time. Used by CLI command 'trigger-info'.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger details",
+      "source": "CliCommandHandlerService:GetTriggerInfoAsync"
+    },
+    "GetViewInfo": {
+      "sql": "SELECT V.VIEWNAME, V.VIEWSCHEMA, V.DEFINER, V.VALID, V.READONLY, T.REMARKS, V.TEXT, T.CREATE_TIME FROM SYSCAT.VIEWS V JOIN SYSCAT.TABLES T ON V.VIEWSCHEMA = T.TABSCHEMA AND V.VIEWNAME = T.TABNAME WHERE V.VIEWSCHEMA = ? AND V.VIEWNAME = ?",
+      "description": "Get detailed information about a specific view. Returns view metadata, SQL definition text, definer, validity, and remarks. Used by CLI command 'view-info'.",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View details",
+      "source": "CliCommandHandlerService:GetViewInfoAsync"
+    },
+    "GetProcedureInfo": {
+      "sql": "SELECT ROUTINENAME, ROUTINESCHEMA, DEFINER, LANGUAGE, DETERMINISTIC, EXTERNAL_ACTION, NULL_CALL, ORIGIN, REMARKS, TEXT, CREATE_TIME FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ? AND ROUTINETYPE = 'P'",
+      "description": "Get detailed information about a specific stored procedure. Returns procedure metadata, language, characteristics, SQL body, and creation time. ROUTINETYPE='P' for procedures. Used by CLI command 'procedure-info'.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure details",
+      "source": "CliCommandHandlerService:GetProcedureInfoAsync"
+    },
+    "GetFunctionInfo": {
+      "sql": "SELECT ROUTINENAME, ROUTINESCHEMA, DEFINER, LANGUAGE, DETERMINISTIC, EXTERNAL_ACTION, NULL_CALL, ORIGIN, TYPESCHEMA, TYPENAME, REMARKS, TEXT, CREATE_TIME FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ? AND ROUTINETYPE = 'F'",
+      "description": "Get detailed information about a specific function. Returns function metadata, return type, language, characteristics, SQL body, and creation time. ROUTINETYPE='F' for functions. Used by CLI command 'function-info'.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function details",
+      "source": "CliCommandHandlerService:GetFunctionInfoAsync"
+    },
+    "GetDatabaseSize": {
+      "sql": "SELECT SUM(CARD) AS TotalRows, SUM(NPAGES) AS TotalPages, SUM(NPAGES) * 4 / 1024.0 AS TotalSizeMB FROM SYSCAT.TABLES WHERE TYPE IN ('T', 'U') AND TABSCHEMA NOT IN ('SYSIBM', 'SYSCAT', 'SYSPROC', 'SYSFUN')",
+      "description": "Calculate approximate database size by summing table pages. Excludes system schemas. Returns total rows, pages, and size in MB. 4KB page size assumed. Used by CLI command 'database-size'.",
+      "parameters": [],
+      "returns": "Database size metrics",
+      "source": "CliCommandHandlerService:GetDatabaseSizeAsync"
+    },
+    "GetTableColumns": {
+      "sql": "SELECT TRIM(COLNAME) AS ColumnName, COLNO AS OrdinalPosition, TRIM(TYPENAME) AS DataType, LENGTH, SCALE, CASE WHEN NULLS = 'Y' THEN 1 ELSE 0 END AS IsNullable, COALESCE(TRIM(DEFAULT), '') AS DefaultValue, COALESCE(TRIM(REMARKS), '') AS Comment, CASE WHEN IDENTITY = 'Y' THEN 1 ELSE 0 END AS IsIdentity FROM SYSCAT.COLUMNS WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY COLNO",
+      "description": "Get all columns for a table with CLI-specific column names and boolean flags as 0/1. Used by CLI command 'table-columns'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of columns with metadata",
+      "source": "CliCommandHandlerService:GetTableColumnsAsync"
+    },
+    "GetTableForeignKeys": {
+      "sql": "SELECT TRIM(CONSTNAME) AS FKName, FK_COLNAMES AS FKColumns, TRIM(REFTABSCHEMA) AS RefSchema, TRIM(REFTABNAME) AS RefTable, PK_COLNAMES AS RefColumns, TRIM(DELETERULE) AS DeleteRule, TRIM(UPDATERULE) AS UpdateRule FROM SYSCAT.REFERENCES WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY CONSTNAME",
+      "description": "Get all outgoing foreign keys for a table with CLI-specific column structure (separate schema/table, column lists as strings). Used by CLI command 'table-foreign-keys'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of foreign keys",
+      "source": "CliCommandHandlerService:GetTableForeignKeysAsync"
+    },
+    "GetTableIndexes": {
+      "sql": "SELECT TRIM(INDNAME) AS IndexName, TRIM(INDEXTYPE) AS IndexType, TRIM(UNIQUERULE) AS UniqueRule, COLNAMES, COLCOUNT, TRIM(REVERSE_SCANS) AS ReverseScans, FIRSTKEYCARD, FULLKEYCARD, TRIM(REMARKS) AS IndexComment FROM SYSCAT.INDEXES WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY INDNAME",
+      "description": "Get all indexes for a table with detailed CLI-specific metadata including cardinality and scan direction. Used by CLI command 'table-indexes'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes with full metadata",
+      "source": "CliCommandHandlerService:GetTableIndexesAsync"
+    },
+    "GetTableStatistics_Full": {
+      "sql": "SELECT CARD AS RowCount, NPAGES AS DataPages, FPAGES AS IndexPages, OVERFLOW AS OverflowPages, AVGROWSIZE AS AvgRowSize, STATS_TIME AS LastStatsTime, TRIM(COMPRESSION) AS Compression, TRIM(TABLEORG) AS TableOrganization, PCTFREE AS PercentFree FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "Get comprehensive table statistics including compression and organization. Extended version for CLI command 'table-statistics-full'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Full table statistics",
+      "source": "CliCommandHandlerService:GetTableStatisticsFullAsync"
+    },
+    "GetTableIncomingForeignKeys": {
+      "sql": "SELECT TRIM(R.TABSCHEMA) AS RefBySchema, TRIM(R.TABNAME) AS RefByTable, TRIM(R.CONSTNAME) AS FKName, R.FK_COLNAMES AS FKColumns, R.PK_COLNAMES AS PKColumns, TRIM(R.DELETERULE) AS DeleteRule FROM SYSCAT.REFERENCES R WHERE R.REFTABSCHEMA = ? AND R.REFTABNAME = ? ORDER BY R.TABSCHEMA, R.TABNAME",
+      "description": "Get all incoming foreign keys (tables that reference this table). Used by CLI command 'table-incoming-fks'.",
+      "parameters": ["REFTABSCHEMA", "REFTABNAME"],
+      "returns": "List of tables referencing this table",
+      "source": "CliCommandHandlerService:GetTableIncomingFKsAsync"
+    },
+    "GetActiveSessions_Full": {
+      "sql": "SELECT AGENT_ID, APPL_NAME, AUTHID, CLIENT_NNAME, AGENT_STATE_LAST_UPDATE_TIME, NUM_ASSOC_AGENTS, COORD_AGENT_PID FROM SYSIBMADM.SNAPAPPL_INFO ORDER BY AGENT_STATE_LAST_UPDATE_TIME DESC",
+      "description": "Get all active sessions with full details from DB2 monitoring views. Used by CLI command 'active-sessions-full'.",
+      "parameters": [],
+      "returns": "List of active sessions with detailed metrics",
+      "source": "CliCommandHandlerService:GetActiveSessionsFullAsync"
+    },
+    "GetLockChains": {
+      "sql": "SELECT L.AGENT_ID, L.TABSCHEMA, L.TABNAME, L.LOCK_MODE, L.LOCK_STATUS, A.APPL_NAME, A.AUTHID FROM SYSIBMADM.SNAPLOCK L JOIN SYSIBMADM.SNAPAPPL_INFO A ON L.AGENT_ID = A.AGENT_ID WHERE L.LOCK_STATUS = 'W' ORDER BY L.AGENT_ID",
+      "description": "Get lock chains showing waiting locks and their associated applications. Useful for deadlock analysis. Used by CLI command 'lock-chains'.",
+      "parameters": [],
+      "returns": "List of waiting locks with application context",
+      "source": "CliCommandHandlerService:GetLockChainsAsync"
+    },
+    "GetTableActivity": {
+      "sql": "SELECT TABLE_SCHEMA, TABLE_NAME, ROWS_READ, ROWS_INSERTED, ROWS_UPDATED, ROWS_DELETED, TABLE_SCANS, OBJECT_DATA_L_READS, OBJECT_DATA_P_READS FROM TABLE(MON_GET_TABLE('', '', -2)) AS T WHERE TABLE_SCHEMA NOT IN ('SYSIBM', 'SYSCAT', 'SYSPROC', 'SYSFUN') ORDER BY (ROWS_READ + ROWS_INSERTED + ROWS_UPDATED + ROWS_DELETED) DESC FETCH FIRST 100 ROWS ONLY",
+      "description": "Get table activity metrics using MON_GET_TABLE function. Shows read/write activity for top 100 active tables. Excludes system schemas. Used by CLI command 'table-activity'.",
+      "parameters": [],
+      "returns": "Top 100 active tables with metrics",
+      "source": "CliCommandHandlerService:GetTableActivityAsync"
+    },
+    "GetTopActiveTables": {
+      "sql": "SELECT TABLE_SCHEMA, TABLE_NAME, ROWS_READ, ROWS_INSERTED, ROWS_UPDATED, ROWS_DELETED, (ROWS_READ + ROWS_INSERTED + ROWS_UPDATED + ROWS_DELETED) AS TOTAL_OPERATIONS FROM TABLE(MON_GET_TABLE('', '', -2)) AS T WHERE TABLE_SCHEMA NOT IN ('SYSIBM', 'SYSCAT', 'SYSPROC', 'SYSFUN') ORDER BY TOTAL_OPERATIONS DESC FETCH FIRST 50 ROWS ONLY",
+      "description": "Get top 50 most active tables by total operations (reads + writes). Uses MON_GET_TABLE monitoring function. Used by CLI command 'top-active-tables'.",
+      "parameters": [],
+      "returns": "Top 50 active tables ranked by activity",
+      "source": "CliCommandHandlerService:GetTopActiveTablesAsync"
+    },
+    "GetTableGrants": {
+      "sql": "SELECT TRIM(GRANTOR) AS Grantor, TRIM(GRANTEE) AS Grantee, TRIM(GRANTEETYPE) AS GranteeType, CONTROLAUTH, ALTERAUTH, DELETEAUTH, INDEXAUTH, INSERTAUTH, REFAUTH, SELECTAUTH, UPDATEAUTH FROM SYSCAT.TABAUTH WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "Get all grants/privileges for a specific table. Returns grantor, grantee, and specific privilege flags. Used by CLI command 'table-grants'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of grants with privilege details",
+      "source": "CliCommandHandlerService:GetTableGrantsAsync"
+    },
+    "GetActiveSessions": {
+      "sql": "SELECT CURRENT USER AS AUTHID, CURRENT TIMESTAMP AS CONNECT_TIME FROM SYSIBM.SYSDUMMY1",
+      "description": "Get active database sessions. Returns current user and connect time. Note: Full session monitoring requires admin views. Used by CLI command 'active-sessions'.",
+      "parameters": [],
+      "returns": "List of active sessions (limited info without admin privileges)",
+      "source": "CliCommandHandlerService:GetActiveSessionsAsync"
+    },
+    "GetDatabaseLoad": {
+      "sql": "SELECT TABSCHEMA, TABNAME, ROWS_READ, ROWS_INSERTED, ROWS_UPDATED, ROWS_DELETED FROM TABLE(MON_GET_TABLE('', '', -2)) AS T WHERE TABSCHEMA LIKE ? ORDER BY (ROWS_READ + ROWS_INSERTED + ROWS_UPDATED + ROWS_DELETED) DESC",
+      "description": "Get database load metrics by table. Uses MON_GET_TABLE monitoring function to retrieve read/write statistics. Schema filter supports wildcards. Used by CLI command 'database-load'.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "Table load metrics with row operation counts",
+      "source": "CliCommandHandlerService:GetDatabaseLoadAsync"
+    },
+    "GetTableStatistics": {
+      "sql": "SELECT TABSCHEMA, TABNAME, CARD, NPAGES, FPAGES, STATS_TIME FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get table statistics including row count (CARD), data pages, free pages, and last stats update time. Schema filter supports wildcards. Used by CLI command 'table-stats'.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "Table statistics with cardinality and page info",
+      "source": "CliCommandHandlerService:GetTableStatsAsync"
+    },
+    "GetTableDependencies": {
+      "sql": "SELECT BSCHEMA, BNAME, BTYPE, DTYPE FROM SYSCAT.TABDEP WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY BSCHEMA, BNAME",
+      "description": "Get object dependencies (objects that this table/view depends on). Returns target schema, object name, type, and dependency type from SYSCAT.TABDEP. Used by CLI command 'dependencies'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of dependencies with target objects",
+      "source": "CliCommandHandlerService:GetDependenciesAsync"
+    },
+    "GetCdcInfo": {
+      "sql": "SELECT TABSCHEMA, TABNAME, PROPERTY FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND PROPERTY IS NOT NULL ORDER BY TABSCHEMA, TABNAME",
+      "description": "Get Change Data Capture (CDC) information for tables. Returns tables with PROPERTY column populated (CDC-enabled tables). Schema filter supports wildcards. Used by CLI command 'cdc-info'.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "List of CDC-enabled tables with properties",
+      "source": "CliCommandHandlerService:GetCdcInfoAsync"
+    },
+    "ListViews": {
+      "sql": "SELECT VIEWSCHEMA, VIEWNAME, VALID, READONLY FROM SYSCAT.VIEWS WHERE VIEWSCHEMA LIKE ? ORDER BY VIEWSCHEMA, VIEWNAME",
+      "description": "List all views in schema(s). Returns view schema, name, valid flag, and read-only flag. Schema filter supports wildcards. Used by CLI command 'list-views'.",
+      "parameters": ["VIEWSCHEMA_PATTERN"],
+      "returns": "List of views with metadata",
+      "source": "CliCommandHandlerService:ListViewsAsync"
+    },
+    "ListProcedures": {
+      "sql": "SELECT PROCSCHEMA, PROCNAME, LANGUAGE, DETERMINISTIC FROM SYSCAT.PROCEDURES WHERE PROCSCHEMA LIKE ? ORDER BY PROCSCHEMA, PROCNAME",
+      "description": "List all stored procedures in schema(s). Returns procedure schema, name, language, and deterministic flag. Schema filter supports wildcards. Used by CLI command 'list-procedures'.",
+      "parameters": ["PROCSCHEMA_PATTERN"],
+      "returns": "List of procedures with metadata",
+      "source": "CliCommandHandlerService:ListProceduresAsync"
+    },
+    "ListTriggers": {
+      "sql": "SELECT TRIGSCHEMA, TRIGNAME, TABSCHEMA, TABNAME, TRIGTIME, TRIGEVENT, ENABLED FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA LIKE ? ORDER BY TRIGSCHEMA, TRIGNAME",
+      "description": "List all triggers in schema(s). Returns trigger schema, name, target table, timing (BEFORE/AFTER), event (INSERT/UPDATE/DELETE), and enabled flag. Schema filter supports wildcards. Used by CLI command 'list-triggers'.",
+      "parameters": ["TRIGSCHEMA_PATTERN"],
+      "returns": "List of triggers with metadata",
+      "source": "CliCommandHandlerService:ListTriggersAsync"
+    },
+    "ListFunctions": {
+      "sql": "SELECT FUNCSCHEMA, FUNCNAME, LANGUAGE FROM SYSCAT.FUNCTIONS WHERE FUNCSCHEMA LIKE ? ORDER BY FUNCSCHEMA, FUNCNAME",
+      "description": "List all user-defined functions in schema(s). Returns function schema, name, and implementation language. Schema filter supports wildcards. Used by CLI command 'list-functions'.",
+      "parameters": ["FUNCSCHEMA_PATTERN"],
+      "returns": "List of functions with metadata",
+      "source": "CliCommandHandlerService:ListFunctionsAsync"
+    },
+    "ListPackages": {
+      "sql": "SELECT TRIM(PKGSCHEMA) AS PackageSchema, TRIM(PKGNAME) AS PackageName, CREATE_TIME, LAST_BIND_TIME FROM SYSCAT.PACKAGES WHERE PKGSCHEMA LIKE ? ORDER BY PackageSchema, PackageName",
+      "description": "List all packages in schema(s). Returns package schema, name, create time, and last bind time. Schema filter supports wildcards. Used by CLI command 'list-packages'.",
+      "parameters": ["PKGSCHEMA_PATTERN"],
+      "returns": "List of packages with metadata",
+      "source": "CliCommandHandlerService:ListPackagesAsync"
+    },
+    "GetObjectComment": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS Name, COALESCE(TRIM(REMARKS), '') AS Comment FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "Get comment/remarks for a specific table. Returns schema, name, and comment text. Used by CLI command 'object-comment'.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Object comment details",
+      "source": "CliCommandHandlerService:GetObjectCommentAsync"
+    },
+    "FindMissingComments": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS Name, TRIM(TYPE) AS TableType FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND (REMARKS IS NULL OR TRIM(REMARKS) = '') ORDER BY Schema, Name",
+      "description": "Find tables without comments. Returns tables where REMARKS column is null or empty. Schema filter supports wildcards. Used by CLI command 'missing-comments'.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "List of uncommented tables",
+      "source": "CliCommandHandlerService:FindMissingCommentsAsync"
+    },
+    "FindUnusedTables": {
+      "sql": "SELECT TRIM(T.TABSCHEMA) AS Schema, TRIM(T.TABNAME) AS TableName, T.CARD AS RowCount, T.CREATE_TIME AS CreateTime, CASE WHEN NOT EXISTS (SELECT 1 FROM SYSCAT.TABDEP D WHERE D.BSCHEMA = T.TABSCHEMA AND D.BNAME = T.TABNAME) THEN 1 ELSE 0 END AS NoDependencies FROM SYSCAT.TABLES T WHERE T.TABSCHEMA LIKE ? AND T.TYPE IN ('T', 'U') ORDER BY T.TABSCHEMA, T.TABNAME",
+      "description": "Find potentially unused tables (tables with no dependencies in SYSCAT.TABDEP). Returns tables that no other objects depend on. Schema filter supports wildcards. Used by CLI command 'find-unused-tables'.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "List of potentially unused tables with metadata",
+      "source": "CliCommandHandlerService:FindUnusedTablesAsync"
+    }
+  }
+}
+
+
+
+

@@ -1,0 +1,67 @@
+{
+  "tableName": "VAREADRESSE",
+  "futureName": "VareAdresse",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "ordrnr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "m3_enhet",
+      "futureName": "M3Unit",
+      "description": "Unit of measurement for M3 volume",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "FKNumber",
+      "description": "Foreign key number, likely referencing another table",
+      "foreignKey": null
+    },
+    {
+      "name": "vhgr",
+      "futureName": "VHGroup",
+      "description": "Vehicle group code",
+      "foreignKey": null
+    },
+    {
+      "name": "vugr",
+      "futureName": "VUGroup",
+      "description": "Vehicle unit group code",
+      "foreignKey": null
+    },
+    {
+      "name": "prisgruppe",
+      "futureName": "PriceGroup",
+      "description": "Price group identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "iav_levnr",
+      "futureName": "IavLevnr",
+      "description": "Supplier number in iavtale table, likely a foreign key",
+      "foreignKey": {
+        "tableName": "leverandør",
+        "columnName": "levnr"
+      }
+    },
+    {
+      "name": "iav_vhgr",
+      "futureName": "IavVHGr",
+      "description": "Vehicle group in iavtale table, likely a code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "iav_vugr",
+      "futureName": "IavVUGr",
+      "description": "Vehicle unit group in iavtale table, likely a code or identifier",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:21:52"
+}

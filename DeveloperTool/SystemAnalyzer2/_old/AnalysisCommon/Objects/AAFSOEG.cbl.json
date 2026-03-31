@@ -1,0 +1,107 @@
+{
+  "program": "AAFSOEG",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:12:23",
+  "extraction": {
+    "sourceHash": "sha256:57e98a44bcc7e64124509eaa86efb113f41c16e5b1c5acbfd3c5fadb2c3fde2f",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAFSOEG.CBL",
+    "actualName": "AAFSOEG",
+    "program": "AAFSOEG",
+    "copyElements": [
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SEG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFSOEG.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "EGENSKAPNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SORTSEGENSKAP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "ART",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SORTSEGENSKAP",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SORTSEGENSKAP",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SORTSEGENSKAP",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ARTSORT_EGENSKAP",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "AAVSOEG",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:12:23"
+  }
+}

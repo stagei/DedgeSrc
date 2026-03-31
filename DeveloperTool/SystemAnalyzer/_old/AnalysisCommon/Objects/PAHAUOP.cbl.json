@@ -1,0 +1,240 @@
+{
+  "program": "PAHAUOP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:40:52",
+  "variableFilenames": {
+    "UT-DATA-FIL": {
+      "logicalName": "UT-DATA-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename using_userid and_date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:40:52"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:67adbb25f491397f0e572965602a8f8c586bfbd23cfdf6dff7af829f049035cf",
+    "sourceType": "local-cbl-uv",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\PAHAVOP.CBL",
+    "actualName": "PAHAVOP",
+    "program": "PAHAUOP",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PBEH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPGJ.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPGL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRIO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRTY.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRMO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OPOP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LEOP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMALIKE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PAHAVOP.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "JOURNALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_JOURNAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "JOURNALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "IKKE_AKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "OPPGJBREV_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV_LIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV_LIN",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TREKKOPPDRAG_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_KORNHANDLER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_JOURNAL",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_AVREGNING",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "PAVAVOP",
+      "GMASESO",
+      "GMACURT",
+      "GMADATO",
+      "GMAPRTR",
+      "GMACNCT",
+      "PAAOPOP",
+      "PAALEOP",
+      "PAFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FEIL-FIL",
+        "physicalName": "PAHAVOP.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\PAHAVOP.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "UT-DATA-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using_userid and_date"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:40:52"
+  }
+}

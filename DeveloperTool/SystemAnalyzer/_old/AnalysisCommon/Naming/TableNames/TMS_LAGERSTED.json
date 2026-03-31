@@ -1,0 +1,64 @@
+{
+  "tableName": "TMS_LAGERSTED",
+  "futureName": "PlannedStorageLocation",
+  "namespace": "Tms",
+  "columns": [
+    {
+      "name": "EXTERNALID",
+      "futureName": "ExternalId",
+      "description": "A unique external identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "OrderDocumentNumber",
+      "description": "The document number of the order",
+      "foreignKey": "order_document_number"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "order_number"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "The line item number within the order",
+      "foreignKey": "line_item_number"
+    },
+    {
+      "name": "PLANNEDLOADPOINTSTORAGENO",
+      "futureName": "PlannedLoadPointStorageNo",
+      "description": "The storage location for planned load points",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANNEDUNLOADPOINTSTORENO",
+      "futureName": "PlannedUnloadPointStoreNo",
+      "description": "The storage location for planned unload points",
+      "foreignKey": null
+    },
+    {
+      "name": "TMS_TIMESTAMP",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the last update",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "The ID of the user who made the entry",
+      "foreignKey": "user_id"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The time and date of the event or action",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:02:41"
+}

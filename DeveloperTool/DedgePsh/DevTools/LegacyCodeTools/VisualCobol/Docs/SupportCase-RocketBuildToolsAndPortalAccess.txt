@@ -1,0 +1,150 @@
+﻿Subject: Licensed Products Missing from Download Portal, Visual Studio Compatibility, and Portal Access
+
+================================================================================
+
+Dear Rocket Software Support,
+
+Customer:  Dedge AS
+Order ID:  1016403
+Serials:   670000127708 (Developer), 670000127709 (COBOL Server)
+
+We are writing regarding three issues with our Visual COBOL 11.0 subscription.
+
+
+ISSUE 1: Licensed Products Missing from Download Portal
+================================================================================
+
+We hold two license packages under Order ID 1016403:
+
+  SKU               Product                                                    Serial        Capacity
+  ----------------  ---------------------------------------------------------  ------------  ---------------
+  AMC-VCDR-LT-100   Rocket Visual COBOL Developer Subscription License         670000127708  11 Named Users
+  AMC-COBS-LT-100   Rocket COBOL Server for Windows Subscription License       670000127709  45 vCPU
+
+Our developer license ZIP (AMC-VCDR-LT-100-11.0.0-Named User-670000127708)
+contains 5 XML license files covering the following product license groups:
+
+  License XML File                                                License Group
+  --------------------------------------------------------------  --------------------------------------------------------------
+  Visual-COBOL-Visual-Studio-Named-User-RPv1.xml                  Visual-COBOL-Visual-Studio-Named-User-RPv1
+  Visual-COBOL-Eclipse-Named-User-RPv1.xml                        Visual-COBOL-Eclipse-Named-User-RPv1
+  Visual-COBOL-Build-Tools-Docker-Windows-Named-User-RPv1.xml     Visual-COBOL-Build-Tools-Docker-Windows-Named-User-RPv1
+  Visual-COBOL-Development-Hub-RPv1.xml                           Visual-COBOL-Development-Hub-RPv1
+  Visual-COBOL-Development-Hub-Docker-RPv1.xml                    Visual-COBOL-Development-Hub-Docker-RPv1
+
+However, the Rocket Electronic Product Delivery portal currently only lists
+6 products for download:
+
+  1. COBOL Server
+  2. Open AppDev for Z
+  3. Reflection
+  4. Visual COBOL Development Hub
+  5. Visual COBOL Visual Studio
+  6. Visual COBOL for Eclipse
+
+The following licensed product is MISSING from the download portal:
+
+  Product                                  License XML Proof                                                         In Portal?
+  ---------------------------------------  ------------------------------------------------------------------------  ----------
+  Visual COBOL Build Tools for Windows     Visual-COBOL-Build-Tools-Docker-Windows-Named-User-RPv1.xml               NO
+
+The Build Tools license file contains 5 explicit license entries
+(IMTK-DevelopmentDocker, ManagedCheckerDocker, NativeCheckerDocker,
+NativeRuntimeDocker, SOADevelopmentDocker) for 11 Named Users.
+
+Request: Please make the following available for download under our order:
+
+  - vcbt_110.exe      -- Visual COBOL Build Tools for Windows 11.0 (32+64-bit)
+  - vcbtx64_110.exe   -- Visual COBOL Build Tools for Windows 11.0 (64-bit only)
+  - The corresponding Patch 3 update for Build Tools
+
+We need Build Tools to compile COBOL on our Windows build/CI servers without
+installing the full Visual Studio IDE. According to Rocket documentation,
+Build Tools is a separately-installable component designed for exactly this
+purpose, and it requires the same license as the Visual COBOL IDE products
+-- which we hold (AMC-VCDR-LT-100).
+
+Additionally, please confirm that we have access to download the full version
++ Patch 3 update for all of the following products -- not just the ones
+currently visible in the portal:
+
+  Product                              Installer (Full)     Patch 3 update     Status
+  -----------------------------------  -------------------  -----------------  ----------------
+  Visual COBOL for Visual Studio       vcvs2022_110.exe     Patch 3 update     Visible in portal
+  Visual COBOL for Eclipse             vceclipse_110.exe    Patch 3 update     Visible in portal
+  Visual COBOL Build Tools             vcbt_110.exe         Patch 3 update     NOT IN PORTAL
+  Visual COBOL Development Hub         --                   --                 Visible in portal
+  COBOL Server                         cs_110.exe           Patch 3 update     Visible in portal
+
+
+ISSUE 2: Visual Studio Edition Compatibility
+================================================================================
+
+Our development machines currently run Microsoft Visual Studio Community 2026
+(GA November 2025). Starting with Visual Studio 2026, Microsoft has moved to
+an in-place update model and no longer recommends running multiple major
+versions side-by-side. Installing an older Visual Studio version (such as
+VS 2022) alongside VS 2026 is not a supported configuration going forward.
+
+Downgrading to Visual Studio 2022 -- a product that is now over four years
+old -- should not be necessary to use Visual COBOL for Visual Studio 11.0.
+Previous versions of Visual COBOL (under Micro Focus) required Visual Studio
+Professional or Enterprise edition.
+
+We need clarification on the following:
+
+  1. Is Visual COBOL for Visual Studio 11.0 compatible with
+     Visual Studio Community 2026?
+
+  2. If not yet supported, when is Visual Studio 2026 support planned?
+
+  3. Is Visual Studio Community Edition a supported edition, or does
+     Visual COBOL require Professional or Enterprise?
+
+
+ISSUE 3: Windows Server 2025 Not Listed as Supported Operating System
+================================================================================
+
+When filing this support case, the "Operating System" field only lists:
+
+  - MS Windows 2012
+  - MS Windows 2016
+  - MS Windows 2019
+  - MS Windows 2022
+
+Windows Server 2025 is not available as an option. Our servers are running
+or being migrated to Windows Server 2025, which has been generally available
+since November 2024.
+
+  1. Is Visual COBOL 11.0 / COBOL Server 11.0 supported on
+     Windows Server 2025?
+
+  2. If not yet supported, when is Windows Server 2025 support planned?
+
+  3. Please update the support portal form to include Windows Server 2025
+     as a selectable operating system.
+
+
+ISSUE 4: Download Portal and License Access for Team Members
+================================================================================
+
+Please ensure that both product downloads and license files are accessible
+to the following email addresses in the Rocket Electronic Product Delivery
+portal:
+
+  - geir.helge.starholm@Dedge.no
+  - svein.morten.erikstad@Dedge.no
+
+Both users are active developers who need access to download installers and
+license files for ALL products under Order ID 1016403 (both AMC-VCDR-LT-100
+and AMC-COBS-LT-100).
+
+
+================================================================================
+
+Thank you for your assistance.
+
+Best regards,
+Geir Helge Starholm
+Dedge AS
+geir.helge.starholm@Dedge.no

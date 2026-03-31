@@ -1,0 +1,211 @@
+    "ListTables": {
+      "sql": "SELECT TABSCHEMA, TABNAME, TYPE, CARD, NPAGES, FPAGES, STATUS, REMARKS FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: ListTables. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListTablesAsync"
+    },
+    "GetTriggerUsage": {
+      "sql": "SELECT TRIGSCHEMA, TRIGNAME, TABSCHEMA, TABNAME, TRIGTIME, TRIGEVENT, ENABLED, VALID FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA LIKE ? ORDER BY TRIGSCHEMA, TABSCHEMA, TABNAME, TRIGNAME",
+      "description": "CLI command: GetTriggerUsage. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTriggerUsageAsync"
+    },
+    "GetFunctionInfo": {
+      "sql": "SELECT FUNCSCHEMA, FUNCNAME, LANGUAGE, TEXT FROM SYSCAT.FUNCTIONS WHERE FUNCSCHEMA = ? AND FUNCNAME = ?",
+      "description": "CLI command: GetFunctionInfo. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetFunctionInfoAsync"
+    },
+    "GetSearchSourceCode": {
+      "sql": "SELECT 'PROCEDURE' AS ObjectType, TRIM(ROUTINESCHEMA) AS Schema, TRIM(ROUTINENAME) AS Name, TEXT AS SourceCode FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'P' AND UPPER(TEXT) LIKE UPPER('%{searchText}%') UNION ALL SELECT 'FUNCTION' AS ObjectType, TRIM(ROUTINESCHEMA) AS Schema, TRIM(ROUTINENAME) AS Name, TEXT AS SourceCode FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'F' AND UPPER(TEXT) LIKE UPPER('%{searchText}%') UNION ALL SELECT 'VIEW' AS ObjectType, TRIM(VIEWSCHEMA) AS Schema, TRIM(VIEWNAME) AS Name, TEXT AS SourceCode FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? AND UPPER(TEXT) LIKE UPPER('%{searchText}%') UNION ALL SELECT 'TRIGGER' AS ObjectType, TRIM(TRIGSCHEMA) AS Schema, TRIM(TRIGNAME) AS Name, TEXT AS SourceCode FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = ? AND UPPER(TEXT) LIKE UPPER('%{searchText}%') ORDER BY ObjectType, Schema, Name",
+      "description": "CLI command: SearchSourceCode. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:SearchSourceCodeAsync"
+    },
+    "GetAnalyzePackage": {
+      "sql": "SELECT TRIM(BSCHEMA) AS DependsOnSchema, TRIM(BNAME) AS DependsOnObject, TRIM(BTYPE) AS DependsOnType, TRIM(DTYPE) AS DependencyType FROM SYSCAT.PACKAGEDEP WHERE PKGSCHEMA = ? AND PKGNAME = ? ORDER BY DependsOnSchema, DependsOnObject",
+      "description": "CLI command: AnalyzePackage. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:AnalyzePackageAsync"
+    },
+    "GetPackageDetails": {
+      "sql": "SELECT TRIM(PKGSCHEMA) AS PackageSchema, TRIM(PKGNAME) AS PackageName, CREATE_TIME, LAST_BIND_TIME, TRIM(ISOLATION) AS IsolationLevel, TRIM(BLOCKING) AS BlockingType FROM SYSCAT.PACKAGES WHERE PKGSCHEMA = ? AND PKGNAME = ?",
+      "description": "CLI command: GetPackageDetails. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetPackageDetailsAsync"
+    },
+    "GetStatisticsOverview": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, STATS_TIME AS LastStatsTime, CASE WHEN STATS_TIME IS NULL THEN 'NEVER' WHEN STATS_TIME < CURRENT DATE - 30 DAYS THEN 'STALE' ELSE 'CURRENT' END AS StatsStatus FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: GetStatisticsOverview. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetStatisticsOverviewAsync"
+    },
+    "GetStatisticsRecommendations": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, STATS_TIME AS LastStatsTime, CASE WHEN STATS_TIME IS NULL THEN 999 ELSE DAYS(CURRENT DATE) - DAYS(STATS_TIME) END AS DaysSinceStats, CASE WHEN STATS_TIME IS NULL THEN 'CRITICAL' WHEN STATS_TIME < CURRENT DATE - {staleThresholdDays * 2} DAYS THEN 'HIGH' WHEN STATS_TIME < CURRENT DATE - {staleThresholdDays} DAYS THEN 'MEDIUM' ELSE 'LOW' END AS Priority FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND (STATS_TIME IS NULL OR STATS_TIME < CURRENT DATE - {staleThresholdDays} DAYS) ORDER BY Priority, DaysSinceStats DESC",
+      "description": "CLI command: GetStatisticsRecommendations. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetStatisticsRecommendationsAsync"
+    },
+    "GetIndexStatistics": {
+      "sql": "SELECT TRIM(INDNAME) AS IndexName, TRIM(INDEXTYPE) AS IndexType, TRIM(UNIQUERULE) AS UniqueRule, COLCOUNT AS ColumnCount, FIRSTKEYCARD AS FirstKeyCard, FULLKEYCARD AS FullKeyCard, CLUSTERRATIO AS ClusterRatio, NLEAF AS LeafPages, NLEVELS AS TreeLevels FROM SYSCAT.INDEXES WHERE TABSCHEMA = ? AND TABNAME = ? ORDER BY INDNAME",
+      "description": "CLI command: GetIndexStatistics. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetIndexStatisticsAsync"
+    },
+    "FindUnusedIndexes": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, TRIM(INDNAME) AS IndexName, TRIM(UNIQUERULE) AS UniqueRule, COLNAMES FROM SYSCAT.INDEXES WHERE TABSCHEMA LIKE ? AND UNIQUERULE NOT IN ('P') ORDER BY TABSCHEMA, TABNAME, INDNAME",
+      "description": "CLI command: FindUnusedIndexes. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedIndexesAsync"
+    },
+    "FindUnusedViews": {
+      "sql": "SELECT TRIM(V.VIEWSCHEMA) AS Schema, TRIM(V.VIEWNAME) AS ViewName, TRIM(V.VALID) AS Valid, CASE WHEN NOT EXISTS ( SELECT 1 FROM SYSCAT.TABDEP D WHERE D.BSCHEMA = V.VIEWSCHEMA AND D.BNAME = V.VIEWNAME ) THEN 1 ELSE 0 END AS NoDependencies FROM SYSCAT.VIEWS V WHERE V.VIEWSCHEMA LIKE ? ORDER BY V.VIEWSCHEMA, V.VIEWNAME",
+      "description": "CLI command: FindUnusedViews. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedViewsAsync"
+    },
+    "FindUnusedRoutines": {
+      "sql": "SELECT TRIM(R.ROUTINESCHEMA) AS Schema, TRIM(R.ROUTINENAME) AS RoutineName, TRIM(R.ROUTINETYPE) AS RoutineType, TRIM(R.LANGUAGE) AS Language, R.CREATE_TIME AS CreateTime, CASE WHEN NOT EXISTS ( SELECT 1 FROM SYSCAT.ROUTINEDEP D WHERE D.BSCHEMA = R.ROUTINESCHEMA AND D.BNAME = R.ROUTINENAME ) THEN 1 ELSE 0 END AS NoDependencies FROM SYSCAT.ROUTINES R WHERE R.ROUTINESCHEMA LIKE ? ORDER BY R.ROUTINESCHEMA, R.ROUTINENAME",
+      "description": "CLI command: FindUnusedRoutines. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:FindUnusedRoutinesAsync"
+    },
+    "GetSchemaMetadata": {
+      "sql": "SELECT 'TABLES' AS ObjectType, COUNT(*) AS ObjectCount FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TYPE IN ('T', 'U') UNION ALL SELECT 'VIEWS', COUNT(*) FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = ? UNION ALL SELECT 'PROCEDURES', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'P' UNION ALL SELECT 'FUNCTIONS', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINETYPE = 'F' UNION ALL SELECT 'TRIGGERS', COUNT(*) FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = ? UNION ALL SELECT 'INDEXES', COUNT(*) FROM SYSCAT.INDEXES WHERE INDSCHEMA = ?",
+      "description": "CLI command: GetSchemaMetadata. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSchemaMetadataAsync"
+    },
+    "GetDatabaseLoadFull": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, FPAGES AS FreePages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') AND CARD > 0 ORDER BY NPAGES DESC",
+      "description": "CLI command: GetDatabaseLoadFull. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDatabaseLoadFullAsync"
+    },
+    "GetTableActivity": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS CurrentRowCount, NPAGES AS DataPages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime, ALTER_TIME AS LastAlterTime FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "CLI command: GetTableActivity. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTableActivityAsync"
+    },
+    "GetTopActiveTables": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, CARD AS RowCount, NPAGES AS DataPages, OVERFLOW AS OverflowPages, STATS_TIME AS LastStatsTime FROM SYSCAT.TABLES WHERE TABSCHEMA LIKE ? AND TYPE IN ('T', 'U') ORDER BY NPAGES DESC, CARD DESC FETCH FIRST {limit} ROWS ONLY",
+      "description": "CLI command: GetTopActiveTables. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTopActiveTablesAsync"
+    },
+    "GetLockMonitorFull": {
+      "sql": "SELECT CURRENT USER AS CurrentUser, CURRENT TIMESTAMP AS CurrentTime, 'BASIC_CHECK' AS LockCheckType FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetLockMonitorFull. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetLockMonitorFullAsync"
+    },
+    "GetSessionDetails": {
+      "sql": "SELECT CURRENT USER AS SessionUser, CURRENT TIMESTAMP AS SessionTime, CURRENT SERVER AS DatabaseName, CURRENT SCHEMA AS CurrentSchema FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetSessionDetails. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSessionDetailsAsync"
+    },
+    "GetLongRunningSessions": {
+      "sql": "SELECT CURRENT USER AS User, CURRENT TIMESTAMP AS CheckTime, 0 AS LongRunningSessions FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetLongRunningSessions. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetLongRunningSessionsAsync"
+    },
+    "GetDependencyGraph": {
+      "sql": "SELECT TRIM(BTYPE) AS DependentType, TRIM(BSCHEMA) AS DependentSchema, TRIM(BNAME) AS DependentObject, 'TABLE' AS DependsOnType FROM SYSCAT.TABDEP WHERE TABSCHEMA = ? AND TABNAME = ? UNION ALL SELECT TRIM(BTYPE), TRIM(BSCHEMA), TRIM(BNAME), 'ROUTINE' AS DependsOnType FROM SYSCAT.ROUTINEDEP WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ?",
+      "description": "CLI command: GetDependencyGraph. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDependencyGraphAsync"
+    },
+    "GetDependencyImpact": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS AffectedSchema, TRIM(TABNAME) AS AffectedObject, TRIM(DTYPE) AS AffectedType, 'VIEW' AS ImpactType FROM SYSCAT.TABDEP WHERE BSCHEMA = ? AND BNAME = ? AND DTYPE = 'V' UNION ALL SELECT TRIM(ROUTINESCHEMA), TRIM(ROUTINENAME), TRIM(ROUTINETYPE), 'ROUTINE' FROM SYSCAT.ROUTINEDEP WHERE BSCHEMA = ? AND BNAME = ?",
+      "description": "CLI command: GetDependencyImpact. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDependencyImpactAsync"
+    },
+    "GetGenerateMigrationPlan": {
+      "sql": "SELECT 'TABLES' AS ObjectType, COUNT(*) AS ObjectCount FROM SYSCAT.TABLES WHERE TABSCHEMA = '{sourceSchema}' AND TYPE IN ('T', 'U') UNION ALL SELECT 'VIEWS', COUNT(*) FROM SYSCAT.VIEWS WHERE VIEWSCHEMA = '{sourceSchema}' UNION ALL SELECT 'PROCEDURES', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = '{sourceSchema}' AND ROUTINETYPE = 'P' UNION ALL SELECT 'FUNCTIONS', COUNT(*) FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = '{sourceSchema}' AND ROUTINETYPE = 'F' UNION ALL SELECT 'TRIGGERS', COUNT(*) FROM SYSCAT.TRIGGERS WHERE TRIGSCHEMA = '{sourceSchema}'",
+      "description": "CLI command: GenerateMigrationPlan. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GenerateMigrationPlanAsync"
+    },
+    "GetExportTableData": {
+      "sql": "SELECT * FROM {schema}.{tableName} FETCH FIRST {limit} ROWS ONLY",
+      "description": "CLI command: ExportTableData. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ExportTableDataAsync"
+    },
+    "ListTablespaces": {
+      "sql": "SELECT TRIM(TBSPACE) AS TablespaceName, TRIM(DATATYPE) AS DataType, PAGESIZE FROM SYSCAT.TABLESPACES ORDER BY TBSPACE",
+      "description": "CLI command: ListTablespaces. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListTablespacesAsync"
+    },
+    "ListAllIndexes": {
+      "sql": "SELECT TRIM(INDSCHEMA) AS Schema, TRIM(INDNAME) AS IndexName, TRIM(TABNAME) AS TableName, TRIM(UNIQUERULE) AS UniqueRule FROM SYSCAT.INDEXES WHERE INDSCHEMA LIKE ? ORDER BY INDSCHEMA, TABNAME, INDNAME",
+      "description": "CLI command: ListAllIndexes. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListAllIndexesAsync"
+    },
+    "ListConstraints": {
+      "sql": "SELECT TRIM(TABSCHEMA) AS Schema, TRIM(TABNAME) AS TableName, TRIM(CONSTNAME) AS ConstraintName, TRIM(TYPE) AS Type FROM SYSCAT.TABCONST WHERE TABSCHEMA LIKE ? ORDER BY TABSCHEMA, TABNAME",
+      "description": "CLI command: ListConstraints. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListConstraintsAsync"
+    },
+    "ListSequences": {
+      "sql": "SELECT TRIM(SEQSCHEMA) AS Schema, TRIM(SEQNAME) AS SequenceName, START, INCREMENT, MINVALUE, MAXVALUE FROM SYSCAT.SEQUENCES WHERE SEQSCHEMA LIKE ? ORDER BY SEQSCHEMA, SEQNAME",
+      "description": "CLI command: ListSequences. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:ListSequencesAsync"
+    },
+    "GetTableSize": {
+      "sql": "SELECT CARD AS RowCount, NPAGES AS DataPages, NPAGES * 4 / 1024.0 AS SizeMB FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TABNAME = ?",
+      "description": "CLI command: GetTableSize. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetTableSizeAsync"
+    },
+    "GetSchemaSize": {
+      "sql": "SELECT SUM(CARD) AS TotalRows, SUM(NPAGES) AS TotalPages, SUM(NPAGES) * 4 / 1024.0 AS TotalSizeMB FROM SYSCAT.TABLES WHERE TABSCHEMA = ? AND TYPE IN ('T', 'U')",
+      "description": "CLI command: GetSchemaSize. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetSchemaSizeAsync"
+    },
+    "GetDbConfig": {
+      "sql": "SELECT CURRENT SERVER AS DatabaseName, CURRENT TIMESTAMP AS CurrentTime, CURRENT USER AS CurrentUser FROM SYSIBM.SYSDUMMY1",
+      "description": "CLI command: GetDbConfig. TODO: Add description",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "CliCommandHandlerService:GetDbConfigAsync"
+    }
+

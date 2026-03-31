@@ -1,0 +1,157 @@
+﻿---
+description: IIS-DeployApp template-driven deployment system — how it works, template schema, deploy process, DedgeAuth integration, and adding new apps
+alwaysApply: false
+---
+
+# IIS-DeployApp — Template-Driven IIS Deployment
+
+IIS-DeployApp is a PowerShell-based system that deploys web applications as IIS virtual applications under Default Web Site. It is template-driven: each app is defined by a `.deploy.json` file, and the system handles teardown, file installation, IIS configuration, signing, permissions, firewall rules, and health checks automatically.
+
+It supports any technology that runs behind IIS: ASP.NET Core (via AspNetCoreModuleV2), static HTML/JS/CSS sites, or any application that listens on a Kestrel port.
+
+## Template System
+
+### Template Location and Naming
+
+Templates live in `DevTools/WebSites/IIS-DeployApp/templates/`. Naming convention:
+
+```
+<SiteName>_<InstallSource>.deploy.json
+```
+
+Examples: `DocView_WinApp.deploy.json`, `DefaultWebSite_None.deploy.json`, `GitHist_None.deploy.json`
+
+### Template Schema
+
+| Field | Required | Description |
+|---|---|---|
+| `SiteName` | Yes | IIS virtual app name; must match template filename prefix |
+| `AppType` | Yes | `AspNetCore` (Kestrel behind IIS) or `Static` (IIS serves files directly) |
+| `InstallSource` | Yes | `WinApp`, `PshApp`, or `None` — determines how files are installed |
+| `PhysicalPath` | Yes | Local path where IIS points (uses `$env:OptPath` prefix) |
+| `DotNetDll` | AspNetCore | Entry-point DLL for ASP.NET Core apps |
+| `ApiPort` | AspNetCore | Kestrel port; also used for firewall rules. `0` for static sites |
+| `VirtualPath` | Yes | IIS virtual path, e.g. `/DocView`. Only root profile uses `/` |
+| `ParentSite` | Yes | Parent IIS site, typically `Default Web Site` |
+| `AppPoolName` | No | Defaults to `SiteName` |
+| `InstallAppName` | WinApp/PshApp | Package folder name on the staging share |
+| `HealthEndpoint` | No | Relative path for post-deploy health check (e.g. `/health`) |
+| `EnableDirectoryBrowsing` | No | Enable IIS directory listing (static sites) |
+| `AllowAnonymousAccess` | No | Skip authentication requirements |
+| `IsRootSiteProfile` | No | `true` only for the DefaultWebSite root profile |
+| `AdditionalWinApps` | No | Array of extra packages to install alongside the main app |
+| `PermissionsTemplatePath` | No | JSON file defining custom folder permissions |
+| `DedgeAuth` | No | Authentication registration block (see DedgeAuth section below) |
+
+### InstallSource — Where Files Come From
+
+| InstallSource | Install Helper | Target Path | Use Case |
+|---|---|---|---|
+| `WinApp` | `Install-OurWinApp` | `$env:OptPath\DedgeWinApps\<AppName>\` | .NET / compiled apps from staging share |
+| `PshApp` | `Install-OurPshApp` | `$env:OptPath\DedgePshApps\<AppName>\` | PowerShell-based web apps |
+| `None` | (none) | Uses `PhysicalPath` as-is | Static content already on disk |
+
+Staging share base: `\\<server>\DedgeCommon\Software\DedgeWinApps\<InstallAppName>\`
+
+## The 10-Step Deploy Process
+
+`Deploy-IISSite` (in the `IIS-Handler` module) executes these steps in order:
+
+1. **Teardown** existing virtual app + app pool
+2. **Install files** from staging share (`Install-OurWinApp` or `Install-OurPshApp`)
+3. **Create app pool** with configured identity
+4. **Create virtual application** under Default Web Site
+5. **Generate web.config** (sets `ASPNETCORE_URLS`, `maxQueryString=8192` for AspNetCore)
+6. **Set folder permissions** (ReadAndExecute for the app pool identity)
+7. **Create firewall rules** (inbound + outbound for `ApiPort`)
+8. **Start** the app pool
+9. **Verify** (app pool started, site started, virtual app exists)
+10. **Health check** (HTTP GET to `HealthEndpoint` if configured)
+
+## Scripts
+
+All scripts are in `DevTools/WebSites/IIS-DeployApp/`:
+
+| Script | Purpose |
+|---|---|
+| `IIS-DeployApp.ps1 -SiteName <name>` | Deploy one app (auto-loads matching template) |
+| `IIS-RedeployAll.ps1` | Teardown all + iisreset + redeploy all from templates |
+| `IIS-UninstallApp.ps1 -SiteName <name>` | Remove one virtual app + app pool + firewall rules |
+| `Test-IISSite.ps1 -SiteName <name>` | Run diagnostics on a deployed app |
+| `Test-AllApps.ps1` | Health-check all deployed apps |
+| `_deploy.ps1` | Sync scripts and templates to target servers |
+
+The core logic lives in the `IIS-Handler` PowerShell module (`_Modules/IIS-Handler/IIS-Handler.psm1`), which exports `Deploy-IISSite`, `Uninstall-IISSite`, and `Test-IISSite`.
+
+### IIS-RedeployAll Phases
+
+1. **UNINSTALL** all virtual apps (apps first, root site last)
+2. **IIS RESET** (`iisreset /restart`)
+3. **DEPLOY** root site first, then all apps alphabetically from templates
+
+## DedgeAuth Consumer App Registration
+
+Templates for apps that need authentication include an optional `DedgeAuth` JSON block:
+
+```json
+{
+  "DedgeAuth": {
+    "RegisterInDatabase": true,
+    "UpdateAppSettings": true,
+    "AppId": "MyApp",
+    "DisplayName": "My Application",
+    "Description": "Description of the app",
+    "BaseUrl": "http://localhost/MyApp",
+    "AuthServerUrl": "http://localhost/DedgeAuth",
+    "Roles": ["Admin", "User"],
+    "TenantDomains": ["default"],
+    "Groups": { "default": ["Domain Users"] }
+  }
+}
+```
+
+During deploy, `Register-DedgeAuthApp.ps1` is called to register the app in the DedgeAuth PostgreSQL database. This gives the app an OAuth client ID and configures which roles and tenant groups have access.
+
+**Key points:**
+- DedgeAuth itself uses `WindowsAuthentication: true` for Negotiate/Kerberos under IIS
+- Consumer apps delegate all authentication to DedgeAuth via shared middleware (`AddDedgeAuth()` + `UseDedgeAuth()` + `MapDedgeAuthProxy()`)
+- Consumer apps never implement their own login — DedgeAuth handles JWT tokens, sessions, tenant branding, and user menus
+- The DefaultWebSite root redirects to `/DedgeAuth/login.html`
+
+## Adding a New App
+
+1. Create a new `.deploy.json` template in `templates/`:
+
+```json
+{
+  "SiteName": "MyNewApp",
+  "PhysicalPath": "%OPTPATH%\\DedgeWinApps\\MyNewApp",
+  "AppType": "AspNetCore",
+  "DotNetDll": "MyNewApp.dll",
+  "AppPoolName": "MyNewApp",
+  "InstallSource": "WinApp",
+  "InstallAppName": "MyNewApp",
+  "VirtualPath": "/MyNewApp",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/health",
+  "ApiPort": 8500
+}
+```
+
+2. If the app needs DedgeAuth authentication, add a `DedgeAuth` block with `AppId`, `Roles`, and `TenantDomains`.
+
+3. Publish the app to the staging share under `DedgeWinApps\MyNewApp\`.
+
+4. Deploy:
+
+```powershell
+pwsh.exe -NoProfile -File "IIS-DeployApp.ps1" -SiteName MyNewApp
+```
+
+For static sites, set `AppType` to `Static`, `InstallSource` to `None`, and `ApiPort` to `0`.
+
+## Relationship to Other Rules
+
+- **`app-publish-and-iis-deploy`** covers the high-level publish + deploy workflow and staging paths
+- **This rule** explains the template system internals and how to configure/add apps
+- **`DedgeAuth-ecosystem`** covers the full DedgeAuth authentication architecture

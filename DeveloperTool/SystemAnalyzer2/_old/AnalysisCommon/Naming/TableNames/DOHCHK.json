@@ -1,0 +1,64 @@
+{
+  "tableName": "DOHCHK",
+  "futureName": "DbmDohchkEntity",
+  "namespace": "LegacyTables",
+  "columns": [
+    {
+      "name": "PROGRAM",
+      "futureName": "Program",
+      "description": "Identifies the program being used",
+      "foreignKey": "AKTIVISER, B_PROGRAMMER, FK_LOG"
+    },
+    {
+      "name": "UTGATT",
+      "futureName": "OutputArea",
+      "description": "Describes the output area or section",
+      "foreignKey": "TEKSTER"
+    },
+    {
+      "name": "BENYTTER_SQL",
+      "futureName": "UsesSql",
+      "description": "Indicates whether SQL is used in the program",
+      "foreignKey": "MODUL, MODUL"
+    },
+    {
+      "name": "PROD_SIST",
+      "futureName": "LastProductionDate",
+      "description": "The date of the last production run",
+      "foreignKey": null
+    },
+    {
+      "name": "PROD_FLERE",
+      "futureName": "AdditionalProductions",
+      "description": "Details about additional productions",
+      "foreignKey": null
+    },
+    {
+      "name": "PROD_DATO",
+      "futureName": "ProductionDate",
+      "description": "The date of the production run",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_FEIL",
+      "futureName": "NumberOfErrors",
+      "description": "The number of errors encountered during production",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "Text or message associated with the record",
+      "foreignKey": "COBDOK_MENY, COPYSET, DELSYSTEM, MODKOM, MODUL_LINJER, MODUL_LINJER, MODUL, PRINTERE, SYSTEM"
+    },
+    {
+      "name": "AARSAK",
+      "futureName": "Reason",
+      "description": "The reason for an error or issue",
+      "foreignKey": "FEILHANDTERT"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:26:19"
+}

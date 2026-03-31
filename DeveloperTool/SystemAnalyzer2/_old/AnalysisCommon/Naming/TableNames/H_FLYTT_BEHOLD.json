@@ -1,0 +1,58 @@
+{
+  "tableName": "H_FLYTT_BEHOLD",
+  "futureName": "FlyttBehold",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "FKNR_FRA",
+      "futureName": "FromFlyttNumber",
+      "description": "Flytt number from which the move originates",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR_TIL",
+      "futureName": "ToFlyttNumber",
+      "description": "Flytt number to which the move is going",
+      "foreignKey": null
+    },
+    {
+      "name": "FLYTT_DATO",
+      "futureName": "FlyttDate",
+      "description": "Date of the move operation",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT_BEST",
+      "futureName": "BestTime",
+      "description": "Timestamp when the best order was made",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "User who performed the move operation",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT_FLYTTET",
+      "futureName": "MovedAt",
+      "description": "Timestamp when the move was executed",
+      "foreignKey": null
+    },
+    {
+      "name": "HOLDES",
+      "futureName": "Holds",
+      "description": "Indicator if the record is held (Y/N)",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the move operation",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:31:49"
+}

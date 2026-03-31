@@ -1,0 +1,149 @@
+{
+  "tableName": "ENHETREG_U_DIFI",
+  "futureName": "EnheterRegister",
+  "namespace": "Registers",
+  "columns": [
+    {
+      "name": "organisasjonsnr",
+      "futureName": "OrganisationNumber",
+      "description": "Identification number of the organization",
+      "foreignKey": [
+        "EHF_ELMA",
+        "KUNDER"
+      ]
+    },
+    {
+      "name": "navn",
+      "futureName": "Name",
+      "description": "Name of the organization",
+      "foreignKey": null
+    },
+    {
+      "name": "organisasjonsform",
+      "futureName": "OrganisationForm",
+      "description": "Type of organizational form",
+      "foreignKey": [
+        "ENHETREG_DIFI"
+      ]
+    },
+    {
+      "name": "forr_adresse",
+      "futureName": "PreviousAddress",
+      "description": "Previous address of the organization",
+      "foreignKey": null
+    },
+    {
+      "name": "forr_postnr",
+      "futureName": "PreviousPostalCode",
+      "description": "Previous postal code",
+      "foreignKey": null
+    },
+    {
+      "name": "forr_poststed",
+      "futureName": "PreviousCity",
+      "description": "Previous city or town name",
+      "foreignKey": null
+    },
+    {
+      "name": "forr_kommunenr",
+      "futureName": "PreviousMunicipalityNumber",
+      "description": "Previous municipality number",
+      "foreignKey": null
+    },
+    {
+      "name": "forr_kommunanavn",
+      "futureName": "PreviousMunicipalityName",
+      "description": "Previous municipality name",
+      "foreignKey": null
+    },
+    {
+      "name": "forr_land",
+      "futureName": "PreviousCountry",
+      "description": "Previous country",
+      "foreignKey": null
+    },
+    {
+      "name": "hjem_adresse",
+      "futureName": "HomeAddress",
+      "description": "Home address of the organization",
+      "foreignKey": null
+    },
+    {
+      "name": "hjem_postnr",
+      "futureName": "HomePostalCode",
+      "description": "Home postal code",
+      "foreignKey": null
+    },
+    {
+      "name": "hjem_poststed",
+      "futureName": "HomeCity",
+      "description": "Home city or town name",
+      "foreignKey": null
+    },
+    {
+      "name": "hjem_land",
+      "futureName": "HomeCountry",
+      "description": "Home country",
+      "foreignKey": null
+    },
+    {
+      "name": "naringkode1_kode",
+      "futureName": "IndustryCode1",
+      "description": "First industry code",
+      "foreignKey": null
+    },
+    {
+      "name": "naringkode2_kode",
+      "futureName": "IndustryCode2",
+      "description": "Second industry code",
+      "foreignKey": null
+    },
+    {
+      "name": "naringkode3_kode",
+      "futureName": "IndustryCode3",
+      "description": "Third industry code",
+      "foreignKey": null
+    },
+    {
+      "name": "regiaa",
+      "futureName": "RegionCode",
+      "description": "Regional code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "hovedenhet",
+      "futureName": "MainUnitNumber",
+      "description": "Number of the main unit",
+      "foreignKey": null
+    },
+    {
+      "name": "antallansatte",
+      "futureName": "NumberOfEmployees",
+      "description": "Number of employees or staff members",
+      "foreignKey": null
+    },
+    {
+      "name": "anstatte_dato",
+      "futureName": "EmployeeDate",
+      "description": "Date when the number of employees was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating the last update or recording time",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:18:59"
+}

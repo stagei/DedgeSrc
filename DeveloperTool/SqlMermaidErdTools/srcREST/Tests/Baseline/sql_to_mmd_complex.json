@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "result": "erDiagram\r\n    customers {\r\n        int customer_id PK\r\n        varchar email UK \"NOT NULL\"\r\n        timestamp created_at \"DEFAULT CURRENT_TIMESTAMP()\"\r\n    }\r\n\r\n    orders {\r\n        int order_id PK\r\n        int customer_id FK \"NOT NULL\"\r\n        decimal total\r\n    }\r\n\r\n    customers ||--o{ orders : customer_id",
+  "ast": null,
+  "error": null,
+  "metadata": {
+    "tableCount": 2,
+    "columnCount": 12,
+    "relationshipCount": 1,
+    "dialect": "Input SQL"
+  }
+}

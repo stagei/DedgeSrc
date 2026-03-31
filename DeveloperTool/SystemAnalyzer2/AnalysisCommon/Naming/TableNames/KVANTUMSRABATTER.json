@@ -1,0 +1,82 @@
+﻿{
+  "tableName": "KVANTUMSRABATTER",
+  "futureName": "KvantumRabatter",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "kvrabnr",
+      "futureName": "KvantumrabattNumber",
+      "description": "Unique identifier for the rabatt (discount)",
+      "foreignKey": null
+    },
+    {
+      "name": "fra_postnr",
+      "futureName": "FromPostcode",
+      "description": "Starting postal code for the rabatt area",
+      "foreignKey": "MINSTEFRAKT"
+    },
+    {
+      "name": "til_postnr",
+      "futureName": "ToPostcode",
+      "description": "Ending postal code for the rabatt area",
+      "foreignKey": "MINSTEFRAKT"
+    },
+    {
+      "name": "kvrab_tekst",
+      "futureName": "KvantumrabattText",
+      "description": "Description or text related to the rabatt",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr_kvraf",
+      "futureName": "FaktureringsKeyNumberForRabatt",
+      "description": "Unique key number for billing purposes linked to the rabatt",
+      "foreignKey": "TILLEGGSRABATT_KUNDE"
+    },
+    {
+      "name": "mengdekode",
+      "futureName": "QuantityCode",
+      "description": "Code indicating the type of quantity involved in the rabatt calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "kvantums_grense",
+      "futureName": "QuantumLimit",
+      "description": "Limit value for quantum-based rabatts",
+      "foreignKey": "MINSTEFRAKT"
+    },
+    {
+      "name": "sats",
+      "futureName": "Rate",
+      "description": "The rate or percentage applied in the rabatt calculation",
+      "foreignKey": "EDI_FAKT_TILLEGG, MINSTEFRAKT, P_AVTALETILLEGG_KVAL, P_AVTALETILLEGG_LIN, P_DIVERSE_PARTITILLEGG, P_EGENANDEL_FRAKT, P_EPOST_RABATT, P_FORVERDI, P_FRAKT, P_FRAKTTILSKUDD"
+    },
+    {
+      "name": "antall_dager",
+      "futureName": "NumberOfDays",
+      "description": "Number of days over which the rabatt is effective",
+      "foreignKey": null
+    },
+    {
+      "name": "fra_dato",
+      "futureName": "FromDate",
+      "description": "Start date when the rabatt becomes active",
+      "foreignKey": "ALT_INNKJ_PRIS, AC_NARINGSSTOFF_ENHET, AVDELINGS_FRAKT, EC_Dedge_PRISER_KUNDE, ENGROS_PRIS, FRAKTKODE_TABNR, FRAVR_TONN_RATER, I_AVTALE_HODE, I_KONTRAKT_HODE, K_GROV_PLAN, KIT_HODE, KUNDE_EGENSKAPER"
+    },
+    {
+      "name": "til_dato",
+      "futureName": "ToDate",
+      "description": "End date when the rabatt is no longer active",
+      "foreignKey": "ALT_INNKJ_PRIS, AC_NARINGSSTOFF_ENHET, AVDELINGS_FRAKT, EC_Dedge_PRISER_KUNDE, ENGROS_PRIS, FRAKTKODE_TABNR, FRAVR_TONN_RATER, I_AVTALE_HODE, I_KONTRAKT_HODE, K_GROV_PLAN, KIT_HODE, KUNDE_EGENSKAPER"
+    },
+    {
+      "name": "overstyres_full_bil",
+      "futureName": "OverrulesFullCarRate",
+      "description": "Indicates whether the rate for full cars is overridden by this rabatt",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:38:54"
+}

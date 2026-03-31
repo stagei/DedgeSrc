@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[title]</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="icon" href="[iconurl]" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+[css]
+
+    /* Page-specific: SQL accent color (blue) */
+    :root {
+      --accent-primary: #2563eb;
+    }
+    [data-theme="dark"] {
+      --accent-primary: #5c9eff;
+    }
+
+    /* Page-specific: SQL wider layout for ER diagrams */
+    .main-container {
+      max-width: 1600px;
+      display: block; /* Ensure vertical stacking */
+    }
+
+    /* Two-column layout for info and stats */
+    .info-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-row > .info-card {
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+    }
+
+    .stats-card {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    }
+
+    /* Tab styling - ensure full width and proper stacking */
+    .nav-tabs {
+      display: flex;
+      width: 100%;
+      border-bottom: 2px solid var(--border-color);
+      gap: 0.25rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .tab-content {
+      width: 100%;
+      display: block;
+      padding: 1.5rem 0;
+    }
+
+    .nav-tabs .nav-link {
+      color: var(--text-secondary);
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.75rem 1.25rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tabs .nav-link:hover {
+      color: var(--text-primary);
+      border-color: var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .nav-tabs .nav-link.active {
+      color: var(--accent-primary);
+      background: var(--bg-card);
+      border-bottom-color: var(--accent-primary);
+    }
+
+    .nav-tabs .nav-link i {
+      margin-right: 0.5rem;
+    }
+
+    .nav-tabs .badge {
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
+      padding: 0.25em 0.5em;
+      background: var(--accent-primary) !important;
+    }
+
+    .tab-pane {
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Section styling */
+    .data-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .data-section h5 {
+      margin: 0;
+      padding: 1rem 1.25rem;
+      background: var(--bg-secondary);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-section h5 i {
+      margin-right: 0.5rem;
+      color: var(--accent-primary);
+    }
+
+    .column-name {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-secondary);
+      font-weight: 500;
+    }
+
+    .column-type {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Badge styling for PK/FK indicators */
+    .badge.bg-pk {
+      background-color: #dc2626 !important;
+    }
+
+    .badge.bg-fk {
+      background-color: #f59e0b !important;
+    }
+
+    .badge.bg-uk {
+      background-color: #7c3aed !important;
+    }
+
+    /* Table styling in sections */
+    .data-section table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .data-section th {
+      background: var(--bg-secondary);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+    }
+
+    .data-section td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .data-section tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-section tr:hover td {
+      background: var(--bg-secondary);
+    }
+
+    .data-section code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: var(--bg-secondary);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      color: var(--accent-secondary);
+    }
+
+    /* Scrollable table container for many columns */
+    .table-scroll {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    /* ER Diagram section */
+    .er-diagram-container {
+      padding: 1.5rem;
+      min-height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+    }
+
+    .er-diagram-container .mermaid {
+      width: 100%;
+      text-align: center;
+    }
+
+    .er-diagram-container .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Clickable table links in ER diagram */
+    .er-diagram-container svg .entityLabel {
+      cursor: pointer;
+    }
+
+    .er-diagram-container svg .entityLabel:hover {
+      fill: var(--accent-primary) !important;
+    }
+
+    /* Empty state styling */
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <a href="[autodochomepageurl]" style="text-decoration: none;">
+        <img src="[imageurl]" alt="Dedge" />
+      </a>
+      <h4>[title]</h4>
+      <span class="badge bg-primary">SQL</span>
+    </div>
+    <div class="theme-toggle" title="Toggle theme">
+      <button class="theme-toggle-btn" id="theme-light" onclick="setTheme('light')" title="Light mode">
+        <i class="bi bi-sun-fill"></i>
+      </button>
+      <button class="theme-toggle-btn" id="theme-dark" onclick="setTheme('dark')" title="Dark mode">
+        <i class="bi bi-moon-fill"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- Info Row -->
+    <div class="info-row">
+      <div class="info-card">
+        <table class="info-table">
+          <tr>
+            <td><i class="bi bi-table"></i> Table Name</td>
+            <td><strong>[tablename]</strong></td>
+          </tr>
+          <tr>
+            <td><i class="bi bi-chat-left-text"></i> Description</td>
+            <td>[comment]</td>
+          </tr>
+          <tr>
+            <td><i class="bi bi-tag"></i> Type</td>
+            <td>[type]</td>
+          </tr>
+          <tr>
+            <td><i class="bi bi-calendar-event"></i> Last DDL Time</td>
+            <td>[ddltime]</td>
+          </tr>
+          <tr>
+            <td><i class="bi bi-clock"></i> Generated</td>
+            <td>[generated]</td>
+          </tr>
+        </table>
+      </div>
+      [statsinfo]
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" id="sqlTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="columns-tab" data-bs-toggle="tab" data-bs-target="#columns" type="button" role="tab">
+          <i class="bi bi-layout-three-columns"></i>Columns<span class="badge">[columncount]</span>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="er-tab-item" style="display: none;">
+        <button class="nav-link" id="er-tab" data-bs-toggle="tab" data-bs-target="#erdiagram" type="button" role="tab">
+          <i class="bi bi-diagram-3"></i>ER Diagram
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="indexes-tab-item">
+        <button class="nav-link" id="indexes-tab" data-bs-toggle="tab" data-bs-target="#indexes" type="button" role="tab">
+          <i class="bi bi-list-ol"></i>Indexes<span class="badge">[indexcount]</span>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="pk-tab-item">
+        <button class="nav-link" id="pk-tab" data-bs-toggle="tab" data-bs-target="#primarykey" type="button" role="tab">
+          <i class="bi bi-key"></i>Primary Key
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="uk-tab-item">
+        <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uniquekeys" type="button" role="tab">
+          <i class="bi bi-asterisk"></i>Unique<span class="badge">[ukcount]</span>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="fk-tab-item">
+        <button class="nav-link" id="fk-tab" data-bs-toggle="tab" data-bs-target="#foreignkeys" type="button" role="tab">
+          <i class="bi bi-link-45deg"></i>Foreign Keys<span class="badge">[fkcount]</span>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="triggers-tab-item">
+        <button class="nav-link" id="triggers-tab" data-bs-toggle="tab" data-bs-target="#triggers" type="button" role="tab">
+          <i class="bi bi-lightning"></i>Triggers<span class="badge">[triggercount]</span>
+        </button>
+      </li>
+      <li class="nav-item" role="presentation" id="interactions-tab-item" style="[interactionstabstyle]">
+        <button class="nav-link" id="interactions-tab" data-bs-toggle="tab" data-bs-target="#interactions" type="button" role="tab">
+          <i class="bi bi-diagram-3"></i>Interactions<span class="badge">[interactioncount]</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="sqlTabContent">
+      <!-- Columns Tab -->
+      <div class="tab-pane fade show active" id="columns" role="tabpanel">
+        <div class="data-section">
+          <div class="table-scroll">
+            [columninfo]
+          </div>
+        </div>
+      </div>
+
+      <!-- ER Diagram Tab -->
+      <div class="tab-pane fade" id="erdiagram" role="tabpanel">
+        <div class="data-section">
+          <div class="er-diagram-container">
+            <pre class="mermaid" id="er-diagram-content" data-has-diagram="[haserdiagram]">[erdiagram]</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indexes Tab -->
+      <div class="tab-pane fade" id="indexes" role="tabpanel">
+        <div class="data-section">
+          <div class="table-scroll">
+            [indexinfo]
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Key Tab -->
+      <div class="tab-pane fade" id="primarykey" role="tabpanel">
+        <div class="data-section">
+          [pkinfo]
+        </div>
+      </div>
+
+      <!-- Unique Keys Tab -->
+      <div class="tab-pane fade" id="uniquekeys" role="tabpanel">
+        <div class="data-section">
+          [ukinfo]
+        </div>
+      </div>
+
+      <!-- Foreign Keys Tab -->
+      <div class="tab-pane fade" id="foreignkeys" role="tabpanel">
+        [fkoutgoing]
+        [fkincoming]
+      </div>
+
+      <!-- Triggers Tab -->
+      <div class="tab-pane fade" id="triggers" role="tabpanel">
+        <div class="data-section">
+          [triggerinfo]
+        </div>
+      </div>
+
+      <!-- Interactions Tab -->
+      <div class="tab-pane fade" id="interactions" role="tabpanel">
+        <div class="data-section">
+          <h5><i class="bi bi-diagram-3"></i>Modules Interacting with This Table</h5>
+          <div class="interaction-diagram-container">
+            <pre class="mermaid" id="interaction-diagram-content" data-has-diagram="[hasinteractiondiagram]">[interactiondiagram]</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+  <!-- Mermaid.js for ER diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    
+    // Get current theme
+    function getMermaidTheme() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      return theme === 'dark' ? 'dark' : 'default';
+    }
+    
+    // Initialize Mermaid
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: getMermaidTheme(),
+      securityLevel: 'loose',
+      er: {
+        useMaxWidth: true,
+        diagramPadding: 20,
+        layoutDirection: 'TB',
+        minEntityWidth: 100,
+        minEntityHeight: 75,
+        entityPadding: 15
+      }
+    });
+    
+    // Render ER diagram if content exists
+    const erElement = document.getElementById('er-diagram-content');
+    const erTabItem = document.getElementById('er-tab-item');
+    
+    if (erElement) {
+      const hasDiagram = erElement.getAttribute('data-has-diagram') === 'true';
+      const content = erElement.textContent.trim();
+      if (hasDiagram && content && content.includes('erDiagram')) {
+        erTabItem.style.display = 'block';
+        
+        try {
+          const { svg } = await mermaid.render('er-diagram-svg', content);
+          erElement.innerHTML = svg;
+          
+          // Add click handlers for table links
+          const svgElement = erElement.querySelector('svg');
+          if (svgElement) {
+            svgElement.querySelectorAll('.entityLabel').forEach(label => {
+              label.style.cursor = 'pointer';
+              label.addEventListener('click', (e) => {
+                const tableName = e.target.textContent || e.target.innerText;
+                if (tableName) {
+                  // Convert table name to file name format
+                  const fileName = tableName.toLowerCase().replace(/_/g, '_') + '.sql.html';
+                  window.location.href = fileName;
+                }
+              });
+            });
+          }
+        } catch (e) {
+          console.error('Mermaid ER diagram error:', e);
+          erElement.innerHTML = '<div class="empty-state"><i class="bi bi-exclamation-triangle"></i><p>Could not render ER diagram</p><p class="small">' + e.message + '</p></div>';
+        }
+      }
+    }
+
+    // Hide tabs with zero count
+    document.querySelectorAll('.nav-tabs .badge').forEach(badge => {
+      if (badge.textContent === '0') {
+        badge.closest('.nav-item').style.display = 'none';
+      }
+    });
+  </script>
+
+  <script>
+    function getPreferredTheme() {
+      const stored = localStorage.getItem('autodoc-theme');
+      if (stored) return stored;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('autodoc-theme', theme);
+      updateThemeButtons(theme);
+    }
+
+    function updateThemeButtons(theme) {
+      document.getElementById('theme-light').classList.toggle('active', theme === 'light');
+      document.getElementById('theme-dark').classList.toggle('active', theme === 'dark');
+    }
+
+    setTheme(getPreferredTheme());
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('autodoc-theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  </script>
+</body>
+</html>

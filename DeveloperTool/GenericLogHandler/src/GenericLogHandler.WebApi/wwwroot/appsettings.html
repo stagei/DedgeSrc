@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.appSettings">App Settings - Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" class="active" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" class="active" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="maintenance-header">
+            <div>
+                <h2 style="margin: 0;" data-i18n="appSettings.title">App Settings</h2>
+                <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Edit <code>appsettings.json</code> — database connection, logging, Kestrel settings. Changes to Kestrel or database may require a restart.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span class="file-info" id="fileInfo" style="font-size: 0.8rem; color: var(--text-muted); padding: 0.3rem 0.6rem; background: var(--bg-tertiary); border-radius: var(--radius);">Loading...</span>
+                <button class="btn btn-outline" id="validateBtn" title="Validate JSON" data-i18n="button.validate">Validate</button>
+                <button class="btn btn-outline" id="formatBtn" title="Format JSON" data-i18n="button.format">Format</button>
+                <button class="btn btn-outline" id="reloadBtn" title="Reload from server" data-i18n="button.reload">Reload</button>
+                <button class="btn btn-primary" id="saveBtn" title="Save changes" data-i18n="button.save">Save</button>
+            </div>
+        </div>
+
+        <div class="status-bar" id="statusBar" style="display: flex; align-items: center; padding: 0.4rem 1rem; background: var(--bg-tertiary); border-radius: var(--radius); margin-bottom: 1rem; border: 1px solid var(--border-color);">
+            <span class="status-message" id="statusMessage" style="font-size: 0.85rem; color: var(--text-secondary);">Ready</span>
+            <span id="validationStatus" style="margin-left: auto;"></span>
+        </div>
+
+        <textarea class="json-editor" id="jsonEditor" spellcheck="false" style="width: 100%; height: calc(100vh - 280px); min-height: 300px;"></textarea>
+    </main>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script>
+        var apiEndpoint = '/api/config/appsettings';
+        var originalContent = '';
+        var hasChanges = false;
+        var jsonEditor = document.getElementById('jsonEditor');
+        var statusMessage = document.getElementById('statusMessage');
+        var fileInfo = document.getElementById('fileInfo');
+        var validationStatus = document.getElementById('validationStatus');
+        var statusBar = document.getElementById('statusBar');
+
+        function setStatus(msg, isError) {
+            statusMessage.textContent = msg;
+            statusBar.style.borderLeftColor = isError ? 'var(--danger-color, #ef4444)' : 'var(--success-color, #22c55e)';
+            statusBar.style.borderLeftWidth = '3px';
+            statusMessage.style.color = isError ? 'var(--danger-color, #ef4444)' : 'var(--success-color, #22c55e)';
+        }
+
+        async function loadConfig() {
+            setStatus('Loading...', false);
+            try {
+                var response = await Api.get(apiEndpoint);
+                if (!response.Success) {
+                    setStatus('Error: ' + (response.Error || 'Unknown'), true);
+                    return;
+                }
+                originalContent = response.Content || '';
+                jsonEditor.value = formatJson(originalContent);
+                hasChanges = false;
+                if (response.LastModified) {
+                    var date = new Date(response.LastModified);
+                    fileInfo.textContent = 'Last modified: ' + date.toLocaleString();
+                }
+                setStatus('Loaded successfully', false);
+                validateJson();
+            } catch (e) {
+                setStatus('Error: ' + e.message, true);
+            }
+        }
+
+        async function saveConfig() {
+            var content = jsonEditor.value;
+            try {
+                JSON.parse(content);
+            } catch (e) {
+                setStatus('Invalid JSON: ' + e.message, true);
+                return;
+            }
+            setStatus('Saving...', false);
+            try {
+                var response = await Api.post(apiEndpoint, { Content: content, EditedBy: 'WebUI' });
+                if (!response.Success) {
+                    setStatus('Error: ' + (response.Error || 'Save failed'), true);
+                    return;
+                }
+                originalContent = content;
+                hasChanges = false;
+                setStatus('Saved successfully' + (response.BackupPath ? ' (backup created)' : ''), false);
+                setTimeout(loadConfig, 500);
+            } catch (e) {
+                setStatus('Error: ' + e.message, true);
+            }
+        }
+
+        function formatJson(text) {
+            try {
+                return JSON.stringify(JSON.parse(text), null, 2);
+            } catch (_) { return text; }
+        }
+
+        function validateJson() {
+            try {
+                JSON.parse(jsonEditor.value);
+                validationStatus.innerHTML = '<span class="json-valid">Valid JSON</span>';
+                return true;
+            } catch (e) {
+                validationStatus.innerHTML = '<span class="json-error">' + e.message + '</span>';
+                return false;
+            }
+        }
+
+        document.getElementById('saveBtn').addEventListener('click', saveConfig);
+        document.getElementById('reloadBtn').addEventListener('click', loadConfig);
+        document.getElementById('validateBtn').addEventListener('click', validateJson);
+        document.getElementById('formatBtn').addEventListener('click', function () {
+            jsonEditor.value = formatJson(jsonEditor.value);
+            validateJson();
+        });
+        jsonEditor.addEventListener('input', function () {
+            hasChanges = jsonEditor.value !== originalContent;
+            validateJson();
+        });
+        jsonEditor.addEventListener('keydown', function (e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                var start = jsonEditor.selectionStart, end = jsonEditor.selectionEnd;
+                jsonEditor.value = jsonEditor.value.substring(0, start) + '  ' + jsonEditor.value.substring(end);
+                jsonEditor.selectionStart = jsonEditor.selectionEnd = start + 2;
+            }
+        });
+        window.addEventListener('beforeunload', function (e) {
+            if (hasChanges) { e.preventDefault(); e.returnValue = ''; }
+        });
+        loadConfig();
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

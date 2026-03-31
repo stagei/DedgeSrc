@@ -1,0 +1,68 @@
+{
+  "program": "KPAOPGJ",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:50",
+  "extraction": {
+    "sourceHash": "sha256:60cdf4ea8d16b189c12de1e1a6b7ef701d48fb2facd297e0975c39822194f901",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\KPAOPGJ.CBL",
+    "actualName": "KPAOPGJ",
+    "program": "KPAOPGJ",
+    "copyElements": [
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PFD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPAOPGJ.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AH_ORDREHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PROREGN_PROSJEKT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "PROSJ_STATUS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PROREGN_PROSJEKT",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:50"
+  }
+}

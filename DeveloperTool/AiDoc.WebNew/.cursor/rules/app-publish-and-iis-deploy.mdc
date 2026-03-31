@@ -1,0 +1,56 @@
+﻿---
+description: Full IIS app publish and deploy workflow — single app, all apps, staging paths, impact rules
+alwaysApply: false
+---
+
+# App Publish and IIS Deploy
+
+## Staging and IIS Install Paths
+
+| Item | Path |
+|------|------|
+| Staging share base | `\\<server>\DedgeCommon\Software\DedgeWinApps\<AppName>` |
+| IIS install path | `$env:OptPath\DedgeWinApps\<AppName>` |
+
+All ASP.NET Core apps run as IIS virtual applications under `Default Web Site` on port 80.
+
+## Publish: Single App
+
+Each app has its own `Build-And-Publish.ps1`. It publishes to the staging share using `WebApp-FileSystem.pubxml`.
+
+```powershell
+pwsh.exe -NoProfile -File "<repo-root>\Build-And-Publish.ps1"
+```
+
+Version bumps are Patch by default.
+
+## IIS Deploy: Single App
+
+```powershell
+pwsh.exe -NoProfile -File "<DevTools>\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName <AppName>
+```
+
+## IIS Deploy: All Apps
+
+```powershell
+pwsh.exe -NoProfile -File "<DevTools>\IIS-DeployApp\IIS-RedeployAll.ps1"
+```
+
+## Full Deploy Sequence (Publish + Install All)
+
+```powershell
+pwsh.exe -NoProfile -File "<repo-root>\Build-And-Publish-ALL.ps1"
+pwsh.exe -NoProfile -File "<DevTools>\IIS-DeployApp\IIS-RedeployAll.ps1"
+```
+
+## Impact Rules
+
+| Change | Action |
+|--------|--------|
+| Shared client library changed | Rebuild ALL consumer apps, then `IIS-RedeployAll.ps1` |
+| Single app changed | Rebuild that app only, then `IIS-DeployApp.ps1 -SiteName <name>` |
+| Deploy templates changed | Run `IIS-DeployApp\_deploy.ps1` to sync to servers, then `IIS-RedeployAll.ps1` |
+
+## Post-Deploy Verification
+
+After deploying, run a screenshot/health check tool to verify apps are running.

@@ -1,0 +1,46 @@
+{
+  "tableName": "Z_PLANNR",
+  "futureName": "TransportOrderHeader",
+  "namespace": "Logistics",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANNR",
+      "futureName": "PlanNumber",
+      "description": "Unique plan number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANTEKST",
+      "futureName": "PlanDescription",
+      "description": "Description of the plan",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKLAGER",
+      "futureName": "PackingLager",
+      "description": "Lager where packing occurs",
+      "foreignKey": null
+    },
+    {
+      "name": "KAPA_SJEKK",
+      "futureName": "ValidationStatus",
+      "description": "Status of the validation process",
+      "foreignKey": "LAGERSTED"
+    },
+    {
+      "name": "HT_PLUKK",
+      "futureName": "PickupType",
+      "description": "Type of pickup operation",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:37:56"
+}

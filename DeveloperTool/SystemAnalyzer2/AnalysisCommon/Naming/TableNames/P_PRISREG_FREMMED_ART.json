@@ -1,0 +1,70 @@
+{
+  "tableName": "P_PRISREG_FREMMED_ART",
+  "futureName": "ForeignGrainPriceRegistration",
+  "namespace": "Pricing",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrainHandler",
+      "description": "The grain handler or supplier",
+      "foreignKey": null
+    },
+    {
+      "name": "KODE",
+      "futureName": "TreatmentCode",
+      "description": "Treatment code",
+      "foreignKey": "DBM.P_BEHKODER.KODE (FK_BEHKODE)"
+    },
+    {
+      "name": "FRO_KORN",
+      "futureName": "CornType",
+      "description": "Type of corn, F=kvekeFrø, K=fremmed Korn",
+      "foreignKey": null
+    },
+    {
+      "name": "ART",
+      "futureName": "GrainType",
+      "description": "Grain type or code",
+      "foreignKey": "DBM.ART_EGENSKAP.ART"
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "EffectiveDate",
+      "description": "Effective date of the price registration",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_FR_PR_KG_FRA",
+      "futureName": "ForeignGrainPerKgFrom",
+      "description": "Amount of foreign grain per kg from",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_FR_PR_KG_TIL",
+      "futureName": "ForeignGrainPerKgTo",
+      "description": "Amount of foreign grain per kg to",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS",
+      "futureName": "RateInOrePerKg",
+      "description": "Rate in øre per kg",
+      "foreignKey": "DBM.KVANTUMSRABATTER.SATS"
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID",
+      "foreignKey": "DBM.A_ORDREHODE_BRUKER.BRUKERID"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record or action",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:14:10"
+}

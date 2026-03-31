@@ -1,0 +1,110 @@
+{
+  "program": "AAAPIMU",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:07:09",
+  "extraction": {
+    "sourceHash": "sha256:7ce0b0e31cf4963deefdee0cd1880feee99368058ea94d40d381713aee60e65f",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAAPIMU.CBL",
+    "actualName": "AAAPIMU",
+    "program": "AAAPIMU",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PIMU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SHU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SHA.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "P",
+        "tableName": "FKNR_BASE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_UTDRAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_UTDRAG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_UTVALG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_UTDRAG",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_UTVALG",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_ARTIKKEL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_ARTIKKEL",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_UTVALG",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_UTDRAG",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SHOPPA_UTVALG",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:07:09"
+  }
+}

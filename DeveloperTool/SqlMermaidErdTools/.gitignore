@@ -1,0 +1,108 @@
+# .NET Core build outputs
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+*.log
+
+# NuGet packages
+packages/
+*.nupkg
+*.snupkg
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.csproj.user
+*.sln.DotSettings.user
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Temporary files
+*.tmp
+*.temp
+[Tt]emp/
+[Tt]mp/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Bundled runtimes (large files - will be rebuilt)
+src/SqlMermaidErdTools/runtimes/
+tests/SqlMermaidErdTools.Tests/bin/
+tests/SqlMermaidErdTools.Tests/obj/
+
+# Keep only the build script, not the downloaded runtimes
+!build-package.ps1
+
+# Agent tools
+.cursor/
+
+# Test output files
+*.mmd.actual
+*.sql.actual
+actual_*.mmd
+actual_*.sql
+test_*.mmd
+test_*.sql
+test_*.py
+test_*.js
+test_*.mjs
+
+# Sensitive files (API keys, credentials)
+apikey.txt
+*.key
+secrets.json
+
+# Regression test folders (timestamped test artifacts and legacy reports)
+**/Audit/
+**/Reports/
+
+# VS Code Extensions
+srcVSC/node_modules/
+srcVSC/out/
+srcVSC/*.vsix
+srcVSCADV/node_modules/
+srcVSCADV/out/
+srcVSCADV/*.vsix
+
+# CLI Tool
+srcCLI/bin/
+srcCLI/obj/
+srcCLI/TestResults/
+
+# Web Store
+srcWeb/bin/
+srcWeb/obj/
+
+# REST API
+srcREST/bin/
+srcREST/obj/
+srcREST/apikeys.json
+srcREST/Tests/Audit/

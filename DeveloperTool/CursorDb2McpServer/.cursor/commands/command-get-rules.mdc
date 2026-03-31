@@ -1,0 +1,132 @@
+﻿---
+description: When user says /get-rules, detect project technologies and show applicable Library rules with import option
+alwaysApply: true
+---
+
+# Command /get-rules
+
+**Triggered when the user types `/get-rules`.**
+
+Scans the current project, detects technologies, then lists and optionally imports
+applicable rules from `C:\opt\src\CursorRulesLibrary\Library`.
+
+## Step 1 — Detect Technologies
+
+Scan the project root and subfolders for the following signals:
+
+| Signal | Detected technology |
+|--------|---------------------|
+| `*.csproj` exists | C# project |
+| `.csproj` contains `Microsoft.AspNetCore` | → **CSharp-WebApp** |
+| `.csproj` contains `<UseWPF>true` | → **WPF** |
+| `.csproj` contains `IBM.Data.Db2` or `Net.IBM.Data.Db2` or `Dedge.DedgeCommon` | → **Db2** |
+| `.csproj` contains `NLog` | → **Logging** |
+| `.csproj` contains `Serilog` | → **Logging** |
+| `.csproj` contains `DedgeAuth` (any package or project ref) | → **DedgeAuth** |
+| `.csproj` present but none of the above web/WPF signals | → **CSharp-WinApp** |
+| `*.ps1` files exist | → **PowerShell** |
+| `*.wxs` or `*.wixproj` files exist | → **Installer** |
+| `*.html` or `*.css` or `*.js` files exist (not in publish/node_modules) | → **Web-UI** |
+| UNC paths (`\\server\`) referenced in any source file | → **Server** |
+| `*.Tests.csproj` or `*Test*.csproj` exists | → **Testing** |
+| `.cursor/rules/command-*.mdc` files exist | → **Commands** |
+
+**Always include these themes regardless of signals:**
+
+- **Agent** — universal agent behaviour rules
+- **Git** — every project uses git
+- **Documentation** — every project needs doc standards
+
+## Step 2 — Build Candidate Rule List
+
+For each detected theme, list all `.mdc` files under
+`C:\opt\src\CursorRulesLibrary\Library\<Theme>\`.
+
+Use PowerShell to collect them:
+
+```powershell
+$libraryRoot = "C:\opt\src\CursorRulesLibrary\Library"
+$themes = @("Agent", "Git", "Documentation") # + detected themes
+$candidates = $themes | ForEach-Object {
+    Get-ChildItem "$libraryRoot\$_\*.mdc" -ErrorAction SilentlyContinue
+}
+```
+
+## Step 3 — Compare with Existing Project Rules
+
+```powershell
+$existing = (Get-ChildItem ".cursor\rules\*.mdc").Name
+$candidates | ForEach-Object {
+    $status = if ($existing -contains $_.Name) { "HAVE" } else { "MISSING" }
+    [PSCustomObject]@{ Status = $status; Theme = $_.Directory.Name; File = $_.Name }
+}
+```
+
+## Step 4 — Report to User
+
+Present a markdown table:
+
+| Status | Theme | Rule file | Action |
+|--------|-------|-----------|--------|
+| ✅ HAVE | Git | git-standards.mdc | — |
+| ❌ MISSING | Logging | logging-nlog.mdc | *import?* |
+
+Then ask: **"Import all missing rules? (yes / pick individual names)"**
+
+## Step 5 — Import Selected Rules
+
+For each rule the user confirms, copy from Library to `.cursor/rules/`:
+
+```powershell
+Copy-Item "$libraryRoot\<Theme>\<rule>.mdc" ".cursor\rules\<rule>.mdc" -Force
+```
+
+- Do **not** overwrite an existing rule without asking first if the content differs.
+- After copying, read and summarize what each imported rule does in one line.
+
+## Step 6 — Commit the imported rules (optional)
+
+If any rules were imported, offer to commit:
+
+```powershell
+git add ".cursor\rules\"
+git commit -m "chore(rules): import applicable rules from CursorRulesLibrary" `
+           -m "Imported: <list of rule filenames>"
+git push
+```
+
+## Example Session
+
+```
+User: /get-rules
+
+Agent detects: C# (.csproj), DB2 (Dedge.DedgeCommon), PowerShell (*.ps1),
+               Serilog (Logging), UNC paths (Server), command-*.mdc (Commands)
+
+Themes: Agent, Git, Documentation, Db2, CSharp-WinApp, PowerShell, Logging, Server, Commands
+
+| Status   | Theme         | Rule                         |
+|----------|---------------|------------------------------|
+| ✅ HAVE  | Agent         | check-existing-rules.mdc     |
+| ✅ HAVE  | Agent         | error-investigation.mdc      |
+| ✅ HAVE  | Agent         | no-remote-execution.mdc      |
+| ✅ HAVE  | Agent         | prohibited-content.mdc       |
+| ❌ MISS  | Agent         | autonomous-task-completion.mdc |
+| ❌ MISS  | Agent         | agent-permissions.mdc        |
+| ✅ HAVE  | Git           | git-standards.mdc            |
+| ✅ HAVE  | Git           | git-commit-powershell.mdc    |
+| ✅ HAVE  | Git           | git-no-attribution.mdc       |
+| ✅ HAVE  | Db2           | db2-patterns.mdc             |
+| ✅ HAVE  | Db2           | access-control.mdc           |
+| ✅ HAVE  | Commands      | command-commit.mdc           |
+| ✅ HAVE  | Commands      | command-autocur.mdc          |
+| ❌ MISS  | Commands      | command-commit-all.mdc       |
+| ✅ HAVE  | PowerShell    | powershell-standards.mdc     |
+| ❌ MISS  | Logging       | logging-nlog.mdc             |
+| ❌ MISS  | Logging       | remote-log-reading.mdc       |
+| ❌ MISS  | Logging       | server-logging.mdc           |
+| ❌ MISS  | Server        | server-app-layout.mdc        |
+| ✅ HAVE  | Documentation | documentation-standards.mdc  |
+
+"Import all 6 missing rules? (yes / list names to skip)"
+```

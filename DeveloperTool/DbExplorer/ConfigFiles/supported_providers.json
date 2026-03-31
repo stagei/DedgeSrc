@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-11-20",
+  "providers": [
+    {
+      "provider_code": "DB2",
+      "display_name": "IBM DB2 Database",
+      "icon": "🗄️",
+      "vendor": "IBM",
+      "description": "IBM DB2 for Linux, UNIX, and Windows",
+      "supported_versions": [
+        "12.1",
+        "11.5",
+        "11.1",
+        "10.5"
+      ],
+      "default_port": 50000,
+      "connection_string_template": "Server={host}:{port};Database={database};UID={username};PWD={password};",
+      "requires_schema": true,
+      "system_catalog_schema": "SYSCAT"
+    },
+    {
+      "provider_code": "POSTGRESQL",
+      "display_name": "PostgreSQL Database",
+      "icon": "🐘",
+      "vendor": "PostgreSQL",
+      "description": "PostgreSQL 18 and compatible",
+      "supported_versions": [
+        "18"
+      ],
+      "default_port": 5432,
+      "connection_string_template": "Host={host};Port={port};Database={database};Username={username};Password={password};",
+      "requires_schema": true,
+      "system_catalog_schema": "pg_catalog"
+    },
+    {
+      "provider_code": "SQLITE",
+      "display_name": "SQLite Database",
+      "icon": "🗃️",
+      "vendor": "SQLite",
+      "description": "SQLite 3 - file-based, serverless",
+      "supported_versions": [
+        "3"
+      ],
+      "default_port": 0,
+      "connection_string_template": "Data Source={database};",
+      "requires_schema": false,
+      "system_catalog_schema": "main"
+    }
+  ]
+}
+

@@ -1,0 +1,115 @@
+CONNECT TO basisreg 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.1
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISREG
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO p:\tru\ORDREH10.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), H.* FROM DBM.H_ORDREHODE H WHERE (H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20110101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2011-01-01')
+SQL3104N  The Export utility is beginning to export data to file 
+"p:\tru\ORDREH10.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "411952" rows.
+
+
+Number of rows exported: 411952
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\ORDREL10.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), L.* FROM DBM.H_ORDREHODE H, DBM.H_ORDRELINJER L WHERE H.AVDNR = L.AVDNR AND H.ORDRENR = L.ORDRENR AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20110101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2011-01-01'))
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\ORDREL10.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "1939458" rows.
+
+
+Number of rows exported: 1939458
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\ORDREM10.IXF OF IXF SELECT INT(H.TILFAKTDATO/10000), M.* FROM DBM.H_ORDREHODE H, DBM.H_ORDREMERKNAD M WHERE H.AVDNR = M.AVDNR AND H.ORDRENR = M.ORDRENR AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20110101) OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2011-01-01'))
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\ORDREM10.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "141908" rows.
+
+
+Number of rows exported: 141908
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\LASS10.IXF OF IXF SELECT INT(KJØREDATO/10000), L.* FROM DBM.LASS L WHERE KJØREDATO < 20110101 AND STATUS = 99
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\LASS10.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "135361" rows.
+
+
+Number of rows exported: 135361
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\VAREBEV10.IXF OF IXF SELECT * FROM DBM.VAREBEVEGELSE WHERE LAGERDATO < 20110101
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\VAREBEV10.IXF".
+
+SQL3105N  The Export utility has finished exporting "1821629" rows.
+
+
+Number of rows exported: 1821629
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO P:\tru\BEHOLDKORR10.IXF OF IXF SELECT INT(KORRDATO/10000), K.* FROM DBM.KORRIGERINGER K WHERE KORRDATO < 20110101
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\tru\BEHOLDKORR10.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "117621" rows.
+
+
+Number of rows exported: 117621
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

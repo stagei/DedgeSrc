@@ -1,0 +1,70 @@
+---
+description: Configuration structure and hot-reload patterns
+globs: "**/{appsettings,import-config}*.json"
+alwaysApply: false
+---
+
+# Configuration
+
+## Config Files
+
+| File | Purpose |
+|------|---------|
+| `appsettings.json` | Connection strings, logging, API settings |
+| `import-config.json` | Import sources, retention, parsers |
+
+## Import Source Config
+
+```json
+{
+  "ImportSources": [
+    {
+      "Name": "ServerMonitor Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Config": {
+        "Path": "\\\\server\\logs\\*.log",
+        "Format": "delimited",
+        "IsAppendOnly": true,
+        "Parser": {
+          "Delimiter": "|",
+          "FieldMappings": { ... },
+          "MessageExtractors": [ ... ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## Key Config Options
+
+| Option | Description |
+|--------|-------------|
+| `IsAppendOnly` | Track line position for growing files |
+| `MaxFilesPerRun` | Limit files processed per cycle |
+| `MaxFileAgeDays` | Skip files older than N days (default: 30, 0/null = no limit) |
+| `SkipHeaderLines` | Skip N header lines |
+| `Parser.Delimiter` | Field separator (`,`, `\|`, `\t`) |
+| `Parser.MessageExtractors` | Regex to extract business IDs |
+
+## Hot Reload
+
+Import config is watched via `FileSystemWatcher`:
+- Changes to `import-config.json` reload automatically
+- No service restart required
+- Logged: "Configuration reloaded from {path}"
+
+## Retention Settings
+
+```json
+"Retention": {
+  "DefaultDays": 90,
+  "ByLevel": {
+    "FATAL": 365,
+    "ERROR": 180,
+    "DEBUG": 30
+  },
+  "CleanupSchedule": "0 2 * * *"
+}
+```

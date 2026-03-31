@@ -1,0 +1,250 @@
+{
+  "tableName": "TM001_ORDERLINE",
+  "futureName": "OrderLine",
+  "namespace": "DbModels",
+  "columns": [
+    {
+      "name": "TYPE",
+      "futureName": "Type",
+      "description": "Line type or category code",
+      "foreignKey": "DBM.TM001_ORDER.TYPE"
+    },
+    {
+      "name": "TRANSACTIONID",
+      "futureName": "TransactionId",
+      "description": "Unique transaction identifier for the order line",
+      "foreignKey": "DBM.TM001_ORDER.TRANSACTIONID"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "EXTERNALID",
+      "futureName": "ExternalId",
+      "description": "External reference identifier for the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDERNO",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "TM001_ORDER.TRANSACTIONID"
+    },
+    {
+      "name": "ORDERLINENO",
+      "futureName": "OrderLineNumber",
+      "description": "Line number within the order document",
+      "foreignKey": null
+    },
+    {
+      "name": "DISTRGROUPTECH",
+      "futureName": "DistributionGroupTech",
+      "description": "Technical distribution group code",
+      "foreignKey": null
+    },
+    {
+      "name": "MODEOFTRANSPORT",
+      "futureName": "ModeOfTransport",
+      "description": "Method of transport for the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "MODEOFTRANSPORTN",
+      "futureName": "ModeOfTransportName",
+      "description": "Description of the method of transport",
+      "foreignKey": "TRANSPORTOPPDRAG.MODEOFTRANSPORT"
+    },
+    {
+      "name": "GROSSWEIGHT",
+      "futureName": "GrossWeight",
+      "description": "Total weight of the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "VOLUME",
+      "futureName": "Volume",
+      "description": "Volume of the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "AREA",
+      "futureName": "Area",
+      "description": "Surface area or coverage for the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANNEDQUANTITY",
+      "futureName": "PlannedQuantity",
+      "description": "Scheduled quantity to be delivered",
+      "foreignKey": "TM101_LINJE.PLANNEDQUANTITY"
+    },
+    {
+      "name": "QUANTITYUNIT",
+      "futureName": "QuantityUnit",
+      "description": "Unit of measurement for the quantity",
+      "foreignKey": null
+    },
+    {
+      "name": "FROMDATE",
+      "futureName": "FromDate",
+      "description": "Start date for the validity period",
+      "foreignKey": "TM200_ORDERLINE.FROMDATE"
+    },
+    {
+      "name": "TODATE",
+      "futureName": "ToDate",
+      "description": "End date for the validity period",
+      "foreignKey": "TM200_ORDERLINE.TODATE"
+    },
+    {
+      "name": "ARTICLENO",
+      "futureName": "ArticleNumber",
+      "description": "Identifier of the product or item",
+      "foreignKey": "TM101_LINJE.ARTICLENO"
+    },
+    {
+      "name": "ARTICLENAME",
+      "futureName": "ArticleName",
+      "description": "Name or description of the article",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLETYPE",
+      "futureName": "ArticleType",
+      "description": "Product type code for the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTICLETYPENAME",
+      "futureName": "ArticleTypeName",
+      "description": "Description of the product type",
+      "foreignKey": "TM200_ORDERLINE.ARTICLETYPENAME"
+    },
+    {
+      "name": "PRODUCTGROUPNUMBER",
+      "futureName": "ProductGroupNumber",
+      "description": "Code for the product group",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUCTGROUPNAME",
+      "futureName": "ProductGroupName",
+      "description": "Description of the product group",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL1",
+      "futureName": "HierarchyLevel1",
+      "description": "First level in a hierarchy structure",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL1N",
+      "futureName": "HierarchyLevel1Name",
+      "description": "Description of the first level in the hierarchy",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL2",
+      "futureName": "HierarchyLevel2",
+      "description": "Second level in a hierarchy structure",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL2N",
+      "futureName": "HierarchyLevel2Name",
+      "description": "Description of the second level in the hierarchy",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL3",
+      "futureName": "HierarchyLevel3",
+      "description": "Third level in a hierarchy structure",
+      "foreignKey": null
+    },
+    {
+      "name": "HIERARCHYLEVEL3N",
+      "futureName": "HierarchyLevel3Name",
+      "description": "Description of the third level in the hierarchy",
+      "foreignKey": null
+    },
+    {
+      "name": "EXTERNALARTICLENO",
+      "futureName": "ExternalArticleNumber",
+      "description": "External product identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCEORDERNNO",
+      "futureName": "ReferenceOrderNumber",
+      "description": "Reference order number for the line",
+      "foreignKey": null
+    },
+    {
+      "name": "REFORDERLINENO",
+      "futureName": "RefOrderLineNumber",
+      "description": "Line number of a reference order",
+      "foreignKey": null
+    },
+    {
+      "name": "REFORDERNUMBER",
+      "futureName": "RefOrderNumber",
+      "description": "Reference order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCETABLENAME",
+      "futureName": "ReferencedTableName",
+      "description": "Table name of the reference data source",
+      "foreignKey": null
+    },
+    {
+      "name": "REFORDERLINETYPE",
+      "futureName": "RefOrderLineType",
+      "description": "Reference order line type",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCEDISPLAYNAME",
+      "futureName": "ReferencedDisplayName",
+      "description": "Display name of the referenced data",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCETYPE",
+      "futureName": "ReferenceType",
+      "description": "Type of reference (e.g., internal, external)",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCEID",
+      "futureName": "ReferenceId",
+      "description": "Unique identifier for the referenced data",
+      "foreignKey": null
+    },
+    {
+      "name": "REFERENCEDATETIME",
+      "futureName": "ReferenceDateTime",
+      "description": "Timestamp of when the reference was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "MOVEXLINESTATUS",
+      "futureName": "MovexLineStatus",
+      "description": "Status related to MovEx system line processing",
+      "foreignKey": null
+    },
+    {
+      "name": "SQLCODE",
+      "futureName": "SqlCode",
+      "description": "SQL error or status code from database operations",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:54:23"
+}

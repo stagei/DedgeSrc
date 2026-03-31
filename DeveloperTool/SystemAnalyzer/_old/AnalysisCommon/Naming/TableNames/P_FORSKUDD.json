@@ -1,0 +1,94 @@
+{
+  "tableName": "P_FORSKUDD",
+  "futureName": "PaymentSkuRecord",
+  "namespace": "Finance",
+  "columns": [
+    {
+      "name": "RADNR",
+      "futureName": "RowNumber",
+      "description": "Unique row identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FORSKUDD_BELOP",
+      "futureName": "AdvanceAmount",
+      "description": "Advance payment amount",
+      "foreignKey": null
+    },
+    {
+      "name": "ONSKET_UTBET_DATO",
+      "futureName": "DesiredPaymentDate",
+      "description": "Desired payment date",
+      "foreignKey": null
+    },
+    {
+      "name": "UTBET_DATO",
+      "futureName": "PaymentDate",
+      "description": "Payment date",
+      "foreignKey": null
+    },
+    {
+      "name": "UTBET_JOURNALNR",
+      "futureName": "JournalNumber",
+      "description": "Journal number for payment",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE_DATO",
+      "futureName": "InterestDate",
+      "description": "Interest calculation date",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE_JOURNALNR",
+      "futureName": "InterestJournalNumber",
+      "description": "Journal number for interest calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE1_DAGER",
+      "futureName": "InterestDay1Days",
+      "description": "Number of days for first interest rate period",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE1_SATS",
+      "futureName": "InterestRate1Percent",
+      "description": "First interest rate percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE1_BELOP",
+      "futureName": "InterestAmount1",
+      "description": "First interest amount calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE2_DAGER",
+      "futureName": "InterestDay2Days",
+      "description": "Number of days for second interest rate period",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE2_SATS",
+      "futureName": "InterestRate2Percent",
+      "description": "Second interest rate percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "RENETE2_BELOP",
+      "futureName": "InterestAmount2",
+      "description": "Second interest amount calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "UTBET_TIDSPUNKT",
+      "futureName": "PaymentTime",
+      "description": "Time of payment",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:03:33"
+}

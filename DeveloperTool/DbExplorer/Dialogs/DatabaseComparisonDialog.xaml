@@ -1,0 +1,77 @@
+<Window x:Class="DbExplorer.Dialogs.DatabaseComparisonDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Database Comparison"
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Width="900"
+        Height="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="🔍 Database Schema Comparison" FontSize="24" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Source Database/Schema" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="SourceComboBox" Margin="0,0,0,5"/>
+                <TextBlock x:Name="SourceInfoText" Text="0 tables" FontSize="11" Foreground="Gray"/>
+            </StackPanel>
+
+            <TextBlock Grid.Column="1" Text="→" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="Target Database/Schema" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="TargetComboBox" Margin="0,0,0,5"/>
+                <TextBlock x:Name="TargetInfoText" Text="0 tables" FontSize="11" Foreground="Gray"/>
+            </StackPanel>
+        </Grid>
+
+        <TabControl Grid.Row="2" x:Name="ResultsTabControl" Visibility="Collapsed">
+            <TabItem Header="📊 Summary">
+                <StackPanel Margin="10">
+                    <TextBlock x:Name="SummaryText" TextWrapping="Wrap"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="➕ Only in Source">
+                <ListBox x:Name="OnlyInSourceList" Margin="10"/>
+            </TabItem>
+
+            <TabItem Header="➖ Only in Target">
+                <ListBox x:Name="OnlyInTargetList" Margin="10"/>
+            </TabItem>
+
+            <TabItem Header="⚠️ Different">
+                <ListBox x:Name="DifferentList" Margin="10"/>
+            </TabItem>
+
+            <TabItem Header="📜 Migration DDL">
+                <TextBox x:Name="MigrationDdlTextBox" IsReadOnly="True" AcceptsReturn="True"
+                         TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto" FontFamily="Consolas"
+                         FontSize="12" Margin="10"/>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="CompareButton" Content="🔍 Compare" Width="120" Margin="0,0,10,0" Click="Compare_Click"/>
+            <Button Content="Close" Width="100" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+

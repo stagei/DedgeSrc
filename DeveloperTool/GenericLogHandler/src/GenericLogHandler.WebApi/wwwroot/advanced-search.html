@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.advancedSearch">Advanced Search - Generic Log Handler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <style>
+        /* Advanced Search Specific Styles */
+        .query-builder {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .query-builder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .query-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .query-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            flex-wrap: wrap;
+        }
+
+        .query-row select,
+        .query-row input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .query-row select:focus,
+        .query-row input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.2);
+        }
+
+        .field-select { width: 180px; }
+        .operator-select { width: 140px; }
+        .value-input { flex: 1; min-width: 200px; }
+        .conjunction-select { width: 80px; }
+
+        .remove-row-btn {
+            background: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-row-btn:hover { opacity: 0.8; }
+
+        .add-row-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .add-row-btn:hover { background: var(--accent-hover); }
+
+        .query-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            justify-content: flex-start;
+        }
+
+        .preview-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .preview-count {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .saved-filters-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .filter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .filter-item:hover { background: var(--bg-secondary); }
+
+        .filter-item-info {
+            flex: 1;
+        }
+
+        .filter-item-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .filter-item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .filter-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-item-actions button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .alert-badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            background: var(--warning-color);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Save Filter Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="advanced-search.html" class="active" data-i18n="nav.advanced">Advanced</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="layout-grid">
+            <!-- Left Column: Query Builder -->
+            <div class="left-column">
+                <!-- Query Builder -->
+                <div class="query-builder">
+                    <div class="query-builder-header">
+                        <h2 style="margin: 0; font-size: 1.25rem;" data-i18n="advancedSearch.queryBuilder">Query Builder</h2>
+                        <button class="btn btn-outline" id="clearAllBtn" data-i18n="button.clearAll">Clear All</button>
+                    </div>
+
+                    <div class="query-rows" id="queryRows">
+                        <!-- Query rows will be added dynamically -->
+                    </div>
+
+                    <button class="add-row-btn" id="addRowBtn" data-i18n="button.addCondition">+ Add Condition</button>
+
+                    <div class="query-actions">
+                        <button class="btn btn-primary" id="previewBtn" data-i18n="button.previewResults">Preview Results</button>
+                        <button class="btn btn-secondary" id="saveFilterBtn" data-i18n="button.saveAsFilter">Save as Filter</button>
+                        <button class="btn btn-outline" id="exportJsonBtn" data-i18n="button.exportJson">Export JSON</button>
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="preview-panel">
+                    <div class="preview-header">
+                        <h3 style="margin: 0;" data-i18n="advancedSearch.previewResults">Preview Results</h3>
+                        <span class="preview-count" id="previewCount">0 matches</span>
+                    </div>
+                    <table class="data-table" id="previewTable">
+                        <thead>
+                            <tr>
+                                <th data-i18n="table.timestamp">Timestamp</th>
+                                <th data-i18n="table.level">Level</th>
+                                <th data-i18n="table.computer">Computer</th>
+                                <th data-i18n="table.message">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="previewBody">
+                            <tr>
+                                <td colspan="4" class="empty-state" data-i18n="advancedSearch.clickPreview">Click "Preview Results" to see matching entries</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Column: Saved Filters -->
+            <div class="right-column">
+                <div class="saved-filters-panel">
+                    <div class="preview-header">
+                        <h3 style="margin: 0;" data-i18n="advancedSearch.savedFilters">Saved Filters</h3>
+                        <button class="btn btn-outline" id="refreshFiltersBtn" data-i18n="button.refresh">Refresh</button>
+                    </div>
+                    <div class="filter-list" id="filterList">
+                        <div class="empty-state" data-i18n="advancedSearch.loadingFilters">Loading saved filters...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Filter Modal -->
+    <div class="modal" id="saveFilterModal">
+        <div class="modal-content">
+            <div class="modal-header" data-i18n="modal.saveFilter">Save Filter</div>
+            <form id="saveFilterForm">
+                <div class="form-group">
+                    <label for="filterName" data-i18n="advancedSearch.filterNameLabel">Name *</label>
+                    <input type="text" id="filterName" required maxlength="200">
+                </div>
+                <div class="form-group">
+                    <label for="filterDescription" data-i18n="advancedSearch.filterDescLabel">Description</label>
+                    <textarea id="filterDescription" maxlength="1000"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="filterCategory" data-i18n="advancedSearch.filterCategoryLabel">Category</label>
+                    <input type="text" id="filterCategory" maxlength="100" placeholder="e.g., Production, Critical, Monitoring" data-i18n-placeholder="placeholder.filterCategory">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filterShared">
+                        <label for="filterShared" data-i18n="advancedSearch.shareWithAll">Share with all users</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filterAlertEnabled">
+                        <label for="filterAlertEnabled" data-i18n="advancedSearch.enableAlerts">Enable alerts for this filter</label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancelSaveBtn" data-i18n="button.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="button.saveFilter">Save Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/loader.js"></script>
+    <!-- Page Script -->
+    <script src="js/advanced-search.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

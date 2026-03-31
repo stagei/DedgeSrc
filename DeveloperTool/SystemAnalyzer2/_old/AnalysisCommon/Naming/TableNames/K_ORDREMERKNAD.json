@@ -1,0 +1,58 @@
+{
+  "tableName": "K_ORDREMERKNAD",
+  "futureName": "OrderRemark",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Department number (foreign key)",
+      "foreignKey": "OHEAD.AVDNR"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier (foreign key)",
+      "foreignKey": "OHEAD.ORDRENR"
+    },
+    {
+      "name": "SEKV",
+      "futureName": "Sequence",
+      "description": "Sequence number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMIND1",
+      "futureName": "RemarkIndicator1",
+      "description": "First indicator for the remark (e.g., status)",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMIND2",
+      "futureName": "RemarkIndicator2",
+      "description": "Second indicator for the remark (e.g., type)",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Textual comment related to the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID who created or modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date when the remark was created or modified",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:55:21"
+}

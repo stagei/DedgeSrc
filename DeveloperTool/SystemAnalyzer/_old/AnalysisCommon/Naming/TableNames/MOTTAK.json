@@ -1,0 +1,49 @@
+{
+  "tableName": "MOTTAK",
+  "futureName": "MottakOrder",
+  "namespace": "Korn.Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNumber",
+      "description": "Unique transaction identifier",
+      "foreignKey": {
+        "tableName": "dbm.transitt",
+        "columnName": "avdnr"
+      }
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "Unique party identifier",
+      "foreignKey": {
+        "tableName": "dbm.parti",
+        "columnName": "partinr"
+      }
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year of the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "BILNR",
+      "futureName": "ContainerNumber",
+      "description": "Unique container identifier",
+      "foreignKey": {
+        "tableName": "dbm.z_biler",
+        "columnName": "bilnr"
+      }
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional comments or notes",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:49:59"
+}

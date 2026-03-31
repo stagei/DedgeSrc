@@ -1,0 +1,76 @@
+{
+  "tableName": "MOTTAK_KOMMENTAR",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "KOMMENTAR MOTTAK KORNPARTIER",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "PARTINR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "KOMMENTAR",
+        "typeName": "CHARACTER",
+        "length": 50,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "PARTINR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "PARTINR"
+      },
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "AAR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "AAR"
+      },
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "AVDNR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "AVDNR"
+      }
+    ]
+  }
+}

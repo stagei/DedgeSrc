@@ -1,0 +1,34 @@
+﻿{
+  "SiteName": "GenericLogHandler",
+  "PhysicalPath": "$env:OptPath\\DedgeWinApps\\GenericLogHandler-WebApi",
+  "AppType": "AspNetCore",
+  "DotNetDll": "GenericLogHandler.WebApi.dll",
+  "AppPoolName": "GenericLogHandler",
+  "InstallSource": "WinApp",
+  "InstallAppName": "GenericLogHandler-WebApi",
+  "VirtualPath": "/GenericLogHandler",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/health",
+  "EnableDirectoryBrowsing": false,
+  "IsRootSiteProfile": false,
+  "AllowAnonymousAccess": true,
+  "ApiPort": 8110,
+  "AdditionalWinApps": [
+    "GenericLogHandler-AlertAgent",
+    "GenericLogHandler-ImportService"
+  ],
+  "DedgeAuth": {
+    "AppId": "GenericLogHandler",
+    "DisplayName": "Generic Log Handler",
+    "Description": "Centralized log aggregation and monitoring",
+    "Roles": ["User", "Admin"],
+    "TenantDomains": ["Dedge.no"],
+    "BaseUrl": "http://$env:COMPUTERNAME/GenericLogHandler",
+    "Groups": {
+      "Dedge.no": ["infrastructure/logging"]
+    }
+  },
+  "LastDeployed": "",
+  "DeployedBy": "",
+  "ComputerName": ""
+}

@@ -1,0 +1,51 @@
+﻿<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SystemAnalyzer Viewer</title>
+  <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+  <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+  <style id="DedgeAuth-tenant-css"></style>
+  <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+  <link rel="stylesheet" href="css/app.css" />
+  <script>
+    function getPreferredTheme(){var s=localStorage.getItem('sa-theme');if(s)return s;return window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('sa-theme',t)}
+    setTheme(getPreferredTheme());
+  </script>
+</head>
+<body>
+
+<div class="header" style="padding:16px 24px;gap:20px">
+  <h1>COBOL Dependency Viewer</h1>
+  <label for="aliasSelect" style="font-size:12px;color:var(--text2)">Analysis</label>
+  <select id="aliasSelect"></select>
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" id="globalSearch" placeholder="Search across all data..." autocomplete="off">
+  </div>
+  <div style="flex:1"></div>
+  <a href="index.html" style="font-size:12px;color:var(--text2)">Home</a>
+  <a id="graphLink" href="graph.html" style="font-size:12px;color:var(--text2)">Graph</a>
+  <div id="DedgeAuthUserMenu"></div>
+</div>
+
+<div class="tabs" id="tabBar"></div>
+<div class="content" id="contentArea"></div>
+
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-panel-overlay">
+    <div class="detail-header">
+      <h2 id="detailTitle"></h2>
+      <button class="detail-close" id="detailClose">&times;</button>
+    </div>
+    <div class="detail-body" id="detailBody"></div>
+  </div>
+</div>
+
+<script src="api/DedgeAuth/ui/user.js"></script>
+<script src="lib/mermaid.min.js"></script>
+<script type="module" src="js/viewer.js?v=5"></script>
+</body>
+</html>

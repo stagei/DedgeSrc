@@ -1,0 +1,86 @@
+{
+  "tableName": "KD_KONTRAKT_LIN",
+  "futureName": "KontaktLine",
+  "namespace": "Contracts",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ID",
+      "futureName": "Identifier",
+      "description": "Unique line item identifier within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "MaterialNumber",
+      "description": "Material number or product code",
+      "foreignKey": {
+        "table": "VAREREGISTER",
+        "columns": [
+          "FKNR"
+        ]
+      }
+    },
+    {
+      "name": "FKNR_RAAVARE",
+      "futureName": "RawMaterialNumber",
+      "description": "Raw material number or component code",
+      "foreignKey": {
+        "table": "VAREREGISTER",
+        "columns": [
+          "FKNR"
+        ]
+      }
+    },
+    {
+      "name": "LEVLINJENUM",
+      "futureName": "LevelLineNumber",
+      "description": "Sequence number for material levels or components",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVSTED",
+      "futureName": "StorageLocation",
+      "description": "Storage location identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVUKEDATO",
+      "futureName": "PlanningDate",
+      "description": "Planned date for material or component availability",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVPUNKTID",
+      "futureName": "LocationTimestamp",
+      "description": "Timestamp indicating the last update of location information",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTLEVERT",
+      "futureName": "QuantityShipped",
+      "description": "Actual quantity shipped or delivered",
+      "foreignKey": null
+    },
+    {
+      "name": "KVANTUM",
+      "futureName": "QuantityScheduled",
+      "description": "Planned quantity for material or component in the production schedule",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional notes or comments related to the line item",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:11:18"
+}

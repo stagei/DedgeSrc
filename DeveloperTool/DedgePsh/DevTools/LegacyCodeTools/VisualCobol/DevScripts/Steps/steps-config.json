@@ -1,0 +1,72 @@
+[
+  {
+    "Step": 10,
+    "Script": "Step10-Copy-VcSourceFiles.ps1",
+    "Mode": "Automatic",
+    "Description": "Collect CBL + CPY sources",
+    "Arguments": "default"
+  },
+  {
+    "Step": 15,
+    "Script": "Step15-Resolve-VcUncertainCbl.ps1",
+    "Mode": "Automatic",
+    "Description": "Resolve uncertain CBL files via Ollama",
+    "Arguments": "VcPath"
+  },
+  {
+    "Step": 20,
+    "Script": "Step20-Test-VcMissingCopybooks.ps1",
+    "Mode": "Automatic",
+    "Description": "Check missing copybooks",
+    "Arguments": "default"
+  },
+  {
+    "Step": 25,
+    "Script": "Step25-Resolve-VcUncertainCpy.ps1",
+    "Mode": "Automatic",
+    "Description": "Resolve uncertain CPY files via Ollama",
+    "Arguments": "VcPath"
+  },
+  {
+    "Step": 30,
+    "Script": "Step30-Initialize-VcEnvironment.ps1",
+    "Mode": "Automatic",
+    "Description": "Initialize VC environment",
+    "Arguments": "VcPath,DbAlias"
+  },
+  {
+    "Step": 40,
+    "Script": "Step40-Invoke-VcBatchCompile.ps1",
+    "Mode": "Automatic",
+    "Description": "Batch compile all programs",
+    "Arguments": "VcPath,CobMode"
+  },
+  {
+    "Step": 50,
+    "Script": "Step50-Invoke-VcDb2Bind.ps1",
+    "Mode": "Automatic",
+    "Description": "DB2 bind",
+    "Arguments": "DatabaseAlias,Collection"
+  },
+  {
+    "Step": 60,
+    "Script": "Step60-Get-VcMigrationStatusReport.ps1",
+    "Mode": "Automatic",
+    "Description": "Generate migration status report",
+    "Arguments": "VcPath"
+  },
+  {
+    "Step": 70,
+    "Script": "Step70-Deploy-VcCompiledToServer.ps1",
+    "Mode": "ManualRestart",
+    "Description": "Deploy compiled objects + sources to server",
+    "Arguments": "VcPath"
+  },
+  {
+    "Step": 80,
+    "Script": "Step80-Copy-VcSourcesToServer.ps1",
+    "Mode": "ManualRestart",
+    "Description": "Copy raw sources to server data folder",
+    "Arguments": "default"
+  }
+]

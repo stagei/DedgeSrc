@@ -1,0 +1,46 @@
+﻿---
+description: DedgeSign code signing requirements for .NET projects
+globs:
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# DedgeSign Code Signing
+
+All .NET projects must include DedgeSign code signing in their `.csproj`. Full docs: `C:\opt\src\DedgeAuth\docs\integration\setup-guide.md` Step 8.
+
+## Required .csproj Block
+
+Replace `YourApp.exe` with the actual executable name (e.g. `DocView.exe`, `GenericLogHandler.WebApi.exe`):
+
+```xml
+<!-- Code Signing Configuration -->
+<PropertyGroup>
+  <ShouldSign>false</ShouldSign>
+  <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+</PropertyGroup>
+
+<Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+  <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+  <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+</Target>
+
+<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+  <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+</Target>
+
+<Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+  <PropertyGroup>
+    <PublishExePath>$(PublishDir)YourApp.exe</PublishExePath>
+  </PropertyGroup>
+  <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+</Target>
+```
+
+## Rules
+
+- **Release only** -- `ShouldSign` is false for Debug; signing is skipped in dev builds.
+- **Two targets** -- `PostBuild` signs the assembly DLL; `PostPublishSign` signs the published exe.
+- **Network share** -- DedgeSign.ps1 at `dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1`.
+- **Replace exe name** -- Update `PublishExePath` to match the project's output (e.g. `$(PublishDir)DedgeAuth.Api.exe`).
+- **Do NOT skip signing** -- All projects deployed to servers must be signed.

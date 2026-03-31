@@ -1,0 +1,77 @@
+﻿---
+description: DedgeAuth i18n multi-language integration guide for GenericLogHandler
+globs:
+  - "**/wwwroot/i18n/**"
+  - "**/wwwroot/**/*.html"
+alwaysApply: false
+---
+
+# DedgeAuth i18n — Multi-Language Integration
+
+## Overview
+
+GenericLogHandler uses DedgeAuth's distributed i18n system:
+
+- **DedgeAuth** stores each user's preferred language and distributes it via JWT claims and `/me`
+- **DedgeAuth** provides the language selector UI, `DedgeAuth-i18n.js` loader, and standard API endpoints
+- **This app** owns translation files locally in `wwwroot/i18n/`
+
+Norwegian Bokmål (`nb`) is the default language. English (`en`) is the secondary language.
+
+## Architecture
+
+```
+DedgeAuth-i18n.js (served via DedgeAuth proxy)
+  ├── Listens for 'DedgeAuth:language-changed' event
+  ├── Reads initial language from localStorage('DedgeAuth_language')
+  ├── Fetches GET /api/i18n/{lang} (app-local translations)
+  ├── Falls back to GET api/DedgeAuth/ui/i18n/{lang}.json (shared translations)
+  └── Applies translations to data-i18n elements
+```
+
+## HTML Markup
+
+Add `data-i18n="key"` to static text elements:
+
+```html
+<h1 data-i18n="page.title">My Application</h1>
+<th data-i18n="table.email">Email</th>
+<button data-i18n="button.save">Save</button>
+<input data-i18n-placeholder="placeholder.search" placeholder="Search...">
+```
+
+## Script Loading
+
+Add `DedgeAuth-i18n.js` after `user.js` in all HTML pages:
+
+```html
+<script src="api/DedgeAuth/ui/user.js"></script>
+<script src="api/DedgeAuth/ui/i18n.js"></script>
+```
+
+## JavaScript API
+
+```javascript
+DedgeAuth.t('table.email', 'Email');          // with fallback
+DedgeAuth.t('message.itemCount', { count: 42 }); // with parameter
+```
+
+## Translation Files
+
+Location: `wwwroot/i18n/nb.json` and `wwwroot/i18n/en.json`
+
+Key naming convention:
+- `nav.*` — Navigation items
+- `page.*` — Page titles/subtitles
+- `table.*` — Table headers
+- `button.*` — Button labels
+- `label.*` — Form labels
+- `placeholder.*` — Input placeholders
+- `message.*` — User messages
+- `dialog.*` — Modal/dialog text
+
+Both files must have the **exact same set of keys**.
+
+## No Program.cs Changes Needed
+
+`MapDedgeAuthProxy()` automatically registers `/api/i18n/languages` and `/api/i18n/{lang}` endpoints that serve files from `wwwroot/i18n/`.

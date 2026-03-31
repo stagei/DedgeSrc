@@ -1,0 +1,128 @@
+﻿{
+  "program": "PAALEOP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:50:57",
+  "variableFilenames": {
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\DEDGE.fk.no\\erpdata\\KORN\\PRODUSENTAVR\\",
+      "filenamePattern": "LEV_<journalnr>.DAT",
+      "resolvedPath": "\\DEDGE.fk.no\\erpdata\\KORN\\PRODUSENTAVR\\LEV_<dynamic>.DAT",
+      "description": "File path and name pattern for producer data export",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:50:57"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:fca932a4a617d681c7bcf4fdf643b01e299fe408711bf79ec78f789c8b2a880a",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\paaleop.cbl",
+    "actualName": "PAALEOP",
+    "program": "PAALEOP",
+    "copyElements": [
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "JOUR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEOP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "O",
+        "tableName": "JOURNALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_PRODUSENT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKT_PROD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "JOURNALNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_OPPGJORSBREV_LIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "RTRIM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AKT_MOTT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "P_TREKKMOTTAKERE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "PAFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\DEDGE.fk.no\\erpdata\\KORN\\PRODUSENTAVR\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\DEDGE.fk.no\\erpdata\\KORN\\PRODUSENTAVR\\LEV_<dynamic>.DAT",
+        "filenamePattern": "LEV_<journalnr>.DAT",
+        "filenameDescription": "File path and name pattern for producer data export"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:50:57"
+  }
+}

@@ -1,0 +1,126 @@
+# PowerShell-to-C# Scaffold Cleanup
+
+## Purpose
+
+Fix mechanically generated C# code produced by the AST converter. Resolve all `AI:` tag comments into compilable, idiomatic .NET 10 C# while preserving the class structure and logic flow from the original PowerShell source.
+
+## When to Use
+
+After the AST-based mechanical conversion, for any of these AI tags:
+- `AI:UNHANDLED_CMDLET` — cmdlet with no mapping in CmdletMappings.json
+- `AI:UNHANDLED_AST` — AST node type not supported by the converter
+- `AI:DYNAMIC_PROPERTY` — dynamic property access on PSObject/JsonElement
+- `AI:TYPE_COERCION` — PowerShell implicit type coercion
+- `AI:PROCESS_INVOCATION` — complex process/script invocation
+
+## Input Context
+
+1. The tagged C# file (output of the AST converter, contains `/* AI:TAG_NAME ... */` comments)
+2. The original PowerShell `.ps1` source file (for intent and logic reference)
+
+## Prompt Template
+
+```
+You are converting PowerShell 7 code to C# (.NET 10). The AST converter produced a C# scaffold with AI tag markers where it could not convert mechanically. Your job is to resolve every `/* AI:...*/` tag into correct, compilable C#.
+
+RULES:
+1. Resolve every `/* AI:... */` comment into working C# code
+2. Use the original PowerShell source (below) to understand the intent of each tagged section
+3. Preserve the existing class name, namespace, and method structure
+4. Use .NET 10 idioms: file-scoped namespace, nullable reference types, pattern matching
+5. Replace `object` with concrete types where the PowerShell source makes the type clear
+6. Use NLog for logging: `Logger.Info(...)`, `Logger.Warn(...)`, `Logger.Error(...)`
+7. Use `System.Text.Json` for JSON: `JsonSerializer.Serialize/Deserialize<T>`
+8. Use `HttpClient` for HTTP: `GetAsync`, `PostAsync`, `GetFromJsonAsync<T>`
+9. Use async/await for I/O operations
+10. Add XML documentation on public members
+11. Do NOT add comments explaining what the code does — only non-obvious intent
+12. Output the COMPLETE corrected C# file
+
+{AdditionalInstructions}
+
+=== ORIGINAL POWERSHELL SOURCE ({SourceFileName}) ===
+{Ps1Source}
+
+=== TAGGED C# (resolve all AI: tags) ===
+{CsSource}
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{SourceFileName}` | Name of the original `.ps1` file |
+| `{Ps1Source}` | Full text of the original PowerShell source |
+| `{CsSource}` | Full text of the tagged C# scaffold |
+| `{AdditionalInstructions}` | Pass-specific instructions (compilation focus for pass 1, refactoring for pass 2+) |
+
+## Response Format
+
+The response must be a complete, compilable C# source file. No markdown fences unless the provider requires them (Cursor CLI writes files directly).
+
+## Response Parsing
+
+1. If wrapped in markdown fences (` ```csharp ... ``` `), extract the inner content
+2. Validate that the result contains `namespace` and `class` keywords
+3. Write to the output `.cs` path
+
+## Model Guidance
+
+- **Ollama minimum**: `qwen2.5:32b` — needs to understand .NET APIs, async patterns, and type inference
+- **Cursor CLI**: `claude-sonnet-4-20250514` or higher — best for complex multi-method conversions
+- For files with 5+ AI tags, prefer the more capable model
+- For files with only 1-2 simple tags (e.g. unmapped cmdlet), the smaller model suffices
+
+## Examples
+
+### Input: AI:UNHANDLED_CMDLET
+
+```csharp
+/* AI:UNHANDLED_CMDLET
+ * Source: Send-MailMessage -To $email -Subject $subject -Body $body -SmtpServer smtp.example.com
+ * AstType: CommandAst
+ * Hint: No mapping for 'Send-MailMessage' — needs manual C# conversion
+ */
+SendMailMessage(-To $email -Subject $subject -Body $body -SmtpServer smtp.example.com)
+```
+
+### Expected output:
+
+```csharp
+using var smtpClient = new SmtpClient("smtp.example.com");
+var message = new MailMessage
+{
+    To = { email },
+    Subject = subject,
+    Body = body
+};
+await smtpClient.SendMailAsync(message);
+```
+
+### Input: AI:PROCESS_INVOCATION
+
+```csharp
+/* AI:PROCESS_INVOCATION
+ * Source: & $invokeScript -AllJsonPath $allJsonFull -AnalysisAlias $alias
+ * AstType: CommandAst
+ * Hint: Process invocation — verify arguments and exit code handling
+ */
+var psi = new ProcessStartInfo { ... };
+```
+
+### Expected output:
+
+```csharp
+var psi = new ProcessStartInfo
+{
+    FileName = "pwsh.exe",
+    Arguments = $"-NoProfile -File \"{invokeScript}\" -AllJsonPath \"{allJsonFull}\" -AnalysisAlias \"{alias}\"",
+    UseShellExecute = false,
+    RedirectStandardOutput = true,
+    CreateNoWindow = true
+};
+using var process = Process.Start(psi)!;
+await process.WaitForExitAsync();
+var exitCode = process.ExitCode;
+```

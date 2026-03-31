@@ -1,0 +1,396 @@
+{
+  "program": "D3BKATR2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T19:28:47",
+  "variableFilenames": {
+    "FAKTV-FIL": {
+      "logicalName": "FAKTV-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+      "description": "File FAKTV-FIL is named using WW-FILNAVN, which is constructed from userid and date. The path is a network share.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:21"
+    },
+    "FAKTV-ITD-FIL": {
+      "logicalName": "FAKTV-ITD-FIL",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current-date>.CSV",
+      "description": "Program constructs filename by concatenating userid and date, then appending .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:24"
+    },
+    "D3BPROD-FIL": {
+      "logicalName": "D3BPROD-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "File path and pattern for D3BPROD-FIL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:28"
+    },
+    "MASK-FIL": {
+      "logicalName": "MASK-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Constructs filename from userid and date, likely in CSV format",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:32"
+    },
+    "MASK2-FIL": {
+      "logicalName": "MASK2-FIL",
+      "physicalVariable": "WW-FILNAVN2",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and filename pattern for WW-FILNAVN2 (for file MASK2-FIL) is constructed using userid and date with a .CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:35"
+    },
+    "MASK-NT-FIL": {
+      "logicalName": "MASK-NT-FIL",
+      "physicalVariable": "WW-FILNAVN-NT",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path constructed from WW-FILNAVN in D3BFAKTV.CBL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:39"
+    },
+    "MASK2-NT-FIL": {
+      "logicalName": "MASK2-NT-FIL",
+      "physicalVariable": "WW-FILNAVN2-NT",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "File path and name pattern for WW-FILNAVN2-NT (MASK2-NT-FIL) is constructed using userid and date with a CSV extension",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:43"
+    },
+    "PARTY-FIL": {
+      "logicalName": "PARTY-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Filenames for files FAKTV-FIL and FAKTV-ITD-FIL are dynamically constructed using WW-FILNAVN, which includes a date component.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:28:47"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "D3BKATR2",
+    "program": "D3BKATR2",
+    "copyElements": [
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "D3HBUNT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LDKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TRK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVRB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ESV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D3FD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D5HBUNT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "D3B.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D5B.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D5BB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOBK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D3MA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DBN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAFEREG.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "TILLEGGSRABATT_KUNDE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KVANTUMSRABATTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TILL_RABNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "D4BFAKT_DATOER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "ROA",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMVMAL2",
+      "GMFFELL",
+      "D4AMOTP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "D3BSIGN.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\D3BSIGN.RC",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "FAKTV-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File FAKTV-FIL is named using WW-FILNAVN, which is constructed from userid and date. The path is a network share."
+      },
+      {
+        "logicalName": "FAKTV-ITD-FIL",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current-date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Program constructs filename by concatenating userid and date, then appending .CSV extension"
+      },
+      {
+        "logicalName": "D3BPROD-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and pattern for D3BPROD-FIL"
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "D3BPROD.TXT",
+        "path": "U:\\",
+        "fullPath": "U:\\D3BPROD.TXT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "MASK-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename from userid and date, likely in CSV format"
+      },
+      {
+        "logicalName": "MASK2-FIL",
+        "physicalName": "WW-FILNAVN2",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and filename pattern for WW-FILNAVN2 (for file MASK2-FIL) is constructed using userid and date with a .CSV extension"
+      },
+      {
+        "logicalName": "MASK-NT-FIL",
+        "physicalName": "WW-FILNAVN-NT",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path constructed from WW-FILNAVN in D3BFAKTV.CBL"
+      },
+      {
+        "logicalName": "MASK2-NT-FIL",
+        "physicalName": "WW-FILNAVN2-NT",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and name pattern for WW-FILNAVN2-NT (MASK2-NT-FIL) is constructed using userid and date with a CSV extension"
+      },
+      {
+        "logicalName": "PARTY-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Filenames for files FAKTV-FIL and FAKTV-ITD-FIL are dynamically constructed using WW-FILNAVN, which includes a date component."
+      }
+    ],
+    "extractedAt": "2026-03-28T19:28:47"
+  }
+}

@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.scriptRunner">Script Runner - ServerMonitor</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/form-editor.css">
+    <link rel="stylesheet" href="css/script-runner.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+</head>
+<body>
+    <div class="form-editor-page">
+        <!-- Header -->
+        <header class="form-header">
+            <div class="header-left">
+                <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+                <button class="btn btn-back" onclick="window.close()" title="Close window">
+                    <span>←</span> <span data-i18n="button.back">Back</span>
+                </button>
+                <h1><span>⚡</span> <span data-i18n="script.title">Script Runner</span></h1>
+            </div>
+            <div class="header-right">
+                <span class="user-info" id="userInfo" data-i18n="script.userLoading">User: Loading...</span>
+                <button class="btn btn-outline btn-sm" id="themeToggle" title="Toggle theme">
+                    <span>🌙</span> <span data-i18n="script.theme">Theme</span>
+                </button>
+                <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+            </div>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <span class="status-message" id="statusMessage" data-i18n="status.ready">Ready</span>
+        </div>
+
+        <!-- Main Content -->
+        <main class="form-content">
+            <!-- Server Selection Panel -->
+            <div class="form-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">
+                        <h3><span>🖥️</span> <span data-i18n="script.serverSelection">Server Selection</span></h3>
+                        <span class="badge badge-default" id="selectedServerCount">0 <span data-i18n="script.selected">selected</span></span>
+                    </div>
+                    <span class="card-toggle">▼</span>
+                </div>
+                <div class="card-body">
+                    <!-- Server Type Patterns -->
+                    <div class="filter-section">
+                        <label class="filter-label" data-i18n="label.serverType">Server Type:</label>
+                        <div class="filter-chips" id="typeFilters">
+                            <!-- Will be populated by JS -->
+                            <span class="loading-text" data-i18n="script.loadingServers">Loading servers...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Environment Patterns -->
+                    <div class="filter-section">
+                        <label class="filter-label" data-i18n="label.environment">Environment:</label>
+                        <div class="filter-chips" id="envFilters">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Matching Servers -->
+                    <div class="section-divider">
+                        <h4 data-i18n="script.matchingServers">Matching Servers</h4>
+                    </div>
+                    <div class="server-list-actions">
+                        <button class="btn btn-xs btn-outline" id="selectAllBtn" data-i18n="button.selectAll">Select All</button>
+                        <button class="btn btn-xs btn-outline" id="clearAllBtn" data-i18n="button.clearAll">Clear All</button>
+                        <span class="server-count" id="matchingServerCount" data-i18n="script.serversMatch">0 servers match filters</span>
+                    </div>
+                    <div class="server-list" id="serverList">
+                        <!-- Will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Script Execution Panel -->
+            <div class="form-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3><span>🚀</span> <span data-i18n="script.execution">Script Execution</span></h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="execution-form">
+                        <div class="mode-selection">
+                            <label class="filter-label" data-i18n="label.mode">Mode:</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="mode" value="run" checked>
+                                    <span class="radio-label"><span>▶️</span> <span data-i18n="script.modeRun">Run (run-psh)</span></span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="mode" value="install">
+                                    <span class="radio-label"><span>📦</span> <span data-i18n="script.modeInstall">Install (inst-psh)</span></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="script-input-row">
+                            <div class="script-input-group">
+                                <label class="filter-label" data-i18n="label.scriptName">Script Name:</label>
+                                <input type="text" class="form-control" id="scriptName" 
+                                       placeholder="Enter script name (e.g., MyScript)" 
+                                       autocomplete="off">
+                            </div>
+                            <div class="execution-buttons">
+                                <button class="btn btn-primary btn-lg" id="executeBtn" disabled>
+                                    <span>⚡</span> <span data-i18n="button.execute">Execute</span>
+                                </button>
+                                <button class="btn btn-outline" id="clearResultsBtn">
+                                    <span>🗑️</span> <span data-i18n="button.clearResults">Clear Results</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Grid Panel -->
+            <div class="form-card results-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3><span>📊</span> <span data-i18n="script.results">Execution Results</span></h3>
+                        <span class="badge" id="resultsSummary"></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="results-grid" id="resultsGrid">
+                        <div class="empty-state" id="emptyState">
+                            <div class="empty-icon">📋</div>
+                            <h3 data-i18n="script.noExecutions">No Executions Yet</h3>
+                            <p data-i18n="script.noExecutionsDesc">Select servers and run a script to see results here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Confirmation Modal -->
+        <div class="modal-overlay hidden" id="confirmModal">
+            <div class="modal confirm-modal">
+                <div class="modal-header">
+                    <h2><span>⚠️</span> <span data-i18n="script.confirmTitle">Confirm Script Execution</span></h2>
+                    <button class="modal-close" id="closeConfirmModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="script.confirmDesc">You are about to execute the following:</p>
+                    <div class="confirm-details">
+                        <div class="confirm-row">
+                            <span class="confirm-label" data-i18n="label.mode">Mode:</span>
+                            <span class="confirm-value" id="confirmMode">run-psh</span>
+                        </div>
+                        <div class="confirm-row">
+                            <span class="confirm-label" data-i18n="label.scriptName">Script:</span>
+                            <span class="confirm-value" id="confirmScript">MyScript</span>
+                        </div>
+                        <div class="confirm-row">
+                            <span class="confirm-label" data-i18n="label.server">Servers:</span>
+                            <span class="confirm-value" id="confirmServerCount">0 servers</span>
+                        </div>
+                    </div>
+                    <div class="confirm-server-list" id="confirmServerList">
+                        <!-- Server list will be populated here -->
+                    </div>
+                    <div class="save-warning">
+                        <span>⚠️</span> <span data-i18n="script.confirmWarning">Scripts will be executed on all listed servers. This action cannot be undone.</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="cancelConfirmBtn" data-i18n="button.cancel">Cancel</button>
+                    <button class="btn btn-primary" id="confirmExecuteBtn" data-i18n="button.executeOnAll">Execute on All Servers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/script-runner.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

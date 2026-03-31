@@ -1,0 +1,661 @@
+﻿{
+  "server": "t-no1fkmfps-app",
+  "relationships": [
+    {
+      "sourceId": "t-no1fkmfps-app-ConfigureDb2Client",
+      "targetId": "t-no1fkmfps-app-VerifyDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-ConfigureDb2Client",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfig",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMMIG",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMMIG",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMSIT",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMSIT",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMVFT",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMVFT",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMVFK",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMVFK",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-VerifyKerberosConfig",
+      "targetId": "t-no1fkmfps-app-ConfigureDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMMIG",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMMIG",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMSIT",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMSIT",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMVFT",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMVFT",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMVFK",
+      "targetId": "t-no1fkmfps-db-OrderDb2Key_FKMVFK",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-ConfigureDb2ClientOnFkWorkstation",
+      "targetId": "t-no1fkmfps-app-VerifyDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-ConfigureDb2ClientOnFkWorkstation",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfig",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstation",
+      "targetId": "t-no1fkmfps-db-VerifyKerberosConfigOnDbServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "targetId": "t-no1fkmfps-db-VerifyKerberosConfigOnAppServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-VerifyCobolRuntimeWindows",
+      "targetId": "t-no1fkmfps-app-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-InstallRefreshCobolEnvironments",
+      "targetId": "t-no1fkmfps-app-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-RunRefreshCobolEnvironments",
+      "targetId": "t-no1fkmfps-app-InstallRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-TestShortcuts",
+      "targetId": "t-no1fkmfps-app-RunRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmfps-app-TestShortcutsOnFkWorkstation",
+      "targetId": "t-no1fkmfps-app-RunRefreshCobolEnvironments",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "t-no1fkmfps-app-InitServer",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-InitServer"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-VerifyDb2Client",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-VerifyDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.\n\nComment: IBM Db2 klient må være installert for å kunne koble til databasen",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-VerifyDb2Client"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-ConfigureDb2Client",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-ConfigureDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten\n\nComment: Konfigurerer Db2 klienten for Kerberos-autentisering\n\nPrerequisites Note: Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-VerifyDb2Client; p-no1fkmprd-db-VerifyKerberosConfig",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-ConfigureDb2Client"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2Kerberos",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2Kerberos",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMMIG_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMMIG;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMMIG"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2Kerberos",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2Kerberos",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMSIT_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMSIT;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMSIT"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2Kerberos",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2Kerberos",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMVFT_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMVFT;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMVFT"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2Kerberos",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2Kerberos",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I Db2 Clp admin konsoll kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMVFK_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMVFK;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2Kerberos_FKMVFK"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-VerifyKerberosConfig",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-VerifyKerberosConfig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.\n\nComment: Verifiser tilkobling fra appserver til database\n\nPrerequisites Note: Db2 klient må være konfigurert",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-ConfigureDb2Client",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-VerifyKerberosConfig"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMMIG_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMMIG;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMMIG"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMSIT_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMSIT;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMSIT"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMVFT_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMVFT;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMVFT"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "På din lokale pc, start Db2 Clp admin konsoll og kjør kommandoen: xcopy \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_FKMVFK_kerberos.bat c:\\TEMPFK /Y \n. Dette vil katalogisere databasen for Kerberos-autentisering.\n\nComment: Katalogiserer databasen for Kerberos-autentisering\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Database=FKMVFK;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-CatalogDb2KerberosOnFkWorkstation_FKMVFK"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-ConfigureDb2ClientOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-ConfigureDb2ClientOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten på FkWorkstation\n\nComment: Konfigurerer Db2 klienten for Kerberos-autentisering\n\nPrerequisites Note: Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-VerifyDb2Client; p-no1fkmprd-db-VerifyKerberosConfig",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-ConfigureDb2ClientOnFkWorkstation"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.\n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-VerifyKerberosConfigOnDbServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstation"
+    },
+    {
+      "taskname": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. \n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-db-VerifyKerberosConfigOnAppServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-db-VerifyKerberosConfigOnFkWorkstationDbeaver"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-VerifyCobolRuntime",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-VerifyCobolRuntime",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe\n\nComment: Sjekker at run.exe for konsolapplikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-VerifyCobolRuntime"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-VerifyCobolRuntimeWindows",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-VerifyCobolRuntimeWindows",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe\n\nComment: Sjekker at runw.exe for Windows-applikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-VerifyCobolRuntimeWindows"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-InstallRefreshCobolEnvironments",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-InstallRefreshCobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I pwsh.exe kjør kommandoen: Install-FkPshApp -Name 'Refresh-CobolEnvironments'\n\nComment: Installer Refresh-CobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-InstallRefreshCobolEnvironments"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-RunRefreshCobolEnvironments",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I pwsh.exe kjør kommandoen: cd $env:OptPath\\DedgePshApps\\Refresh-CobolEnvironments\nKjør kommandoen: .\\Refresh-CobolEnvironments.ps1\n\nComment: Lager en nytt Cobol-miljø med source fra tilsvarende produksjonsmiljø eller testmiljø",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-InstallRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-RunRefreshCobolEnvironments"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-TestShortcuts",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-TestShortcuts",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Åpne Explorer og gå til katalog: C:\\CobSysMf\\FKM\\XXX\\LNK\nSjekk at Dedge.lnk, Fk-Meny Brukerregister.lnk, Fk-Meny Kt Ordre.lnk og Fk-Meny.lnk eksisterer\nStart så hver av dem å sjekk at de starter\n\nComment: Sjekker at lenkene starter applikasjonene",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-TestShortcuts"
+    },
+    {
+      "taskname": "t-no1fkmfps-app-TestShortcutsOnFkWorkstation",
+      "server": "t-no1fkmfps-app",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmfps-app-TestShortcutsOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kopier lenkene fra Explorer og legg dem på skrivebordet på din lokale maskin. Endre path til runtime til C:\\Netexpress\\nStart så hver av dem å sjekk at de starter\n\nComment: TODO: Endre script til å lage lenker som kan brukes  på skrivebordet med Micro Focus NetExpress. Muligens batfiler istedenfor",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmfps-app;ServerPart=t-no1fkmfps;Template=init-app-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmfps-app-RunRefreshCobolEnvironments",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmfps-app-TestShortcutsOnFkWorkstation"
+    }
+  ],
+  "serverPart": "t-no1fkmfps",
+  "templateName": "init-app-servers"
+}

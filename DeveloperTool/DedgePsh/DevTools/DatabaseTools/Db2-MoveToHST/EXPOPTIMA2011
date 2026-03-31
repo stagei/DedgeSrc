@@ -1,0 +1,36 @@
+-- Kjørt 2011 over til BASISHST februar 2014
+-- Sletting av 2011  ikke iverksatt
+-- tru 15/2 2014
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED H_ORDRE-TABELLENE, LASS, VAREBEVEGELSE og KORRIGERINGER
+  EXPORT TO p:\tru\ORDREH11.IXF OF IXF
+       SELECT INT(H.TILFAKTDATO/10000), H.*
+       FROM DBM.H_ORDREHODE H
+       WHERE (H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20120101)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2012-01-01');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+  EXPORT TO P:\tru\ORDREL11.IXF OF IXF
+      SELECT INT(H.TILFAKTDATO/10000), L.*
+      FROM DBM.H_ORDREHODE H, DBM.H_ORDRELINJER L
+      WHERE H.AVDNR = L.AVDNR
+        AND H.ORDRENR = L.ORDRENR
+        AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20120101)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2012-01-01'));
+  EXPORT TO P:\tru\ORDREM11.IXF OF IXF
+      SELECT INT(H.TILFAKTDATO/10000), M.*
+      FROM DBM.H_ORDREHODE H, DBM.H_ORDREMERKNAD M
+      WHERE H.AVDNR = M.AVDNR
+        AND H.ORDRENR = M.ORDRENR
+        AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20120101)
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2012-01-01'));
+  EXPORT TO P:\tru\LASS11.IXF OF IXF
+       SELECT INT(KJØREDATO/10000), L.*
+       FROM DBM.LASS L
+       WHERE KJØREDATO < 20120101
+       AND STATUS = 99;
+  EXPORT TO P:\tru\VAREBEV11.IXF OF IXF
+       SELECT * FROM DBM.VAREBEVEGELSE
+       WHERE LAGERDATO < 20120101;
+  EXPORT TO P:\tru\BEHOLDKORR11.IXF OF IXF
+       SELECT INT(KORRDATO/10000), K.*
+       FROM DBM.KORRIGERINGER K
+       WHERE KORRDATO < 20120101;

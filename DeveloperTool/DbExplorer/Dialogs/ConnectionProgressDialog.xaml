@@ -1,0 +1,66 @@
+<Window x:Class="DbExplorer.Dialogs.ConnectionProgressDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Connecting to Database"
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Width="500"
+        Height="250"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" BorderThickness="1">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Icon and Title -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBlock Text="🔌" FontSize="32" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <TextBlock Text="Connecting to Database" FontSize="18" FontWeight="SemiBold"
+                               Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+                    <TextBlock x:Name="ConnectionNameText" Text="Database Name" FontSize="12" Margin="0,5,0,0"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Progress Bar -->
+            <ProgressBar Grid.Row="1" x:Name="ConnectionProgressBar" Height="8" 
+                         Minimum="0" Maximum="100" Value="0" 
+                         Margin="0,0,0,15"
+                         Foreground="{DynamicResource SystemControlHighlightAccentBrush}"/>
+
+            <!-- Status Text -->
+            <TextBlock Grid.Row="2" x:Name="StatusText" Text="Establishing connection..." 
+                       FontSize="13" Margin="0,0,0,15"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       TextWrapping="Wrap"/>
+
+            <!-- Detail Text -->
+            <TextBlock Grid.Row="3" x:Name="DetailText" Text="" 
+                       FontSize="11" Margin="0,0,0,10"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                       TextWrapping="Wrap"/>
+
+            <!-- Spacer -->
+            <Grid Grid.Row="4"/>
+
+            <!-- Abort Button -->
+            <Button Grid.Row="5" x:Name="AbortButton" Content="❌ Abort Connection" 
+                    Width="150" Height="36" 
+                    HorizontalAlignment="Center"
+                    Click="AbortButton_Click"
+                    FontWeight="SemiBold"/>
+        </Grid>
+    </Border>
+</Window>
+

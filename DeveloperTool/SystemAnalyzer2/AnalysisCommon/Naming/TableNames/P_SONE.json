@@ -1,0 +1,71 @@
+{
+  "tableName": "P_SONE",
+  "futureName": "KommuneFraktSone",
+  "namespace": "NorwegianPostalCodes",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrocerHandler",
+      "description": "Identifier for the grocer handler",
+      "foreignKey": null
+    },
+    {
+      "name": "AVREGNINGSTYPE",
+      "futureName": "SalesType",
+      "description": "Type of sales, 1=salt goods, 3=seasonal products",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMUNENR",
+      "futureName": "MunicipalityNumber",
+      "description": "Unique number identifying the municipality",
+      "foreignKey": null
+    },
+    {
+      "name": "NAVN",
+      "futureName": "Name",
+      "description": "Name of the municipality or sone",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Unique identifier for a division",
+      "foreignKey": null
+    },
+    {
+      "name": "SONE",
+      "futureName": "FraktSone",
+      "description": "Freight zone or sone",
+      "foreignKey": [
+        "P_FRAKT",
+        "P_EGENANDEL_FRAKT",
+        "STFRAKT_TILSK"
+      ]
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user",
+      "foreignKey": [
+        "A_ORDREHODE",
+        "A_ORDRELINJER_ENDR"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "OKOLOGISK_SONE",
+      "futureName": "EcoFriendlyFraktSone",
+      "description": "Freight zone for eco-friendly products",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:16:28"
+}

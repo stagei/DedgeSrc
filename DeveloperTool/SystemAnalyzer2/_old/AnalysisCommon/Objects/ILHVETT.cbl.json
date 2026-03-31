@@ -1,0 +1,110 @@
+{
+  "program": "ILHVETT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:50932f4402c1df9d1b8c2a7c2abe232232fe902f4793e98018cb279ae957fdfe",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilhvett.cbl",
+    "actualName": "ILHVETT",
+    "program": "ILHVETT",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILFI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ILHVETT.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BARE_SENTRALT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BARE_SENTRALT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FIRMANAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSTYPE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSTYPE",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMFFELL",
+      "GMAMEXT",
+      "ILVVETT",
+      "GMADATO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

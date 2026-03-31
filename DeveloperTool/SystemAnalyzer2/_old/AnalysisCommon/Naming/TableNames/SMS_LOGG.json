@@ -1,0 +1,70 @@
+{
+  "tableName": "SMS_LOGG",
+  "futureName": "SmsLogEntry",
+  "namespace": "Messaging",
+  "columns": [
+    {
+      "name": "BRUKERID",
+      "futureName": "UserIdentifier",
+      "description": "Unique user identifier",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE"
+    },
+    {
+      "name": "AVSENDER_TLF",
+      "futureName": "SenderPhoneNumber",
+      "description": "Phone number of the sender",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTAKER_TLF",
+      "futureName": "RecipientPhoneNumber",
+      "description": "Phone number of the recipient",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": "A_ORDREHODE, A_SORDRE_LOG, AH_ORDREHODE, AVVIST"
+    },
+    {
+      "name": "HENSIKT",
+      "futureName": "Purpose",
+      "description": "Purpose of the message or transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date when the message was sent",
+      "foreignKey": "A_BESTHODE, A_FRAKT_OLINJER, A_KORRIGERINGER"
+    },
+    {
+      "name": "MELDING",
+      "futureName": "Message",
+      "description": "Content of the SMS message",
+      "foreignKey": "FK_LOG, P_FEILMELD, SQLFEIL"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the transaction",
+      "foreignKey": "A_BESTHODE, A_FRAKT_OLINJER, A_KORRIGERINGER"
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "LastSerialNumber",
+      "description": "Last serial number related to the transaction or order",
+      "foreignKey": "A_ORDRELINJER, AH_ORDRELINJER, AVREGNING, BESTLIN"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "A_BESTHODE, A_FRAKT_OLINJER, A_ORDREHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:47:27"
+}

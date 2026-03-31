@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Computer Status Report</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin-top: 20px;
+            background-color: white;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #4CAF50; 
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) { 
+            background-color: #f9f9f9; 
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        h1 { 
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .timestamp { 
+            color: #666; 
+            font-style: italic; 
+            margin-top: 20px;
+        }
+        .success { color: #4CAF50; }
+        .failure { color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; margin-bottom: 20px;">
+            <div style="justify-self: start;">
+                <h1 style="margin: 0;">Computer Status Report</h1>
+            </div>
+            <div style="justify-self: end;">
+                <img src="https://www.Dedge.no/Features/Shared/img/dedge-logo.svg" alt="FK Logo" style="height: 50px;">
+            </div>
+        </div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Platform</th>
+                <th>Purpose</th>
+                <th>Applications</th>
+                <th>Comments</th>
+                <th>DomainName</th>
+                <th>IsActive</th>
+            </tr><tr><td>fk08c4qz</td> <td>Developer Machine</td> <td>Local</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>fk08c4qz.DEDGE.fk.no</td> <td>True</td>
+<tr><td>fk01beal</td> <td>Developer Machine</td> <td>Local</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>fk01beal.DEDGE.fk.no</td> <td>True</td>
+<tr><td>fkikt958</td> <td>Developer Machine</td> <td>Digiplex</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>fkikt958.DEDGE.fk.no</td> <td>True</td>
+<tr><td>fkikt962</td> <td>Developer Machine</td> <td>Digiplex</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>fkikt962.DEDGE.fk.no</td> <td>True</td>
+<tr><td class='failure'>p-no1avd-vdi001</td> <td>Developer Machine</td> <td>Azure</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>p-no1avd-vdi001.DEDGE.fk.no</td> <td>True</td>
+<tr><td class='failure'>p-no1avd-vdi002</td> <td>Developer Machine</td> <td>Azure</td> <td>Utvikling Dedge, FkKonto samt støttesystemer.</td> <td>FKM INL</td> <td></td> <td class='failure'>p-no1avd-vdi002.DEDGE.fk.no</td> <td>True</td>
+<tr><td>p-Dedge-vm01</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>p-Dedge-vm01.DEDGE.fk.no</td> <td>True</td>
+<tr><td>p-Dedge-vm02</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>p-Dedge-vm02.DEDGE.fk.no</td> <td>True</td>
+<tr><td class='failure'>p-no1batch-vm01</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>p-no1batch-vm01.DEDGE.fk.no</td> <td>True</td>
+<tr><td class='failure'>t-no1batch-vm01</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>t-no1batch-vm01.DEDGE.fk.no</td> <td>True</td>
+<tr><td class='failure'>t-no1batch-vm02</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>t-no1batch-vm02.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfk-soa-web-01</td> <td>Server</td> <td>Azure</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfk-soa-web-01.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfk-erp-01</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfk-erp-01.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfk-erp-02</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfk-erp-02.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfk-erp-03</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfk-erp-03.DEDGE.fk.no</td> <td>True</td>
+<tr><td>p-no1fkmprd-app</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>p-no1fkmprd-app.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfkerp12</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfkerp12.DEDGE.fk.no</td> <td>True</td>
+<tr><td>sfkerp14</td> <td>Server</td> <td>Digiplex</td> <td></td> <td>FKM</td> <td></td> <td class='failure'>sfkerp14.DEDGE.fk.no</td> <td>True</td>        </table>
+        <p class="timestamp">Generated on 2025-01-31 14:34:59</p>
+    </div>
+</body>
+</html>

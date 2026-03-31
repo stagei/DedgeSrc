@@ -1,0 +1,112 @@
+{
+  "tableName": "P_SLETTA_OPPGJORSBREV",
+  "futureName": "OppgjorsBrev",
+  "namespace": "Documents",
+  "columns": [
+    {
+      "name": "oppgjorsBrevNr",
+      "futureName": "OppgjorsBrevNumber",
+      "description": "Unique identifier for the opposition letter",
+      "foreignKey": null
+    },
+    {
+      "name": "journalnr",
+      "futureName": "JournalNumber",
+      "description": "Journal number associated with the document",
+      "foreignKey": null
+    },
+    {
+      "name": "kundenr",
+      "futureName": "CustomerNumber",
+      "description": "Customer identification number",
+      "foreignKey": "P_AVREGNING, P_KORNHANDLER, P_OPPGJORSBREV_LIN, P_OPPGJORSBREV"
+    },
+    {
+      "name": "produsentnr",
+      "futureName": "ProducerNumber",
+      "description": "Producer identification number",
+      "foreignKey": "AVVIST, K_FORHANDSPROVE, K_KORRIGERING, KORNBEVEGELSE, MOTTAK, NYE_PRODUSENTER"
+    },
+    {
+      "name": "sumPartier",
+      "futureName": "SumOfParties",
+      "description": "Total amount of parties involved",
+      "foreignKey": null
+    },
+    {
+      "name": "epostRabatt",
+      "futureName": "EmailDiscount",
+      "description": "Discount related to email communication",
+      "foreignKey": null
+    },
+    {
+      "name": "mva",
+      "futureName": "Vat",
+      "description": "Value added tax amount",
+      "foreignKey": "P_OPPGJORSBREV"
+    },
+    {
+      "name": "tilUtbetaling",
+      "futureName": "AmountForPayment",
+      "description": "Amount to be paid",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "User identifier for the document",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the document was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "mvaGrunnlag",
+      "futureName": "VatBase",
+      "description": "Base amount for calculating VAT",
+      "foreignKey": "EDI_FAKT_LINJE"
+    },
+    {
+      "name": "levnr",
+      "futureName": "LevNbr",
+      "description": "Identification number of the supplier or vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "bankgiro",
+      "futureName": "BankAccount",
+      "description": "Bank account for payment purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "utgMvaGrunnlag",
+      "futureName": "ExportVatBase",
+      "description": "Export base amount for calculating VAT",
+      "foreignKey": null
+    },
+    {
+      "name": "utgMva",
+      "futureName": "ExportVat",
+      "description": "Export value added tax amount",
+      "foreignKey": null
+    },
+    {
+      "name": "belopUnderGrense",
+      "futureName": "AmountBelowThreshold",
+      "description": "Amount below the threshold for a certain condition",
+      "foreignKey": null
+    },
+    {
+      "name": "organisasjonsnr",
+      "futureName": "OrganizationNumber",
+      "description": "Identification number of an organization or entity",
+      "foreignKey": "EHF_ELMA, ENHETREG_DIFI, ENHETREG_U_DIFI"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:15:52"
+}

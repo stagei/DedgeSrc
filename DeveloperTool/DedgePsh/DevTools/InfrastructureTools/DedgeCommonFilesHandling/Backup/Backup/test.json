@@ -1,0 +1,475 @@
+﻿[
+  {
+    "ApplicationCode": "FKM",
+    "Name": "FK-Meny",
+    "Description": "FK-Meny Application",
+    "Environments": [
+      {
+        "EnvironmentCode": "DEV",
+        "Description": "Utvikling",
+        "Servers": ["t-no1fkmdev-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfBndPath", "Path": "K:\\fkavd\\nt\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\DEV"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_TST_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_TST_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "TST",
+        "Description": "Test",
+        "Servers": [
+          "t-no1fkmtst-app",
+          "t-no1fkmtst-db",
+          "t-no1fkmtst-pos",
+          "t-no1fkmtst-web",
+          "t-no1fkmtst-soa"
+        ],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\TST"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_TST_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_TST_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Servers": [
+          "p-no1fkmprd-app",
+          "p-no1fkmprd-db",
+          "p-no1fkmprd-pos",
+          "p-no1fkmprd-web",
+          "p-no1fkmprd-soa"
+        ],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBNT" },
+          { "Type": "MfBndPath", "Path": "N:\\COBNT\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "RAP",
+        "Description": "Rapport",
+        "Servers": [
+          "p-no1fkmrap-db"
+        ],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBNT" },
+          { "Type": "MfBndPath", "Path": "N:\\COBNT\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "MIG",
+        "Description": "Forsprang MIG",
+        "Servers": ["t-no1fkmfps-app", "t-no1fkmmig-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST\\COBMIG" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\COBMIG\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\MIG"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_MIG_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_MIG_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "SIT",
+        "Description": "Forsprang SIT",
+        "Servers": ["t-no1fkmfps-app", "t-no1fkmsit-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST\\COBMIG" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\COBMIG\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\MIG"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_SIT_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_SIT_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "VFT",
+        "Description": "Forsprang VFT",
+        "Servers": ["t-no1fkmfps-app", "t-no1fkmvft-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST\\COBMIG" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\COBMIG\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\MIG"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_VFT_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_VFT_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "VFK",
+        "Description": "Forsprang VFK",
+        "Servers": ["t-no1fkmfps-app", "t-no1fkmvfk-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST\\COBMIG" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\COBMIG\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\FKM\\MIG"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_FKM_VFK_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_FKM_VFK_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "INL",
+    "Name": "Innlån",
+    "Description": "Innlån application",
+    "Environments": [
+      {
+        "EnvironmentCode": "DEV",
+        "Description": "Utvikling",
+        "Servers": ["t-no1inldev-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfBndPath", "Path": "K:\\fkavd\\nt\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\DEV"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_DEV_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_DEV_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "TST",
+        "Description": "Test",
+        "Servers": ["t-no1inltst-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBTST" },
+          { "Type": "MfBndPath", "Path": "N:\\COBTST\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\TST"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_TST_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_TST_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      },
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Servers": ["p-no1inlprd-db"],
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBNT" },
+          { "Type": "MfBndPath", "Path": "N:\\COBNT\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "HST",
+    "Name": "Dedge Historikk",
+    "Description": "Dedge History application",
+    "Servers": ["p-no1hstprd-db"],
+    "Environments": [
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Paths": [
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "VAR",
+    "Name": "Vareregister",
+    "Description": "Vareregister application",
+    "Environments": [],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "AGP",
+    "Name": "Agriprod",
+    "Description": "Agriprod application",
+    "Environments": [],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "AGK",
+    "Name": "Agrikorn",
+    "Description": "Agrikorn application",
+    "Title": "Agrikorn-applikasjon",
+    "Environments": [],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "DBQ",
+    "Name": "DBQA",
+    "Description": "DBQA application",
+    "Servers": ["dedge-server", "p-no1fkxprd-db"],
+    "Environments": [
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Paths": [
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\DBQ\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2Catalog\\Kerberos\\cat_db2_fkmdbq_kerberos_2.0.bat"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "DOC",
+    "Name": "CobDoc",
+    "Description": "CobDoc application",
+    "Servers": ["p-no1docprd-db"],
+    "Environments": [
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBNT" },
+          { "Type": "MfBndPath", "Path": "N:\\COBNT\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  },
+  {
+    "ApplicationCode": "VIS",
+    "Name": "Visma",
+    "Description": "Visma application",
+    "Servers": ["p-no1visprd-db"],
+    "Environments": [
+      {
+        "EnvironmentCode": "PRD",
+        "Description": "Produksjon",
+        "Paths": [
+          { "Type": "MfRunPath", "Path": "N:\\COBNT" },
+          { "Type": "MfBndPath", "Path": "N:\\COBNT\\bnd" },
+          { "Type": "MfCblSrcPath", "Path": "K:\\fkavd\\nt" },
+          { "Type": "MfCblCpyPath", "Path": "K:\\fkavd\\sys\\cpy" },
+          {
+            "Type": "SqlSourcePath",
+            "Path": "\\\\t-no1batch-vm01\\opt\\data\\DevToolsCodeUtility\\SQLEXPORT\\INL\\PRD"
+          },
+          {
+            "Type": "Db2CatalogFile",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Db2\\ClientConfig\\Catalog-Script-For-All-Cobol-Applications-For-All-Environments.bat"
+          },
+          {
+            "Type": "EnvironmentMachineConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\Machine_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          },
+          {
+            "Type": "EnvironmentUserConfig",
+            "Path": "\\dedge-server\\DedgeCommon\\Software\\Config\\Cobol\\EnvironmentScripts\\User_Environment_Config_for_INL_PRD_CobolVersion_MF_Any.cmd"
+          }
+        ]
+      }
+    ],
+    "IsActive": true
+  }
+]

@@ -1,0 +1,68 @@
+---
+description: Build commands, timestamps, and testing patterns
+alwaysApply: true
+---
+
+# PowerShell Script Timestamps
+
+**MANDATORY**: Always add start timestamp at the beginning of every PowerShell script or command block:
+
+```powershell
+$startTime = Get-Date
+Write-Host "⏱️  START: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -ForegroundColor Yellow
+Write-Host "Action: [describe what you're doing]`n" -ForegroundColor Cyan
+
+# ... your code here ...
+
+Write-Host "`n⏱️  END: $(Get-Date -Format 'HH:mm:ss') | Duration: $([math]::Round(((Get-Date) - $startTime).TotalSeconds, 1))s" -ForegroundColor Yellow
+```
+
+This helps track execution time and identify hanging processes.
+
+## Build Commands
+
+- Always use timestamps for build commands
+- Keep verbosity minimal (`-v q` or `-v minimal`)
+- Show build duration at the end
+- For long builds, add periodic progress updates
+- **MANDATORY**: Always add an extra newline after dotnet commands to exit terminal when finished
+  - **Pattern**: Append `; Write-Host ""` to the end of dotnet commands
+  - **Why**: This ensures the terminal exits properly without hanging, requiring user interaction
+  - **Example**: `dotnet build ServerMonitor.sln --configuration Release --verbosity minimal; Write-Host ""`
+
+## Testing
+
+- Use `Test-ServerMonitor-With-Timeout.ps1` for application testing
+- Always enforce 30-second timeout for test runs
+- Kill hanging processes before starting new tests
+- Check multiple log locations if primary location is empty
+
+## Process Management
+
+- Always kill existing ServerMonitor processes before starting new tests
+- Use `Get-Process -Name "ServerMonitor" | Stop-Process -Force`
+- Wait 2-3 seconds after killing before starting new process
+
+## Development Workflow
+
+1. Make code changes
+2. Copy test config if needed
+3. Build with timestamps
+4. Run `Test-ServerMonitor-With-Timeout.ps1`
+5. Check logs for expected behavior
+6. Fix issues and repeat
+
+## Alert Channel Testing
+
+When testing alert channels (SMS, Email, WKMonitor):
+- Verify each channel in logs
+- Check for "Alert sent" messages
+- Verify distribution history
+- Check actual output files/destinations
+
+## Common Issues
+
+- If no logs appear: Check NLog.config paths and environment variables
+- If process hangs: 30-second timeout will auto-kill
+- If build is slow: Use `--no-incremental` flag
+- If EventLog errors: Ensure NLog.WindowsEventLog package is installed

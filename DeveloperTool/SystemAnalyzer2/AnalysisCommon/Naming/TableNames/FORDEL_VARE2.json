@@ -1,0 +1,46 @@
+{
+  "tableName": "FORDEL_VARE2",
+  "futureName": "ForedelVare2Entity",
+  "namespace": "DataModels",
+  "columns": [
+    {
+      "name": "FKNR",
+      "futureName": "ForeigKeyNumber",
+      "description": "Foreign key reference number",
+      "foreignKey": "A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "TIDSPUNKT_LOG",
+      "futureName": "TimestampLog",
+      "description": "Log timestamp for record modifications",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the operation",
+      "foreignKey": "A_BESTHODE, A_BESTLIN"
+    },
+    {
+      "name": "HANDLING",
+      "futureName": "OperationHandling",
+      "description": "Type of handling or operation performed",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier who made the last modification",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record or operation",
+      "foreignKey": "A_BESTHODE, A_BESTLIN"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:25:21"
+}

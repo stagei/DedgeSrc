@@ -1,0 +1,52 @@
+{
+  "tableName": "KD_FRO_URENHET",
+  "futureName": "Urenhet",
+  "namespace": "Kontraktdyrkersystemet",
+  "columns": [
+    {
+      "name": "JOURNALNR",
+      "futureName": "JournalNumber",
+      "description": "Unique journal entry identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "URENHET_KODE",
+      "futureName": "UnitCode",
+      "description": "Code for the unit of measurement",
+      "foreignKey": "KD_FRO_URENH_TYPE"
+    },
+    {
+      "name": "URENHET_GRUPPE",
+      "futureName": "UnitGroup",
+      "description": "Group code for the unit of measurement",
+      "foreignKey": "KD_FRO_URENH_GRUPP, KD_FRO_URENH_TYPE"
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Numeric value representing the quantity",
+      "foreignKey": null
+    },
+    {
+      "name": "ID",
+      "futureName": "Identifier",
+      "description": "Unique identifier for the record",
+      "foreignKey": "FILEPATH, SELGERE, SQLLINJER, SQLXTAB"
+    },
+    {
+      "name": "PROSENT",
+      "futureName": "Percentage",
+      "description": "Numeric value representing a percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL_PR_KG",
+      "futureName": "QuantityPerKG",
+      "description": "Numeric value representing quantity per kilogram",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:09:03"
+}

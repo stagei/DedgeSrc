@@ -1,0 +1,102 @@
+{
+  "tableName": "TELL_HT_BEHOLDNING",
+  "futureName": "TellingBeholding",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "avdNr",
+      "futureName": "AvdNumber",
+      "description": "Unique administrative number",
+      "foreignKey": null
+    },
+    {
+      "name": "tellenr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "DocumentNumber",
+      "description": "Unique document number",
+      "foreignKey": [
+        "A_BESTLIN",
+        "A_KORRIGERINGER",
+        "A_ORDRELINJER_ENDR",
+        "A_ORDRELINJER"
+      ]
+    },
+    {
+      "name": "beholdning",
+      "futureName": "StockLevel",
+      "description": "Current stock level",
+      "foreignKey": [
+        "A_VAREAVD",
+        "BERITAK_HIST",
+        "D365_VAREAVD_HIST",
+        "FORSLAG_LINJE",
+        "FORSLAG_LOGG",
+        "JOHN_DEERE_PL",
+        "PARTI",
+        "RE TURNPLAST_BEH",
+        "TELL_BEHOLDNING",
+        "VAREAVD"
+      ]
+    },
+    {
+      "name": "beholdningTellet",
+      "futureName": "StockLevelMeasured",
+      "description": "Measured stock level",
+      "foreignKey": [
+        "TELL_BEHOLDNING"
+      ]
+    },
+    {
+      "name": "status",
+      "futureName": "Status",
+      "description": "Current status of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the last update",
+      "foreignKey": null
+    },
+    {
+      "name": "bruker",
+      "futureName": "User",
+      "description": "User who performed the action",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTHODE",
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_BESTLIN",
+        "A_VIHODE",
+        "A_VILIN",
+        "ADR_ID",
+        "AH_BESTHODE"
+      ]
+    },
+    {
+      "name": "maskinnavn",
+      "futureName": "MachineName",
+      "description": "Name of the machine or terminal used",
+      "foreignKey": [
+        "A_SORDRE_LOG",
+        "A_TILBUD_LOG",
+        "BANKTERM_MASKIN",
+        "FK_LOG",
+        "INKkjop_Salg",
+        "INKkjop_Salg",
+        "K_FILER_OVER",
+        "KASS_MASKIN",
+        "KASS_TRANSER"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:51:51"
+}

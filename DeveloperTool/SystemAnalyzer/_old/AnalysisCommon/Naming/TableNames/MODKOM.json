@@ -1,0 +1,34 @@
+{
+  "tableName": "MODKOM",
+  "futureName": "ModkomTable",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "SYSTEM",
+      "futureName": "SystemCode",
+      "description": "The code identifying the system",
+      "foreignKey": "MOD"
+    },
+    {
+      "name": "MODUL",
+      "futureName": "ModuleCode",
+      "description": "The code identifying the module",
+      "foreignKey": "MOD"
+    },
+    {
+      "name": "SEQNR",
+      "futureName": "SequenceNumber",
+      "description": "A sequential number to identify a specific record within the sequence of records for a given module and system combination",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "The text content or description related to the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:30:26"
+}

@@ -1,0 +1,35 @@
+﻿---
+description: Standard pattern for search dialogs and modal dialogs in DedgeAuth consumer apps
+globs:
+  - "**/wwwroot/**/*.html"
+  - "**/wwwroot/**/*.css"
+  - "**/wwwroot/**/js/**/*.js"
+  - "**/Pages/**/*.cshtml"
+alwaysApply: false
+---
+
+# Search Dialog Pattern
+
+When adding or changing **modal dialogs** or **search history / search dialogs** in this app, follow the pattern from GenericLogHandler so styling stays consistent and tenant/fallback CSS applies.
+
+Reference: `C:\opt\src\DedgeAuth\docs\integration\search-dialog-pattern.md`
+
+## Modal dialog
+
+- Use **HTML**: `.modal-overlay` > `.modal-container` (with size class) > `.modal-header` (`.modal-title` + `.modal-close`) > `.modal-body` [ > `.modal-footer` ].
+- Size classes on `.modal-container`: `modal-sm` (400px), `modal-md` (600px), `modal-lg` (900px), `modal-fullscreen`.
+- Toggle visibility with class `hidden` or `active`/`show` on the overlay.
+- Close on: close button, overlay click, Escape. Optionally trap focus and restore body scroll.
+
+Do **not** redefine `.modal-overlay`, `.modal-container`, `.modal-header`, `.modal-close`, `.modal-body`, `.modal-footer`, or the modal size classes in app-local CSS; they are provided by tenant/fallback theme.
+
+## Search history dropdown
+
+- Use **HTML**: `.search-history-container` > trigger button + `.search-history-dropdown` (with `.search-history-item`, `.search-history-text`, `.search-history-time`, `.search-history-empty`, `.search-history-clear` as needed).
+- Toggle visibility with `hidden` (or equivalent) on the dropdown. Close on click outside the container.
+
+Do **not** redefine these search-history classes in app CSS; they are provided by tenant/fallback theme.
+
+## Reference implementation
+
+- GenericLogHandler: `wwwroot/log-search.html`, `wwwroot/js/components/modal.js`, `wwwroot/js/log-search.js`.

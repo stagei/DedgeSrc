@@ -1,0 +1,132 @@
+﻿---
+description: Command /analysis - Automated alert analysis across all monitored servers
+alwaysApply: true
+---
+
+# Command /analysis
+
+When the user requests **`/analysis`** (or "command /analysis", "run analysis", "analyze alerts"), automatically perform a full alert analysis across all monitored ServerMonitor agents.
+
+## Purpose
+
+Analyze alert volume, frequency, and patterns across all servers. Identify noisy events, recommend tuning (suppress, group, adjust thresholds), and produce a markdown report.
+
+## Execution Steps
+
+### Step 1: Discover Servers
+
+Query the Dashboard API to get the list of monitored servers:
+
+```powershell
+$baseUrl = "http://dedge-server/ServerMonitorDashboard"
+Invoke-RestMethod -Uri "$($baseUrl)/api/servers" -UseDefaultCredentials
+```
+
+### Step 2: Collect Active Alerts from Dashboard
+
+```powershell
+Invoke-RestMethod -Uri "$($baseUrl)/api/alerts/active" -UseDefaultCredentials
+```
+
+### Step 3: Read Alert Log Files from Each Server
+
+Alert logs are stored on each server at `\\{serverName}\opt\data\ServerMonitor\`. Read today's and yesterday's log files:
+
+```powershell
+$servers = @("t-no1inltst-db", "p-no1fkmprd-db", "p-no1inlprd-db", "dedge-server", "p-no1fkmprd-app", "p-no1fkxprd-app", "t-no1inltst-app", "p-no1inlprd-app")
+
+foreach ($server in $servers) {
+    $logDir = "\\$($server)\opt\data\ServerMonitor"
+    $today = Get-Date -Format "yyyyMMdd"
+    $yesterday = (Get-Date).AddDays(-1).ToString("yyyyMMdd")
+    # Read: FkLog_{date}.log and AlertLog_{date}.json
+}
+```
+
+### Step 4: Read Current Production Config
+
+Follow the mandatory UNC config workflow:
+
+```powershell
+# Source of truth
+$configPath = "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\appsettings.ServerMonitorAgent.json"
+```
+
+Read this file to understand current thresholds, MaxOccurrences, TimeWindowMinutes, SuppressedChannels, and pattern configurations.
+
+### Step 5: Analyze and Categorize
+
+For each server, analyze:
+
+1. **Alert volume** — total count by severity (CRITICAL, WARNING, Informational) per day
+2. **Top alert sources** — which Category/Source generates the most alerts
+3. **Time patterns** — are alerts clustered at specific hours (batch jobs)?
+4. **Duplicate/burst detection** — same alert key firing repeatedly within short windows
+5. **Noise ratio** — alerts that fire every cycle vs. genuine exceptions
+6. **Threshold effectiveness** — are MaxOccurrences/TimeWindowMinutes values actually throttling?
+7. **Cross-server patterns** — same alert type appearing on multiple servers (systemic vs. local)
+
+### Step 6: Generate Recommendations
+
+For each finding, propose one of:
+
+| Action | When |
+|--------|------|
+| **Skip** | Alert is purely informational noise with no operational value |
+| **Remap** | Alert should be a lower severity (e.g., CRITICAL → WARNING) |
+| **Increase MaxOccurrences** | Alert fires too frequently for a known baseline condition |
+| **Increase TimeWindowMinutes** | Alert window is too narrow, causing repeated firing |
+| **Add SuppressedChannels** | Alert is useful in dashboard but should not trigger SMS/Email |
+| **Add new pattern** | Specific error codes should be captured before a broad catch-all |
+| **Adjust threshold** | Numeric thresholds (memory, CPU, sessions) need calibration |
+
+### Step 7: Save Report
+
+Save the analysis as a markdown file:
+
+```
+docs/Alert-Tuning-Analysis-{yyyy-MM-dd}.md
+```
+
+Include:
+- Server fleet overview table
+- Volume summary table (per server, per day, per severity)
+- Numbered findings with root cause analysis
+- Specific config change recommendations with before/after values
+- Complete config change log table
+- Remaining investigation items
+
+### Step 8: Apply Changes (if user confirms)
+
+After presenting the report, ask the user if changes should be applied. If confirmed:
+
+1. **Pull** UNC config to local (mandatory workflow Step 1)
+2. **Edit** the local file with recommended changes
+3. **Push** local back to UNC (mandatory workflow Step 3)
+4. **Push** to published agent folder (mandatory workflow Step 4)
+
+## API Endpoints Reference
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/servers` | List all monitored servers with status |
+| `GET /api/servers/{name}` | Single server status |
+| `GET /api/alerts/active` | Active alerts across all servers |
+| `GET /api/alerts/config` | Alert polling configuration |
+| `GET /api/snapshot/{serverName}` | Full snapshot (proxied from agent) |
+
+## Alert Log File Locations
+
+| Location | Content |
+|----------|---------|
+| `\\{server}\opt\data\ServerMonitor\FkLog_{yyyyMMdd}.log` | General agent log |
+| `\\{server}\opt\data\ServerMonitor\AlertLog_{yyyyMMdd}.json` | Structured alert log (JSON per line) |
+| `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Commonlogging\Server\ServerMonitor\` | Centralized log copies |
+
+## Previous Analysis
+
+Reference the most recent analysis for comparison:
+
+```
+docs/Alert-Tuning-Analysis-2026-02-20.md
+```

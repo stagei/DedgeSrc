@@ -1,0 +1,77 @@
+﻿---
+description: Visual structure and branding standards for DedgeAuth consumer apps
+globs:
+  - "**/wwwroot/**/*.html"
+  - "**/wwwroot/**/*.css"
+alwaysApply: true
+---
+
+# Consumer App Visual Standards
+
+When verifying, testing, or fixing app appearance, use this as the authoritative reference.
+
+## Shared Visual Elements (All Consumer Apps)
+
+Every DedgeAuth-integrated consumer app must have:
+
+- **FK Green header/branding**: `#008942` gradient from tenant CSS
+- **Dedge logo**: Loaded from DedgeAuth tenant logo endpoint (not local files)
+- **DedgeAuth user menu**: `<div id="DedgeAuthUserMenu"></div>` -- top-right dropdown with user info, app switcher, logout
+- **Tenant CSS injection**: `<style id="DedgeAuth-tenant-css">` populated dynamically by `DedgeAuth-user.js`
+
+### CSS Load Order
+
+1. App's own local CSS (`css/site.css` or similar)
+2. DedgeAuth common CSS (`api/DedgeAuth/ui/common.css` via proxy)
+3. Tenant-specific CSS (injected into `#DedgeAuth-tenant-css` by `user.js`)
+4. DedgeAuth user menu CSS (`api/DedgeAuth/ui/user.css` via proxy)
+
+### HTML Template (standard head/body pattern)
+
+```html
+<head>
+  <!-- App's own CSS first -->
+  <link rel="stylesheet" href="css/site.css">
+  <!-- DedgeAuth common CSS via proxy -->
+  <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+  <!-- Tenant CSS injected here by user.js -->
+  <style id="DedgeAuth-tenant-css"></style>
+  <!-- DedgeAuth user menu CSS -->
+  <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+</head>
+<body>
+  <header>
+    <!-- App branding + navigation -->
+    <div id="DedgeAuthUserMenu"></div>
+  </header>
+
+  <main>
+    <!-- App content -->
+  </main>
+
+  <!-- DedgeAuth user script (loads last) -->
+  <script src="api/DedgeAuth/ui/user.js"></script>
+</body>
+```
+
+## Visual Verification Checklist
+
+- [ ] FK Green (`#008942`) header gradient visible
+- [ ] Dedge logo loaded (not broken image)
+- [ ] DedgeAuth user menu rendered in top-right
+- [ ] App switcher dropdown lists all consumer apps
+- [ ] Tenant CSS applied (header gradient, not plain white)
+- [ ] Navigation links present and styled
+- [ ] Content area rendered (not blank or unstyled)
+- [ ] No console errors related to CSS/JS loading
+- [ ] Page works under IIS virtual path (not just localhost root)
+
+## Common Visual Issues
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Completely unstyled page | CSS paths use leading `/` (breaks under virtual app) | Use relative paths (no leading `/`) |
+| Missing user menu | `user.js` not loaded or `DedgeAuthUserMenu` div missing | Add both to HTML |
+| Broken logo | Hardcoded server URL instead of proxy | Use `api/DedgeAuth/ui/...` proxy path |
+| No tenant branding | Missing `<style id="DedgeAuth-tenant-css">` tag | Add empty style tag for `user.js` to populate |
+| CSS works locally but not on IIS | `MapFallbackToFile` intercepting trailing-slash redirect | Remove SPA fallback (see `no-spa-fallback.mdc`) |

@@ -1,0 +1,33 @@
+﻿---
+description: DedgeAuth architecture and technology stack
+alwaysApply: true
+---
+
+# DedgeAuth – Architecture & Technology
+
+## Architecture Overview
+
+- **DedgeAuth.Core**: Models (User, App, AppPermission, Tenant, LoginToken, RefreshToken, UserVisit), AuthConfiguration. No dependencies on Data or Api.
+- **DedgeAuth.Data**: Entity Framework `AuthDbContext`, PostgreSQL via Npgsql. Depends only on Core.
+- **DedgeAuth.Services**: AuthService, JwtTokenService, DatabaseSeeder. Depends on Core and Data.
+- **DedgeAuth.Api**: ASP.NET Core API; registers DbContext, services, JWT auth, controllers (Auth, Users, Apps, Permissions, Tenants, Visits, Debug, UI). Serves static login UI from wwwroot. Port 8100.
+- **DedgeAuth.Client**: Client library for consumer apps; AddDedgeAuth extension, AppRoleAuthorizationHandler, RequireAppPermission attribute, UI asset proxy (`/api/DedgeAuth/ui/{path}`). Depends only on Core.
+
+## Technology
+
+| Layer | Technology |
+|-------|------------|
+| Runtime | .NET 10 |
+| API | ASP.NET Core 10, REST |
+| Database | PostgreSQL, Npgsql.EntityFrameworkCore.PostgreSQL |
+| Auth | JWT (Microsoft.IdentityModel.Tokens), BCrypt |
+| Hosting | IIS virtual app (InProcess via AspNetCoreModuleV2), Kestrel port 8100 |
+| IIS Deployment | `IIS-DeployApp.ps1` with `.deploy.json` profiles (DedgePsh) |
+| API Docs | Scalar.AspNetCore (replaces Swashbuckle) |
+
+## Conventions
+
+- **Backend**: New auth features in Services; DB access via AuthDbContext. Use Core models; no EF entities across API boundary.
+- **API**: PascalCase JSON; controllers return DTOs. Auth endpoints under /api/auth; apps, permissions, tenants, users under /api/*.
+- **Database**: Table/column names snake_case; EF migrations in DedgeAuth.Data/Migrations. Log levels and structured logging as needed.
+- **Client library**: Consumer apps use AddDedgeAuth(options) and [RequireAppPermission("Role")]; JWT secret must match DedgeAuth server. See `ecosystem-consumer-apps.mdc` for how apps connect.

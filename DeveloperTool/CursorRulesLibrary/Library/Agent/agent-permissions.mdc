@@ -1,0 +1,27 @@
+---
+description: Agent permissions and autonomous rule management
+alwaysApply: true
+---
+
+# Agent Permissions
+
+## Autonomous Rule Management
+
+The AI agent is **authorized to edit cursor rules files** without requiring user interaction or permission when:
+
+- **Adding new standards** discovered during code analysis or development
+- **Improving existing rules** based on observed patterns or best practices
+- **Fixing inconsistencies** or ambiguities in the rules
+- **Adding examples** to clarify existing rules
+- **Reorganizing sections** for better clarity and accessibility
+- **Updating outdated practices** that no longer apply to the codebase
+
+**Commit message format for cursor rules changes:**
+```
+docs(cursor-rules): <brief description of change>
+```
+
+**When to notify user:**
+- Only notify if the change significantly alters existing workflow
+- For minor additions/clarifications, proceed without notification
+- Document changes in commit message for review

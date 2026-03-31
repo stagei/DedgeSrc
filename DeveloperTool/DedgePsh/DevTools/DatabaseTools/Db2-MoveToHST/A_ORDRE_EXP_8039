@@ -1,0 +1,72 @@
+-- Kjørt for 2008          21/12 2015
+-- Kjørt for 2009          22/12 2015
+-- Kjørt for 2010          26/12 2015
+-- Kjørt for 2011          15/01 2017
+-- Kjørt for 2012          08/11 2017
+-- Kjørt for 2013          02/12 2018
+-- Kjørt for 2014          08/09 2019
+-- Kjørt for 2015          05/07 2020
+-- Kjørt for 2016          30/05 2021
+-- Kjørt for 2017          17/04 2022
+-- Kjørt for 2018          02/04 2023
+-- Kjørt for 2019          24/03 2024
+-- Kjørt for 2020          16/03 2025
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+--  
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL OG FILENAVN 
+--  
+  connect to BASISPRO;
+TRUNCATE TABLE DBM.AH_ORDRE_TIL_HIST_8039 IMMEDIATE;
+--
+--DROP TABLE DBM.AH_ORDRE_TIL_HIST_8039;
+--  CREATE TABLE DBM.AH_ORDRE_TIL_HIST_8039 (
+--    AAR                            DECIMAL     (4,0)     NOT NULL WITH DEFAULT 0.0,
+--    AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+--    ORDRENR                        DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+--   TIDSPUNKT                      TIMESTAMP             NOT NULL WITH DEFAULT CURRENT TIMESTAMP,
+--    STATUS                         CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+--      PRIMARY KEY(AVDNR, ORDRENR, AAR)
+--    ) IN AH_ORDREHODE  ;
+--
+--  insert into dbm.ah_ordre_til_hist_8039
+--    (select INT(OPPRETTET_DATO/10000), avdnr, ordrenr, current timestamp, ' '
+--      from dbm.ah_ordrehode where avdnr = 8039 and opprettet_dato < 20150101);
+--  Lagt om til LOAD
+    EXPORT TO P:\tru\AH_ORDRE_FLYTTES_8039_2020.ixf OF IXF
+         SELECT INT(OPPRETTET_DATO/10000), AVDNR, ORDRENR, CURRENT TIMESTAMP, ' '
+          FROM DBM.AH_ORDREHODE WHERE AVDNR = 8039 AND OPPRETTET_DATO <= 20201231 ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+--BETWEEN 20200101 AND 20201231;
+    LOAD FROM P:\tru\AH_ORDRE_FLYTTES_8039_2020.ixf OF IXF REPLACE INTO DBM.AH_ORDRE_TIL_HIST_8039 NONRECOVERABLE;
+    runstats on table dbm.ah_ordre_til_hist_8039 and indexes all;
+  EXPORT TO P:\tru\AH_ORDREH8039_2020.IXF OF IXF
+      SELECT 2020, H.*
+       FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist_8039 T
+       WHERE H.AVDNR = T.AVDNR
+       AND   H.ORDRENR = T.ORDRENR
+       AND   H.AVDNR = 8039;
+  EXPORT TO P:\tru\AH_ORDREL8039_2020.IXF OF IXF
+      SELECT 2020, L.*
+      FROM DBM.AH_ORDRELINJER L, dbm.ah_ordre_til_hist_8039 T
+       WHERE L.AVDNR = T.AVDNR 
+       AND   L.ORDRENR = T.ORDRENR
+       AND   L.AVDNR = 8039;
+  EXPORT TO P:\tru\AH_VERKSTEDHODE8039_2020.IXF OF IXF
+      SELECT 2020, M.*
+      FROM DBM.H_VERKSTEDHODE M, dbm.ah_ordre_til_hist_8039 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 8039;
+  EXPORT TO P:\tru\AH_VERKSTED_TIMER8039_2020.IXF OF IXF
+      SELECT 2020, M.*
+      FROM DBM.H_VERKSTED_TIMER M,  dbm.ah_ordre_til_hist_8039 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 8039;
+  EXPORT TO P:\tru\AH_VERKSTEDTEKST8039_2020.IXF OF IXF
+      SELECT 2020, M.*
+      FROM DBM.H_VERKSTEDTEKST M,  dbm.ah_ordre_til_hist_8039 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 8039;
+//

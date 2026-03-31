@@ -1,0 +1,42 @@
+---
+description: "Command /analyze-rules: scan all projects for duplicate, conflicting, or problematic .mdc rules"
+alwaysApply: true
+---
+
+# Command /analyze-rules
+
+When the user types **`/analyze-rules`**, run the rule conflict analysis script and present the findings.
+
+## What It Does
+
+Scans every project under `$env:OptPath\src` for `.cursor/rules/*.mdc` files and generates a markdown report identifying:
+
+1. **Content variants** -- same filename across projects but different content (potential conflicts or outdated copies)
+2. **Identical duplicates** -- byte-for-byte identical files across projects (candidates for Library promotion)
+3. **Missing descriptions** -- rules without a `description:` in frontmatter (hurts discoverability)
+4. **AlwaysApply inconsistencies** -- same rule with different `alwaysApply` values across projects
+
+## How to Run
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\CursorRulesLibrary\Scripts\Analyze-CursorRuleConflicts.ps1"
+```
+
+Report is saved to: `C:\opt\src\CursorRulesLibrary\Reports\Rule-Conflict-Analysis.md`
+
+## After Running
+
+1. **Read the report** and present key findings to the user
+2. **Highlight high-copy identical duplicates** -- these should be promoted to Library via `/promote-rule`
+3. **Flag content variants** -- determine which version is the latest/correct one
+4. **Fix missing descriptions** -- add `description:` frontmatter to flagged files
+
+## Recommended Actions per Finding
+
+| Finding | Action |
+|---------|--------|
+| Identical duplicate (5+ copies) | Promote to Library, import via `/get-rules` |
+| Content variant (1 outlier) | Likely outdated -- update the outlier to match the majority |
+| Content variant (all different) | Expected for project-specific rules (e.g. `project-overview.mdc`) |
+| Missing description | Add frontmatter so `/organize-rules` and `/get-rules` work correctly |
+| AlwaysApply conflict | Standardize to the intended value across all projects |

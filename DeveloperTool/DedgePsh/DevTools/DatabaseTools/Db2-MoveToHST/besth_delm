@@ -1,0 +1,21 @@
+-- KJØRES MOT BASISPRO
+-- SIST KJØRT 16 aug  2010
+--
+DELETE   FROM DBM.besthode_email a
+WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR) ;
+--
+//
+------------------------------------------------------------------------------
+-- CASCADE-DEL
+------------------------------------------------------------------------------
+--SELECT * FROM DBM.A_BESTLIN  A
+--WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.ORDRENR) ;
+--
+-- CASCADE-DEL
+--SELECT * FROM DBM.EDI_OBKR_LIN  A
+--WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.IORDRENR) ;
+--
+-- CASCADE-DEL
+--SELECT * FROM DBM.EDI_OBKR_TEKST A
+--WHERE EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST WHERE ORDRENR = A.IORDRENR) ;
+--

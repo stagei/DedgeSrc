@@ -1,0 +1,79 @@
+﻿---
+description: Critical mistakes the AI agent must never repeat in this project
+alwaysApply: true
+---
+
+# Agent Mistakes — DO NOT REPEAT
+
+## 1. Never use PowerShell AutoDoc folders for AutoDocJson
+
+- AutoDocJson data folder: `C:\opt\data\AutoDocJson\`
+- AutoDocJson tmp folder: `C:\opt\data\AutoDocJson\tmp\`
+- AutoDocJson output folder: `C:\opt\Webs\AutoDocJson\`
+- PowerShell AutoDoc data: `C:\opt\data\AutoDoc\` — NEVER use this for C# operations
+- PowerShell AutoDoc output: `C:\opt\Webs\AutoDoc\` — NEVER use this for C# operations
+- Source repos for C#: `C:\opt\data\AutoDocJson\tmp\DedgeRepository\` — NOT `C:\opt\data\AutoDoc\tmp\`
+
+## 2. Never guess or improvise — follow the PowerShell source exactly
+
+- All parser logic must be a line-by-line translation of the PowerShell originals in `AutoDocFunctions.psm1` and `AutoDocBatchRunner.ps1`.
+- Do NOT invent new logic, skip sections, or "improve" the PowerShell approach.
+- When in doubt, read the PowerShell source and replicate it exactly.
+
+## 3. Never lie or contradict yourself
+
+- If you made a mistake, own it immediately.
+- Do not say folders are separate and then use the wrong folder in the same action.
+- Do not claim something works without actually verifying it.
+
+## 4. When the user gives an order, execute it immediately
+
+- Do NOT explain what you "plan to do" without doing it.
+- Do NOT ask clarifying questions when the instruction is clear.
+- Execute first, report after.
+
+## 5. Never use symlinks/junctions to share folders between AutoDoc and AutoDocJson
+
+- AutoDocJson has its own complete folder structure.
+- Never create symlinks pointing AutoDocJson folders to AutoDoc folders.
+
+## 6. Always verify file paths before using them
+
+- Before running any command with a file path, verify it points to the correct project folder (AutoDocJson, not AutoDoc).
+- Double-check the `--singlefile` argument uses `C:\opt\data\AutoDocJson\tmp\...` not `C:\opt\data\AutoDoc\tmp\...`.
+
+## 7. Never filter output that hides errors during testing
+
+- Do NOT pipe test run output through `Select-String` or filters that may hide important diagnostic output.
+- Show full output first, filter after understanding what happened.
+
+## 8. Always read project documentation before making changes
+
+- Read `ARCHITECTURE.md` and `POWERSHELL_ORIGINS.md` before any implementation work.
+- These documents define the ground truth for how the system is structured and what PowerShell code maps to what C# code.
+- Never contradict what is documented. If documentation is outdated, update it after making changes.
+
+## 9. Always consult the original implementation plans
+
+- The original plans and design decisions are authoritative.
+- Do not deviate from agreed-upon plans without explicit user approval.
+- If a plan says "do X", do X. Do not substitute with something "similar" or "better".
+
+## 10. When the user gives a specific order, follow it exactly
+
+- If the user says "use file X", use file X — not file Y.
+- If the user says "run command Z", run command Z — not a variation.
+- If the user says "do it like the PowerShell code", read the PowerShell code and replicate it precisely.
+- Specific instructions override general patterns. The user's explicit words are the highest priority.
+- Never reinterpret, soften, or "improve" a specific order. Execute it literally.
+
+## 11. Never assume — always verify
+
+- Never assume a folder exists, a file is in a certain location, or a path is correct.
+- Always verify paths, file existence, and folder structure before using them.
+- Never assume the PowerShell and C# versions share any folders unless explicitly confirmed.
+
+## 12. Keep documentation in sync with code
+
+- When code changes, update `ARCHITECTURE.md` and `POWERSHELL_ORIGINS.md` to match.
+- Documentation must always reflect the current state of the implementation.

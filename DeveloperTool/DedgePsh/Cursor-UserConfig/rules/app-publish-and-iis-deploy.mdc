@@ -1,0 +1,151 @@
+﻿---
+description: "All FK apps -- publish, IIS deploy, uninstall, diagnose. Templates, staging paths, 10-step process, auth flow."
+alwaysApply: true
+---
+
+# App Publish and IIS Deploy
+
+## All Managed Applications
+
+| SiteName | AppType | DotNetDll | ApiPort | Health | Source Path | IIS Virtual Path |
+|---|---|---|---|---|---|---|
+| DefaultWebSite | Static | -- | -- | -- | (redirect page) | `/` |
+| DedgeAuth | AspNetCore | `DedgeAuth.Api.dll` | 8100 | `/health` | `C:\opt\src\DedgeAuth` | `/DedgeAuth` |
+| DocView | AspNetCore | `DocView.dll` | 8282 | -- | `C:\opt\src\DocView` | `/DocView` |
+| GenericLogHandler | AspNetCore | `GenericLogHandler.WebApi.dll` | 8110 | `/health` | `C:\opt\src\GenericLogHandler` | `/GenericLogHandler` |
+| ServerMonitorDashboard | AspNetCore | `ServerMonitorDashboard.dll` | 8998 | `/api/IsAlive` | `C:\opt\src\ServerMonitor` | `/ServerMonitorDashboard` |
+| AutoDocJson | AspNetCore | `AutoDocJson.Web.dll` | 5280 | `/health` | `C:\opt\src\AutoDocJson` | `/AutoDocJson` |
+| AutoDoc | Static | -- | -- | -- | (static content) | `/AutoDoc` |
+
+All ASP.NET Core apps reference `DedgeAuth.Client` for authentication. All run as IIS virtual applications under `Default Web Site` on port 80.
+
+## Publish: Single App
+
+Each app has its own `Build-And-Publish.ps1` at its repo root. Publishes to the **staging share** on `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\<AppName>`.
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\DocView\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\GenericLogHandler\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\ServerMonitor\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\AutoDocJson\Build-And-Publish.ps1"
+```
+
+All use the `WebApp-FileSystem.pubxml` publish profile. Version bumps are Patch by default.
+
+## Publish: All Apps at Once
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1" -DryRun
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1" -SkipDedgeAuth
+```
+
+## Staging to IIS Install Paths
+
+| App | Staging Share Folder | IIS Install Path |
+|-----|---------------------|-----------------|
+| DedgeAuth | `DedgeWinApps\DedgeAuth` | `$env:OptPath\DedgeWinApps\DedgeAuth` |
+| DocView | `DedgeWinApps\DocView` | `$env:OptPath\DedgeWinApps\DocView` |
+| GenericLogHandler | `DedgeWinApps\GenericLogHandler-WebApi` | `$env:OptPath\DedgeWinApps\GenericLogHandler-WebApi` |
+| ServerMonitorDashboard | `DedgeWinApps\ServerMonitorDashboard` | `$env:OptPath\DedgeWinApps\ServerMonitorDashboard` |
+| AutoDocJson | `DedgeWinApps\AutoDocJson` | `$env:OptPath\DedgeWinApps\AutoDocJson` |
+
+Staging share base: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\`
+
+For multi-project solutions: `InstallAppName` has component suffix (e.g. `GenericLogHandler-WebApi`), `SiteName` uses solution name only.
+
+## IIS Deploy Commands
+
+```powershell
+# Deploy single app
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName <name>
+
+# Deploy all (teardown + iisreset + rebuild from all templates)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+
+# Uninstall single app (removes virtual app + app pool + firewall rules)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName <name>
+
+# Diagnose broken app
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\Test-IISSite.ps1" -SiteName <name>
+
+# Sync scripts/templates to servers after editing
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\_deploy.ps1"
+```
+
+Valid `-SiteName` values: `DedgeAuth`, `DocView`, `GenericLogHandler`, `ServerMonitorDashboard`, `AutoDocJson`, `AgriNxt.GrainDryingDeduction`, `AutoDoc`
+
+## Deploy Templates
+
+Location: `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\templates\`
+
+Naming convention: `<SiteName>_<InstallSource>.deploy.json`
+
+Key fields: `SiteName`, `PhysicalPath`, `AppType`, `DotNetDll`, `InstallSource`, `InstallAppName`, `VirtualPath`, `ParentSite`, `HealthEndpoint`, `ApiPort`
+
+## Deploy Steps (10-step process)
+
+1. Teardown existing virtual app + app pool
+2. Install files from staging (`Install-OurWinApp`)
+3. Create app pool (set identity)
+4. Create virtual application under Default Web Site
+5. Verify/generate web.config (sets `ASPNETCORE_URLS`, `maxQueryString=8192`)
+6. Set folder permissions (ReadAndExecute for app pool identity)
+7. Create firewall rules (inbound + outbound for ApiPort)
+8. Start app pool
+9. Verify (app pool started, site started, virtual app exists)
+10. Health check (HTTP GET to HealthEndpoint)
+
+## IIS-RedeployAll Phases
+
+1. **UNINSTALL** -- remove all virtual apps (apps first, root site last)
+2. **IIS RESET** -- `iisreset /restart`
+3. **DEPLOY** -- deploy root site first, then all apps from templates
+
+## PowerShell Module: IIS-Handler
+
+| Item | Detail |
+|------|--------|
+| **Module** | `IIS-Handler` |
+| **Source** | `C:\opt\src\DedgePsh\_Modules\IIS-Handler\IIS-Handler.psm1` |
+| **Key functions** | `Deploy-IISSite`, `Uninstall-IISSite`, `Test-IISSite`, `Install-OurWinApp` |
+
+## IIS-DeployApp Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `IIS-DeployApp.ps1` | Deploy/update one app from template |
+| `IIS-UninstallApp.ps1` | Remove one virtual app + app pool + firewall |
+| `IIS-RedeployAll.ps1` | Teardown all + iisreset + redeploy all from templates |
+| `Test-IISSite.ps1` | Diagnostics and health checks |
+| `_deploy.ps1` | Sync scripts and templates to servers |
+
+All located in: `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\`
+
+## Full Deploy Sequence
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\GrabScreenShot\Invoke-GrabScreenShot.ps1"
+```
+
+## Log Files
+
+| Path | Content |
+|---|---|
+| `$env:OptPath\data\IIS-DeployApp\FkLog_YYYYMMDD.log` | Deployment operations |
+| UNC: `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\IIS-DeployApp\FkLog_YYYYMMDD.log` | Same file via network |
+
+## Impact Rules
+
+- **Changing DedgeAuth.Client** -- rebuild ALL consumer apps (`Build-And-Publish-ALL.ps1`) then `IIS-RedeployAll.ps1`
+- **Changing DedgeAuth wwwroot (CSS/JS/HTML)** -- rebuild DedgeAuth only; consumer apps fetch assets via proxy
+- **Changing a single consumer app** -- rebuild that app only, then `IIS-DeployApp.ps1 -SiteName <name>`
+- **Changing deploy templates** -- run `IIS-DeployApp\_deploy.ps1` to sync to servers, then `IIS-RedeployAll.ps1`
+- **Changing IIS-Handler.psm1** -- commit to DedgePsh, run `IIS-RedeployAll.ps1` to pick up changes
+
+## Auth Flow
+
+All consumer apps reference `DedgeAuth.Client` and use its middleware. DedgeAuth handles login, JWT tokens, session validation, tenant branding, user menus, and visit tracking. Consumer apps delegate to DedgeAuth via `AddDedgeAuth()` + `UseDedgeAuth()` + `MapDedgeAuthProxy()`.

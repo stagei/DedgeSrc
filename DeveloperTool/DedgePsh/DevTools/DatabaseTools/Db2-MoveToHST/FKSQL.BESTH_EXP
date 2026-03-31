@@ -1,0 +1,216 @@
+CONNECT TO basispro 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.7
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+DELETE   FROM DBM.BEST_TIL_HIST
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 307180
+Antall rader berørt pga. relasjoner : 0
+ 
+
+INSERT INTO DBM.BEST_TIL_HIST (SELECT DEC(SUBSTR(CHAR(ORDREDATO),1,4)), ORDRENR, AVDNR, CURRENT TIMESTAMP, ' ' FROM DBM.A_BESTHODE WHERE  ORDREDATO < 20111101)
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 312235
+Antall rader berørt pga. relasjoner : 0
+ 
+
+INSERT INTO DBM.BEST_TIL_HIST (SELECT DEC(SUBSTR(CHAR(ORDREDATO),1,4)), ORDRENR, AVDNR, CURRENT TIMESTAMP, ' ' FROM DBM.BESTHODE B WHERE  ORDREDATO < 20111101 AND NOT EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST H WHERE B.ORDRENR = H.ORDRENR))
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 10245
+Antall rader berørt pga. relasjoner : 0
+ 
+
+SELECT count(*) FROM DBM.BEST_TIL_HIST
+
+1          
+-----------
+     322480
+
+  1 record(s) selected.
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\BTHI_H13A.IXF OF IXF SELECT * FROM DBM.BEST_TIL_HIST 
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\BTHI_H13A.IXF".
+
+SQL3105N  The Export utility has finished exporting "322480" rows.
+
+
+Number of rows exported: 322480
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\BEHA_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.A_BESTHODE B WHERE B.AVDNR   = A.AVDNR AND   B.ORDRENR = A.ORDRENR  
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\BEHA_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "312235" rows.
+
+
+Number of rows exported: 312235
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\BELA_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.A_BESTLIN  B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\BELA_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "1442149" rows.
+
+
+Number of rows exported: 1442149
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\BEH_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.BESTHODE B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\BEH_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "10245" rows.
+
+
+Number of rows exported: 10245
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\BEL_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.BESTLIN  B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\BEL_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "25745" rows.
+
+
+Number of rows exported: 25745
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\VIHA_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.A_viHODE B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\VIHA_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "275562" rows.
+
+
+Number of rows exported: 275562
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\VILA_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.A_viLIN  B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\VILA_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "908529" rows.
+
+
+Number of rows exported: 908529
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\VIH_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.VIHODE B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\VIH_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "13284" rows.
+
+
+Number of rows exported: 13284
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\VIL_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.VILIN  B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\VIL_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "27334" rows.
+
+
+Number of rows exported: 27334
+
+
+***** SQLCODE: 0 *****
+ 
+
+EXPORT TO  P:\IMPORT\INFA_H12A.IXF OF IXF SELECT A.AAR, B.* FROM DBM.BEST_TIL_HIST A, DBM.INNGANG_FAKO B WHERE B.ORDRENR = A.ORDRENR AND   B.AVDNR   = A.AVDNR    
+SQL3104N  The Export utility is beginning to export data to file 
+"P:\IMPORT\INFA_H12A.IXF".
+
+SQL27984W  The export command completed successfully. Some recreate 
+information has not been saved to the PC/IXF file during Export. This file 
+will not be supported in Import CREATE mode. Reason code="7".
+
+SQL3105N  The Export utility has finished exporting "139579" rows.
+
+
+Number of rows exported: 139579
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

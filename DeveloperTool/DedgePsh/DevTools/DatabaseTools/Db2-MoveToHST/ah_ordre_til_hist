@@ -1,0 +1,9 @@
+DROP TABLE DBM.AH_ORDRE_TIL_HIST;
+CREATE TABLE DBM.AH_ORDRE_TIL_HIST (
+  AAR                            DECIMAL     (4,0)     NOT NULL WITH DEFAULT 0.0,
+  AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+  ORDRENR                        DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+  TIDSPUNKT                      TIMESTAMP             NOT NULL WITH DEFAULT CURRENT TIMESTAMP,
+  STATUS                         CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+    PRIMARY KEY(AVDNR, ORDRENR, AAR)
+  ) IN AH_ORDREHODE  ;

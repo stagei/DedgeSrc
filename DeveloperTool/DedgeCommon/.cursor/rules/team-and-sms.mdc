@@ -1,0 +1,64 @@
+﻿---
+description: Team configuration and SMS notifications
+alwaysApply: true
+---
+
+# Team Member Configuration
+
+**Current team members:**
+
+```yaml
+Users:
+  - Username: FKGEISTA
+    FullName: Geir Helge Starholm
+    Email: geir.helge.starholm@Dedge.no
+    SmsNumber: +4797188358
+    
+  - Username: FKSVEERI
+    FullName: Svein Morten Erikstad
+    Email: svein.morten.erikstad@Dedge.no
+    SmsNumber: +4795762742
+    
+  - Username: FKMISTA
+    FullName: Mina Marie Starholm
+    Email: mina.marie.starholm@Dedge.no
+    SmsNumber: +4799348397
+    
+  - Username: FKCELERI
+    FullName: Celine Andreassen Erikstad
+    Email: Celine.Andreassen.Erikstad@Dedge.no
+    SmsNumber: +4745269945
+```
+
+## Long-Running Operations Notification
+
+**ONLY send SMS when operation takes more than 5 minutes from when agent started working.**
+
+**Auto-detect SMS number:**
+```powershell
+$smsNumber = switch ($env:USERNAME) {
+    "FKGEISTA" { "+4797188358" }
+    "FKSVEERI" { "+4795762742" }
+    "FKMISTA"  { "+4799348397" }
+    "FKCELERI" { "+4745269945" }
+    default    { "+4797188358" }
+}
+
+Send-Sms $smsNumber "<summary of what changed and short result>"
+```
+
+**SMS message format:**
+- Keep under 160 characters
+- Include: operation type, files affected, and status (success/failure)
+- Example: `DedgeCommon v1.5.20 deployed. WorkObject pattern added. All tests passed.`
+
+**When to send:**
+- ONLY after operation completes AND elapsed time > 5 minutes
+- Before final response to user
+- Include error summary if operation failed
+
+**Do NOT send SMS for:**
+- Operations under 5 minutes
+- Interactive operations requiring user input
+- Simple read-only queries
+- Quick fixes, simple builds

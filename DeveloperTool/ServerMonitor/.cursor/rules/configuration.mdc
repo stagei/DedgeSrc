@@ -1,0 +1,86 @@
+﻿---
+description: Configuration files - appsettings source of truth
+alwaysApply: true
+---
+
+# Configuration
+
+- Test configuration: `appsettings.LowLimitsTest.json` (low thresholds for quick alert generation)
+- Production configuration: `appsettings.json`
+- TestTimeoutSeconds should be 30 for testing
+- Always verify config is copied correctly before testing
+
+## MANDATORY: UNC Config Files Are the Production Standard
+
+The **UNC network share is the single source of truth** for all ServerMonitorAgent configuration files. The local files are cached copies that are **automatically overwritten** by pre-build scripts during every `dotnet build` / `dotnet publish`.
+
+This applies to **both** of these files:
+
+| UNC file (production standard) | Local file (cached copy) |
+|---|---|
+| `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\appsettings.ServerMonitorAgent.json` | `C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\appsettings.json` |
+| `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\NotificationRecipients.json` | `C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\NotificationRecipients.json` |
+
+### Why
+
+Pre-build scripts copy FROM the UNC share TO local on every build. Any local-only changes **will be destroyed** on the next build.
+
+### Mandatory Workflow — For Now and All Future
+
+**When making ANY change to either config file:**
+
+1. **Copy the UNC file TO local first** — ensures you start from the current production version
+2. **Edit the local file** using editor tools (Grep/StrReplace cannot access UNC paths directly)
+3. **Copy the local file back TO the UNC share** — this makes the UNC share the new production standard
+4. **Also copy to the published agent folder** if a build has already published (so the running agent picks up the change)
+
+#### appsettings.json
+
+```powershell
+# Step 1: Pull current production config from UNC to local
+Copy-Item -Path "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\appsettings.ServerMonitorAgent.json" `
+  -Destination "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\appsettings.json" -Force
+
+# Step 2: (Edit the local file using StrReplace / Read tools)
+
+# Step 3: Push local changes back to UNC share (production standard)
+Copy-Item -Path "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\appsettings.json" `
+  -Destination "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\appsettings.ServerMonitorAgent.json" -Force
+
+# Step 4: Push to published agent folder (so running agents get the update)
+Copy-Item -Path "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\appsettings.json" `
+  -Destination "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\ServerMonitor\appsettings.json" -Force
+```
+
+#### NotificationRecipients.json
+
+```powershell
+# Step 1: Pull current production config from UNC to local
+Copy-Item -Path "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\NotificationRecipients.json" `
+  -Destination "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\NotificationRecipients.json" -Force
+
+# Step 2: (Edit the local file using StrReplace / Read tools)
+
+# Step 3: Push local changes back to UNC share (production standard)
+Copy-Item -Path "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\NotificationRecipients.json" `
+  -Destination "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\NotificationRecipients.json" -Force
+
+# Step 4: Push to published agent folder (so running agents get the update)
+Copy-Item -Path "C:\opt\src\ServerMonitor\ServerMonitorAgent\src\ServerMonitor\NotificationRecipients.json" `
+  -Destination "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\ServerMonitor\NotificationRecipients.json" -Force
+```
+
+**NEVER skip steps 1 or 3.** Step 1 ensures you don't lose production changes. Step 3 ensures your edits become the new standard. If you build without step 3, your changes will be destroyed.
+
+### Verification After Changes
+
+After modifying and copying, always verify the UNC file has the expected content:
+
+```powershell
+Select-String -Path "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\appsettings.ServerMonitorAgent.json" -Pattern "<key phrase from your change>"
+Select-String -Path "C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\Config\ServerMonitor\NotificationRecipients.json" -Pattern "<key phrase from your change>"
+```
+
+### During Build-And-Publish
+
+The `Build-And-Publish.ps1` script triggers the pre-build sync. If you have pending local changes that haven't been pushed to UNC yet, they **will be overwritten**. Always push to UNC before building.

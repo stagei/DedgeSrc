@@ -1,0 +1,91 @@
+﻿{
+  "server": "t-no1fkmtst-soa",
+  "tasks": [
+    {
+      "taskname": "t-no1fkmtst-soa-InitServer",
+      "description": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+      "comment": "",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyDb2Client",
+      "description": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.",
+      "comment": "IBM Db2 klient må være installert for å kunne koble til databasen",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-ConfigureDb2Client",
+      "description": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten",
+      "comment": "Konfigurerer Db2 klienten for Kerberos-autentisering",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-VerifyDb2Client",
+        "p-no1fkmprd-db-VerifyKerberosConfig"
+      ],
+      "prerequisiteComment": "Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyKerberosConfig",
+      "description": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.",
+      "comment": "Verifiser tilkobling fra appserver til database",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-app-ConfigureDb2Client"
+      ],
+      "prerequisiteComment": "Db2 klient må være konfigurert"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyCobolRuntime",
+      "description": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe",
+      "comment": "Sjekker at run.exe for konsolapplikasjoner fungerer",
+      "default": false,
+      "prerequisiteTasks": [],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyCobolRuntimeWindows",
+      "description": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe",
+      "comment": "Sjekker at runw.exe for Windows-applikasjoner fungerer",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-soa-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyEnterpriseManager",
+      "description": "I windows-menyen, søk etter 'Enterprise Server Administration' og sjekk at den starter",
+      "comment": "Sjekker at Enterprise Manager fungerer",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-soa-InitServer"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-SetupEnterpriseServer",
+      "description": "Start Enterprise Server Administration og sett opp serveren manuelt på samme måte som i eksisterende produksjonsmiljø eller testmiljø",
+      "comment": "Sjekker at Enterprise Server fungerer",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-soa-VerifyEnterpriseManager"
+      ],
+      "prerequisiteComment": ""
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-CheckEnterpriseServerServices",
+      "description": "Test alle servicene som er opprettet i Enterprise Server Administration, fra både lokale soa-server og fra lokal FkWorkstation",
+      "comment": "Sjekker at alle servicene fungerer",
+      "default": false,
+      "prerequisiteTasks": [
+        "t-no1fkmtst-soa-SetupEnterpriseServer"
+      ],
+      "prerequisiteComment": ""
+    }
+  ],
+  "serverPart": "t-no1fkmtst"
+}

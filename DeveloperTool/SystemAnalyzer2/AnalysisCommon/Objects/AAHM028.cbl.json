@@ -1,0 +1,234 @@
+{
+  "program": "AAHM028",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:30",
+  "extraction": {
+    "sourceHash": "sha256:81712bdfa1095d36c7d2a6969a38f5af6c3a5dfd89d86b80980e26b20d4a77ea",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAHM028.cbl",
+    "actualName": "AAHM028",
+    "program": "AAHM028",
+    "copyElements": [
+      {
+        "name": "EANK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAAKOKL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSKONST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFVGSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HKAKALK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HKASFAK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAFM031.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFTUVI.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LVNR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "Y14.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VEG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V024.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "EANF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VMAL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHM028.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "V",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREMAAL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER_DEL2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREGRUPPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "T1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FKNR_RAPPORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FKNR_RAPPORT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVERAND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVVARENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FKNR_RAPPORT",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAVM024",
+      "DSFUNKS",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMAEANK",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "FILFAST",
+        "physicalName": "ww-filfast",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "VARE-FIL",
+        "physicalName": "WW-FIL2",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:41:30"
+  }
+}

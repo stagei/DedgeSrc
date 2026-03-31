@@ -1,0 +1,208 @@
+[
+  {
+    "Timestamp": "2026-02-18T16:00:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "API request received: GET /api/orders/80001",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "GetOrder"
+  },
+  {
+    "Timestamp": "2026-02-18T16:01:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Order retrieved successfully ordrenr: 80001 avdnr: 601",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "GetOrder"
+  },
+  {
+    "Timestamp": "2026-02-18T16:02:00Z",
+    "Level": "WARN",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Slow query detected: 2500ms for ordrenr: 80002",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "SearchOrders"
+  },
+  {
+    "Timestamp": "2026-02-18T16:03:00Z",
+    "Level": "ERROR",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Failed to process payment for ordrenr: 80003 avdnr: 602 alert_id: PAYMENT_FAIL",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\PaymentGw",
+    "FunctionName": "ProcessPayment"
+  },
+  {
+    "Timestamp": "2026-02-18T16:04:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Batch job started: ExportReports",
+    "Source": "api-regression-test",
+    "JobName": "ExportReports",
+    "JobStatus": "Started",
+    "Location": "C:\\WebApps\\ReportSvc",
+    "FunctionName": "Start-ExportReports"
+  },
+  {
+    "Timestamp": "2026-02-18T16:05:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Report generation progress: 10 of 50 reports completed",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\ReportSvc",
+    "FunctionName": "Generate-Report"
+  },
+  {
+    "Timestamp": "2026-02-18T16:06:00Z",
+    "Level": "WARN",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Report template not found for avdnr: 603, using default template",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\ReportSvc",
+    "FunctionName": "Generate-Report"
+  },
+  {
+    "Timestamp": "2026-02-18T16:07:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Report generation completed: 50 of 50 reports",
+    "Source": "api-regression-test",
+    "JobName": "ExportReports",
+    "JobStatus": "Completed",
+    "Location": "C:\\WebApps\\ReportSvc",
+    "FunctionName": "Generate-Report"
+  },
+  {
+    "Timestamp": "2026-02-18T16:08:00Z",
+    "Level": "ERROR",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Authentication token expired for user session ordrenr: 80004 alert_id: AUTH_TOKEN_EXPIRED",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\AuthSvc",
+    "FunctionName": "ValidateToken"
+  },
+  {
+    "Timestamp": "2026-02-18T16:09:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Token refreshed successfully for user session",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\AuthSvc",
+    "FunctionName": "RefreshToken"
+  },
+  {
+    "Timestamp": "2026-02-18T16:10:00Z",
+    "Level": "DEBUG",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Cache miss for product catalog, rebuilding cache for avdnr: 604",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\CatalogSvc",
+    "FunctionName": "GetCatalog"
+  },
+  {
+    "Timestamp": "2026-02-18T16:11:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Cache rebuilt with 12500 products in 3.2 seconds",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\CatalogSvc",
+    "FunctionName": "RebuildCache"
+  },
+  {
+    "Timestamp": "2026-02-18T16:12:00Z",
+    "Level": "ERROR",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Email delivery failed for ordrenr: 80005 avdnr: 605 - SMTP timeout alert_id: EMAIL_DELIVERY_FAIL",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\NotifySvc",
+    "FunctionName": "SendNotification"
+  },
+  {
+    "Timestamp": "2026-02-18T16:13:00Z",
+    "Level": "WARN",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Email retry queued for ordrenr: 80005, attempt 2 of 3",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\NotifySvc",
+    "FunctionName": "RetryNotification"
+  },
+  {
+    "Timestamp": "2026-02-18T16:14:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "batch_user",
+    "Message": "Email delivered successfully on retry for ordrenr: 80005",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\NotifySvc",
+    "FunctionName": "RetryNotification"
+  },
+  {
+    "Timestamp": "2026-02-18T16:15:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "scheduler",
+    "Message": "Scheduled task completed: DataCleanup - removed 15000 expired records",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\Scheduler",
+    "FunctionName": "Run-DataCleanup"
+  },
+  {
+    "Timestamp": "2026-02-18T16:16:00Z",
+    "Level": "FATAL",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Out of memory exception in order processing pipeline ordrenr: 80006 alert_id: OOM_CRITICAL",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "ProcessOrderBatch",
+    "ExceptionType": "System.OutOfMemoryException",
+    "StackTrace": "at OrderApi.ProcessOrderBatch() line 120"
+  },
+  {
+    "Timestamp": "2026-02-18T16:17:00Z",
+    "Level": "WARN",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Application pool recycled due to memory pressure",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "HandleMemoryPressure"
+  },
+  {
+    "Timestamp": "2026-02-18T16:18:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-01",
+    "UserName": "api_user",
+    "Message": "Application pool restarted successfully, services restored",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\OrderApi",
+    "FunctionName": "Initialize"
+  },
+  {
+    "Timestamp": "2026-02-18T16:19:00Z",
+    "Level": "INFO",
+    "ComputerName": "API-SERVER-02",
+    "UserName": "monitor",
+    "Message": "Health check passed: all 8 services responding within SLA thresholds",
+    "Source": "api-regression-test",
+    "Location": "C:\\WebApps\\HealthMon",
+    "FunctionName": "Check-ServiceHealth"
+  }
+]

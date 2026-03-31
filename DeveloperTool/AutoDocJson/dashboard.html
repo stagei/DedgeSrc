@@ -1,0 +1,2231 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - AutoDoc</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Google Fonts: Outfit + JetBrains Mono (matching old AutoDoc) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- AutoDoc shared CSS (from legacy AutoDoc solution) -->
+    <link rel="stylesheet" href="/css/autodoc-shared.css" />
+
+    <!-- Dashboard / app-level overrides -->
+    <link rel="stylesheet" href="/css/site.css" />
+
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="/css/DedgeAuth-fallback.css" />
+
+    <!-- DedgeAuth CSS -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css" />
+    <style id="DedgeAuth-tenant-css"></style>
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css" />
+
+    
+</head>
+<body>
+    
+<!-- Dashboard Header -->
+<div class="autodoc-navbar">
+    <div id="DedgeAuthHeader" data-app-title="AutoDoc" data-home-url="/"></div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <span style="color: var(--text-secondary); font-size: 0.85rem;">166 documented files</span>
+        <div class="theme-toggle DedgeAuth-theme-toggle" title="Toggle theme">
+            <button class="theme-toggle-btn" data-theme="light" title="Light mode"><i class="bi bi-sun-fill"></i></button>
+            <button class="theme-toggle-btn active" data-theme="dark" title="Dark mode"><i class="bi bi-moon-fill"></i></button>
+        </div>
+        <div id="DedgeAuthUserMenu"></div>
+    </div>
+</div>
+
+<!-- Summary cards -->
+<div style="padding: 1.5rem;">
+    <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-cpu"></i></div>
+                <div class="count">50</div>
+                <div class="label">COBOL</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-terminal"></i></div>
+                <div class="count">0</div>
+                <div class="label">Batch</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-code-slash"></i></div>
+                <div class="count">42</div>
+                <div class="label">PowerShell</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-filetype-raw"></i></div>
+                <div class="count">24</div>
+                <div class="label">Rexx</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-database"></i></div>
+                <div class="count">50</div>
+                <div class="label">SQL Tables</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="icon"><i class="bi bi-braces"></i></div>
+                <div class="count">0</div>
+                <div class="label">C# Solutions</div>
+            </div>
+    </div>
+
+    <!-- File type tabs -->
+
+    <div class="dashboard-tabs">
+            <button class="dashboard-tab active" onclick="showTab('cbl', this)">
+                COBOL <span class="count-badge">50</span>
+            </button>
+            <button class="dashboard-tab " onclick="showTab('bat', this)">
+                Batch <span class="count-badge">0</span>
+            </button>
+            <button class="dashboard-tab " onclick="showTab('ps1', this)">
+                PowerShell <span class="count-badge">42</span>
+            </button>
+            <button class="dashboard-tab " onclick="showTab('rex', this)">
+                Rexx <span class="count-badge">24</span>
+            </button>
+            <button class="dashboard-tab " onclick="showTab('sql', this)">
+                SQL Tables <span class="count-badge">50</span>
+            </button>
+            <button class="dashboard-tab " onclick="showTab('csharp', this)">
+                C# Solutions <span class="count-badge">0</span>
+            </button>
+    </div>
+
+        <div class="dashboard-tab-content" id="tab-cbl" style="">
+                <table class="file-list-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Generated</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><a href="/Doc?file=ALLREXX.CBL.json" style="color: var(--accent-primary);">ALLREXX.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Dummyprog som inneholder diverse SQL som startes fra REXX</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ALLREXX.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ARNE.CBL.json" style="color: var(--accent-primary);">ARNE.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Brukes til animering av Arne.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ARNE.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ASVI024.CBL.json" style="color: var(--accent-primary);">ASVI024.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utlegg av prisoppdateringer til innkj&#xC3;&#xB8;pslag og andre FK&#x27;er, g&#xC3;&#xA5;r</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/ASVI024.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXALBEL.CBL.json" style="color: var(--accent-primary);">AXALBEL.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Benyttes for &#xC3;&#xA5; finne feil p&#xC3;&#xA5; linjebel&#xC3;&#xB8;p</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXALBEL.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXAUTGT.CBL.json" style="color: var(--accent-primary);">AXAUTGT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Endrer kildekoden, s&#xC3;&#xB8;reger for at UTGATT-koden i DBM.TEKSTER teste p&#xC3;&#xA5;.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXAUTGT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXBLBEL.CBL.json" style="color: var(--accent-primary);">AXBLBEL.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">RHE: Batchprogram for &#xC3;&#xA5; teste AXALBEL</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXBLBEL.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXBRIMPM.CBL.json" style="color: var(--accent-primary);">AXBRIMPM.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">B-modul for &#xC3;&#xA5; merge inn staging tabell for ordreregler til Axia</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXBRIMPM.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXBRIMPS.CBL.json" style="color: var(--accent-primary);">AXBRIMPS.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">B-modul for &#xC3;&#xA5; laste opp gjeldende ordreregler til Axia</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXBRIMPS.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AXBUTGT.CBL.json" style="color: var(--accent-primary);">AXBUTGT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">RHE: Batchprogram for &#xC3;&#xA5; teste AXAUTGT</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/AXBUTGT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDANETTO.CBL.json" style="color: var(--accent-primary);">BDANETTO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">INNKJ&#xC3;&#x2DC;PSORDRE - BEREGNE NETTO BEL&#xC3;&#x2DC;P FOR BESTLINJE</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:29                                </td>
+                                <td>
+                                    <a href="/docs/BDANETTO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDFKAFO.CBL.json" style="color: var(--accent-primary);">BDFKAFO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">BDFKAFO - Foresp&#xC3;&#xB8;rsel kampanje</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDFKAFO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHBSNG.CBL.json" style="color: var(--accent-primary);">BDHBSNG.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Oppslag og vedlikehold av sesong</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHBSNG.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHETIK.CBL.json" style="color: var(--accent-primary);">BDHETIK.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Etikett-system - lager etiketter</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHETIK.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHLTXT.CBL.json" style="color: var(--accent-primary);">BDHLTXT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Vedlikehold av lokale tekster</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHLTXT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHMARK.CBL.json" style="color: var(--accent-primary);">BDHMARK.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Etiketter vedlikehold</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHMARK.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHSAST.CBL.json" style="color: var(--accent-primary);">BDHSAST.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Modul for salgstatistikk p&#xC3;&#xA5; skjerm</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHSAST.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHSASV.CBL.json" style="color: var(--accent-primary);">BDHSASV.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Modul for salgstatistikk p&#xC3;&#xA5; skjerm, varekategoriversjon</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHSASV.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDHSIGN.CBL.json" style="color: var(--accent-primary);">BDHSIGN.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Vedlikehold av signaturer</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDHSIGN.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVBSNG.CBL.json" style="color: var(--accent-primary);">BDVBSNG.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsmodul for BDHBSNG.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDVBSNG.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVETIK.CBL.json" style="color: var(--accent-primary);">BDVETIK.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsmodul for BDHETIK.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDVETIK.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVLTXT.CBL.json" style="color: var(--accent-primary);">BDVLTXT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsprogram for BDHLTXT</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDVLTXT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVMARK.CBL.json" style="color: var(--accent-primary);">BDVMARK.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsmodul for BDHMARK.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/BDVMARK.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVSAST.CBL.json" style="color: var(--accent-primary);">BDVSAST.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsprogram for BDHSAST</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BDVSAST.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVSASV.CBL.json" style="color: var(--accent-primary);">BDVSASV.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsprogram for BDHSASV</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BDVSASV.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BDVSIGN.CBL.json" style="color: var(--accent-primary);">BDVSIGN.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Valideringsprogram for BDHSIGN</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BDVSIGN.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BHBETIN.CBL.json" style="color: var(--accent-primary);">BHBETIN.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">HYLLEFORKANTER, INPUT-DATA FRA H&#xC3;&#x2026;NDTERMINAL</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BHBETIN.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BHBPLAS.CBL.json" style="color: var(--accent-primary);">BHBPLAS.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ENDRING AV PLASSNR P&#xC3;&#x2026; VARE, INPUT-DATA FRA H&#xC3;&#x2026;NDTERMINAL</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BHBPLAS.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BHBVINN.CBL.json" style="color: var(--accent-primary);">BHBVINN.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">VAREINNGANG BASERT P&#xC3;&#x2026; DATA FRA H&#xC3;&#x2026;NDTERMINAL</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/BHBVINN.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIABELA.CBL.json" style="color: var(--accent-primary);">BIABELA.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Lager bestillingslinje for Avdsys</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:32                                </td>
+                                <td>
+                                    <a href="/docs/BIABELA.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIABLOM.CBL.json" style="color: var(--accent-primary);">BIABLOM.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Leser edi-pakksedler fra Blomsterringen</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:32                                </td>
+                                <td>
+                                    <a href="/docs/BIABLOM.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIADOFF.CBL.json" style="color: var(--accent-primary);">BIADOFF.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sjekker mot dagnr_ordreflyt kj&#xC3;&#xB8;replan for bestillingsforslag</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:32                                </td>
+                                <td>
+                                    <a href="/docs/BIADOFF.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAFORS.CBL.json" style="color: var(--accent-primary);">BIAFORS.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utskrift av innkj&#xC3;&#xB8;psforslag</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:32                                </td>
+                                <td>
+                                    <a href="/docs/BIAFORS.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAIAVT.CBL.json" style="color: var(--accent-primary);">BIAIAVT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Leser innkj&#xC3;&#xB8;psavtaler for en leverand&#xC3;&#xB8;r (LES)</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:33                                </td>
+                                <td>
+                                    <a href="/docs/BIAIAVT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAIEKO.CBL.json" style="color: var(--accent-primary);">BIAIEKO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utskrift av kopi av innkj&#xC3;&#xB8;psordre EDI</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:33                                </td>
+                                <td>
+                                    <a href="/docs/BIAIEKO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAINSI.CBL.json" style="color: var(--accent-primary);">BIAINSI.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Lager bestillinger med utgangspunkt i salgsordrer</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:34                                </td>
+                                <td>
+                                    <a href="/docs/BIAINSI.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAIOKO.CBL.json" style="color: var(--accent-primary);">BIAIOKO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utskrift av kopi av innkj&#xC3;&#xB8;psordre</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:34                                </td>
+                                <td>
+                                    <a href="/docs/BIAIOKO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAKDTO.CBL.json" style="color: var(--accent-primary);">BIAKDTO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Beregning av neste dato for kj&#xC3;&#xB8;replan</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:35                                </td>
+                                <td>
+                                    <a href="/docs/BIAKDTO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIARESPT.CBL.json" style="color: var(--accent-primary);">BIARESPT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utskrift av resept</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:35                                </td>
+                                <td>
+                                    <a href="/docs/BIARESPT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAVIKO.CBL.json" style="color: var(--accent-primary);">BIAVIKO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Utskrift av vareinngang kopi p&#xC3;&#xA5; 78 tegn</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:35                                </td>
+                                <td>
+                                    <a href="/docs/BIAVIKO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIAVKUR.CBL.json" style="color: var(--accent-primary);">BIAVKUR.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">SUBMODUL - oppdaterer bestillingshodet med evt. kalkylekurs</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIAVKUR.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBAUTO.CBL.json" style="color: var(--accent-primary);">BIBAUTO.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ROA: BATCHPROGRAM FOR &#xC3;&#xA5; TESTE BIAAUTO</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIBAUTO.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBBLFE.CBL.json" style="color: var(--accent-primary);">BIBBLFE.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Leser edi-pakk-feil fra Blomsterringen, skriver CSV-fil</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIBBLFE.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBBLOM.CBL.json" style="color: var(--accent-primary);">BIBBLOM.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Leser edi-pakksedler fra Blomsterringen</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIBBLOM.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBDAIF.CBL.json" style="color: var(--accent-primary);">BIBDAIF.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Generering av Innkj&#xC3;&#xB8;psforslag. Leser NY &quot;&quot;version&quot;&quot;, for alle i</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIBDAIF.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBDAIN.CBL.json" style="color: var(--accent-primary);">BIBDAIN.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Generering av Innkj&#xC3;&#xB8;psforslag. Ny forsyningsmodell</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:36                                </td>
+                                <td>
+                                    <a href="/docs/BIBDAIN.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBDAIT.CBL.json" style="color: var(--accent-primary);">BIBDAIT.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Generering av Innkj&#xC3;&#xB8;psforslag. Leser GAMMEL &quot;&quot;version&quot;&quot;, for alle</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:37                                </td>
+                                <td>
+                                    <a href="/docs/BIBDAIT.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBHIST.CBL.json" style="color: var(--accent-primary);">BIBHIST.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Flytte HTB_VM til hist</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:37                                </td>
+                                <td>
+                                    <a href="/docs/BIBHIST.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBINRH.CBL.json" style="color: var(--accent-primary);">BIBINRH.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:37                                </td>
+                                <td>
+                                    <a href="/docs/BIBINRH.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBINSA.CBL.json" style="color: var(--accent-primary);">BIBINSA.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Lager bestillinger med utgangspunkt i salgsordrer avdsys</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:37                                </td>
+                                <td>
+                                    <a href="/docs/BIBINSA.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BIBLEVR.CBL.json" style="color: var(--accent-primary);">BIBLEVR.CBL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Summere opp fra A_bestlin korrekt leverand&#xC3;&#xB8;r</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:37                                </td>
+                                <td>
+                                    <a href="/docs/BIBLEVR.CBL.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="dashboard-tab-content" id="tab-bat" style="display:none;">
+                <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    <p>No Batch files documented yet.</p>
+                </div>
+        </div>
+        <div class="dashboard-tab-content" id="tab-ps1" style="display:none;">
+                <table class="file-list-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Generated</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><a href="/Doc?file=Add-TaskBarShortcuts.ps1.json" style="color: var(--accent-primary);">Add-TaskBarShortcuts.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Add-TaskBarShortcuts.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Agent-Handler.psm1.json" style="color: var(--accent-primary);">Agent-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Deploys a monitoring task to multiple servers</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Agent-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AlertWKMon.psm1.json" style="color: var(--accent-primary);">AlertWKMon.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sends an alert message to WKMonitor for a failed operation</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/AlertWKMon.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AutodocFunctions.psm1.json" style="color: var(--accent-primary);">AutodocFunctions.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Import required modules</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/AutodocFunctions.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AzureFunctions.psm1.json" style="color: var(--accent-primary);">AzureFunctions.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Module-level cache to avoid duplicate file lookups within the same operation</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/AzureFunctions.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=AzureTokenStore.psm1.json" style="color: var(--accent-primary);">AzureTokenStore.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/AzureTokenStore.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=CblRun.psm1.json" style="color: var(--accent-primary);">CblRun.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">CBLRun.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/CblRun.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=CheckLog.psm1.json" style="color: var(--accent-primary);">CheckLog.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">CheckLog.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/CheckLog.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Cobol-Handler.psm1.json" style="color: var(--accent-primary);">Cobol-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Retrieves all available Micro Focus COBOL installation paths</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Cobol-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ConvertAnsi1252ToUtf8.psm1.json" style="color: var(--accent-primary);">ConvertAnsi1252ToUtf8.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ConvertAnsi1252ToUtf8.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ConvertAnsi1252ToUtf8.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ConvertFileFromAnsi1252ToUtf8.psm1.json" style="color: var(--accent-primary);">ConvertFileFromAnsi1252ToUtf8.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ConvertFileFromAnsi1252ToUtf8.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ConvertFileFromAnsi1252ToUtf8.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ConvertStringFromAnsi1252ToUtf8.psm1.json" style="color: var(--accent-primary);">ConvertStringFromAnsi1252ToUtf8.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ConvertStringFromAnsi1252ToUtf8.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ConvertStringFromAnsi1252ToUtf8.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ConvertUtf8ToAnsi1252.psm1.json" style="color: var(--accent-primary);">ConvertUtf8ToAnsi1252.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ConvertUtf8ToAnsi1252.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ConvertUtf8ToAnsi1252.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Db2-Handler.psm1.json" style="color: var(--accent-primary);">Db2-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Configures DB2 client for Kerberos authentication</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Db2-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Deploy-Handler.psm1.json" style="color: var(--accent-primary);">Deploy-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Deploys modules to a network share location</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Deploy-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Entra-GetADPrincipalGroupMembership.ps1.json" style="color: var(--accent-primary);">Entra-GetADPrincipalGroupMembership.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Import-Module -Name Identity-Handler -Force</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Entra-GetADPrincipalGroupMembership.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Export-Array.psm1.json" style="color: var(--accent-primary);">Export-Array.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Exports data to a semicolon-delimited CSV file</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Export-Array.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=FKASendEmail.psm1.json" style="color: var(--accent-primary);">FKASendEmail.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sends a simple email</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/FKASendEmail.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=FKASendSMSDirect.psm1.json" style="color: var(--accent-primary);">FKASendSMSDirect.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sends an SMS to the specified number</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/FKASendSMSDirect.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=DedgeSign.psm1.json" style="color: var(--accent-primary);">DedgeSign.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Signs all executable files in the directory recursively</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/DedgeSign.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Get-FunctionsFromPsm1.psm1.json" style="color: var(--accent-primary);">Get-FunctionsFromPsm1.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Returns all import statements recursively from the module</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Get-FunctionsFromPsm1.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=GlobalFunctions.psm1.json" style="color: var(--accent-primary);">GlobalFunctions.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Used to control which log messages are displayed to the console.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/GlobalFunctions.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Handle-RamDisk.psm1.json" style="color: var(--accent-primary);">Handle-RamDisk.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Import GlobalFunctions for Write-LogMessage</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Handle-RamDisk.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Identity-Handler.psm1.json" style="color: var(--accent-primary);">Identity-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">.SYNOPSIS</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Identity-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=IIS-Handler.psm1.json" style="color: var(--accent-primary);">IIS-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">IIS-Handler</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/IIS-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ImageToIcon.psm1.json" style="color: var(--accent-primary);">ImageToIcon.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ImageToIcon.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ImageToIcon.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Infrastructure.psm1.json" style="color: var(--accent-primary);">Infrastructure.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Retrieves the list of managed computers from the configuration file</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Infrastructure.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Logger.psm1.json" style="color: var(--accent-primary);">Logger.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Logger.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Logger.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=MarkdownToHtml.psm1.json" style="color: var(--accent-primary);">MarkdownToHtml.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">MarkdownToHtml.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/MarkdownToHtml.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=OdbcHandler.psm1.json" style="color: var(--accent-primary);">OdbcHandler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Executes a SELECT query and returns results as PSObjects</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/OdbcHandler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=OllamaHandler.psm1.json" style="color: var(--accent-primary);">OllamaHandler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Requires -Version 5.1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/OllamaHandler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=PostgreSql-Handler.psm1.json" style="color: var(--accent-primary);">PostgreSql-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Require GlobalFunctions for Write-LogMessage (user rule: all logging via Write-LogMessage)</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/PostgreSql-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=ScheduledTask-Handler.psm1.json" style="color: var(--accent-primary);">ScheduledTask-Handler.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Creates a new daily scheduled task</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/ScheduledTask-Handler.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=SoftwareUtils.psm1.json" style="color: var(--accent-primary);">SoftwareUtils.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Installs a specific version of VS Code using winget</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/SoftwareUtils.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=SSH-RemoteExecution.psm1.json" style="color: var(--accent-primary);">SSH-RemoteExecution.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Test network connectivity first</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/SSH-RemoteExecution.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Test-Db2Regex-Simple.ps1.json" style="color: var(--accent-primary);">Test-Db2Regex-Simple.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Runs all test cases and displays results</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Test-Db2Regex-Simple.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Test-Db2Regex.ps1.json" style="color: var(--accent-primary);">Test-Db2Regex.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Runs all test cases and displays results</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Test-Db2Regex.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Test-Db2Timestamp.ps1.json" style="color: var(--accent-primary);">Test-Db2Timestamp.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Tests the timestamp parsing with various formats</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Test-Db2Timestamp.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=Test-Db2TimestampRegex.ps1.json" style="color: var(--accent-primary);">Test-Db2TimestampRegex.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Tests the regex against real DB2 output</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/Test-Db2TimestampRegex.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=TestSetup.ps1.json" style="color: var(--accent-primary);">TestSetup.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Requires -Version 5.1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/TestSetup.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=WebSiteHandler.ps1.json" style="color: var(--accent-primary);">WebSiteHandler.ps1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Create base directories</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/WebSiteHandler.ps1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=WKMon.psm1.json" style="color: var(--accent-primary);">WKMon.psm1</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">WKMon.psm1</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/WKMon.psm1.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="dashboard-tab-content" id="tab-rex" style="display:none;">
+                <table class="file-list-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Generated</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><a href="/Doc?file=AD_USER_IMP.REX.json" style="color: var(--accent-primary);">AD_USER_IMP.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX - EXPORTERER brukeriinfo fra AD og importerer i DBM.AD_BRUKER</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/AD_USER_IMP.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=BINDINL.REX.json" style="color: var(--accent-primary);">BINDINL.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX FOR BIND AV ALLE N&#xF8;DVENDIGE PROGRAM MOT FKKONTO.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/BINDINL.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=bindlocks.rex.json" style="color: var(--accent-primary);">bindlocks.rex</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX FORCE av brukere som holder l&#xE5;ser for p&#xE5;g&#xE5;ende BIND.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/bindlocks.rex.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=cobntzip_orig03.rex.json" style="color: var(--accent-primary);">cobntzip_orig03.rex</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX-DRIFTSRUTINE TA BACKUP AV PROGRAMBIB</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/cobntzip_orig03.rex.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=COBNTZIP.REX.json" style="color: var(--accent-primary);">COBNTZIP.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX-DRIFTSRUTINE TA BACKUP AV PROGRAMBIB</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:28                                </td>
+                                <td>
+                                    <a href="/docs/COBNTZIP.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=COBREPL.REX.json" style="color: var(--accent-primary);">COBREPL.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX for &#xE5; kopiere COBNT til andre servere</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/COBREPL.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=cobzip_e03_orig.rex.json" style="color: var(--accent-primary);">cobzip_e03_orig.rex</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX-DRIFTSRUTINE TA BACKUP AV PROGRAMBIB</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/cobzip_e03_orig.rex.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=COBZIP.REX.json" style="color: var(--accent-primary);">COBZIP.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX-DRIFTSRUTINE TA BACKUP AV PROGRAMBIB</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:30                                </td>
+                                <td>
+                                    <a href="/docs/COBZIP.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=COPYCRLF.REX.json" style="color: var(--accent-primary);">COPYCRLF.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX for kopiere file, linje for line</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:31                                </td>
+                                <td>
+                                    <a href="/docs/COPYCRLF.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=COPYMON.REX.json" style="color: var(--accent-primary);">COPYMON.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX for kopiere meldinger til WKMONITOR p&#xE5; DB2WNT</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:39                                </td>
+                                <td>
+                                    <a href="/docs/COPYMON.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=D3BD3FIL-T.REX.json" style="color: var(--accent-primary);">D3BD3FIL-T.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">08.12.2021 - VKR:</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:39                                </td>
+                                <td>
+                                    <a href="/docs/D3BD3FIL-T.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=D3BD3FIL.REX.json" style="color: var(--accent-primary);">D3BD3FIL.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">04.11.2021 - VKR:</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:47                                </td>
+                                <td>
+                                    <a href="/docs/D3BD3FIL.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=D3BD3TAB-T.REX.json" style="color: var(--accent-primary);">D3BD3TAB-T.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">22.11.2021 - VKR:</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:47                                </td>
+                                <td>
+                                    <a href="/docs/D3BD3TAB-T.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=D3BD3TAB-TP.REX.json" style="color: var(--accent-primary);">D3BD3TAB-TP.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">07.12.2021 - VKR:</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:47                                </td>
+                                <td>
+                                    <a href="/docs/D3BD3TAB-TP.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=DB2BRUKER.REX.json" style="color: var(--accent-primary);">DB2BRUKER.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX for &#xEF;&#xBF;&#xBD; telle opp antall brukere p&#xEF;&#xBF;&#xBD; database</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:38                                </td>
+                                <td>
+                                    <a href="/docs/DB2BRUKER.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=DB2BRUKER9.REX.json" style="color: var(--accent-primary);">DB2BRUKER9.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">------- OBS rett appl_status og oppsummering av ant med ulik status ----------------</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:38                                </td>
+                                <td>
+                                    <a href="/docs/DB2BRUKER9.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=db2logcopy_fkmprd.rex.json" style="color: var(--accent-primary);">db2logcopy_fkmprd.rex</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX - Kopierer DB2-LOGGER</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:38                                </td>
+                                <td>
+                                    <a href="/docs/db2logcopy_fkmprd.rex.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=DB2LOGCOPY.REX.json" style="color: var(--accent-primary);">DB2LOGCOPY.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX - Kopierer DB2-LOGGER TIL A45</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:39                                </td>
+                                <td>
+                                    <a href="/docs/DB2LOGCOPY.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=DIRBIND.REX.json" style="color: var(--accent-primary);">DIRBIND.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX for Bind av en hel eller deler av en  directory.</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:51                                </td>
+                                <td>
+                                    <a href="/docs/DIRBIND.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=E01STYR.REX.json" style="color: var(--accent-primary);">E01STYR.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX styrerutine for drift av BASISREG</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:52                                </td>
+                                <td>
+                                    <a href="/docs/E01STYR.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=E02REST.REX.json" style="color: var(--accent-primary);">E02REST.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Kj&#xF8;rer restore av BASISREG til BASISRAP p&#xE5; SFK-ERP-02</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:52                                </td>
+                                <td>
+                                    <a href="/docs/E02REST.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=E02STYR_TMP.REX.json" style="color: var(--accent-primary);">E02STYR_TMP.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX Midlertidig rutine p&#xE5; SFK-ERP-02</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:52                                </td>
+                                <td>
+                                    <a href="/docs/E02STYR_TMP.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=E02STYR.REX.json" style="color: var(--accent-primary);">E02STYR.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX Styrerutine p&#xE5; SFKERP02</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:53                                </td>
+                                <td>
+                                    <a href="/docs/E02STYR.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=E03STYR.REX.json" style="color: var(--accent-primary);">E03STYR.REX</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">REXX styrerutine for drift av SFK-ERP-03 TEST</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:54                                </td>
+                                <td>
+                                    <a href="/docs/E03STYR.REX.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="dashboard-tab-content" id="tab-sql" style="display:none;">
+                <table class="file-list-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Description</th>
+                            <th>Generated</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrehode.sql.json" style="color: var(--accent-primary);">CRM.A_ORDREHODE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrehode.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrehode_maskin.sql.json" style="color: var(--accent-primary);">CRM.A_ORDREHODE_MASKIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrehode_maskin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrehode_ny.sql.json" style="color: var(--accent-primary);">CRM.A_ORDREHODE_NY</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrehode_ny.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrehode_u.sql.json" style="color: var(--accent-primary);">CRM.A_ORDREHODE_U</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrehode_u.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrelinjer.sql.json" style="color: var(--accent-primary);">CRM.A_ORDRELINJER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrelinjer.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrelinjer_maskin.sql.json" style="color: var(--accent-primary);">CRM.A_ORDRELINJER_MASKIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrelinjer_maskin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrelinjer_maskin2.sql.json" style="color: var(--accent-primary);">CRM.A_ORDRELINJER_MASKIN2</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrelinjer_maskin2.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_a_ordrelinjer_ny.sql.json" style="color: var(--accent-primary);">CRM.A_ORDRELINJER_NY</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_a_ordrelinjer_ny.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_ah_ordrehode_maskin.sql.json" style="color: var(--accent-primary);">CRM.AH_ORDREHODE_MASKIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_ah_ordrehode_maskin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_ah_ordrelinjer_maskin.sql.json" style="color: var(--accent-primary);">CRM.AH_ORDRELINJER_MASKIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_ah_ordrelinjer_maskin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_fraktrater.sql.json" style="color: var(--accent-primary);">CRM.FRAKTRATER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_fraktrater.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_fraktrater_t.sql.json" style="color: var(--accent-primary);">CRM.FRAKTRATER_T</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_fraktrater_t.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_fraktrater2.sql.json" style="color: var(--accent-primary);">CRM.FRAKTRATER2</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_fraktrater2.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kraftfor_bulk.sql.json" style="color: var(--accent-primary);">CRM.KRAFTFOR_BULK</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kraftfor_bulk.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kreditt.sql.json" style="color: var(--accent-primary);">CRM.KREDITT</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kreditt.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_krets.sql.json" style="color: var(--accent-primary);">CRM.KRETS</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_krets.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kundegr.sql.json" style="color: var(--accent-primary);">CRM.KUNDEGR</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kundegr.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kunder.sql.json" style="color: var(--accent-primary);">CRM.KUNDER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kunder.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kunder_u.sql.json" style="color: var(--accent-primary);">CRM.KUNDER_U</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kunder_u.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_kunder2018.sql.json" style="color: var(--accent-primary);">CRM.KUNDER2018</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_kunder2018.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_land_navn.sql.json" style="color: var(--accent-primary);">CRM.LAND_NAVN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_land_navn.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_markedsregister.sql.json" style="color: var(--accent-primary);">CRM.MARKEDSREGISTER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_markedsregister.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_max_tid_a_ordre.sql.json" style="color: var(--accent-primary);">CRM.MAX_TID_A_ORDRE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_max_tid_a_ordre.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_max_tid_ordre.sql.json" style="color: var(--accent-primary);">CRM.MAX_TID_ORDRE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_max_tid_ordre.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_medlem.sql.json" style="color: var(--accent-primary);">CRM.MEDLEM</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_medlem.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_mottak_korn.sql.json" style="color: var(--accent-primary);">CRM.MOTTAK_KORN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_mottak_korn.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_mottak_kornbel.sql.json" style="color: var(--accent-primary);">CRM.MOTTAK_KORNBEL</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_mottak_kornbel.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_ordrehode.sql.json" style="color: var(--accent-primary);">CRM.ORDREHODE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_ordrehode.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_ordrelinjer.sql.json" style="color: var(--accent-primary);">CRM.ORDRELINJER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_ordrelinjer.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_postnr.sql.json" style="color: var(--accent-primary);">CRM.POSTNR</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_postnr.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_region.sql.json" style="color: var(--accent-primary);">CRM.REGION</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_region.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=crm_tilg_avd.sql.json" style="color: var(--accent-primary);">CRM.TILG_AVD</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/crm_tilg_avd.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_behold_hist.sql.json" style="color: var(--accent-primary);">DBM.A_BEHOLD_HIST</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_behold_hist.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_best_anmod_hode.sql.json" style="color: var(--accent-primary);">DBM.A_BEST_ANMOD_HODE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_best_anmod_hode.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_best_anmod_lin.sql.json" style="color: var(--accent-primary);">DBM.A_BEST_ANMOD_LIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_best_anmod_lin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_besthode.sql.json" style="color: var(--accent-primary);">DBM.A_BESTHODE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_besthode.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_bestlin.sql.json" style="color: var(--accent-primary);">DBM.A_BESTLIN</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_bestlin.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_frakt_olinjer.sql.json" style="color: var(--accent-primary);">DBM.A_FRAKT_OLINJER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_frakt_olinjer.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_korrigeringer.sql.json" style="color: var(--accent-primary);">DBM.A_KORRIGERINGER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">BEHOLDNINGS-KORREKSJONER</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_korrigeringer.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordre_kvittering.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRE_KVITTERING</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordre_kvittering.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordre_pos_issues.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRE_POS_ISSUES</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordre_pos_issues.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordre_pos_trans.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRE_POS_TRANS</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">DAFSFASDFASDF</td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordre_pos_trans.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordre_pos_trans_followup.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRE_POS_TRANS_FOLLOWUP</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordre_pos_trans_followup.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrehode.sql.json" style="color: var(--accent-primary);">DBM.A_ORDREHODE</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrehode.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrehode_ec.sql.json" style="color: var(--accent-primary);">DBM.A_ORDREHODE_EC</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrehode_ec.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrehode_endr.sql.json" style="color: var(--accent-primary);">DBM.A_ORDREHODE_ENDR</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrehode_endr.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrehode_sekvnr.sql.json" style="color: var(--accent-primary);">DBM.A_ORDREHODE_SEKVNR</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrehode_sekvnr.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrehode_slettet.sql.json" style="color: var(--accent-primary);">DBM.A_ORDREHODE_SLETTET</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrehode_slettet.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrelinjer.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRELINJER</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrelinjer.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="/Doc?file=dbm_a_ordrelinjer_endr.sql.json" style="color: var(--accent-primary);">DBM.A_ORDRELINJER_ENDR</a></td>
+                                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
+                                <td style="color: var(--text-muted); font-size: 0.8rem;">
+2026-02-13 16:27                                </td>
+                                <td>
+                                    <a href="/docs/dbm_a_ordrelinjer_endr.sql.html" title="View static HTML"
+                                       style="color: var(--text-muted);">
+                                        <i class="bi bi-filetype-html"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="dashboard-tab-content" id="tab-csharp" style="display:none;">
+                <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    <p>No C# Solutions files documented yet.</p>
+                </div>
+        </div>
+</div>
+
+
+
+    <!-- Scripts: load in correct order matching old AutoDoc -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+    <!-- Mermaid config (theme variables, suppressErrorRendering) - must load before Mermaid -->
+    <script src="/js/autodoc-mermaid-config.js"></script>
+
+    <!-- Mermaid 11 ESM Module -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Use theme config from autodoc-mermaid-config.js
+        const theme = window.getMermaidTheme ? window.getMermaidTheme() : 'dark';
+        const themeVars = window.getThemeVariables ? window.getThemeVariables() : {
+            fontFamily: '"Courier New", Courier, monospace',
+            fontSize: '14px'
+        };
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: theme,
+            securityLevel: 'loose',
+            suppressErrorRendering: true,
+            maxTextSize: 5000000,
+            maxEdges: 5000,
+            themeVariables: themeVars,
+            flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+            sequence: { useMaxWidth: true },
+            classDiagram: { useMaxWidth: true }
+        });
+
+        // Make mermaid available globally for theme switching
+        window.mermaidInstance = mermaid;
+    </script>
+
+    <!-- Diagram controls (pan-zoom, fullscreen, theme toggle, dark mode fixes) -->
+    <script src="/js/autodoc-diagram-controls.js"></script>
+
+    <!-- DedgeAuth user menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+
+    
+<script>
+    function showTab(tabId, btn) {
+        // Hide all tab contents
+        document.querySelectorAll('.dashboard-tab-content').forEach(el => el.style.display = 'none');
+        // Deactivate all tab buttons
+        document.querySelectorAll('.dashboard-tab').forEach(el => el.classList.remove('active'));
+        // Show selected
+        document.getElementById('tab-' + tabId).style.display = '';
+        btn.classList.add('active');
+    }
+    
+</script>
+<script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>
+

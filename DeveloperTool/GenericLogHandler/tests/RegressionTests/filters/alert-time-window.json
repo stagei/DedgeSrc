@@ -1,0 +1,9 @@
+{
+  "Name": "Regression: TIME_WINDOW_EXPIRED (should NOT trigger)",
+  "Description": "Negative test: TimeWindowMinutes=1 means only entries from the last 60 seconds count. Test data is shifted to [NOW-3min, NOW-1min], so nothing falls within the last 60s. Must not trigger.",
+  "FilterJson": "{\"AlertId\":\"ORDER_SYNC_FAIL\",\"Levels\":[\"ERROR\",\"FATAL\"]}",
+  "IsAlertEnabled": true,
+  "AlertConfig": "{\"Type\":\"webhook\",\"Endpoint\":\"http://localhost:19999/dummy-time-window\",\"Method\":\"POST\",\"ThresholdCount\":1,\"TimeWindowMinutes\":1,\"CooldownMinutes\":1,\"IsActive\":true,\"IncludeEntries\":true,\"MaxEntriesToInclude\":10}",
+  "IsShared": true,
+  "Category": "regression-test"
+}

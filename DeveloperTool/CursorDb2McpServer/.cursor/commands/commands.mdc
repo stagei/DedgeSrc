@@ -1,0 +1,51 @@
+---
+description: Custom commands for GetPeppolDirectory
+alwaysApply: true
+---
+
+# Cursor Commands
+
+**Commands are ONLY triggered if they are the ONLY text in the user's message.**
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/help` | Show command list |
+| `/deploy` | Build and deploy workflow |
+| `/test` | Run tests and verification |
+
+## Command: `/deploy`
+
+**Full deployment workflow:**
+
+1. Build the project:
+   ```powershell
+   dotnet build GetPeppolDirectory.csproj --configuration Release
+   ```
+
+2. Publish for deployment:
+   ```powershell
+   dotnet publish GetPeppolDirectory.csproj --configuration Release --output .\publish
+   ```
+
+3. Git add, commit, and push:
+   ```powershell
+   git add -A
+   git commit -m "<descriptive message>"
+   git push
+   ```
+
+4. Copy to shared location (if applicable):
+   ```powershell
+   Copy-Item -Path ".\publish\*" -Destination "\\server\share\GetPeppolDirectory" -Recurse -Force
+   ```
+
+## Command: `/test`
+
+Run verification:
+```powershell
+dotnet build GetPeppolDirectory.csproj
+# If tests exist:
+dotnet test GetPeppolDirectory.Tests.csproj
+```

@@ -1,0 +1,75 @@
+{
+  "program": "ILAREBE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:08",
+  "extraction": {
+    "sourceHash": "sha256:d48b00cd1f26b2371961c7a8c5fc7ed7f789123e69a5c2e94dbd78c63fa47a35",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILAREBE.CBL",
+    "actualName": "ILAREBE",
+    "program": "ILAREBE",
+    "copyElements": [
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "INL",
+        "tableName": "TRANSREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "RENTESATSER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DATOER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DISTDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DISTINCTDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SDATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "R",
+        "tableName": "RENTE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SALDOER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "ELLER",
+      "D01B916",
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:08"
+  }
+}

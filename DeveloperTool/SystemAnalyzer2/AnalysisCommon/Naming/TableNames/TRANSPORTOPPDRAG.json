@@ -1,0 +1,262 @@
+{
+  "tableName": "TRANSPORTOPPDRAG",
+  "futureName": "TransportOrderHeader",
+  "namespace": "DatabaseModels",
+  "columns": [
+    {
+      "name": "avdnr",
+      "futureName": "orderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "oppdragsnr",
+      "futureName": "orderNumber",
+      "description": "Order number",
+      "foreignKey": null
+    },
+    {
+      "name": "oppdragsgiver",
+      "futureName": "orderingParty",
+      "description": "Name of the party placing the order",
+      "foreignKey": null
+    },
+    {
+      "name": "oppdragtype",
+      "futureName": "orderType",
+      "description": "Type of order",
+      "foreignKey": null
+    },
+    {
+      "name": "oppdragstatus",
+      "futureName": "orderStatus",
+      "description": "Status of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "dato_forste",
+      "futureName": "startDate",
+      "description": "Start date",
+      "foreignKey": null
+    },
+    {
+      "name": "dato_siste",
+      "futureName": "endDate",
+      "description": "End date",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_kundennr",
+      "futureName": "customerNumberForLoading",
+      "description": "Customer number for loading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "laste_levnr",
+      "futureName": "supplierNumberForLoading",
+      "description": "Supplier number for loading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "laste_navn",
+      "futureName": "loadingLocationName",
+      "description": "Name of the loading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "laste_adr1",
+      "futureName": "loadingLocationAddressLine1",
+      "description": "First line of the loading location address",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_adr2",
+      "futureName": "loadingLocationAddressLine2",
+      "description": "Second line of the loading location address",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_postnr",
+      "futureName": "loadingLocationPostalCode",
+      "description": "Loading location postal code",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "laste_poststed",
+      "futureName": "loadingLocationCity",
+      "description": "City of the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_landkode",
+      "futureName": "loadingLocationCountryCode",
+      "description": "Country code for the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_x",
+      "futureName": "loadingLocationXCoordinate",
+      "description": "X coordinate of the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_y",
+      "futureName": "loadingLocationYCoordinate",
+      "description": "Y coordinate of the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_kontakt",
+      "futureName": "loadingLocationContact",
+      "description": "Contact person for the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_mobilnr",
+      "futureName": "loadingLocationMobileNumber",
+      "description": "Mobile number of the contact person at the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_email",
+      "futureName": "loadingLocationEmailAddress",
+      "description": "Email address for the loading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laste_levnr",
+      "futureName": "supplierNumberForUnloading",
+      "description": "Supplier number for unloading location",
+      "foreignKey": "H_TURSTED"
+    },
+    {
+      "name": "laste_poststed2",
+      "futureName": "unloadingLocationCity",
+      "description": "City of the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_postnr2",
+      "futureName": "unloadingLocationPostalCode",
+      "description": "Post code of the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_landkode2",
+      "futureName": "unloadingLocationCountryCode",
+      "description": "Country code for the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_x2",
+      "futureName": "unloadingLocationXCoordinate",
+      "description": "X coordinate of the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_y2",
+      "futureName": "unloadingLocationYCoordinate",
+      "description": "Y coordinate of the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_kontakt2",
+      "futureName": "unloadingLocationContact",
+      "description": "Contact person for the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_mobilnr2",
+      "futureName": "unloadingLocationMobileNumber",
+      "description": "Mobile number of the contact person at the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "laster_email2",
+      "futureName": "unloadingLocationEmailAddress",
+      "description": "Email address for the unloading location",
+      "foreignKey": null
+    },
+    {
+      "name": "godsslag",
+      "futureName": "goodsCategory",
+      "description": "Category of goods",
+      "foreignKey": null
+    },
+    {
+      "name": "lognett_tms",
+      "futureName": "networkCode",
+      "description": "Network code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "splittet_fra",
+      "futureName": "splitFromOrderNumber",
+      "description": "Order number from which this order was split",
+      "foreignKey": "H_VERKSTEDTEKST"
+    },
+    {
+      "name": "vekt",
+      "futureName": "weight",
+      "description": "Weight of the goods in the order",
+      "foreignKey": null
+    },
+    {
+      "name": "antall_kolli",
+      "futureName": "numberOfPacks",
+      "description": "Number of packs or units in the order",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "userId",
+      "description": "User identifier who created or modified the order",
+      "foreignKey": null
+    },
+    {
+      "name": "hovedvaregruppe",
+      "futureName": "mainGoodsGroup",
+      "description": "Main goods group of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "faktureres_kunde",
+      "futureName": "billingCustomerNumber",
+      "description": "Billing customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "modeoftransport",
+      "futureName": "transportMode",
+      "description": "Transport mode used for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "tfsshipmentid",
+      "futureName": "shipmentId",
+      "description": "Shipment identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "bilnr",
+      "futureName": "vehicleNumber",
+      "description": "Vehicle number or registration plate",
+      "foreignKey": null
+    },
+    {
+      "name": "lassnr",
+      "futureName": "lineSplitFromOrderLine",
+      "description": "Order line from which this line was split",
+      "foreignKey": "A_ORDRELINJER"
+    },
+    {
+      "name": "fknr",
+      "futureName": "factoryNumber",
+      "description": "Factory number for the goods in the order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:08:38"
+}

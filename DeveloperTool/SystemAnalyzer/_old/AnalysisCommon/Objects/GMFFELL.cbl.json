@@ -1,0 +1,96 @@
+{
+  "program": "GMFFELL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T23:38:36",
+  "extraction": {
+    "sourceHash": "sha256:c01bf089d1dccd5747f525e888bfefd4ddc9fdd6e8b3c72bfb759c5cb2e3664b",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFFELL.CBL",
+    "actualName": "GMFFELL",
+    "program": "GMFFELL",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFFELL.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FELLMENY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFMNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "USR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKERID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMAOPPS",
+      "GMACNCT",
+      "GMACOCO",
+      "GMAFELL",
+      "GMACOMP",
+      "GMAMASK",
+      "GMASQLD"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "FNK-FILE",
+        "physicalName": "GMFFELL.FNK",
+        "path": "C:\\",
+        "fullPath": "C:\\GMFFELL.FNK",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T23:38:36"
+  }
+}

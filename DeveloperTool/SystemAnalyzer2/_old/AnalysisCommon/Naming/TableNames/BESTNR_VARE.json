@@ -1,0 +1,22 @@
+{
+  "tableName": "BESTNR_VARE",
+  "futureName": "BestnrVare",
+  "namespace": "DBM",
+  "columns": [
+    {
+      "name": "FNr",
+      "futureName": "FnNr",
+      "description": "Primary key reference to VareRegister table",
+      "foreignKey": "DBM.VAREREGISTER.FKNR"
+    },
+    {
+      "name": "BestFKnR",
+      "futureName": "BestFnNr",
+      "description": "Foreign key reference to VareRegister table, related to best number",
+      "foreignKey": "DBM.VAREREGISTER.FKNR"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:48:03"
+}

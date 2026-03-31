@@ -1,0 +1,88 @@
+{
+  "tableName": "P_ANALYSE_AVREGN",
+  "futureName": "AnalyseAvregning",
+  "namespace": "DataEntities",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrainDealerCode",
+      "description": "Identifier for the grain dealer",
+      "foreignKey": null
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "StartDate",
+      "description": "Start date for the analysis or classification period",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS_ANALYSE",
+      "futureName": "AnalysisPricePerBatch",
+      "description": "Price per batch for analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS_AVREGN",
+      "futureName": "AdjustmentPricePerBatch",
+      "description": "Price per batch for adjustment or re-classification",
+      "foreignKey": null
+    },
+    {
+      "name": "MAX_VANNPROS_TT",
+      "futureName": "MaxWaterContentPercentage",
+      "description": "Maximum water content percentage before threshold is triggered",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_STOR_AVRENS",
+      "futureName": "ExcessFeePerKgPerPoint",
+      "description": "Fee per kilogram per point over the limit for excess analysis",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_EKSTRA_ANALYSE",
+      "futureName": "ExtraAnalysisFeePerTon",
+      "description": "Additional fee for extra analysis services",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_VANN_OVER_TAB",
+      "futureName": "WaterExcessFeePerHalfPercent",
+      "description": "Fee per half percent over the maximum water content in the table",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_OKO_TILLEGG",
+      "futureName": "OrganicAdditionAmountPerKg",
+      "description": "Amount added for organic certification or labeling",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the analysis or adjustment operation",
+      "foreignKey": null
+    },
+    {
+      "name": "PRIS_ANALYSE_FOR",
+      "futureName": "AnalysisPriceBeforeGrainDealerCode",
+      "description": "Price for analysis before grain dealer code",
+      "foreignKey": null
+    },
+    {
+      "name": "PROSENT_OKO_TILLEGG",
+      "futureName": "OrganicAdditionPercentage",
+      "description": "Percentage added for organic certification or labeling",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOP_TORKING",
+      "futureName": "DryingAmount",
+      "description": "Fixed amount if the batch needs to be dried",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:57:36"
+}

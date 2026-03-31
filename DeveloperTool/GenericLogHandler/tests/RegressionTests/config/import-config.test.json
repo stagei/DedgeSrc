@@ -1,0 +1,102 @@
+{
+  "Version": "1.0",
+  "General": {
+    "ServiceName": "GenericLogHandler-RegressionTest",
+    "LogLevel": "INFO",
+    "MaxConcurrentImports": 2,
+    "BatchSize": 500,
+    "RunOnce": true,
+    "RetryAttempts": 1,
+    "RetryDelaySeconds": 1,
+    "HealthCheckInterval": 300
+  },
+  "Database": {
+    "Type": "postgres",
+    "ConnectionString": "Host=localhost;Port=8432;Database=GenericLogHandler;Username=postgres;Password=postgres",
+    "DatabaseName": "GenericLogHandler",
+    "ConnectionTimeout": 15,
+    "CommandTimeout": 60,
+    "MaxConnections": 5,
+    "BatchInsertSize": 500,
+    "EnableCompression": false
+  },
+  "Retention": {
+    "DefaultDays": 365,
+    "ByLevel": {},
+    "CleanupSchedule": "0 2 * * *",
+    "CleanupBatchSize": 10000,
+    "ArchiveBeforeDelete": false
+  },
+  "ImportSources": [
+    {
+      "Name": "Regression Test Logs",
+      "Type": "file",
+      "Enabled": true,
+      "Priority": 0,
+      "Config": {
+        "Path": "C:\\opt\\src\\GenericLogHandler\\tests\\RegressionTests\\testdata\\*.log",
+        "Format": "delimited",
+        "WatchDirectory": false,
+        "Encoding": "utf-8",
+        "MaxFilesPerRun": 20,
+        "SkipHeaderLines": 0,
+        "IsAppendOnly": false,
+        "MaxFileAgeDays": 365,
+        "Parser": {
+          "Name": "regression_pipe",
+          "Delimiter": "|",
+          "FieldMappings": {
+            "0": { "TargetColumn": "Timestamp", "DateFormat": "yyyy-MM-dd HH:mm:ss.fff" },
+            "1": { "TargetColumn": "ComputerName" },
+            "2": { "TargetColumn": "Level" },
+            "3": { "TargetColumn": "JobName" },
+            "4": { "TargetColumn": "ProcessId" },
+            "5": { "TargetColumn": "Location" },
+            "6": { "TargetColumn": "FunctionName" },
+            "7": { "TargetColumn": "LineNumber" },
+            "8": { "TargetColumn": "UserName" },
+            "9": { "TargetColumn": "Message" }
+          },
+          "MessageExtractors": [
+            {
+              "Name": "ordrenr",
+              "Pattern": "(?:ordrenr|ordrenummer|orderno)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Ordrenr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "avdnr",
+              "Pattern": "(?:avdnr|avdeling)[:\\s=]+(?<value>\\d+)",
+              "TargetColumn": "Avdnr",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "alert_id",
+              "Pattern": "(?:alert_id|alertid|alarm_id)[:\\s=]+(?<value>[A-Za-z0-9_-]+)",
+              "TargetColumn": "AlertId",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            },
+            {
+              "Name": "job_status",
+              "Pattern": "Job\\s+(?<value>Started|Completed|Failed)",
+              "TargetColumn": "JobStatus",
+              "CaptureGroup": "value",
+              "IgnoreCase": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "ErrorHandling": {
+    "OnParseError": "skip_and_log",
+    "OnValidationError": "skip_and_log",
+    "OnDatabaseError": "retry_and_log",
+    "MaxErrorsPerSource": 100,
+    "MaxErrorRatePercent": 50,
+    "QuarantineBadFiles": false
+  }
+}

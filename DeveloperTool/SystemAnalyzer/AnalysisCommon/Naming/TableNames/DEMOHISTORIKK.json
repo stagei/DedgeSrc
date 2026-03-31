@@ -1,0 +1,76 @@
+{
+  "tableName": "DEMOHISTORIKK",
+  "futureName": "DemoHistorikkItem",
+  "namespace": "InventoryHistory",
+  "columns": [
+    {
+      "name": "uttaknr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "DEMOLINJE"
+    },
+    {
+      "name": "avdnr",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "kvittnr",
+      "futureName": "InvoiceNumber",
+      "description": "Invoice number",
+      "foreignKey": "BEST_KVITT_HODE"
+    },
+    {
+      "name": "fknr",
+      "futureName": "ProductCode",
+      "description": "Product code",
+      "foreignKey": "A_BESTLIN, A_BESTLIN, A_KORRIGERINGER, A_ORDRELINJER_ENDR, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER"
+    },
+    {
+      "name": "enhetsnr",
+      "futureName": "UnitNumber",
+      "description": "Unit number",
+      "foreignKey": "A_BESTLIN, A_BESTLIN, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER"
+    },
+    {
+      "name": "chnr",
+      "futureName": "WarehouseCode",
+      "description": "Warehouse code",
+      "foreignKey": "DEMOLINJE, H_VERKSTEDHODE, H_VERKSTEDHODE, LEV_REKL_HODE, VERKSTEDHODE, VERKSTEDHODE"
+    },
+    {
+      "name": "sign",
+      "futureName": "Sign",
+      "description": "Sign or description",
+      "foreignKey": "DEMOLINJE, H_VERKSTEDHODE, H_VERKSTEDHODE, LEV_REKL_HODE, VERKSTEDHODE, VERKSTEDHODE"
+    },
+    {
+      "name": "antall",
+      "futureName": "Quantity",
+      "description": "Quantity",
+      "foreignKey": "A_ORDRELINJER, DEMOLINJE, EDI_FAKT_LINJE, EDI_KONV_KUNDENR, EGETBRUK_LINJE, ERSTATNINGER, FAKTHIST, FAKTHIST, FAKTHIST, FAKTURA_AVVIK"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDREHODE, A_ORDRELINJER_ENDR, A_ORDRELINJER"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "lagersted",
+      "futureName": "StorageLocation",
+      "description": "Storage location",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_KORRIGERINGER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_ORDRELINJER, A_VAREAVD"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:10:08"
+}

@@ -1,0 +1,190 @@
+{
+  "tableName": "ISYS_HODE",
+  "futureName": "OrderHeader",
+  "namespace": "DataAccess",
+  "columns": [
+    {
+      "name": "ordrre12",
+      "futureName": "OrderReference",
+      "description": "12-character reference for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "distravd",
+      "futureName": "DistributionArea",
+      "description": "Code representing distribution area or branch",
+      "foreignKey": null
+    },
+    {
+      "name": "kundennr",
+      "futureName": "CustomerNumber",
+      "description": "Unique identifier for the customer",
+      "foreignKey": "AH_ORDREHODE"
+    },
+    {
+      "name": "ordreklsig",
+      "futureName": "OrderStatusIndicator",
+      "description": "Indicates the status of the order (e.g., 'C' - Cancelled, 'O' - Open)",
+      "foreignKey": null
+    },
+    {
+      "name": "sendesprikt",
+      "futureName": "ShippingInstructions",
+      "description": "Indicates shipping instructions or preferences",
+      "foreignKey": null
+    },
+    {
+      "name": "onsketlevdattod",
+      "futureName": "ExpectedDeliveryDate",
+      "description": "The date when the order is expected to be delivered",
+      "foreignKey": null
+    },
+    {
+      "name": "ordredatet",
+      "futureName": "OrderDate",
+      "description": "The date on which the order was placed",
+      "foreignKey": null
+    },
+    {
+      "name": "fklevnr",
+      "futureName": "SupplierNumber",
+      "description": "Unique identifier for the supplier",
+      "foreignKey": "EDIFAKT_HODE"
+    },
+    {
+      "name": "inkkjoper",
+      "futureName": "InvoicingParty",
+      "description": "Code representing the party responsible for invoicing",
+      "foreignKey": null
+    },
+    {
+      "name": "referanse",
+      "futureName": "ReferenceNumber",
+      "description": "External reference number for the order",
+      "foreignKey": "EDI_FAKT_HODE"
+    },
+    {
+      "name": "vmnr",
+      "futureName": "VersionNumber",
+      "description": "Numeric version or revision number of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "varemottaker",
+      "futureName": "ReceiverOfGoods",
+      "description": "Name or identifier of the person receiving the goods",
+      "foreignKey": null
+    },
+    {
+      "name": "vmadresse1",
+      "futureName": "DeliveryAddressLine1",
+      "description": "First line of the delivery address",
+      "foreignKey": "EDI_FAKT_HODE"
+    },
+    {
+      "name": "vmadresse2",
+      "futureName": "DeliveryAddressLine2",
+      "description": "Second line of the delivery address",
+      "foreignKey": null
+    },
+    {
+      "name": "vmpostnr",
+      "futureName": "PostCode",
+      "description": "Postal code for the delivery address",
+      "foreignKey": null
+    },
+    {
+      "name": "vmpoststed",
+      "futureName": "City",
+      "description": "City or town of the delivery address",
+      "foreignKey": null
+    },
+    {
+      "name": "samlet",
+      "futureName": "TotalAmount",
+      "description": "Total amount for the order (if applicable)",
+      "foreignKey": null
+    },
+    {
+      "name": "pakkingsign",
+      "futureName": "PackingIndicator",
+      "description": "Indicates whether the item is packed or unpacked",
+      "foreignKey": null
+    },
+    {
+      "name": "eanlokasjon",
+      "futureName": "EANLocationCode",
+      "description": "Unique EAN location code for inventory management",
+      "foreignKey": null
+    },
+    {
+      "name": "eanavsender",
+      "futureName": "SenderEancode",
+      "description": "EAN code of the sender or manufacturer",
+      "foreignKey": null
+    },
+    {
+      "name": "valutakode",
+      "futureName": "CurrencyCode",
+      "description": "ISO 4217 currency code for transactions in this order",
+      "foreignKey": "VISMA_TR_PRODTEST"
+    },
+    {
+      "name": "sendestekst",
+      "futureName": "ShippingText",
+      "description": "Additional text or instructions related to shipping",
+      "foreignKey": null
+    },
+    {
+      "name": "levbet",
+      "futureName": "DeliveryDateType",
+      "description": "Indicates the type of delivery date (e.g., 'D' - Delivery, 'P' - Pickup)",
+      "foreignKey": null
+    },
+    {
+      "name": "levbettekst",
+      "futureName": "DeliveryText",
+      "description": "Additional text or instructions related to the delivery date",
+      "foreignKey": null
+    },
+    {
+      "name": "transporttype",
+      "futureName": "TransportType",
+      "description": "Indicates the type of transport used for shipping (e.g., 'L' - Local, 'N' - National)",
+      "foreignKey": null
+    },
+    {
+      "name": "hmerknad",
+      "futureName": "Remark",
+      "description": "Any additional remarks or notes related to the order",
+      "foreignKey": null
+    },
+    {
+      "name": "fkavd",
+      "futureName": "DistributionAreaNumber",
+      "description": "Number representing a specific distribution area or branch",
+      "foreignKey": null
+    },
+    {
+      "name": "fkaordrenr",
+      "futureName": "OrderLineNumber",
+      "description": "Sequence number for the order line within the order header",
+      "foreignKey": null
+    },
+    {
+      "name": "fkatidspunkt",
+      "futureName": "Timestamp",
+      "description": "The exact time when the order or line item was created/modified",
+      "foreignKey": null
+    },
+    {
+      "name": "selgerid",
+      "futureName": "SalesPersonId",
+      "description": "Identifier for the salesperson responsible for this order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:45:00"
+}

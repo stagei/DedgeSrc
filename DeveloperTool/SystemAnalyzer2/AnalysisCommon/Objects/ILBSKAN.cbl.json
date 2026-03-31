@@ -1,0 +1,131 @@
+{
+  "program": "ILBSKAN",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:45",
+  "variableFilenames": {
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SFKDC02\\FKKONTO\\",
+      "filenamePattern": "SKANY.DAT",
+      "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKANY.DAT",
+      "description": "File path for UT-FIL",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:20:45"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:6f091f72d4c51833fcdacc34ef0816ee9ec5e33f21ba0cec8dbec8a2cea24064",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ILBSKAN.CBL",
+    "actualName": "ILBSKAN",
+    "program": "ILBSKAN",
+    "copyElements": [
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILFI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILBI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "PERSON_ORG_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "FIRMANAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTSTED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SFKDC02\\FKKONTO\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SFKDC02\\FKKONTO\\SKANY.DAT",
+        "filenamePattern": "SKANY.DAT",
+        "filenameDescription": "File path for UT-FIL"
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:45"
+  }
+}

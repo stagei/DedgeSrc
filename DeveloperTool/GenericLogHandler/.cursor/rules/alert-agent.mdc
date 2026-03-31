@@ -1,0 +1,69 @@
+---
+description: Alert agent service and saved filter evaluation
+globs: src/GenericLogHandler.ImportService/**/*Alert*.cs
+alwaysApply: false
+---
+
+# Alert Agent Service
+
+The `AlertAgentService` runs alongside the Import Service, evaluating saved filters and triggering actions.
+
+## How It Works
+
+1. Loads all `SavedFilter` records with `IsAlertEnabled = true`
+2. Evaluates each filter's search criteria against new logs
+3. If matches found and cooldown elapsed, triggers configured action
+4. Records result in `alert_history`
+
+## Alert Configuration
+
+Stored in `SavedFilter.AlertConfig` as JSON:
+
+```json
+{
+  "ActionType": "webhook",
+  "WebhookUrl": "https://example.com/alert",
+  "Threshold": 1,
+  "CooldownMinutes": 15,
+  "IncludeSampleEntries": true,
+  "MaxSampleEntries": 5
+}
+```
+
+## Action Types
+
+| Type | Description |
+|------|-------------|
+| `webhook` | POST JSON to configured URL |
+| `script` | Execute PowerShell script |
+| `servermonitor` | Send to ServerMonitor API |
+| `email` | Send email (if configured) |
+
+## Webhook Payload
+
+```json
+{
+  "FilterId": "guid",
+  "FilterName": "High Error Rate",
+  "TriggeredAt": "2025-01-29T10:00:00Z",
+  "MatchCount": 15,
+  "SampleEntries": [ ... ]
+}
+```
+
+## Adding New Action Types
+
+1. Add case to `ExecuteActionAsync()` switch
+2. Implement action method (e.g., `ExecuteScriptAction()`)
+3. Update `AlertConfig` model if new properties needed
+
+## Cooldown Logic
+
+Prevents alert spam:
+```csharp
+if (filter.LastTriggeredAt.HasValue &&
+    (DateTime.UtcNow - filter.LastTriggeredAt.Value).TotalMinutes < config.CooldownMinutes)
+{
+    continue; // Skip, still in cooldown
+}
+```

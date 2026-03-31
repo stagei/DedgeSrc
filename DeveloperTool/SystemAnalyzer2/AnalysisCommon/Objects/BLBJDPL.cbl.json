@@ -1,0 +1,122 @@
+{
+  "program": "BLBJDPL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:37",
+  "extraction": {
+    "sourceHash": "sha256:0fd4f20398ce1d66968c4ab8c0111f9a8e323353658770c24f207b3422d3e87c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BLBJDPL.cbl",
+    "actualName": "BLBJDPL",
+    "program": "BLBJDPL",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "JDPL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LVNR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_VAREAVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "JOHN_DEERE_PL",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "JOHN_DEERE_PL",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BEHOLDNING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "JOHN_DEERE_PL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "JOHN_DEERE_PL",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LEVVARENR_EKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LEVVARENR_EKST",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMACOCO",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-JDPL-FIL",
+        "physicalName": "dynamic",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "BLBJDPL.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\BLBJDPL.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:37"
+  }
+}

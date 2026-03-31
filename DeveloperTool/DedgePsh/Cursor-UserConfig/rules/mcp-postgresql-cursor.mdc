@@ -1,0 +1,108 @@
+﻿---
+description: "User rule (global) — How to use the postgresql-query MCP tool correctly (Cursor client)"
+alwaysApply: true
+---
+
+# PostgreSQL Query via MCP Tool — Usage Rules
+
+**User rule (global):** `%USERPROFILE%\.cursor\rules\mcp-postgresql-cursor.mdc` — applies across all repos that use the PostgreSQL query MCP.
+
+> **Canonical source (Dedge):** `C:\opt\src\DedgePsh\.cursor\rules\mcp-postgresql-cursor.mdc`
+
+## CRITICAL: Database Name Required
+
+The `databaseName` parameter is **required**. When the user does not specify a database, ASK which one before running. Never assume.
+
+If unsure, default to **TST** environment. Never run on PRD unless the user explicitly requests it.
+
+## Setup
+
+The `postgresql-query` MCP server runs locally as a Node.js stdio process. Developers register it once:
+
+```powershell
+pwsh.exe -NoProfile -File "<git-root>\DevTools\CodingTools\McpServers\Setup-PostgreSqlMcpCursor\Setup-PostgreSqlMcpCursor.ps1"
+```
+
+> **Canonical path (Dedge):** `C:\opt\src\DedgePsh\DevTools\CodingTools\McpServers\Setup-PostgreSqlMcpCursor\Setup-PostgreSqlMcpCursor.ps1`
+
+Cursor config (`~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "postgresql-query": {
+      "command": "node",
+      "args": ["<git-root>\\DevTools\\CodingTools\\McpServers\\Setup-PostgreSqlMcpCursor\\postgresql-mcp-server.mjs"],
+      "env": { "PG_USER": "postgres", "PG_PASSWORD": "postgres", "PG_PORT": "8432" }
+    }
+  }
+}
+```
+
+> **FK example args:** `C:\\opt\\src\\DedgePsh\\DevTools\\CodingTools\\McpServers\\Setup-PostgreSqlMcpCursor\\postgresql-mcp-server.mjs`
+
+## Available Tools
+
+| Tool | Description | Key Parameters |
+|------|------------|----------------|
+| `query_postgresql` | Execute a read-only SQL query | `databaseName`, `query`, `environment` |
+| `list_postgresql_databases` | List all configured databases | (none) |
+| `list_postgresql_tables` | List tables in a database | `databaseName`, `schema`, `environment` |
+| `describe_postgresql_table` | Show column details | `databaseName`, `tableName`, `schema`, `environment` |
+
+## Correct Usage
+
+```json
+{ "server": "user-postgresql-query", "toolName": "query_postgresql",
+  "arguments": { "databaseName": "DedgeAuth", "query": "SELECT * FROM \"Users\" LIMIT 10", "environment": "TST" } }
+```
+
+## Common Mistakes — Detect and Correct
+
+| Mistake | What the agent MUST do |
+|---------|----------------------|
+| No `databaseName` specified | ASK the user which database. Never guess. |
+| Using `postgresql-query` as server name | Use `user-postgresql-query` (Cursor prefixes user MCP servers with `user-`) |
+| Sending INSERT/UPDATE/DELETE | STOP. The tool is read-only. Tell the user this is not allowed. |
+| Forgetting `LIMIT` on large tables | WARN the user and add the clause. |
+| Using uppercase identifiers without quotes | PostgreSQL folds unquoted to lowercase. Use double quotes for mixed-case names. |
+| Not specifying environment | Tool defaults to TST. If user wants PRD, they must say so explicitly. |
+
+## Available Databases (FK environment)
+
+PostgreSQL databases are defined in the central `DatabasesV2.json` with `"Provider": "PostgreSQL"`:
+
+> **FK path:** `C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Configfiles\DatabasesV2.json`
+
+| databaseName | Env | Server | Port | Description |
+|-------------|-----|--------|------|-------------|
+| `DedgeAuth` | TST | t-no1fkxtst-db | 8432 | Auth service database (test) |
+| `DedgeAuth` | PRD | p-no1fkxprd-db | 8432 | Auth service database (**PRODUCTION**) |
+| `GenericLogHandler` | TST | t-no1fkxtst-db | 8432 | Log handler database (test) |
+| `GenericLogHandler` | PRD | p-no1fkxprd-db | 8432 | Log handler database (**PRODUCTION**) |
+
+**Important:** Servers with `p-` prefix are **PRODUCTION**. Always prefer TST unless the user explicitly requests PRD.
+
+## Restrictions
+
+- **Read-only**: SELECT, WITH...SELECT, VALUES, EXPLAIN only
+- Forbidden: INSERT, UPDATE, DELETE, DROP, CREATE, ALTER, TRUNCATE, MERGE, GRANT, REVOKE, VACUUM, COPY FROM
+- Write attempts are blocked by the MCP server before they reach PostgreSQL
+
+## PostgreSQL Conventions (vs DB2)
+
+| PostgreSQL | DB2 |
+|-----------|-----|
+| `LIMIT n` | `FETCH FIRST n ROWS ONLY` |
+| `"CaseSensitiveName"` (double quotes) | Identifiers are uppercase |
+| `public` schema (default) | `DBM` schema |
+| UTF-8 encoding | Windows-1252 encoding |
+
+## Best Practices
+
+1. **Always include `LIMIT n`** unless the user specifically wants all rows
+2. **Quote table/column names** if they are mixed-case: `SELECT * FROM "Users" LIMIT 5`
+3. **Specify schema** when not using public: `SELECT * FROM myschema."MyTable" LIMIT 10`
+4. **Test queries on TST first** before running on PRD
+5. **Format results as markdown tables** when presenting to the user
+6. **Use `list_postgresql_tables` and `describe_postgresql_table`** to explore schema before writing queries

@@ -1,0 +1,59 @@
+﻿---
+description: Reusable project and sub-project layout definitions for all repos under C:\opt\src\
+alwaysApply: true
+---
+
+# Project Structure — Repository Layouts
+
+Defines how repos under `C:\opt\src\` are organized. Used by commands like `/azstory`, `/sysdocs`, and any rule that needs to know which project/sub-project the user is working in.
+
+## Four Repo Layout Types
+
+### PowerShell Multi-Project with Themed DevTools (`DedgePsh`)
+
+- Git root: `C:\opt\src\DedgePsh\`
+- Sub-projects live at varying depths:
+  - `_Modules/<Name>/` -- shared PowerShell modules (e.g. `_Modules/Db2-Handler/`)
+  - `<Name>/` -- top-level sub-projects (e.g. `Forsprang/`, `Kveldssjekk/`)
+  - `DevTools/<Theme>/<Name>/` -- themed DevTools (e.g. `DevTools/DatabaseTools/Db2-ShadowDatabase/`)
+- Themed containers (`DevTools/`, `DevTools/DatabaseTools/`, `DevTools/AzureTools/`, etc.) are **NOT** sub-projects -- only the leaf folder with scripts/code is
+- The leaf folder containing `_deploy.ps1` or script files is the sub-project
+
+### Python Multi-Project Flat (`DedgePython`)
+
+- Git root: `C:\opt\src\DedgePython\`
+- Each top-level subfolder is a sub-project (e.g. `AvtalegiroImport/`, `CsvToXlsxConverter/`)
+
+### C# Multi-Project Solution (`DevTools`, `ServerMonitor`)
+
+- Git root contains a `.sln` file
+- Each subfolder with a `.csproj` is a sub-project within the solution
+- `C:\opt\src\DevTools\` -- 18+ sub-projects (e.g. `ExecuteSql/`, `SqlFormatterApp/`, `AzureDevOpsGitCheckIn/`)
+- `C:\opt\src\ServerMonitor\` -- 3 top-level components, each with `src/` and possibly `tests/` subfolders containing `.csproj` files
+
+### Standalone Project (all other repos)
+
+- Git root = project root (e.g. `C:\opt\src\DedgeAuth\`, `C:\opt\src\DocView\`, `C:\opt\src\GenericLogHandler\`)
+- The entire repo is one project, even if it has multiple `.csproj` files in a `src/` subfolder
+- `subProject` is `null` for these repos
+
+## Sub-Project Detection Algorithm
+
+1. Start from the currently open file or working directory
+2. Walk up until you find a folder with a project marker: `_deploy.ps1`, `.csproj`, `*.ps1` scripts, `*.py` scripts, `README.md`
+3. That folder is the sub-project candidate
+4. Verify it's not a themed container by checking if it's `DevTools/`, `DevTools/<Theme>/`, or similar (no scripts directly in it, only subfolders)
+5. Continue walking up to find `.git/` -- that's the git root (project root)
+6. The `subProject` path is the relative path from git root to the sub-project folder
+
+## When Ambiguous
+
+Use AskQuestion to let the user pick from available sub-projects. This applies when:
+
+- The user is at the repo root with no file open
+- Multiple sub-projects could match the current context
+- The working directory is a themed container (not a leaf project)
+
+## Key Rule
+
+This rule defines **structure only**. It does NOT define behavior -- consuming rules and commands decide what to do with the project/sub-project information.

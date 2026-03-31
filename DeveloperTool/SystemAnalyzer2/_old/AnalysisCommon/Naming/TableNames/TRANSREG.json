@@ -1,0 +1,76 @@
+{
+  "tableName": "TRANSREG",
+  "futureName": "TransactionRegistration",
+  "namespace": "Inl",
+  "columns": [
+    {
+      "name": "Firma",
+      "futureName": "FirmId",
+      "description": "The unique identifier for the company",
+      "foreignKey": "TRANSREG_FIR"
+    },
+    {
+      "name": "KundeKonto",
+      "futureName": "CustomerAccountNumber",
+      "description": "The customer account number associated with the transaction",
+      "foreignKey": "TRANSREG_KTO"
+    },
+    {
+      "name": "Kontotype",
+      "futureName": "AccountTypeCode",
+      "description": "The type of account, such as savings or checking",
+      "foreignKey": "KONTO_KTO_TYPE"
+    },
+    {
+      "name": "TransType",
+      "futureName": "TransactionTypeCode",
+      "description": "The type of transaction, such as deposit or withdrawal",
+      "foreignKey": "TRANSREG_TT"
+    },
+    {
+      "name": "BilagNr",
+      "futureName": "InvoiceNumber",
+      "description": "The invoice number related to the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "BilagDato",
+      "futureName": "InvoiceDate",
+      "description": "The date of the invoice associated with the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "RentenDato",
+      "futureName": "RentDate",
+      "description": "The date when rent was due or paid",
+      "foreignKey": null
+    },
+    {
+      "name": "Belop",
+      "futureName": "Amount",
+      "description": "The amount of money involved in the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "Merknad",
+      "futureName": "Note",
+      "description": "A note or additional information related to the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of when the transaction occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "The identifier for the user who performed the transaction",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:36:11"
+}

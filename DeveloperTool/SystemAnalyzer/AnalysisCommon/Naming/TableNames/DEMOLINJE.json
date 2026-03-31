@@ -1,0 +1,88 @@
+{
+  "tableName": "DEMOLINJE",
+  "futureName": "DemoLine",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "uttaknr",
+      "futureName": "orderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "DBM.DEMOHODE.UTTAKNR (DEM_NR)"
+    },
+    {
+      "name": "avdnr",
+      "futureName": "divisionNumber",
+      "description": "Division number associated with the order",
+      "foreignKey": "DBM.DEMOHODE.AVDNR (DEM_NR)"
+    },
+    {
+      "name": "linjennr",
+      "futureName": "lineNumber",
+      "description": "Line number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "fknr",
+      "futureName": "productNumber",
+      "description": "Product or item number",
+      "foreignKey": null
+    },
+    {
+      "name": "enhetsnr",
+      "futureName": "unitNumber",
+      "description": "Unit number associated with the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "status",
+      "futureName": "lineStatus",
+      "description": "Current status of the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "chnr",
+      "futureName": "changeNumber",
+      "description": "Change number for historical tracking",
+      "foreignKey": null
+    },
+    {
+      "name": "antall",
+      "futureName": "quantity",
+      "description": "Quantity of the item ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "pris",
+      "futureName": "price",
+      "description": "Price of the item per unit",
+      "foreignKey": null
+    },
+    {
+      "name": "beritak",
+      "futureName": "quantityDifference",
+      "description": "Quantity difference or discrepancy",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "customerId",
+      "description": "Customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "timestamp",
+      "description": "Timestamp of the order line entry or update",
+      "foreignKey": null
+    },
+    {
+      "name": "lagersted",
+      "futureName": "warehouseId",
+      "description": "Warehouse identifier where the item is stored",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:10:36"
+}

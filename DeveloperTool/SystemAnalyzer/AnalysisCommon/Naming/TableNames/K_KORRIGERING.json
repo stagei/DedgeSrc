@@ -1,0 +1,49 @@
+{
+  "tableName": "K_KORRIGERING",
+  "futureName": "Korrigerering",
+  "namespace": "Corrections",
+  "columns": [
+    {
+      "name": "ordrnr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "aar",
+      "futureName": "Year",
+      "description": "Year of the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "avdnr",
+      "futureName": "BranchNumber",
+      "description": "Branch number",
+      "foreignKey": {
+        "referencedTable": "branch",
+        "referencedColumn": "avdnr"
+      }
+    },
+    {
+      "name": "partinr",
+      "futureName": "PartNumber",
+      "description": "Part number",
+      "foreignKey": null
+    },
+    {
+      "name": "bilenr",
+      "futureName": "BillNumber",
+      "description": "Bill number",
+      "foreignKey": null
+    },
+    {
+      "name": "kommentar",
+      "futureName": "Comment",
+      "description": "Additional comments or remarks",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:54:03"
+}

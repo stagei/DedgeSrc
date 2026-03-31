@@ -1,0 +1,117 @@
+{
+  "tableName": "ORDREKLASSE_TILLEGG",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:24",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Tillegg avhengig av ordreklasse",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:24",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "ORDREKLASSE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "ANTALL_I_PERIODE",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "PRIS",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "KATEGORI",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "B=Bulk, S=Sekk/Stykk, blank=Evt. alt annet"
+      },
+      {
+        "colNo": 7,
+        "name": "AVVIK_FRAKT_KVANT",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Brukes for å velge fraktkvantum med høyest sats"
+      },
+      {
+        "colNo": 8,
+        "name": "RABATTER",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "N=ikke rabatt v. denne ordreklasse/kategori"
+      },
+      {
+        "colNo": 9,
+        "name": "VARE_SLAG",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "K=kraftfor/G=Gjødsel/S=Såvare/M=Maursyre/kons.mid./blank=Evt. alt(annet)"
+      },
+      {
+        "colNo": 10,
+        "name": "PROSENT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

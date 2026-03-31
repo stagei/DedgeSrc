@@ -1,0 +1,760 @@
+﻿/* ═══════════════════════════════════════════════════════════════════════════
+   DedgeAuth Common CSS
+   Shared theme variables and components for all DedgeAuth-integrated apps
+   Load this AFTER local app CSS to enforce consistent styling
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CSS Variables - Theme Colors
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Light Theme (Default) */
+:root {
+  /* Backgrounds */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  /* Borders */
+  --border-color: #cbd5e1;
+  
+  /* Accent Colors */
+  --accent-color: #0369a1;
+  --accent-hover: #0284c7;
+  --primary-color: #008942;  /* FK Green */
+  --primary-hover: #00b359;
+  
+  /* Status Colors */
+  --success-color: #059669;
+  --warning-color: #d97706;
+  --error-color: #dc2626;
+  --info-color: #0284c7;
+  
+  /* Effects */
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Backgrounds - Medium dark gray */
+  --bg-primary: #1f1f1f;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #333333;
+  --bg-card: #000000;
+  
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #e4e4e7;
+  --text-muted: #d4d4d8;
+  
+  /* Borders */
+  --border-color: #444444;
+  
+  /* Accent Colors (brighter for dark mode) */
+  --accent-color: #60a5fa;
+  --accent-hover: #3b82f6;
+  
+  /* Status Colors (brighter for dark mode) */
+  --success-color: #34d399;
+  --warning-color: #fbbf24;
+  --error-color: #f87171;
+  --info-color: #38bdf8;
+  
+  /* Effects */
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Base Styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Buttons
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  color: white;
+  border: 1px solid var(--accent-color);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-success {
+  background: var(--success-color);
+  color: white;
+  border: 1px solid var(--success-color);
+}
+
+.btn-success:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-danger {
+  background: var(--error-color);
+  color: white;
+  border: 1px solid var(--error-color);
+}
+
+.btn-danger:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-warning {
+  background: var(--warning-color);
+  color: white;
+  border: 1px solid var(--warning-color);
+}
+
+.btn-warning:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  border-color: var(--accent-color);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover:not(:disabled) {
+  opacity: 1;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Logout button - vibrant red */
+.btn-logout {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+.btn-logout:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Panels / Cards
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-secondary);
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.panel-body {
+  padding: 1rem 1.25rem;
+}
+
+.panel-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Modals
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal,
+.modal-container {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2,
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.modal-section {
+  background: var(--bg-tertiary);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.modal-section h4 {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Modal sizes */
+.modal-sm { max-width: 400px; }
+.modal-md { max-width: 600px; }
+.modal-lg { max-width: 900px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Forms
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.2);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--bg-tertiary);
+}
+
+/* Dark mode form elements */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Tables
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  background: var(--bg-tertiary);
+}
+
+.table tbody tr:hover {
+  background: var(--bg-tertiary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Badges
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-success {
+  background: rgba(5, 150, 105, 0.15);
+  color: var(--success-color);
+}
+
+.badge-warning {
+  background: rgba(217, 119, 6, 0.15);
+  color: var(--warning-color);
+}
+
+.badge-danger {
+  background: rgba(220, 38, 38, 0.15);
+  color: var(--error-color);
+}
+
+.badge-info {
+  background: rgba(2, 132, 199, 0.15);
+  color: var(--info-color);
+}
+
+.badge-primary {
+  background: linear-gradient(135deg, #008942, #00b359);
+  color: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Utility Classes
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.text-muted { color: var(--text-muted); }
+.text-success { color: var(--success-color); }
+.text-warning { color: var(--warning-color); }
+.text-danger { color: var(--error-color); }
+.text-info { color: var(--info-color); }
+
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-card { background: var(--bg-card); }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DedgeAuth Header Brand
+   Uniform header brand section rendered by DedgeAuth-header.js into #DedgeAuthHeader.
+   Matches AutoDoc's navbar brand style: logo (28px) + bold app title.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.DedgeAuth-app-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.DedgeAuth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-color, #0369a1);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.DedgeAuth-brand:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.DedgeAuth-brand-logo {
+  height: 28px;
+  width: auto;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.DedgeAuth-app-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Two-button pill theme toggle rendered inside the brand section */
+.DedgeAuth-theme-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  background: var(--bg-secondary, #fff);
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 50px;
+  padding: 0.15rem;
+  margin-left: 0.25rem;
+}
+
+.DedgeAuth-theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0.72rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.DedgeAuth-theme-btn:hover {
+  color: var(--text-primary, #0f172a);
+}
+
+.DedgeAuth-theme-btn.active {
+  background: var(--accent-color, #0369a1);
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .DedgeAuth-theme-pill {
+  background: var(--bg-secondary, #2a2a2a);
+}
+
+[data-theme="dark"] .DedgeAuth-theme-btn.active {
+  background: var(--accent-color, #60a5fa);
+  color: #0f172a;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Two-Button Pill Theme Toggle (AutoDoc style, for use in app headers)
+   Classes: .theme-toggle-pill > .theme-toggle-btn (use data-theme attr)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.theme-toggle-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--bg-secondary, #fff);
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 50px;
+  padding: 0.2rem;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--text-primary, #0f172a);
+}
+
+.theme-toggle-btn.active {
+  background: var(--accent-color, #0369a1);
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Theme Toggle - Sun/Moon Switch Component
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 14px;
+}
+
+.theme-toggle__wrap {
+  position: relative;
+  margin: 0;
+}
+
+.theme-toggle__input {
+  background-color: hsl(48,90%,85%);
+  border-radius: 25% / 50%;
+  box-shadow: 0 0 0 0.1em transparent;
+  padding: 0.15em;
+  width: 3.4em;
+  height: 1.7em;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition:
+    background-color 0.3s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.theme-toggle__input:before {
+  background-color: hsl(48,90%,55%);
+  border-radius: 50%;
+  content: "";
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  transition:
+    background-color 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+}
+
+.theme-toggle__input:focus {
+  box-shadow: 0 0 0 0.1em var(--accent-color, #0369a1);
+  outline: transparent;
+}
+
+/* Icon container */
+.theme-toggle__icon {
+  display: block;
+  position: absolute;
+  top: calc(0.25em + 2px);
+  left: calc(0.25em + 1px);
+  width: 1.2em;
+  height: 1.2em;
+  z-index: 1;
+  transition: transform 0.3s ease-in-out;
+}
+
+.theme-toggle__icon-part {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: 0.3em -0.3em 0 0.4em hsl(0,0%,100%) inset;
+  top: calc(50% - 0.4em);
+  left: calc(50% - 0.4em);
+  width: 0.8em;
+  height: 0.8em;
+  transition:
+    box-shadow 0.3s ease-in-out,
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  transform: scale(0.5);
+}
+
+/* Sun rays */
+.theme-toggle__icon-part ~ .theme-toggle__icon-part {
+  background-color: hsl(0,0%,100%);
+  border-radius: 0.05em;
+  box-shadow: none;
+  top: 50%;
+  left: calc(50% - 0.04em);
+  transform: rotate(0deg) translateY(0.4em);
+  transform-origin: 50% 0;
+  width: 0.08em;
+  height: 0.16em;
+}
+
+.theme-toggle__icon-part:nth-child(3) { transform: rotate(45deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(4) { transform: rotate(90deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(5) { transform: rotate(135deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(6) { transform: rotate(180deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(7) { transform: rotate(225deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(8) { transform: rotate(270deg) translateY(0.4em); }
+.theme-toggle__icon-part:nth-child(9) { transform: rotate(315deg) translateY(0.4em); }
+
+/* Dark mode (checked) styles */
+.theme-toggle__input:checked {
+  background-color: hsl(223,50%,20%);
+}
+
+.theme-toggle__input:checked:before {
+  transform: translateX(1.7em);
+  background-color: hsl(223,90%,55%);
+}
+
+.theme-toggle__input:checked ~ .theme-toggle__icon {
+  transform: translateX(1.7em);
+}
+
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(1) {
+  box-shadow: 0.15em -0.15em 0 0.15em hsl(0,0%,100%) inset;
+  transform: scale(1);
+}
+
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part ~ .theme-toggle__icon-part {
+  opacity: 0;
+}
+
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(2) { transform: rotate(45deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(3) { transform: rotate(90deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(4) { transform: rotate(135deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(5) { transform: rotate(180deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(6) { transform: rotate(225deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(7) { transform: rotate(270deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(8) { transform: rotate(315deg) translateY(0.6em); }
+.theme-toggle__input:checked ~ .theme-toggle__icon .theme-toggle__icon-part:nth-child(9) { transform: rotate(360deg) translateY(0.6em); }
+
+@supports selector(:focus-visible) {
+  .theme-toggle__input:focus { box-shadow: 0 0 0 0.1em transparent; }
+  .theme-toggle__input:focus-visible { box-shadow: 0 0 0 0.1em var(--accent-color, #0369a1); }
+}

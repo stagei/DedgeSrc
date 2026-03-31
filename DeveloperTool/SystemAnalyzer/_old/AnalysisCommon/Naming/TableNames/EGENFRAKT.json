@@ -1,0 +1,76 @@
+{
+  "tableName": "EGENFRAKT",
+  "futureName": "EgenFakt",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "EFNR",
+      "futureName": "EgenFaktNr",
+      "description": "Unique identifier for the egen fakt (internal use)",
+      "foreignKey": null
+    },
+    {
+      "name": "EF_TEKST",
+      "futureName": "Tekst",
+      "description": "Text associated with the egen fakt",
+      "foreignKey": null
+    },
+    {
+      "name": "EF_FKNR",
+      "futureName": "FK_EgenFaktNr",
+      "description": "Foreign key reference to another EgenFakt record",
+      "foreignKey": null
+    },
+    {
+      "name": "MENGDEKODE",
+      "futureName": "Mengdekode",
+      "description": "Code for the quantity unit or type",
+      "foreignKey": "KVANTUMSRABATTER"
+    },
+    {
+      "name": "GRENSE_LAV",
+      "futureName": "GrenseLav",
+      "description": "Lower limit value (e.g., lower threshold)",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_LAV",
+      "futureName": "SatsLav",
+      "description": "Low rate or percentage for the range",
+      "foreignKey": null
+    },
+    {
+      "name": "GRENSE_MID",
+      "futureName": "GrenseMid",
+      "description": "Intermediate limit value (e.g., middle threshold)",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_MID",
+      "futureName": "SatsMid",
+      "description": "Middle rate or percentage for the range",
+      "foreignKey": null
+    },
+    {
+      "name": "GRENSE_HOY",
+      "futureName": "GrenseHoy",
+      "description": "Upper limit value (e.g., upper threshold)",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS_HOY",
+      "futureName": "SatsHoy",
+      "description": "High rate or percentage for the range",
+      "foreignKey": null
+    },
+    {
+      "name": "MINSTEBELOP",
+      "futureName": "MinsteBelop",
+      "description": "Minimum amount (e.g., minimum threshold)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:16:51"
+}

@@ -1,0 +1,45 @@
+{
+  "program": "RSAMAT1",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:01",
+  "extraction": {
+    "sourceHash": "sha256:cfc10c1c685e09242d3f48613008dc6cf0d21f3e3c552ce23bd07513658ccfc3",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\rsamat1.cbl",
+    "actualName": "RSAMAT1",
+    "program": "RSAMAT1",
+    "copyElements": [
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "OVERFORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBO",
+        "tableName": "V_KONTRAKT_AREAL_ALLE_5509",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBO",
+        "tableName": "V_KONTRAKT_AREAL_UPD_5509",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBO",
+        "tableName": "V_KONTRAKT_AREAL_UPD_5509",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMASQLB"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:01"
+  }
+}

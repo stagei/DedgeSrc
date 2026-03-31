@@ -1,0 +1,106 @@
+CONNECT TO BASISPRO 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISPRO
+
+
+***** SQLCODE: 0 *****
+ 
+
+connect to BASISREG
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.11
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISREG
+
+
+***** SQLCODE: 0 *****
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 0000 and 1999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 1538831
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 2000 and 3999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 1375498
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 4000 and 4999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 675029
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 5000 and 5999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 738407
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 6000 and 6999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 676911
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 7000 and 7999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 325964
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_ordrelinjer_endr v where date(v.tidspunkt) < (current date - 5 years) and avdnr between 8000 and 9999 and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 413551
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.h_verkstedhode v where date(v.tidspunkt) < (current date - 5 years) and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 100 *****
+Antall rader direkte berørt         : 0
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.ah_frakt_olinjer v where date(v.tidspunkt) < (current date - 5 years) and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 0 *****
+Antall rader direkte berørt         : 15237
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.mh_ordrelinjer v where  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.ordrenr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 100 *****
+Antall rader direkte berørt         : 0
+Antall rader berørt pga. relasjoner : 0
+ 
+
+delete from dbm.kass_transer v where date(v.tidspunkt) < (current date - 5 years) and  exists (select 1 from dbm.ah_ordre_til_hist a where  v.avdnr = a.avdnr and    v.bilagnr = a.ordrenr and a.status = ' ')
+
+***** SQLCODE: 100 *****
+Antall rader direkte berørt         : 0
+Antall rader berørt pga. relasjoner : 0
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

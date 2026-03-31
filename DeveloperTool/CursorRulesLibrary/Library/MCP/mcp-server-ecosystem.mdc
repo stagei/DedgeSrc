@@ -1,0 +1,88 @@
+﻿---
+description: MCP server ecosystem — all custom MCP servers, setup scripts, architecture, and how they connect to Cursor and Ollama
+alwaysApply: false
+---
+
+# MCP Server Ecosystem
+
+All custom MCP servers are set up from `DevTools/CodingTools/Setup-*` folders. Each folder contains a `Setup-*.ps1`, `Test-*.ps1`, and `Uninstall-*.ps1` script.
+
+## Quick Setup (All Servers at Once)
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\CodingTools\Setup-AllMcpServers\Setup-AllMcpServers.ps1"
+```
+
+This auto-detects whether Cursor and/or Ollama is installed and runs all relevant setup and test scripts. Use `-SkipTest` to skip verification or `-SkipSetup` to only run tests.
+
+## Cursor MCP Servers
+
+| MCP Name | Cursor Server Name | Type | Setup Folder | Key Tool |
+|---|---|---|---|---|
+| RAG servers (multiple) | `user-<rag-name>` | Python stdio proxy | `Setup-RagMcpCursor` | `query_docs` |
+| `db2-query` | `user-db2-query` | Streamable HTTP | `Setup-Db2QueryMcpCursor` | `query_db2` |
+| `postgresql-query` | `user-postgresql-query` | Node.js stdio | `Setup-PostgreSqlMcpCursor` | `query_postgresql` |
+| `autodoc-query` | `user-autodoc-query` | Streamable HTTP | `Setup-AutoDocMcpCursor` | `list_documents`, `get_document`, `search_documents` |
+
+**Cursor prefixes all user MCP servers with `user-`.** When calling via `CallMcpTool`, always use the `user-*` name.
+
+## MCP Server Types
+
+### Streamable HTTP (remote)
+The server runs on a remote app server (e.g. IIS). Cursor connects directly via a URL in `mcp.json`. No local process needed.
+
+```json
+{ "mcpServers": { "autodoc-query": { "url": "http://<server>/AutoDocJson/mcp" } } }
+```
+
+### Python stdio proxy (local proxy to remote)
+A local Python venv creates an MCP stdio server that forwards queries over HTTP to remote Python services. The setup script creates the venv and registers it in `mcp.json`.
+
+```json
+{ "mcpServers": { "<rag-name>": { "command": "python", "args": ["server_mcp_proxy.py", ...] } } }
+```
+
+### Node.js stdio (local)
+The server runs entirely on the developer machine as a Node.js stdio process. Used for databases accessible from the local network.
+
+```json
+{ "mcpServers": { "postgresql-query": { "command": "node", "args": ["<path>/postgresql-mcp-server.mjs"] } } }
+```
+
+## Ollama MCP Servers
+
+Ollama variants register PowerShell functions (e.g. `Ask-Rag`, `Ask-Db2`, `Ask-AutoDoc`) instead of Cursor MCP entries. These are available in PowerShell sessions after setup.
+
+| MCP Name | Setup Folder | Description |
+|---|---|---|
+| AutoDoc Query (Ask-AutoDoc) | `Setup-AutoDocMcpOllama` | PowerShell `Ask-AutoDoc` function for CLI doc queries |
+| RAG (Ask-Rag) | `Setup-RagMcpOllama` | PowerShell `Ask-Rag` function for CLI RAG queries |
+| DB2 Query (Ask-Db2) | `Setup-Db2QueryMcpOllama` | PowerShell `Ask-Db2` function for CLI DB2 queries |
+
+## Per-Server Scripts
+
+All scripts are under `DevTools/CodingTools/`:
+
+| Action | RAG | DB2 Query | PostgreSQL Query | AutoDoc Query |
+|---|---|---|---|---|
+| Setup | `Setup-RagMcpCursor\Setup-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Setup-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Setup-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Setup-AutoDocMcpCursor.ps1` |
+| Test | `Setup-RagMcpCursor\Test-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Test-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Test-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Test-AutoDocMcpCursor.ps1` |
+| Uninstall | `Setup-RagMcpCursor\Uninstall-RagMcpCursor.ps1` | `Setup-Db2QueryMcpCursor\Uninstall-Db2QueryMcpCursor.ps1` | `Setup-PostgreSqlMcpCursor\Uninstall-PostgreSqlMcpCursor.ps1` | `Setup-AutoDocMcpCursor\Uninstall-AutoDocMcpCursor.ps1` |
+
+All scripts write to `~/.cursor/mcp.json`. Restart Cursor after setup or uninstall.
+
+## Naming Convention
+
+Setup folders follow the pattern: `Setup-<Purpose>Mcp<Client>`
+
+- `<Purpose>`: `Rag`, `Db2Query`, `PostgreSql`, `AutoDoc`
+- `<Client>`: `Cursor` or `Ollama`
+
+Each folder contains three scripts: `Setup-<Name>.ps1`, `Test-<Name>.ps1`, `Uninstall-<Name>.ps1`.
+
+## Prerequisites
+
+- PowerShell 7+ (`pwsh.exe`)
+- Python 3.11+ (for RAG stdio proxies)
+- Node.js (for PostgreSQL MCP server)
+- Network access to the app server hosting remote MCP endpoints

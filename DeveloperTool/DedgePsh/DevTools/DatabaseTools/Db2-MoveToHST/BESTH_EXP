@@ -1,0 +1,162 @@
+-- KJØRES MOT  BASISPRO på SFKERP01 slik: K:\fkavd\basishst>REXX FKSQL BESTH_EXP BASISPRO log\BESTH_EXP_2017B.LOG
+-- SIST KJØRT 
+--      KJØRT 22 sep   2010 TRU   Tatt alt < 20091001
+--      KJØRT 10 sep   2011 TRU   Tatt alt < 20100301    (forsøker å ha siste 18 mnd liggende)
+--      KJØRT 07 juli  2012 TRU   Tatt alt < 20110101    (forsøker å ha siste 18 mnd liggende)
+--      KJØRT 14 feb   2013 TRU   Tatt alt < 20091001
+--      KJØRT 28 april 2013 TRU   Tatt alt < 20111101    (forsøker å ha siste 18 mnd liggende)
+--      KJØRT    aug   2014 TRU   Tatt alt < 20130401
+--      KJØRT 16 feb   2014 TRU   Tatt alt < 20121001    
+--      KJØRT 23 aug   2014 TRU   Tatt alt < 20130401    
+--      KJØRT 14 feb   2014 TRU   Tatt alt < 20111106    (krise.....)
+--      KJØRT 14 feb   2015 TRU   Tatt alt < 20131001
+--      KJØRT 16 aug   2015 TRU   Tatt alt < 20140401
+--      KJØRT 17 feb   2016 TRU   Tatt alt < 20141001    (har siste 16 mnd liggende heretter)
+--      KJØRT 13 aug   2016 TRU   Tatt alt < 20150401
+--      KJØRT 11 feb   2017 TRU   Tatt alt < 20151001
+--      KJØRT 27 jul   2017 TRU   Tatt alt < 20160601    (har siste 14 mnd liggende heretter)
+--      KJØRT 10 feb   2018 TRU   Tatt alt < 20161001    (har siste 14 mnd liggende)
+--      KJØRT 19 AUG   2018 MEH   Tatt alt < 20170601    (har siste 14 mnd liggende)
+--      KJØRT 07 Apr   2019 MEH   Tatt alt < 20180201    (har siste 14 mnd liggende)
+--      KJØRT 08 Des   2019 MEH   Tatt alt < 20181001    (har siste 14 mnd liggende)
+--      KJØRT 15 Aug   2020 MEH   Tatt alt < 20190601    (har siste 14 mnd liggende)
+--      KJØRT 18 April 2021 MEH   Tatt alt < 20200201    (har siste 14 mnd liggende)
+--      KJØRT 12 Sept  2021 MEH   Tatt alt < 20200701    (har siste 14 mnd liggende)
+--      KJØRT 17 April 2022 MEH   Tatt alt < 20210201    (har siste 14 mnd liggende)
+--      KJØRT 25 Sept  2022 MEH   Tatt alt < 20210701    (har siste 14 mnd liggende)
+--      KJØRT 26 Feb   2023 MEH   Tatt alt < 20211201    (har siste 14 mnd liggende)
+--      KJØRES 17 DES  2023 MEH   Tatt alt < 20221001    (har siste 14 mnd liggende)
+--      KJØRES 15 sept 2024 MEH   Tatt alt < 20230701    (har siste 14 mnd liggende)
+--      KJØRES 22 juni 2025 MEH   Tatt alt < 20240401    (har siste 14 mnd liggende)
+--       23.03.2021 MEH  Lagt inn betingelse om at innkjøpsordrene som skal overføres
+--                       skal være full-levert VINNGSTATUS= 'VF'
+--       10.09.2021 MEH Kopierer over annullerte innkjøpsordre også STATUS= 'IA'
+--       18.09.2021 MEH Endret utplukk pga flytting av 2021s annulerte innkjøpsordre.
+--                      best hode lagt tilbake da pgm som plukker ordrenr "tetter hull"
+--                      så det blir dubletter i samme år.
+--
+--      Husk å endre dato i utvalget samt filenavn!
+--      Husk å endre dato i utvalget samt filenavn!
+--      Husk å endre dato i utvalget samt filenavn!
+--
+ CONNECT TO BASISPRO;
+-- USER srv_db2  USING Database1;
+-- DELETE   FROM DBM.BEST_TIL_HIST;
+--DROP TABLE DBM.BEST_TIL_HIST;
+--CREATE TABLE DBM.BEST_TIL_HIST (
+--  AAR                            DECIMAL     (4,0)     NOT NULL WITH DEFAULT 0.0,
+--  ORDRENR                        DECIMAL     (8,0)     NOT NULL WITH DEFAULT 0.0,
+--  AVDNR                          DECIMAL     (6,0)     NOT NULL WITH DEFAULT 0.0,
+--  TIDSPUNKT                      TIMESTAMP             NOT NULL WITH DEFAULT CURRENT TIMESTAMP,
+--  STATUS                         CHARACTER   (1)       NOT NULL WITH DEFAULT ' ',
+--    PRIMARY KEY(AAR, ORDRENR)
+--  ) IN BEST_TIL_HIST  ;
+  TRUNCATE TABLE DBM.BEST_TIL_HIST IMMEDIATE;
+--
+  INSERT INTO DBM.BEST_TIL_HIST
+   (SELECT DEC(SUBSTR(CHAR(ORDREDATO),1,4)), ORDRENR, AVDNR, CURRENT TIMESTAMP, ' '
+   FROM DBM.A_BESTHODE b WHERE  ORDREDATO < 20240401 and ((VINNGSTATUS= 'VF')
+   or (ORDRESTATUS = 'IA'))
+   );
+--   and (not exists (select 1 from dbm.feil_flytt_annullerte f
+--   where DEC(SUBSTR(CHAR(ORDREDATO),1,4)) = f.aar and b.ordrenr = f.ordrenr
+--            and b.ordredato > 20211200)));
+--   FROM DBM.A_BESTHODE b WHERE  ((ORDREDATO < 20240401 and VINNGSTATUS= 'VF')
+--   or (ORDRESTATUS = 'IA'))
+--   and (not exists (select 1 from dbm.feil_flyttet_annullerte f
+--         where DEC(SUBSTR(CHAR(ORDREDATO),1,4) = f.aar and b.ordrenr = f.ordrenr));
+  INSERT INTO DBM.BEST_TIL_HIST
+  (SELECT DEC(SUBSTR(CHAR(ORDREDATO),1,4)), ORDRENR, AVDNR, CURRENT TIMESTAMP, ' '
+ FROM DBM.BESTHODE b WHERE ORDREDATO < 20240401 and ((VINNGSTATUS= 'VF')
+   or (ORDRESTATUS = 'IA')
+--   or (VINNGSTATUS= 'VD' and not exists(select 1 from dbm.bestlin l
+--    where B.avdnr = l.avdnr and B.ordrenr = l.ordrenr
+--    and ((linjestatus  not in('F', 'M')))))
+--    and ((linjestatus  = 'F') or (bekrant = 0 and mottant = 0)))) Byttet ut med linja over og not exists
+--   or (dirlevkunde > 0 and exists (select 1 from dbm.h_ordrehode o
+--   where B.avdnr = o.avdnr and referanseordre = ordrenr)))
+   ));
+--   and (not exists (select 1 from dbm.feil_flytt_annullerte f
+--         where DEC(SUBSTR(CHAR(ORDREDATO),1,4)) = f.aar and b.ordrenr = f.ordrenr)));
+--   FROM DBM.BESTHODE B WHERE  ((ORDREDATO < 20240401 and VINNGSTATUS= 'VF')
+--   or (ORDRESTATUS = 'IA'))
+--   AND NOT EXISTS (SELECT 1 FROM DBM.BEST_TIL_HIST H WHERE B.ORDRENR = H.ORDRENR));
+--
+  RUNSTATS ON TABLE DBM.BEST_TIL_HIST AND INDEXES ALL;
+  SELECT count(*) FROM DBM.BEST_TIL_HIST;
+--
+  EXPORT TO  F:\IMPORT\BTHI_H25.IXF OF IXF
+   SELECT *
+   FROM DBM.BEST_TIL_HIST ;
+--//
+--
+EXPORT TO  F:\IMPORT\BEHA_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.A_BESTHODE B
+ WHERE B.AVDNR   = A.AVDNR
+ AND   B.ORDRENR = A.ORDRENR  ;
+--
+EXPORT TO  F:\IMPORT\BELA_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.A_BESTLIN  B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\BEH_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.BESTHODE B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\BEL_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.BESTLIN  B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\VIHA_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.A_viHODE B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\VILA_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.A_viLIN  B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\VIH_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.VIHODE B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\VIL_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.VILIN  B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+EXPORT TO  F:\IMPORT\INFA_H25.IXF OF IXF
+ SELECT A.AAR, B.*
+ FROM DBM.BEST_TIL_HIST A,
+      DBM.INNGANG_FAKO B
+ WHERE B.ORDRENR = A.ORDRENR
+ AND   B.AVDNR   = A.AVDNR    ;
+--
+//
+--   or (VINNGSTATUS= 'VD' and not exists(select 1 from dbm.a_bestlin l
+--    where B.avdnr = l.avdnr and B.ordrenr = l.ordrenr
+--    and ((linjestatus  = 'F'))))  -- or (bekrant = 0 and mottant = 0))))
+--    and ((linjestatus  <> 'F') or (bekrant = 0 and mottant = 0))))
+--  or (dirlevkunde > 0 and exists (select 1 from dbm.ah_ordrehode o
+--   where B.avdnr = o.avdnr and referanseordre = ordrenr)))

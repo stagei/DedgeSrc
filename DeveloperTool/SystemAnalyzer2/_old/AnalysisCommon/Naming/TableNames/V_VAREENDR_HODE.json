@@ -1,0 +1,58 @@
+{
+  "tableName": "V_VAREENDR_HODE",
+  "futureName": "VareHistorikk",
+  "namespace": "DBM",
+  "columns": [
+    {
+      "name": "INNLESING",
+      "futureName": "Innlesing",
+      "description": "Source of the record or file name",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID_INNLEST",
+      "futureName": "ImporterUser",
+      "description": "User who imported the data",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPKT_INNLEST",
+      "futureName": "ImportTime",
+      "description": "Timestamp when the record was imported",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_PAA_FILA",
+      "futureName": "FileRecordCount",
+      "description": "Number of records in the file",
+      "foreignKey": "V_VENTEVARE_HODE"
+    },
+    {
+      "name": "ANT_LEST",
+      "futureName": "RecordsRead",
+      "description": "Number of records read during import",
+      "foreignKey": "V_VENTEVARE_HODE"
+    },
+    {
+      "name": "VAREMAL_GODKJENT",
+      "futureName": "MaterialApproved",
+      "description": "Flag indicating if the material is approved",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "User",
+      "description": "User identifier",
+      "foreignKey": "A_ORDREHODE"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or record",
+      "foreignKey": "A_BESTHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:18:46"
+}

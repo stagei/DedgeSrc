@@ -1,0 +1,70 @@
+{
+  "tableName": "PAKKE_VARER",
+  "futureName": "PackageItem",
+  "namespace": "Inventory",
+  "columns": [
+    {
+      "name": "HOVEDLEVNR",
+      "futureName": "MainLocationNumber",
+      "description": "The main location number associated with the package item",
+      "foreignKey": null
+    },
+    {
+      "name": "HOVEDELVVARENR",
+      "futureName": "MainProductNumber",
+      "description": "The main product number associated with the package item",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUSPAKKE",
+      "futureName": "PackageStatus",
+      "description": "The status of the package",
+      "foreignKey": null
+    },
+    {
+      "name": "DELLENVNR",
+      "futureName": "SubLocationNumber",
+      "description": "The sub-location number associated with the package item",
+      "foreignKey": null
+    },
+    {
+      "name": "DEVELVVARENR",
+      "futureName": "SubProductNumber",
+      "description": "The sub-product number associated with the package item",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "The quantity of the product in the package",
+      "foreignKey": "A_ORDRELINJER, DEMOHISTORIKK, DEMOLINJE, EDI_FAKT_LINJE, EDI_KONV_KUNDENR, EGETBRUK_LINJE, ERSTATNINGER, FAKTHIST"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the package item was processed or updated",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "The user who processed or updated the package item",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_KORRIGERINGER, A_VIHODE, A_VILIN, ADR_ID, AH_BESTHODE"
+    },
+    {
+      "name": "INNLESING",
+      "futureName": "ImportSource",
+      "description": "The source from which the package item was imported or received",
+      "foreignKey": "V_VARE_ENDRINGER, V_VAREENDR_HODE, V_VAREMAAL"
+    },
+    {
+      "name": "DATOLESTINN",
+      "futureName": "ImportDate",
+      "description": "The date when the package item was last imported or received",
+      "foreignKey": "V_VARE_ENDRINGER"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:22:56"
+}

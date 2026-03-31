@@ -1,0 +1,154 @@
+{
+  "tableName": "ISYS_LINJER",
+  "futureName": "OrderLineItem",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ordreNr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "orderLineId",
+      "futureName": "OrderLineId",
+      "description": "Unique identifier for the line item in an order",
+      "foreignKey": null
+    },
+    {
+      "name": "supplierNumber",
+      "futureName": "SupplierNumber",
+      "description": "Supplier number associated with the product",
+      "foreignKey": null
+    },
+    {
+      "name": "productCode",
+      "futureName": "ProductCode",
+      "description": "Code identifying the product",
+      "foreignKey": null
+    },
+    {
+      "name": "quantity",
+      "futureName": "Quantity",
+      "description": "Number of items in the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "price",
+      "futureName": "Price",
+      "description": "Unit price of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "productName",
+      "futureName": "ProductName",
+      "description": "Name of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "pickupInfo",
+      "futureName": "PickupInfo",
+      "description": "Information related to picking up the item",
+      "foreignKey": null
+    },
+    {
+      "name": "unitOfMeasure",
+      "futureName": "UnitOfMeasure",
+      "description": "Unit of measure for the product quantity",
+      "foreignKey": null
+    },
+    {
+      "name": "additionalNote",
+      "futureName": "AdditionalNote",
+      "description": "Any additional notes or remarks about the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "fkOrderHeaderNumber",
+      "futureName": "FkOrderHeaderNumber",
+      "description": "Foreign key linking to the order header number",
+      "foreignKey": "OrderHeader"
+    },
+    {
+      "name": "fkHighLevelOrderLineId",
+      "futureName": "FkHighLevelOrderLineId",
+      "description": "Foreign key linking to a high-level order line identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "fkHighLevelOrderNumber",
+      "futureName": "FkHighLevelOrderNumber",
+      "description": "Foreign key linking to the high-level order number",
+      "foreignKey": null
+    },
+    {
+      "name": "fkHighLevelLineId",
+      "futureName": "FkHighLevelLineId",
+      "description": "Foreign key linking to a high-level line identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "fkHighLevelSplit",
+      "futureName": "FkHighLevelSplit",
+      "description": "Foreign key indicating if the order line is split from another line",
+      "foreignKey": null
+    },
+    {
+      "name": "fkItemDepartmentNumber",
+      "futureName": "FkItemDepartmentNumber",
+      "description": "Foreign key linking to the department number in the item master data",
+      "foreignKey": null
+    },
+    {
+      "name": "fkItemOrderNumber",
+      "futureName": "FkItemOrderNumber",
+      "description": "Foreign key linking to the order number within the item system",
+      "foreignKey": null
+    },
+    {
+      "name": "fkItemLineId",
+      "futureName": "FkItemLineId",
+      "description": "Foreign key linking to the line identifier in the item system",
+      "foreignKey": null
+    },
+    {
+      "name": "statusCode",
+      "futureName": "StatusCode",
+      "description": "Status code indicating the current status of the order line",
+      "foreignKey": null
+    },
+    {
+      "name": "orderingPath",
+      "futureName": "OrderingPath",
+      "description": "Path or method used for ordering the product",
+      "foreignKey": null
+    },
+    {
+      "name": "timestamp",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating when the record was last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "enteredBy",
+      "futureName": "EnteredBy",
+      "description": "Person or system who entered the order line information",
+      "foreignKey": null
+    },
+    {
+      "name": "customerNumber",
+      "futureName": "CustomerNumber",
+      "description": "Customer number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "variantProductCode",
+      "futureName": "VariantProductCode",
+      "description": "Extended or variant product code for more detailed identification",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:46:04"
+}

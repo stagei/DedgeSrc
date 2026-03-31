@@ -1,0 +1,58 @@
+{
+  "tableName": "P_AVREGNING_DATAFLYT",
+  "futureName": "DataFlitPbeh",
+  "namespace": "JournalData",
+  "columns": [
+    {
+      "name": "JOUR_JOURNALNR",
+      "futureName": "JournalNumber",
+      "description": "Unique journal entry number",
+      "foreignKey": null
+    },
+    {
+      "name": "PBEH_TIL_DATAFLYT",
+      "futureName": "DataFlowDestination",
+      "description": "Destination for data flow",
+      "foreignKey": null
+    },
+    {
+      "name": "PBEH_ETTERBETALING",
+      "futureName": "AfterPaymentIndicator",
+      "description": "Indicator if the transaction is an after payment",
+      "foreignKey": null
+    },
+    {
+      "name": "PBEH_AVREGNINGSTYPE",
+      "futureName": "BillingType",
+      "description": "Type of billing or settlement",
+      "foreignKey": null
+    },
+    {
+      "name": "KOH_ADR",
+      "futureName": "Address",
+      "description": "Address related to the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "KOHE_KODER",
+      "futureName": "Code",
+      "description": "Specific code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KOH_NAVN",
+      "futureName": "Name",
+      "description": "Name related to the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "KOHA_TIL_DATAFLYT",
+      "futureName": "DataFlowDestinationHandler",
+      "description": "Destination for data flow for handler",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:59:07"
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeMonkey by Dedge - Professional Developer Tools</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/images/codemonkey.png" alt="CodeMonkey" class="logo" onerror="this.src='/images/logo.png'">
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/products.html" class="nav-link">Products</a>
+                <a href="#" onclick="showSearch()" class="nav-link">Search</a>
+                <a href="https://github.com/yourusername/SqlMermaidErdTools" class="nav-link" target="_blank">Docs</a>
+            </div>
+            <div class="nav-brand">
+                <img src="/images/dedge.png" alt="Dedge" class="logo-dedge" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Professional Developer Tools for Modern Teams</h1>
+                <p class="hero-subtitle">
+                    High-quality software tools and extensions to supercharge your development workflow.
+                    From database diagrams to IDE extensions - we build tools developers love.
+                </p>
+                <div class="hero-actions">
+                    <a href="/products.html" class="btn btn-primary btn-lg">View All Products</a>
+                    <a href="https://github.com/yourusername/SqlMermaidErdTools" class="btn btn-secondary btn-lg" target="_blank">
+                        View on GitHub
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="total-downloads">0</div>
+                        <div class="stat-label">Total Downloads</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="total-products">0</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4.8★</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div id="featured-products-grid" class="products-grid">
+                <!-- Products loaded dynamically -->
+                <div class="loading">Loading featured products...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose CodeMonkey Tools?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">↔️</div>
+                    <h3>Bidirectional Conversion</h3>
+                    <p>Convert seamlessly between SQL DDL and Mermaid ERD in both directions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗄️</div>
+                    <h3>Multi-Dialect Support</h3>
+                    <p>Supports ANSI SQL, SQL Server, PostgreSQL, and MySQL dialects</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Schema Visualization</h3>
+                    <p>Beautiful ERD diagrams with foreign keys, indexes, and relationships</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Schema Migrations</h3>
+                    <p>Generate SQL migrations from Mermaid diagram differences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧰</div>
+                    <h3>Multiple Formats</h3>
+                    <p>NuGet package, CLI tool, and VS Code extensions available</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Production Ready</h3>
+                    <p>100% test coverage, bundled runtimes, enterprise support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Choose from our range of products to fit your workflow</p>
+            <a href="/products.html" class="btn btn-primary btn-lg">Browse Products</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>CodeMonkey by Dedge</h4>
+                    <p>Professional developer tools and software solutions</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="/products.html#sqlmermaid-nuget">NuGet Package</a></li>
+                        <li><a href="/products.html#sqlmermaid-cli">CLI Tool</a></li>
+                        <li><a href="/products.html#sqlmermaid-vscode">VS Code Extensions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/yourusername/SqlMermaidErdTools" target="_blank">Documentation</a></li>
+                        <li><a href="https://github.com/yourusername/SqlMermaidErdTools" target="_blank">GitHub</a></li>
+                        <li><a href="mailto:support@sqlmermaid.tools">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/licenses.html">Open Source Licenses</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CodeMonkey by Dedge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="hideSearch()">&times;</span>
+            <h2>Search Products</h2>
+            <input type="text" id="search-input" class="search-input" placeholder="Search for products...">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
+

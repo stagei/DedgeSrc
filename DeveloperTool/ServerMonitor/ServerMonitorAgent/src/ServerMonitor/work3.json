@@ -1,0 +1,1133 @@
+﻿{
+  "metadata": {
+    "serverName": "30237-FK",
+    "timestamp": "2025-12-12T14:11:19.9594243Z",
+    "snapshotId": "daae5697-cc4e-4515-bf33-3ce4d977e3d7",
+    "collectionDurationMs": 0,
+    "toolVersion": "1.0.0",
+    "configuration": {
+      "logDirectory": "C:\\opt\\data\\ServerMonitor",
+      "logDirectoryUnc": "C:\\opt\\data\\ServerMonitor",
+      "appName": "ServerMonitor",
+      "snapshotOutputDirectories": [
+        "%OptPath%\\data\\ServerMonitor\\Snapshots"
+      ],
+      "snapshotOutputDirectoriesUnc": [
+        "%OptPath%\\data\\ServerMonitor\\Snapshots"
+      ],
+      "snapshotFileNamePattern": "{ServerName}_{Timestamp:yyyyMMdd_HHmmss}.json",
+      "alertLogPath": "C:\\opt\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+      "alertLogPathUnc": "C:\\opt\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+      "processorMonitoring": {
+        "enabled": true,
+        "pollingIntervalSeconds": 30,
+        "warningPercent": 80,
+        "criticalPercent": 95,
+        "sustainedDurationSeconds": 300,
+        "trackTopProcesses": 3,
+        "processCacheRefreshSeconds": 120,
+        "serviceMapRefreshMinutes": 10,
+        "enhancedProcessMetadata": true
+      },
+      "memoryMonitoring": {
+        "enabled": true,
+        "pollingIntervalSeconds": 60,
+        "warningPercent": 85,
+        "criticalPercent": 95,
+        "sustainedDurationSeconds": 300,
+        "trackTopProcesses": 3,
+        "processCacheRefreshSeconds": 120,
+        "serviceMapRefreshMinutes": 10,
+        "enhancedProcessMetadata": true
+      },
+      "virtualMemoryMonitoring": {
+        "enabled": true,
+        "pollingIntervalSeconds": 60,
+        "warningPercent": 80,
+        "criticalPercent": 90,
+        "sustainedDurationSeconds": 300,
+        "excessivePagingRate": 1000
+      },
+      "diskSpaceMonitoring": {
+        "enabled": true,
+        "pollingIntervalSeconds": 300,
+        "disksToMonitor": ["C:", "*"],
+        "warningPercent": 85,
+        "criticalPercent": 95,
+        "minimumFreeSpaceGB": 10
+      },
+      "diskUsageMonitoring": {
+        "enabled": false,
+        "pollingIntervalSeconds": 15,
+        "disksToMonitor": ["C:", "C:"],
+        "maxQueueLength": 10,
+        "maxResponseTimeMs": 50,
+        "sustainedDurationSeconds": 180
+      },
+      "windowsUpdateMonitoring": {
+        "enabled": true,
+        "pollingIntervalSeconds": 3600,
+        "maxPendingSecurityUpdates": 0,
+        "maxPendingCriticalUpdates": 0,
+        "maxDaysSinceLastUpdate": 30,
+        "alertOnPendingSecurityUpdates": true
+      },
+      "exportSettings": {
+        "enabled": true,
+        "intervalMinutes": 15,
+        "onAlertTrigger": false,
+        "onDemand": true,
+        "maxAgeHours": 720,
+        "maxFileCount": 1000,
+        "compressionEnabled": true
+      },
+      "alerting": {
+        "enabled": true,
+        "maxAlertsPerHour": 50,
+        "warningSuppressionMinutes": 60,
+        "errorSuppressionMinutes": 15,
+        "informationalSuppressionMinutes": 1440,
+        "enabledChannels": ["SMS", "File", "Email", "WKMonitor"]
+      },
+      "restApi": { "enabled": true, "port": 8999, "enableSwagger": true }
+    }
+  },
+  "processor": {
+    "overallUsagePercent": 11.695500373840332,
+    "perCoreUsage": [],
+    "averages": {
+      "oneMinute": 12.475737571716309,
+      "fiveMinute": 14.518580263311213,
+      "fifteenMinute": 14.518580263311213
+    },
+    "timeAboveThresholdSeconds": 0,
+    "topProcesses": [],
+    "cpuUsageHistory": [
+      {
+        "timestamp": "2025-12-12T14:05:52.4211059Z",
+        "value": 15.819951057434082
+      },
+      {
+        "timestamp": "2025-12-12T14:06:22.4208352Z",
+        "value": 21.150253295898438
+      },
+      {
+        "timestamp": "2025-12-12T14:06:52.4268899Z",
+        "value": 15.37553882598877
+      },
+      {
+        "timestamp": "2025-12-12T14:07:22.4339669Z",
+        "value": 15.708719253540039
+      },
+      {
+        "timestamp": "2025-12-12T14:07:52.4201353Z",
+        "value": 13.71605110168457
+      },
+      {
+        "timestamp": "2025-12-12T14:08:22.4277377Z",
+        "value": 15.154025077819824
+      },
+      {
+        "timestamp": "2025-12-12T14:08:52.4231344Z",
+        "value": 10.275460243225098
+      },
+      {
+        "timestamp": "2025-12-12T14:09:22.4215773Z",
+        "value": 15.077171325683594
+      },
+      {
+        "timestamp": "2025-12-12T14:09:52.4277774Z",
+        "value": 12.279014587402344
+      },
+      {
+        "timestamp": "2025-12-12T14:10:22.4408464Z",
+        "value": 13.45269775390625
+      },
+      {
+        "timestamp": "2025-12-12T14:10:52.4144803Z",
+        "value": 11.695500373840332
+      }
+    ]
+  },
+  "memory": {
+    "totalGB": 29.66425323486328,
+    "availableGB": 9.056640625,
+    "usedPercent": 69.46951418835627,
+    "timeAboveThresholdSeconds": 0,
+    "topProcesses": [
+      {
+        "name": "Memory Compression",
+        "pid": 4884,
+        "executablePath": "",
+        "commandLine": "",
+        "userName": "NT-MYNDIGHET\\SYSTEM",
+        "startTime": "2025-12-10T10:55:34.2357384+01:00",
+        "cpuPercent": 0,
+        "totalCpuTime": "00:34:10.3750000",
+        "userCpuTime": "00:00:00",
+        "kernelCpuTime": "00:34:10.3750000",
+        "memoryMB": 2185,
+        "privateMemoryMB": 6,
+        "virtualMemoryMB": 2637,
+        "diskReadMB": 0,
+        "diskWriteMB": 0,
+        "threadCount": 186,
+        "handleCount": 0,
+        "pageFaults": 22925938,
+        "serviceName": null,
+        "serviceDisplayName": null,
+        "serviceStatus": null
+      },
+      {
+        "name": "Cursor",
+        "pid": 35092,
+        "executablePath": "C:\\Program Files\\cursor\\Cursor.exe",
+        "commandLine": "\"C:\\Program Files\\cursor\\Cursor.exe\" --type=renderer --user-data-dir=\"C:\\Users\\FKGEISTA\\AppData\\Roaming\\Cursor\" --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file,sentry-ipc --bypasscsp-schemes=sentry-ipc --cors-schemes=vscode-webview,vscode-file,sentry-ipc --fetch-schemes=vscode-webview,vscode-file,sentry-ipc --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --app-user-model-id=Anysphere.Cursor --app-path=\"C:\\Program Files\\cursor\\resources\\app\" --enable-sandbox --enable-blink-features=HighlightAPI --force-gpu-mem-available-mb=1024 --disable-blink-features=FontMatchingCTMigration,StandardizedBrowserZoom, --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1765360509951386 --launch-time-ticks=167851112408 --field-trial-handle=1744,i,9476312417208403769,4595064736338960398,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=CalculateNativeWinOcclusion,PlzDedicatedWorker,ScreenAIOCREnabled,SpareRendererForSitePerProcess,WinDelaySpellcheckServiceInit --variations-seed-version --mojo-platform-channel-handle=3388 --vscode-window-config=vscode:7b63b6f0-06c0-447d-b962-b7eef03d02b5 /prefetch:1",
+        "userName": "DEDGE\\FKGEISTA",
+        "startTime": "2025-12-12T09:32:41.0718436+01:00",
+        "cpuPercent": 0,
+        "totalCpuTime": "01:02:41.1875000",
+        "userCpuTime": "00:53:07.2968750",
+        "kernelCpuTime": "00:09:33.8906250",
+        "memoryMB": 1192,
+        "privateMemoryMB": 1544,
+        "virtualMemoryMB": 3526267,
+        "diskReadMB": 8961.640881538391,
+        "diskWriteMB": 11394.291081428528,
+        "threadCount": 39,
+        "handleCount": 611,
+        "pageFaults": 37400711,
+        "serviceName": null,
+        "serviceDisplayName": null,
+        "serviceStatus": null
+      },
+      {
+        "name": "devenv",
+        "pid": 20680,
+        "executablePath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\devenv.exe",
+        "commandLine": "\"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\devenv.exe\" ",
+        "userName": "DEDGE\\FKGEISTA",
+        "startTime": "2025-12-10T11:45:55.2076824+01:00",
+        "cpuPercent": 0,
+        "totalCpuTime": "01:10:11.8906250",
+        "userCpuTime": "00:39:52.3125000",
+        "kernelCpuTime": "00:30:19.5781250",
+        "memoryMB": 1024,
+        "privateMemoryMB": 1352,
+        "virtualMemoryMB": 2139272,
+        "diskReadMB": 1622.3217086791992,
+        "diskWriteMB": 1982.7365646362305,
+        "threadCount": 173,
+        "handleCount": 4973,
+        "pageFaults": 19809180,
+        "serviceName": null,
+        "serviceDisplayName": null,
+        "serviceStatus": null
+      }
+    ],
+    "memoryUsageHistory": [
+      {
+        "timestamp": "2025-12-12T14:05:52.4567254Z",
+        "value": 69.81188754660633
+      },
+      {
+        "timestamp": "2025-12-12T14:06:52.4454878Z",
+        "value": 69.23248647879855
+      },
+      {
+        "timestamp": "2025-12-12T14:07:52.4574451Z",
+        "value": 68.99875082076245
+      },
+      {
+        "timestamp": "2025-12-12T14:08:52.4445221Z",
+        "value": 69.27857520010143
+      },
+      {
+        "timestamp": "2025-12-12T14:09:52.4569891Z",
+        "value": 69.4826823944428
+      },
+      {
+        "timestamp": "2025-12-12T14:10:52.4361156Z",
+        "value": 69.46951418835627
+      }
+    ]
+  },
+  "virtualMemory": {
+    "totalGB": 30,
+    "availableGB": 29.511112213134766,
+    "usedPercent": 1.6296259562174478,
+    "timeAboveThresholdSeconds": 0,
+    "pagingRatePerSec": 2.531015157699585,
+    "virtualMemoryUsageHistory": [
+      {
+        "timestamp": "2025-12-12T14:06:52.4394077Z",
+        "value": 1.6313807169596355
+      },
+      {
+        "timestamp": "2025-12-12T14:07:52.4798299Z",
+        "value": 1.6313807169596355
+      },
+      {
+        "timestamp": "2025-12-12T14:08:52.4758724Z",
+        "value": 1.6296259562174478
+      },
+      {
+        "timestamp": "2025-12-12T14:09:52.4545906Z",
+        "value": 1.6296259562174478
+      },
+      {
+        "timestamp": "2025-12-12T14:10:52.5102615Z",
+        "value": 1.6296259562174478
+      }
+    ]
+  },
+  "disks": {
+    "usage": [],
+    "space": [
+      {
+        "drive": "C:",
+        "totalGB": 475.70214462280273,
+        "availableGB": 138.2196273803711,
+        "usedPercent": 70.94408151345014,
+        "fileSystem": "NTFS"
+      }
+    ]
+  },
+  "network": [
+    {
+      "hostname": "10.33.103.137",
+      "pingMs": 6,
+      "packetLossPercent": 0,
+      "dnsResolutionMs": null,
+      "portStatus": {},
+      "consecutiveFailures": 0
+    }
+  ],
+  "uptime": {
+    "lastBootTime": "2025-12-10T09:55:08.5Z",
+    "currentUptimeDays": 2.177591469980324,
+    "unexpectedReboot": false
+  },
+  "windowsUpdates": {
+    "pendingCount": 6,
+    "securityUpdates": 0,
+    "criticalUpdates": 0,
+    "lastInstallDate": "2025-12-12T00:00:00",
+    "failedUpdates": 21,
+    "pendingUpdateNames": [
+      "Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.443.63.0) - Current Channel (Broad)",
+      "Lenovo Ltd. - Firmware - 7.2.5.0",
+      "Lenovo Ltd. - Firmware - 1.0.0.56",
+      "Intel - Firmware - 16.1.38.2676",
+      "Lenovo Ltd. Driver Update (1.61.0.0)",
+      "DisplayLink Driver Update (12.1.2591.0)"
+    ]
+  },
+  "events": [
+    {
+      "eventId": 4625,
+      "source": "Microsoft-Windows-Security-Auditing",
+      "level": "Warning",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 4740,
+      "source": "Microsoft-Windows-Security-Auditing",
+      "level": "Warning",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 1001,
+      "source": "Application Error",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 1000,
+      "source": "Application Error",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 6008,
+      "source": "EventLog",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 41,
+      "source": "Microsoft-Windows-Kernel-Power",
+      "level": "Critical",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 1074,
+      "source": "User32",
+      "level": "Information",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 1076,
+      "source": "User32",
+      "level": "Information",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 10010,
+      "source": "Microsoft-Windows-DistributedCOM",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7001,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7022,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7023,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7024,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7026,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7031,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 7034,
+      "source": "Service Control Manager",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 15,
+      "source": "disk",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 153,
+      "source": "disk",
+      "level": "Warning",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 2019,
+      "source": "srv",
+      "level": "Error",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 1500,
+      "source": "Microsoft-Windows-Security-SPP",
+      "level": "Warning",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    },
+    {
+      "eventId": 2004,
+      "source": "Microsoft-Windows-Resource-Exhaustion-Detector",
+      "level": "Warning",
+      "count": 0,
+      "lastOccurrence": null,
+      "message": ""
+    }
+  ],
+  "services": [],
+  "scheduledTasks": [
+    {
+      "taskPath": "\\DevTools\\Db2-AutoCatalog",
+      "taskName": "Db2-AutoCatalog",
+      "state": "Ready",
+      "lastRunTime": "2025-12-12T02:00:01",
+      "lastRunResult": 0,
+      "nextRunTime": "2025-12-13T02:00:00",
+      "missedRuns": 0,
+      "isEnabled": true,
+      "description": null,
+      "runAsUser": "FKGEISTA",
+      "author": "DEDGE\\FKGEISTA",
+      "registrationDate": "2025-07-17T18:12:29+02:00"
+    },
+    {
+      "taskPath": "\\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "taskName": "Db2-VerifyDatabaseConnectivity",
+      "state": "Ready",
+      "lastRunTime": "1999-11-30T00:00:00",
+      "lastRunResult": 267011,
+      "nextRunTime": "2025-12-13T07:00:00",
+      "missedRuns": 0,
+      "isEnabled": true,
+      "description": null,
+      "runAsUser": "FKGEISTA",
+      "author": "DEDGE\\FKGEISTA",
+      "registrationDate": "2025-11-26T13:16:10+01:00"
+    },
+    {
+      "taskPath": "\\DevTools\\DedgeCommonFilesHandling",
+      "taskName": "DedgeCommonFilesHandling",
+      "state": "Ready",
+      "lastRunTime": "2025-12-12T12:00:02",
+      "lastRunResult": 64,
+      "nextRunTime": "2025-12-13T12:00:00",
+      "missedRuns": 0,
+      "isEnabled": true,
+      "description": null,
+      "runAsUser": "FKGEISTA",
+      "author": "DEDGE\\FKGEISTA",
+      "registrationDate": "2025-09-10T16:25:40+02:00"
+    },
+    {
+      "taskPath": "\\DevTools\\Map-NetworkDrives",
+      "taskName": "Map-NetworkDrives",
+      "state": "Ready",
+      "lastRunTime": "2025-12-10T11:39:45",
+      "lastRunResult": 0,
+      "nextRunTime": null,
+      "missedRuns": 0,
+      "isEnabled": true,
+      "description": null,
+      "runAsUser": "FKGEISTA",
+      "author": "DEDGE\\FKGEISTA",
+      "registrationDate": "2025-06-15T19:29:40.9175743+02:00"
+    },
+    {
+      "taskPath": "\\DevTools\\SoftwareDownloader",
+      "taskName": "SoftwareDownloader",
+      "state": "Ready",
+      "lastRunTime": "2025-12-12T09:00:01",
+      "lastRunResult": 0,
+      "nextRunTime": "2025-12-13T09:00:00",
+      "missedRuns": 0,
+      "isEnabled": true,
+      "description": null,
+      "runAsUser": "FKGEISTA",
+      "author": "DEDGE\\FKGEISTA",
+      "registrationDate": "2025-08-13T09:36:28+02:00"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "5000a613-e4b9-4c25-95b7-52233f9ec970",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T13:46:54.4236679Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T13:46:54.4849794Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T13:46:54.7951443Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T13:46:54.931519Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T13:46:56.3565757Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212144656355.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "663c0e53-e4b2-4e61-befe-0c06037458c3",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693846 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T13:46:54.4269727Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T13:46:56.3693976Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T13:46:56.565977Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T13:46:56.5901922Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T13:46:57.8436201Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212144657842.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "a8ded709-0054-4161-b1f0-607abd3caa95",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T13:46:54.4355603Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T13:46:57.8510722Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T13:46:58.038781Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T13:46:58.0617142Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T13:46:59.2554536Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212144659254.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "d84a8c55-55a6-4520-bc93-359a74e6818a",
+      "severity": 1,
+      "category": "VirtualMemory",
+      "message": "Excessive paging detected: 1558 pages/sec",
+      "details": "Paging rate of 1558 pages/sec exceeds threshold of 1000",
+      "timestamp": "2025-12-12T13:49:52.4411766Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T13:49:52.4527637Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T13:49:52.7108527Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T13:49:52.7441803Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T13:49:55.3482457Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212144955347.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "4176ca9f-eba1-42c9-b49e-e25f7695139c",
+      "severity": 1,
+      "category": "Network",
+      "message": "Packet loss to 10.33.103.137: 25.0%",
+      "details": "Experiencing 25.0% packet loss",
+      "timestamp": "2025-12-12T13:49:53.7651815Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T13:49:53.7751283Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T13:49:53.9810498Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T13:49:54.0137858Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T13:49:55.3716369Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212144955371.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "c438f7e0-f4a1-44d6-bb3e-69540c0419df",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T13:50:14.156548Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "5933d6c7-c83f-424d-b4db-e3a12d40e162",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693850 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T13:50:14.1576138Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "db5b89f0-bbdd-42a3-b48f-37047010e454",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T13:50:14.1605244Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "b7fb7047-c3bf-418c-9edf-0f108cec2ae0",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T13:53:33.5647329Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "80f38b3e-41cd-4b75-a591-cd66b2fd1939",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693853 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T13:53:33.5655144Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "e45fd29c-9fb3-4def-9d76-7878dfd135f2",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T13:53:33.5681796Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "911aeab7-f517-46ac-9440-58d896b08c9f",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T13:56:54.344998Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "90b654fb-8521-4a98-89c3-740a7bc76edc",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693856 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T13:56:54.3475822Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "ba0469a5-dc35-4dc0-84a6-2ab8987a131b",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T13:56:54.3546511Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "edaa7924-305c-4e7a-a386-cce24a91c939",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T14:00:14.0191633Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "0340e4c7-ad02-47bd-8f99-8c162627b11e",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693860 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T14:00:14.0221548Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "499ee62b-c0a2-4f84-b220-275de49824a9",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T14:00:14.029695Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "30695254-edcd-41ba-847c-7f5c78594d5b",
+      "severity": 1,
+      "category": "VirtualMemory",
+      "message": "Excessive paging detected: 3291 pages/sec",
+      "details": "Paging rate of 3291 pages/sec exceeds threshold of 1000",
+      "timestamp": "2025-12-12T14:02:52.447392Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "af8bcc36-f96c-49ac-9d73-88ff7f06710a",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T14:03:34.1195207Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T14:03:34.1609427Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T14:03:34.3548582Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T14:03:34.4473734Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T14:03:35.8252429Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212150335824.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "6e3c7712-7d22-449d-940d-8363dc1917d2",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693863 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T14:03:34.1221037Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "e9461b19-9f4c-4ac6-9d34-c0a4bf8be625",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T14:03:34.1294058Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [
+        {
+          "channelType": "File",
+          "timestamp": "2025-12-12T14:03:35.8315487Z",
+          "destination": "%OptPath%\\data\\ServerMonitor\\ServerMonitor_Alerts_20251212.log",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "Email",
+          "timestamp": "2025-12-12T14:03:36.0300675Z",
+          "destination": "geir.helge.starholm@Dedge.no",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "SMS",
+          "timestamp": "2025-12-12T14:03:36.0578331Z",
+          "destination": "+4797188358",
+          "success": true,
+          "errorMessage": null
+        },
+        {
+          "channelType": "WKMonitor",
+          "timestamp": "2025-12-12T14:03:37.2084802Z",
+          "destination": "\\\\DEDGE.fk.no\\erpprog\\cobtst\\monitor\\30237-FK20251212150337208.MON",
+          "success": true,
+          "errorMessage": null
+        }
+      ],
+      "suppressedChannels": []
+    },
+    {
+      "id": "6e252ade-540d-4927-b971-7b4acfc03d7b",
+      "severity": 1,
+      "category": "VirtualMemory",
+      "message": "Excessive paging detected: 4717 pages/sec",
+      "details": "Paging rate of 4717 pages/sec exceeds threshold of 1000",
+      "timestamp": "2025-12-12T14:03:52.5520139Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "ca3a7752-d7c1-4241-ac43-29c3b7fb63f9",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T14:06:53.9691011Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "9e784375-ea69-464b-a44f-20d19a19b492",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693866 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T14:06:53.9722193Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "c8c74f70-b116-442e-ac3d-8e1e128639fe",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T14:06:53.980007Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "6c377cd3-88d3-484d-bb88-3a4acca1a2b6",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' failed with exit code 267011 (0x41303)",
+      "timestamp": "2025-12-12T14:10:13.4609406Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "82155d26-2ee3-4fd9-8e8d-56f7d11745f5",
+      "severity": 1,
+      "category": "ScheduledTask",
+      "message": "Scheduled task overdue: \\DevTools\\Db2-VerifyDatabaseConnectivity",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'Db2-VerifyDatabaseConnectivity' last run 13693870 minutes ago (threshold: 9999999)",
+      "timestamp": "2025-12-12T14:10:13.4619295Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    },
+    {
+      "id": "7e637878-56b2-433e-ab14-780ed2f98cf7",
+      "severity": 2,
+      "category": "ScheduledTask",
+      "message": "Scheduled task failed: \\DevTools\\DedgeCommonFilesHandling",
+      "details": "All Tasks owned by the same user as the ServerMonitor tool: Task 'DedgeCommonFilesHandling' failed with exit code 64 (0x40) - Custom application error - Check application logs for details",
+      "timestamp": "2025-12-12T14:10:13.466944Z",
+      "serverName": "30237-FK",
+      "metadata": {},
+      "distributionHistory": [],
+      "suppressedChannels": []
+    }
+  ],
+  "externalEvents": [
+    {
+      "id": "c19bcccc-8ad4-4ed8-8cfb-0aeb5aa1e245",
+      "externalEventCode": "string",
+      "severity": 0,
+      "category": "string",
+      "message": "string",
+      "timestamp": "2025-12-12T13:47:12.666Z",
+      "serverName": "string",
+      "source": "string",
+      "metadata": {
+        "Source": "string",
+        "additionalProp1": "string",
+        "additionalProp2": "string",
+        "additionalProp3": "string"
+      },
+      "surveillance": {
+        "maxOccurrences": 1000,
+        "timeWindowMinutes": 1440,
+        "suppressedChannels": ["string"]
+      }
+    }
+  ]
+}

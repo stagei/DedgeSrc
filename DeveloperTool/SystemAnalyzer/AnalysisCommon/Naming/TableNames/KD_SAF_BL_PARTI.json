@@ -1,0 +1,124 @@
+{
+  "tableName": "KD_SAF_BL_PARTI",
+  "futureName": "Blandepartier",
+  "namespace": "Pharmacy",
+  "columns": [
+    {
+      "name": "BLAND_PARTINR",
+      "futureName": "PartiNumber",
+      "description": "Unique identifier for the party",
+      "foreignKey": null
+    },
+    {
+      "name": "RESEPTNR",
+      "futureName": "PrescriptionNumber",
+      "description": "Reference to prescription record",
+      "foreignKey": "RESVER"
+    },
+    {
+      "name": "VER_NR",
+      "futureName": "VersionNumber",
+      "description": "Version number of the prescription record",
+      "foreignKey": "RESVER"
+    },
+    {
+      "name": "ONSKET_VEKT",
+      "futureName": "DesiredWeight",
+      "description": "Desired weight for the party",
+      "foreignKey": null
+    },
+    {
+      "name": "PAASLAGS_VEKT",
+      "futureName": "PackingWeight",
+      "description": "Weight of the packing material",
+      "foreignKey": null
+    },
+    {
+      "name": "PAASLAGS_MERKNAD",
+      "futureName": "PackingRemark",
+      "description": "Remark related to the packing material",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "Type",
+      "description": "Type code for the party",
+      "foreignKey": null
+    },
+    {
+      "name": "ANT_DELBL",
+      "futureName": "DeliveryCount",
+      "description": "Number of deliveries made to the party",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKETPRIORITET",
+      "futureName": "PackagingPriority",
+      "description": "Priority level for packaging",
+      "foreignKey": null
+    },
+    {
+      "name": "KLASSE",
+      "futureName": "Class",
+      "description": "Classification code of the party",
+      "foreignKey": "VAREREGISTER"
+    },
+    {
+      "name": "BEISENR",
+      "futureName": "BasisNumber",
+      "description": "Base number for calculation or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "TOEMT",
+      "futureName": "Emptied",
+      "description": "Indicates if the party has been emptied",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegistratedByUser",
+      "description": "Username of the user who registered the party",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "LastModifiedDate",
+      "description": "Date when the party was last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "LastModifiedByUser",
+      "description": "Username of the user who last modified the party",
+      "foreignKey": null
+    },
+    {
+      "name": "FORBRUKT_VEKT",
+      "futureName": "ConsumedWeight",
+      "description": "Weight consumed by the party",
+      "foreignKey": null
+    },
+    {
+      "name": "OMPAKKET",
+      "futureName": "Unpacked",
+      "description": "Indicates if the party has been unpacked",
+      "foreignKey": null
+    },
+    {
+      "name": "SLETTET",
+      "futureName": "Deleted",
+      "description": "Indicates if the party record is deleted",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:20:42"
+}

@@ -1,0 +1,292 @@
+﻿{
+  "server": "p-no1hstprd-db",
+  "relationships": [
+    {
+      "sourceId": "p-no1hstprd-db-VerifyDb2",
+      "targetId": "p-no1hstprd-db-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-RunDb2-TemplateEngine",
+      "targetId": "p-no1hstprd-db-VerifyDb2",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-RunDb2-TemplateEngine",
+      "targetId": "p-no1hstprd-db-VerifyDb2",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-RunGenerateScripts",
+      "targetId": "p-no1hstprd-db-RunDb2-TemplateEngine",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-VerifyDbConnection",
+      "targetId": "p-no1hstprd-db-RestoreBackup",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-OrderDb2Key",
+      "targetId": "p-no1fkxprd-db-VerifyKerberosAuthFkx",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-OrderDb2Key",
+      "targetId": "p-no1hstprd-db-VerifyDbConnection",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-MoveKeytabFile",
+      "targetId": "p-no1hstprd-db-OrderDb2Key",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "p-no1hstprd-db-ConfigureKerberosOnDbServer",
+      "targetId": "p-no1hstprd-db-MoveKeytabFile",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "p-no1hstprd-db-InitServer",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-InitServer"
+    },
+    {
+      "taskname": "p-no1hstprd-db-VerifyDb2",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-VerifyDb2",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition/Standard Edition er vellykket. Kjør følgende kommando i Db2 Clp i admin konsoll: dir C:\\DbInst\\BIN\\db2.exe",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-VerifyDb2"
+    },
+    {
+      "taskname": "p-no1hstprd-db-RunDb2-TemplateEngine",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-RunDb2-TemplateEngine",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Installer Db2-TemplateEngine med kommandoen: Install-FkPshApp -Name 'Db2-TemplateEngine'\n\nPrerequisites Note: Db2 må være installert og fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-VerifyDb2",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-RunDb2-TemplateEngine"
+    },
+    {
+      "taskname": "p-no1hstprd-db-RunDb2-TemplateEngine",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-RunDb2-TemplateEngine",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2-TemplateEngine\\Db2-TemplateEngine.ps1 -DbFunction 'CreateTemporaryProductionDatabase'\n\nPrerequisites Note: Db2 må være installert og fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-VerifyDb2",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-RunDb2-TemplateEngine"
+    },
+    {
+      "taskname": "p-no1hstprd-db-RunGenerateScripts",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-RunGenerateScripts",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat\n\nComment: Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet\n\nPrerequisites Note: Template engine må kjøres først for å generere skriptene",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-RunDb2-TemplateEngine",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-RunGenerateScripts"
+    },
+    {
+      "taskname": "p-no1hstprd-db-VerifyDbConnection",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-VerifyDbConnection",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Bruk Db2 CLP i admin konsoll til å kjøre kommandoen i db2 konsoll: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.\n\nPrerequisites Note: Database må være opprettet og tilgjengelig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-RestoreBackup",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-VerifyDbConnection"
+    },
+    {
+      "taskname": "p-no1hstprd-db-OrderDb2Key",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-OrderDb2Key",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Bestill db2key fra avdeling Leveranse via Momentum-app\n\nComment: Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1hstprd-db\\DB2_Kerberos_Forespørsel.txt\n\nPrerequisites Note: Kerberos autentisering må være verifisert først og databasen må fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-VerifyKerberosAuthFkx; p-no1hstprd-db-VerifyDbConnection",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-OrderDb2Key"
+    },
+    {
+      "taskname": "p-no1hstprd-db-MoveKeytabFile",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-MoveKeytabFile",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1hstprd-db\n\nComment: Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\p-no1hstprd-db\n\nPrerequisites Note: DB2-nøkkel må være bestilt først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-MoveKeytabFile"
+    },
+    {
+      "taskname": "p-no1hstprd-db-ConfigureKerberosOnDbServer",
+      "server": "p-no1hstprd-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "p-no1hstprd-db-ConfigureKerberosOnDbServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1\n\nPrerequisites Note: Keytab-fil må være tilgjengelig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=p-no1hstprd-db;ServerPart=p-no1hstprd;Template=prod-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1hstprd-db-MoveKeytabFile",
+          "op": "add"
+        }
+      ],
+      "id": "p-no1hstprd-db-ConfigureKerberosOnDbServer"
+    }
+  ],
+  "serverPart": "p-no1hstprd",
+  "templateName": "prod-db-init"
+}

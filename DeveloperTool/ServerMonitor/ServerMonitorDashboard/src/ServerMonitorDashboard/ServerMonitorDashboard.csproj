@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <VersionPrefix>1.0.304</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+    <InformationalVersion>$(VersionPrefix)</InformationalVersion>
+    <AssemblyName>ServerMonitorDashboard</AssemblyName>
+    <RootNamespace>ServerMonitorDashboard</RootNamespace>
+    <Company>Dedge</Company>
+    <Product>ServerMonitor Dashboard</Product>
+    <Description>Web dashboard for ServerMonitor</Description>
+    <Copyright>Copyright © Dedge 2026</Copyright>
+    <ApplicationIcon>dedge.ico</ApplicationIcon>
+    <!-- Preserve our custom web.config - don't let dotnet publish transform it -->
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.12.36" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\DedgeAuth\src\DedgeAuth.Client\DedgeAuth.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Update="appsettings.*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <!-- Copy icon file for shortcuts and branding -->
+    <Content Include="dedge.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <!-- Ensure our custom web.config is copied (not transformed) -->
+    <Content Update="web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Ensure wwwroot folder contents are copied to output directory -->
+  <ItemGroup>
+    <Content Update="wwwroot\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Code Signing Configuration -->
+  <PropertyGroup>
+    <ShouldSign>false</ShouldSign>
+    <ShouldSign Condition="'$(Configuration)' == 'Release'">true</ShouldSign>
+  </PropertyGroup>
+
+  <!-- Debug configuration to verify what's happening -->
+  <Target Name="EchoConfiguration" BeforeTargets="PostBuild">
+    <Message Importance="high" Text="Current Configuration: $(Configuration)" />
+    <Message Importance="high" Text="Should Sign: $(ShouldSign)" />
+  </Target>
+
+  <!-- Sign the assembly after build in Release mode using DedgeSign.ps1 -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(ShouldSign)' == 'true'">
+    <Message Importance="high" Text="Signing assembly with DedgeSign.ps1..." />
+    <Message Importance="high" Text="Target: $(TargetPath)" />
+    
+    <!-- Use DedgeSign.ps1 for code signing -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(TargetPath)&quot; -Action Add -NoConfirm -Parallel" />
+  </Target>
+
+  <!-- Sign the published executable after Publish -->
+  <Target Name="PostPublishSign" AfterTargets="Publish" Condition="'$(ShouldSign)' == 'true' AND '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <PublishExePath>$(PublishDir)ServerMonitorDashboard.exe</PublishExePath>
+    </PropertyGroup>
+    
+    <Message Importance="high" Text="Signing published executable: $(PublishExePath)" />
+    
+    <!-- Use DedgeSign.ps1 to sign the published EXE -->
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(PublishExePath)&quot; -Action Add -NoConfirm -Parallel" Condition="Exists('$(PublishExePath)')" />
+  </Target>
+
+</Project>

@@ -1,0 +1,832 @@
+[
+  {
+    "Database": "FKAVDNT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "DEV",
+    "AllAccessPoints": [
+      {
+        "Name": "FKAVDNT",
+        "Version": "1.0",
+        "Server": "erp2db2",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3710",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ],
+    "NorwegianDescription": "Utviklings-database for FKM-applikasjonen."
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "TST",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISTST",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3701",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "TST",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Test-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "PRD",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISREG",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISPRO",
+          "AliasPort": "3700",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        }
+      ],
+      "Provider": "DB2",
+      "Server": "erp1db2",
+      "Port": "3700",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "PRD",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Produksjons-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISRAP",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3700",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Rapport-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "MIG",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISMIG",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3711",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "MIG",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Forsprang-miljø for datamigrering av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "SIT",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISSIT",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3711",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "SIT",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Forsprang-miljø for systemintegrasjonstest av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "VFT",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISVFT",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3711",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "VFT",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Forsprang-miljø for test av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "VFK",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISVFK",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3711",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "VFK",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Forsprang-miljø for akseptansetest av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "HST",
+      "Environment": "PRD",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "BASISHST",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp1db2",
+      "Port": "3700",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "HST",
+      "Environment": "PRD",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Historikk-database for HST-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "DOC",
+      "Environment": "PRD",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "COBDOK",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3710",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "COBDOK",
+      "Environment": "PRD",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Produksjons-database for COBDOK-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "INL",
+      "Environment": "PRD",
+      "Version": "1.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKKONTO",
+      "AllAccessPoints": [],
+      "Provider": "DB2",
+      "Server": "erp2db2",
+      "Port": "3705",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "INL",
+      "Environment": "PRD",
+      "Version": "1.0",
+      "IsActive": true,
+      "NorwegianDescription": "Produksjons-database for Innlån-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKDBQA",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKDBQA",
+      "Provider": "DB2",
+      "AllAccessPoints": [],
+      "Server": "p-no1fkx-db01",
+      "Port": "50000",
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKDBQA",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": true,
+      "NorwegianDescription": "Produksjons-database for DBQA-applikasjonen. Bruker DBQA-databasen for databasekvalitetssikring."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "DEV",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMDEV",
+      "Provider": "DB2",
+      "Server": "t-no1fkmdev-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "FKAVDNT",
+          "AliasPort": "3710",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMDEV",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "FKAVDNT",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "DEV",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Utviklings-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMRAP",
+      "Provider": "DB2",
+      "Server": "p-no1fkmrap-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISRAP",
+          "AliasPort": "3700",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMRAP",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISRAP",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "RAP",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Rapport-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "HST",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "HSTPRD",
+      "Provider": "DB2",
+      "Server": "p-no1hstprd-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISHST",
+          "AliasPort": "3700",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XHSTPRD",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISHST",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "HST",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Historikk-database for HST-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "MIG",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMMIG",
+      "Provider": "DB2",
+      "Server": "t-no1fkmmig-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISMIG",
+          "AliasPort": "3711",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMMIG",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISMIG",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "MIG",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Forsprang-miljø for migrering av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "SIT",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMSIT",
+      "Provider": "DB2",
+      "Server": "t-no1fkmsit-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISSIT",
+          "AliasPort": "3711",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMSIT",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISSIT",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "SIT",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Forsprang-miljø for systemintegrasjonstest av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "VFT",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMVFT",
+      "Provider": "DB2",
+      "Server": "t-no1fkmvft-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISVFT",
+          "AliasPort": "3711",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMVFT",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISVFT",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "VFT",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Forsprang-miljø for test av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "VFK",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMVFK",
+      "Provider": "DB2",
+      "Server": "t-no1fkmvfk-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISVFK",
+          "AliasPort": "3711",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMVFK",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISVFK",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "VFK",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Forsprang-miljø for akseptansetest av FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "INL",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "INLPRD",
+      "Provider": "DB2",
+      "Server": "p-no1inlprd-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "FKKONTO",
+          "AliasPort": "3705",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XINLPRD",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "FKKONTO",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "INL",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Produksjons-database for Innlån-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "INL",
+      "Environment": "TST",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "INLTST",
+      "Provider": "DB2",
+      "Server": "t-no1inltst-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "FKKONTOTST",
+          "AliasPort": "3718",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XINLTST",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "FKKONTOTST",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "INL",
+      "Environment": "TST",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Test-database for Innlån-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "INL",
+      "Environment": "DEV",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "INLDEV",
+      "Provider": "DB2",
+      "Server": "t-no1inldev-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "FKKONTODEV",
+          "AliasPort": "3717",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XINLDEV",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "FKKONTODEV",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "INL",
+      "Environment": "DEV",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Utviklings-database for Innlån-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "TST",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMTST",
+      "Provider": "DB2",
+      "Server": "t-no1fkmtst-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISTST",
+          "AliasPort": "3701",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMTST",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISTST",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "TST",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Test-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "FKM",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "FKMPRD",
+      "Provider": "DB2",
+      "Server": "p-no1fkmprd-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "BASISPRO",
+          "AliasPort": "3700",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISREG",
+          "AliasPort": "3700",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XFKMPRD",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISPRO",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "BASISREG",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "FKM",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Produksjons-database for FKM-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "VIS",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "VISPRD",
+      "Provider": "DB2",
+      "Server": "p-no1visprd-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "VISMABUS",
+          "AliasPort": "3700",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XVISPRD",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "VISMABUS",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "VIS",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Produksjons-database for Visma-applikasjonen."
+    }
+  },
+  {
+    "ConnectionKey": {
+      "Application": "DOC",
+      "Environment": "PRD",
+      "Version": "2.0"
+    },
+    "ConnectionInfo": {
+      "Database": "DOCPRD",
+      "Provider": "DB2",
+      "Server": "p-no1docprd-db",
+      "Port": "50000",
+      "AllAccessPoints": [
+        {
+          "DatabaseAlias": "COBDOK",
+          "AliasPort": "3710",
+          "AuthenticationType": "Kerberos",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "XDOCPRD",
+          "AliasPort": "50010",
+          "AuthenticationType": "Ntlm",
+          "Enabled": true
+        },
+        {
+          "DatabaseAlias": "COBDOK",
+          "AliasPort": "50050",
+          "AuthenticationType": "SSL+Kerberos",
+          "Enabled": true
+        }
+      ],
+      "UID": "db2nt",
+      "PWD": "ntdb2",
+      "Application": "DOC",
+      "Environment": "PRD",
+      "Version": "2.0",
+      "IsActive": false,
+      "NorwegianDescription": "Produksjons-database for CobDoc-applikasjonen."
+    }
+  }
+]

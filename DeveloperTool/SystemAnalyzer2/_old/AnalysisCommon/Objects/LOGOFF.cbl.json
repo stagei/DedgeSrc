@@ -1,0 +1,263 @@
+{
+  "program": "LOGOFF",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:02:28",
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "LOGOFF",
+    "program": "LOGOFF",
+    "copyElements": [
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      },
+      {
+        "name": ".CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V002.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "V023.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "IAV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AAAMLEV.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAAM005.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ACO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAACCE.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "D4AR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4VE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4PR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4AP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4BA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4SL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSFF019.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "RSFF045.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASQLL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAZPR13.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SPECIFIC",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "ACCESS_OPPSTART",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSAKSJONSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_ARTICLE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_VENDPRODNUMB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_APPROVVEND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCTCAT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_BARCODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASLEEP",
+      "VENT_SEK",
+      "VENT_KVARTSEK",
+      "GMAPLDG",
+      "GMACURT",
+      "GMATLFU",
+      "AAAMLEV",
+      "GMACOCO",
+      "GMACNCT",
+      "GMAOSNT",
+      "GMAPATH"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LOG-FILE",
+        "physicalName": "DYNAMIC",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "dynamic",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-28T20:02:28"
+  }
+}

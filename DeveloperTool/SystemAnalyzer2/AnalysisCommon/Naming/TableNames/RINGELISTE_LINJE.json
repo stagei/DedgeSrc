@@ -1,0 +1,88 @@
+{
+  "tableName": "RINGELISTE_LINJE",
+  "futureName": "RingelisteLinje",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "LISTENR",
+      "futureName": "RingNumber",
+      "description": "Unique ring number",
+      "foreignKey": "DBM.RINGELISTE_HODE"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within a ring",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTATT_DATO",
+      "futureName": "ReceivedDate",
+      "description": "Date when the line was received",
+      "foreignKey": null
+    },
+    {
+      "name": "MOTTATT_TID",
+      "futureName": "ReceivedTime",
+      "description": "Time when the line was received",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENAVN",
+      "futureName": "CustomerName",
+      "description": "Name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "TELEFONNR",
+      "futureName": "PhoneNumber",
+      "description": "Phone number",
+      "foreignKey": null
+    },
+    {
+      "name": "TELEFON2",
+      "futureName": "AlternatePhoneNumber1",
+      "description": "First alternate phone number",
+      "foreignKey": null
+    },
+    {
+      "name": "TELEFON3",
+      "futureName": "AlternatePhoneNumber2",
+      "description": "Second alternate phone number",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the line",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional comments or notes",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the line entry",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier who created or modified the line",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:39:06"
+}

@@ -1,0 +1,122 @@
+{
+  "program": "AABKPVS",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:07:09",
+  "extraction": {
+    "sourceHash": "sha256:14cfbc94e06f02b581d6787674b9bcd5d4db98917da2ce5fe4ce4c5f68934953",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABKPVS.CBL",
+    "actualName": "AABKPVS",
+    "program": "AABKPVS",
+    "copyElements": [
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KALK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SCP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KPV.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "S",
+        "tableName": "RAB_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "RABATT_LINJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "V",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_PRIS_VIRT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_PRIS_VIRT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_PRIS_VIRT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_PRIS_VIRT",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMADATO",
+      "GMAKALK",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABKPVS.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABKPVS.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:07:09"
+  }
+}

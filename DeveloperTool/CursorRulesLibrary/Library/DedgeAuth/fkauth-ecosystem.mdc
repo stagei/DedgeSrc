@@ -1,0 +1,95 @@
+﻿---
+description: DedgeAuth ecosystem architecture - auth flow, middleware, IIS topology, impact rules
+alwaysApply: true
+---
+
+# DedgeAuth Ecosystem Architecture
+
+Full architecture docs with Mermaid diagrams: `C:\opt\src\DedgeAuth\docs\DedgeAuth-Ecosystem-Architecture.md`
+
+## IIS Topology (all apps under Default Web Site, port 80)
+
+| Path | App | DotNetDll | ApiPort | Health |
+|---|---|---|---|---|
+| `/DedgeAuth` | Auth server | `DedgeAuth.Api.dll` | 8100 | `/health` |
+| `/DocView` | Document viewer | `DocView.dll` | 8282 | -- |
+| `/GenericLogHandler` | Log aggregation | `GenericLogHandler.WebApi.dll` | 8110 | `/health` |
+| `/ServerMonitorDashboard` | Server monitoring | `ServerMonitorDashboard.dll` | 8998 | `/api/IsAlive` |
+| `/AutoDocJson` | Documentation tool | `AutoDocJson.Web.dll` | 5280 | `/health` |
+| `/GrainPriceListWeb` | Grain price list | `GrainPriceListWeb.dll` | 5123 | -- |
+| `/AutoDoc` | Static docs | -- | -- | -- |
+
+## Auth Code Exchange Flow
+
+1. User visits consumer app -> `DedgeAuthRedirectMiddleware` redirects to `/DedgeAuth/login.html?returnUrl=...`
+2. User logs in at DedgeAuth -> JWT + short-lived auth code
+3. DedgeAuth redirects back to consumer app with `?code=<authCode>`
+4. `DedgeAuthTokenExtractionMiddleware` exchanges code server-to-server via `POST /api/auth/exchange`
+5. JWT stored in `DedgeAuth_access_token` cookie, browser redirected to clean URL
+6. `DedgeAuthSessionValidationMiddleware` validates session via `GET /api/auth/validate` (cached 30s)
+7. On cache miss, fires-and-forgets `POST /api/visits/record` to record the visit
+
+## Middleware Pipeline (consumer apps)
+
+```
+DedgeAuthTokenExtractionMiddleware   -> extracts ?code= or ?token= or cookie -> sets Authorization header
+UseAuthentication                 -> JWT validation
+UseAuthorization                  -> policy evaluation
+DedgeAuthSessionValidationMiddleware -> validates with DedgeAuth server, records visits
+DedgeAuthRedirectMiddleware          -> redirects unauthenticated to login
+```
+
+All registered by `app.UseDedgeAuth()`. Do NOT call `UseAuthentication()`/`UseAuthorization()` separately.
+
+## UI Asset Proxy
+
+Consumer HTML uses **relative paths** (no leading `/`) to load DedgeAuth assets through `MapDedgeAuthProxy()`:
+
+```html
+<link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+<style id="DedgeAuth-tenant-css"></style>
+<link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+<div id="DedgeAuthUserMenu"></div>
+<script src="api/DedgeAuth/ui/user.js"></script>
+```
+
+`DedgeAuth-user.js` handles: user menu, app switcher, tenant CSS/logo/favicon injection, visit history link. Changes to DedgeAuth wwwroot propagate to all apps without rebuild.
+
+## Build Commands
+
+```powershell
+# Build ALL (DedgeAuth first, then all consumer apps referencing DedgeAuth.Client)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish-ALL.ps1"
+
+# Build individual apps
+pwsh.exe -NoProfile -File "C:\opt\src\DedgeAuth\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\DocView\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\GenericLogHandler\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\ServerMonitor\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\AutoDocJson\Build-And-Publish.ps1"
+pwsh.exe -NoProfile -File "C:\opt\src\GrainPriceList\Build-And-Publish.ps1"
+```
+
+## IIS Deploy Commands
+
+```powershell
+# Redeploy all (teardown + iisreset + rebuild from templates)
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+
+# Deploy single app
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName <AppName>
+
+# Uninstall single app
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-UninstallApp.ps1" -SiteName <AppName>
+
+# Diagnose broken app
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\Test-IISSite.ps1" -SiteName <AppName>
+```
+
+## Impact Rules
+
+- **DedgeAuth.Client change** -> `Build-And-Publish-ALL.ps1` (all apps need updated DLL)
+- **DedgeAuth wwwroot change** -> rebuild DedgeAuth only (consumers fetch via proxy)
+- **Tenant branding** -> update `tenants` table only, no rebuild
+- **Deploy template change** -> run `IIS-DeployApp\_deploy.ps1` to sync to servers
+- **Single consumer app change** -> rebuild that app only, then `IIS-DeployApp.ps1 -SiteName <AppName>`

@@ -1,0 +1,71 @@
+{
+  "tableName": "KD_ANALYCEN",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "JOURNAL_RECNO",
+        "typeName": "DECIMAL",
+        "length": 10,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "PROVENR",
+        "typeName": "CHARACTER",
+        "length": 20,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "PROTEIN",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 1,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "FALLTALL",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "KOMMENTAR",
+        "typeName": "VARCHAR",
+        "length": 255,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "JOURNAL_RECNO",
+        "childColumn": "JOURNAL_RECNO",
+        "parentTable": "KD_FRO_JOURNAL",
+        "parentSchema": "DBM",
+        "parentColumn": "RECNO"
+      }
+    ]
+  }
+}

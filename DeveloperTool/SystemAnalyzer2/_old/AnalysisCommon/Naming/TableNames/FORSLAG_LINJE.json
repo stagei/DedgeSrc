@@ -1,0 +1,178 @@
+{
+  "tableName": "FORSLAG_LINJE",
+  "futureName": "OrderLine",
+  "namespace": "InboundPurchases",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "StoreCode",
+      "description": "Store code or department number",
+      "foreignKey": "HODE"
+    },
+    {
+      "name": "FORSLAGNR",
+      "futureName": "SuggestionNumber",
+      "description": "Unique suggestion identifier",
+      "foreignKey": "HODE"
+    },
+    {
+      "name": "LINJE",
+      "futureName": "LineItem",
+      "description": "Line item number within the suggestion",
+      "foreignKey": null
+    },
+    {
+      "name": "UNDER_LINJENR",
+      "futureName": "SublineNumber",
+      "description": "Sub-line number for additional details of a line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJESTATUS",
+      "futureName": "LineStatus",
+      "description": "Status of the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "CustomerNumber",
+      "description": "Customer number or foreign key related to customer information",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "SupplierCode",
+      "description": "Supplier code or vendor number",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVVARENR",
+      "futureName": "ProductCode",
+      "description": "Product code or item number",
+      "foreignKey": null
+    },
+    {
+      "name": "FORSLAG_KVANTUM",
+      "futureName": "SuggestionQuantity",
+      "description": "Quantity suggested for procurement",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTILLINGSPKT",
+      "futureName": "OrderPackingCode",
+      "description": "Packing code associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTPKT_KODE",
+      "futureName": "OrderPackingCodeKode",
+      "description": "Code related to the packing method or type",
+      "foreignKey": null
+    },
+    {
+      "name": "SIKKERHETSLAGER",
+      "futureName": "SafetyStockLevel",
+      "description": "Safety stock level for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "SUM_BESTILT",
+      "futureName": "TotalOrderedAmount",
+      "description": "Total amount ordered for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "SUM_BESTILT_SESONG",
+      "futureName": "SeasonalOrderAmount",
+      "description": "Seasonal order amount or quantity",
+      "foreignKey": null
+    },
+    {
+      "name": "KURANSGRAD_AVD",
+      "futureName": "AvdPurchaseGrade",
+      "description": "Purchase grade for the store department",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHOLDNING",
+      "futureName": "StockLevel",
+      "description": "Current stock level of the product",
+      "foreignKey": "VAREAVD"
+    },
+    {
+      "name": "SUM_IORDRE",
+      "futureName": "OrderAmount",
+      "description": "Total amount in the order",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHOLDNING_DISP",
+      "futureName": "DisplayStockLevel",
+      "description": "Displayed stock level for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "VARENAVN",
+      "futureName": "ProductName",
+      "description": "Product name or description",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKN_KVANT",
+      "futureName": "PackingQuantity",
+      "description": "Quantity for packing the product",
+      "foreignKey": null
+    },
+    {
+      "name": "PALLE_KVANT",
+      "futureName": "PalletQuantity",
+      "description": "Quantity per pallet for storage or shipping",
+      "foreignKey": null
+    },
+    {
+      "name": "KATEGORI",
+      "futureName": "Category",
+      "description": "Product category",
+      "foreignKey": null
+    },
+    {
+      "name": "PRISKODE",
+      "futureName": "PriceCode",
+      "description": "Price code or pricing information for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "INNKJ_ENHET",
+      "futureName": "PurchaseUnitOfMeasure",
+      "description": "Unit of measure for purchase quantities",
+      "foreignKey": null
+    },
+    {
+      "name": "IENHET_FAKTOR",
+      "futureName": "ConversionFactor",
+      "description": "Conversion factor for unit of measure",
+      "foreignKey": null
+    },
+    {
+      "name": "IENHET_ANTALL",
+      "futureName": "UnitQuantity",
+      "description": "Quantity per unit of measure",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID or person responsible for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the transaction or record creation",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:25:52"
+}

@@ -1,0 +1,196 @@
+{
+  "tableName": "EDI_FAKT_LINJE",
+  "futureName": "EdiFaktLinje",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "FaktNr",
+      "futureName": "FaktNr",
+      "description": "Unique facture identifier",
+      "foreignKey": "EDI_FAKT_HODE"
+    },
+    {
+      "name": "Levnr",
+      "futureName": "SupplierNumber",
+      "description": "Supplier number",
+      "foreignKey": "EDI_FAKT_HODE"
+    },
+    {
+      "name": "FacturDato",
+      "futureName": "FacturDate",
+      "description": "Date of the facture",
+      "foreignKey": null
+    },
+    {
+      "name": "LinNr",
+      "futureName": "LineNumber",
+      "description": "Line number in the facture",
+      "foreignKey": null
+    },
+    {
+      "name": "LevnrRef",
+      "futureName": "SupplierReference",
+      "description": "Reference supplier number",
+      "foreignKey": null
+    },
+    {
+      "name": "VarNr",
+      "futureName": "ProductNumber",
+      "description": "Product number",
+      "foreignKey": null
+    },
+    {
+      "name": "VarNavn",
+      "futureName": "ProductName",
+      "description": "Product name",
+      "foreignKey": null
+    },
+    {
+      "name": "Antall",
+      "futureName": "Quantity",
+      "description": "Quantity of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Pris",
+      "futureName": "Price",
+      "description": "Unit price of the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Rabatt",
+      "futureName": "Discount",
+      "description": "Discount percentage on the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Belop",
+      "futureName": "Amount",
+      "description": "Total amount for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "Reflin",
+      "futureName": "RefLine",
+      "description": "Reference line number",
+      "foreignKey": null
+    },
+    {
+      "name": "Ttkode",
+      "futureName": "TaxCode",
+      "description": "Tax code for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "VarGr",
+      "futureName": "ProductGroup",
+      "description": "Product group",
+      "foreignKey": null
+    },
+    {
+      "name": "Enhet",
+      "futureName": "UnitOfMeasure",
+      "description": "Unit of measure for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Mvapros",
+      "futureName": "VatPercentage",
+      "description": "VAT percentage applicable to the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Mvabelop",
+      "futureName": "VatAmount",
+      "description": "VAT amount for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Merknad",
+      "futureName": "Note",
+      "description": "Note or remarks about the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LnrManuell",
+      "futureName": "ManualLineNumber",
+      "description": "Manually entered line number",
+      "foreignKey": null
+    },
+    {
+      "name": "Status",
+      "futureName": "Status",
+      "description": "Status of the line item (e.g., active, inactive)",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "User ID who created or modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the record was last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "UtlevertDato",
+      "futureName": "DeliveryDate",
+      "description": "Date of delivery for the line item",
+      "foreignKey": null
+    },
+    {
+      "name": "Mvagrunnlag",
+      "futureName": "VatBaseAmount",
+      "description": "Base amount for calculating VAT",
+      "foreignKey": null
+    },
+    {
+      "name": "Mvakode",
+      "futureName": "VatCode",
+      "description": "VAT code applicable to the product",
+      "foreignKey": null
+    },
+    {
+      "name": "Produkt",
+      "futureName": "Product",
+      "description": "Product description or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "ProduktDetalj",
+      "futureName": "ProductDetail",
+      "description": "Additional product detail",
+      "foreignKey": null
+    },
+    {
+      "name": "ProduktOko",
+      "futureName": "ProductOko",
+      "description": "OKO (Other Knowledge Of) field for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "ProduktTilleggTrekk",
+      "futureName": "ProductSupplementDebit",
+      "description": "Supplemental debit amount for the product",
+      "foreignKey": null
+    },
+    {
+      "name": "KontFelt1",
+      "futureName": "Field1",
+      "description": "First additional field or reference",
+      "foreignKey": null
+    },
+    {
+      "name": "KontFelt2",
+      "futureName": "Field2",
+      "description": "Second additional field or reference",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:14:46"
+}

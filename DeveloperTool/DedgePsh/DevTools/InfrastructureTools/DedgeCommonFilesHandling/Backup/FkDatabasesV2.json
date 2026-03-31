@@ -1,0 +1,994 @@
+[
+  {
+    "Database": "BASISMIG",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "MIG",
+    "Version": "1.0",
+    "IsActive": true,
+    "ServerName": "sfk-erp-02",
+    "Description": "Migration-database for FKM-application.",
+    "NorwegianDescription": "Forsprang-miljø for datamigrering av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "BASISMIG",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3711",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "BASISSIT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "SIT",
+    "Version": "1.0",
+    "IsActive": true,
+    "ServerName": "sfk-erp-02",
+    "Description": "System integration test-database for FKM-application.",
+    "NorwegianDescription": "Forsprang-miljø for systemintegrasjonstest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "BASISSIT",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3711",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "BASISVFT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "VFT",
+    "Version": "1.0",
+    "IsActive": true,
+    "ServerName": "sfk-erp-02",
+    "Description": "Test-database for FKM-application.",
+    "NorwegianDescription": "Forsprang-miljø for test av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "BASISVFT",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3711",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "BASISVFK",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "VFK",
+    "Version": "1.0",
+    "IsActive": true,
+    "ServerName": "sfk-erp-02",
+    "Description": "Acceptance test-database for FKM-application.",
+    "NorwegianDescription": "Forsprang-miljø for akseptansetest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "BASISVFK",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3711",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "BASISHST",
+    "Provider": "DB2",
+    "Application": "HST",
+    "Environment": "PRD",
+    "Version": "1.0",
+    "IsActive": true,
+    "ServerName": "sfk-erp-01",
+    "Description": "History-database for HST-application.",
+    "NorwegianDescription": "Historikk-database for HST-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "BASISHST",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3701",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "COBDOK",
+    "Provider": "DB2",
+    "Application": "DOC",
+    "Environment": "PRD",
+    "Version": "1.0",
+    "IsActive": false,
+    "ServerName": "sfk-erp-02",
+    "Description": "Production-database for COBDOK-application.",
+    "NorwegianDescription": "Produksjons-database for COBDOK-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "COBDOK",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3710",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "VISMABUS",
+    "Provider": "DB2",
+    "Application": "VIS",
+    "Environment": "PRD",
+    "Version": "1.0",
+    "IsActive": true,
+    "Description": "Production-database for VIS-application.",
+    "NorwegianDescription": "Produksjons-database for Visma-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Name": "VISMABUS",
+        "AccessPointType": "PrimaryDb",
+        "Port": "3705",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "FKDBQA",
+    "Provider": "DB2",
+    "Application": "FKDBQA",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": false,
+    "ServerName": "p-no1fkxprd-db",
+    "Description": "Production-database for DBQA-application.",
+    "NorwegianDescription": "Produksjons-database for DBQA-applikasjonen. Bruker DBQA-databasen for databasekvalitetssikring.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKDBQA",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "FKMDEV",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "DEV",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmdev-db",
+    "Description": "Development-database for FKM-application.",
+    "NorwegianDescription": "Utviklings-database for FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMDEV",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKAVDNT",
+        "AccessPointType": "Alias",
+        "Port": "3710",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "FKAVDNT",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKAVDNT",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMRAP",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "RAP",
+    "Version": "2.0",
+    "Server": "p-no1fkmrap-db",
+    "IsActive": true,
+    "ServerName": "p-no1fkmrap-db",
+    "Description": "Report-database for FKM-application.",
+    "NorwegianDescription": "Rapport-database for FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMRAP",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISRAP",
+        "AccessPointType": "Alias",
+        "Port": "3700",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMRAP",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISRAP",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "HSTPRD",
+    "Provider": "DB2",
+    "Application": "HST",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": false,
+    "ServerName": "p-no1hstprd-db",
+    "Description": "History-database for HST-application.",
+    "NorwegianDescription": "Historikk-database for HST-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "HSTPRD",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISHST",
+        "AccessPointType": "Alias",
+        "Port": "3700",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XHSTPRD",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISHST",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "INLPRD",
+    "Provider": "DB2",
+    "Application": "INL",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "p-no1inlprd-db",
+    "Description": "Production-database for INL-application.",
+    "NorwegianDescription": "Produksjons-database for Innlån-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "INLPRD",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKKONTO",
+        "AccessPointType": "Alias",
+        "Port": "3705",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XINLPRD",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKKONTO",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      }
+    ]
+  },
+  {
+    "Database": "INLTST",
+    "Provider": "DB2",
+    "Application": "INL",
+    "Environment": "TST",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1inltst-db",
+    "Description": "Test-database for INL-application.",
+    "NorwegianDescription": "Test-database for Innlån-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "INLTST",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKNTOTST",
+        "AccessPointType": "Alias",
+        "Port": "3718",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XINLTST",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKNTOTST",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "INLDEV",
+    "Provider": "DB2",
+    "Application": "INL",
+    "Environment": "DEV",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1inldev-db",
+    "Description": "Development-database for INL-application.",
+    "NorwegianDescription": "Utviklings-database for Innlån-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "INLDEV",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKNTODEV",
+        "AccessPointType": "Alias",
+        "Port": "3717",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XINLDEV",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKNTODEV",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMTST",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "TST",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmtst-db",
+    "Description": "Test-database for FKM-application.",
+    "NorwegianDescription": "Test-database for FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMTST",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISTST",
+        "AccessPointType": "Alias",
+        "Port": "3701",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMTST",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISTST",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMPRD",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "p-no1fkmprd-db",
+    "Description": "Production-database for FKM-application.",
+    "NorwegianDescription": "Produksjons-database for FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMPRD",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISPRO",
+        "AccessPointType": "Alias",
+        "Port": "3700",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISREG",
+        "AccessPointType": "Alias",
+        "Port": "3700",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMPRD",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISPRO",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISREG",
+        "AccessPointType": "Alias",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "VISPRD",
+    "Provider": "DB2",
+    "Application": "VIS",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": false,
+    "ServerName": "p-no1visprd-db",
+    "Description": "Production-database for VIS-application.",
+    "NorwegianDescription": "Produksjons-database for Visma-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "VISPRD",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "VISMABUS",
+        "AccessPointType": "Alias",
+        "Port": "3705",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XVISPRD",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "VISMABUS",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "DOCPRD",
+    "Provider": "DB2",
+    "Application": "DOC",
+    "Environment": "PRD",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "p-no1docprd-db",
+    "Description": "Production-database for DOC-application.",
+    "NorwegianDescription": "Produksjons-database for CobDoc-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "DOCPRD",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "COBDOK",
+        "AccessPointType": "Alias",
+        "Port": "3710",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XDOCPRD",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "COBDOK",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMPER",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "PER",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmper-db",
+    "Description": "Performance test-database for FKM-application (Forsprang).",
+    "NorwegianDescription": "Forsprang-miljø for ytelsesavtest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMPER",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISPER",
+        "AccessPointType": "Alias",
+        "Port": "3711",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMPER",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISPER",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMKAT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "KAT",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmkat-db",
+    "Description": "Customer acceptance test-database for FKM-application (Forsprang).",
+    "NorwegianDescription": "Forsprang-miljø for kundens akseptansetest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMKAT",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISKAT",
+        "AccessPointType": "Alias",
+        "Port": "3711",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMKAT",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISKAT",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMVFT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "VFT",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmvft-db",
+    "Description": "Test-database for FKM-application (Forsprang).",
+    "NorwegianDescription": "Forsprang-miljø for test av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMVFT",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISVFT",
+        "AccessPointType": "Alias",
+        "Port": "3711",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMVFT",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISVFT",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMVFK",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "VFK",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmvfk-db",
+    "Description": "Acceptance test-database only for supply chain for FKM-application (Forsprang).",
+    "NorwegianDescription": "Forsprang-miljø kun for vareforsyningakseptansetest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMVFK",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISVFK",
+        "AccessPointType": "Alias",
+        "Port": "3711",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMVFK",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISVFK",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  },
+  {
+    "Database": "FKMFUT",
+    "Provider": "DB2",
+    "Application": "FKM",
+    "Environment": "FUT",
+    "Version": "2.0",
+    "IsActive": true,
+    "ServerName": "t-no1fkmfut-db",
+    "Description": "Database for functional test for FKM-application (Forsprang).",
+    "NorwegianDescription": "Forsprang-miljø kun for funksjonstest av FKM-applikasjonen.",
+    "AccessPoints": [
+      {
+        "Db2Instance": "DB2",
+        "Name": "FKMFUT",
+        "AccessPointType": "PrimaryDb",
+        "Port": "50000",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISFUT",
+        "AccessPointType": "Alias",
+        "Port": "3711",
+        "AuthenticationType": "Kerberos",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2FED",
+        "Name": "XFKMFUT",
+        "AccessPointType": "FederatedDb",
+        "Port": "50010",
+        "AuthenticationType": "Ntlm",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": true
+      },
+      {
+        "Db2Instance": "DB2",
+        "Name": "BASISFUT",
+        "AccessPointType": "Ssl",
+        "Port": "50050",
+        "AuthenticationType": "Kerberos-SSL",
+        "UID": "db2nt",
+        "PWD": "ntdb2",
+        "IsActive": false
+      }
+    ]
+  }
+]

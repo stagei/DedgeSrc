@@ -1,0 +1,64 @@
+{
+  "tableName": "P_TUSENKORNVEKT",
+  "futureName": "TusenkornVekt",
+  "namespace": "Vat",
+  "columns": [
+    {
+      "name": "KORNHANDLER",
+      "futureName": "GrainHandler",
+      "description": "Grain handler or supplier",
+      "foreignKey": "A_Graineditor"
+    },
+    {
+      "name": "AVREGNINGSTYPE",
+      "futureName": "AdjustmentType",
+      "description": "Type of adjustment",
+      "foreignKey": null
+    },
+    {
+      "name": "ART",
+      "futureName": "Category",
+      "description": "Product category",
+      "foreignKey": "A_Category"
+    },
+    {
+      "name": "SORT",
+      "futureName": "SubCategory",
+      "description": "Product subcategory",
+      "foreignKey": null
+    },
+    {
+      "name": "GRAM_FRA",
+      "futureName": "GramFrom",
+      "description": "Starting weight in grams",
+      "foreignKey": null
+    },
+    {
+      "name": "FRA_DATO",
+      "futureName": "StartDate",
+      "description": "Start date of adjustment period",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS",
+      "futureName": "RatePerKgInOre",
+      "description": "Rate per kilogram in øre",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": "A_User"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:21:44"
+}

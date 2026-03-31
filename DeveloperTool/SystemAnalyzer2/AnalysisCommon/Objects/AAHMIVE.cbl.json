@@ -1,0 +1,105 @@
+{
+  "program": "AAHMIVE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:30",
+  "extraction": {
+    "sourceHash": "sha256:b84f2bb69cf2d044ef48f8310ad3eddded6340b50fa3e62def4d57de755dee0d",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AAHMIVE.CBL",
+    "actualName": "AAHMIVE",
+    "program": "AAHMIVE",
+    "copyElements": [
+      {
+        "name": "MIVE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFVASO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAHMIVE.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "MILJOVEDERLAG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NUM_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MILJOVEDERLAG",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MILJOVEDERLAG",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MILJOVEDERLAG",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "AAVMIVE",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMADATO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:30"
+  }
+}

@@ -1,0 +1,176 @@
+﻿---
+description: Azure DevOps work item integration -- tools, actions, templates, tracking
+alwaysApply: true
+---
+
+# Azure DevOps Work Item Integration
+
+## Tool Locations
+
+| Tool | Path | Purpose |
+|------|------|---------|
+| PAT Manager | `DevTools/AzureTools/Azure-DevOpsPAT-Manager/` | Personal Access Token setup |
+| Work Item Manager | `DevTools/AzureTools/Azure-DevOpsUserStoryManager/` | Single work item CRUD |
+| Bulk Creator | `DevTools/AzureTools/Azure-DevOpsItemCreator/` | Hierarchical bulk creation from JSON |
+| Story Tracker | `DevTools/AzureTools/Azure-StoryTracker/` | Helper scripts for `/azstory` command |
+
+## Available Actions (Azure-DevOpsUserStoryManager)
+
+| Action | Purpose | Required Parameters |
+|--------|---------|---------------------|
+| `Get` | Retrieve work item details | `-WorkItemId` |
+| `Update` | Modify work item description | `-WorkItemId`, `-Description` |
+| `Comment` | Add discussion comment | `-WorkItemId`, `-Comment` |
+| `Attach` | Upload file attachment | `-WorkItemId`, `-FilePath` |
+| `Link` | Add repository link or hyperlink | `-WorkItemId`, `-Url`, `-Title` |
+| `Status` | Change work item state | `-WorkItemId`, `-State` |
+| `Subtask` | Create child item (Task or Bug) | `-WorkItemId`, `-Title`, `-Description`, `-Type` |
+| `AddTags` | Add tags to work item | `-WorkItemId`, `-Tags` (semicolon-separated) |
+
+## State Transitions
+
+```
+New -> Active          (when starting work)
+Active -> Resolved     (work complete, pending review)
+Resolved -> Closed     (reviewed and approved)
+Active -> Closed       (work cancelled or rejected)
+Any -> Removed         (if cancelled)
+```
+
+## Language Standards
+
+- **Titles and descriptions** for new work items: Use **Norwegian** (Bokmal)
+- **Comments**: Can be English or Norwegian, prefer Norwegian for consistency
+- **Tags**: Use English for technical tags (e.g., `BugFix`, `Tested`, `ReadyForReview`, `AzStory`)
+
+## Norwegian Templates
+
+| Type | Template |
+|------|----------|
+| New function | `"Implementer funksjonen [FunctionName]"` |
+| New feature | `"Implementer [funksjon]"` |
+| Bug fix | `"Fikset feil: [ProblemDescription]"` |
+| Refactoring | `"Refaktorert [ComponentName]"` |
+| New script | `"Opprettet skript: [ScriptName]"` |
+| Task | `"Opprett [komponent/funksjon]"` |
+
+## Description Standard -- Rich Content Required
+
+Work item descriptions MUST be comprehensive and include **all** of the following sections. Write descriptions in **Norwegian** using HTML formatting.
+
+### Required sections
+
+1. **Oversikt** -- One paragraph summarizing what was built/changed and why
+2. **Hva prosjektet gjor** -- Detailed explanation of the project/feature purpose, how it works, and what problems it solves
+3. **Arkitektur** -- Mermaid diagram showing the system architecture
+4. **Arbeidsflyt** -- Mermaid diagram showing the user-facing workflow
+5. **Filer endret** -- Bulleted list of key files created or modified
+
+### Optional sections (add when relevant)
+
+- **Underkommandoer / API** -- Table of commands, endpoints, or parameters
+- **Konfigurasjon** -- Configuration files or settings involved
+- **Kjente begrensninger** -- Known limitations or follow-up work needed
+
+### Mermaid diagram rules -- Render to SVG via mmdc
+
+ADO work item descriptions do **not** render Mermaid natively. Render Mermaid to **SVG** locally using `mmdc`, base64-encode, and embed as `<img src="data:image/svg+xml;base64,...">` tags.
+
+**Rendering pipeline:**
+
+1. Write each diagram to a `.mmd` file in `$env:TEMP\mermaid_render\`
+2. Render to SVG: `mmdc.cmd -i diagram.mmd -o diagram.svg -b white -w 900`
+3. Base64-encode: `[System.Convert]::ToBase64String([System.IO.File]::ReadAllBytes($svgPath))`
+4. Embed in HTML: `<img src="data:image/svg+xml;base64,$base64" alt="Diagram description" />`
+
+**Diagram guidelines:**
+- Max 8-12 nodes per diagram, use subgraphs to organize
+- `flowchart TB` for architecture, `flowchart LR` for workflows
+- At least one architecture + one workflow diagram per User Story
+- Tasks and Bugs need only Oversikt and Filer endret sections
+- `-b white` for readable background
+- `mmdc.cmd` is globally installed via `@mermaid-js/mermaid-cli`
+
+### Mermaid rendering helper (PowerShell)
+
+```powershell
+function Convert-MermaidToSvgBase64 {
+    param([string]$MermaidCode, [string]$Name = "diagram")
+    $dir = Join-Path $env:TEMP "mermaid_render"
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    $mmdFile = Join-Path $dir "$($Name).mmd"
+    $svgFile = Join-Path $dir "$($Name).svg"
+    $MermaidCode | Out-File -FilePath $mmdFile -Encoding utf8 -Force
+    & mmdc.cmd -i $mmdFile -o $svgFile -b white -w 900 2>&1 | Out-Null
+    $base64 = [System.Convert]::ToBase64String([System.IO.File]::ReadAllBytes($svgFile))
+    Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+    return $base64
+}
+```
+
+### Description update via API
+
+For large HTML descriptions with embedded base64 images, use REST API via `Azure-DevOpsUserStoryManager.ps1 -Action Update`.
+
+## Context Detection
+
+```powershell
+# Regex: (\d{4,}) -- captures 4+ digit number in branch name
+$branch = git branch --show-current
+if ($branch -match '(\d{4,})') { $workItemId = $matches[1] }
+
+# Regex: #(\d{4,}) -- literal '#' followed by 4+ digits in commit message
+$commitMsg = git log -1 --pretty=%B
+if ($commitMsg -match '#(\d{4,})') { $workItemId = $matches[1] }
+```
+
+## Configuration
+
+Uses GlobalFunctions configuration:
+- `Get-AzureDevOpsOrganization` -> `"Dedge"`
+- `Get-AzureDevOpsProject` -> `"Dedge"`
+- `Get-AzureDevOpsRepository` -> repo name
+- `Get-AzureDevOpsPat` -> PAT token (user-specific)
+
+**PAT file:** `C:\opt\data\UserConfig\$env:USERNAME\AzureDevOpsPat.json`
+
+## Bulk Creation (Azure-DevOpsItemCreator)
+
+Template: `DevTools/AzureTools/Azure-DevOpsItemCreator/workitems-template.json`
+
+## Task Tracking Convention: `_azstory.json`
+
+Each git repo root may have an `_azstory.json` file tracking ADO work items for that project. Git-tracked, not in `.gitignore`.
+
+- Multi-project repos: one file at git root, entries distinguished by `subProject` field
+- Standalone repos: `subProject` is `null`
+- All items tagged `AzStory` in Azure DevOps
+
+## Post-Chat Prompt
+
+After substantial coding tasks, ask:
+```
+Would you like to update Azure DevOps for this work?
+1. Create new work item (in Norwegian)
+2. Update existing work item (provide ID)
+3. Skip for now
+```
+
+**When to ask:** After features, bug fixes, refactoring, new scripts
+**When NOT to ask:** Simple questions, read-only operations, already asked this session
+
+## Encoding -- Norwegian Characters
+
+All text sent to Azure DevOps **MUST** preserve Norwegian characters. Use REST API with explicit UTF-8 encoding:
+
+```powershell
+$json = ConvertTo-Json -InputObject $patchDocument -Depth 10
+$bodyBytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+Invoke-RestMethod -Uri $uri -Method Patch -Headers $headers -Body $bodyBytes `
+    -ContentType "application/json-patch+json; charset=utf-8"
+```
+
+**Rules:**
+1. **Never** pass Norwegian text through `az boards` CLI -- use REST API
+2. **Always** convert JSON body to bytes with `[System.Text.Encoding]::UTF8.GetBytes()`
+3. **Always** include `charset=utf-8` in the `Content-Type` header

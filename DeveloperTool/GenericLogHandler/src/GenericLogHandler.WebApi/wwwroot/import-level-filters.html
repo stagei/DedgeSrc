@@ -1,0 +1,554 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.importLevelFilters">Import Level Filters - Generic Log Handler</title>
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <style>
+        .filter-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .filter-card.disabled {
+            opacity: 0.6;
+        }
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .filter-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .filter-pattern {
+            font-family: monospace;
+            background: var(--bg-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        .filter-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .level-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .level-trace { background: #e0e0e0; color: #333; }
+        .level-debug { background: #9c27b0; color: white; }
+        .level-info { background: #2196f3; color: white; }
+        .level-warn { background: #ff9800; color: white; }
+        .level-error { background: #f44336; color: white; }
+        .level-fatal { background: #b71c1c; color: white; }
+        
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-icon {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-icon:hover {
+            background: var(--bg-hover);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .form-group label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-group .help-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .test-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .test-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .level-item {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .level-item.import { background: #4caf50; color: white; }
+        .level-item.skip { background: #9e9e9e; color: white; text-decoration: line-through; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .modal-header h2 {
+            margin: 0;
+        }
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 data-i18n="importFilters.title">Import Level Filters</h1>
+            <p class="subtitle" data-i18n="importFilters.subtitle">Configure minimum log levels per file pattern to control what gets imported</p>
+        </div>
+
+        <!-- Test Section -->
+        <div class="test-section">
+            <h3 data-i18n="importFilters.testFilePath">🧪 Test File Path</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);" data-i18n="importFilters.testFilePathDesc">Enter a file path to see which filter would apply and what levels would be imported.</p>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="testFilePath" placeholder="e.g., C:\opt\data\AllPwshLog\30237-FK_20260131.log" data-i18n-placeholder="placeholder.testFilePath">
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="testFilter()" data-i18n="button.test">Test</button>
+                </div>
+            </div>
+            <div id="testResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 data-i18n="importFilters.filterRules">Filter Rules</h2>
+            <button class="btn btn-primary" onclick="openCreateModal()" data-i18n="button.addFilter">+ Add Filter</button>
+        </div>
+
+        <!-- Filters List -->
+        <div id="filtersList">
+            <div class="empty-state">Loading filters...</div>
+        </div>
+    </main>
+
+    <!-- Create/Edit Modal -->
+    <div class="modal" id="filterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Filter</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="filterForm" onsubmit="saveFilter(event)">
+                <input type="hidden" id="filterId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="filterName" data-i18n="importFilters.nameLabel">Name *</label>
+                        <input type="text" id="filterName" required placeholder="e.g., Skip Debug for Production Logs" data-i18n-placeholder="placeholder.filterName">
+                    </div>
+                    <div class="form-group">
+                        <label for="filterPriority" data-i18n="importFilters.priorityLabel">Priority</label>
+                        <input type="number" id="filterPriority" value="100" min="1" max="1000">
+                        <span class="help-text" data-i18n="importFilters.priorityHint">Lower = checked first</span>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="filterPattern" data-i18n="importFilters.filePatternLabel">File Pattern (Regex) *</label>
+                        <input type="text" id="filterPattern" required placeholder="e.g., .*Production.*\.log$" data-i18n-placeholder="placeholder.filePattern">
+                        <span class="help-text" data-i18n="importFilters.filePatternHint">Regex pattern to match against file paths</span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="filterMinLevel" data-i18n="importFilters.minLevelLabel">Minimum Level *</label>
+                        <select id="filterMinLevel" required>
+                            <option value="0" data-i18n="importFilters.levelTrace">TRACE (import all)</option>
+                            <option value="1" data-i18n="importFilters.levelDebug">DEBUG (skip TRACE)</option>
+                            <option value="2" data-i18n="importFilters.levelInfo">INFO (skip TRACE, DEBUG)</option>
+                            <option value="3" data-i18n="importFilters.levelWarn">WARN (skip TRACE, DEBUG, INFO)</option>
+                            <option value="4" data-i18n="importFilters.levelError">ERROR (skip TRACE, DEBUG, INFO, WARN)</option>
+                            <option value="5" data-i18n="importFilters.levelFatal">FATAL (only FATAL)</option>
+                        </select>
+                        <span class="help-text" data-i18n="importFilters.minLevelHint">Only import logs at or above this level</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="filterEnabled" data-i18n="importFilters.statusLabel">Status</label>
+                        <select id="filterEnabled">
+                            <option value="true" data-i18n="common.enabled">Enabled</option>
+                            <option value="false" data-i18n="common.disabled">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label for="filterDescription" data-i18n="importFilters.descriptionLabel">Description</label>
+                        <textarea id="filterDescription" placeholder="Optional description of what this filter does" data-i18n-placeholder="placeholder.filterDescription"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()" data-i18n="button.cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="button.saveFilter">Save Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFilters();
+            initTheme();
+        });
+
+        async function loadFilters() {
+            try {
+                const response = await Api.get('/api/ImportLevelFilters');
+                if (response && response.Success) {
+                    renderFilters(response.Data);
+                }
+            } catch (err) {
+                console.error('Error loading filters:', err);
+                document.getElementById('filtersList').innerHTML = 
+                    '<div class="empty-state" style="color: var(--error-color);">Error loading filters</div>';
+            }
+        }
+
+        function renderFilters(filters) {
+            const container = document.getElementById('filtersList');
+            
+            if (!filters || filters.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>No import level filters configured.</p>
+                        <p>Create a filter to control which log levels are imported based on file patterns.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filters.map(f => `
+                <div class="filter-card ${f.IsEnabled ? '' : 'disabled'}">
+                    <div class="filter-header">
+                        <div>
+                            <span class="filter-name">${escapeHtml(f.Name)}</span>
+                            ${!f.IsEnabled ? '<span style="color: var(--text-secondary);"> (disabled)</span>' : ''}
+                        </div>
+                        <div class="filter-actions">
+                            <button class="btn-icon" onclick="toggleFilter('${f.Id}')" title="${f.IsEnabled ? 'Disable' : 'Enable'}">
+                                ${f.IsEnabled ? '🔴' : '🟢'}
+                            </button>
+                            <button class="btn-icon" onclick="editFilter('${f.Id}')" title="Edit">✏️</button>
+                            <button class="btn-icon" onclick="deleteFilter('${f.Id}', '${escapeHtml(f.Name)}')" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="filter-pattern">${escapeHtml(f.FilePattern)}</div>
+                    <div class="filter-meta">
+                        <span>Min Level: <span class="level-badge level-${f.MinLevelName.toLowerCase()}">${f.MinLevelName}</span></span>
+                        <span>Priority: ${f.Priority}</span>
+                        ${f.Description ? `<span>📝 ${escapeHtml(f.Description)}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openCreateModal() {
+            document.getElementById('modalTitle').textContent = 'Add Filter';
+            document.getElementById('filterId').value = '';
+            document.getElementById('filterForm').reset();
+            document.getElementById('filterPriority').value = '100';
+            document.getElementById('filterMinLevel').value = '0';
+            document.getElementById('filterEnabled').value = 'true';
+            document.getElementById('filterModal').classList.add('show');
+        }
+
+        async function editFilter(id) {
+            try {
+                const response = await Api.get(`/api/ImportLevelFilters/${id}`);
+                if (response && response.Success) {
+                    const f = response.Data;
+                    document.getElementById('modalTitle').textContent = 'Edit Filter';
+                    document.getElementById('filterId').value = f.Id;
+                    document.getElementById('filterName').value = f.Name;
+                    document.getElementById('filterPattern').value = f.FilePattern;
+                    document.getElementById('filterMinLevel').value = f.MinLevel;
+                    document.getElementById('filterPriority').value = f.Priority;
+                    document.getElementById('filterEnabled').value = f.IsEnabled.toString();
+                    document.getElementById('filterDescription').value = f.Description || '';
+                    document.getElementById('filterModal').classList.add('show');
+                }
+            } catch (err) {
+                Toast.error('Error loading filter');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('filterModal').classList.remove('show');
+        }
+
+        async function saveFilter(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('filterId').value;
+            const data = {
+                Name: document.getElementById('filterName').value,
+                FilePattern: document.getElementById('filterPattern').value,
+                MinLevel: parseInt(document.getElementById('filterMinLevel').value),
+                Priority: parseInt(document.getElementById('filterPriority').value),
+                IsEnabled: document.getElementById('filterEnabled').value === 'true',
+                Description: document.getElementById('filterDescription').value || null
+            };
+
+            try {
+                let response;
+                if (id) {
+                    response = await Api.put(`/api/ImportLevelFilters/${id}`, data);
+                } else {
+                    response = await Api.post('/api/ImportLevelFilters', data);
+                }
+
+                if (response && response.Success) {
+                    Toast.success(id ? 'Filter updated' : 'Filter created');
+                    closeModal();
+                    loadFilters();
+                } else {
+                    Toast.error(response?.Error || 'Failed to save filter');
+                }
+            } catch (err) {
+                Toast.error('Error saving filter');
+            }
+        }
+
+        async function toggleFilter(id) {
+            try {
+                const response = await Api.post(`/api/ImportLevelFilters/${id}/toggle`);
+                if (response && response.Success) {
+                    Toast.success(response.Data.IsEnabled ? 'Filter enabled' : 'Filter disabled');
+                    loadFilters();
+                }
+            } catch (err) {
+                Toast.error('Error toggling filter');
+            }
+        }
+
+        async function deleteFilter(id, name) {
+            if (!confirm(`Delete filter "${name}"?`)) return;
+            
+            try {
+                const response = await Api.delete(`/api/ImportLevelFilters/${id}`);
+                if (response && response.Success) {
+                    Toast.success('Filter deleted');
+                    loadFilters();
+                }
+            } catch (err) {
+                Toast.error('Error deleting filter');
+            }
+        }
+
+        async function testFilter() {
+            const filePath = document.getElementById('testFilePath').value;
+            if (!filePath) {
+                Toast.error('Enter a file path to test');
+                return;
+            }
+
+            try {
+                const response = await Api.post('/api/ImportLevelFilters/test', { FilePath: filePath });
+                if (response && response.Success) {
+                    const result = response.Data;
+                    const resultDiv = document.getElementById('testResult');
+                    resultDiv.style.display = 'block';
+
+                    if (result.MatchingFilter) {
+                        resultDiv.innerHTML = `
+                            <div style="margin-bottom: 0.5rem;">
+                                <strong>Matching Filter:</strong> ${escapeHtml(result.MatchingFilter.Name)}
+                                <span class="level-badge level-${result.MatchingFilter.MinLevelName.toLowerCase()}">${result.MatchingFilter.MinLevelName}</span>
+                            </div>
+                            <div style="margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                                Pattern: <code>${escapeHtml(result.MatchingFilter.FilePattern)}</code>
+                            </div>
+                            <div><strong>What would be imported:</strong></div>
+                            <div class="level-grid">
+                                <div class="level-item ${result.WouldImportTrace ? 'import' : 'skip'}">TRACE</div>
+                                <div class="level-item ${result.WouldImportDebug ? 'import' : 'skip'}">DEBUG</div>
+                                <div class="level-item ${result.WouldImportInfo ? 'import' : 'skip'}">INFO</div>
+                                <div class="level-item ${result.WouldImportWarn ? 'import' : 'skip'}">WARN</div>
+                                <div class="level-item ${result.WouldImportError ? 'import' : 'skip'}">ERROR</div>
+                                <div class="level-item ${result.WouldImportFatal ? 'import' : 'skip'}">FATAL</div>
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div style="color: var(--text-secondary);">
+                                <strong>No matching filter found.</strong><br>
+                                All log levels would be imported for this file.
+                            </div>
+                            <div class="level-grid">
+                                <div class="level-item import">TRACE</div>
+                                <div class="level-item import">DEBUG</div>
+                                <div class="level-item import">INFO</div>
+                                <div class="level-item import">WARN</div>
+                                <div class="level-item import">ERROR</div>
+                                <div class="level-item import">FATAL</div>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (err) {
+                Toast.error('Error testing filter');
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function initTheme() {
+            if (typeof ThemeManager !== 'undefined') {
+                ThemeManager.init();
+            }
+        }
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

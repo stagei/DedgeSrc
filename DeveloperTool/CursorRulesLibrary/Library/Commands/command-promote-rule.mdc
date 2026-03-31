@@ -1,0 +1,88 @@
+﻿---
+description: When user says /promote-rule <rulename>, generalize it and copy it to the CursorRulesLibrary
+alwaysApply: true
+---
+
+# Command /promote-rule
+
+**Triggered when the user types `/promote-rule <rulename>`** (or says "promote rule", "copy rule to library", etc.).
+
+Promotes a `.mdc` rule from the current project into the shared CursorRulesLibrary.
+
+## Steps
+
+### 1. Locate the source rule
+
+Find the rule file in the current project's `.cursor/rules/` folder matching `<rulename>`.
+
+### 2. Choose the target Library theme
+
+Library root: `C:\opt\src\CursorRulesLibrary\Library\`
+
+Existing themes:
+
+| Theme folder | Use for |
+|---|---|
+| `Agent` | AI agent behaviour, task management, permissions |
+| `Commands` | Cursor chat commands (`/commit`, `/deploy`, etc.) |
+| `CSharp-WebApp` | ASP.NET / Web API patterns |
+| `CSharp-WinApp` | Windows / desktop C# patterns |
+| `Db2` | DB2 SQL, connections, MCP query tool |
+| `Documentation` | Docs standards, placement, naming |
+| `DedgeAuth` | DedgeAuth-specific only (see transfer rules below) |
+| `Git` | Git workflow, commit messages, attribution |
+| `Installer` | WiX, NSIS, MSI |
+| `Logging` | NLog, Serilog, log reading |
+| `PowerShell` | PowerShell scripting standards |
+| `Security` | Auth, code signing, secrets |
+| `Server` | Server layout, UNC paths, orchestration |
+| `Testing` | Testing methodology, browser tests |
+| `Web-UI` | HTML, CSS, WordPress |
+| `WPF` | WPF UI patterns |
+
+Pick the **best-matching** theme. If no theme fits well, say so and ask the user before proceeding.
+
+**Do NOT promote** rules that are:
+- Specific to a single app or repo (keep project-level only)
+- DedgeAuth-specific, unless already part of the curated `Library\DedgeAuth` set
+
+### 3. Generalize the rule content
+
+Rewrite the rule to be project-agnostic:
+- Remove all project names, app names, and repo-specific paths
+- Replace hardcoded server names / UNC paths with generic placeholders (`<server>`, `\\<server>\opt\...`)
+- Replace product-specific connection strings, credentials, or catalog names with examples
+- Keep the **pattern and principle** — strip the **specifics**
+- Preserve frontmatter (`description`, `alwaysApply`, `globs`) but update `description` if needed
+
+### 4. Write the generalized rule to Library
+
+```powershell
+$dest = "C:\opt\src\CursorRulesLibrary\Library\<Theme>\<rulename>.mdc"
+# Write generalized content to $dest
+```
+
+Use the same filename as the source rule unless a better name is obvious.
+
+### 5. Commit and push CursorRulesLibrary
+
+```powershell
+cd "C:\opt\src\CursorRulesLibrary"
+git add -A
+git commit -m "feat(library): promote <rulename> to <Theme>" `
+           -m "Generalized from <source-project>. <One sentence on what it covers>."
+git push
+git status   # Verify up to date
+```
+
+**Never skip the push step.**
+
+## Example
+
+User: `/promote-rule mcp-db2-query`
+
+1. Read `.cursor/rules/mcp-db2-query.mdc`
+2. Theme → `Db2`
+3. Generalize: remove catalog names (`FKMTST`/`BASISRAP`), replace with `<CATALOG>` examples; replace MCP server name with generic `<mcp-server-name>`; keep encoding note, patterns, restrictions
+4. Write to `C:\opt\src\CursorRulesLibrary\Library\Db2\mcp-db2-query.mdc`
+5. `git add -A && git commit -m "feat(library): promote mcp-db2-query to Db2" && git push`

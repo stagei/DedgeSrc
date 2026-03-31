@@ -1,0 +1,112 @@
+{
+  "tableName": "P_AVTALETILLEGG",
+  "futureName": "ProductPricingRule",
+  "namespace": "AgricContracts",
+  "columns": [
+    {
+      "name": "kornHandler",
+      "futureName": "KornHandler",
+      "description": "Dealer code or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "kontraktType",
+      "futureName": "ContractType",
+      "description": "Type of contract, referenced from DBM.KD_KONTRAKT_TYPE",
+      "foreignKey": "DBM.KD_KONTRAKT_TYPE.NR"
+    },
+    {
+      "name": "anleggNr",
+      "futureName": "AnleggingNumber",
+      "description": "Number of the installation or facility",
+      "foreignKey": null
+    },
+    {
+      "name": "slag",
+      "futureName": "Slag",
+      "description": "Type or category, possibly related to product type",
+      "foreignKey": "DBM.SLAG.SLAG"
+    },
+    {
+      "name": "art",
+      "futureName": "Art",
+      "description": "Article or item code",
+      "foreignKey": null
+    },
+    {
+      "name": "sort",
+      "futureName": "Sort",
+      "description": "Sorting or classification code",
+      "foreignKey": null
+    },
+    {
+      "name": "okologisk",
+      "futureName": "Okologisk",
+      "description": "Indicator for organic product, where J=Yes and N=No (conventional corn)",
+      "foreignKey": null
+    },
+    {
+      "name": "forMat",
+      "futureName": "ForMat",
+      "description": "Indicator for food or material use, where F=Food, M=Materiel, B=Both",
+      "foreignKey": null
+    },
+    {
+      "name": "fraDato",
+      "futureName": "FromDate",
+      "description": "Start date of the pricing rule",
+      "foreignKey": null
+    },
+    {
+      "name": "tilDato",
+      "futureName": "ToDate",
+      "description": "End date of the pricing rule",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserId",
+      "description": "Identifier for the user or customer",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the record was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "etterbetaling",
+      "futureName": "AfterPayment",
+      "description": "Indicator for after payment, where J=Yes and N=No",
+      "foreignKey": null
+    },
+    {
+      "name": "belopInnfrakt",
+      "futureName": "FfreightAmount",
+      "description": "Freight amount indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "spesialkontrakt",
+      "futureName": "SpecialContract",
+      "description": "Indicator for special contract, where J=Yes and N=No",
+      "foreignKey": null
+    },
+    {
+      "name": "tekst",
+      "futureName": "Text",
+      "description": "Text to be printed on billing invoices or documents",
+      "foreignKey": null
+    },
+    {
+      "name": "basisPrebasis",
+      "futureName": "BasisPrebasis",
+      "description": "Indicator for basis prebasis, where J=Yes and allows for alternative analysis price",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:00:24"
+}

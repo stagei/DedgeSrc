@@ -1,0 +1,112 @@
+{
+  "tableName": "SESONG_INNKJOP",
+  "futureName": "SesonInnkjopOrderHeader",
+  "namespace": "Dbm.OrderHeaders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Branch number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "VendorNumber",
+      "description": "Supplier number",
+      "foreignKey": null
+    },
+    {
+      "name": "VHGR",
+      "futureName": "WarehouseGroup",
+      "description": "Warehouse group identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREDATO",
+      "futureName": "OrderDate",
+      "description": "Order date",
+      "foreignKey": null
+    },
+    {
+      "name": "ONSKETLEVDATO",
+      "futureName": "DesiredDeliveryDate",
+      "description": "Desired delivery date",
+      "foreignKey": null
+    },
+    {
+      "name": "IORDRE_12",
+      "futureName": "InternalOrder12",
+      "description": "Internal order identifier (12 characters)",
+      "foreignKey": null
+    },
+    {
+      "name": "FKA_AVDNR",
+      "futureName": "ReferenceAvdNr",
+      "description": "Referenced branch number",
+      "foreignKey": "AVDNR"
+    },
+    {
+      "name": "FKA_ORDRENR",
+      "futureName": "ReferenceOrderNumber",
+      "description": "Referenced order identifier",
+      "foreignKey": "ORDRENR"
+    },
+    {
+      "name": "I_AVDNR",
+      "futureName": "InternalAvdNr",
+      "description": "Internal branch number",
+      "foreignKey": null
+    },
+    {
+      "name": "I_ORDRENR",
+      "futureName": "InternalOrderNumber",
+      "description": "Internal order identifier (8 characters)",
+      "foreignKey": null
+    },
+    {
+      "name": "INNKJOPER",
+      "futureName": "Operator",
+      "description": "Operator who placed the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREKL",
+      "futureName": "OrderClassification",
+      "description": "Order classification or category",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTILLINGSVEI",
+      "futureName": "OrderFulfillmentPath",
+      "description": "Order fulfillment path identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PROGRAM",
+      "futureName": "ProgramCode",
+      "description": "Program or process code",
+      "foreignKey": null
+    },
+    {
+      "name": "OPPSTATT",
+      "futureName": "SetupDate",
+      "description": "Setup date",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:42:31"
+}

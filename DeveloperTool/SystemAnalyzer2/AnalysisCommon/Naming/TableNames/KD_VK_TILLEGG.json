@@ -1,0 +1,130 @@
+{
+  "tableName": "KD_VK_TILLEGG",
+  "futureName": "TilleggsData",
+  "namespace": "KontraktdyrkerSystemet",
+  "columns": [
+    {
+      "name": "VK_RECNO",
+      "futureName": "RecordNumber",
+      "description": "Unique record identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AREALNR",
+      "futureName": "AreaNumber",
+      "description": "Unique area identifier",
+      "foreignKey": "AREALNR -> DBM.KD_VEKSTKONTROLL.AREALNR (AREALNR)"
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Type code for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "ANDEL",
+      "futureName": "Share",
+      "description": "Proportion or share of something",
+      "foreignKey": null
+    },
+    {
+      "name": "AREAL",
+      "futureName": "Area",
+      "description": "Area measurement or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ART_ART",
+      "futureName": "ArtCode",
+      "description": "Code for a specific type of art or item",
+      "foreignKey": null
+    },
+    {
+      "name": "SORT_ART",
+      "futureName": "SortArt",
+      "description": "Sorted code for the art",
+      "foreignKey": null
+    },
+    {
+      "name": "SORT_SORT",
+      "futureName": "SortSort",
+      "description": "Secondary sort code",
+      "foreignKey": null
+    },
+    {
+      "name": "FEIL",
+      "futureName": "ErrorIndicator",
+      "description": "Indicates if there was an error",
+      "foreignKey": null
+    },
+    {
+      "name": "UGRAS",
+      "futureName": "UserGroupAccess",
+      "description": "User group access code",
+      "foreignKey": null
+    },
+    {
+      "name": "SLEKT",
+      "futureName": "FamilyCode",
+      "description": "Family or category code",
+      "foreignKey": null
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year of reference or occurrence",
+      "foreignKey": null
+    },
+    {
+      "name": "MERKNAD",
+      "futureName": "Note",
+      "description": "Any additional remarks or notes",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record creation or modification",
+      "foreignKey": null
+    },
+    {
+      "name": "PAD_BRUKERID",
+      "futureName": "PadUserId",
+      "description": "Padded user identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PAD_RECNO",
+      "futureName": "PadRecordNumber",
+      "description": "Padded record number",
+      "foreignKey": null
+    },
+    {
+      "name": "KLASSE",
+      "futureName": "ClassCode",
+      "description": "Classification code",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTROLLNR",
+      "futureName": "ControlNumber",
+      "description": "Control or reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "LASTCHANGED",
+      "futureName": "LastChangedTimestamp",
+      "description": "Timestamp indicating when the record was last changed",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:28:34"
+}

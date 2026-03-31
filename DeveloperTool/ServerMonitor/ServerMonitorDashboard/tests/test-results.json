@@ -1,0 +1,1168 @@
+﻿{
+  "TestRun": {
+    "BaseUrl": "http://localhost:5100",
+    "Timestamp": "2026-01-13T12:25:03.7877387+01:00",
+    "Duration": "N/A",
+    "Passed": 7,
+    "TotalTests": 9,
+    "Failed": 2
+  },
+  "Results": [
+    {
+      "Name": "GET /api/IsAlive",
+      "Response": true,
+      "Success": true,
+      "ResponseTimeMs": 209,
+      "Error": null,
+      "Validation": [
+        "✓ Response is boolean"
+      ],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:32.9288709+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/IsAlive"
+    },
+    {
+      "Name": "GET /api/servers",
+      "Response": {
+        "servers": [
+          {
+            "name": "sfk-batch-vm01",
+            "displayName": "sfk-batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:26.588925Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-batch-vm01:8999)"
+          },
+          {
+            "name": "sfk-erp-03",
+            "displayName": "sfk-erp-03",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:26.6070955Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-erp-03:8999)"
+          },
+          {
+            "name": "sfkerp12",
+            "displayName": "sfkerp12",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:26.6073245Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp12:8999)"
+          },
+          {
+            "name": "sfkerp13",
+            "displayName": "sfkerp13",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:26.6072972Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp13:8999)"
+          }
+        ],
+        "lastRefreshed": "0001-01-01T00:00:00",
+        "currentAgentVersion": "1.0.0.0"
+      },
+      "Success": true,
+      "ResponseTimeMs": 447,
+      "Error": null,
+      "Validation": [
+        "✓ Response is not null"
+      ],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:33.1710407+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/servers"
+    },
+    {
+      "Name": "GET /api/version",
+      "Response": {
+        "version": "1.0.0.0",
+        "exePath": "\\dedge-server\\DedgeCommon\\Software\\DedgeWinApps\\ServerMonitor\\ServerMonitor.exe"
+      },
+      "Success": true,
+      "ResponseTimeMs": 7,
+      "Error": null,
+      "Validation": [
+        "✓ Response is not null"
+      ],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:33.6232253+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/version"
+    },
+    {
+      "Name": "POST /api/servers/refresh",
+      "Response": {
+        "servers": [
+          {
+            "name": "p-no1batch-vm01",
+            "displayName": "p-no1batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6473567Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1docprd-db",
+            "displayName": "p-no1docprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480671Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1erp-sms01",
+            "displayName": "p-no1erp-sms01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475036Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-app",
+            "displayName": "p-no1fkmprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478253Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-db",
+            "displayName": "p-no1fkmprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478163Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-mcl",
+            "displayName": "p-no1fkmprd-mcl",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480946Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-pos",
+            "displayName": "p-no1fkmprd-pos",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480768Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-soa",
+            "displayName": "p-no1fkmprd-soa",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478375Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-web",
+            "displayName": "p-no1fkmprd-web",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480235Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmrap-db",
+            "displayName": "p-no1fkmrap-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480451Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkxprd-app",
+            "displayName": "p-no1fkxprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6482761Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkxprd-db",
+            "displayName": "p-no1fkxprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6482288Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1hstprd-db",
+            "displayName": "p-no1hstprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478514Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1inlprd-app",
+            "displayName": "p-no1inlprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478752Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1inlprd-db",
+            "displayName": "p-no1inlprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478632Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1qvp-rep01",
+            "displayName": "p-no1qvp-rep01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6481037Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1visprd-db",
+            "displayName": "p-no1visprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480575Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "sfk-batch-vm01",
+            "displayName": "sfk-batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6463516Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-batch-vm01:8999)"
+          },
+          {
+            "name": "sfk-erp-03",
+            "displayName": "sfk-erp-03",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475176Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-erp-03:8999)"
+          },
+          {
+            "name": "sfk-soa-web-01",
+            "displayName": "sfk-soa-web-01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6474883Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "sfkerp12",
+            "displayName": "sfkerp12",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475662Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp12:8999)"
+          },
+          {
+            "name": "sfkerp13",
+            "displayName": "sfkerp13",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475297Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp13:8999)"
+          },
+          {
+            "name": "sfkerp14",
+            "displayName": "sfkerp14",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476015Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1batch-vm01",
+            "displayName": "t-no1batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.647457Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmdev-db",
+            "displayName": "t-no1fkmdev-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.647623Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmfsp-app",
+            "displayName": "t-no1fkmfsp-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477546Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmfut-db",
+            "displayName": "t-no1fkmfut-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479125Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmkat-db",
+            "displayName": "t-no1fkmkat-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479269Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmmig-db",
+            "displayName": "t-no1fkmmig-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478916Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmper-db",
+            "displayName": "t-no1fkmper-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479014Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmsit-db",
+            "displayName": "t-no1fkmsit-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478057Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-app",
+            "displayName": "t-no1fkmtst-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476972Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-db",
+            "displayName": "t-no1fkmtst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476832Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-pos",
+            "displayName": "t-no1fkmtst-pos",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.648086Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-soa",
+            "displayName": "t-no1fkmtst-soa",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477347Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-web",
+            "displayName": "t-no1fkmtst-web",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479929Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmvfk-db",
+            "displayName": "t-no1fkmvfk-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477848Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmvft-db",
+            "displayName": "t-no1fkmvft-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477724Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "dedge-server",
+            "displayName": "dedge-server",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6483234Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkxtst-db",
+            "displayName": "t-no1fkxtst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.648306Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inldev-db",
+            "displayName": "t-no1inldev-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476428Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inltst-app",
+            "displayName": "t-no1inltst-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476722Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inltst-db",
+            "displayName": "t-no1inltst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476608Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1qvp-rep01",
+            "displayName": "t-no1qvp-rep01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6481629Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          }
+        ],
+        "lastRefreshed": "2026-01-13T11:24:43.6506185Z",
+        "currentAgentVersion": "1.0.0.0"
+      },
+      "Success": true,
+      "ResponseTimeMs": 10026,
+      "Error": null,
+      "Validation": [
+        "✓ Response is not null"
+      ],
+      "Method": "POST",
+      "Timestamp": "2026-01-13T12:24:33.6329336+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/servers/refresh"
+    },
+    {
+      "Name": "GET /api/servers (post-refresh)",
+      "Response": {
+        "servers": [
+          {
+            "name": "p-no1batch-vm01",
+            "displayName": "p-no1batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6473567Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1docprd-db",
+            "displayName": "p-no1docprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480671Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1erp-sms01",
+            "displayName": "p-no1erp-sms01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475036Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-app",
+            "displayName": "p-no1fkmprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478253Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-db",
+            "displayName": "p-no1fkmprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478163Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-mcl",
+            "displayName": "p-no1fkmprd-mcl",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480946Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-pos",
+            "displayName": "p-no1fkmprd-pos",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480768Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-soa",
+            "displayName": "p-no1fkmprd-soa",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478375Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmprd-web",
+            "displayName": "p-no1fkmprd-web",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480235Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkmrap-db",
+            "displayName": "p-no1fkmrap-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480451Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkxprd-app",
+            "displayName": "p-no1fkxprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6482761Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1fkxprd-db",
+            "displayName": "p-no1fkxprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6482288Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1hstprd-db",
+            "displayName": "p-no1hstprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478514Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1inlprd-app",
+            "displayName": "p-no1inlprd-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478752Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1inlprd-db",
+            "displayName": "p-no1inlprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478632Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1qvp-rep01",
+            "displayName": "p-no1qvp-rep01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6481037Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "p-no1visprd-db",
+            "displayName": "p-no1visprd-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6480575Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "sfk-batch-vm01",
+            "displayName": "sfk-batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6463516Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-batch-vm01:8999)"
+          },
+          {
+            "name": "sfk-erp-03",
+            "displayName": "sfk-erp-03",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475176Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfk-erp-03:8999)"
+          },
+          {
+            "name": "sfk-soa-web-01",
+            "displayName": "sfk-soa-web-01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6474883Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "sfkerp12",
+            "displayName": "sfkerp12",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475662Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp12:8999)"
+          },
+          {
+            "name": "sfkerp13",
+            "displayName": "sfkerp13",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6475297Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "No connection could be made because the target machine actively refused it. (sfkerp13:8999)"
+          },
+          {
+            "name": "sfkerp14",
+            "displayName": "sfkerp14",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476015Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1batch-vm01",
+            "displayName": "t-no1batch-vm01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.647457Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmdev-db",
+            "displayName": "t-no1fkmdev-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.647623Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmfsp-app",
+            "displayName": "t-no1fkmfsp-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477546Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmfut-db",
+            "displayName": "t-no1fkmfut-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479125Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmkat-db",
+            "displayName": "t-no1fkmkat-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479269Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmmig-db",
+            "displayName": "t-no1fkmmig-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478916Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmper-db",
+            "displayName": "t-no1fkmper-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479014Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmsit-db",
+            "displayName": "t-no1fkmsit-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6478057Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-app",
+            "displayName": "t-no1fkmtst-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476972Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-db",
+            "displayName": "t-no1fkmtst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476832Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-pos",
+            "displayName": "t-no1fkmtst-pos",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.648086Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-soa",
+            "displayName": "t-no1fkmtst-soa",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477347Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmtst-web",
+            "displayName": "t-no1fkmtst-web",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6479929Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmvfk-db",
+            "displayName": "t-no1fkmvfk-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477848Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkmvft-db",
+            "displayName": "t-no1fkmvft-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6477724Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "dedge-server",
+            "displayName": "dedge-server",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6483234Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1fkxtst-db",
+            "displayName": "t-no1fkxtst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.648306Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inldev-db",
+            "displayName": "t-no1inldev-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476428Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inltst-app",
+            "displayName": "t-no1inltst-app",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476722Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1inltst-db",
+            "displayName": "t-no1inltst-db",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6476608Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          },
+          {
+            "name": "t-no1qvp-rep01",
+            "displayName": "t-no1qvp-rep01",
+            "type": "Server",
+            "ipAddress": null,
+            "isAlive": false,
+            "lastChecked": "2026-01-13T11:24:33.6481629Z",
+            "agentVersion": null,
+            "responseTimeMs": null,
+            "error": "Connection timeout"
+          }
+        ],
+        "lastRefreshed": "2026-01-13T11:24:43.6506185Z",
+        "currentAgentVersion": "1.0.0.0"
+      },
+      "Success": true,
+      "ResponseTimeMs": 6,
+      "Error": null,
+      "Validation": [
+        "✓ Response is not null"
+      ],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:43.6628956+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/servers"
+    },
+    {
+      "Name": "GET /api/snapshot/p-no1batch-vm01 (live)",
+      "Response": null,
+      "Success": false,
+      "ResponseTimeMs": 10068,
+      "Error": "Response status code does not indicate success: 503 (Service Unavailable).",
+      "Validation": [],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:43.6789122+01:00",
+      "StatusCode": 503,
+      "Url": "http://localhost:5100/api/snapshot/p-no1batch-vm01?useCached=false"
+    },
+    {
+      "Name": "GET /api/snapshot/p-no1batch-vm01 (cached)",
+      "Response": null,
+      "Success": false,
+      "ResponseTimeMs": 10011,
+      "Error": "Response status code does not indicate success: 503 (Service Unavailable).",
+      "Validation": [],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:24:53.7569590+01:00",
+      "StatusCode": 503,
+      "Url": "http://localhost:5100/api/snapshot/p-no1batch-vm01?useCached=true"
+    },
+    {
+      "Name": "GET /api/servers/p-no1batch-vm01",
+      "Response": {
+        "name": "p-no1batch-vm01",
+        "displayName": "p-no1batch-vm01",
+        "type": "Server",
+        "ipAddress": null,
+        "isAlive": false,
+        "lastChecked": "2026-01-13T11:24:33.6473567Z",
+        "agentVersion": null,
+        "responseTimeMs": null,
+        "error": "Connection timeout"
+      },
+      "Success": true,
+      "ResponseTimeMs": 6,
+      "Error": null,
+      "Validation": [
+        "✓ Response is not null"
+      ],
+      "Method": "GET",
+      "Timestamp": "2026-01-13T12:25:03.7712617+01:00",
+      "StatusCode": 200,
+      "Url": "http://localhost:5100/api/servers/p-no1batch-vm01"
+    },
+    {
+      "Validation": [
+        "✓ Correctly returned 404"
+      ],
+      "Success": true,
+      "Name": "GET /api/servers/{nonexistent}",
+      "StatusCode": 404
+    }
+  ]
+}

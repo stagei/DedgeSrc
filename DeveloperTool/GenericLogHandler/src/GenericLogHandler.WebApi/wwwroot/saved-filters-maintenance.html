@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.savedFilters">Saved Filters - Generic Log Handler</title>
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+
+    <!-- 1. DedgeAuth (shared) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <!-- 2. App CSS (theme and layout) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    
+    <!-- 3. Tenant CSS (injected via API; overrides matching local config) -->
+    <style id="DedgeAuth-tenant-css"></style>
+</head>
+<body>
+    <header class="header">
+        <div id="DedgeAuthHeader" data-app-title="Generic Log Handler" data-home-url="index.html"></div>
+        <nav class="nav-links">
+            <a href="index.html" data-i18n="nav.dashboard">Dashboard</a>
+            <a href="log-search.html" data-i18n="nav.logSearch">Log Search</a>
+            <a href="job-status.html" data-i18n="nav.jobStatus">Job Status</a>
+            <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+            <div class="nav-dropdown">
+                <a href="maintenance.html" class="active" data-i18n="nav.maintenance">Maintenance ▾</a>
+                <div class="nav-dropdown-content">
+                    <a href="maintenance.html" data-i18n="nav.overview">Overview</a>
+                    <a href="import-sources.html" data-i18n="nav.importSources">Import Sources</a>
+                    <a href="import-status.html" data-i18n="nav.importStatus">Import Status</a>
+                    <a href="import-level-filters.html" data-i18n="nav.levelFilters">Level Filters</a>
+                    <a href="appsettings.html" data-i18n="nav.appSettings">App Settings</a>
+                    <a href="saved-filters-maintenance.html" class="active" data-i18n="nav.savedFilters">Saved Filters</a>
+                    <a href="advanced-search.html" data-i18n="nav.advancedSearch">Advanced Search</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header-controls">
+            
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+    </header>
+
+    <div class="maintenance-container">
+        <div class="maintenance-header">
+            <div>
+                <h1 style="margin: 0; font-size: 1.5rem;" data-i18n="savedFilters.title">🔍 Saved Filters</h1>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: var(--text-muted);" data-i18n="savedFilters.subtitle">Manage saved search filters and alert configs. Use Advanced Search to create or edit.</p>
+            </div>
+            <a href="advanced-search.html" class="btn btn-primary" data-i18n="button.newFilterAdvanced">+ New Filter (Advanced Search)</a>
+        </div>
+
+        <div class="panel">
+            <div class="panel-body">
+                <table class="data-table" id="filtersTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="table.name">Name</th>
+                            <th data-i18n="table.category">Category</th>
+                            <th data-i18n="table.alert">Alert</th>
+                            <th data-i18n="table.created">Created</th>
+                            <th data-i18n="table.actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filtersBody"></tbody>
+                </table>
+                <div id="filtersEmpty" class="empty-state hidden"><p data-i18n="savedFilters.noFilters">No saved filters.</p></div>
+                <div id="filtersError" class="empty-state hidden" style="color: var(--error-color);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DedgeAuth User Menu -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <!-- Shared Components -->
+    <script src="js/api.js"></script>
+    <script src="js/components/theme.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <!-- Page Script -->
+    <script src="js/saved-filters.js"></script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

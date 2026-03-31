@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.tools">Tools - ServerMonitor Dashboard</title>
+    <link rel="icon" href="dedge.ico" type="image/x-icon">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <style>
+        :root {
+            --accent: var(--accent-color);
+            --border: var(--border-color);
+            --warning: var(--warning-color);
+            --critical: var(--error-color);
+            --success: var(--success-color);
+            --info: var(--info-color);
+            --bg-header: var(--bg-tertiary);
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .popout-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        .popout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .popout-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .control-section {
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .control-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .control-header h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        
+        .control-description {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .control-actions {
+            padding: 1rem;
+        }
+        
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .action-card:hover {
+            border-color: var(--accent-color);
+            background: var(--bg-tertiary);
+        }
+        
+        .action-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .action-icon {
+            font-size: 1.75rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+        }
+        
+        .action-details {
+            flex: 1;
+        }
+        
+        .action-details strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+        
+        .action-details p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-info {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: var(--accent-hover-color);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="popout-container">
+        <header class="popout-header">
+            <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+            <h1><span>🔧</span> <span data-i18n="toolsPage.title">Tools</span></h1>
+            <!-- DedgeAuth User Menu -->
+            <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+        </div>
+        
+        <!-- Configuration Editors -->
+        <div class="control-section">
+            <div class="control-header">
+                <h3><span>📝</span> <span data-i18n="toolsPage.configEditors">Configuration Editors</span></h3>
+                <p class="control-description" data-i18n="toolsPage.configEditorsDesc">Edit agent settings and alert configurations</p>
+            </div>
+            <div class="control-actions">
+                <div class="action-card" id="actionAlertRouting" onclick="openConfigEditor('alert-routing')">
+                    <div class="action-icon">📧</div>
+                    <div class="action-details">
+                        <strong data-i18n="toolsPage.alertRouting">Alert Routing Rules</strong>
+                        <p data-i18n="toolsPage.alertRoutingDesc">Configure which alerts go to email, SMS, or Teams</p>
+                    </div>
+                    <button class="btn btn-action btn-info" data-i18n="button.edit">Edit →</button>
+                </div>
+                <div class="action-card" id="actionEditAlertSettings" onclick="openConfigEditor('alert-settings')">
+                    <div class="action-icon">⚡</div>
+                    <div class="action-details">
+                        <strong data-i18n="toolsPage.alertSettings">Alert Settings</strong>
+                        <p data-i18n="toolsPage.alertSettingsDesc">Configure thresholds, severities, and alert behavior</p>
+                    </div>
+                    <button class="btn btn-action btn-info" data-i18n="button.edit">Edit →</button>
+                </div>
+                <div class="action-card" id="actionEditNotificationSettings" onclick="openConfigEditor('notification-settings')">
+                    <div class="action-icon">📱</div>
+                    <div class="action-details">
+                        <strong data-i18n="toolsPage.notificationSettings">Notification Settings</strong>
+                        <p data-i18n="toolsPage.notificationSettingsDesc">Configure SMS, email recipients, and Teams webhooks</p>
+                    </div>
+                    <button class="btn btn-action btn-info" data-i18n="button.edit">Edit →</button>
+                </div>
+                <div class="action-card" id="actionEditDashboardSettings" onclick="openConfigEditor('dashboard-settings')">
+                    <div class="action-icon">🖥️</div>
+                    <div class="action-details">
+                        <strong data-i18n="toolsPage.dashboardSettings">Dashboard Settings</strong>
+                        <p data-i18n="toolsPage.dashboardSettingsDesc">Configure dashboard service, alert polling, and authentication</p>
+                    </div>
+                    <button class="btn btn-action btn-info" data-i18n="button.edit">Edit →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Log Files -->
+        <div class="control-section">
+            <div class="control-header">
+                <h3><span>📋</span> <span data-i18n="toolsPage.agentLogs">Agent Logs</span></h3>
+                <p class="control-description" data-i18n="toolsPage.agentLogsDesc">View agent log files</p>
+            </div>
+            <div class="control-actions" id="logFilesContainer">
+                <div class="loading" data-i18n="toolsPage.loadingLogs">Loading log files...</div>
+            </div>
+        </div>
+        
+        <!-- Access Management (FullAccess only) -->
+        <div class="control-section" id="accessManagementSection">
+            <div class="control-header">
+                <h3><span>🔐</span> <span data-i18n="toolsPage.accessManagement">Access Management</span></h3>
+                <p class="control-description" data-i18n="toolsPage.accessManagementDesc">Manage user access and view login history</p>
+            </div>
+            <div class="control-actions">
+                <div class="action-card" onclick="openAccessManagement()">
+                    <div class="action-icon">🔑</div>
+                    <div class="action-details">
+                        <strong data-i18n="toolsPage.userAccessLogs">User Access & Logs</strong>
+                        <p data-i18n="toolsPage.userAccessLogsDesc">View allowed/blocked users/groups and recent login attempts</p>
+                    </div>
+                    <button class="btn btn-action btn-info" data-i18n="button.openArrow">Open →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DedgeAuth user menu and role permissions -->
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script src="js/role-permissions.js"></script>
+    
+    <script>
+        // Inherit theme from parent or localStorage
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Get server from URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const server = urlParams.get('server') || '';
+        
+        // Load log files
+        async function loadLogFiles() {
+            const container = document.getElementById('logFilesContainer');
+            try {
+                const response = await fetch(`http://${server}:8999/api/logfiles`);
+                if (!response.ok) throw new Error('Failed to fetch log files');
+                const files = await response.json();
+                
+                if (!files || files.length === 0) {
+                    container.innerHTML = '<div class="loading">No log files available</div>';
+                    return;
+                }
+                
+                container.innerHTML = files.map(file => `
+                    <div class="action-card" onclick="openLogViewer('${file.name}')">
+                        <div class="action-icon">📄</div>
+                        <div class="action-details">
+                            <strong>${file.name}</strong>
+                            <p>${formatBytes(file.size)} • ${new Date(file.modified).toLocaleString()}</p>
+                        </div>
+                        <button class="btn btn-action btn-info">View →</button>
+                    </div>
+                `).join('');
+            } catch (error) {
+                container.innerHTML = `<div class="loading">Error loading log files: ${error.message}</div>`;
+            }
+        }
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function openConfigEditor(type) {
+            const pageMap = {
+                'alert-settings': 'alert-settings.html',
+                'notification-settings': 'notification-settings.html',
+                'alert-routing': 'alert-routing.html',
+                'dashboard-settings': 'dashboard-settings.html'
+            };
+            const url = pageMap[type] || 'alert-settings.html';
+            window.open(url, '_blank');
+        }
+        
+        function openLogViewer(fileName) {
+            // Open log file in a new window
+            const url = `log-viewer.html?file=${encodeURIComponent(fileName)}&server=${server}`;
+            window.open(url, '_blank');
+        }
+        
+        function openAccessManagement() {
+            // Access management is about the dashboard itself, not a specific server
+            window.open('access-management.html', '_blank');
+        }
+        
+        // Initialize
+        loadLogFiles();
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

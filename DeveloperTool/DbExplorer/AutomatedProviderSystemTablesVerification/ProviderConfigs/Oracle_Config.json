@@ -1,0 +1,60 @@
+{
+  "provider": "Oracle",
+  "version": "19c",
+  "profileName": "MyOracle",
+  "description": "Oracle 19c test configuration template",
+  "testConnection": {
+    "server": "localhost",
+    "port": 1521,
+    "database": "ORCL",
+    "username": "system"
+  },
+  "testObjects": {
+    "table": "HR.EMPLOYEES",
+    "view": "HR.EMP_DETAILS_VIEW",
+    "procedure": "HR.ADD_JOB_HISTORY",
+    "function": "HR.GET_EMPLOYEE_COUNT",
+    "index": "HR.EMP_EMAIL_UK",
+    "trigger": "HR.UPDATE_JOB_HISTORY",
+    "sequence": "HR.EMPLOYEES_SEQ",
+    "synonym": "HR.DEPT",
+    "type": "HR.EMPLOYEE_TYPE",
+    "package": "HR.EMP_MGMT",
+    "user": "HR",
+    "role": "DBA",
+    "group": "N/A",
+    "schema": "HR"
+  },
+  "objectCounts": {
+    "tables": 0,
+    "views": 0,
+    "procedures": 0,
+    "functions": 0,
+    "indexes": 0,
+    "triggers": 0,
+    "sequences": 0,
+    "synonyms": 0,
+    "types": 0,
+    "packages": 0
+  },
+  "systemCatalog": {
+    "tablesTable": "ALL_TABLES",
+    "columnsTable": "ALL_TAB_COLUMNS",
+    "constraintsTable": "ALL_CONSTRAINTS",
+    "foreignKeysTable": "ALL_CONS_COLUMNS",
+    "indexesTable": "ALL_INDEXES",
+    "viewsTable": "ALL_VIEWS",
+    "routinesTable": "ALL_PROCEDURES",
+    "packagesTable": "ALL_PACKAGES",
+    "usersTable": "ALL_USERS"
+  },
+  "notes": [
+    "Oracle has packages similar to DB2",
+    "Use DBA_* views if DBA privileges available",
+    "Use ALL_* views for user-accessible objects",
+    "Use USER_* views for owned objects",
+    "Synonyms are unique to Oracle (and DB2)",
+    "Types include object types and collections"
+  ]
+}
+

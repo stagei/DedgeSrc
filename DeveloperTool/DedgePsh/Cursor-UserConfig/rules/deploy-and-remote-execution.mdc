@@ -1,0 +1,169 @@
+﻿---
+description: "No PS remoting — use _deploy.ps1 and file-based orchestration. Covers deploy policy, edit-deploy-run workflow."
+alwaysApply: true
+---
+
+# Deploy and Remote Execution
+
+## Prohibited: PowerShell Remoting (admin-disabled)
+
+**PowerShell remoting (WinRM) is disabled by the system administrators** on all servers. These will **always fail**:
+
+- `Invoke-Command -ComputerName ...`
+- `Enter-PSSession ...`
+- `New-PSSession ...`
+- `New-CimSession ...` (WSMAN)
+- SSH to Windows servers
+- Any WinRM-based tool or cmdlet
+
+## Permitted: File-Based Orchestration
+
+The `/autocur` command and `Cursor-ServerOrchestrator` use UNC file shares to trigger, monitor, and control remote jobs -- no PS remoting required.
+
+### What the agent CAN do
+
+1. **Write command files** via UNC to trigger remote jobs
+2. **Write kill files** via UNC to abort remote jobs
+3. **Read log files** via UNC (copy locally first)
+4. **Read result files** via UNC to check job outcomes
+5. **Deploy scripts** via UNC using `_deploy.ps1` (file copy)
+6. **Run local commands** on the developer machine (git, deploy scripts, etc.)
+
+### What the agent CANNOT do
+
+1. Run commands directly on remote servers
+2. Use any PS remoting cmdlets
+3. SSH or RDP to servers
+
+## Deploy Policy -- Use _deploy.ps1, Not Manual Copy
+
+**Every sub-project folder has a `_deploy.ps1`.** Running it is the **only** way to deploy. It handles **everything**:
+
+1. **Scripts** in the sub-project folder
+2. **All dependent modules** from `_Modules/` (auto-resolved by `Deploy-Handler`)
+3. **Code signing** of all `.ps1` and `.psm1` files
+4. **Multi-server distribution** to all servers in `ComputerNameList`
+5. **Version tracking** via `.version` marker files
+
+**One `_deploy.ps1` = scripts + modules + signing + distribution. Nothing else needed.**
+
+### NEVER Do This
+
+- **NEVER** `Copy-Item` individual files to UNC paths
+- **NEVER** run `_Modules\_deploy.ps1` separately -- the sub-project `_deploy.ps1` already deploys modules
+- **NEVER** force-copy a `.psm1` module file to a server -- unsigned modules are rejected
+- **NEVER** assume you need to deploy modules and scripts in separate steps
+
+### Correct Pattern
+
+```powershell
+pwsh.exe -NoProfile -File "<project-folder>\_deploy.ps1"
+```
+
+## Deployment Pipeline
+
+All deployment logic lives in `_Modules/Deploy-Handler/Deploy-Handler.psm1`. Three stages:
+
+```
+Source files --> Local Staging --> Remote Staging Share + Target Servers
+(_Modules/ + scripts)  (sign + hash)    (Robocopy distribution)
+```
+
+**Stage 1 -- Dependency Resolution:** `Deploy-Files` auto-resolves `Import-Module` statements, deploying all changed modules before the app scripts.
+
+**Stage 2 -- Hash Comparison and Signing:** SHA256 hash comparison against `.unsigned` tracking copies. Changed files are signed via `Invoke-DedgeSign` (Authenticode).
+
+**Stage 3 -- Distribution:** Robocopy from local staging to the remote software share (`C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\`) and each server in `ComputerNameList`.
+
+### Key Functions in Deploy-Handler
+
+| Function | Purpose |
+|---|---|
+| `Deploy-Files` | Entry point called by every `_deploy.ps1` |
+| `Deploy-FilesInternal` | Stages files locally, then distributes via Robocopy |
+| `Copy-FilesToStaging` | SHA256 hash comparison, delegates to signing |
+| `Copy-SignAndBackupFile` | Copies to staging, signs, saves `.unsigned` backup |
+
+### Folder Naming: _Modules vs CommonModules
+
+`_Modules/` exists **only** in the developer workspace. Everywhere else it is `CommonModules`:
+
+| Location | Path |
+|---|---|
+| Developer workspace (source) | `C:\opt\src\DedgePsh\_Modules\<Name>\<Name>.psm1` |
+| Local staging / servers | `$env:OptPath\DedgePshApps\CommonModules\<Name>\<Name>.psm1` |
+
+### "No New Files to Deploy"
+
+If `Deploy-Handler` reports this but files changed: re-run the same `_deploy.ps1` -- do NOT fall back to manual copy.
+
+### When _deploy.ps1 Fails
+
+1. Check for `Set-PSBreakpoint` or `$DebugPreference` in the module chain
+2. Run with `-NoProfile` to skip user profile breakpoints
+3. Fix and retry -- do NOT fall back to manual copy
+
+### Emergency Exception
+
+Manual `Copy-Item` to a UNC path is only acceptable when `_deploy.ps1` is genuinely broken AND the fix is time-critical. Follow up by fixing `_deploy.ps1`.
+
+## Edit -> Deploy -> Run Workflow
+
+When modifying **any** script that runs on a remote server, follow this sequence:
+
+### Step 1: Verify _deploy.ps1 targets
+
+Read the `_deploy.ps1` and verify `ComputerNameList` includes the target server(s).
+
+### Step 2: Deploy
+
+```powershell
+pwsh.exe -NoProfile -File "<script-folder>\_deploy.ps1"
+```
+
+### Step 3: Run via Cursor-ServerOrchestrator
+
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+
+Invoke-ServerCommand -ServerName '<server>' `
+    -Command '%OptPath%\DedgePshApps\<AppName>\<Script>.ps1' `
+    -Arguments '<args>' `
+    -Project '<project-name>' `
+    -Timeout <seconds>
+```
+
+**Critical:** Use `%OptPath%` (Windows env var syntax), NOT `$env:OptPath`.
+
+### Step 4: Monitor progress
+
+```powershell
+Get-ServerStdout -ServerName '<server>' -TailLines 20 -Project '<project-name>'
+```
+
+### Step 5: Verify result
+
+```powershell
+$result = Read-ResultFile -ServerName '<server>' -Project '<project-name>'
+Write-Host "Status: $($result.status), Exit: $($result.exitCode)"
+```
+
+## Server Naming Convention
+
+Server names follow pattern: `<env>-no1fkm<name>-<role>`
+
+| Server | Database | Role |
+|--------|----------|------|
+| `p-no1fkmrap-db` | FKMRAP | Production |
+| `t-no1fkmmig-db` | FKMMIG | Migration/test |
+| `t-no1fkxtst-db` | varies | Test |
+| `dedge-server` | n/a | IIS app server (test) |
+
+The database name matches the `fkm<name>` segment of the server hostname, uppercased.
+
+## Never Skip Steps
+
+- **Never** edit a script and run it remotely without deploying first
+- **Never** assume the remote server has the latest version
+- **Always** verify `_deploy.ps1` targets include your intended server
+- **Always** run `_deploy.ps1` after changes

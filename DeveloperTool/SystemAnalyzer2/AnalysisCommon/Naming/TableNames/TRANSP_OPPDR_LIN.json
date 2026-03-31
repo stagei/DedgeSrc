@@ -1,0 +1,76 @@
+{
+  "tableName": "TRANSP_OPPDR_LIN",
+  "futureName": "OrderLine",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "OPPDRAGNR",
+      "futureName": "OrderReference",
+      "description": "Order reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number in the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRETYPE",
+      "futureName": "OrderType",
+      "description": "Type of order (e.g., sales, purchase)",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "ItemNumber",
+      "description": "Item number in the catalog or database",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Quantity of items ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "ENHETSVEKT",
+      "futureName": "UnitWeight",
+      "description": "Weight per unit in grams or kilograms",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the order line (e.g., pending, shipped)",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time and date when the order line was created or last updated",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID who placed the order or made the change",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:08:10"
+}

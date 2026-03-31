@@ -1,0 +1,48 @@
+﻿---
+description: IIS-DeployApp system for DedgeAuth and consumer apps
+globs: ["DevTools/WebSites/IIS-DeployApp/**"]
+alwaysApply: false
+---
+
+# IIS-DeployApp and DedgeAuth
+
+`DevTools\WebSites\IIS-DeployApp\` deploys apps as IIS virtual applications under Default Web Site.
+
+## Post-Copy Automation
+
+After file copy, `Deploy-IISSite` in `IIS-Handler.psm1` automatically:
+
+1. **Normalizes `DedgeAuth:AuthServerUrl`** in `appsettings.json` to `http://localhost/{path}` (server-agnostic, no hardcoded hostnames)
+2. **Patches `web.config`** to set `maxQueryString="8192"` for JWT token redirects
+
+These steps ensure apps work on any server without manual config changes.
+
+## Deploy Templates
+
+- Templates live in `templates\*.deploy.json`
+- Naming convention: `<SiteName>_<InstallSource>.deploy.json`
+- Key fields: `SiteName`, `PhysicalPath`, `AppType`, `DotNetDll`, `ApiPort`, `HealthEndpoint`
+
+## Key Scripts
+
+| Script | Purpose |
+|---|---|
+| `IIS-DeployApp.ps1` | Deploy/update a single IIS virtual app from a profile |
+| `IIS-RedeployAll.ps1` | Tear down and rebuild ALL IIS apps from templates |
+| `IIS-UninstallApp.ps1` | Remove an IIS virtual app and its app pool |
+| `Test-IISSite.ps1` | Diagnostics and health checks |
+
+## Consumer App Requirements
+
+Apps using DedgeAuth need these in their `appsettings.json`:
+
+```json
+{
+  "DedgeAuth": {
+    "Enabled": true,
+    "AuthServerUrl": "http://localhost/DedgeAuth"
+  }
+}
+```
+
+The deploy system normalizes `AuthServerUrl` automatically, so the published value does not matter.

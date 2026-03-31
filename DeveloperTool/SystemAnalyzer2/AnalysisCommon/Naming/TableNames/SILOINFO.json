@@ -1,0 +1,76 @@
+{
+  "tableName": "SILOINFO",
+  "futureName": "SiloInfo",
+  "namespace": "NorwegianEnergy",
+  "columns": [
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Unique customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "VAREADR_SEKVENS",
+      "futureName": "ProductAddressSequence",
+      "description": "Sequential product address number",
+      "foreignKey": null
+    },
+    {
+      "name": "SILONR",
+      "futureName": "SiloNumber",
+      "description": "Unique silo identifier",
+      "foreignKey": "KD_LEV_FRA_FABRIKK, KD_LEVERANSE"
+    },
+    {
+      "name": "SILO_STRL",
+      "futureName": "SiloVolume",
+      "description": "Volume of the silo in cubic meters",
+      "foreignKey": null
+    },
+    {
+      "name": "RENGJORT_DATO",
+      "futureName": "CleanedDate",
+      "description": "Date when the silo was last cleaned",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional remarks or notes about the silo",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_KORRIGERINGER, A_ORDREHODE"
+    },
+    {
+      "name": "FYLLETID",
+      "futureName": "FilledTime",
+      "description": "Time taken to fill the silo",
+      "foreignKey": null
+    },
+    {
+      "name": "TILGJENGELIGHET",
+      "futureName": "Availability",
+      "description": "Status indicating whether the silo is available for use",
+      "foreignKey": null
+    },
+    {
+      "name": "METER_SLANGE",
+      "futureName": "PulleyDiameter",
+      "description": "Diameter of the pulley in millimeters",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier who performed the operation",
+      "foreignKey": "A_FRAKT_OLINJER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or operation",
+      "foreignKey": "A_BESTHODE, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:45:58"
+}

@@ -1,0 +1,58 @@
+{
+  "tableName": "KD_SAF_KASSE",
+  "futureName": "KasseTransaction",
+  "namespace": "Finance",
+  "columns": [
+    {
+      "name": "PARTINR",
+      "futureName": "PartyNumber",
+      "description": "Unique number identifying the party involved in the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "PARTI_TYPE",
+      "futureName": "PartyType",
+      "description": "Type of party involved (e.g., customer, supplier)",
+      "foreignKey": null
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TransactionType",
+      "description": "Type of transaction (e.g., receipt, delivery)",
+      "foreignKey": null
+    },
+    {
+      "name": "KASSENR",
+      "futureName": "CashierNumber",
+      "description": "Unique number identifying the cashier or terminal involved in the transaction",
+      "foreignKey": "KD_KASSE"
+    },
+    {
+      "name": "FACKNR",
+      "futureName": "CashierStationNumber",
+      "description": "Number of the cashier station (terminal) involved in the transaction",
+      "foreignKey": "KD_KASSE"
+    },
+    {
+      "name": "VEKT",
+      "futureName": "Weight",
+      "description": "Weight of the item or batch being transacted",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the transaction occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier of the user who performed the transaction",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:21:56"
+}

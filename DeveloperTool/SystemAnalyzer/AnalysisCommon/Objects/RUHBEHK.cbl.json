@@ -1,0 +1,112 @@
+{
+  "program": "RUHBEHK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-29T15:38:36",
+  "extraction": {
+    "sourceHash": "sha256:009297584d6a6f7a98ca1929b1e8af117c71da1ee923157cb26b34ca593b4136",
+    "sourceType": "local-cbl-uv",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\RVhbehk.cbl",
+    "actualName": "RVHBEHK",
+    "program": "RUHBEHK",
+    "copyElements": [
+      {
+        "name": "BEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RVHBEHK.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "KODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ANLEGG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "BEHKODER",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "RVVBEHK",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-29T15:38:36"
+  },
+  "variableFilenames": {
+    "PRRFIL": {
+      "logicalName": "PRRFIL",
+      "physicalVariable": "WW-PRRFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>-output",
+      "resolvedPath": null,
+      "description": "This configuration is for printing output to a specified printer. The filename follows the pattern of userid-date-output with a .txt extension.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:50:36"
+    },
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "WW-PRINTER",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.csv",
+      "description": null,
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T18:50:40"
+    }
+  }
+}

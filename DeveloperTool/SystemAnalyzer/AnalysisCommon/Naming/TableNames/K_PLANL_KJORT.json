@@ -1,0 +1,124 @@
+{
+  "tableName": "K_PLANL_KJORT",
+  "futureName": "PlanSummary",
+  "namespace": "DatabaseEntities",
+  "columns": [
+    {
+      "name": "LOEPENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "TPID",
+      "futureName": "BatchId",
+      "description": "Identifier for the batch or process",
+      "foreignKey": null
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "SenderNumber",
+      "description": "Number of the sender",
+      "foreignKey": null
+    },
+    {
+      "name": "LASTE_STED",
+      "futureName": "LoadingPlace",
+      "description": "Location where loading is to take place",
+      "foreignKey": null
+    },
+    {
+      "name": "LOSSE_STED",
+      "futureName": "DischargePlace",
+      "description": "Location where discharge is to take place",
+      "foreignKey": null
+    },
+    {
+      "name": "K_SLAG",
+      "futureName": "SlagCategory",
+      "description": "Category of slag",
+      "foreignKey": null
+    },
+    {
+      "name": "SLAG",
+      "futureName": "SlagType",
+      "description": "Specific type of slag",
+      "foreignKey": "K_SLAG"
+    },
+    {
+      "name": "FKNR",
+      "futureName": "PlanNumber",
+      "description": "Identifier for the plan or schedule",
+      "foreignKey": null
+    },
+    {
+      "name": "PLANLAGT",
+      "futureName": "PlannedQuantity",
+      "description": "Planned quantity to be processed",
+      "foreignKey": null
+    },
+    {
+      "name": "KJORT",
+      "futureName": "ActualQuantity",
+      "description": "Quantity actually processed or completed",
+      "foreignKey": null
+    },
+    {
+      "name": "STATUS",
+      "futureName": "Status",
+      "description": "Current status of the plan or process",
+      "foreignKey": null
+    },
+    {
+      "name": "OVERF_VEKTSYSTEM",
+      "futureName": "WeightingSystemIndicator",
+      "description": "Indicator for the weighting system used",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "Identifier of the user who created or modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or modification",
+      "foreignKey": null
+    },
+    {
+      "name": "SLAG_KJORT",
+      "futureName": "ActualSlagType",
+      "description": "Specific type of slag actually processed",
+      "foreignKey": "SLAG"
+    },
+    {
+      "name": "SORTERING",
+      "futureName": "SortingOrder",
+      "description": "Order or sequence in which items are sorted",
+      "foreignKey": null
+    },
+    {
+      "name": "OVERF_AGRIK",
+      "futureName": "AgrikOverfFlg",
+      "description": "Flag indicating if the transfer involves agrik product",
+      "foreignKey": null
+    },
+    {
+      "name": "TPKT_OVERF_AGRIK",
+      "futureName": "AgrikTransferTimestamp",
+      "description": "Timestamp of the agrik product transfer",
+      "foreignKey": null
+    },
+    {
+      "name": "SLETTES_AGRIKORN",
+      "futureName": "AgrikCornDeletionFlg",
+      "description": "Flag indicating if agrik corn has been deleted",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:55:22"
+}

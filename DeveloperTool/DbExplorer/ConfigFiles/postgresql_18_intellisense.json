@@ -1,0 +1,245 @@
+{
+  "provider": "POSTGRESQL",
+  "version": "18",
+  "description": "PostgreSQL 18 IntelliSense metadata - keywords, data types, functions, and system catalog",
+
+  "keywords": {
+    "statements": [
+      "SELECT", "INSERT", "UPDATE", "DELETE", "MERGE",
+      "CREATE", "ALTER", "DROP", "TRUNCATE", "RENAME",
+      "GRANT", "REVOKE", "COMMENT",
+      "BEGIN", "END", "COMMIT", "ROLLBACK", "SAVEPOINT",
+      "CALL", "RETURN", "DECLARE", "SET", "VALUES",
+      "EXPLAIN", "ANALYZE", "VACUUM", "REINDEX"
+    ],
+    "clauses": [
+      "FROM", "WHERE", "GROUP BY", "HAVING", "ORDER BY",
+      "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "CROSS JOIN",
+      "LEFT OUTER JOIN", "RIGHT OUTER JOIN", "FULL OUTER JOIN",
+      "ON", "USING", "NATURAL",
+      "UNION", "INTERSECT", "EXCEPT", "UNION ALL",
+      "LIMIT", "OFFSET", "FETCH FIRST", "ROWS ONLY",
+      "WITH", "AS", "RECURSIVE",
+      "INTO", "VALUES", "DEFAULT VALUES",
+      "SET", "CASE", "WHEN", "THEN", "ELSE", "END",
+      "FOR UPDATE", "FOR SHARE", "FOR NO KEY UPDATE", "FOR KEY SHARE"
+    ],
+    "operators": [
+      "AND", "OR", "NOT", "IN", "EXISTS", "ANY", "ALL", "SOME",
+      "BETWEEN", "LIKE", "ESCAPE", "ILIKE", "SIMILAR TO",
+      "IS NULL", "IS NOT NULL",
+      "IS DISTINCT FROM", "IS NOT DISTINCT FROM",
+      "DISTINCT", "UNIQUE"
+    ],
+    "modifiers": [
+      "ASC", "DESC", "NULLS FIRST", "NULLS LAST",
+      "DISTINCT", "ALL",
+      "CASCADE", "RESTRICT",
+      "IMMEDIATE", "DEFERRED", "INITIALLY"
+    ],
+    "constraints": [
+      "PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK", "NOT NULL",
+      "REFERENCES", "ON DELETE", "ON UPDATE",
+      "DEFAULT", "GENERATED", "IDENTITY",
+      "CONSTRAINT", "INDEX"
+    ]
+  },
+
+  "dataTypes": {
+    "numeric": [
+      "SMALLINT", "INTEGER", "INT", "BIGINT",
+      "DECIMAL", "NUMERIC", "DEC",
+      "REAL", "FLOAT", "DOUBLE PRECISION",
+      "SERIAL", "BIGSERIAL", "SMALLSERIAL"
+    ],
+    "string": [
+      "CHAR", "CHARACTER", "VARCHAR", "CHARACTER VARYING",
+      "TEXT", "NAME",
+      "BPCHAR", "NVARCHAR"
+    ],
+    "binary": [
+      "BYTEA"
+    ],
+    "datetime": [
+      "DATE", "TIME", "TIMESTAMP",
+      "TIME WITH TIME ZONE", "TIMESTAMP WITH TIME ZONE",
+      "TIMESTAMPTZ", "TIMETZ", "INTERVAL"
+    ],
+    "special": [
+      "BOOLEAN", "BOOL", "JSON", "JSONB", "XML",
+      "UUID", "INET", "CIDR", "MACADDR",
+      "CURSOR", "ROW", "RECORD",
+      "ARRAY", "OID", "XID", "CID"
+    ]
+  },
+
+  "functions": {
+    "aggregate": [
+      "COUNT", "SUM", "AVG", "MIN", "MAX",
+      "STDDEV", "STDDEV_SAMP", "STDDEV_POP",
+      "VARIANCE", "VAR_SAMP", "VAR_POP",
+      "STRING_AGG", "ARRAY_AGG", "JSON_AGG", "JSONB_AGG",
+      "BOOL_AND", "BOOL_OR", "EVERY"
+    ],
+    "string": [
+      "TRIM", "BTRIM", "LTRIM", "RTRIM",
+      "SUBSTR", "SUBSTRING", "LEFT", "RIGHT",
+      "UPPER", "LOWER", "INITCAP",
+      "LENGTH", "CHAR_LENGTH", "OCTET_LENGTH",
+      "CONCAT", "CONCAT_WS",
+      "REPLACE", "TRANSLATE", "OVERLAY",
+      "POSITION", "STRPOS",
+      "LPAD", "RPAD", "REPEAT",
+      "TO_CHAR", "TO_HEX", "ENCODE", "DECODE",
+      "REGEXP_REPLACE", "REGEXP_MATCH"
+    ],
+    "numeric": [
+      "ABS", "CEIL", "CEILING", "FLOOR", "ROUND", "TRUNC",
+      "MOD", "POWER", "EXP", "LN", "LOG", "SQRT",
+      "SIGN", "RANDOM",
+      "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "ATAN2",
+      "DEGREES", "RADIANS"
+    ],
+    "datetime": [
+      "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP",
+      "DATE_TRUNC", "AGE", "EXTRACT",
+      "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND",
+      "NOW", "LOCALTIME", "LOCALTIMESTAMP",
+      "MAKE_DATE", "MAKE_TIME", "MAKE_INTERVAL",
+      "INTERVAL", "JUSTIFY_INTERVAL"
+    ],
+    "conversion": [
+      "CAST", "::",
+      "COALESCE", "NULLIF", "GREATEST", "LEAST",
+      "CASE", "NULLIF",
+      "TO_CHAR", "TO_DATE", "TO_NUMBER", "TO_TIMESTAMP"
+    ],
+    "window": [
+      "ROW_NUMBER", "RANK", "DENSE_RANK", "NTILE",
+      "LEAD", "LAG", "FIRST_VALUE", "LAST_VALUE", "NTH_VALUE",
+      "PERCENT_RANK", "CUME_DIST", "PERCENTILE_CONT", "PERCENTILE_DISC",
+      "OVER", "PARTITION BY", "ORDER BY", "ROWS", "RANGE"
+    ],
+    "json": [
+      "JSON_VALUE", "JSON_QUERY", "JSON_TABLE",
+      "JSON_BUILD_OBJECT", "JSON_BUILD_ARRAY", "JSON_AGG", "JSONB_AGG",
+      "JSONB_BUILD_OBJECT", "JSONB_BUILD_ARRAY",
+      "->", "->>", "#>", "#>>"
+    ],
+    "system": [
+      "CURRENT_USER", "USER", "SESSION_USER",
+      "CURRENT_SCHEMA", "CURRENT_CATALOG",
+      "CURRVAL", "NEXTVAL", "SETVAL",
+      "PG_TYPEOF", "PG_SLEEP"
+    ]
+  },
+
+  "systemCatalog": {
+    "information_schema": [
+      "schemata", "tables", "columns", "views", "routines", "parameters",
+      "table_constraints", "key_column_usage", "referential_constraints",
+      "sequences", "triggers", "check_constraints"
+    ],
+    "pg_catalog": [
+      "pg_class", "pg_namespace", "pg_attribute", "pg_index",
+      "pg_proc", "pg_type", "pg_roles", "pg_tables",
+      "pg_views", "pg_indexes", "pg_constraint", "pg_trigger",
+      "pg_depend", "pg_sequence"
+    ]
+  },
+
+  "snippets": {
+    "selectAll": {
+      "trigger": "sel*",
+      "template": "SELECT * FROM ${1:table_name} WHERE ${2:condition}",
+      "description": "Select all columns from table"
+    },
+    "selectColumns": {
+      "trigger": "selc",
+      "template": "SELECT ${1:column1}, ${2:column2}\nFROM ${3:table_name}\nWHERE ${4:condition}",
+      "description": "Select specific columns"
+    },
+    "selectJoin": {
+      "trigger": "selj",
+      "template": "SELECT ${1:columns}\nFROM ${2:table1} t1\nINNER JOIN ${3:table2} t2 ON t1.${4:key} = t2.${5:key}\nWHERE ${6:condition}",
+      "description": "Select with join"
+    },
+    "selectCount": {
+      "trigger": "selcnt",
+      "template": "SELECT COUNT(*) AS cnt FROM ${1:table_name} WHERE ${2:condition}",
+      "description": "Count rows"
+    },
+    "selectGroupBy": {
+      "trigger": "selg",
+      "template": "SELECT ${1:column}, COUNT(*) AS cnt\nFROM ${2:table_name}\nGROUP BY ${1:column}\nORDER BY cnt DESC",
+      "description": "Group by with count"
+    },
+    "insertInto": {
+      "trigger": "ins",
+      "template": "INSERT INTO ${1:table_name} (${2:columns})\nVALUES (${3:values})",
+      "description": "Insert single row"
+    },
+    "insertSelect": {
+      "trigger": "inss",
+      "template": "INSERT INTO ${1:target_table} (${2:columns})\nSELECT ${3:columns}\nFROM ${4:source_table}\nWHERE ${5:condition}",
+      "description": "Insert from select"
+    },
+    "updateSet": {
+      "trigger": "upd",
+      "template": "UPDATE ${1:table_name}\nSET ${2:column} = ${3:value}\nWHERE ${4:condition}",
+      "description": "Update rows"
+    },
+    "deleteFrom": {
+      "trigger": "del",
+      "template": "DELETE FROM ${1:table_name}\nWHERE ${2:condition}",
+      "description": "Delete rows"
+    },
+    "merge": {
+      "trigger": "merge",
+      "template": "INSERT INTO ${1:target_table} (${2:columns})\nSELECT ${3:columns}\nFROM ${4:source_table}\nON CONFLICT (${5:key}) DO UPDATE SET ${6:column} = EXCLUDED.${6:column}",
+      "description": "Upsert (ON CONFLICT)"
+    },
+    "createTable": {
+      "trigger": "crtab",
+      "template": "CREATE TABLE ${1:schema}.${2:table_name} (\n    ${3:id} SERIAL PRIMARY KEY,\n    ${4:column} VARCHAR(100)\n)",
+      "description": "Create table"
+    },
+    "createIndex": {
+      "trigger": "cridx",
+      "template": "CREATE INDEX ${1:index_name}\nON ${2:table_name} (${3:columns})",
+      "description": "Create index"
+    },
+    "createView": {
+      "trigger": "crvw",
+      "template": "CREATE OR REPLACE VIEW ${1:schema}.${2:view_name} AS\nSELECT ${3:columns}\nFROM ${4:table_name}\nWHERE ${5:condition}",
+      "description": "Create view"
+    },
+    "cte": {
+      "trigger": "with",
+      "template": "WITH ${1:cte_name} AS (\n    SELECT ${2:columns}\n    FROM ${3:table_name}\n    WHERE ${4:condition}\n)\nSELECT * FROM ${1:cte_name}",
+      "description": "Common Table Expression"
+    },
+    "pagination": {
+      "trigger": "page",
+      "template": "SELECT ${1:columns}\nFROM ${2:table_name}\nORDER BY ${3:column}\nLIMIT ${4:10} OFFSET ${5:0}",
+      "description": "Pagination query"
+    },
+    "rowNumber": {
+      "trigger": "rownum",
+      "template": "SELECT ROW_NUMBER() OVER (ORDER BY ${1:column}) AS rn, ${2:columns}\nFROM ${3:table_name}",
+      "description": "Row number window function"
+    }
+  },
+
+  "systemSchemas": [
+    "pg_catalog", "information_schema", "pg_toast", "pg_temp_1",
+    "public"
+  ],
+
+  "specialValues": [
+    "NULL", "TRUE", "FALSE",
+    "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP",
+    "CURRENT_USER", "SESSION_USER",
+    "CURRENT_SCHEMA", "CURRENT_CATALOG"
+  ]
+}

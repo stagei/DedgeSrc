@@ -1,0 +1,150 @@
+﻿---
+description: How to test DedgeAuth Windows/Kerberos SSO using cursor-ide-browser (Chromium) and form login
+alwaysApply: false
+---
+
+# Chromium Kerberos Testing for DedgeAuth
+
+## Prerequisites
+
+### 1. IIS Windows Authentication Feature
+
+The `IIS-WindowsAuthentication` Windows feature must be installed:
+
+```powershell
+# Check
+Get-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication | Select-Object State
+
+# Install (requires admin, no reboot)
+Start-Process pwsh.exe -ArgumentList '-NoProfile','-Command','Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication -NoRestart' -Verb RunAs -Wait
+```
+
+### 2. IIS Site Configuration
+
+Windows Auth must be enabled for the DedgeAuth virtual app in IIS:
+
+```powershell
+# Enable
+appcmd.exe set config "Default Web Site/DedgeAuth" -section:system.webServer/security/authentication/windowsAuthentication /enabled:true /commit:apphost
+
+# Verify
+appcmd.exe list config "Default Web Site/DedgeAuth" -section:system.webServer/security/authentication/windowsAuthentication
+```
+
+The deploy template `DedgeAuth_WinApp.deploy.json` has `"EnableWindowsAuth": true`.
+
+### 3. Browser Kerberos Policies
+
+Run to configure Chrome, Edge, and Chromium AuthServerAllowlist:
+
+```powershell
+Start-Process pwsh.exe -ArgumentList '-NoProfile','-File','c:\opt\src\DedgeAuth\scripts\Enable-KerberosForBrowser.ps1' -Verb RunAs -Wait
+```
+
+Verify with:
+
+```powershell
+reg query "HKLM\SOFTWARE\Policies\Chromium" /v AuthServerAllowlist
+```
+
+Expected: `dedge-server,localhost,*.DEDGE.fk.no`
+
+## Kerberos Limitation in Cursor IDE Browser
+
+The cursor-ide-browser uses Playwright's bundled Chromium. Kerberos/Negotiate may **not** auto-negotiate silently because:
+
+1. Playwright Chromium may not read `HKLM` registry policies depending on version
+2. The browser context may lack the Windows Kerberos TGT
+
+**Fallback strategy**: If Kerberos silent auth does not work in cursor-ide-browser, use **form-based login** with test credentials (see `test-users.mdc`), then verify the Windows SSO endpoint via API.
+
+## Testing Strategy
+
+### 1. Form-Based Login (cursor-ide-browser)
+
+Use cursor-ide-browser for visual verification with form login:
+
+1. `browser_navigate` to `http://localhost/DedgeAuth/login.html`
+2. `browser_lock`
+3. `browser_snapshot` -- confirm login form renders with FK Green theme
+4. `browser_fill` email field with `test.service@Dedge.no`
+5. `browser_fill` password field with `TestPass123!`
+6. `browser_click` login button
+7. Wait 2-3s, `browser_snapshot` -- confirm redirect to admin or apps list
+
+### 2. Windows SSO Button Test (cursor-ide-browser)
+
+After form login, test the Windows SSO flow:
+
+1. Navigate to `http://localhost/DedgeAuth/login.html`
+2. `browser_snapshot` -- look for "Sign in with Windows" button
+3. `browser_click` the Windows SSO button
+4. `browser_snapshot` -- check result:
+   - **Success**: Redirected to admin page or original returnUrl
+   - **Auth dialog**: Kerberos didn't auto-negotiate (expected in Playwright)
+   - **Error**: Check API response and server logs
+
+### 3. Kerberos API Verification (PowerShell)
+
+Verify the Windows SSO endpoints work server-side:
+
+```powershell
+# Probe endpoint (should return 401 with WWW-Authenticate: Negotiate)
+$probe = Invoke-WebRequest -Uri "http://localhost/DedgeAuth/api/auth/windows-probe" -UseBasicParsing -UseDefaultCredentials -ErrorAction SilentlyContinue
+$probe.StatusCode
+
+# Windows login (with current Windows credentials)
+$login = Invoke-WebRequest -Uri "http://localhost/DedgeAuth/api/auth/windows-login" -UseBasicParsing -UseDefaultCredentials
+$login.Content
+```
+
+### 4. Full App Navigation Test (cursor-ide-browser)
+
+After authenticating (form or Kerberos), test app links:
+
+1. From login page, click each app button
+2. Verify same-tab navigation (no new windows)
+3. Verify each app loads with FK Green header, user menu, tenant CSS
+4. Verify logout works and returns to login page
+
+## App URLs to Test
+
+| App | URL | Expected |
+|-----|-----|----------|
+| DedgeAuth Login | `http://localhost/DedgeAuth/login.html` | Login form with FK Green theme |
+| DedgeAuth Admin | `http://localhost/DedgeAuth/admin.html` | Admin panel with sidebar |
+| DocView | `http://localhost/DocView/` | Document viewer |
+| GenericLogHandler | `http://localhost/GenericLogHandler/` | Log dashboard |
+| ServerMonitorDashboard | `http://localhost/ServerMonitorDashboard/` | Server metrics |
+| AutoDocJson | `http://localhost/AutoDocJson/` | Documentation tool |
+
+For test server, replace `localhost` with `dedge-server`.
+
+## Kerberos Ticket Diagnostics
+
+```powershell
+# Check if Kerberos TGT exists
+klist
+
+# Check SPN for the server
+setspn -L dedge-server
+
+# DNS resolution
+[System.Net.Dns]::GetHostEntry("dedge-server")
+```
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Windows auth dialog appears in Edge/Chrome | `AuthServerAllowlist` not set | Run `Enable-KerberosForBrowser.ps1` as admin |
+| Kerberos fails in cursor-ide-browser | Playwright Chromium ignores policies | Use form login as fallback; verify Kerberos via API |
+| 401 on `/api/auth/windows-probe` | No Kerberos ticket or wrong SPN | Check `klist`, verify VPN connection |
+| 401 on `/api/auth/windows-login` | Windows auth not enabled in IIS | Check IIS Windows Authentication is enabled for DedgeAuth |
+| SSO works but app links loop | Cookie path or SameSite issue | Check `DedgeAuth_jwt` cookie and `create-code` endpoint |
+
+## Script Location
+
+`c:\opt\src\DedgeAuth\scripts\Enable-KerberosForBrowser.ps1`
+
+Supports `-Servers` param for custom server list and `-Remove` to undo all changes.

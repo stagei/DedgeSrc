@@ -1,0 +1,100 @@
+{
+  "tableName": "XE_ORDREHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AX_AVDNR",
+      "futureName": "AvdNr",
+      "description": "Office or department number",
+      "foreignKey": null
+    },
+    {
+      "name": "KLIENT",
+      "futureName": "Client",
+      "description": "Client identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "PAKKNR",
+      "futureName": "PackageNumber",
+      "description": "Package number",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "TimeStamp",
+      "description": "Timestamp of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "RECTYP",
+      "futureName": "Rectyp",
+      "description": "Correction type",
+      "foreignKey": null
+    },
+    {
+      "name": "SKALKVITTERES",
+      "futureName": "SkaKvitteres",
+      "description": "Indicates if the order should be acknowledged",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREKLASSE",
+      "futureName": "OrderClass",
+      "description": "Order class code",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer number",
+      "foreignKey": "Client"
+    },
+    {
+      "name": "FRITEKSTORDRE",
+      "futureName": "FreeTextOrder",
+      "description": "Free text for the order",
+      "foreignKey": null
+    },
+    {
+      "name": "JOURNALNRORDRE",
+      "futureName": "JournalNumberOrder",
+      "description": "Journal number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "KVITTERT_AXIA",
+      "futureName": "AxiaInvoiceAcknowledged",
+      "description": "Indicates if the Axia invoice has been acknowledged",
+      "foreignKey": null
+    },
+    {
+      "name": "KVITT_AX_TID",
+      "futureName": "AxiaInvoiceAckTimestamp",
+      "description": "Timestamp of the Axia invoice acknowledgment",
+      "foreignKey": null
+    },
+    {
+      "name": "MAIL_ADRESSE",
+      "futureName": "EmailAddress",
+      "description": "Email address for communication",
+      "foreignKey": null
+    },
+    {
+      "name": "MOBILNR",
+      "futureName": "MobileNumber",
+      "description": "Mobile phone number",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:36:09"
+}

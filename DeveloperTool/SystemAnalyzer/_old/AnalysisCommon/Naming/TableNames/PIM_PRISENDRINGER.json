@@ -1,0 +1,58 @@
+{
+  "tableName": "PIM_PRISENDRINGER",
+  "futureName": "PriceChangeNotification",
+  "namespace": "DataMigration",
+  "columns": [
+    {
+      "name": "Fknr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "lesFlag",
+      "futureName": "ReadFlag",
+      "description": "Indicates if the record is for reading purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "nyvareFlag",
+      "futureName": "NewVersionFlag",
+      "description": "Indicates if a new version of the record should be created",
+      "foreignKey": null
+    },
+    {
+      "name": "slettFlag",
+      "futureName": "DeleteFlag",
+      "description": "Indicates if the record should be deleted",
+      "foreignKey": null
+    },
+    {
+      "name": "nyprisFlag",
+      "futureName": "NewPriceFlag",
+      "description": "Indicates if a new price is being applied to the record",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the last update or change",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "Identifier for the user who made the change",
+      "foreignKey": null
+    },
+    {
+      "name": "lesFlagEsl",
+      "futureName": "ReadFlagEsl",
+      "description": "Indicates if the record is for reading purposes in ESL (English as a Second Language)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:25:34"
+}

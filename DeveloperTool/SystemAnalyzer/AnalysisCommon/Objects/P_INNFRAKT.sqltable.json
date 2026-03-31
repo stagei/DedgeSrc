@@ -1,0 +1,197 @@
+{
+  "tableName": "P_INNFRAKT",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Innfrakt - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KODE",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Behandlingskode"
+      },
+      {
+        "colNo": 2,
+        "name": "ANLEGGNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Anleggsnr for møller ellers brukes avdnr."
+      },
+      {
+        "colNo": 3,
+        "name": "OKOLOGISK",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J=Ja, N=Nei,B=Begge"
+      },
+      {
+        "colNo": 4,
+        "name": "KOMMUNE",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kommunenr. eller 9999 for fast sats/beløp uavhengig av kommune (gjelder øko-korn)"
+      },
+      {
+        "colNo": 5,
+        "name": "POSTNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Postnr. eller 9999 for alle postnr i  en kommune"
+      },
+      {
+        "colNo": 6,
+        "name": "SONE_CONTAINER",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kommunenr. eller 9999 for fast sats/beløp uavhengig av kommune"
+      },
+      {
+        "colNo": 7,
+        "name": "FRA_DATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "KVANTUM_FRA",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kvantumsgrense. Fra kvantum i kg."
+      },
+      {
+        "colNo": 9,
+        "name": "SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr. pr. tonn"
+      },
+      {
+        "colNo": 10,
+        "name": "TILLEGG_CONTAINER",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr. pr. tonn"
+      },
+      {
+        "colNo": 11,
+        "name": "SATS_VENTETID",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr. pr. time"
+      },
+      {
+        "colNo": 12,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "BELOP",
+        "typeName": "DECIMAL",
+        "length": 7,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kr. pr. parti"
+      },
+      {
+        "colNo": 15,
+        "name": "SATS_SUGEBIL",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 16,
+        "name": "FRAKTTILSKUDD",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 17,
+        "name": "FRAKTTILSKUDD_BELOP",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 18,
+        "name": "CONTAINER_BELOP",
+        "typeName": "DECIMAL",
+        "length": 7,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_BEHKODE",
+        "childColumn": "KODE",
+        "parentTable": "P_BEHKODER",
+        "parentSchema": "DBM",
+        "parentColumn": "KODE"
+      }
+    ]
+  }
+}

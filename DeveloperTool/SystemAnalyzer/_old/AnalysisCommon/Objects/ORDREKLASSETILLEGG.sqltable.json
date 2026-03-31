@@ -1,0 +1,189 @@
+{
+  "tableName": "ORDREKLASSETILLEGG",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:24",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Tillegg avhengig av ordreklasse",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:24",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "ORDRESYSTEM",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "B=Butikk(Avdsys), O=Optima, blank=Gjelder alle"
+      },
+      {
+        "colNo": 1,
+        "name": "ORDREKLASSE",
+        "typeName": "DECIMAL",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "BETFORM_ANNET",
+        "typeName": "CHARACTER",
+        "length": 5,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "F=Finansiering, blank alle"
+      },
+      {
+        "colNo": 3,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "FRA_VAREGRUPPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kan være 0, hvis til varegr = 987999 gjelder det alle varer. TT-varer fra vhgr 988"
+      },
+      {
+        "colNo": 5,
+        "name": "TIL_VAREGRUPPE",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "SENDESPR",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "99=Gjelder alle, andre verdier må stemme med ordrens sendespr"
+      },
+      {
+        "colNo": 7,
+        "name": "KVANTUM",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "KATEGORI",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "B=Bulk, S=Sekk/Stykk, blank=Evt. alt annet"
+      },
+      {
+        "colNo": 9,
+        "name": "ANTALL_I_PERIODE",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "FRA_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "TIL_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "PRIS",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "AVVIK_FRAKT_KVANT",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Brukes for å velge fraktkvantum med høyest sats"
+      },
+      {
+        "colNo": 16,
+        "name": "RABATTER",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "N=ikke rabatt v. denne ordreklasse/kategori"
+      },
+      {
+        "colNo": 17,
+        "name": "PROSENT",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 18,
+        "name": "HELGETILLEGG",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "N=Kun når tillegg IKKE skal være i tillegg til helgetillegg, ellers blank"
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}

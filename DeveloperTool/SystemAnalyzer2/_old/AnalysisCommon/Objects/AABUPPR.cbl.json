@@ -1,0 +1,62 @@
+{
+  "program": "AABUPPR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:11:58",
+  "extraction": {
+    "sourceHash": "sha256:5ad9c837d4c2f92c07e7237d3e2b00662389be8a59cebe23343577c6a6838c71",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\aabuppr.cbl",
+    "actualName": "AABUPPR",
+    "program": "AABUPPR",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "NPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "N",
+        "tableName": "PRODUSENTNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "NYE_PRODUSENTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PRODUSENTREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "OKALOGG"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:11:58"
+  }
+}

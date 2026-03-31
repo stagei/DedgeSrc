@@ -1,0 +1,67 @@
+<Window x:Class="DbExplorer.Dialogs.MermaidDesignerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Mermaid ER Diagram Designer (SqlMermaidErdTools)"
+        Icon="pack://application:,,,/Resources/dEdge.ico"
+        Width="1800"
+        Height="950"
+        MinWidth="1400"
+        MinHeight="700"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- WPF Toolbar - Essential Actions Only -->
+        <ToolBar Grid.Row="0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <!-- Primary Action - Load Tables -->
+            <Button x:Name="LoadFromDBButton" Content="📥 Load Tables from DB" Click="LoadFromDB_Click" 
+                    Padding="15,8" FontWeight="Bold" FontSize="14"
+                    Background="#0078D4" Foreground="White" 
+                    ToolTip="Select tables and generate ER diagram from database"/>
+            <Separator/>
+            
+            <!-- Preview Controls -->
+            <Button x:Name="RefreshButton" Content="🔄 Refresh" Click="Refresh_Click" Padding="10,5" ToolTip="Refresh diagram preview"/>
+            <Separator/>
+            
+            <!-- Diff/DDL (available when changes detected) -->
+            <Button x:Name="ShowDiffButton" Content="📊 Show Diff" Click="ShowDiff_Click" Padding="10,5" 
+                    ToolTip="Compare current diagram with baseline" IsEnabled="False"/>
+            <Button x:Name="GenerateDDLButton" Content="📝 Generate DDL" Click="GenerateDDL_Click" Padding="10,5" 
+                    ToolTip="Generate ALTER/CREATE statements from changes" IsEnabled="False"/>
+            <Separator/>
+            
+            <!-- Preview Window -->
+            <Button x:Name="OpenPreviewWindowButton" Content="🪟 Preview Window" Click="OpenPreviewWindow_Click" Padding="10,5" 
+                    ToolTip="Open diagram preview in separate window"/>
+            <Button x:Name="AddMoreTablesButton" Content="➕ Add Tables" Click="AddMoreTables_Click" Padding="10,5" 
+                    ToolTip="Add more tables to the diagram" IsEnabled="False"/>
+            <Separator/>
+            
+            <!-- Help -->
+            <Button x:Name="HelpButton" Content="❓ Help" Click="Help_Click" Padding="10,5" ToolTip="Show syntax help"/>
+        </ToolBar>
+        
+        <!-- WebView2 for Mermaid editor and preview -->
+        <wv2:WebView2 Grid.Row="1" x:Name="MermaidWebView" />
+        
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem x:Name="StatusText" Content="Ready - Click 'Load from DB' to select tables"/>
+            <Separator/>
+            <StatusBarItem x:Name="TableCountStatus" Content="Tables: 0"/>
+            <Separator/>
+            <StatusBarItem x:Name="ChangeCountStatus" Content="Changes: 0"/>
+            <Separator/>
+            <StatusBarItem Content="Click table names to view properties" HorizontalAlignment="Right"/>
+        </StatusBar>
+    </Grid>
+</Window>
+

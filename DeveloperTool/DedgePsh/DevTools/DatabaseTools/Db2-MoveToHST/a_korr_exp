@@ -1,0 +1,16 @@
+-- Denne A_KORRIGERINGER
+-- Kjøres for 2016         12/02-2023
+-- Kjøres for 2017 + 2018  12/11-2023
+-- Kjøres for 2019         20/07-2025
+-- KJØRES VHA. FKSQL.REX
+--  
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL OG FILENAVN 
+--  
+--  Lager grunnlag for load. 
+--db2 connect to BASISPRO;  -- USER db2nt USING ntdb2;;
+--
+  EXPORT TO  f:\import\A_korrigeringer_2019.IXF OF IXF
+      SELECT  year(tidspunkt), K.*
+       FROM DBM.A_korrigeringer k
+       WHERE year(tidspunkt) <= 2019; 
+//

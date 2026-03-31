@@ -1,0 +1,103 @@
+{
+  "tableName": "MOTTAK_ANALYSE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "ANALYSER FRA KORNMOTTAK PÅ ALLE TYPER PARTIER",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AAR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "PARTINR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "VANNPROSENT",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 1,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "HLVEKT",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "TEMPERATUR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 1,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "AAR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "AAR"
+      },
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "AVDNR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "AVDNR"
+      },
+      {
+        "constraintName": "FK_MOTTAK",
+        "childColumn": "PARTINR",
+        "parentTable": "MOTTAK",
+        "parentSchema": "DBM",
+        "parentColumn": "PARTINR"
+      }
+    ]
+  }
+}

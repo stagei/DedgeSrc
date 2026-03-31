@@ -1,0 +1,203 @@
+{
+  "name": "sqlmermaid-erd-tools",
+  "displayName": "SQL ↔ Mermaid ERD Tools",
+  "description": "Bidirectional converter between SQL DDL and Mermaid Entity Relationship Diagrams",
+  "version": "0.1.0",
+  "publisher": "sqlmermaid",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "sql",
+    "mermaid",
+    "erd",
+    "database",
+    "diagram",
+    "schema",
+    "converter"
+  ],
+  "activationEvents": [
+    "onLanguage:sql",
+    "onLanguage:mermaid"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sqlmermaid.sqlToMermaid",
+        "title": "Convert SQL to Mermaid ERD",
+        "category": "SqlMermaid"
+      },
+      {
+        "command": "sqlmermaid.mermaidToSql",
+        "title": "Convert Mermaid ERD to SQL",
+        "category": "SqlMermaid"
+      },
+      {
+        "command": "sqlmermaid.mermaidToSqlWithDialect",
+        "title": "Convert Mermaid ERD to SQL (Choose Dialect)",
+        "category": "SqlMermaid"
+      },
+      {
+        "command": "sqlmermaid.previewMermaid",
+        "title": "Preview Mermaid Diagram",
+        "category": "SqlMermaid",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "sqlmermaid.convertCurrentFile",
+        "title": "Convert Current File",
+        "category": "SqlMermaid"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .sql",
+          "command": "sqlmermaid.sqlToMermaid",
+          "group": "sqlmermaid@1"
+        },
+        {
+          "when": "resourceExtname == .mmd",
+          "command": "sqlmermaid.mermaidToSql",
+          "group": "sqlmermaid@1"
+        },
+        {
+          "when": "resourceExtname == .mmd",
+          "command": "sqlmermaid.mermaidToSqlWithDialect",
+          "group": "sqlmermaid@2"
+        },
+        {
+          "when": "resourceExtname == .mmd",
+          "command": "sqlmermaid.previewMermaid",
+          "group": "sqlmermaid@3"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceExtname == .mmd",
+          "command": "sqlmermaid.previewMermaid",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "sqlmermaid.sqlToMermaid",
+          "when": "editorLangId == sql || resourceExtname == .sql"
+        },
+        {
+          "command": "sqlmermaid.mermaidToSql",
+          "when": "editorLangId == mermaid || resourceExtname == .mmd"
+        },
+        {
+          "command": "sqlmermaid.mermaidToSqlWithDialect",
+          "when": "editorLangId == mermaid || resourceExtname == .mmd"
+        },
+        {
+          "command": "sqlmermaid.previewMermaid",
+          "when": "editorLangId == mermaid || resourceExtname == .mmd"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SQL Mermaid ERD Tools",
+      "properties": {
+        "sqlmermaid.defaultDialect": {
+          "type": "string",
+          "enum": [
+            "AnsiSql",
+            "SqlServer",
+            "PostgreSql",
+            "MySql"
+          ],
+          "default": "AnsiSql",
+          "description": "Default SQL dialect for conversions"
+        },
+        "sqlmermaid.autoOpenPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open preview when converting to Mermaid"
+        },
+        "sqlmermaid.outputFormat": {
+          "type": "string",
+          "enum": [
+            "newFile",
+            "clipboard",
+            "both"
+          ],
+          "default": "newFile",
+          "description": "Where to output conversion results"
+        },
+        "sqlmermaid.apiEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Optional: Custom API endpoint for conversions (leave empty to use local CLI)"
+        },
+        "sqlmermaid.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for remote conversion service (if using custom endpoint)"
+        },
+        "sqlmermaid.cliPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to SqlMermaidErdTools CLI executable (leave empty for auto-detect)"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "mermaid",
+        "extensions": [
+          ".mmd",
+          ".mermaid"
+        ],
+        "aliases": [
+          "Mermaid",
+          "mermaid"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/SqlMermaidErdTools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/SqlMermaidErdTools/issues"
+  },
+  "homepage": "https://github.com/yourusername/SqlMermaidErdTools#readme",
+  "license": "MIT"
+}
+

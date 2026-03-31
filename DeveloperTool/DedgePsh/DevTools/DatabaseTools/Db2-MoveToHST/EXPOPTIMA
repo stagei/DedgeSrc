@@ -1,0 +1,46 @@
+-- 2015 tru 09/2 2018
+-- Kjørt 2016 over til BASISHST 03.03.2019
+-- Kjøre 2017 over til BASISHST 21.02.2021
+-- Kjøre 2018 over til BASISHST 13.03.2022
+-- Kjøre 2019 over til BASISHST 21.05.2023
+-- Kjøre 2020 over til BASISHST 23.06.2024
+-- Kjøre 2021 over til BASISHST 17.10.2025
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED H_ORDRE-TABELLENE, LASS, VAREBEVEGELSE og KORRIGERINGER
+--
+-- Endre årstall i utplukket samt filenavn
+--
+  CONNECT TO BASISPRO;
+  EXPORT TO d:\meh\ORDREH2021.IXF OF IXF
+       SELECT INT(H.TILFAKTDATO/10000), H.*
+       FROM DBM.H_ORDREHODE H
+       WHERE (H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20220101)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2022-01-01' );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+  EXPORT TO d:\meh\ORDREL2021.IXF OF IXF
+      SELECT INT(H.TILFAKTDATO/10000), L.*
+      FROM DBM.H_ORDREHODE H, DBM.H_ORDRELINJER L
+      WHERE H.AVDNR = L.AVDNR
+        AND H.ORDRENR = L.ORDRENR
+        AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20220101)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2022-01-01' ));
+  EXPORT TO d:\meh\ORDREM2021.IXF OF IXF
+      SELECT INT(H.TILFAKTDATO/10000), M.*
+      FROM DBM.H_ORDREHODE H, DBM.H_ORDREMERKNAD M
+      WHERE H.AVDNR = M.AVDNR
+        AND H.ORDRENR = M.ORDRENR
+        AND ((H.TILFAKTDATO > 0 AND H.TILFAKTDATO < 20220101)
+          OR (H.TILFAKTDATO = 0 AND DATE(H.TIDSPUNKT) < '2022-01-01' ));
+  EXPORT TO d:\meh\LASS2021.IXF OF IXF
+       SELECT INT(KJØREDATO/10000), L.*
+       FROM DBM.LASS L
+       WHERE KJØREDATO < 20220101
+       AND STATUS = 99;
+  EXPORT TO d:\meh\VAREBEV2021.IXF OF IXF
+       SELECT * FROM DBM.VAREBEVEGELSE
+       WHERE LAGERDATO < 20220101
+       and date(tidspunkt) < '2022-01-01';
+  EXPORT TO d:\meh\BEHOLDKORR2021.IXF OF IXF
+       SELECT INT(KORRDATO/10000), K.*
+       FROM DBM.KORRIGERINGER K
+       WHERE KORRDATO < 20220101
+       and date(tidspunkt) < '2022-01-01';

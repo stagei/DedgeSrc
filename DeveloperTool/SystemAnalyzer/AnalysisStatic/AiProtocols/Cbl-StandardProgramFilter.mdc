@@ -1,0 +1,107 @@
+# COBOL Standard Program Filter
+
+## Purpose
+
+Determine whether a program name refers to a **standard COBOL keyword, built-in function, runtime routine, reserved word, or standard library** that ships with Visual COBOL / Micro Focus — or whether it is an **application-specific program** (custom business logic).
+
+This filter is used to remove standard/runtime program names from the dependency graph so only business-relevant programs remain.
+
+## When to Use
+
+After Phase 7 (source verification), for programs where `sourcePath` is null — meaning no `.CBL` source file was found on disk. Programs confirmed in the AutoDocJson index are skipped (known application programs).
+
+## Data Source Chain
+
+1. **AutoDocJson index** — if the program appears in the pre-parsed COBOL index, it is a known application program. Skip Ollama entirely.
+2. **Visual COBOL RAG** — query with `"{ProgramName} COBOL standard keyword function runtime"` to retrieve documentation excerpts.
+3. **Ollama** — given the RAG excerpts, determine YES (standard) or NO (application).
+
+## Prompt Template
+
+```
+Based on the following Visual COBOL / Micro Focus documentation excerpts, determine if '{ProgramName}' is a standard COBOL keyword, built-in function, runtime routine, reserved word, or standard library program that ships with Visual COBOL or the COBOL standard.
+
+Answer ONLY with a JSON object: {"answer":"YES"} or {"answer":"NO"}
+- YES = it is a standard COBOL/Visual COBOL keyword, statement, function, or runtime routine
+- NO  = it is an application-specific program name (custom business logic, not part of COBOL standard or Visual COBOL runtime)
+
+Documentation excerpts:
+{RagExcerpts}
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{ProgramName}` | The program name to check (e.g. `CBL_EXIT_PROC`) |
+| `{RagExcerpts}` | Up to 4 documentation hits from the Visual COBOL RAG service |
+
+## Response Format
+
+```json
+{"answer": "YES"}
+```
+
+or
+
+```json
+{"answer": "NO"}
+```
+
+| Field | Type | Values | Description |
+|-------|------|--------|-------------|
+| `answer` | string | `"YES"` or `"NO"` | Whether the program is a standard COBOL component |
+
+## Response Parsing
+
+1. Check for `"answer"\s*:\s*"YES"` regex match
+2. Or check if trimmed response is exactly `YES` (case-insensitive)
+3. Anything else is treated as `NO`
+
+## Cache Key
+
+Stored in `AnalysisCommon/Objects/{PROGRAM}.cbl.json` under `isStandardCobol`.
+
+```json
+{
+  "isStandardCobol": {
+    "answer": "YES",
+    "ragEvidence": "Documentation excerpts (truncated to 500 chars)...",
+    "model": "qwen2.5:7b",
+    "protocol": "Cbl-StandardProgramFilter",
+    "analyzedAt": "2026-03-24T00:05:52"
+  }
+}
+```
+
+## Examples
+
+### Standard program: `CBL_EXIT_PROC`
+
+RAG returns documentation about COBOL runtime exit procedures.
+
+**Response**: `{"answer":"YES"}`
+
+Cached as `answer: "YES"` — this program will be removed from the dependency graph.
+
+### Application program: `RUHBEHK`
+
+RAG returns no relevant documentation excerpts (or unrelated matches).
+
+**Response**: `{"answer":"NO"}`
+
+Cached as `answer: "NO"` — this program is kept in the dependency graph.
+
+### Edge case: `COBDUMP`
+
+RAG returns a reference to the COBDUMP debugging utility that ships with Visual COBOL.
+
+**Response**: `{"answer":"YES"}`
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` (Ollama) — sufficient for binary YES/NO classification with RAG context
+- **Better model**: Claude Sonnet/Opus — more reliable edge-case handling, especially for programs that exist as both runtime utilities and application names
+- The RAG excerpts provide critical context; without RAG the model cannot reliably distinguish standard from application programs
+- If RAG is unavailable, the result is `RAG_UNAVAILABLE` and the program is retained (conservative default)
+- If Ollama is unavailable, the result is `OLLAMA_UNAVAILABLE` and remaining programs are skipped

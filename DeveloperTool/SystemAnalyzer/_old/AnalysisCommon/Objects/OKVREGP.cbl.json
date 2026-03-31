@@ -1,0 +1,134 @@
+{
+  "program": "OKVREGP",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:47",
+  "extraction": {
+    "sourceHash": "sha256:f7272418449e13bf58fd3d61430ce4e684273ea7b880a9a44cb004b3c3397786",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\OKVREGP.CBL",
+    "actualName": "OKVREGP",
+    "program": "OKVREGP",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ARH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRIN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OKHREGP.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_AVDTAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REGPROD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVDPARAM",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PROD_INPUT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "VERSJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ILEGG_HODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VERSJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AC_RESEPTHODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "GMADATO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:41:47"
+  }
+}

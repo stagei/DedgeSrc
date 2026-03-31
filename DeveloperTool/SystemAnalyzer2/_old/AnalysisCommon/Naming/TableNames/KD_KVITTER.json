@@ -1,0 +1,52 @@
+{
+  "tableName": "KD_KVITTER",
+  "futureName": "KvitterRecord",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "DYRKER_RECNO",
+      "futureName": "DyrkerRecNo",
+      "description": "Unique identifier for the dyrker record",
+      "foreignKey": "KD_DYRKER_INFO, KD_DYRKER_LOGG, KD_DYRKER_STATUS, KD_DYRKER"
+    },
+    {
+      "name": "TYPE",
+      "futureName": "TypeCode",
+      "description": "Code representing the type of record",
+      "foreignKey": "BEHKODER"
+    },
+    {
+      "name": "DATO_LAGET",
+      "futureName": "CreatedDate",
+      "description": "Timestamp when the record was created",
+      "foreignKey": null
+    },
+    {
+      "name": "DATO_BEKREFTET",
+      "futureName": "ConfirmedDate",
+      "description": "Timestamp when the record was confirmed",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER_LAGET",
+      "futureName": "CreatedByUser",
+      "description": "Username of the user who created the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER_BEKREFTET",
+      "futureName": "ConfirmedByUser",
+      "description": "Username of the user who confirmed the record",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the record was created or updated",
+      "foreignKey": "A_BESTHODE, A_ORDREHODE_EC"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:14:01"
+}

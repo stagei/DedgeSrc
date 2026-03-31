@@ -1,0 +1,124 @@
+# Table Name Modernization (Self-Contained with Columns)
+
+## Purpose
+
+Generate a modern CamelCase C# class name for a legacy DB2 table, using full context from the DB2 catalog, COBOL usage patterns, and cross-table relationships. The resulting cache file is self-contained — it includes both the table-level naming and all column-level naming (property names, descriptions, FK inference).
+
+## When to Use
+
+During Phase 8f of the analysis pipeline. For each `Objects/{TABLE}.sqltable.json` file, check if `Naming/TableNames/{TABLE}.json` exists with a non-empty `columns[]` array. If missing or columns are empty, invoke Ollama with this protocol (table name first, then column naming).
+
+## Table Name Prompt Template
+
+```
+You are analyzing a legacy DB2 table for modernization to C#.
+Your task is to suggest a modern CamelCase class name and logical namespace.
+
+TABLE: {TableName}
+SCHEMAS: {Schemas}
+TABLE COMMENT (Norwegian): {TableRemarks}
+TYPE: {Type}
+
+COLUMNS ({ColumnCount}):
+{ColumnGrid}
+
+PROGRAMS USING THIS TABLE ({UsageCount}):
+{ProgramUsageList}
+
+COBOL USAGE (from source code — shows how this table is JOINed and used):
+{RagSnippets}
+
+Based on ALL the context above (table name, Norwegian comment, columns, usage), suggest:
+1. A CamelCase C# class name that describes what this table represents
+2. A C# namespace segment (e.g. "Orders", "Inventory", "Customers")
+
+IMPORTANT:
+- The class name should reflect the DOMAIN CONCEPT, not just translate the abbreviation
+- Use standard C# naming conventions (PascalCase, no underscores, no abbreviations)
+- The namespace should group related tables together
+
+Respond with EXACTLY one JSON object (no markdown, no explanation):
+{"futureName":"OrderHeader","namespace":"Orders"}
+
+JSON:
+{"futureName":
+```
+
+### Placeholders
+
+| Placeholder | Source |
+|-------------|--------|
+| `{TableName}` | The legacy DB2 table name (e.g. `A_ORDREHODE`) |
+| `{Schemas}` | Comma-separated list of schemas (e.g. `DBM, CRM, ROA`) |
+| `{TableRemarks}` | Norwegian REMARKS from SYSCAT.TABLES, or "No comment" |
+| `{Type}` | `T` (table) or `V` (view) |
+| `{ColumnCount}` | Number of columns |
+| `{ColumnGrid}` | Markdown table: `| # | Name | Type | Comment |` for all columns |
+| `{UsageCount}` | Number of programs using this table |
+| `{ProgramUsageList}` | List: `ALLREXX (SELECT, UPDATE), BDHETIK (SELECT)` |
+| `{RagSnippets}` | RAG code excerpts showing SQL usage, or "No RAG data" |
+
+## Table Name Response Format
+
+```json
+{
+  "futureName": "OrderHeader",
+  "namespace": "Orders"
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `futureName` | string | Yes | CamelCase C# class name |
+| `namespace` | string | Yes | Logical namespace segment |
+
+## Cache File Format (Self-Contained)
+
+After both table and column naming complete, a single file is saved:
+
+```json
+{
+  "tableName": "A_BESTHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department associated with the order",
+      "foreignKey": { "targetTable": "Z_AVDTAB", "targetColumn": "AVDNR", "confidence": "high" }
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "SupplierNumber",
+      "description": "Supplier for this order",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-26T10:56:52"
+}
+```
+
+The `columns[]` array is populated by the column naming prompt (see `Naming-ColumnNames.mdc` for column prompt details). Each column is also upserted into the cross-analysis column registry at `ColumnNames/{COLUMN}.json`.
+
+## Cache Location
+
+Stored in `AnalysisCommon/Naming/TableNames/{TABLENAME}.json`.
+
+## Response Parsing
+
+1. Strip markdown fences if present
+2. Extract the first `{...}` JSON object
+3. If response doesn't start with `{`, prepend `{"futureName":`
+4. Parse as JSON
+5. Validate `futureName` is PascalCase (no underscores, no spaces)
+6. Create cache object with empty `columns[]` array — columns are added by the column naming step
+
+## Model Guidance
+
+- **Minimum model**: `qwen2.5:7b` (Ollama) — adequate when table comment and columns provide strong context
+- **Better model**: Claude Sonnet/Opus — more reliable for tables with no comments or ambiguous names
+- Norwegian comments are the strongest signal; columns + usage provide supporting evidence
+- The prompt ends with a partial JSON to guide completion

@@ -1,0 +1,62 @@
+{
+  "tableName": "TILGBRUK_GRP_PROF",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:22:11",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "KNYTNING MELLOM BRUKER, GRUPPE OG PROFIL",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:22:11",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "GRUPPE",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "PROFIL",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "DATABASE",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "TILG1232KEY",
+        "childColumn": "GRUPPE",
+        "parentTable": "TILGGRUPPE",
+        "parentSchema": "DBM",
+        "parentColumn": "GRUPPE"
+      }
+    ]
+  }
+}

@@ -1,0 +1,147 @@
+﻿@model AutoDocNew.Models.CblResult
+
+@if (Model == null) { return; }
+
+<div class="main-container">
+    <!-- Info Panel (left, 320px) -->
+    <div class="info-panel">
+        <div class="info-card">
+            <table class="info-table">
+                <tr><td data-i18n="label.filename">Filename</td><td><a href="https://Dedge.visualstudio.com/Dedge/_search?action=contents&text=@(Model.SourceFile)%20ext%3Acbl&type=code&filters=ProjectFilters%7BDedge%7DRepositoryFilters%7BDedge%7D">@DisplayHelpers.ToTitleCase(Model.SourceFile)</a></td></tr>
+                <tr><td data-i18n="label.type">Type</td><td>@Model.Metadata.TypeLabel</td></tr>
+                <tr><td data-i18n="label.description">Description</td><td>@Model.Description</td></tr>
+                <tr><td data-i18n="label.system">System</td><td>@Model.Metadata.System</td></tr>
+                <tr><td data-i18n="label.dialogSystem">DialogSystem</td><td><input type="checkbox" @(Model.Metadata.UsesDialogSystem ? "checked" : "") onclick="return false" /></td></tr>
+                @if (!string.IsNullOrEmpty(Model.Metadata.ScreenLink))
+                {
+                    <tr><td data-i18n="label.screenLayout">Screen Layout</td><td><a href="@Model.Metadata.ScreenLink"><i class="bi bi-window-stack"></i> @Model.Metadata.ScreenLinkText</a></td></tr>
+                }
+                <tr><td data-i18n="label.usesSql">Uses SQL</td><td><input type="checkbox" @(Model.Metadata.UsesSql ? "checked" : "") onclick="return false" /></td></tr>
+                <tr><td data-i18n="label.created">Created</td><td>@Model.Metadata.Created</td></tr>
+                <tr><td data-i18n="label.production">Production</td><td>@Model.Metadata.LastProduction</td></tr>
+                <tr><td data-i18n="label.generated">Generated</td><td>@Model.GeneratedAt</td></tr>
+            </table>
+        </div>
+
+        @if (Model.SqlTables?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-database"></i> <span data-i18n="section.sqlTables">SQL Tables</span> (@Model.SqlTables.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.table">Table</th><th data-i18n="table.operation">Op</th><th data-i18n="table.description">Description</th></tr>
+                    @foreach (var t in Model.SqlTables)
+                    {
+                        <tr>
+                            <td><a href="/Doc?file=@(t.Link?.Replace("./","").Replace(".html",".json"))">@t.Table</a></td>
+                            <td>@t.Operation</td>
+                            <td>@t.Description</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.CalledSubprograms?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-diagram-3"></i> <span data-i18n="section.calledSubprograms">Called Subprograms</span> (@Model.CalledSubprograms.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.module">Module</th><th data-i18n="table.description">Description</th></tr>
+                    @foreach (var c in Model.CalledSubprograms)
+                    {
+                        <tr>
+                            <td><a href="/Doc?file=@(c.Link?.Replace("./","").Replace(".html",".json"))">@DisplayHelpers.ToTitleCase(c.Module)</a></td>
+                            <td>@c.Description</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.CopyElements?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-files"></i> <span data-i18n="section.copyElements">Copy Elements</span> (@Model.CopyElements.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="label.filename">Filename</th></tr>
+                    @foreach (var c in Model.CopyElements)
+                    {
+                        <tr><td><a href="@c.Link" target="_blank">@DisplayHelpers.ToTitleCase(c.Name)</a></td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.ChangeLog?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-clock-history"></i> <span data-i18n="section.changeLog">Change Log</span> (@Model.ChangeLog.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.date">Date</th><th data-i18n="table.user">User</th><th data-i18n="table.comment">Comment</th></tr>
+                    @foreach (var e in Model.ChangeLog)
+                    {
+                        <tr><td>@e.Date</td><td>@e.User</td><td>@e.Comment</td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.ProductionLog?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-rocket-takeoff"></i> <span data-i18n="section.productionLog">Production Log</span> (@Model.ProductionLog.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.date">Date</th><th data-i18n="table.user">User</th></tr>
+                    @foreach (var e in Model.ProductionLog)
+                    {
+                        <tr><td>@e.Date</td><td>@e.User</td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @await Html.PartialAsync("_GitHistorySection", Model.GitHistory)
+    </div>
+
+    <!-- Diagram Panel (right, flex) -->
+    <div class="diagram-panel">
+        <div class="diagram-tabs">
+            @if (!string.IsNullOrEmpty(Model.Diagrams?.FlowMmd))
+            {
+                <button class="diagram-tab active" onclick="showDiagram('flow', this)">
+                    <i class="bi bi-diagram-3"></i> <span data-i18n="diagram.flow">Flow Diagram</span>
+                </button>
+            }
+            @if (!string.IsNullOrEmpty(Model.Diagrams?.SequenceMmd))
+            {
+                <button class="diagram-tab @(string.IsNullOrEmpty(Model.Diagrams?.FlowMmd) ? "active" : "")" onclick="showDiagram('sequence', this)">
+                    <i class="bi bi-list-nested"></i> <span data-i18n="diagram.sequence">Sequence Diagram</span>
+                </button>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Diagrams?.FlowMmd))
+        {
+            <div class="diagram-content active" id="flow-content">
+                @await Html.PartialAsync("_DiagramToolbar", "flow")
+                <div class="diagram-container diagram-wrapper" id="flow-container" data-diagram-type="flow" data-node-count="@MermaidNodeCounter.CountNodes(Model.Diagrams.FlowMmd)">
+                    <pre class="mermaid-source" style="display:none">@Html.Raw(Model.Diagrams.FlowMmd)</pre>
+                    <pre class="mermaid" id="flowDiagram" data-diagram-type="flow">@Html.Raw(Model.Diagrams.FlowMmd)</pre>
+                    <div class="diagram-render-target" id="flow-render-target"></div>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Diagrams?.SequenceMmd))
+        {
+            <div class="diagram-content @(string.IsNullOrEmpty(Model.Diagrams?.FlowMmd) ? "active" : "")" id="sequence-content">
+                @await Html.PartialAsync("_DiagramToolbar", "sequence")
+                <div class="diagram-container diagram-wrapper" id="sequence-container" data-diagram-type="sequence">
+                    <pre class="mermaid-source" style="display:none">@Html.Raw(Model.Diagrams?.SequenceMmd)</pre>
+                    <pre class="mermaid" id="sequenceDiagram" data-diagram-type="sequence">@Html.Raw(Model.Diagrams?.SequenceMmd)</pre>
+                    <div class="diagram-render-target" id="sequence-render-target"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

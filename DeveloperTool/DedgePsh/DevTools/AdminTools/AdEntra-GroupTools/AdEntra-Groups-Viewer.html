@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AD / Entra groups — JSON viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --surface: #151a22;
+      --surface2: #1c2330;
+      --border: #2a3444;
+      --text: #e8eaef;
+      --muted: #8b95a8;
+      --accent: #e8b84a;
+      --accent-dim: #a67c2a;
+      --ok: #5cb88a;
+      --focus: #6eb5ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 15px;
+    }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.88em; }
+    header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    main {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 380px);
+      gap: 0;
+      height: calc(100vh - 88px);
+      max-height: calc(100vh - 88px);
+    }
+    @media (max-width: 960px) {
+      main { grid-template-columns: 1fr; height: auto; max-height: none; }
+      .detail-col { border-left: none; border-top: 1px solid var(--border); max-height: 50vh; }
+    }
+    .toolbar {
+      padding: 0.75rem 1rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .toolbar label.load-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      background: var(--accent);
+      color: #1a1306;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .toolbar label.load-btn:hover { filter: brightness(1.08); }
+    #file-input { position: absolute; width: 0; height: 0; opacity: 0; }
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      max-width: 420px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+    }
+    .search-wrap input:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+    .filters span { color: var(--muted); font-size: 0.8rem; }
+    .filters select {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.35rem 0.5rem;
+      font: inherit;
+    }
+    .stats {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .stats strong { color: var(--accent); font-weight: 600; }
+    .list-col {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border-right: 1px solid var(--border);
+    }
+    .table-wrap {
+      flex: 1;
+      overflow: auto;
+      min-height: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      background: var(--surface2);
+      text-align: left;
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      z-index: 1;
+    }
+    tbody td {
+      padding: 0.45rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr { cursor: pointer; }
+    tbody tr:hover { background: rgba(232, 184, 74, 0.06); }
+    tbody tr.selected { background: rgba(110, 181, 255, 0.12); }
+    .dn-cell { color: var(--muted); max-width: 360px; word-break: break-all; }
+    .badge {
+      display: inline-block;
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-sec { background: rgba(92, 184, 138, 0.2); color: var(--ok); }
+    .badge-dist { background: rgba(139, 149, 168, 0.25); color: var(--muted); }
+    .pager {
+      padding: 0.5rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      background: var(--surface);
+    }
+    .pager button {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .pager button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .pager button:not(:disabled):hover { border-color: var(--accent-dim); }
+    .detail-col {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--surface);
+    }
+    .detail-tabs {
+      display: flex;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .detail-tabs button {
+      flex: 1;
+      padding: 0.65rem 0.75rem;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .detail-tabs button:hover { color: var(--text); }
+    .detail-tabs button.active {
+      color: var(--accent);
+      box-shadow: inset 0 -2px 0 var(--accent);
+    }
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .tab-panel.active { display: flex; }
+    .detail-inner {
+      padding: 1rem;
+      overflow: auto;
+      flex: 1;
+    }
+    .tree-panel-inner {
+      padding: 0.75rem 1rem 1rem;
+      overflow: auto;
+      flex: 1;
+      font-size: 0.88rem;
+    }
+    .tree-section {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tree-section:last-child { border-bottom: none; }
+    .tree-section h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .tree-hint { margin: 0 0 0.6rem; color: var(--muted); font-size: 0.8rem; line-height: 1.35; }
+    .tree-stem-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 0.65rem;
+    }
+    .tree-stem-row input {
+      flex: 1;
+      min-width: 160px;
+      padding: 0.4rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+    }
+    .tree-stem-row button {
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+    .tree-stem-row button:hover { border-color: var(--accent-dim); }
+    ul.tree {
+      list-style: none;
+      margin: 0;
+      padding-left: 0.85rem;
+      border-left: 1px solid var(--border);
+    }
+    ul.tree.root-ul { padding-left: 0; border-left: none; }
+    ul.tree li { margin: 0.2rem 0; }
+    .tree-node-btn {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      background: none;
+      border: none;
+      color: var(--focus);
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      padding: 0.15rem 0.3rem;
+      max-width: 100%;
+      border-radius: 4px;
+    }
+    .tree-node-btn:hover { background: rgba(110, 181, 255, 0.08); color: var(--accent); }
+    .tree-node-btn .mono { font-size: 0.85em; color: var(--text); }
+    .tree-node-btn.tree-focused {
+      background: rgba(232, 184, 74, 0.18);
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .tree-node-btn.tree-focused .mono { color: var(--accent); font-weight: 700; }
+    .tree-node-btn.tree-on-path .mono { color: var(--focus); font-weight: 600; }
+    .tree-node-meta { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
+    .tree-empty { color: var(--muted); font-style: italic; }
+    .tree-sibling-count {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding: 0.1rem 0.35rem;
+      border: 1px dashed var(--border);
+      border-radius: 3px;
+      margin: 0.15rem 0;
+    }
+    .detail-inner h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .detail-block {
+      margin-bottom: 1rem;
+      padding: 0.65rem 0.75rem;
+      background: var(--surface2);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .detail-block h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .detail-block dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.25rem 0.75rem;
+      font-size: 0.85rem;
+    }
+    .detail-block dt { color: var(--muted); }
+    .detail-block dd { margin: 0; word-break: break-word; }
+    .guid-list { list-style: none; padding: 0; margin: 0; }
+    .guid-list li { margin-bottom: 0.35rem; }
+    .guid-list button.linkish {
+      background: none;
+      border: none;
+      color: var(--focus);
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .guid-list button.linkish:hover { color: var(--accent); }
+    .empty-state {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .drop-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(232, 184, 74, 0.15);
+      border: 3px dashed var(--accent);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+      pointer-events: none;
+    }
+    body.dropping .drop-overlay { display: flex; }
+    .meta-banner {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 0.35rem 1rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .meta-banner code { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="drop-overlay" id="drop-overlay">Drop JSON file</div>
+  <header>
+    <h1>AD / Entra groups viewer</h1>
+    <p>Load <span class="mono">AdEntra-Groups-export-*.json</span> — search, filter, inspect nesting (member / member-of).</p>
+  </header>
+  <main>
+    <section class="list-col">
+      <div class="toolbar">
+        <input type="file" id="file-input" accept=".json,application/json" />
+        <label class="load-btn" for="file-input">Choose JSON file</label>
+        <div class="search-wrap">
+          <input type="search" id="search" placeholder="Search name, sAM, DN, GUID, description… (press /)" autocomplete="off" />
+        </div>
+        <div class="filters">
+          <span>Scope</span>
+          <select id="filter-scope">
+            <option value="">All</option>
+            <option value="Global">Global</option>
+            <option value="Universal">Universal</option>
+            <option value="DomainLocal">Domain local</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+          <span>Category</span>
+          <select id="filter-cat">
+            <option value="">All</option>
+            <option value="Security">Security</option>
+            <option value="Distribution">Distribution</option>
+          </select>
+        </div>
+        <div class="stats" id="stats">No file loaded.</div>
+      </div>
+      <div class="meta-banner" id="meta-banner" hidden></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>sAM</th>
+              <th>Scope</th>
+              <th>Nested</th>
+              <th>Member of</th>
+              <th>Distinguished name</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="empty-state" id="empty">Load a JSON export to begin.</div>
+      </div>
+      <div class="pager">
+        <button type="button" id="prev" disabled>Previous</button>
+        <span id="page-label"></span>
+        <button type="button" id="next" disabled>Next</button>
+        <label class="mono" style="color:var(--muted);font-size:0.85rem;">Rows/page
+          <select id="page-size">
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </label>
+      </div>
+    </section>
+    <aside class="detail-col">
+      <div class="detail-tabs" role="tablist" aria-label="Right panel">
+        <button type="button" class="active" role="tab" id="tab-btn-details" aria-selected="true" aria-controls="panel-details" data-tab="details">Details</button>
+        <button type="button" role="tab" id="tab-btn-tree" aria-selected="false" aria-controls="panel-tree" data-tab="tree">Hierarchy</button>
+      </div>
+      <div class="tab-panel active" id="panel-details" role="tabpanel" aria-labelledby="tab-btn-details">
+        <div class="detail-inner" id="detail">
+          <div class="empty-state">Select a group row for details and linked nesting.</div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-tree" role="tabpanel" aria-labelledby="tab-btn-tree">
+        <div class="tree-panel-inner" id="tree-panel-root">
+          <div class="empty-state">Select a group to see its full AD hierarchy.</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+(function () {
+  let raw = null;
+  let groups = [];
+  let guidMap = new Map();
+  let filtered = [];
+  let page = 1;
+  let pageSize = 50;
+  let selectedGuid = null;
+  let sourceKind = "ad"; // ad | entra
+  let hashHydrated = false;
+
+  const $ = (id) => document.getElementById(id);
+
+  function normalizeGuid(g) {
+    return String(g || "").replace(/[{}]/g, "").toLowerCase();
+  }
+
+  function parseJson(text) {
+    raw = JSON.parse(text);
+    hashHydrated = false;
+    groups = [];
+    guidMap = new Map();
+    sourceKind = "ad";
+
+    if (raw.activeDirectory && Array.isArray(raw.activeDirectory.groups)) {
+      sourceKind = "ad";
+      groups = raw.activeDirectory.groups;
+    } else if (raw.entra && Array.isArray(raw.entra.groups) && !raw.activeDirectory) {
+      sourceKind = "entra";
+      groups = raw.entra.groups;
+    } else if (raw.activeDirectory && raw.entra && Array.isArray(raw.entra.groups)) {
+      sourceKind = "ad";
+      groups = raw.activeDirectory.groups;
+    }
+
+    if (sourceKind === "ad") {
+      for (const g of groups) {
+        guidMap.set(normalizeGuid(g.objectGuid), g);
+      }
+    } else {
+      for (const g of groups) {
+        guidMap.set(normalizeGuid(g.id), g);
+      }
+    }
+
+    const meta = raw.activeDirectory?.metadata || raw.entra?.metadata || raw.metadata;
+    const mb = $("meta-banner");
+    if (meta) {
+      const parts = [
+        raw.metadata?.exportedAtUtc && `Export <code>${escapeHtml(raw.metadata.exportedAtUtc)}</code>`,
+        meta.domainDns && `Domain <code>${escapeHtml(meta.domainDns)}</code>`,
+        meta.tenantId && `Tenant <code>${escapeHtml(meta.tenantId)}</code>`,
+        meta.groupCount != null && `<strong>${meta.groupCount}</strong> groups`,
+        meta.containmentEdgeCount != null && `<strong>${meta.containmentEdgeCount}</strong> containment edges`,
+        meta.rootsCount != null && `<strong>${meta.rootsCount}</strong> roots`,
+      ].filter(Boolean);
+      mb.innerHTML = parts.join(" · ");
+      mb.hidden = false;
+    } else {
+      mb.hidden = true;
+    }
+
+    applyFilters();
+    renderStats();
+    $("empty").style.display = groups.length ? "none" : "block";
+    document.querySelector("table").style.display = groups.length ? "table" : "none";
+
+    if (!hashHydrated) {
+      hashHydrated = true;
+      const hash = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+      if (hash) {
+        const hit = guidMap.get(normalizeGuid(hash));
+        if (hit) {
+          selectedGuid = sourceKind === "ad" ? hit.objectGuid : hit.id;
+          const idx = filtered.indexOf(hit);
+          if (idx >= 0) page = Math.floor(idx / pageSize) + 1;
+          renderTable();
+          renderPager();
+          renderDetail(hit);
+        }
+      }
+    }
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return "";
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function matchesSearch(g, q) {
+    if (!q) return true;
+    const s = q.toLowerCase();
+    if (sourceKind === "ad") {
+      return [
+        g.name,
+        g.samAccountName,
+        g.distinguishedName,
+        g.objectGuid,
+        g.description,
+        g.sid,
+      ].some((x) => x != null && String(x).toLowerCase().includes(s));
+    }
+    return [
+      g.displayName,
+      g.id,
+      g.description,
+      g.mailNickname,
+      Array.isArray(g.groupTypes) ? g.groupTypes.join(" ") : "",
+    ].some((x) => x != null && String(x).toLowerCase().includes(s));
+  }
+
+  function computeFiltered() {
+    const q = $("search").value.trim();
+    const scope = $("filter-scope").value;
+    const cat = $("filter-cat").value;
+
+    filtered = groups.filter((g) => {
+      if (!matchesSearch(g, q)) return false;
+      if (sourceKind === "ad") {
+        if (scope && (g.groupScope || "Unknown") !== scope) return false;
+        if (cat && (g.groupCategory || "") !== cat) return false;
+      }
+      return true;
+    });
+  }
+
+  function applyFilters() {
+    computeFiltered();
+    page = 1;
+    renderTable();
+    renderPager();
+  }
+
+  function renderStats() {
+    const el = $("stats");
+    if (!groups.length) {
+      el.textContent = "No file loaded.";
+      return;
+    }
+    el.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${groups.length}</strong> groups`;
+  }
+
+  function renderTable() {
+    const tbody = $("tbody");
+    tbody.innerHTML = "";
+    const start = (page - 1) * pageSize;
+    const slice = filtered.slice(start, start + pageSize);
+
+    for (const g of slice) {
+      const tr = document.createElement("tr");
+      const guid = sourceKind === "ad" ? g.objectGuid : g.id;
+      tr.dataset.guid = normalizeGuid(guid);
+      if (normalizeGuid(guid) === normalizeGuid(selectedGuid)) tr.classList.add("selected");
+
+      if (sourceKind === "ad") {
+        const nc = (g.memberGroupGuids && g.memberGroupGuids.length) || 0;
+        const np = (g.memberOfGroupGuids && g.memberOfGroupGuids.length) || 0;
+        const catClass = (g.groupCategory || "").toLowerCase() === "distribution" ? "badge-dist" : "badge-sec";
+        tr.innerHTML = `
+          <td><span class="badge ${catClass}">${escapeHtml((g.groupCategory || "?").slice(0, 3))}</span> ${escapeHtml(g.name || "")}</td>
+          <td class="mono">${escapeHtml(g.samAccountName || "")}</td>
+          <td>${escapeHtml(g.groupScope || "")}</td>
+          <td class="mono">${nc}</td>
+          <td class="mono">${np}</td>
+          <td class="dn-cell mono">${escapeHtml(g.distinguishedName || "")}</td>`;
+      } else {
+        tr.innerHTML = `
+          <td>${escapeHtml(g.displayName || "")}</td>
+          <td class="mono">${escapeHtml(g.mailNickname || "")}</td>
+          <td>${g.securityEnabled ? "Sec" : "—"}</td>
+          <td class="mono">${(g.memberGroupIds && g.memberGroupIds.length) || 0}</td>
+          <td class="mono">${(g.memberOfGroupIds && g.memberOfGroupIds.length) || 0}</td>
+          <td class="dn-cell mono">${escapeHtml(g.id || "")}</td>`;
+      }
+
+      tr.addEventListener("click", () => {
+        selectedGuid = guid;
+        document.querySelectorAll("tbody tr").forEach((r) => r.classList.remove("selected"));
+        tr.classList.add("selected");
+        renderDetail(g);
+        try {
+          history.replaceState(null, "", "#" + encodeURIComponent(normalizeGuid(guid)));
+        } catch (_) {}
+      });
+      tbody.appendChild(tr);
+    }
+
+    renderStats();
+  }
+
+  function linkButton(guid, labelFn) {
+    const g = guidMap.get(normalizeGuid(guid));
+    const label = g ? labelFn(g) : guid;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "linkish mono";
+    btn.textContent = label;
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!g) return;
+      selectedGuid = sourceKind === "ad" ? g.objectGuid : g.id;
+      const q =
+        sourceKind === "ad"
+          ? g.samAccountName || g.objectGuid
+          : g.displayName || g.id;
+      $("search").value = q;
+      $("filter-scope").value = "";
+      $("filter-cat").value = "";
+      computeFiltered();
+      const idx = filtered.indexOf(g);
+      page = idx >= 0 ? Math.floor(idx / pageSize) + 1 : 1;
+      renderTable();
+      renderPager();
+      renderDetail(g);
+      document.querySelectorAll("tbody tr").forEach((r) => r.classList.remove("selected"));
+      const row = $("tbody").querySelector(`tr[data-guid="${normalizeGuid(selectedGuid)}"]`);
+      if (row) {
+        row.classList.add("selected");
+        row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+      try {
+        history.replaceState(null, "", "#" + encodeURIComponent(normalizeGuid(selectedGuid)));
+      } catch (_) {}
+    });
+    return btn;
+  }
+
+  /* ── Full AD hierarchy tree ── */
+
+  function collectAncestors(focusGuid) {
+    const anc = new Set();
+    const stack = [focusGuid];
+    while (stack.length) {
+      const cur = stack.pop();
+      const g = guidMap.get(cur);
+      if (!g) continue;
+      const parents = (sourceKind === "ad" ? g.memberOfGroupGuids : g.memberOfGroupIds) || [];
+      for (const pid of parents) {
+        const pn = normalizeGuid(pid);
+        if (pn !== focusGuid && !anc.has(pn) && guidMap.has(pn)) {
+          anc.add(pn);
+          stack.push(pn);
+        }
+      }
+    }
+    return anc;
+  }
+
+  function getChildGuids(g) {
+    if (sourceKind === "ad") return (g.memberGroupGuids || []).map(normalizeGuid);
+    return (g.memberGroupIds || []).map(normalizeGuid);
+  }
+
+  function getParentGuids(g) {
+    if (sourceKind === "ad") return (g.memberOfGroupGuids || []).map(normalizeGuid);
+    return (g.memberOfGroupIds || []).map(normalizeGuid);
+  }
+
+  function groupLabel(g) {
+    return sourceKind === "ad" ? (g.samAccountName || g.name || g.objectGuid)
+                               : (g.displayName || g.id);
+  }
+
+  function treeNodeClick(g) {
+    const guid = sourceKind === "ad" ? g.objectGuid : g.id;
+    selectedGuid = guid;
+    renderDetail(g);
+    document.querySelectorAll("tbody tr").forEach((r) => r.classList.remove("selected"));
+    const row = $("tbody").querySelector(`tr[data-guid="${normalizeGuid(guid)}"]`);
+    if (row) row.classList.add("selected");
+    try { history.replaceState(null, "", "#" + encodeURIComponent(normalizeGuid(guid))); } catch (_) {}
+  }
+
+  function makeNodeBtn(g, cssExtra) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "tree-node-btn" + (cssExtra ? " " + cssExtra : "");
+    const t = document.createElement("span");
+    t.className = "mono";
+    t.textContent = groupLabel(g);
+    btn.appendChild(t);
+    btn.addEventListener("click", (e) => { e.stopPropagation(); treeNodeClick(g); });
+    return btn;
+  }
+
+  function renderDescendants(g, visited) {
+    const guid = normalizeGuid(sourceKind === "ad" ? g.objectGuid : g.id);
+    const li = document.createElement("li");
+    if (visited.has(guid)) {
+      const s = document.createElement("span");
+      s.className = "tree-empty";
+      s.textContent = "(cycle) " + groupLabel(g);
+      li.appendChild(s);
+      return li;
+    }
+    visited.add(guid);
+    li.appendChild(makeNodeBtn(g, null));
+    const kids = getChildGuids(g);
+    if (kids.length) {
+      const ul = document.createElement("ul");
+      ul.className = "tree";
+      for (const cid of kids) {
+        const cg = guidMap.get(cid);
+        if (cg) ul.appendChild(renderDescendants(cg, visited));
+        else {
+          const ml = document.createElement("li");
+          const ms = document.createElement("span");
+          ms.className = "tree-empty mono";
+          ms.textContent = cid;
+          ml.appendChild(ms);
+          ul.appendChild(ml);
+        }
+      }
+      li.appendChild(ul);
+    }
+    return li;
+  }
+
+  function renderAncestorPath(nodeGuid, focusGuid, ancestors, visited) {
+    const g = guidMap.get(nodeGuid);
+    if (!g) return null;
+    if (visited.has(nodeGuid)) {
+      const li = document.createElement("li");
+      const s = document.createElement("span");
+      s.className = "tree-empty";
+      s.textContent = "(cycle) " + groupLabel(g);
+      li.appendChild(s);
+      return li;
+    }
+    visited.add(nodeGuid);
+
+    const isFocus = nodeGuid === focusGuid;
+    const isOnPath = ancestors.has(nodeGuid);
+    const li = document.createElement("li");
+
+    if (isFocus) {
+      li.appendChild(makeNodeBtn(g, "tree-focused"));
+      const descVisited = new Set(visited);
+      const kids = getChildGuids(g);
+      if (kids.length) {
+        const ul = document.createElement("ul");
+        ul.className = "tree";
+        for (const cid of kids) {
+          const cg = guidMap.get(cid);
+          if (cg) ul.appendChild(renderDescendants(cg, descVisited));
+        }
+        li.appendChild(ul);
+      }
+    } else {
+      li.appendChild(makeNodeBtn(g, isOnPath ? "tree-on-path" : ""));
+      const allKids = getChildGuids(g);
+      const relevantKids = allKids.filter((c) => c === focusGuid || ancestors.has(c));
+      const hiddenCount = allKids.length - relevantKids.length;
+      if (relevantKids.length || hiddenCount) {
+        const ul = document.createElement("ul");
+        ul.className = "tree";
+        for (const cid of relevantKids) {
+          const sub = renderAncestorPath(cid, focusGuid, ancestors, visited);
+          if (sub) ul.appendChild(sub);
+        }
+        if (hiddenCount > 0) {
+          const hli = document.createElement("li");
+          const hs = document.createElement("span");
+          hs.className = "tree-sibling-count";
+          hs.textContent = "+" + hiddenCount + " other nested group" + (hiddenCount > 1 ? "s" : "");
+          hli.appendChild(hs);
+          ul.appendChild(hli);
+        }
+        li.appendChild(ul);
+      }
+    }
+    return li;
+  }
+
+  function renderTreeExplorer(g) {
+    const root = $("tree-panel-root");
+    if (!g) {
+      root.innerHTML = '<div class="empty-state">Select a group to see its full AD hierarchy.</div>';
+      return;
+    }
+    if (sourceKind !== "ad") {
+      root.innerHTML = '<div class="empty-state">Full hierarchy tree requires an AD export.</div>';
+      return;
+    }
+
+    const focusGuid = normalizeGuid(g.objectGuid);
+    const ancestors = collectAncestors(focusGuid);
+
+    const rootGuids = new Set();
+    for (const aGuid of ancestors) {
+      const ag = guidMap.get(aGuid);
+      if (!ag) continue;
+      const parents = getParentGuids(ag).filter((p) => ancestors.has(p));
+      if (!parents.length) rootGuids.add(aGuid);
+    }
+    if (!ancestors.size) rootGuids.add(focusGuid);
+
+    root.innerHTML = "";
+
+    const header = document.createElement("p");
+    header.className = "tree-hint";
+    header.innerHTML =
+      "Full containment hierarchy for <strong>" + escapeHtml(groupLabel(g)) +
+      "</strong>. Ancestor path pruned to relevant branches; all descendants expanded. " +
+      ancestors.size + " ancestor(s), " + rootGuids.size + " root(s). Click any node to re-focus.";
+    root.appendChild(header);
+
+    const topUl = document.createElement("ul");
+    topUl.className = "tree root-ul";
+    const sortedRoots = [...rootGuids].sort((a, b) => {
+      const ga = guidMap.get(a), gb = guidMap.get(b);
+      return groupLabel(ga || {}).localeCompare(groupLabel(gb || {}));
+    });
+
+    for (const rGuid of sortedRoots) {
+      const visited = new Set();
+      const li = renderAncestorPath(rGuid, focusGuid, ancestors, visited);
+      if (li) topUl.appendChild(li);
+    }
+    root.appendChild(topUl);
+
+    requestAnimationFrame(() => {
+      const focused = root.querySelector(".tree-focused");
+      if (focused) focused.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+  }
+
+  function renderDetail(g) {
+    const d = $("detail");
+    if (!g) {
+      d.innerHTML = '<div class="empty-state">Select a group row.</div>';
+      renderTreeExplorer(null);
+      return;
+    }
+
+    if (sourceKind === "ad") {
+      const contains = g.memberGroupGuids || [];
+      const parents = g.memberOfGroupGuids || [];
+      const ulC = document.createElement("ul");
+      ulC.className = "guid-list";
+      if (!contains.length) ulC.innerHTML = "<li class='muted'>No nested groups (in export).</li>";
+      else contains.forEach((id) => {
+        const li = document.createElement("li");
+        li.appendChild(linkButton(id, (x) => x.name || x.samAccountName || id));
+        ulC.appendChild(li);
+      });
+
+      const ulP = document.createElement("ul");
+      ulP.className = "guid-list";
+      if (!parents.length) ulP.innerHTML = "<li class='muted'>Not a member of other exported groups.</li>";
+      else parents.forEach((id) => {
+        const li = document.createElement("li");
+        li.appendChild(linkButton(id, (x) => x.name || x.samAccountName || id));
+        ulP.appendChild(li);
+      });
+
+      d.innerHTML = `
+        <h2>${escapeHtml(g.name || g.samAccountName || "Group")}</h2>
+        <div class="detail-block">
+          <h3>Attributes</h3>
+          <dl>
+            <dt>objectGuid</dt><dd class="mono">${escapeHtml(g.objectGuid)}</dd>
+            <dt>sAMAccountName</dt><dd class="mono">${escapeHtml(g.samAccountName)}</dd>
+            <dt>Category / scope</dt><dd>${escapeHtml(g.groupCategory)} / ${escapeHtml(g.groupScope)}</dd>
+            <dt>SID</dt><dd class="mono">${escapeHtml(g.sid || "—")}</dd>
+            <dt>Created</dt><dd>${escapeHtml(g.whenCreatedUtc || "—")}</dd>
+            <dt>Changed</dt><dd>${escapeHtml(g.whenChangedUtc || "—")}</dd>
+            <dt>Managed by</dt><dd class="mono">${escapeHtml(g.managedBy || "—")}</dd>
+            <dt>Description</dt><dd>${escapeHtml(g.description || "—")}</dd>
+            <dt>DN</dt><dd class="mono">${escapeHtml(g.distinguishedName || "")}</dd>
+          </dl>
+        </div>
+        <div class="detail-block">
+          <h3>Contains (groups)</h3>
+        </div>
+        <div class="detail-block">
+          <h3>Member of (groups in export)</h3>
+        </div>`;
+      d.querySelectorAll(".detail-block")[1].appendChild(ulC);
+      d.querySelectorAll(".detail-block")[2].appendChild(ulP);
+      renderTreeExplorer(g);
+    } else {
+      const contains = g.memberGroupIds || [];
+      const parents = g.memberOfGroupIds || [];
+      const ulC = document.createElement("ul");
+      ulC.className = "guid-list";
+      contains.forEach((id) => {
+        const li = document.createElement("li");
+        li.appendChild(linkButton(id, (x) => x.displayName || id));
+        ulC.appendChild(li);
+      });
+      const ulP = document.createElement("ul");
+      ulP.className = "guid-list";
+      parents.forEach((id) => {
+        const li = document.createElement("li");
+        li.appendChild(linkButton(id, (x) => x.displayName || id));
+        ulP.appendChild(li);
+      });
+
+      d.innerHTML = `
+        <h2>${escapeHtml(g.displayName || "Group")}</h2>
+        <div class="detail-block">
+          <h3>Attributes</h3>
+          <dl>
+            <dt>id</dt><dd class="mono">${escapeHtml(g.id)}</dd>
+            <dt>Mail / nickname</dt><dd>${escapeHtml(String(g.mailEnabled))} / ${escapeHtml(g.mailNickname || "—")}</dd>
+            <dt>Security</dt><dd>${escapeHtml(String(g.securityEnabled))}</dd>
+            <dt>Types</dt><dd>${escapeHtml((g.groupTypes || []).join(", "))}</dd>
+            <dt>Created</dt><dd>${escapeHtml(g.createdUtc || "—")}</dd>
+            <dt>Description</dt><dd>${escapeHtml(g.description || "—")}</dd>
+          </dl>
+        </div>
+        <div class="detail-block"><h3>Contains (groups)</h3></div>
+        <div class="detail-block"><h3>Member of</h3></div>`;
+      d.querySelectorAll(".detail-block")[1].appendChild(ulC);
+      d.querySelectorAll(".detail-block")[2].appendChild(ulP);
+      renderTreeExplorer(g);
+    }
+  }
+
+  function renderPager() {
+    const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+    page = Math.min(page, totalPages);
+    $("prev").disabled = page <= 1;
+    $("next").disabled = page >= totalPages;
+    $("page-label").textContent = `Page ${page} / ${totalPages} (${filtered.length} rows)`;
+  }
+
+  document.querySelectorAll(".detail-tabs button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll(".detail-tabs button").forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on);
+      });
+      $("panel-details").classList.toggle("active", tab === "details");
+      $("panel-tree").classList.toggle("active", tab === "tree");
+    });
+  });
+
+  $("file-input").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        parseJson(r.result);
+      } catch (err) {
+        alert("Invalid JSON: " + err.message);
+      }
+    };
+    r.readAsText(f, "UTF-8");
+  });
+
+  $("search").addEventListener("input", () => {
+    clearTimeout($("search")._t);
+    $("search")._t = setTimeout(applyFilters, 200);
+  });
+
+  $("filter-scope").addEventListener("change", applyFilters);
+  $("filter-cat").addEventListener("change", applyFilters);
+
+  $("page-size").addEventListener("change", () => {
+    pageSize = parseInt($("page-size").value, 10) || 50;
+    page = 1;
+    renderTable();
+    renderPager();
+  });
+
+  $("prev").addEventListener("click", () => {
+    if (page > 1) {
+      page--;
+      renderTable();
+      renderPager();
+    }
+  });
+  $("next").addEventListener("click", () => {
+    const totalPages = Math.ceil(filtered.length / pageSize);
+    if (page < totalPages) {
+      page++;
+      renderTable();
+      renderPager();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement !== $("search")) {
+      e.preventDefault();
+      $("search").focus();
+    }
+  });
+
+  ["dragenter", "dragover"].forEach((ev) => {
+    document.body.addEventListener(ev, (e) => {
+      e.preventDefault();
+      document.body.classList.add("dropping");
+    });
+  });
+  ["dragleave", "drop"].forEach((ev) => {
+    document.body.addEventListener(ev, (e) => {
+      if (ev === "drop") e.preventDefault();
+      document.body.classList.remove("dropping");
+    });
+  });
+  document.body.addEventListener("drop", (e) => {
+    const f = e.dataTransfer.files[0];
+    if (!f || !/\.json$/i.test(f.name)) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        parseJson(r.result);
+      } catch (err) {
+        alert("Invalid JSON: " + err.message);
+      }
+    };
+    r.readAsText(f, "UTF-8");
+  });
+
+  /* Optional: fetch sibling JSON when served over HTTP (same folder as this HTML) */
+  (async function tryAutoFetch() {
+    if (location.protocol === "file:") return;
+    const params = new URLSearchParams(location.search);
+    const name = params.get("json");
+    if (!name) return;
+    try {
+      const res = await fetch(name, { credentials: "same-origin" });
+      if (!res.ok) return;
+      parseJson(await res.text());
+    } catch (_) {}
+  })();
+})();
+  </script>
+</body>
+</html>

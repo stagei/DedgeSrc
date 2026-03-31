@@ -1,0 +1,44 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+
+  <PropertyGroup>
+    <OutputName>DbExplorer.Setup</OutputName>
+    <Platform>x64</Platform>
+    <SuppressIces>ICE61;ICE80</SuppressIces>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.*" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="6.*" />
+  </ItemGroup>
+
+  <!-- Code Signing Configuration -->
+  <PropertyGroup>
+    <SignScriptPath Condition="'$(SignScriptPath)' == ''">dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1</SignScriptPath>
+    <CurrentUser>$([System.Environment]::UserName.ToUpper())</CurrentUser>
+    <IsFkUser>$([System.Text.RegularExpressions.Regex]::IsMatch($(CurrentUser), '^FK'))</IsFkUser>
+  </PropertyGroup>
+
+  <Target Name="SignMsi" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND $(IsFkUser)">
+    <PropertyGroup>
+      <MsiPath>$(OutputPath)$(OutputName).msi</MsiPath>
+    </PropertyGroup>
+    <Message Importance="high" Text="Signing MSI installer: $(MsiPath)" />
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;$(SignScriptPath)&quot; -Path &quot;$(MsiPath)&quot; -Action Add -NoConfirm"
+          Condition="Exists('$(MsiPath)')" />
+  </Target>
+
+  <Target Name="CopyMsiToShare" AfterTargets="SignMsi" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <MsiPath>$(OutputPath)$(OutputName).msi</MsiPath>
+      <DeployShare>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\WindowsApps\DbExplorer</DeployShare>
+    </PropertyGroup>
+    <MakeDir Directories="$(DeployShare)" Condition="$(IsFkUser) AND !Exists('$(DeployShare)')" />
+    <Copy SourceFiles="$(MsiPath)"
+          DestinationFolder="$(DeployShare)"
+          OverwriteReadOnlyFiles="true"
+          Condition="$(IsFkUser) AND Exists('$(MsiPath)')" />
+    <Message Importance="high" Text="Copied $(OutputName).msi to $(DeployShare)" Condition="$(IsFkUser)" />
+    <Message Importance="high" Text="Skipped deploy to share — user '$(CurrentUser)' is not an FK user" Condition="!$(IsFkUser)" />
+  </Target>
+
+</Project>

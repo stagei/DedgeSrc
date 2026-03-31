@@ -1,0 +1,272 @@
+﻿{
+  "server": "t-no1fkmtst-soa",
+  "relationships": [
+    {
+      "sourceId": "t-no1fkmtst-soa-ConfigureDb2Client",
+      "targetId": "t-no1fkmtst-app-VerifyDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-ConfigureDb2Client",
+      "targetId": "p-no1fkmprd-db-VerifyKerberosConfig",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-VerifyKerberosConfig",
+      "targetId": "t-no1fkmtst-app-ConfigureDb2Client",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-VerifyCobolRuntimeWindows",
+      "targetId": "t-no1fkmtst-soa-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-VerifyEnterpriseManager",
+      "targetId": "t-no1fkmtst-soa-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-SetupEnterpriseServer",
+      "targetId": "t-no1fkmtst-soa-VerifyEnterpriseManager",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmtst-soa-CheckEnterpriseServerServices",
+      "targetId": "t-no1fkmtst-soa-SetupEnterpriseServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "t-no1fkmtst-soa-InitServer",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-InitServer"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyDb2Client",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-VerifyDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at IBM Db2 klient er installert. Hvis ikke installert, kjør pwsh.exe og bruk kommandoen 'Get-App' for å installere.\n\nComment: IBM Db2 klient må være installert for å kunne koble til databasen",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-VerifyDb2Client"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-ConfigureDb2Client",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-ConfigureDb2Client",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør pwsh.exe og skriptet Db2ClientConfig\\Db2Kerberos-ClientConfig.ps1 for å sette opp Db2 klienten\n\nComment: Konfigurerer Db2 klienten for Kerberos-autentisering\n\nPrerequisites Note: Db2 klient må være installert og Kerberos må være konfigurert på databaseserveren p-no1fkmprd-db",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-app-VerifyDb2Client; p-no1fkmprd-db-VerifyKerberosConfig",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-ConfigureDb2Client"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyKerberosConfig",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-VerifyKerberosConfig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasetilkoblingen.\n\nComment: Verifiser tilkobling fra appserver til database\n\nPrerequisites Note: Db2 klient må være konfigurert",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-app-ConfigureDb2Client",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-VerifyKerberosConfig"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyCobolRuntime",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-VerifyCobolRuntime",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol runtime fungerer ved å kjøre 'run.exe' i cmd.exe\n\nComment: Sjekker at run.exe for konsolapplikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-VerifyCobolRuntime"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyCobolRuntimeWindows",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-VerifyCobolRuntimeWindows",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at Micro Focus Cobol Windows runtime fungerer ved å kjøre 'runw.exe' i cmd.exe\n\nComment: Sjekker at runw.exe for Windows-applikasjoner fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-soa-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-VerifyCobolRuntimeWindows"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-VerifyEnterpriseManager",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-VerifyEnterpriseManager",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "I windows-menyen, søk etter 'Enterprise Server Administration' og sjekk at den starter\n\nComment: Sjekker at Enterprise Manager fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-soa-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-VerifyEnterpriseManager"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-SetupEnterpriseServer",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-SetupEnterpriseServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Start Enterprise Server Administration og sett opp serveren manuelt på samme måte som i eksisterende produksjonsmiljø eller testmiljø\n\nComment: Sjekker at Enterprise Server fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-soa-VerifyEnterpriseManager",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-SetupEnterpriseServer"
+    },
+    {
+      "taskname": "t-no1fkmtst-soa-CheckEnterpriseServerServices",
+      "server": "t-no1fkmtst-soa",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmtst-soa-CheckEnterpriseServerServices",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Test alle servicene som er opprettet i Enterprise Server Administration, fra både lokale soa-server og fra lokal FkWorkstation\n\nComment: Sjekker at alle servicene fungerer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmtst-soa;ServerPart=t-no1fkmtst;Template=init-soa-servers;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmtst-soa-SetupEnterpriseServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmtst-soa-CheckEnterpriseServerServices"
+    }
+  ],
+  "serverPart": "t-no1fkmtst",
+  "templateName": "init-soa-servers"
+}

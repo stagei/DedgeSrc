@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHist - Code Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11/font/bootstrap-icons.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+  --text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#1f6feb;
+  --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;
+  --font:'Source Sans 3',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font)}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:12px}
+.header .brand{font-size:13px;color:var(--text2);font-weight:600;letter-spacing:.5px}
+.header .brand i{color:var(--accent);margin-right:4px}
+.header .title{font-size:15px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.header .type-badge{font-size:10px;padding:3px 8px;border-radius:4px;text-transform:uppercase;font-family:var(--mono);font-weight:700}
+.type-badge.cbl{background:#1a2d2d;color:#4fc3f7}
+.type-badge.sql{background:#1a2d1a;color:var(--green)}
+.type-badge.ps1{background:#1a1f2d;color:var(--accent)}
+.type-badge.bat{background:#2d1f1a;color:var(--yellow)}
+.type-badge.rex{background:#2d1f2d;color:var(--purple)}
+.type-badge.cs{background:#1f2d1f;color:#7ee787}
+
+.layout{display:flex;height:calc(100vh - 48px);overflow:hidden}
+
+.info-panel{width:320px;min-width:280px;border-right:1px solid var(--border);overflow-y:auto;background:var(--surface);padding:16px;flex-shrink:0}
+.info-panel h3{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin:16px 0 8px;font-weight:600}
+.info-panel h3:first-child{margin-top:0}
+.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none}
+.info-row .lbl{color:var(--text2)}
+.info-row .val{color:var(--text);font-family:var(--mono);text-align:right;max-width:55%;word-break:break-word}
+.info-list{list-style:none;font-size:12px}
+.info-list li{padding:3px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:8px}
+.info-list li:last-child{border-bottom:none}
+.info-list .name{font-family:var(--mono);color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.info-list .desc{color:var(--text2);font-size:11px;text-align:right;flex-shrink:0}
+.empty-state{font-size:12px;color:var(--text2);font-style:italic;padding:4px 0}
+
+.diagram-panel{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.diagram-tabs{display:flex;gap:0;background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px}
+.dtab{background:transparent;border:none;border-bottom:2px solid transparent;padding:10px 16px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:6px}
+.dtab:hover{color:var(--text)}
+.dtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.diagram-toolbar{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.dt-btn{background:var(--surface);border:1px solid var(--border);color:var(--text2);padding:4px 10px;cursor:pointer;font-size:13px;border-radius:4px;transition:all .15s}
+.dt-btn:hover{color:var(--text);border-color:var(--accent)}
+.dt-zoom{font-size:11px;color:var(--text2);font-family:var(--mono);min-width:40px;text-align:center}
+.diagram-area{flex:1;overflow:auto;padding:16px;background:var(--bg);position:relative}
+.diagram-area svg{max-width:none}
+.diagram-content{display:none}
+.diagram-content.active{display:block}
+
+.loading{display:flex;align-items:center;justify-content:center;height:100%;font-size:14px;color:var(--text2)}
+.error-msg{color:var(--red);background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:8px;padding:16px;margin:24px;font-size:13px}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border)}
+
+.fullscreen-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:1000;overflow:auto;padding:24px;display:none}
+.fullscreen-overlay.active{display:block}
+.fullscreen-close{position:fixed;top:12px;right:16px;z-index:1001;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:14px}
+.fullscreen-close:hover{border-color:var(--red);color:var(--red)}
+
+@media(max-width:768px){
+  .layout{flex-direction:column}
+  .info-panel{width:100%;max-height:35vh;border-right:none;border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="brand"><i class="bi bi-git"></i>GitHist</span>
+  <span class="title" id="docTitle">Loading...</span>
+  <span class="type-badge" id="typeBadge"></span>
+</div>
+
+<div class="layout">
+  <div class="info-panel" id="infoPanel">
+    <div class="loading" id="infoLoading">Loading metadata...</div>
+  </div>
+
+  <div class="diagram-panel">
+    <div class="diagram-tabs" id="diagramTabs"></div>
+    <div class="diagram-toolbar">
+      <button class="dt-btn" onclick="zoomIn()" title="Zoom In">+</button>
+      <button class="dt-btn" onclick="zoomOut()" title="Zoom Out">&minus;</button>
+      <button class="dt-btn" onclick="resetZoom()" title="Reset">&#8634;</button>
+      <span class="dt-zoom" id="zoomLevel">100%</span>
+      <button class="dt-btn" onclick="toggleFullscreen()" title="Fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>
+    </div>
+    <div class="diagram-area" id="diagramArea">
+      <div class="loading" id="diagramLoading">Loading diagrams...</div>
+    </div>
+  </div>
+</div>
+
+<div class="fullscreen-overlay" id="fsOverlay">
+  <button class="fullscreen-close" onclick="toggleFullscreen()">&#10005; Close</button>
+  <div id="fsContent"></div>
+</div>
+
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'dark',
+  securityLevel: 'loose',
+  flowchart: { curve: 'basis', htmlLabels: true, useMaxWidth: false },
+  sequence: { useMaxWidth: false }
+});
+
+const params = new URLSearchParams(window.location.search);
+const file = params.get('file');
+const baseUrl = params.get('src') || '/AutoDocJson/docs/';
+let currentZoom = 1;
+let diagrams = {};
+let activeDiagram = null;
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+async function load() {
+  if (!file) {
+    showError('No file parameter specified. Use ?file=FILENAME.json');
+    return;
+  }
+
+  const url = baseUrl + encodeURIComponent(file);
+  let data;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+    let text = await resp.text();
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+    data = JSON.parse(text);
+  } catch (e) {
+    showError(`Failed to load ${esc(file)}: ${esc(e.message)}`);
+    return;
+  }
+
+  document.title = `GitHist - ${data.title || data.fileName || file}`;
+  document.getElementById('docTitle').textContent = data.title || data.fileName || file;
+
+  const badge = document.getElementById('typeBadge');
+  badge.textContent = data.type || '';
+  badge.className = 'type-badge ' + (data.type || '').toLowerCase();
+
+  buildInfoPanel(data);
+  await buildDiagrams(data);
+}
+
+function buildInfoPanel(data) {
+  const panel = document.getElementById('infoPanel');
+  let html = '';
+
+  html += '<h3>File Info</h3>';
+  html += infoRow('File', data.fileName);
+  html += infoRow('Type', data.type);
+  if (data.description) html += infoRow('Description', data.description);
+  if (data.generatedAt) html += infoRow('Generated', data.generatedAt.slice(0, 10));
+
+  const m = data.metadata || {};
+  if (m.typeLabel) html += infoRow('Category', m.typeLabel);
+  if (m.system) html += infoRow('System', m.system);
+  if (m.usesSql != null) html += infoRow('Uses SQL', m.usesSql ? 'Yes' : 'No');
+  if (m.usesDialogSystem != null) html += infoRow('Dialog System', m.usesDialogSystem ? 'Yes' : 'No');
+  if (m.schema) html += infoRow('Schema', m.schema);
+  if (m.tableName) html += infoRow('Table', m.tableName);
+
+  const git = data.gitHistory;
+  if (git) {
+    html += '<h3>Git History</h3>';
+    if (git.lastChanged) html += infoRow('Last Changed', git.lastChanged);
+    if (git.changedBy) html += infoRow('Changed By', git.changedBy);
+    if (git.totalChanges) html += infoRow('Total Changes', git.totalChanges);
+    if (git.firstAdded) html += infoRow('First Added', git.firstAdded);
+    if (git.contributorList && git.contributorList.length > 0) {
+      html += '<ul class="info-list">';
+      git.contributorList.forEach(c => {
+        html += `<li><span class="name">${esc(c.name)}</span><span class="desc">${c.changes} changes</span></li>`;
+      });
+      html += '</ul>';
+    }
+  }
+
+  if (data.sqlTables && data.sqlTables.length > 0) {
+    html += '<h3>SQL Tables (' + data.sqlTables.length + ')</h3>';
+    html += '<ul class="info-list">';
+    data.sqlTables.forEach(t => {
+      html += `<li><span class="name">${esc(t.table)}</span><span class="desc">${esc(t.operation || '')}</span></li>`;
+    });
+    html += '</ul>';
+  }
+
+  if (data.calledSubprograms && data.calledSubprograms.length > 0) {
+    html += '<h3>Called Subprograms (' + data.calledSubprograms.length + ')</h3>';
+    html += '<ul class="info-list">';
+    data.calledSubprograms.forEach(s => {
+      html += `<li><span class="name">${esc(s.module)}</span><span class="desc">${esc(s.description || '')}</span></li>`;
+    });
+    html += '</ul>';
+  }
+
+  if (data.copyElements && data.copyElements.length > 0) {
+    html += '<h3>Copy Elements (' + data.copyElements.length + ')</h3>';
+    html += '<ul class="info-list">';
+    data.copyElements.forEach(c => {
+      const name = typeof c === 'string' ? c : (c.copyName || c.name || '');
+      const link = (typeof c === 'object' && c.link) ? c.link : '';
+      if (link) {
+        html += `<li><a class="name" href="${esc(link)}" target="_blank" rel="noopener">${esc(name)}</a></li>`;
+      } else {
+        html += `<li><span class="name">${esc(name)}</span></li>`;
+      }
+    });
+    html += '</ul>';
+  }
+
+  panel.innerHTML = html || '<div class="empty-state">No metadata available</div>';
+}
+
+function infoRow(label, value) {
+  return `<div class="info-row"><span class="lbl">${esc(label)}</span><span class="val">${esc(String(value))}</span></div>`;
+}
+
+async function buildDiagrams(data) {
+  const d = data.diagrams || {};
+  const tabsEl = document.getElementById('diagramTabs');
+  const area = document.getElementById('diagramArea');
+  area.innerHTML = '';
+  tabsEl.innerHTML = '';
+
+  const entries = [];
+  if (d.flowMmd) entries.push({ key: 'flow', label: 'Flow Diagram', icon: 'bi-diagram-3', mmd: d.flowMmd });
+  if (d.sequenceMmd) entries.push({ key: 'sequence', label: 'Sequence Diagram', icon: 'bi-list-nested', mmd: d.sequenceMmd });
+  if (d.processMmd) entries.push({ key: 'process', label: 'Process Diagram', icon: 'bi-arrow-repeat', mmd: d.processMmd });
+  if (data.erDiagramMmd) entries.push({ key: 'er', label: 'ER Diagram', icon: 'bi-table', mmd: data.erDiagramMmd });
+  if (data.interactionDiagramMmd) entries.push({ key: 'interaction', label: 'Interactions', icon: 'bi-share', mmd: data.interactionDiagramMmd });
+
+  const csd = data.diagrams || {};
+  if (csd.classMmd) entries.push({ key: 'class', label: 'Class Diagram', icon: 'bi-boxes', mmd: csd.classMmd });
+  if (csd.projectMmd) entries.push({ key: 'project', label: 'Project Diagram', icon: 'bi-folder', mmd: csd.projectMmd });
+
+  if (entries.length === 0) {
+    area.innerHTML = '<div class="loading">No diagrams available for this file</div>';
+    return;
+  }
+
+  for (let i = 0; i < entries.length; i++) {
+    const e = entries[i];
+    const tab = document.createElement('button');
+    tab.className = 'dtab' + (i === 0 ? ' active' : '');
+    tab.innerHTML = `<i class="bi ${e.icon}"></i> ${e.label}`;
+    tab.onclick = () => switchTab(e.key);
+    tabsEl.appendChild(tab);
+
+    const content = document.createElement('div');
+    content.className = 'diagram-content' + (i === 0 ? ' active' : '');
+    content.id = 'dc-' + e.key;
+    content.innerHTML = '<div class="loading">Rendering...</div>';
+    area.appendChild(content);
+
+    diagrams[e.key] = e.mmd;
+
+    try {
+      const id = 'mmd-' + e.key + '-' + Date.now();
+      const { svg } = await mermaid.render(id, e.mmd);
+      content.innerHTML = svg;
+    } catch (err) {
+      content.innerHTML = `<div class="error-msg">Failed to render ${e.label}: ${esc(err.message)}</div>`;
+    }
+  }
+  activeDiagram = entries[0].key;
+}
+
+function switchTab(key) {
+  document.querySelectorAll('.dtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.diagram-content').forEach(c => c.classList.remove('active'));
+  const tabs = document.querySelectorAll('.dtab');
+  const keys = Object.keys(diagrams);
+  const idx = keys.indexOf(key);
+  if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
+  const el = document.getElementById('dc-' + key);
+  if (el) el.classList.add('active');
+  activeDiagram = key;
+}
+
+window.zoomIn = function() {
+  currentZoom = Math.min(4, currentZoom + 0.25);
+  applyZoom();
+};
+window.zoomOut = function() {
+  currentZoom = Math.max(0.25, currentZoom - 0.25);
+  applyZoom();
+};
+window.resetZoom = function() {
+  currentZoom = 1;
+  applyZoom();
+};
+
+function applyZoom() {
+  document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+  document.querySelectorAll('.diagram-content svg').forEach(svg => {
+    svg.style.transform = `scale(${currentZoom})`;
+    svg.style.transformOrigin = 'top left';
+  });
+}
+
+window.toggleFullscreen = function() {
+  const overlay = document.getElementById('fsOverlay');
+  const fsContent = document.getElementById('fsContent');
+  if (overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    return;
+  }
+  const active = document.querySelector('.diagram-content.active');
+  if (active) {
+    fsContent.innerHTML = active.innerHTML;
+    overlay.classList.add('active');
+  }
+};
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('fsOverlay').classList.remove('active');
+  }
+});
+
+function showError(msg) {
+  document.getElementById('infoPanel').innerHTML = '';
+  document.getElementById('diagramArea').innerHTML = `<div class="error-msg">${msg}</div>`;
+  document.getElementById('docTitle').textContent = 'Error';
+}
+
+load();
+</script>
+</body>
+</html>

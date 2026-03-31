@@ -1,0 +1,118 @@
+{
+  "tableName": "A_BESTLIN",
+  "futureName": "BestlineItem",
+  "namespace": "Inventory",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": {
+        "table": "DBM.A_BESTHODE",
+        "column": "AVDNR"
+      }
+    },
+    {
+      "name": "NAVN",
+      "futureName": "DepartmentName",
+      "description": "Department name",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Quantity of items ordered",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRESTATUS",
+      "futureName": "OrderStatus",
+      "description": "Order status",
+      "foreignKey": {
+        "table": "TEKSTER",
+        "column": "ALFA_ID"
+      }
+    },
+    {
+      "name": "FKNR",
+      "futureName": "ArticleNumber",
+      "description": "Article number",
+      "foreignKey": {
+        "table": "VAREREGISTER",
+        "column": "FKNR"
+      }
+    },
+    {
+      "name": "VARENAVN_NY",
+      "futureName": "ArticleNameNew",
+      "description": "New article name",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "SupplierNumber",
+      "description": "Supplier number",
+      "foreignKey": null
+    },
+    {
+      "name": "FUNKSJON",
+      "futureName": "Function",
+      "description": "Function code or description",
+      "foreignKey": null
+    },
+    {
+      "name": "NAVN_AVDELING",
+      "futureName": "DepartmentNameAvdeling",
+      "description": "Department name (possibly a different field)",
+      "foreignKey": null
+    },
+    {
+      "name": "MAIL_ADR",
+      "futureName": "EmailAdress",
+      "description": "Mail address",
+      "foreignKey": null
+    },
+    {
+      "name": "TEKST",
+      "futureName": "Text",
+      "description": "Additional text or message",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserID",
+      "description": "User ID or identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "MALID",
+      "futureName": "TemplateID",
+      "description": "Template ID for document or email template",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNAVN",
+      "futureName": "DepartmentNameAvdavn",
+      "description": "Department name (possibly a different field)",
+      "foreignKey": {
+        "table": "DBM.Z_AVDTAB",
+        "column": "AVDNR"
+      }
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:13:08"
+}

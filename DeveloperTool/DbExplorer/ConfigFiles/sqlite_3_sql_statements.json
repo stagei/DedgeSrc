@@ -1,0 +1,378 @@
+{
+  "provider": "SQLITE",
+  "version": "3",
+  "description": "SQL statements for SQLite 3 (sqlite_master and pragma_*)",
+  "statements": {
+    "GetSchemasStatement": {
+      "sql": "SELECT 'main' AS SCHEMANAME, '' AS owner, NULL AS create_time, '' AS remarks",
+      "description": "Get schemas (SQLite has main only).",
+      "parameters": [],
+      "returns": "List of schemas",
+      "source": "ObjectBrowserService"
+    },
+    "GetSchemasSimple": {
+      "sql": "SELECT 'main' AS nspname",
+      "description": "Get schema names only (main).",
+      "parameters": [],
+      "returns": "List of schema names",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetSchemasCount": {
+      "sql": "SELECT 1 AS cnt",
+      "description": "Count schemas (1 for main).",
+      "parameters": [],
+      "returns": "Count",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesForSchema": {
+      "sql": "SELECT name AS tabname, '' AS owner, NULL AS create_time, 0 AS row_count, '' AS remarks FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get tables in schema (main).",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables",
+      "source": "ObjectBrowserService"
+    },
+    "GetTablesForSchemaSimple": {
+      "sql": "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get table names only.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of table names",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetAllTablesSimple": {
+      "sql": "SELECT 'main.' || name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get all main.table names.",
+      "parameters": [],
+      "returns": "List of schema.table",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetViewsForSchema": {
+      "sql": "SELECT name AS viewname, '' AS definer, '' AS remarks, NULL AS alter_time FROM sqlite_master WHERE type = 'view' ORDER BY name",
+      "description": "Get views in schema.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of views",
+      "source": "ObjectBrowserService"
+    },
+    "GetViewsForSchemaSimple": {
+      "sql": "SELECT name AS viewname FROM sqlite_master WHERE type = 'view' ORDER BY name",
+      "description": "Get view names only.",
+      "parameters": ["VIEWSCHEMA"],
+      "returns": "List of view names",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetAllViewsSimple": {
+      "sql": "SELECT 'main.' || name FROM sqlite_master WHERE type = 'view' ORDER BY name",
+      "description": "Get all schema.view names.",
+      "parameters": [],
+      "returns": "List of schema.view",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetFunctionsForSchema": {
+      "sql": "SELECT '' AS routinename WHERE 0",
+      "description": "SQLite has no stored functions; empty.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of functions",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresForSchema": {
+      "sql": "SELECT '' AS routinename WHERE 0",
+      "description": "SQLite has no procedures; empty.",
+      "parameters": ["ROUTINESCHEMA"],
+      "returns": "List of procedures",
+      "source": "ObjectBrowserService"
+    },
+    "GetProceduresForSchemaSimple": {
+      "sql": "SELECT '' AS proname WHERE 0",
+      "description": "Procedure names (empty).",
+      "parameters": ["PROCSCHEMA"],
+      "returns": "List of procedure names",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetAllProceduresSimple": {
+      "sql": "SELECT '' AS name WHERE 0",
+      "description": "All procedure names (empty).",
+      "parameters": [],
+      "returns": "List of schema.procedure",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetSequencesForSchema": {
+      "sql": "SELECT name AS seqname, '' AS owner, '' AS remarks FROM sqlite_master WHERE type = 'table' AND sql LIKE '%AUTOINCREMENT%' AND name NOT LIKE 'sqlite_%' AND ( ? = 'main' OR ? = '' ) ORDER BY name",
+      "description": "Tables with AUTOINCREMENT as sequence-like.",
+      "parameters": ["SEQSCHEMA"],
+      "returns": "List of sequences",
+      "source": "ObjectBrowserService"
+    },
+    "GetTriggersForSchema": {
+      "sql": "SELECT name AS trigname, tbl_name AS tabname, '' AS trigtime, '' AS trigevent FROM sqlite_master WHERE type = 'trigger' AND ( ? = 'main' OR ? = '' ) ORDER BY name",
+      "description": "Get triggers in schema.",
+      "parameters": ["TRIGSCHEMA"],
+      "returns": "List of triggers",
+      "source": "ObjectBrowserService"
+    },
+    "GetIndexesForSchema": {
+      "sql": "SELECT name AS indname, tbl_name AS tabname, CASE WHEN sql LIKE '%UNIQUE%' THEN 'U' ELSE 'D' END AS uniquerule, 'btree' AS indextype, COALESCE(sql, '') AS colnames FROM sqlite_master WHERE type = 'index' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get indexes in schema.",
+      "parameters": ["INDSCHEMA"],
+      "returns": "List of indexes",
+      "source": "ObjectBrowserService"
+    },
+    "GetTableColumnsForTable": {
+      "sql": "SELECT name AS colname, cid + 1 AS colno, type AS typename, 0 AS length, 0 AS scale, CASE WHEN notnull THEN 'Yes' ELSE 'No' END AS nullable, COALESCE(dflt_value, '-') AS default_value, '' AS remarks FROM pragma_table_info(?) ORDER BY cid",
+      "description": "Get columns for a table (pragma_table_info).",
+      "parameters": ["TABNAME"],
+      "returns": "List of columns",
+      "source": "Property Dialogs"
+    },
+    "GetPrimaryKeysForTable": {
+      "sql": "SELECT name AS colname, pk AS colseq FROM pragma_table_info(?) WHERE pk > 0 ORDER BY pk",
+      "description": "Get primary key columns.",
+      "parameters": ["TABNAME"],
+      "returns": "List of PK columns",
+      "source": "Property Dialogs"
+    },
+    "GetForeignKeysForTable": {
+      "sql": "SELECT '' AS fk_name, '' AS ref_schema, '' AS ref_table, '' AS fk_columns, '' AS pk_columns, '' AS delete_rule, '' AS update_rule WHERE 0",
+      "description": "Get foreign keys (pragma_foreign_key_list in app if needed).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of FKs",
+      "source": "Property Dialogs"
+    },
+    "GetIndexesForTable": {
+      "sql": "SELECT name AS indname, CASE WHEN sql LIKE '%UNIQUE%' THEN 'U' ELSE 'D' END AS uniquerule, 'btree' AS indextype, COALESCE(sql, '') AS colnames, NULL AS create_time FROM sqlite_master WHERE type = 'index' AND tbl_name = ? AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get indexes for a table.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "List of indexes",
+      "source": "Property Dialogs"
+    },
+    "GetViewDefinition": {
+      "sql": "SELECT sql AS view_definition FROM sqlite_master WHERE type = 'view' AND name = ?",
+      "description": "Get view definition SQL.",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View definition",
+      "source": "Property Dialogs"
+    },
+    "GetViewText": {
+      "sql": "SELECT sql FROM sqlite_master WHERE type = 'view' AND name = ? LIMIT 1",
+      "description": "Get view definition by view name only.",
+      "parameters": ["VIEWNAME"],
+      "returns": "View SQL",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetProcedureDefinition": {
+      "sql": "SELECT '' AS procedure_definition WHERE 0",
+      "description": "SQLite has no procedures.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure definition",
+      "source": "Property Dialogs"
+    },
+    "GetFunctionDefinition": {
+      "sql": "SELECT '' AS function_definition WHERE 0",
+      "description": "SQLite has no stored functions.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function definition",
+      "source": "Property Dialogs"
+    },
+    "GetTriggerDefinition": {
+      "sql": "SELECT sql AS trigger_definition FROM sqlite_master WHERE type = 'trigger' AND name = ?",
+      "description": "Get trigger definition.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger definition",
+      "source": "Property Dialogs"
+    },
+    "GetUserAccessLevel": {
+      "sql": "SELECT 'sqlite' AS username, 'Y' AS dbadmauth, 'Y' AS secadmauth",
+      "description": "SQLite file: full access.",
+      "parameters": ["USERNAME"],
+      "returns": "User authorities",
+      "source": "AccessControlService"
+    },
+    "ExecuteUserQuery": {
+      "sql": "{user_sql}",
+      "description": "User-provided SQL (placeholder).",
+      "parameters": [],
+      "returns": "Query results",
+      "source": "SQL Editor"
+    },
+    "SERVICE_GetTableColumnsBasic": {
+      "sql": "SELECT name AS ColumnName, cid + 1 AS COLNO, type AS DataType, 0 AS LENGTH, 0 AS SCALE, CASE WHEN notnull THEN 'YES' ELSE 'NO' END AS Nullable, COALESCE(dflt_value, '-') AS DefaultValue, '' AS Remarks FROM pragma_table_info(?) ORDER BY cid",
+      "description": "Get columns for a table by table name. Used by connection manager.",
+      "parameters": ["TABNAME"],
+      "returns": "Columns",
+      "source": "SQLiteConnectionManager"
+    },
+    "GetSchemasStatement_ListSchemas": {
+      "sql": "SELECT 'main' AS schemaname",
+      "description": "List schemas for Missing FK / dialogs.",
+      "parameters": [],
+      "returns": "List of schemas",
+      "source": "MissingFKDiscoveryDialog"
+    },
+    "GetTablesForSchema_ListTables": {
+      "sql": "SELECT name AS tabname FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "List tables in schema for Missing FK / dialogs.",
+      "parameters": ["TABSCHEMA"],
+      "returns": "List of tables",
+      "source": "MissingFKDiscoveryDialog"
+    },
+    "ListTables": {
+      "sql": "SELECT 'main' AS tabschema, name AS tabname, 'T' AS type, 0 AS card, NULL AS npages, NULL AS fpages, NULL AS status, '' AS remarks FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND ( ? = 'main' OR 1=1 ) ORDER BY name",
+      "description": "List tables with metadata. Schema filter supports %.",
+      "parameters": ["TABSCHEMA_PATTERN"],
+      "returns": "List of tables",
+      "source": "CliCommandHandlerService"
+    },
+    "ListViews": {
+      "sql": "SELECT 'main' AS viewschema, name AS viewname, 'Y' AS valid, 'N' AS readonly FROM sqlite_master WHERE type = 'view' ORDER BY name",
+      "description": "List views. Schema filter supports %.",
+      "parameters": ["VIEWSCHEMA_PATTERN"],
+      "returns": "List of views",
+      "source": "CliCommandHandlerService"
+    },
+    "ListProcedures": {
+      "sql": "SELECT '' AS routineschema, '' AS routinename, '' AS language, 0 AS parametercount WHERE 0",
+      "description": "List procedures (empty for SQLite).",
+      "parameters": ["ROUTINESCHEMA_PATTERN"],
+      "returns": "List of procedures",
+      "source": "CliCommandHandlerService"
+    },
+    "ListTriggers": {
+      "sql": "SELECT 'main' AS trigschema, name AS trigname, 'main' AS tabschema, tbl_name AS tabname, '' AS trigtime, '' AS trigevent, 'Y' AS enabled FROM sqlite_master WHERE type = 'trigger' ORDER BY name",
+      "description": "List triggers. Schema filter supports %.",
+      "parameters": ["TRIGSCHEMA_PATTERN"],
+      "returns": "List of triggers",
+      "source": "CliCommandHandlerService"
+    },
+    "ListFunctions": {
+      "sql": "SELECT '' AS routineschema, '' AS routinename, '' AS language, 0 AS parametercount WHERE 0",
+      "description": "List functions (empty for SQLite).",
+      "parameters": ["ROUTINESCHEMA_PATTERN"],
+      "returns": "List of functions",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableColumns_Display": {
+      "sql": "SELECT name AS columnname, type AS datatype, CASE WHEN notnull THEN 'Yes' ELSE 'No' END AS nullable FROM pragma_table_info(?) ORDER BY cid",
+      "description": "Get columns for display (CLI table-properties).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Columns",
+      "source": "CliCommandHandlerService"
+    },
+    "GetPrimaryKeyColumns": {
+      "sql": "SELECT 'main' AS tabschema, ? AS tabname, 'PK' AS constname, name AS colname, pk AS colseq FROM pragma_table_info(?) WHERE pk > 0 ORDER BY pk",
+      "description": "Get primary key columns (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "PK columns",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableForeignKeys_Detailed": {
+      "sql": "SELECT '' AS fkname, '' AS fkcolumn, '' AS pktable, '' AS pkcolumn, '' AS deleterule, '' AS updaterule WHERE 0",
+      "description": "Get foreign keys detailed (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "FK details",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableIndexes_Aggregated": {
+      "sql": "SELECT name AS indexname, 'btree' AS indextype, CASE WHEN sql LIKE '%UNIQUE%' THEN 'Yes' ELSE 'No' END AS isunique, '' AS columns FROM sqlite_master WHERE type = 'index' AND tbl_name = ? AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      "description": "Get indexes with columns (CLI).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Index list",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTableStatistics": {
+      "sql": "SELECT 0 AS rowcount, 0 AS numberofpages, 0 AS formattedpages, 0 AS overflowpages, NULL AS laststatstime, '' AS compression, '' AS tableorganization, 0 AS avgrowsize",
+      "description": "Get table statistics (SQLite: rowcount not available without dynamic SQL; return 0).",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Table stats",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTriggerInfo": {
+      "sql": "SELECT name AS trigname, 'main' AS trigschema, 'main' AS tabschema, tbl_name AS tabname, '' AS trigtime, '' AS trigevent, 'Y' AS enabled, 'Y' AS valid, '' AS remarks, COALESCE(sql, '') AS text, NULL AS create_time FROM sqlite_master WHERE type = 'trigger' AND name = ?",
+      "description": "Get trigger details (CLI).",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetTriggerUsage": {
+      "sql": "SELECT 'main' AS trigschema, name AS trigname, 'main' AS tabschema, tbl_name AS tabname, '' AS trigtime, '' AS trigevent, 'Y' AS enabled, 'Y' AS valid FROM sqlite_master WHERE type = 'trigger' ORDER BY name",
+      "description": "List triggers in schema (CLI).",
+      "parameters": ["TRIGSCHEMA"],
+      "returns": "Triggers",
+      "source": "CliCommandHandlerService"
+    },
+    "GetViewInfo": {
+      "sql": "SELECT name AS viewname, 'main' AS viewschema, '' AS definer, 'Y' AS valid, 'N' AS readonly, '' AS remarks, NULL AS create_time FROM sqlite_master WHERE type = 'view' AND name = ?",
+      "description": "Get view details (CLI).",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "View info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetProcedureInfo": {
+      "sql": "SELECT '' AS routinename, '' AS routineschema, '' AS definer, '' AS language, 'N' AS deterministic, 'U' AS origin, NULL AS create_time WHERE 0",
+      "description": "Get procedure details (CLI) - empty for SQLite.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Procedure info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetFunctionInfo": {
+      "sql": "SELECT '' AS routinename, '' AS routineschema, '' AS definer, '' AS language, 'N' AS deterministic, 'U' AS origin, NULL AS create_time WHERE 0",
+      "description": "Get function details (CLI) - empty for SQLite.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Function info",
+      "source": "CliCommandHandlerService"
+    },
+    "GetViewColumns_Display": {
+      "sql": "SELECT name AS columnname, type AS datatype, CASE WHEN notnull THEN 'Yes' ELSE 'No' END AS nullable FROM pragma_table_info(?) ORDER BY cid",
+      "description": "Get view columns for display.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "View columns",
+      "source": "ViewDetailsPanel"
+    },
+    "GetViewDependencies": {
+      "sql": "SELECT '' AS dependency WHERE 0",
+      "description": "Get view dependencies (SQLite: parse view SQL or empty).",
+      "parameters": ["VIEWSCHEMA", "VIEWNAME"],
+      "returns": "Dependencies",
+      "source": "ViewDetailsPanel"
+    },
+    "GetRoutineSource": {
+      "sql": "SELECT '' AS text WHERE 0",
+      "description": "Get routine source - empty for SQLite.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME", "ROUTINETYPE"],
+      "returns": "Source",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetRoutineParameters_Display": {
+      "sql": "SELECT '' AS parmname, '' AS typename, '' AS parm_mode, NULL AS length WHERE 0",
+      "description": "Get routine parameters - empty for SQLite.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME"],
+      "returns": "Parameters",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetRoutineProperties": {
+      "sql": "SELECT '' AS language, 0 AS parm_count, '' AS owner, NULL AS create_time, 'Y' AS valid, '' AS remarks WHERE 0",
+      "description": "Get routine properties - empty for SQLite.",
+      "parameters": ["ROUTINESCHEMA", "ROUTINENAME", "ROUTINETYPE"],
+      "returns": "Properties",
+      "source": "RoutineDetailsPanel"
+    },
+    "GetTriggerSource": {
+      "sql": "SELECT sql AS text FROM sqlite_master WHERE type = 'trigger' AND name = ?",
+      "description": "Get trigger source.",
+      "parameters": ["TRIGSCHEMA", "TRIGNAME"],
+      "returns": "Trigger source",
+      "source": "ConnectionTabControl"
+    },
+    "GetIncomingForeignKeys": {
+      "sql": "SELECT '' AS REFERENCING_SCHEMA, '' AS REFERENCING_TABLE, '' AS CONSTNAME, '' AS FK_COLNAMES, '' AS PK_COLNAMES, '' AS DELETERULE, '' AS UPDATERULE WHERE 0",
+      "description": "Get incoming foreign keys.",
+      "parameters": ["REFTABSCHEMA", "REFTABNAME"],
+      "returns": "Incoming FKs",
+      "source": "MissingFKDiscoveryDialog"
+    },
+    "GetTablePrivileges": {
+      "sql": "SELECT '' AS GRANTEE, '' AS GRANTEETYPE, '' AS GRANTOR, '' AS CONTROLAUTH, '' AS ALTERAUTH, '' AS DELETEAUTH, '' AS INDEXAUTH, '' AS INSERTAUTH, '' AS SELECTAUTH, '' AS UPDATEAUTH, '' AS REFAUTH WHERE 0",
+      "description": "SQLite has no user/role/grant system — access is controlled at the filesystem level. Returns empty result set for UI compatibility.",
+      "parameters": ["TABSCHEMA", "TABNAME"],
+      "returns": "Empty result (not applicable for SQLite)",
+      "source": "TableDetailsPanel"
+    }
+  }
+}

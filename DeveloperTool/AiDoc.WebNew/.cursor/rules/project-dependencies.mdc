@@ -1,0 +1,26 @@
+﻿---
+description: AiDoc.WebNew is a self-contained RAG management portal — dependencies and boundaries
+alwaysApply: true
+---
+
+# AiDoc.WebNew — Self-Contained RAG Handler
+
+All code required to run this application lives inside `src\AiDoc.WebNew`. It is independent and self-contained as a RAG management portal.
+
+## Only Build Dependency
+
+- `DedgeAuth.Client` → for authentication (project reference to `C:\opt\src\DedgeAuth`)
+
+## No Dependency On Any Other AiDoc Subfolder
+
+This project has no build or source dependency on:
+- `src\AiDoc.Web` — old project, replaced by this one
+- `src\AiDoc.Pwsh.Server`
+- `src\AiDoc.Pwsh.Client`
+- `src\AiDoc.Pwsh.Dev`
+- `AiDoc.Python`
+- `docs`, `scripts`, `_unsorted`
+
+## Deployment
+
+The `Build-And-Publish.ps1` in this folder is the only script needed to build and publish this project.

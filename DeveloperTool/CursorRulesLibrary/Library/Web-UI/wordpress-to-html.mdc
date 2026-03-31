@@ -1,0 +1,207 @@
+---
+description: Convert a WordPress theme back into a standalone static HTML/CSS/JS website
+globs: 
+alwaysApply: false
+---
+
+# WordPress Theme to Static HTML/JS Site Conversion
+
+## Strategy Overview
+
+Extract a WordPress theme into a fully standalone static site with zero server-side dependencies. The result is a folder of HTML, CSS, JS, and images deployable to any web host, CDN, or S3 bucket.
+
+## Step 1: Inventory the WordPress Theme
+
+Map every dynamic element to its static replacement:
+
+| WordPress Feature | Static Replacement |
+|---|---|
+| Customizer settings (`get_theme_mod`) | Hardcoded text in HTML |
+| Customizer icon dropdowns (`select` type) | Hardcoded `<i class="fas fa-icon">` in HTML |
+| `lo_get_icon_choices()` helper | Remove entirely — icons are now static class strings |
+| Conditional rendering (`if ! empty(trim($text))`) | Include the element if it has content, remove if not |
+| CSS `auto-fit` + `minmax` grids | Switch back to fixed columns (`repeat(N, 1fr)`) matching the actual number of items, or keep `auto-fit` for responsive flexibility |
+| Custom Post Types (WP_Query loops) | Hardcoded HTML cards/sections |
+| CPT meta box icon dropdowns | Hardcoded icon class on each card's `<i>` tag |
+| `wp_nav_menu()` + Walker | Static `<ul><li><a>` nav |
+| Contact Form 7 shortcode | HTML `<form>` with FormSubmit.co, Formspree, or Netlify Forms |
+| `wp_enqueue_style/script` | `<link>` and `<script>` tags in `<head>` / before `</body>` |
+| `wp_head()` / `wp_footer()` | Remove entirely (replace with explicit link/script tags) |
+| `get_template_directory_uri()` | Relative paths (`./images/`, `./css/`, `./js/`) |
+| `esc_html()`, `esc_attr()` etc. | Remove — static HTML needs no runtime escaping |
+| `body_class()`, `language_attributes()` | Hardcode: `<html lang="nb">`, `<body>` |
+| `get_header()` / `get_footer()` | Inline the header/footer HTML directly |
+| `get_template_part()` | Inline each section's HTML into the page |
+
+## Step 2: Extract Content
+
+### From the Customizer
+
+1. Open each `inc/customizer.php` setting and note the `'default'` value — this is the original static text.
+2. Alternatively, if the site is live, use the Customizer preview to copy current values.
+3. For each `lo_get_option('key', 'default')` call in template parts, replace with the literal default string.
+4. For icon dropdown settings, take the `'default'` icon class (e.g. `'fa-user-md'`) and hardcode it into the `<i class="fas fa-user-md">` tag.
+5. Remove ALL conditional rendering wrappers (`if ( ! empty( trim( ... ) ) )`) — in a static site, you decide at build time which elements exist.
+
+### From Custom Post Types
+
+1. Open wp-admin and export CPT content (or read `theme-setup.php` seed data).
+2. For each CPT loop in a template part, replace with hardcoded HTML cards containing the actual content.
+3. For CPTs with icon meta boxes, look up the icon value (`get_post_meta( $id, '_behandling_icon', true )`) from the seed data in `theme-setup.php` and hardcode the appropriate Font Awesome class.
+4. If the CPT was seeded with ordering (`menu_order`), preserve that order in the static HTML.
+
+Example — converting a behandlere (staff) WP_Query loop:
+
+```html
+<!-- Before: WP_Query loop -->
+<!-- After: Static HTML -->
+<div class="staff-card">
+    <div class="staff-photo">
+        <img src="images/thomas.jpg" alt="Thomas Sewell">
+    </div>
+    <div class="staff-info">
+        <h3>Thomas Sewell</h3>
+        <p class="staff-title">Osteopat D.O. MNOF & Fysioterapeut</p>
+        <p class="staff-bio">Bio text here...</p>
+    </div>
+</div>
+```
+
+### From Contact Form 7
+
+Replace CF7 shortcode with a static HTML form using a third-party service:
+
+```html
+<form action="https://formsubmit.co/your@email.com" method="POST">
+    <input type="text" name="_honey" style="display:none">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New enquiry from website">
+    <div class="form-group">
+        <label>Name <span class="required">*</span></label>
+        <input type="text" name="name" required>
+    </div>
+    <div class="form-group">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label>Message <span class="required">*</span></label>
+        <textarea name="message" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+```
+
+Alternatives: Formspree.io, Netlify Forms, Basin, or a custom serverless function.
+
+## Step 3: Build the Static File Structure
+
+```
+site-name/
+├── index.html           # Single HTML file (or multiple for multi-page)
+├── styles.css           # Combined from WP style.css (strip theme header comment)
+├── script.js            # From assets/js/script.js
+├── images/              # From assets/images/ (flatten the path)
+└── deploy.ps1           # Optional deployment script
+```
+
+## Step 4: Assemble index.html
+
+Build the HTML file by inlining all template parts in order:
+
+```html
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Title</title>
+    <!-- Fonts and icons from wp_enqueue_style calls -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=..." rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/.../font-awesome/...">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- header.php content (nav) -->
+    <!-- section-hero.php content -->
+    <!-- section-about.php content -->
+    <!-- ... all sections in order from front-page.php ... -->
+    <!-- footer.php content -->
+
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+## Step 5: Clean the CSS
+
+1. Copy the WordPress `style.css` content.
+2. **Remove** the theme header comment block (`Theme Name:`, `Text Domain:`, etc.).
+3. **Remove** any WordPress-specific CSS (admin bar spacing, CF7 overrides) unless you kept CF7 styling for the static form.
+4. Keep all responsive media queries intact.
+
+## Step 6: Clean the JavaScript
+
+1. Copy `assets/js/script.js`.
+2. Replace any jQuery usage if the original used `$` with jQuery dependency:
+   - If simple DOM manipulation, convert to vanilla JS (`document.querySelector`, `addEventListener`).
+   - If complex jQuery usage, include jQuery via CDN: `<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>`
+3. Remove any WordPress-specific JS (Customizer preview bindings, wp.customize, etc.).
+
+## Step 7: Fix All Paths
+
+Search and replace all WordPress path functions:
+
+| WordPress PHP | Static HTML |
+|---|---|
+| `<?php echo get_template_directory_uri(); ?>/assets/images/photo.jpg` | `images/photo.jpg` |
+| `<?php echo esc_url( home_url('/') ); ?>#section` | `#section` |
+| `<?php echo esc_attr(...); ?>` | literal value |
+| `<?php echo esc_html(...); ?>` | literal value |
+| `<?php bloginfo('name'); ?>` | Site name string |
+| `<?php echo date('Y'); ?>` | Hardcode year or use JS: `<script>document.write(new Date().getFullYear())</script>` |
+
+## Step 8: Contact Form Replacement Options
+
+| Service | Pros | Cons |
+|---------|------|------|
+| **FormSubmit.co** | No signup, free, honeypot spam filter | First submit requires email verification |
+| **Formspree.io** | Free tier (50/mo), AJAX support, dashboard | Paid for higher volume |
+| **Netlify Forms** | Built-in if hosting on Netlify | Netlify-only |
+| **Basin** | Generous free tier, spam filtering | Third-party dependency |
+| **Mailto link** | Zero dependencies | Poor UX, no structured data |
+
+## Step 9: Deployment
+
+Static sites can be deployed to:
+- **one.com / Domeneshop** — SFTP upload to web root
+- **Netlify / Vercel / Cloudflare Pages** — Git push or drag-and-drop
+- **GitHub Pages** — Free for public repos
+- **S3 + CloudFront** — Scalable, cheap
+
+Example SFTP deployment script (PowerShell):
+
+```powershell
+# Use WinSCP, Posh-SSH, or sftp CLI
+# Upload all files from local folder to remote web root
+```
+
+## Conversion Checklist
+
+- [ ] All PHP removed — pure HTML/CSS/JS only
+- [ ] All Customizer text replaced with hardcoded content
+- [ ] All Customizer icon dropdown values replaced with hardcoded `<i>` class attributes
+- [ ] All `lo_get_icon_choices()` and helper functions removed
+- [ ] All conditional rendering wrappers (`if ! empty(trim(...))`) removed — static elements are present or deleted
+- [ ] All CPT loops replaced with hardcoded HTML (including icons from meta boxes)
+- [ ] CSS `auto-fit` grids reviewed — switch to fixed columns if item count is now static, or keep for responsive flexibility
+- [ ] Contact form uses a third-party service (not CF7)
+- [ ] All image paths converted to relative (`images/filename.jpg`)
+- [ ] All anchor links work (`#section-id` matches `id="section-id"`)
+- [ ] CSS theme header comment removed
+- [ ] WordPress admin bar CSS removed
+- [ ] `wp_head()` / `wp_footer()` replaced with explicit tags
+- [ ] Page looks identical to the WordPress version
+- [ ] Mobile responsive design still works
+- [ ] All external resources (fonts, icons) loaded via CDN links in `<head>`

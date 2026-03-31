@@ -1,0 +1,112 @@
+{
+  "tableName": "FAKTURA",
+  "futureName": "InvoiceHeader",
+  "namespace": "Finances",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DocumentNumber",
+      "description": "Unique document number",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTAAAR",
+      "futureName": "Year",
+      "description": "Year of the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTADATO",
+      "futureName": "InvoiceDate",
+      "description": "Date of the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREBELOP",
+      "futureName": "OrderAmount",
+      "description": "Total amount of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTRABBELOP",
+      "futureName": "contraAmount",
+      "description": "Counterpart amount",
+      "foreignKey": null
+    },
+    {
+      "name": "MOMSBELOP",
+      "futureName": "VatAmount",
+      "description": "Value Added Tax (VAT) amount",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTURABELOP",
+      "futureName": "InvoiceAmount",
+      "description": "Total invoice amount including tax",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTURA_TYPE",
+      "futureName": "InvoiceType",
+      "description": "Type of invoice (e.g., regular, credit note)",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRE_VERSJON",
+      "futureName": "OrderVersion",
+      "description": "Version of the order record",
+      "foreignKey": null
+    },
+    {
+      "name": "AVRUNDET_BELOP",
+      "futureName": "RoundedAmount",
+      "description": "Rounded amount value",
+      "foreignKey": null
+    },
+    {
+      "name": "PRINT",
+      "futureName": "PrintStatus",
+      "description": "Indicator for whether the document has been printed",
+      "foreignKey": null
+    },
+    {
+      "name": "EDI",
+      "futureName": "EdiFlag",
+      "description": "Indicator for EDI (Electronic Data Interchange) related transactions",
+      "foreignKey": null
+    },
+    {
+      "name": "EPOST",
+      "futureName": "EmailFlag",
+      "description": "Indicator for email notifications enabled",
+      "foreignKey": null
+    },
+    {
+      "name": "EFAKTURA",
+      "futureName": "ElectronicInvoiceFlag",
+      "description": "Indicator for electronic invoice transactions",
+      "foreignKey": null
+    },
+    {
+      "name": "AVTALEGIRO",
+      "futureName": "AgreedGiroFlag",
+      "description": "Indicator for giro agreements or terms",
+      "foreignKey": null
+    },
+    {
+      "name": "AUTOGIRO",
+      "futureName": "AutoGiroFlag",
+      "description": "Indicator for automatic giro payments",
+      "foreignKey": null
+    },
+    {
+      "name": "LOKAL_UTSKRIFT",
+      "futureName": "LocalPrintFlag",
+      "description": "Indicator for local printout of the document",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:22:27"
+}

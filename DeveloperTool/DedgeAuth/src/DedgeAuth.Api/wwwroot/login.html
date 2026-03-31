@@ -1,0 +1,2370 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DedgeAuth - Login</title>
+    <!-- Favicon from tenant icon (set dynamically via JS; falls back to logo on server) -->
+    <link id="tenant-favicon" rel="icon" href="">
+    <!-- Tenant-specific CSS (loaded dynamically) -->
+    <link id="tenant-css" rel="stylesheet" href="">
+    <style>
+        /* Dark mode (default) */
+        :root {
+            --primary-color: #00b359;
+            --primary-hover: #00994d;
+            --error-color: #ff6b6b;
+            --success-color: #51cf66;
+            --background: #1f1f1f;
+            --card-bg: #000000;
+            --text-color: #e8e8e8;
+            --text-muted: #a0a0a0;
+            --input-bg: #1a1a2e;
+            --input-border: #3a3a5c;
+            --tab-border: #3a3a5c;
+            --info-bg: #1a1a2e;
+        }
+
+        /* Light mode */
+        [data-theme="light"] {
+            --primary-color: #008942;
+            --primary-hover: #006d35;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --input-bg: #ffffff;
+            --input-border: #dddddd;
+            --tab-border: #eeeeee;
+            --info-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--background);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .login-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        /* Theme Toggle - Reusable Sun/Moon Switch (compact) */
+        .theme {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 10;
+            font-size: 14px;
+        }
+        .theme__fill,
+        .theme__icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .theme__icon,
+        .theme__toggle {
+            z-index: 1;
+        }
+        .theme__icon,
+        .theme__icon-part {
+            position: absolute;
+        }
+        .theme__icon {
+            display: block;
+            top: 0.25em;
+            left: calc(0.25em - 1px);
+            width: 1.2em;
+            height: 1.2em;
+        }
+        .theme__icon-part {
+            border-radius: 50%;
+            box-shadow: 0.3em -0.3em 0 0.4em hsl(0,0%,100%) inset;
+            top: calc(50% - 0.4em);
+            left: calc(50% - 0.4em);
+            width: 0.8em;
+            height: 0.8em;
+            transition:
+                box-shadow 0.3s ease-in-out,
+                opacity 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+            transform: scale(0.5);
+        }
+        .theme__icon-part ~ .theme__icon-part {
+            background-color: hsl(0,0%,100%);
+            border-radius: 0.05em;
+            box-shadow: none;
+            top: 50%;
+            left: calc(50% - 0.04em);
+            transform: rotate(0deg) translateY(0.4em);
+            transform-origin: 50% 0;
+            width: 0.08em;
+            height: 0.16em;
+        }
+        .theme__icon-part:nth-child(3) { transform: rotate(45deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(4) { transform: rotate(90deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(5) { transform: rotate(135deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(6) { transform: rotate(180deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(7) { transform: rotate(225deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(8) { transform: rotate(270deg) translateY(0.4em); }
+        .theme__icon-part:nth-child(9) { transform: rotate(315deg) translateY(0.4em); }
+        .theme__toggle,
+        .theme__toggle-wrap {
+            position: relative;
+        }
+        .theme__toggle,
+        .theme__toggle:before {
+            display: block;
+        }
+        .theme__toggle {
+            background-color: hsl(48,90%,85%);
+            border-radius: 25% / 50%;
+            box-shadow: 0 0 0 0.1em transparent;
+            padding: 0.15em;
+            width: 3.4em;
+            height: 1.7em;
+            border: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            transition:
+                background-color 0.3s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+        }
+        .theme__toggle:before {
+            background-color: hsl(48,90%,55%);
+            border-radius: 50%;
+            content: "";
+            width: 1.4em;
+            height: 1.4em;
+            transition:
+                background-color 0.3s ease-in-out,
+                transform 0.3s ease-in-out;
+        }
+        .theme__toggle:focus {
+            box-shadow: 0 0 0 0.1em var(--primary-color);
+            outline: transparent;
+        }
+        /* Checked = Dark Mode */
+        .theme__toggle:checked {
+            background-color: hsl(223,50%,20%);
+        }
+        .theme__toggle:checked:before,
+        .theme__toggle:checked ~ .theme__icon {
+            transform: translateX(1.7em);
+        }
+        .theme__toggle:checked:before {
+            background-color: hsl(223,90%,55%);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(1) {
+            box-shadow: 0.15em -0.15em 0 0.15em hsl(0,0%,100%) inset;
+            transform: scale(1);
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part ~ .theme__icon-part {
+            opacity: 0;
+        }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(2) { transform: rotate(45deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(3) { transform: rotate(90deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(4) { transform: rotate(135deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(5) { transform: rotate(180deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(6) { transform: rotate(225deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(7) { transform: rotate(270deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(8) { transform: rotate(315deg) translateY(0.6em); }
+        .theme__toggle:checked ~ .theme__icon .theme__icon-part:nth-child(9) { transform: rotate(360deg) translateY(0.6em); }
+        .theme__toggle-wrap {
+            margin: 0;
+        }
+        @supports selector(:focus-visible) {
+            .theme__toggle:focus { box-shadow: 0 0 0 0.1em transparent; }
+            .theme__toggle:focus-visible { box-shadow: 0 0 0 0.1em var(--primary-color); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img, .logo .tenant-logo {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 16px auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: border-color 0.2s, background 0.3s;
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        button:disabled {
+            background: var(--input-border);
+            cursor: not-allowed;
+        }
+
+        .error {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--error-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid var(--error-color);
+        }
+
+        .success {
+            background: rgba(81, 207, 102, 0.15);
+            color: var(--success-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid var(--success-color);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--tab-border);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-muted);
+        }
+
+        .divider span {
+            background: var(--card-bg);
+            padding: 0 10px;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-muted);
+        }
+
+        .link a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .info-box {
+            background: var(--info-bg);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--input-border);
+        }
+
+        .info-box p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .apps-section {
+            margin-bottom: 20px;
+        }
+
+        .app-group-folder.collapsed .folder-content { display: none; }
+        .app-group-folder.collapsed .folder-icon { transform: rotate(-90deg); }
+
+        /* ── APP VIEW TABS (removable feature block) ── */
+        .app-view-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 14px;
+            background: var(--info-bg);
+            border-radius: 10px;
+            padding: 3px;
+            border: 1px solid var(--input-border);
+        }
+        .app-view-tab {
+            flex: 1;
+            padding: 7px 4px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            line-height: 1.2;
+        }
+        .app-view-tab:hover { background: var(--input-border); color: var(--text-color); }
+        .app-view-tab.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,137,66,0.3);
+        }
+        .app-view-tab .tab-icon { font-size: 15px; }
+        .app-view-content { display: none; }
+        .app-view-content.active { display: block; }
+
+        /* View 2: Explorer — breadcrumb + tile grid */
+        .explorer-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .explorer-breadcrumb span { cursor: pointer; transition: color 0.15s; }
+        .explorer-breadcrumb span:hover { color: var(--primary-color); }
+        .explorer-breadcrumb .bc-sep { color: var(--text-muted); opacity: 0.4; cursor: default; }
+        .explorer-breadcrumb .bc-active { color: var(--text-color); font-weight: 600; cursor: default; }
+        .explorer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        .explorer-folder, .explorer-app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 16px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            min-height: 80px;
+        }
+        .explorer-folder {
+            background: rgba(255,193,7,0.08);
+            border: 1px solid rgba(255,193,7,0.15);
+        }
+        .explorer-folder:hover { background: rgba(255,193,7,0.16); transform: translateY(-2px); }
+        .explorer-folder .ef-icon { font-size: 28px; }
+        .explorer-folder .ef-name { font-size: 12px; color: var(--text-color); font-weight: 500; }
+        .explorer-app {
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+        }
+        .explorer-app:hover { border-color: var(--primary-color); background: rgba(0,137,66,0.08); transform: translateY(-2px); }
+        .explorer-app .ea-icon { font-size: 24px; color: var(--primary-color); }
+        .explorer-app .ea-name { font-size: 11px; color: var(--text-color); font-weight: 500; line-height: 1.3; }
+        .explorer-app .ea-role { font-size: 9px; color: var(--primary-color); font-weight: 600; }
+
+        /* View 3: Compact — dense two-column with category headers */
+        .compact-group { margin-bottom: 14px; }
+        .compact-group-header {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--input-border);
+            font-weight: 600;
+        }
+        .compact-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+        .compact-app {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+            text-decoration: none;
+        }
+        .compact-app:hover { background: var(--input-border); }
+        .compact-app .ca-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-color); flex-shrink: 0; }
+        .compact-app .ca-name { font-size: 12px; color: var(--text-color); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* View 4: Cards — big visual cards in a grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .card-app {
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 20px 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-app::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--primary-color);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .card-app:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); border-color: var(--primary-color); }
+        .card-app:hover::before { opacity: 1; }
+        .card-app .ca-category { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .card-app .ca-title { font-size: 14px; font-weight: 600; color: var(--text-color); line-height: 1.3; }
+        .card-app .ca-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+        .card-app .ca-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
+        .card-app .ca-role-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--primary-color); color: white; font-weight: 600; }
+        .card-app .ca-arrow { color: var(--text-muted); font-size: 16px; transition: color 0.2s; }
+        .card-app:hover .ca-arrow { color: var(--primary-color); }
+
+        /* View 5: Sidebar — left nav with right detail pane */
+        .sidebar-layout {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 12px;
+            min-height: 200px;
+        }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            border-right: 1px solid var(--input-border);
+            padding-right: 10px;
+        }
+        .sidebar-nav-item {
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+        .sidebar-nav-item:hover { background: var(--input-border); color: var(--text-color); }
+        .sidebar-nav-item.active { background: var(--primary-color); color: white; }
+        .sidebar-nav-item .sn-icon { font-size: 14px; }
+        .sidebar-nav-item .sn-count {
+            margin-left: auto;
+            font-size: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 1px 6px;
+            border-radius: 8px;
+        }
+        .sidebar-detail { display: flex; flex-direction: column; gap: 6px; }
+        .sidebar-app {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .sidebar-app:hover { border-color: var(--primary-color); background: rgba(0,137,66,0.06); }
+        .sidebar-app .sa-name { font-size: 13px; color: var(--text-color); font-weight: 500; }
+        .sidebar-app .sa-role { font-size: 10px; color: var(--primary-color); font-weight: 600; }
+
+        /* Compact view: collapsible groups */
+        .compact-group.cg-collapsed .compact-group-body { display: none; }
+        .compact-group.cg-collapsed .cg-chevron { transform: rotate(-90deg); }
+
+        /* Cards view: collapsible sections */
+        .cards-section.cs-collapsed .cards-section-body { display: none; }
+        .cards-section.cs-collapsed .cs-chevron { transform: rotate(-90deg); }
+
+        /* Sidebar view: tree nav nesting */
+        .sidebar-nav-group { margin-left: 0; }
+        .sidebar-nav-group .sidebar-nav-group { margin-left: 10px; }
+        .sidebar-nav-group.sng-collapsed > .sidebar-nav-children { display: none; }
+        .sidebar-nav-group.sng-collapsed > .sidebar-nav-item .sn-chevron { transform: rotate(-90deg); }
+        .sidebar-nav-item .sn-chevron { transition: transform 0.2s; font-size: 8px; }
+
+        /* ── END APP VIEW TABS ── */
+
+        .apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Multi-column grid for many apps (desktop) */
+        @media (min-width: 768px) {
+            .login-container.has-many-apps {
+                max-width: 700px;
+            }
+            .apps-list.apps-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .app-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--info-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .app-item:hover {
+            background: var(--input-border);
+        }
+
+        .app-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .app-name {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .app-role {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .app-link {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .app-link:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .app-link:hover .app-name {
+            color: white;
+        }
+
+        .app-link:hover .app-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        .app-link:hover .app-role {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .app-link:hover .app-launch {
+            opacity: 1;
+        }
+
+        .app-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-launch {
+            font-size: 18px;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+            color: var(--text-color);
+        }
+
+        .app-link:hover .app-launch {
+            color: white;
+        }
+
+        .app-no-url {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+    <link id="tenant-css" rel="stylesheet" href="">
+</head>
+<body>
+    <div class="login-container">
+        <label class="theme" title="Toggle theme">
+            <span class="theme__toggle-wrap">
+                <input id="theme-toggle" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+                <span class="theme__icon">
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                    <span class="theme__icon-part"></span>
+                </span>
+            </span>
+        </label>
+        <div class="logo">
+            <img id="tenant-logo" src="" alt="Logo" style="display:none;">
+            <h1 id="tenant-name">DedgeAuth</h1>
+        </div>
+
+        <div class="error" id="error"></div>
+        <div class="success" id="success"></div>
+
+        <!-- 20260317 GHS Test Ad/Entra Start -->
+        <div id="kerberos-spinner" style="display:none; text-align:center; padding:40px 0;">
+            <div style="display:inline-block; width:40px; height:40px; border:3px solid var(--input-border); border-top-color:var(--primary-color); border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+            <p style="color:var(--text-muted); margin-top:12px; font-size:14px;">Authenticating with Windows...</p>
+            <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        </div>
+        <div id="login-form-content">
+        <div id="windows-login-section" style="margin-bottom: 20px; text-align: center;">
+            <button id="windows-login-btn" type="button"
+                style="width:100%; padding:12px; background:linear-gradient(135deg,#0078d4,#106ebe);
+                       color:white; border:none; border-radius:8px; cursor:pointer; font-size:15px;
+                       display:flex; align-items:center; justify-content:center; gap:8px;
+                       transition: opacity 0.2s;">
+                <svg width="20" height="20" viewBox="0 0 23 23" fill="white"><path d="M0 0h11v11H0zM12 0h11v11H12zM0 12h11v11H0zM12 12h11v11H12z"/></svg>
+                Sign in with Windows
+            </button>
+            <p id="windowsSsoInfo" style="font-size:11px; color:var(--text-muted); margin-top:6px;">
+                Windows domain sign-in
+            </p>
+        </div>
+        <div style="text-align:center; color:var(--text-muted); font-size:12px; margin-bottom:16px;">&#8212; or sign in with &#8212;</div>
+        <!-- 20260317 GHS Test Ad/Entra End -->
+
+        <div class="tabs">
+            <div class="tab active" data-tab="password" data-i18n="login.tabPassword">Password</div>
+            <div class="tab" data-tab="magic" data-i18n="login.tabMagicLink">Magic Link</div>
+        </div>
+
+        <!-- Password Login -->
+        <div class="form-section active" id="password-section">
+            <form id="password-form" autocomplete="on">
+                <div class="form-group">
+                    <label for="email" data-i18n="login.email">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="username" data-i18n-placeholder="login.placeholder.email" placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="password" data-i18n="login.password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password" data-i18n-placeholder="login.placeholder.password" placeholder="Your password">
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; margin-top:-12px;">
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer; font-size:13px; color:var(--text-muted);">
+                        <input type="checkbox" id="remember-me" name="rememberMe" style="accent-color:var(--primary-color);"> <span data-i18n="login.rememberMe">Remember me</span>
+                    </label>
+                    <a href="#" id="forgot-password-link" style="color: var(--primary-color); font-size: 13px; text-decoration: none;" data-i18n="login.forgotPassword">Forgot password?</a>
+                </div>
+                <button type="submit" id="login-btn" data-i18n="login.signIn">Sign In</button>
+            </form>
+        </div>
+
+        <!-- Magic Link -->
+        <div class="form-section" id="magic-section">
+            <form id="magic-form">
+                <div class="form-group">
+                    <label for="magic-email" data-i18n="login.email">Email</label>
+                    <input type="email" id="magic-email" name="email" required data-i18n-placeholder="login.placeholder.email" placeholder="name@company.com">
+                </div>
+                <button type="submit" data-i18n="login.sendLoginLink">Send Login Link</button>
+            </form>
+        </div>
+
+        <!-- Forgot Password (shown when user clicks "Forgot password?") -->
+        <div class="form-section" id="forgot-section">
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--text-color); margin-bottom: 8px;" data-i18n="login.resetPassword.title">Reset Password</h3>
+                <p style="color: var(--text-muted); font-size: 14px;" data-i18n="login.resetPassword.description">Enter your email and we'll send you a password reset link.</p>
+            </div>
+            <form id="forgot-form">
+                <div class="form-group">
+                    <label for="forgot-email" data-i18n="login.email">Email</label>
+                    <input type="email" id="forgot-email" name="email" required data-i18n-placeholder="login.placeholder.email" placeholder="name@company.com">
+                </div>
+                <button type="submit" id="forgot-btn" data-i18n="login.resetPassword.sendLink">Send Reset Link</button>
+            </form>
+            <div style="text-align: center; margin-top: 16px;">
+                <a href="#" id="back-to-login-link" style="color: var(--primary-color); font-size: 13px; text-decoration: none;" data-i18n-html="login.backToLogin">&#8592; Back to login</a>
+            </div>
+        </div>
+
+        <!-- Reset Password (shown when ?resetToken= URL parameter is present) -->
+        <div class="form-section" id="reset-section">
+            <div style="margin-bottom: 16px;">
+                <h3 style="color: var(--text-color); margin-bottom: 8px;" data-i18n="login.setNewPassword.title">Set New Password</h3>
+                <p style="color: var(--text-muted); font-size: 14px;" data-i18n="login.setNewPassword.description">Enter your new password below.</p>
+            </div>
+            <form id="reset-form">
+                <div class="form-group">
+                    <label for="reset-password" data-i18n="login.setNewPassword.newPassword">New Password</label>
+                    <input type="password" id="reset-password" required minlength="8" data-i18n-placeholder="login.placeholder.newPassword" placeholder="New password">
+                </div>
+                <div class="form-group">
+                    <label for="reset-confirm" data-i18n="login.setNewPassword.confirmPassword">Confirm Password</label>
+                    <input type="password" id="reset-confirm" required minlength="8" data-i18n-placeholder="login.placeholder.confirmPassword" placeholder="Confirm password">
+                </div>
+                <div id="reset-error" class="error"></div>
+                <button type="submit" id="reset-btn" data-i18n="login.setNewPassword.submit">Set New Password</button>
+            </form>
+        </div>
+
+        <div class="link">
+            <a href="register.html" data-i18n="login.createAccount">Create an account</a>
+        </div>
+        <!-- 20260317 GHS Test Ad/Entra Start -->
+        </div><!-- close #login-form-content -->
+        <!-- 20260317 GHS Test Ad/Entra End -->
+
+        <!-- Change Password Modal (for logged-in users) -->
+        <div id="change-password-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+            <div style="background: var(--card-bg); padding: 32px; border-radius: 12px; max-width: 400px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative;">
+                <button onclick="closeChangePasswordModal()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:var(--text-muted); font-size:20px; cursor:pointer; width:32px; padding:0;">&#10005;</button>
+                <h3 style="color: var(--text-color); margin-bottom: 8px;" data-i18n="login.changePassword.title">Change Password</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" data-i18n="login.changePassword.description">Enter a new password for your account.</p>
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label for="change-new-password" data-i18n="login.changePassword.newPassword">New Password</label>
+                        <input type="password" id="change-new-password" required minlength="8" data-i18n-placeholder="login.placeholder.newPassword" placeholder="New password">
+                    </div>
+                    <div class="form-group">
+                        <label for="change-confirm-password" data-i18n="login.changePassword.confirmPassword">Confirm Password</label>
+                        <input type="password" id="change-confirm-password" required minlength="8" data-i18n-placeholder="login.placeholder.confirmPassword" placeholder="Confirm password">
+                    </div>
+                    <div id="change-password-error" class="error"></div>
+                    <div id="change-password-success" class="success"></div>
+                    <button type="submit" id="change-password-btn" data-i18n="login.changePassword.submit">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Detect base path for IIS sub-application hosting (e.g. /DedgeAuth/)
+        const basePath = (() => {
+            const path = window.location.pathname;
+            // If the page is at /DedgeAuth/login.html, basePath = '/DedgeAuth'
+            const pageName = path.substring(path.lastIndexOf('/'));
+            const base = path.substring(0, path.lastIndexOf('/'));
+            return base || '';
+        })();
+
+        // Store JWT in both localStorage and a cookie so the server-side
+        // redirect endpoint can read it for app-link navigation.
+        function storeAccessToken(token) {
+            localStorage.setItem('accessToken', token);
+            const cookiePath = basePath || '/';
+            document.cookie = `DedgeAuth_jwt=${token}; path=${cookiePath}; max-age=1800; samesite=lax`;
+        }
+        function clearAccessToken() {
+            localStorage.removeItem('accessToken');
+            const cookiePath = basePath || '/';
+            document.cookie = `DedgeAuth_jwt=; path=${cookiePath}; max-age=0; samesite=lax`;
+        }
+
+        // Theme handling - default to dark mode
+        // Checkbox checked = dark mode, unchecked = light mode
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            // Default to dark mode if no preference saved
+            const theme = savedTheme || 'dark';
+            applyTheme(theme);
+        }
+
+        function applyTheme(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                if (toggle) toggle.checked = false;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (toggle) toggle.checked = true;
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        function toggleTheme() {
+            const toggle = document.getElementById('theme-toggle');
+            // Checkbox checked = dark mode
+            applyTheme(toggle && toggle.checked ? 'dark' : 'light');
+        }
+
+        // Initialize theme immediately
+        initTheme();
+
+        // Theme toggle change handler
+        document.getElementById('theme-toggle').addEventListener('change', toggleTheme);
+
+        // Get URL query params
+        const params = new URLSearchParams(window.location.search);
+
+        // Tenant configuration - fetched from database via API
+        window.currentTenant = null;
+
+        // Apply tenant config to UI
+        function applyTenantConfig(tenantConfig) {
+            // Load tenant CSS from dynamic endpoint
+            const tenantCssLink = document.getElementById('tenant-css');
+            if (tenantCssLink && tenantConfig.domain) {
+                tenantCssLink.href = `${basePath}/tenants/${tenantConfig.domain}/theme.css`;
+            }
+            
+            // Set tenant logo - prefer external logoUrl, fall back to DB endpoint
+            const tenantLogo = document.getElementById('tenant-logo');
+            const effectiveLogoUrl = tenantConfig.logoUrl || (tenantConfig.hasLogoData && tenantConfig.domain ? `${basePath}/tenants/${tenantConfig.domain}/logo` : null);
+            if (tenantLogo && effectiveLogoUrl) {
+                tenantLogo.src = effectiveLogoUrl;
+                tenantLogo.alt = tenantConfig.displayName + ' Logo';
+                tenantLogo.style.display = 'block';
+                tenantLogo.classList.add('tenant-logo');
+            }
+
+            // Set browser favicon from tenant icon endpoint (falls back to logo on server)
+            const faviconLink = document.getElementById('tenant-favicon');
+            if (faviconLink && tenantConfig.domain) {
+                faviconLink.href = `${basePath}/tenants/${tenantConfig.domain}/icon`;
+                faviconLink.type = tenantConfig.hasIconData ? (tenantConfig.iconContentType || 'image/x-icon') : (tenantConfig.logoContentType || 'image/svg+xml');
+            }
+            
+            // Update tenant name - hide if logo is shown (logo already has text)
+            const tenantName = document.getElementById('tenant-name');
+            if (tenantName && effectiveLogoUrl) {
+                // Hide the h1 if logo contains the name
+                tenantName.style.display = 'none';
+            } else if (tenantName) {
+                tenantName.textContent = tenantConfig.displayName;
+                tenantName.style.color = tenantConfig.primaryColor;
+            }
+            
+            // Update Windows SSO info with dynamic AD domain
+            const ssoInfo = document.getElementById('windowsSsoInfo');
+            if (ssoInfo && tenantConfig.adDomain) {
+                ssoInfo.textContent = `Domain: ${tenantConfig.adDomain}`;
+            }
+
+            // Store tenant for later use (normalize field names for compatibility)
+            window.currentTenant = {
+                id: tenantConfig.id,
+                domain: tenantConfig.domain,
+                name: tenantConfig.displayName,
+                displayName: tenantConfig.displayName,
+                logoPath: effectiveLogoUrl,
+                logoUrl: effectiveLogoUrl,
+                cssPath: tenantConfig.cssOverrides,
+                cssOverrides: tenantConfig.cssOverrides,
+                primaryColor: tenantConfig.primaryColor,
+                appRouting: tenantConfig.appRouting
+            };
+            
+            console.log('Tenant applied:', tenantConfig.domain, window.currentTenant);
+        }
+
+        // Initialize tenant from API
+        async function initTenant() {
+            const tenantDomain = params.get('tenant');
+            
+            try {
+                let apiUrl;
+                if (tenantDomain) {
+                    // Fetch specific tenant by domain
+                    apiUrl = `${basePath}/api/tenants/by-domain/${encodeURIComponent(tenantDomain.toLowerCase().trim())}`;
+                } else {
+                    // Fetch default tenant (first active tenant)
+                    apiUrl = `${basePath}/api/tenants/default`;
+                }
+                
+                const response = await fetch(apiUrl);
+                
+                if (response.ok) {
+                    const tenantConfig = await response.json();
+                    applyTenantConfig(tenantConfig);
+                } else if (response.status === 404 && tenantDomain) {
+                    // Specific tenant not found, try default
+                    console.warn('Tenant not found:', tenantDomain, '- falling back to default');
+                    const defaultResponse = await fetch(`${basePath}/api/tenants/default`);
+                    if (defaultResponse.ok) {
+                        const tenantConfig = await defaultResponse.json();
+                        applyTenantConfig(tenantConfig);
+                    }
+                } else {
+                    console.error('Failed to fetch tenant config:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching tenant config:', error);
+                // Apply minimal fallback
+                window.currentTenant = {
+                    name: 'DedgeAuth',
+                    displayName: 'DedgeAuth',
+                    primaryColor: '#008942'
+                };
+            }
+        }
+
+        // Initialize tenant immediately
+        initTenant();
+
+        // Auto-redirect: If user has returnUrl and a valid JWT in localStorage,
+        // immediately create a fresh auth code and redirect to the consumer app.
+        async function tryLocalTokenRedirect() {
+            const returnUrl = params.get('returnUrl');
+            if (!returnUrl) return false;
+
+            const existingToken = localStorage.getItem('accessToken');
+            if (!existingToken) return false;
+
+            try {
+                const payload = JSON.parse(atob(existingToken.split('.')[1]));
+                if (!payload.exp || payload.exp * 1000 < Date.now()) {
+                    clearAccessToken();
+                    return false;
+                }
+            } catch { clearAccessToken(); return false; }
+
+            try {
+                const resp = await fetch(`${basePath}/api/auth/create-code`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${existingToken}` }
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    const sep = returnUrl.includes('?') ? '&' : '?';
+                    window.location.href = `${returnUrl}${sep}code=${data.code}`;
+                    return true;
+                }
+                clearAccessToken();
+            } catch {}
+            return false;
+        }
+
+        // Auto-refresh: If user has returnUrl and valid refresh token, silently authenticate
+        async function tryAutoRefresh() {
+            const returnUrl = params.get('returnUrl');
+            if (!returnUrl) return false;
+
+            try {
+                console.log('Attempting silent re-authentication for returnUrl:', returnUrl);
+                const response = await fetch(`${basePath}/api/auth/refresh`, {
+                    method: 'POST',
+                    credentials: 'include' // Include refresh token cookie
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.accessToken) {
+                        console.log('Silent re-authentication successful, redirecting...');
+                        storeAccessToken(data.accessToken);
+                        if (data.user) {
+                            localStorage.setItem('user', JSON.stringify(data.user));
+                        }
+                        // Redirect to return URL with short auth code (not the full JWT)
+                        const redirectCode = data.authCode || data.accessToken;
+                        const paramName = data.authCode ? 'code' : 'token';
+                        const separator = returnUrl.includes('?') ? '&' : '?';
+                        window.location.href = `${returnUrl}${separator}${paramName}=${redirectCode}`;
+                        return true;
+                    }
+                }
+                console.log('Silent re-authentication failed, showing login page');
+                return false;
+            } catch (err) {
+                console.log('Silent re-authentication error:', err);
+                return false;
+            }
+        }
+
+        // Try auto-redirect on page load (only if returnUrl present)
+        if (params.get('returnUrl')) {
+            (async () => {
+                if (await tryLocalTokenRedirect()) return;
+                await tryAutoRefresh();
+            })();
+        }
+        
+        const returnUrl = params.get('returnUrl') || '/';
+        const errorMsg = params.get('error');
+        const successParam = params.get('success');
+        const tokenParam = params.get('token');
+        const resetTokenParam = params.get('resetToken');
+
+        // Handle error message
+        if (errorMsg) {
+            showError(decodeURIComponent(errorMsg));
+        }
+
+        // Handle ?resetToken= parameter - show the reset password form
+        if (resetTokenParam) {
+            // Hide tabs and all other sections, show only reset section
+            const tabsEl = document.querySelector('.tabs');
+            if (tabsEl) tabsEl.style.display = 'none';
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('reset-section').classList.add('active');
+            // Hide the "Create an account" link
+            const linkEl = document.querySelector('.link');
+            if (linkEl) linkEl.style.display = 'none';
+        }
+
+        // Initialize login state (async)
+        (async function initLoginState() {
+            // Handle successful magic link login
+            if (successParam === 'true' && tokenParam) {
+                storeAccessToken(tokenParam);
+                
+                // Decode JWT to get user info
+                try {
+                    const payload = JSON.parse(atob(tokenParam.split('.')[1]));
+                    const user = {
+                        id: payload.sub,
+                        email: payload.email,
+                        displayName: payload.name,
+                        globalAccessLevel: payload.globalAccessLevel
+                    };
+                    localStorage.setItem('user', JSON.stringify(user));
+                    
+                    // Show logged in state
+                    await showLoggedInState(user);
+                } catch (e) {
+                    console.error('Failed to parse token', e);
+                    showSuccess('Login successful! You are now authenticated.');
+                }
+                
+                // Clear URL params without reload
+                window.history.replaceState({}, document.title, `${basePath}/login.html`);
+                return;
+            }
+
+            // Check if already logged in
+            const existingToken = localStorage.getItem('accessToken');
+            const existingUser = localStorage.getItem('user');
+            if (existingToken && existingUser && !errorMsg) {
+                try {
+                    const user = JSON.parse(existingUser);
+                    await showLoggedInState(user);
+                } catch (e) {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('user');
+                }
+            }
+        })();
+
+        // 20260317 GHS Test Ad/Entra Start -->
+        async function handleWindowsLoginResponse(data, silent) {
+            if (data.ssoDisabled) {
+                const regEmail = encodeURIComponent(data.email || '');
+                const regName = encodeURIComponent(data.displayName || '');
+                window.location.href = `${basePath}/register.html?email=${regEmail}&name=${regName}`;
+                return 'redirected';
+            }
+
+            if (data.success) {
+                storeAccessToken(data.accessToken);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                window._lastAuthCode = data.authCode;
+                if (data.isNewUser) {
+                    showSuccess('Welcome! Your account has been created and is pending admin confirmation.');
+                }
+                if (returnUrl && returnUrl !== '/') {
+                    const code = data.authCode || data.accessToken;
+                    const sep = returnUrl.includes('?') ? '&' : '?';
+                    window.location.href = `${returnUrl}${sep}code=${code}`;
+                } else {
+                    await showLoggedInState(data.user);
+                }
+                return 'success';
+            }
+
+            if (!silent) showError(data.message || 'Windows login failed');
+            return 'failed';
+        }
+
+        // Silent auto-Kerberos on page load.
+        // Uses /windows-login ([Authorize] with Negotiate) which sends a proper 401
+        // challenge. The browser handles the challenge silently via fetch() if
+        // AuthServerAllowlist is configured — no dialog appears. If negotiation
+        // fails, fetch() receives a 401 response (browsers never show auth dialogs
+        // for fetch requests, only for page navigation).
+        (async function tryAutoKerberos() {
+            if (resetTokenParam) return;
+            const existingToken = localStorage.getItem('accessToken');
+            if (existingToken) {
+                try {
+                    const payload = JSON.parse(atob(existingToken.split('.')[1]));
+                    if (payload.exp && payload.exp * 1000 > Date.now()) return;
+                    clearAccessToken();
+                } catch { clearAccessToken(); }
+            }
+
+            const spinner = document.getElementById('kerberos-spinner');
+            const formContent = document.getElementById('login-form-content');
+            spinner.style.display = 'block';
+            formContent.style.display = 'none';
+
+            try {
+                const response = await fetch(`${basePath}/api/auth/windows-login`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    spinner.style.display = 'none';
+                    formContent.style.display = '';
+                    if (response.status === 401) {
+                        const winBtn = document.getElementById('windows-login-btn');
+                        if (winBtn) {
+                            winBtn.style.opacity = '0.5';
+                            winBtn.title = 'Windows auth not available — browser could not negotiate Kerberos silently';
+                        }
+                    }
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!data.success && !data.ssoDisabled) {
+                    spinner.style.display = 'none';
+                    formContent.style.display = '';
+                    return;
+                }
+
+                await handleWindowsLoginResponse(data, true);
+            } catch {
+                spinner.style.display = 'none';
+                formContent.style.display = '';
+            }
+        })();
+
+        // Manual "Sign in with Windows" button.
+        // Uses /windows-login ([Authorize] Negotiate) which forces a 401 challenge —
+        // the browser will show the Windows Security dialog if no cached tickets exist.
+        document.getElementById('windows-login-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('windows-login-btn');
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="white"><path d="M0 0h11v11H0zM12 0h11v11H12zM0 12h11v11H0zM12 12h11v11H12z"/></svg> Authenticating...';
+            clearMessages();
+            try {
+                const response = await fetch(`${basePath}/api/auth/windows-login`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                if (response.status === 401) {
+                    showError('Windows authentication failed. Use email/password login, or open this page in Edge on a domain-joined PC.');
+                } else {
+                    const data = await response.json();
+                    await handleWindowsLoginResponse(data, false);
+                }
+            } catch {
+                showError('Windows authentication not available from this browser. Use email/password login instead.');
+            }
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 23 23" fill="white"><path d="M0 0h11v11H0zM12 0h11v11H12zM0 12h11v11H0zM12 12h11v11H12z"/></svg> Sign in with Windows';
+        });
+        // <--20260317 GHS Test Ad/Entra End
+
+        // Open consumer app with a fresh auth code.
+        // Generates the code, then navigates (same tab) to the app with the code.
+        // Falls back to the server-side redirect endpoint which handles cookie-based auth.
+        function openApp(event, targetUrl) {
+            event.preventDefault();
+            event.stopPropagation();
+            const token = localStorage.getItem('accessToken');
+            const sep = targetUrl.includes('?') ? '&' : '?';
+
+            if (!token) {
+                window.location.href = `${basePath}/api/auth/redirect?returnUrl=${encodeURIComponent(targetUrl)}`;
+                return false;
+            }
+
+            (async () => {
+                try {
+                    const resp = await fetch(`${basePath}/api/auth/create-code`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        window.location.href = `${targetUrl}${sep}code=${data.code}`;
+                        return;
+                    }
+                } catch {}
+
+                window.location.href = `${basePath}/api/auth/redirect?returnUrl=${encodeURIComponent(targetUrl)}`;
+            })();
+            return false;
+        }
+
+        // Format PascalCase AppId into readable name
+        function formatAppName(appId, displayName) {
+            if (displayName) return displayName;
+            // Split on capital letters: "ServerMonitorDashboard" → "Server Monitor Dashboard"
+            return appId.replace(/([A-Z])/g, ' $1').trim();
+        }
+
+        async function showLoggedInState(user) {
+            // Try to get app permissions from the token
+            let appPermissions = {};
+            let tenantInfo = null;
+            let hasPassword = true; // Assume true, will check below
+            const token = localStorage.getItem('accessToken');
+            
+            try {
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.appPermissions) {
+                        appPermissions = JSON.parse(payload.appPermissions);
+                    }
+                    if (payload.tenant) {
+                        tenantInfo = JSON.parse(payload.tenant);
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to parse token claims', e);
+            }
+
+            // Fetch app details (BaseUrl, IconUrl, DisplayName) for fallback
+            let appDetails = {};
+            try {
+                const appsResponse = await fetch(`${basePath}/api/apps`);
+                if (appsResponse.ok) {
+                    const apps = await appsResponse.json();
+                    apps.forEach(app => {
+                        appDetails[app.appId] = {
+                            baseUrl: app.baseUrl,
+                            iconUrl: app.iconUrl,
+                            displayName: app.displayName
+                        };
+                    });
+                }
+            } catch (e) {
+                console.error('Failed to fetch app details', e);
+            }
+
+            // Check if user has password set
+            try {
+                const meResponse = await fetch(`${basePath}/api/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (meResponse.ok) {
+                    const meData = await meResponse.json();
+                    hasPassword = meData.hasPassword;
+                    if (meData.authMethod) user.authMethod = meData.authMethod;
+                }
+            } catch (e) {
+                console.error('Failed to check password status', e);
+            }
+
+            // Get app routing URLs from window.currentTenant (fetched from API, not token)
+            const appRouting = window.currentTenant?.appRouting || {};
+
+            // Fetch app group tree (ACL-filtered for current user)
+            let appTree = null;
+            try {
+                const treeResponse = await fetch(`${basePath}/api/apps/tree`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (treeResponse.ok) {
+                    appTree = await treeResponse.json();
+                }
+            } catch (e) {
+                console.debug('App tree not available, falling back to flat list');
+            }
+
+            function renderAppLink(appId, role, displayName, url, iconUrl) {
+                const appIcon = iconUrl || appDetails[appId]?.iconUrl;
+                const appDisplayName = displayName || formatAppName(appId, appDetails[appId]?.displayName);
+                const appUrl = url || appRouting[appId] || appDetails[appId]?.baseUrl;
+                const iconHtml = appIcon ? `<img src="${appIcon}" class="app-icon" alt="">` : '';
+
+                if (appUrl) {
+                    const clientUrl = appUrl.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, window.location.origin);
+                    return `<a href="javascript:void(0)" class="app-item app-link" title="Open ${appDisplayName}"
+                               onclick="openApp(event, '${clientUrl.replace(/'/g, "\\'")}')">
+                        <div class="app-left">${iconHtml}<span class="app-name">${appDisplayName}</span></div>
+                        <div class="app-right"><span class="app-role">${role || ''}</span><span class="app-launch">→</span></div>
+                    </a>`;
+                }
+                return `<div class="app-item app-no-url" title="No URL configured"><div class="app-left">${iconHtml}<span class="app-name">${appDisplayName}</span></div><span class="app-role">${role || ''}</span></div>`;
+            }
+
+            function renderTreeNodes(nodes, depth = 0) {
+                let html = '';
+                for (const node of nodes) {
+                    if (node.type === 'group') {
+                        const indent = depth * 16;
+                        const childHtml = node.children ? renderTreeNodes(node.children, depth + 1) : '';
+                        html += `<div class="app-group-folder" style="margin-left:${indent}px; margin-top:${depth > 0 ? '4' : '8'}px;">
+                            <div onclick="this.parentElement.classList.toggle('collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:6px; padding:6px 0; color:var(--text-color); font-weight:500; font-size:13px;">
+                                <span class="folder-icon" style="transition:transform 0.2s;">📂</span>
+                                <span>${node.name}</span>
+                            </div>
+                            <div class="folder-content">${childHtml}</div>
+                        </div>`;
+                    } else if (node.type === 'app') {
+                        const role = appPermissions[node.appId] || '';
+                        html += renderAppLink(node.appId, role, node.name, node.url, node.iconUrl);
+                    }
+                }
+                return html;
+            }
+
+            // Build apps list HTML with 5 view tabs
+            let appsHtml = '';
+            const appEntries = Object.entries(appPermissions);
+            const hasTree = appTree && appTree.tree && appTree.tree.length > 0;
+            const hasManyApps = appEntries.length > 4 || hasTree;
+
+            // Collect all apps as flat list with their group path
+            function collectAllApps(nodes, path = []) {
+                let result = [];
+                for (const node of (nodes || [])) {
+                    if (node.type === 'group') {
+                        result = result.concat(collectAllApps(node.children, [...path, node.name]));
+                    } else if (node.type === 'app') {
+                        result.push({ ...node, groupPath: path });
+                    }
+                }
+                return result;
+            }
+
+            // Collect top-level groups for navigation
+            function collectGroups(nodes) {
+                let groups = [];
+                for (const node of (nodes || [])) {
+                    if (node.type === 'group') {
+                        const apps = collectAllApps([node]);
+                        groups.push({ name: node.name, slug: node.slug || node.name.toLowerCase(), children: node.children, appCount: apps.length });
+                    }
+                }
+                return groups;
+            }
+
+            const allApps = hasTree ? collectAllApps(appTree.tree).concat(
+                (appTree.ungrouped || []).map(a => ({ ...a, type: 'app', groupPath: [] }))
+            ) : appEntries.map(([appId, role]) => ({
+                type: 'app', appId, name: formatAppName(appId, appDetails[appId]?.displayName),
+                url: appRouting[appId] || appDetails[appId]?.baseUrl, groupPath: []
+            }));
+            const topGroups = hasTree ? collectGroups(appTree.tree) : [];
+
+            if (appEntries.length === 0 && !hasTree) {
+                appsHtml = `
+                    <div class="info-box" style="text-align: center;">
+                        <p style="color: var(--text-muted);">No applications assigned yet.</p>
+                        <p style="color: var(--text-muted);">Contact an administrator to get access to applications.</p>
+                    </div>
+                `;
+            } else {
+                // Shared: resolve a node's URL to client-relative
+                function resolveClientUrl(node) {
+                    const url = node.url || appRouting[node.appId] || appDetails[node.appId]?.baseUrl || '';
+                    return url ? url.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, window.location.origin) : '';
+                }
+                function nodeName(node) {
+                    return node.name || formatAppName(node.appId, appDetails[node.appId]?.displayName);
+                }
+                // Build the full tree including an "All" folder at the top
+                const treeWithAll = hasTree ? appTree.tree : [];
+                const ungroupedApps = hasTree && appTree.ungrouped ? appTree.ungrouped : [];
+
+                // ── VIEW 1: Tree (current) + "All" folder ──
+                let view1Html = '';
+                if (hasTree) {
+                    let allFolderContent = '';
+                    for (const a of allApps) {
+                        const role = appPermissions[a.appId] || '';
+                        allFolderContent += renderAppLink(a.appId, role, a.name, a.url, a.iconUrl);
+                    }
+                    let treeHtml = `<div class="app-group-folder collapsed" style="margin-top:8px;">
+                        <div onclick="this.parentElement.classList.toggle('collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:6px; padding:6px 0; color:var(--text-color); font-weight:500; font-size:13px;">
+                            <span class="folder-icon" style="transition:transform 0.2s;">📂</span><span>All</span>
+                            <span style="margin-left:auto; font-size:11px; color:var(--text-muted);">${allApps.length} apps</span>
+                        </div>
+                        <div class="folder-content">${allFolderContent}</div>
+                    </div>`;
+                    treeHtml += renderTreeNodes(appTree.tree);
+                    for (const app of ungroupedApps) {
+                        const role = appPermissions[app.appId] || '';
+                        treeHtml += renderAppLink(app.appId, role, app.displayName, app.baseUrl, app.iconUrl);
+                    }
+                    view1Html = `<div class="apps-list">${treeHtml}</div>`;
+                } else {
+                    view1Html = `<div class="apps-list ${hasManyApps ? 'apps-grid' : ''}">${appEntries.map(([appId, role]) => renderAppLink(appId, role)).join('')}</div>`;
+                }
+
+                // ── VIEW 2: Explorer ──
+                let view2Html = '<div id="fk-explorer-view"></div>';
+
+                // ── VIEW 3: Compact — recursive hierarchy with indented headers ──
+                function renderCompactTree(nodes, depth = 0) {
+                    let html = '';
+                    for (const node of (nodes || [])) {
+                        if (node.type === 'group') {
+                            const indent = depth * 12;
+                            html += `<div class="compact-group" style="margin-left:${indent}px;">
+                                <div class="compact-group-header" onclick="this.parentElement.classList.toggle('cg-collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:4px;">
+                                    <span class="cg-chevron" style="transition:transform 0.2s; font-size:8px;">▼</span>
+                                    ${node.name}
+                                </div>
+                                <div class="compact-group-body">${renderCompactTree(node.children, depth + 1)}</div>
+                            </div>`;
+                        } else if (node.type === 'app') {
+                            const cu = resolveClientUrl(node);
+                            const nm = nodeName(node);
+                            html += cu
+                                ? `<a href="javascript:void(0)" class="compact-app" onclick="openApp(event,'${cu.replace(/'/g,"\\'")}')"><span class="ca-dot"></span><span class="ca-name">${nm}</span></a>`
+                                : `<div class="compact-app"><span class="ca-dot" style="background:var(--text-muted)"></span><span class="ca-name" style="color:var(--text-muted)">${nm}</span></div>`;
+                        }
+                    }
+                    return html;
+                }
+                let view3Html = '';
+                // "All" group at top (collapsed by default)
+                let allCompactApps = '';
+                for (const a of allApps) {
+                    const cu = resolveClientUrl(a);
+                    const nm = nodeName(a);
+                    allCompactApps += cu
+                        ? `<a href="javascript:void(0)" class="compact-app" onclick="openApp(event,'${cu.replace(/'/g,"\\'")}')"><span class="ca-dot"></span><span class="ca-name">${nm}</span></a>`
+                        : `<div class="compact-app"><span class="ca-dot" style="background:var(--text-muted)"></span><span class="ca-name">${nm}</span></div>`;
+                }
+                view3Html += `<div class="compact-group cg-collapsed">
+                    <div class="compact-group-header" onclick="this.parentElement.classList.toggle('cg-collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:4px;">
+                        <span class="cg-chevron" style="transition:transform 0.2s; font-size:8px;">▼</span>All
+                        <span style="margin-left:auto; font-size:9px; opacity:0.6;">${allApps.length}</span>
+                    </div>
+                    <div class="compact-group-body"><div class="compact-items">${allCompactApps}</div></div>
+                </div>`;
+                if (hasTree) {
+                    view3Html += renderCompactTree(treeWithAll);
+                }
+
+                // ── VIEW 4: Cards — collapsible group sections with card grids ──
+                function renderCardApp(a) {
+                    const role = appPermissions[a.appId] || '';
+                    const cu = resolveClientUrl(a);
+                    const nm = nodeName(a);
+                    if (cu) {
+                        return `<a href="javascript:void(0)" class="card-app" onclick="openApp(event,'${cu.replace(/'/g,"\\'")}')">
+                            <span class="ca-title">${nm}</span>
+                            <div class="ca-footer">${role ? `<span class="ca-role-badge">${role}</span>` : '<span></span>'}<span class="ca-arrow">→</span></div>
+                        </a>`;
+                    }
+                    return `<div class="card-app" style="opacity:0.5;cursor:default">
+                        <span class="ca-title">${nm}</span>
+                        <div class="ca-footer"><span class="ca-role-badge" style="background:var(--text-muted)">${role || 'N/A'}</span><span></span></div>
+                    </div>`;
+                }
+                function renderCardsTree(nodes, depth = 0) {
+                    let html = '';
+                    for (const node of (nodes || [])) {
+                        if (node.type === 'group') {
+                            const indent = depth * 12;
+                            const directApps = (node.children || []).filter(c => c.type === 'app');
+                            const subGroups = (node.children || []).filter(c => c.type === 'group');
+                            html += `<div class="cards-section" style="margin-left:${indent}px; margin-bottom:12px;">
+                                <div class="cards-section-header" onclick="this.parentElement.classList.toggle('cs-collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:6px; padding:6px 0; color:var(--text-color); font-weight:600; font-size:13px;">
+                                    <span class="cs-chevron" style="transition:transform 0.2s; font-size:10px;">▼</span>
+                                    <span>📂 ${node.name}</span>
+                                </div>
+                                <div class="cards-section-body">
+                                    ${directApps.length > 0 ? `<div class="cards-grid">${directApps.map(a => renderCardApp(a)).join('')}</div>` : ''}
+                                    ${renderCardsTree(subGroups, depth + 1)}
+                                </div>
+                            </div>`;
+                        }
+                    }
+                    return html;
+                }
+                let view4Html = '';
+                // "All" section (collapsed by default)
+                view4Html += `<div class="cards-section cs-collapsed" style="margin-bottom:12px;">
+                    <div class="cards-section-header" onclick="this.parentElement.classList.toggle('cs-collapsed')" style="cursor:pointer; display:flex; align-items:center; gap:6px; padding:6px 0; color:var(--text-color); font-weight:600; font-size:13px;">
+                        <span class="cs-chevron" style="transition:transform 0.2s; font-size:10px;">▼</span>
+                        <span>📂 All</span>
+                        <span style="margin-left:auto; font-size:11px; color:var(--text-muted);">${allApps.length} apps</span>
+                    </div>
+                    <div class="cards-section-body"><div class="cards-grid">${allApps.map(a => renderCardApp(a)).join('')}</div></div>
+                </div>`;
+                if (hasTree) {
+                    view4Html += renderCardsTree(treeWithAll);
+                }
+
+                // ── VIEW 5: Sidebar ──
+                let view5Html = '<div id="fk-sidebar-view"></div>';
+
+                // Saved view preference
+                const savedView = localStorage.getItem('DedgeAuth_appview') || '1';
+
+                appsHtml = `
+                    <div class="apps-section">
+                        <h3 style="color: var(--text-color); margin-bottom: 10px; font-size: 14px;">Your Applications</h3>
+                        <div class="app-view-tabs" id="appViewTabs">
+                            <button class="app-view-tab${savedView==='1'?' active':''}" data-view="1"><span class="tab-icon">🌳</span>Tree</button>
+                            <button class="app-view-tab${savedView==='2'?' active':''}" data-view="2"><span class="tab-icon">📁</span>Explorer</button>
+                            <button class="app-view-tab${savedView==='3'?' active':''}" data-view="3"><span class="tab-icon">⚡</span>Compact</button>
+                            <button class="app-view-tab${savedView==='4'?' active':''}" data-view="4"><span class="tab-icon">🃏</span>Cards</button>
+                            <button class="app-view-tab${savedView==='5'?' active':''}" data-view="5"><span class="tab-icon">📋</span>Sidebar</button>
+                        </div>
+                        <div class="app-view-content${savedView==='1'?' active':''}" data-view="1">${view1Html}</div>
+                        <div class="app-view-content${savedView==='2'?' active':''}" data-view="2">${view2Html}</div>
+                        <div class="app-view-content${savedView==='3'?' active':''}" data-view="3">${view3Html}</div>
+                        <div class="app-view-content${savedView==='4'?' active':''}" data-view="4">${view4Html}</div>
+                        <div class="app-view-content${savedView==='5'?' active':''}" data-view="5">${view5Html}</div>
+                    </div>
+                `;
+
+                // Wire up tabs + Explorer/Sidebar after DOM insertion (deferred)
+                // Store data on window for onclick handlers in dynamic HTML
+                window._fkAppViewData = { appTree, topGroups, allApps, appPermissions, appRouting, appDetails, formatAppName };
+
+                setTimeout(function() {
+                    // Tab switching
+                    document.querySelectorAll('.app-view-tab').forEach(function(tab) {
+                        tab.addEventListener('click', function() {
+                            document.querySelectorAll('.app-view-tab').forEach(function(t) { t.classList.remove('active'); });
+                            document.querySelectorAll('.app-view-content').forEach(function(c) { c.classList.remove('active'); });
+                            tab.classList.add('active');
+                            var vc = document.querySelector('.app-view-content[data-view="' + tab.dataset.view + '"]');
+                            if (vc) vc.classList.add('active');
+                            localStorage.setItem('DedgeAuth_appview', tab.dataset.view);
+                        });
+                    });
+
+                    // ── Explorer view logic ──
+                    window._fkExplorerPath = [];
+                    window._fkExplorerRender = function() {
+                        var d = window._fkAppViewData;
+                        var el = document.getElementById('fk-explorer-view');
+                        if (!el) return;
+                        var path = window._fkExplorerPath;
+
+                        function getNodesAtPath(p) {
+                            if (p.length === 0) return (d.appTree && d.appTree.tree) || [];
+                            var nodes = (d.appTree && d.appTree.tree) || [];
+                            for (var i = 0; i < p.length; i++) {
+                                var found = nodes.find(function(n) { return n.type === 'group' && n.name === p[i]; });
+                                if (!found) return [];
+                                nodes = found.children || [];
+                            }
+                            return nodes;
+                        }
+
+                        function resolveUrl(appId, nodeUrl) {
+                            var url = nodeUrl || d.appRouting[appId] || (d.appDetails[appId] && d.appDetails[appId].baseUrl) || '';
+                            if (url) url = url.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, window.location.origin);
+                            return url;
+                        }
+
+                        function appName(node) {
+                            return node.name || d.formatAppName(node.appId, d.appDetails[node.appId] && d.appDetails[node.appId].displayName);
+                        }
+
+                        var isAllView = path.length === 1 && path[0] === '__ALL__';
+                        var nodes = isAllView ? [] : (path.length === 0
+                            ? [{ type: 'virtual-all', name: 'All' }].concat(d.topGroups.map(function(g) { return { type: 'group', name: g.name, children: g.children }; }))
+                            : getNodesAtPath(path));
+
+                        // Breadcrumb
+                        var bcHtml = '<span data-nav="[]">&#127968;</span>';
+                        if (isAllView) {
+                            bcHtml += '<span class="bc-sep">&#8250;</span><span class="bc-active">All</span>';
+                        } else {
+                            path.forEach(function(seg, i) {
+                                bcHtml += '<span class="bc-sep">&#8250;</span>';
+                                if (i < path.length - 1) {
+                                    bcHtml += '<span data-nav=\'' + JSON.stringify(path.slice(0, i + 1)) + '\'>' + seg + '</span>';
+                                } else {
+                                    bcHtml += '<span class="bc-active">' + seg + '</span>';
+                                }
+                            });
+                        }
+
+                        // Grid items
+                        var gridHtml = '';
+                        var appsToShow = isAllView ? d.allApps : [];
+                        if (!isAllView) {
+                            for (var i = 0; i < nodes.length; i++) {
+                                var node = nodes[i];
+                                if (node.type === 'virtual-all') {
+                                    gridHtml += '<div class="explorer-folder" data-nav=\'["__ALL__"]\'><span class="ef-icon">&#128194;</span><span class="ef-name">All</span></div>';
+                                } else if (node.type === 'group') {
+                                    gridHtml += '<div class="explorer-folder" data-nav=\'' + JSON.stringify(path.concat([node.name])) + '\'><span class="ef-icon">&#128194;</span><span class="ef-name">' + node.name + '</span></div>';
+                                } else if (node.type === 'app') {
+                                    appsToShow.push(node);
+                                }
+                            }
+                        }
+                        for (var j = 0; j < appsToShow.length; j++) {
+                            var a = appsToShow[j];
+                            var cu = resolveUrl(a.appId, a.url);
+                            var nm = appName(a);
+                            var rl = d.appPermissions[a.appId] || '';
+                            if (cu) {
+                                gridHtml += '<a href="javascript:void(0)" class="explorer-app" data-appurl="' + cu.replace(/"/g, '&quot;') + '"><span class="ea-icon">&#128421;&#65039;</span><span class="ea-name">' + nm + '</span><span class="ea-role">' + rl + '</span></a>';
+                            } else {
+                                gridHtml += '<div class="explorer-app" style="opacity:0.5"><span class="ea-icon">&#128421;&#65039;</span><span class="ea-name">' + nm + '</span></div>';
+                            }
+                        }
+
+                        el.innerHTML = '<div class="explorer-breadcrumb">' + bcHtml + '</div><div class="explorer-grid">' + gridHtml + '</div>';
+
+                        // Attach click handlers via delegation
+                        el.querySelectorAll('[data-nav]').forEach(function(navEl) {
+                            navEl.style.cursor = 'pointer';
+                            navEl.addEventListener('click', function() {
+                                window._fkExplorerPath = JSON.parse(navEl.getAttribute('data-nav'));
+                                window._fkExplorerRender();
+                            });
+                        });
+                        el.querySelectorAll('[data-appurl]').forEach(function(appEl) {
+                            appEl.addEventListener('click', function(e) { openApp(e, appEl.getAttribute('data-appurl')); });
+                        });
+                    };
+                    window._fkExplorerRender();
+
+                    // ── Sidebar view logic — full tree hierarchy ──
+                    window._fkSidebarActive = 'All';
+                    window._fkSidebarRender = function() {
+                        var d = window._fkAppViewData;
+                        var el = document.getElementById('fk-sidebar-view');
+                        if (!el) return;
+
+                        function collectGroupApps(groupNode) {
+                            var result = [];
+                            for (var i = 0; i < (groupNode.children || []).length; i++) {
+                                var c = groupNode.children[i];
+                                if (c.type === 'app') result.push(c);
+                                else if (c.type === 'group') result = result.concat(collectGroupApps(c));
+                            }
+                            return result;
+                        }
+
+                        // Build nav tree recursively
+                        function buildNavTree(nodes) {
+                            var html = '';
+                            for (var i = 0; i < (nodes || []).length; i++) {
+                                var node = nodes[i];
+                                if (node.type !== 'group') continue;
+                                var groupApps = collectGroupApps(node);
+                                var subGroups = (node.children || []).filter(function(c) { return c.type === 'group'; });
+                                var isActive = node.name === window._fkSidebarActive;
+                                var hasChildren = subGroups.length > 0;
+                                html += '<div class="sidebar-nav-group' + (hasChildren ? '' : ' sng-collapsed') + '">';
+                                html += '<div class="sidebar-nav-item' + (isActive ? ' active' : '') + '" data-cat="' + node.name.replace(/"/g, '&quot;') + '">';
+                                if (hasChildren) {
+                                    html += '<span class="sn-chevron" onclick="event.stopPropagation(); this.closest(\'.sidebar-nav-group\').classList.toggle(\'sng-collapsed\')">▼</span>';
+                                }
+                                html += '<span class="sn-icon">&#128194;</span>' + node.name + '<span class="sn-count">' + groupApps.length + '</span></div>';
+                                if (hasChildren) {
+                                    html += '<div class="sidebar-nav-children">' + buildNavTree(subGroups) + '</div>';
+                                }
+                                html += '</div>';
+                            }
+                            return html;
+                        }
+
+                        var isAllActive = window._fkSidebarActive === 'All';
+                        var navHtml = '<div class="sidebar-nav-item' + (isAllActive ? ' active' : '') + '" data-cat="All"><span class="sn-icon">&#128203;</span>All<span class="sn-count">' + d.allApps.length + '</span></div>';
+                        navHtml += buildNavTree((d.appTree && d.appTree.tree) || []);
+
+                        // Determine active apps — find matching group recursively
+                        function findGroupApps(nodes, name) {
+                            for (var i = 0; i < (nodes || []).length; i++) {
+                                var n = nodes[i];
+                                if (n.type === 'group') {
+                                    if (n.name === name) return collectGroupApps(n);
+                                    var sub = findGroupApps(n.children, name);
+                                    if (sub) return sub;
+                                }
+                            }
+                            return null;
+                        }
+                        var activeApps = window._fkSidebarActive === 'All' ? d.allApps : (findGroupApps((d.appTree && d.appTree.tree) || [], window._fkSidebarActive) || []);
+
+                        var detailHtml = '';
+                        for (var ai = 0; ai < activeApps.length; ai++) {
+                            var a = activeApps[ai];
+                            var url = a.url || d.appRouting[a.appId] || (d.appDetails[a.appId] && d.appDetails[a.appId].baseUrl) || '';
+                            if (url) url = url.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/, window.location.origin);
+                            var nm = a.name || d.formatAppName(a.appId, d.appDetails[a.appId] && d.appDetails[a.appId].displayName);
+                            var rl = d.appPermissions[a.appId] || '';
+                            if (url) {
+                                detailHtml += '<a href="javascript:void(0)" class="sidebar-app" data-appurl="' + url.replace(/"/g, '&quot;') + '"><span class="sa-name">' + nm + '</span><span class="sa-role">' + rl + '</span></a>';
+                            } else {
+                                detailHtml += '<div class="sidebar-app" style="opacity:0.5"><span class="sa-name">' + nm + '</span></div>';
+                            }
+                        }
+
+                        el.innerHTML = '<div class="sidebar-layout"><div class="sidebar-nav">' + navHtml + '</div><div class="sidebar-detail">' + detailHtml + '</div></div>';
+
+                        // Attach click handlers
+                        el.querySelectorAll('[data-cat]').forEach(function(catEl) {
+                            catEl.addEventListener('click', function() {
+                                window._fkSidebarActive = catEl.getAttribute('data-cat');
+                                window._fkSidebarRender();
+                            });
+                        });
+                        el.querySelectorAll('[data-appurl]').forEach(function(appEl) {
+                            appEl.addEventListener('click', function(e) { openApp(e, appEl.getAttribute('data-appurl')); });
+                        });
+                    };
+                    window._fkSidebarRender();
+                }, 50);
+            }
+
+            // Password setup prompt for users without password
+            const passwordSetupHtml = !hasPassword ? `
+                <div class="info-box" style="margin-bottom: 20px; border: 1px solid var(--primary-color); background: rgba(0, 179, 89, 0.1);">
+                    <p style="margin-bottom: 12px; color: var(--text-color);"><strong>Set up a password</strong></p>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Create a password to log in faster next time without needing a magic link.</p>
+                    <form id="set-password-form" style="text-align: left;">
+                        <div style="margin-bottom: 12px;">
+                            <label for="new-password" style="display: block; margin-bottom: 4px; color: var(--text-muted); font-size: 14px;">New Password</label>
+                            <input type="password" id="new-password" required minlength="8" style="width: 100%; padding: 10px; border: 1px solid var(--input-border); border-radius: 6px; background: var(--input-bg); color: var(--text-color);">
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <label for="confirm-password" style="display: block; margin-bottom: 4px; color: var(--text-muted); font-size: 14px;">Confirm Password</label>
+                            <input type="password" id="confirm-password" required minlength="8" style="width: 100%; padding: 10px; border: 1px solid var(--input-border); border-radius: 6px; background: var(--input-bg); color: var(--text-color);">
+                        </div>
+                        <div id="password-error" style="color: var(--error-color); margin-bottom: 12px; display: none;"></div>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" id="set-password-btn" style="flex: 1;">Set Password</button>
+                            <button type="button" onclick="document.getElementById('set-password-form').parentElement.style.display='none'" style="background: transparent; border: 1px solid var(--input-border); color: var(--text-muted);">Skip</button>
+                        </div>
+                    </form>
+                </div>
+            ` : '';
+
+            const isDark = !document.documentElement.hasAttribute('data-theme');
+            const container = document.querySelector('.login-container');
+            if (hasManyApps) {
+                container.classList.add('has-many-apps');
+            }
+            container.innerHTML = `
+                <label class="theme" title="Toggle theme">
+                    <span class="theme__toggle-wrap">
+                        <input id="theme-toggle-logged" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark" ${isDark ? 'checked' : ''}>
+                        <span class="theme__icon">
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                            <span class="theme__icon-part"></span>
+                        </span>
+                    </span>
+                </label>
+                <div class="logo">
+                    <img class="tenant-logo" src="${window.currentTenant?.logoPath || basePath + '/tenants/Dedge.no/logo'}" alt="${window.currentTenant?.name || 'Dedge'} Logo" style="max-width: 200px; height: auto;">
+                </div>
+                <div class="success" style="display: block;">
+                    <strong>✓ Logged in successfully${user.authMethod === 'windows' ? ' using <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 23 23" fill="currentColor" style="vertical-align: -2px; margin: 0 2px;"><path d="M0 0h11v11H0zM12 0h11v11H12zM0 12h11v11H0zM12 12h11v11H12z"/></svg> Microsoft' : ''}!</strong>
+                </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <p style="font-size: 18px; margin-bottom: 8px; color: var(--text-color);">Welcome, <strong>${user.displayName || user.email}</strong></p>
+                    <p style="color: var(--text-muted);">${user.email}</p>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-top: 4px;">Access Level: ${getAccessLevelName(user.globalAccessLevel)}</p>
+                </div>
+                ${passwordSetupHtml}
+                ${appsHtml}
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button onclick="openChangePasswordModal()" style="flex: 1; background: transparent; border: 1px solid var(--input-border); color: var(--text-color); font-weight: 500;">Change Password</button>
+                    <button onclick="logout()" style="flex: 1; background: linear-gradient(135deg, #ef4444, #dc2626); font-weight: 600; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);">Sign Out</button>
+                </div>
+                <div style="margin-top: 16px; text-align: center;">
+                    ${(user.globalAccessLevel >= 3 || user.globalAccessLevel == 5) ? `<a href="${basePath}/admin.html" style="color: var(--primary-color); font-size: 14px; display: inline-block; margin-bottom: 8px;">Admin Dashboard</a><br>` : ''}
+                    <a href="${basePath}/profile.html" style="color: var(--text-muted); font-size: 12px;" data-i18n="login.viewProfile">My Profile</a>
+                </div>
+            `;
+            
+            // Re-attach theme toggle handler
+            document.getElementById('theme-toggle-logged').addEventListener('change', function() {
+                applyTheme(this.checked ? 'dark' : 'light');
+            });
+
+            // Set password form handler
+            const setPasswordForm = document.getElementById('set-password-form');
+            if (setPasswordForm) {
+                setPasswordForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    const errorDiv = document.getElementById('password-error');
+                    const btn = document.getElementById('set-password-btn');
+
+                    errorDiv.style.display = 'none';
+
+                    if (newPassword !== confirmPassword) {
+                        errorDiv.textContent = 'Passwords do not match';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+
+                    if (newPassword.length < 8) {
+                        errorDiv.textContent = 'Password must be at least 8 characters';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+
+                    btn.disabled = true;
+                    btn.textContent = 'Setting password...';
+
+                    try {
+                        const response = await fetch(`${basePath}/api/auth/set-password`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                            },
+                            body: JSON.stringify({ newPassword })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            setPasswordForm.parentElement.innerHTML = `
+                                <div style="text-align: center; color: var(--success-color);">
+                                    <strong>✓ Password set successfully!</strong>
+                                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 8px;">You can now use your password to log in.</p>
+                                </div>
+                            `;
+                        } else {
+                            errorDiv.textContent = data.message || 'Failed to set password';
+                            errorDiv.style.display = 'block';
+                            btn.disabled = false;
+                            btn.textContent = 'Set Password';
+                        }
+                    } catch (err) {
+                        errorDiv.textContent = 'An error occurred. Please try again.';
+                        errorDiv.style.display = 'block';
+                        btn.disabled = false;
+                        btn.textContent = 'Set Password';
+                    }
+                });
+            }
+        }
+
+        function getAccessLevelName(level) {
+            const levels = { 0: 'Guest', 1: 'User', 2: 'Power User', 3: 'Admin', 4: 'Super Admin' };
+            return levels[level] || `Level ${level}`;
+        }
+
+        function logout() {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('user');
+            fetch(`${basePath}/api/auth/logout`, { method: 'POST', credentials: 'include' })
+                .finally(() => window.location.href = `${basePath}/login.html`);
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-section').classList.add('active');
+            });
+        });
+
+        // Password login
+        document.getElementById('password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('login-btn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+
+            try {
+                const response = await fetch(`${basePath}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, rememberMe: document.getElementById('remember-me').checked })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    storeAccessToken(data.accessToken);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window._lastAuthCode = data.authCode;
+
+                    if (data.isNewUser) {
+                        showSuccess('Welcome! Your account has been created and is pending admin confirmation. You can use the system with limited access until approved.');
+                    }
+                    
+                    // If there's a return URL (not just /), redirect with short auth code
+                    if (returnUrl && returnUrl !== '/') {
+                        const redirectCode = data.authCode || data.accessToken;
+                        const paramName = data.authCode ? 'code' : 'token';
+                        const separator = returnUrl.includes('?') ? '&' : '?';
+                        window.location.href = `${returnUrl}${separator}${paramName}=${redirectCode}`;
+                    } else {
+                        // Show logged in state
+                        await showLoggedInState(data.user);
+                    }
+                } else {
+                    showError(data.message || 'Login failed');
+                }
+            } catch (err) {
+                showError('Network error. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+
+        // Magic link
+        document.getElementById('magic-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+            
+            const email = document.getElementById('magic-email').value;
+            const btn = e.target.querySelector('button');
+            
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                const response = await fetch(`${basePath}/api/auth/request-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+                showSuccess(data.message || 'Check your email for the login link.');
+            } catch (err) {
+                showError('Network error. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Login Link';
+            }
+        });
+
+        // Forgot password link handler
+        const forgotLink = document.getElementById('forgot-password-link');
+        if (forgotLink) {
+            forgotLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearMessages();
+                // Hide tabs, show forgot section
+                document.querySelector('.tabs').style.display = 'none';
+                document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('forgot-section').classList.add('active');
+                // Copy email if already entered
+                const emailVal = document.getElementById('email').value;
+                if (emailVal) document.getElementById('forgot-email').value = emailVal;
+            });
+        }
+
+        // Back to login link handler
+        const backLink = document.getElementById('back-to-login-link');
+        if (backLink) {
+            backLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearMessages();
+                // Restore tabs and password section
+                document.querySelector('.tabs').style.display = 'flex';
+                document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('password-section').classList.add('active');
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelector('.tab[data-tab="password"]').classList.add('active');
+            });
+        }
+
+        // Forgot password form handler
+        const forgotForm = document.getElementById('forgot-form');
+        if (forgotForm) {
+            forgotForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearMessages();
+                const email = document.getElementById('forgot-email').value;
+                const btn = document.getElementById('forgot-btn');
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+
+                try {
+                    const response = await fetch(`${basePath}/api/auth/request-password-reset`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    const data = await response.json();
+                    showSuccess(data.message || 'If this email is registered, you will receive a password reset link.');
+                } catch (err) {
+                    showError('Network error. Please try again.');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Send Reset Link';
+                }
+            });
+        }
+
+        // Reset password form handler (when ?resetToken= is in URL)
+        const resetForm = document.getElementById('reset-form');
+        if (resetForm) {
+            resetForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const resetError = document.getElementById('reset-error');
+                resetError.style.display = 'none';
+                clearMessages();
+
+                const newPassword = document.getElementById('reset-password').value;
+                const confirmPassword = document.getElementById('reset-confirm').value;
+                const btn = document.getElementById('reset-btn');
+
+                if (newPassword !== confirmPassword) {
+                    resetError.textContent = 'Passwords do not match';
+                    resetError.style.display = 'block';
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    resetError.textContent = 'Password must be at least 8 characters';
+                    resetError.style.display = 'block';
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Setting password...';
+
+                try {
+                    const response = await fetch(`${basePath}/api/auth/reset-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: resetTokenParam, newPassword })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Show success and redirect to login
+                        document.getElementById('reset-section').innerHTML = `
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="font-size: 48px; margin-bottom: 16px;">&#10003;</div>
+                                <h3 style="color: var(--success-color); margin-bottom: 8px;">Password Reset Successfully!</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 20px;">You can now log in with your new password.</p>
+                                <a href="${basePath}/login.html" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Go to Login &#8594;</a>
+                            </div>
+                        `;
+                    } else {
+                        resetError.textContent = data.message || 'Failed to reset password';
+                        resetError.style.display = 'block';
+                        btn.disabled = false;
+                        btn.textContent = 'Set New Password';
+                    }
+                } catch (err) {
+                    resetError.textContent = 'An error occurred. Please try again.';
+                    resetError.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Set New Password';
+                }
+            });
+        }
+
+        // Change password modal functions (for logged-in users)
+        function openChangePasswordModal() {
+            const modal = document.getElementById('change-password-modal');
+            modal.style.display = 'flex';
+            // Reset form
+            document.getElementById('change-password-form').reset();
+            document.getElementById('change-password-error').style.display = 'none';
+            document.getElementById('change-password-success').style.display = 'none';
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('change-password-modal').style.display = 'none';
+        }
+
+        // Close modal on backdrop click
+        document.getElementById('change-password-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeChangePasswordModal();
+        });
+
+        // Change password form handler
+        document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorDiv = document.getElementById('change-password-error');
+            const successDiv = document.getElementById('change-password-success');
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            const newPassword = document.getElementById('change-new-password').value;
+            const confirmPassword = document.getElementById('change-confirm-password').value;
+            const btn = document.getElementById('change-password-btn');
+
+            if (newPassword !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                errorDiv.textContent = 'Password must be at least 8 characters';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Updating...';
+
+            try {
+                const response = await fetch(`${basePath}/api/auth/set-password`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                    },
+                    body: JSON.stringify({ newPassword })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    successDiv.textContent = 'Password updated successfully!';
+                    successDiv.style.display = 'block';
+                    document.getElementById('change-password-form').reset();
+                    // Auto-close after 2 seconds
+                    setTimeout(() => closeChangePasswordModal(), 2000);
+                } else {
+                    errorDiv.textContent = data.message || 'Failed to update password';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Update Password';
+            }
+        });
+
+        // Load tenant branding
+        async function loadTenantBranding(email) {
+            const domain = email.split('@')[1];
+            if (!domain) return;
+
+            try {
+                const response = await fetch(`${basePath}/api/tenants/by-domain/${domain}`);
+                if (response.ok) {
+                    const tenant = await response.json();
+                    applyTenantBranding(tenant);
+                }
+            } catch (err) {
+                console.log('No tenant branding available');
+            }
+        }
+
+        function applyTenantBranding(tenant) {
+            if (tenant.displayName) {
+                document.getElementById('tenant-name').textContent = tenant.displayName;
+            }
+            const brandingLogoUrl = tenant.logoUrl || (tenant.hasLogoData && tenant.domain ? `${basePath}/tenants/${tenant.domain}/logo` : null);
+            if (brandingLogoUrl) {
+                const logo = document.getElementById('tenant-logo');
+                logo.src = brandingLogoUrl;
+                logo.style.display = 'block';
+            }
+            if (tenant.primaryColor) {
+                document.documentElement.style.setProperty('--primary-color', tenant.primaryColor);
+            }
+            if (tenant.domain) {
+                document.getElementById('tenant-css').href = `${basePath}/tenants/${tenant.domain}/theme.css`;
+            }
+        }
+
+        // Load branding on email blur
+        document.getElementById('email').addEventListener('blur', (e) => {
+            loadTenantBranding(e.target.value);
+        });
+
+        document.getElementById('magic-email').addEventListener('blur', (e) => {
+            loadTenantBranding(e.target.value);
+        });
+
+        function showError(msg) {
+            const el = document.getElementById('error');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById('success');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        function clearMessages() {
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('success').style.display = 'none';
+        }
+    </script>
+    <script>
+        // i18n for login.html — loads translations from local DedgeAuth i18n files
+        (function() {
+            const lang = localStorage.getItem('DedgeAuth_language') || 'nb';
+            const basePath = document.querySelector('base')?.getAttribute('href')?.replace(/\/$/, '') || '';
+            function applyI18n(translations) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[key]) el.textContent = translations[key];
+                });
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-i18n-placeholder');
+                    if (translations[key]) el.placeholder = translations[key];
+                });
+                document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                    const key = el.getAttribute('data-i18n-html');
+                    if (translations[key]) el.innerHTML = translations[key];
+                });
+            }
+            fetch(basePath + '/i18n/' + lang + '.json')
+                .then(r => r.ok ? r.json() : {})
+                .then(applyI18n)
+                .catch(() => {});
+            document.addEventListener('DedgeAuth:language-changed', function(e) {
+                const newLang = e.detail && e.detail.language;
+                if (!newLang) return;
+                fetch(basePath + '/i18n/' + newLang + '.json')
+                    .then(r => r.ok ? r.json() : {})
+                    .then(applyI18n)
+                    .catch(() => {});
+            });
+        })();
+    </script>
+</body>
+</html>

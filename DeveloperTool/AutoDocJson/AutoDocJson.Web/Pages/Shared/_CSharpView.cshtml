@@ -1,0 +1,181 @@
+@model AutoDocNew.Models.CSharpResult
+
+@if (Model == null) { return; }
+
+<div class="main-container">
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <div class="info-card">
+            <table class="info-table">
+                <tr><td data-i18n="label.solution">Solution</td><td><strong>@Model.Metadata.SolutionName</strong></td></tr>
+                <tr><td data-i18n="label.framework">Framework</td><td>@Model.Metadata.TargetFramework</td></tr>
+                <tr><td data-i18n="label.projects">Projects</td><td>@Model.Metadata.ProjectCount</td></tr>
+                <tr><td data-i18n="label.classes">Classes</td><td>@Model.Metadata.ClassCount</td></tr>
+                <tr><td data-i18n="label.interfaces">Interfaces</td><td>@Model.Metadata.InterfaceCount</td></tr>
+                <tr><td data-i18n="label.methods">Methods</td><td>@Model.Metadata.MethodCount</td></tr>
+                <tr><td data-i18n="label.usesSql">Uses SQL</td><td><input type="checkbox" @(Model.Metadata.UsesSql ? "checked" : "") onclick="return false" /></td></tr>
+                <tr><td data-i18n="label.generated">Generated</td><td>@Model.GeneratedAt</td></tr>
+            </table>
+        </div>
+
+        @if (Model.Projects?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-folder2-open"></i> <span data-i18n="section.projects">Projects</span> (@Model.Projects.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.project">Project</th><th data-i18n="table.framework">Framework</th><th data-i18n="table.classes">Classes</th></tr>
+                    @foreach (var p in Model.Projects)
+                    {
+                        <tr>
+                            <td>@p.Name</td>
+                            <td>@p.TargetFramework</td>
+                            <td>@p.ClassCount</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.Namespaces?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-box-seam"></i> <span data-i18n="section.namespaces">Namespaces</span> (@Model.Namespaces.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.namespace">Namespace</th><th data-i18n="table.classes">Classes</th><th data-i18n="table.controllers">Controllers</th><th data-i18n="table.services">Services</th></tr>
+                    @foreach (var ns in Model.Namespaces)
+                    {
+                        <tr>
+                            <td>@ns.Name</td>
+                            <td>@ns.ClassCount</td>
+                            <td>@ns.ControllerCount</td>
+                            <td>@ns.ServiceCount</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.Classes?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-code-slash"></i> <span data-i18n="section.classes">Classes</span> (@Model.Classes.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.class">Class</th><th data-i18n="table.base">Base</th><th data-i18n="table.methods">Methods</th><th data-i18n="table.project">Project</th></tr>
+                    @foreach (var c in Model.Classes)
+                    {
+                        <tr>
+                            <td>@c.Name</td>
+                            <td>@c.BaseClass</td>
+                            <td>@c.MethodCount</td>
+                            <td>@c.ProjectName</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.RestEndpoints?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-globe2"></i> <span data-i18n="section.restEndpoints">REST Endpoints</span> (@Model.RestEndpoints.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.verb">Verb</th><th data-i18n="table.route">Route</th><th data-i18n="table.method">Method</th><th data-i18n="table.controller">Controller</th></tr>
+                    @foreach (var e in Model.RestEndpoints)
+                    {
+                        <tr>
+                            <td><span class="badge" style="background: var(--accent-primary) !important;">@e.Verb</span></td>
+                            <td><code>@e.Route</code></td>
+                            <td>@e.Method</td>
+                            <td>@e.Controller</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.Ports?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-plug"></i> <span data-i18n="section.ports">Ports</span> (@Model.Ports.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.portType">Type</th><th data-i18n="table.value">Value</th></tr>
+                    @foreach (var p in Model.Ports)
+                    {
+                        <tr><td>@p.PortType</td><td>@p.Value</td></tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.SqlTables?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-database"></i> <span data-i18n="section.sqlTables">SQL Tables</span> (@Model.SqlTables.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.table">Table</th><th data-i18n="table.operation">Op</th><th data-i18n="table.description">Description</th></tr>
+                    @foreach (var t in Model.SqlTables)
+                    {
+                        <tr>
+                            <td><a href="/Doc?file=@(t.Link?.Replace("./","").Replace(".html",".json"))">@t.Table</a></td>
+                            <td>@t.Operation</td>
+                            <td>@t.Description</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @if (Model.ApiCallers?.Count > 0)
+        {
+            <details>
+                <summary><i class="bi bi-telephone-inbound"></i> <span data-i18n="section.apiCallers">API Callers</span> (@Model.ApiCallers.Count)</summary>
+                <table class="detail-table">
+                    <tr><th data-i18n="table.program">Program</th><th data-i18n="table.type">Type</th><th data-i18n="table.verb">Verb</th><th data-i18n="table.endpoint">Endpoint</th></tr>
+                    @foreach (var c in Model.ApiCallers)
+                    {
+                        <tr>
+                            <td>@c.ProgramName</td>
+                            <td>@c.FileType</td>
+                            <td><span class="badge" style="background: var(--accent-primary) !important;">@c.HttpVerb</span></td>
+                            <td><code>@c.MatchedEndpoint</code></td>
+                        </tr>
+                    }
+                </table>
+            </details>
+        }
+
+        @await Html.PartialAsync("_GitHistorySection", Model.GitHistory)
+    </div>
+
+    <!-- Diagram Panel -->
+    <div class="diagram-panel">
+        @{
+            var diagrams = new List<(string id, string label, string icon, string mmd, string i18nKey)>();
+            if (!string.IsNullOrEmpty(Model.Diagrams?.FlowMmd)) { diagrams.Add(("flow", "Application Flow", "bi-diagram-3", Model.Diagrams.FlowMmd, "diagram.flow")); }
+            if (!string.IsNullOrEmpty(Model.Diagrams?.ArchitectureMmd)) { diagrams.Add(("architecture", "Architecture", "bi-building", Model.Diagrams.ArchitectureMmd, "diagram.architecture")); }
+            if (!string.IsNullOrEmpty(Model.Diagrams?.IntegrationMmd)) { diagrams.Add(("integration", "Integration", "bi-plug", Model.Diagrams.IntegrationMmd, "diagram.integration")); }
+            if (!string.IsNullOrEmpty(Model.Diagrams?.RestMmd)) { diagrams.Add(("rest", "REST API", "bi-globe2", Model.Diagrams.RestMmd, "diagram.rest")); }
+        }
+
+        <div class="diagram-tabs">
+            @for (var i = 0; i < diagrams.Count; i++)
+            {
+                <button class="diagram-tab @(i == 0 ? "active" : "")" onclick="showDiagram('@diagrams[i].id', this)">
+                    <i class="bi @diagrams[i].icon"></i> <span data-i18n="@diagrams[i].i18nKey">@diagrams[i].label</span>
+                </button>
+            }
+        </div>
+
+        @for (var i = 0; i < diagrams.Count; i++)
+        {
+            <div class="diagram-content @(i == 0 ? "active" : "")" id="@(diagrams[i].id)-content">
+                @await Html.PartialAsync("_DiagramToolbar", diagrams[i].id)
+                <div class="diagram-container diagram-wrapper" id="@(diagrams[i].id)-container" data-diagram-type="@diagrams[i].id" data-node-count="@MermaidNodeCounter.CountNodes(diagrams[i].mmd)" data-force-renderer="gojs">
+                    <pre class="mermaid-source" style="display:none">@Html.Raw(diagrams[i].mmd)</pre>
+                    <pre class="mermaid" id="@(diagrams[i].id)Diagram" data-diagram-type="@diagrams[i].id">@Html.Raw(diagrams[i].mmd)</pre>
+                    <div class="diagram-render-target" id="@(diagrams[i].id)-render-target"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,43 @@
+---
+description: When user asks to start import job and view log progress, run import-test flow (kill, build, start, Chrome, fix, repeat)
+alwaysApply: true
+---
+
+# Import Job Test Workflow
+
+When the user asks to **start the import job** and **use Chrome automation to view the log progress** (or equivalent: “run import and watch progress”, “test import with browser”), follow this workflow and **fix errors, kill, build, repeat until it works**.
+
+## 1. Kill all local running processes related to the project
+
+- Stop any running `dotnet` processes (Web API, Import Service, Alert Agent).
+- Ensure no process is locking project binaries so the build can succeed.
+
+## 2. Compile all projects
+
+- Run a full build of the solution (e.g. `dotnet build GenericLogHandler.sln`).
+- If the build fails, fix the errors and repeat from step 1.
+
+## 3. Start Web API and Import Service
+
+- Start the Generic Log Handler **Web API** in the background (e.g. `dotnet run --no-build` from the WebApi project).
+- Wait a few seconds for the API to listen.
+- Start the **Import Service** (e.g. `dotnet run --no-build` from the ImportService project, in a separate process or window).
+
+## 4. Use Chrome to view log progress
+
+- Open **Chrome** (or the default browser) to the page that shows import/log progress:
+  - **Import Status**: `http://localhost:52421/import-status.html` (per-source status, last processed file/line).
+  - Or **Dashboard**: `http://localhost:52421/` (summary counts).
+- Prefer the HTTP URL from launchSettings (e.g. `http://localhost:52421`) to avoid certificate warnings.
+- If Chrome is installed in the default location, use `C:\Program Files\Google\Chrome\Application\chrome.exe` with the URL as argument; otherwise use `Start-Process` with the URL to open the default browser.
+
+## 5. Fix errors and repeat until it works
+
+- If the Import Service or Web API logs show errors, or the browser page shows failures:
+  - **Fix** the code (config, connection strings, schema, or application logic as needed).
+  - **Kill** all project-related processes again.
+  - **Build** the solution again.
+  - **Restart** Web API and Import Service, then **open Chrome** to the progress page again.
+- Repeat this cycle until the import runs and progress is visible in the browser without errors.
+
+Do not stop after one attempt if there are errors; keep fixing, killing, building, and restarting until the import job and log progress view work.

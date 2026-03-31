@@ -1,0 +1,65 @@
+﻿---
+description: REST API conventions and controller patterns
+globs: src/GenericLogHandler.WebApi/**/*.cs
+alwaysApply: false
+---
+
+# Web API Conventions
+
+## Response Format
+
+Always use `ApiResponse<T>` wrapper:
+
+```csharp
+return Ok(new ApiResponse<DashboardSummary>
+{
+    Success = true,
+    Data = summary
+});
+```
+
+## JSON Serialization
+
+- **PascalCase** property names (no camelCase conversion)
+- Configured via `PropertyNamingPolicy = null`
+- Frontend expects PascalCase: `response.Data.TotalLogsToday`
+
+## Controllers
+
+| Controller | Purpose |
+|------------|---------|
+| `LogsController` | Search, export (CSV/Excel), CRUD |
+| `DashboardController` | Summary stats, top computers, top errors |
+| `SavedFiltersController` | CRUD for saved searches + preview |
+
+## Search Pattern
+
+```csharp
+[HttpPost("search")]
+public async Task<IActionResult> Search([FromBody] LogSearchRequest request)
+{
+    var criteria = MapToCriteria(request);
+    var result = await _repository.SearchAsync(criteria);
+    return Ok(new ApiResponse<PagedResult<LogEntry>> { Success = true, Data = result });
+}
+```
+
+## Authentication
+
+- DedgeAuth SSO (JWT tokens via `DedgeAuth.Client` library)
+- `AddDedgeAuth()` / `UseDedgeAuth()` / `MapDedgeAuthProxy()` in `Program.cs`
+- Role-based: `[RequireAppPermission("Admin")]` or standard `[Authorize]`
+- Rate limiting: fixed window per user/host
+- Full docs: `C:\opt\src\DedgeAuth\docs\integration\`
+
+## Static Files
+
+`wwwroot/` served via:
+```csharp
+app.UseDefaultFiles();
+app.UseStaticFiles();
+```
+
+**NEVER use `MapFallbackToFile("index.html")`** — this app uses separate HTML pages (not a SPA).
+`MapFallbackToFile` prevents IIS from issuing its built-in trailing-slash redirect on virtual
+application roots, which breaks all relative CSS/JS paths. See `Docs/CSS-Loading-Flow.md`.

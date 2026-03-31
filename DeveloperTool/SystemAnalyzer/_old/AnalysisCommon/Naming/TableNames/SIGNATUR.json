@@ -1,0 +1,190 @@
+{
+  "tableName": "SIGNATUR",
+  "futureName": "Signature",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "avdnr",
+      "futureName": "AvdNr",
+      "description": "Unique department number",
+      "foreignKey": null
+    },
+    {
+      "name": "signatur",
+      "futureName": "Signatur",
+      "description": "Signature or identifier for the record",
+      "foreignKey": [
+        "EGETBRUK_HODE",
+        "SELGERE",
+        "SIGN_AVDNR",
+        "SIGN_KTO_FORR",
+        "SIGN_KTO_VHGR",
+        "TELL_BEHOLDNING"
+      ]
+    },
+    {
+      "name": "navn",
+      "futureName": "Navn",
+      "description": "Name of the individual or entity",
+      "foreignKey": [
+        "ACCESS_OPPSTART",
+        "BEHKODER",
+        "BEHKODER",
+        "DIVISJON_AGRI",
+        "DIVISJON",
+        "EHF_ELMA",
+        "EHF_ELMA",
+        "ENHETREG_DIFI",
+        "ENHETREG_DIFI",
+        "ENHETREG_U_DIFI"
+      ]
+    },
+    {
+      "name": "telefon",
+      "futureName": "Telefon",
+      "description": "Phone number of the individual or entity",
+      "foreignKey": [
+        "BILUTSTYR",
+        "ENHETREG_DIFI",
+        "FIRMA",
+        "KUNDEKONTO_TEST",
+        "KUNDEKONTO",
+        "KUNDEKONTO",
+        "LASS"
+      ]
+    },
+    {
+      "name": "telefax",
+      "futureName": "Telefax",
+      "description": "Fax number of the individual or entity",
+      "foreignKey": [
+        "H_XE_KUNDE",
+        "KUNDER",
+        "XE_KUNDE",
+        "Z_AVDTAB"
+      ]
+    },
+    {
+      "name": "innkjop",
+      "futureName": "Innkjop",
+      "description": "Indication of whether the record is related to an incoming purchase",
+      "foreignKey": [
+        "EGETBRUK_HODE",
+        "SELGERE",
+        "SIGN_AVDNR",
+        "SIGN_KTO_FORR",
+        "SIGN_KTO_VHGR",
+        "TELL_BEHOLDNING"
+      ]
+    },
+    {
+      "name": "salg",
+      "futureName": "Salg",
+      "description": "Sales or transaction type indicator",
+      "foreignKey": [
+        "VALUTAKURSER"
+      ]
+    },
+    {
+      "name": "behkorr",
+      "futureName": "Behcorr",
+      "description": "Correction or adjustment indicator for behavior",
+      "foreignKey": null
+    },
+    {
+      "name": "vareinng",
+      "futureName": "Vareinng",
+      "description": "Indication of whether the record is related to a product range",
+      "foreignKey": [
+        "EGETBRUK_HODE",
+        "SELGERE",
+        "SIGN_AVDNR",
+        "SIGN_KTO_FORR",
+        "SIGN_KTO_VHGR",
+        "TELL_BEHOLDNING"
+      ]
+    },
+    {
+      "name": "mailIdKjop",
+      "futureName": "MailIdKjop",
+      "description": "Email address for purchase or order-related communications",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "BrukerId",
+      "description": "User ID or identifier for the user account",
+      "foreignKey": [
+        "A_FRAKT_OLINJER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDREHODE"
+      ]
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Tidspunkt",
+      "description": "Timestamp of the record creation or modification",
+      "foreignKey": [
+        "A_BESTHODE",
+        "A_BESTLIN",
+        "A_FRAKT_OLINJER",
+        "A_KORRIGERINGER",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR"
+      ]
+    },
+    {
+      "name": "salgMaskin",
+      "futureName": "SalgMaskin",
+      "description": "Indication of whether the record is related to a sales machine",
+      "foreignKey": null
+    },
+    {
+      "name": "salgVerksted",
+      "futureName": "SalgVerksted",
+      "description": "Workshop or sales location indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "adBruker",
+      "futureName": "AdBruker",
+      "description": "Additional user-related information",
+      "foreignKey": null
+    },
+    {
+      "name": "slettet",
+      "futureName": "Slettet",
+      "description": "Indication of whether the record has been deleted or marked for deletion",
+      "foreignKey": [
+        "BILUTSTYR",
+        "K_GROV_PLAN",
+        "KD_KONTRAKT_LIN",
+        "KD_SAF_BL_PARTI",
+        "KONTOKODE",
+        "SELGERE",
+        "VAREREGISTER"
+      ]
+    },
+    {
+      "name": "sentral",
+      "futureName": "Sentral",
+      "description": "Central or main location indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "kundernr",
+      "futureName": "Kundernr",
+      "description": "Customer number or identifier for the customer account",
+      "foreignKey": [
+        "A_ORDREHODE",
+        "A_SORDRE_LOG",
+        "AH_ORDREHODE",
+        "AVVIST"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:44:28"
+}

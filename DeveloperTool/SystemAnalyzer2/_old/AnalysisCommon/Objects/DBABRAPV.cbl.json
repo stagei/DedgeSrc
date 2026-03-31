@@ -1,0 +1,216 @@
+{
+  "program": "DBABRAPV",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:39",
+  "extraction": {
+    "sourceHash": "sha256:02fc05f6a019a391905ab3e86d25ab0957ff79035b95124e08cb8c1964604cba",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\dbabrapv.cbl",
+    "actualName": "DBABRAPV",
+    "program": "DBABRAPV",
+    "copyElements": [
+      {
+        "name": "ROM.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RRT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KTO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AF2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DIV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BDS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBVANA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRBRRAP.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIVISJON_AGRI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "UNDERDIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FORR_OMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "LINJENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "RES_TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVD_FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "REGION_OMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "REGION_OMR_AGRI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "REGION_OMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMAPRTR",
+      "GMACURT",
+      "GMACOCO",
+      "DRAVANA",
+      "GMACOMP",
+      "GMAPATH",
+      "GMFSQLF"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "REXCEL",
+        "physicalName": "DBBIDRAPA.REX",
+        "path": "C:\\",
+        "fullPath": "C:\\DBBIDRAPA.REX",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "TM1FIL",
+        "physicalName": "DBBIDRAPA.TM1",
+        "path": "C:\\",
+        "fullPath": "C:\\DBBIDRAPA.TM1",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "SORT-FIL",
+        "physicalName": "DBBIDRAPA.SRT",
+        "path": "C:\\",
+        "fullPath": "C:\\DBBIDRAPA.SRT",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "TM2FIL",
+        "physicalName": "DBBIDRAPA.TM2",
+        "path": "C:\\",
+        "fullPath": "C:\\DBBIDRAPA.TM2",
+        "assignType": "literal",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "PRTFIL",
+        "physicalName": "DBBIDRAPA.PRT",
+        "path": "C:\\",
+        "fullPath": "C:\\DBBIDRAPA.PRT",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:39"
+  }
+}

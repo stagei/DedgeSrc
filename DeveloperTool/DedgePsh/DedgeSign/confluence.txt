@@ -1,0 +1,223 @@
+﻿h1. DedgeSign - Azure Trusted Signing Verktøy
+
+Utviklet av Geir Helge Starholm (Dedge AS)
+Copyright © Dedge AS
+
+h2. Oversikt
+
+DedgeSign er et automatisert kodesigneringsverktøy som bruker Azure Trusted Signing med nettleserbasert autentisering. Verktøyet kan signere eller fjerne digitale signaturer fra kjørbare filer, både enkeltvis og i bulk.
+
+h2. Forutsetninger
+
+* Windows SDK (for SignTool)
+** Last ned fra: https://go.microsoft.com/fwlink/p/?linkid=2196241
+** Påkrevd sti: {noformat}C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe{noformat}
+* Microsoft Trusted Signing Client Tools
+** Dlib installeres til: {noformat}%LOCALAPPDATA%\Microsoft\MicrosoftTrustedSigningClientTools\Azure.CodeSigning.Dlib.dll{noformat}
+* PowerShell 7 eller nyere
+** Må kjøres som Administrator
+
+h2. Installasjon
+
+1. Installer forutsetningene nevnt ovenfor
+2. Kopier DedgeSign-verktøyene til {noformat}%OptPath%\apps\DedgeSign\{noformat}
+3. Verifiser at alle nødvendige filer er på plass:
+** DedgeSign.ps1
+** DedgeSign-AddFileSign.ps1
+** DedgeSign-RemoveFileSign.ps1
+** AutoSign.cmd
+
+h2. Bruk av Verktøyene
+
+h3. Hovedverktøy (DedgeSign.ps1)
+
+*Parametere:*
+|| Parameter || Type || Påkrevd || Standard || Beskrivelse ||
+| Path | Tekst | Nei | "." | Fil, mappe eller mønster som skal prosesseres |
+| Recursive | Switch | Nei | False | Inkluder undermapper ved skanning |
+| Action | Tekst | Nei | "Add" | Handling som skal utføres: 'Add' eller 'Remove' |
+| NoConfirm | Switch | Nei | False | Hopp over bekreftelsesdialog |
+
+*Eksempler på bruk:*
+{noformat}
+# Signer en enkelt fil
+.\DedgeSign.ps1 -Path sti\til\fil.exe -Action Add
+
+# Signer alle filer i gjeldende mappe
+.\DedgeSign.ps1 -Action Add
+
+# Signer rekursivt i en mappe
+.\DedgeSign.ps1 -Path sti\til\mappe -Recursive -Action Add
+
+# Signer alle PowerShell-filer
+.\DedgeSign.ps1 -Path *.ps1 -Action Add
+
+# Fjern signaturer fra DLL-filer
+.\DedgeSign.ps1 -Path C:\Prosjekt\bin\*.dll -Action Remove
+{noformat}
+
+h3. Enkeltfilsignering (DedgeSign-AddFileSign.ps1)
+
+Verktøy for å signere enkeltstående filer.
+
+*Parametere:*
+|| Parameter || Type || Påkrevd || Beskrivelse ||
+| FilePath | Tekst | Ja | Stien til filen som skal signeres |
+
+*Eksempel:*
+{noformat}
+.\DedgeSign-AddFileSign.ps1 -FilePath "C:\MinApp\bin\Release\MinApp.exe"
+{noformat}
+
+h3. Fjerne Signaturer (DedgeSign-RemoveFileSign.ps1)
+
+Verktøy for å fjerne signaturer fra filer.
+
+*Støttede Filtyper:*
+
+*Skriptfiler (Innholdsredigering):*
+* PowerShell Scripts (.ps1)
+* PowerShell Modules (.psm1)
+* PowerShell Data Files (.psd1)
+* VBScript (.vbs)
+* Windows Script Files (.wsf)
+* JavaScript (.js)
+
+*Binærfiler (SignTool):*
+* Kjørbare filer (.exe)
+* Biblioteker (.dll)
+* Installasjonsfiler (.msi)
+* Systemfiler (.sys)
+* Og mange andre binære formater
+
+h2. Visual Studio Integrasjon
+
+For å automatisk signere bygde filer i Visual Studio:
+
+1. Høyreklikk på prosjektet i Solution Explorer
+2. Velg "Properties"
+3. Naviger til "Build Events"
+4. I "Post-build event command line", legg til:
+{noformat}
+"%OptPath%\apps\DedgeSign\AutoSign.cmd" "$(TargetPath)"
+{noformat}
+
+For å signere alle filer i output-mappen, legg til "Y" som parameter:
+{noformat}
+"%OptPath%\apps\DedgeSign\AutoSign.cmd" "$(TargetPath)" Y
+{noformat}
+
+h2. Feilsøking
+
+1. Sjekk at %OptPath% miljøvariabelen er korrekt satt
+2. Verifiser at DedgeSign er riktig installert i %OptPath%\apps\DedgeSign\
+3. Kontroller build-output for signeringsrelaterte feil
+4. Sjekk at SignTool.exe er tilgjengelig i riktig sti
+5. Verifiser at du har nødvendige rettigheter i Azure for kodesignering
+
+h2. Støttede Filtyper
+
+* Kjørbare filer (.exe)
+* Biblioteker (.dll)
+* PowerShell (.ps1, .psm1, .psd1)
+* Skript (.vbs, .wsf, .js)
+* Installasjonsfiler (.msi, .msix, .appx)
+* Systemfiler (.sys, .drv)
+* Og mange andre formater
+
+h2. Notater
+
+* Verktøyet sjekker automatisk om filer allerede er signert
+* Støtter både signering og fjerning av signaturer
+* Kan behandle flere filer samtidig
+* Gir detaljert fremgangsinformasjon
+* Bruker Azure Trusted Signing med nettleserbasert autentisering
+
+h2. Azure Oppsett for Kodesignering
+
+h3. Forutsetninger
+
+* Azure-abonnement med administrative tilganger
+* Azure CLI installert (valgfritt)
+* Tilgang til Azure Portal
+
+h3. Opprette Signeringsrolle i Azure
+
+*Metode 1: Via Azure Portal*
+
+1. Logg inn på [Azure Portal|https://portal.azure.com]
+2. Naviger til *Azure Active Directory*
+3. Velg *Roles and administrators*
+4. Klikk *+ New custom role*
+5. Konfigurer rollen med følgende innstillinger:
+** Navn: "Trusted Signing Certificate Profile Signer"
+** Beskrivelse: "Can sign and manage trusted certificate profiles"
+** Baseline permissions: Start from scratch
+** Tillatelser:
+*** Microsoft.Authorization/*/read
+*** Microsoft.Certificates/trustedSigningCertificates/*
+
+*Metode 2: Via Azure PowerShell*
+
+{noformat}
+# Koble til Azure
+Connect-AzAccount
+
+# Opprett rolledefinisjon
+$role = @{
+    Name = "Trusted Signing Certificate Profile Signer"
+    Description = "Can sign and manage trusted certificate profiles"
+    Actions = @(
+        "Microsoft.Authorization/*/read",
+        "Microsoft.Certificates/trustedSigningCertificates/*"
+    )
+    AssignableScopes = @("/subscriptions/<ditt-subscription-id>")
+}
+
+New-AzRoleDefinition -Role $role
+{noformat}
+
+h3. Tildele Rollen til en Bruker
+
+*Via Azure Portal:*
+
+1. Gå til *Azure Active Directory*
+2. Velg *Roles and administrators*
+3. Finn og klikk på "Trusted Signing Certificate Profile Signer"
+4. Klikk *+ Add assignments*
+5. Søk etter og velg brukeren
+6. Klikk *Add*
+
+*Via PowerShell:*
+
+{noformat}
+# Variabler
+$userPrincipalName = "bruker@domene.com"
+$subscriptionId = "<ditt-subscription-id>"
+$roleName = "Trusted Signing Certificate Profile Signer"
+
+# Hent bruker-ID
+$user = Get-AzADUser -UserPrincipalName $userPrincipalName
+
+# Tildel rolle
+New-AzRoleAssignment -ObjectId $user.Id `
+                     -RoleDefinitionName $roleName `
+                     -Scope "/subscriptions/$subscriptionId"
+{noformat}
+
+h3. Verifisering av Rolletilgang
+
+For å verifisere rolletildelingen:
+
+1. La brukeren logge inn på Azure Portal
+2. Naviger til Azure Active Directory
+3. Klikk på *My permissions*
+4. Bekreft at "Trusted Signing Certificate Profile Signer" er listet
+
+h3. Feilsøking av Azure-roller
+
+1. Verifiser at brukeren eksisterer i Azure AD
+2. Sjekk at du har tilstrekkelige rettigheter til å tildele roller
+3. Kontroller at subscription ID er korrekt
+4. Vent noen minutter på rollepropagering
+5. Sjekk Azure Activity Logs for eventuelle feilmeldinger 

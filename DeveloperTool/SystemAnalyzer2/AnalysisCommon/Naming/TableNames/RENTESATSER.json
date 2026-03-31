@@ -1,0 +1,52 @@
+{
+  "tableName": "RENTESATSER",
+  "futureName": "RentEntry",
+  "namespace": "Inl.ReNter",
+  "columns": [
+    {
+      "name": "FIRMA",
+      "futureName": "CompanyCode",
+      "description": "Company code identifier",
+      "foreignKey": "RENTE_FIR"
+    },
+    {
+      "name": "KONTOTYPE",
+      "futureName": "AccountType",
+      "description": "Account type code",
+      "foreignKey": "RENTE_KTOTYPE"
+    },
+    {
+      "name": "FRADATO",
+      "futureName": "StartDate",
+      "description": "Start date of the rent entry",
+      "foreignKey": null
+    },
+    {
+      "name": "BELOPSGRENSE",
+      "futureName": "AmountLimit",
+      "description": "Maximum amount limit for the rent entry",
+      "foreignKey": null
+    },
+    {
+      "name": "RENTE",
+      "futureName": "InterestRate",
+      "description": "Interest rate percentage",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the rent entry",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User ID associated with the rent entry",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:32:08"
+}

@@ -1,0 +1,61 @@
+{
+  "tableName": "AH_BESTHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "INNKORDRE",
+      "futureName": "IncomingOrderNumber",
+      "description": "Unique incoming order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "VendorNumber",
+      "description": "Vendor identification number",
+      "foreignKey": {
+        "table": "DBM.LEVERANDØR",
+        "column": "LEVNR"
+      }
+    },
+    {
+      "name": "LEVNAVN",
+      "futureName": "VendorName",
+      "description": "Vendor name",
+      "foreignKey": {
+        "table": "DBM.LEVERANDØR",
+        "column": "LEVNAVN"
+      }
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "WarehouseNumber",
+      "description": "Warehouse identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED",
+      "futureName": "StorageLocation",
+      "description": "Storage location within the warehouse",
+      "foreignKey": {
+        "table": "DBM.ADR",
+        "column": "ADRNR"
+      }
+    },
+    {
+      "name": "BILNR",
+      "futureName": "BillNumber",
+      "description": "Bill identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "BILNAVN",
+      "futureName": "BillingName",
+      "description": "Name associated with the bill",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:27:16"
+}

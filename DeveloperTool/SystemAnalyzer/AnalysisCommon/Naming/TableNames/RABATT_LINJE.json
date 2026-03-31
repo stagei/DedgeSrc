@@ -1,0 +1,124 @@
+{
+  "tableName": "RABATT_LINJE",
+  "futureName": "RabbitLine",
+  "namespace": "Sales",
+  "columns": [
+    {
+      "name": "rabNr",
+      "futureName": "RabNumber",
+      "description": "Unique identification number of the rabatt (discount) header",
+      "foreignKey": "DBM.RABATT_HODE.RAB_NR"
+    },
+    {
+      "name": "rabSeq",
+      "futureName": "Sequence",
+      "description": "Sequential number within the discount line",
+      "foreignKey": null
+    },
+    {
+      "name": "rabFknrFra",
+      "futureName": "FromForeignNumber",
+      "description": "Reference number of the starting foreign entity or object",
+      "foreignKey": null
+    },
+    {
+      "name": "rabFknrTil",
+      "futureName": "ToForeignNumber",
+      "description": "Reference number of the ending foreign entity or object",
+      "foreignKey": null
+    },
+    {
+      "name": "rabProdgr",
+      "futureName": "ProductGroup",
+      "description": "Code for product group",
+      "foreignKey": null
+    },
+    {
+      "name": "rabProdugr",
+      "futureName": "SubProductGroup",
+      "description": "Code for sub-product group",
+      "foreignKey": null
+    },
+    {
+      "name": "rabLevnr",
+      "futureName": "VendorNumber",
+      "description": "Reference number of the vendor",
+      "foreignKey": null
+    },
+    {
+      "name": "rabGruppe",
+      "futureName": "Group",
+      "description": "Code for group (likely a common attribute or category)",
+      "foreignKey": "RAB_GRUPPE"
+    },
+    {
+      "name": "rabPros1",
+      "futureName": "DiscountProvision1",
+      "description": "First provision related to discount details",
+      "foreignKey": null
+    },
+    {
+      "name": "rabFradato1",
+      "futureName": "StartEffectiveDate1",
+      "description": "Start date of the first effective period for discount provisions",
+      "foreignKey": null
+    },
+    {
+      "name": "rabTildato1",
+      "futureName": "EndEffectiveDate1",
+      "description": "End date of the first effective period for discount provisions",
+      "foreignKey": null
+    },
+    {
+      "name": "rabPros2",
+      "futureName": "DiscountProvision2",
+      "description": "Second provision related to discount details",
+      "foreignKey": null
+    },
+    {
+      "name": "rabFradato2",
+      "futureName": "StartEffectiveDate2",
+      "description": "Start date of the second effective period for discount provisions",
+      "foreignKey": null
+    },
+    {
+      "name": "rabTildato2",
+      "futureName": "EndEffectiveDate2",
+      "description": "End date of the second effective period for discount provisions",
+      "foreignKey": null
+    },
+    {
+      "name": "rabMerknad",
+      "futureName": "Remark",
+      "description": "Comment or remark about the discount line",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserId",
+      "description": "Unique identifier of the user who created or modified the record",
+      "foreignKey": "BRUKERID"
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Timestamp indicating when the record was created or last updated",
+      "foreignKey": "TIDSPUNKT"
+    },
+    {
+      "name": "salgKost1",
+      "futureName": "SalesCostType1",
+      "description": "First type of cost related to sales",
+      "foreignKey": null
+    },
+    {
+      "name": "salgKost2",
+      "futureName": "SalesCostType2",
+      "description": "Second type of cost related to sales",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:35:44"
+}

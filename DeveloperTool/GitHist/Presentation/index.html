@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git History Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+  --text:#e6edf3;--text2:#8b949e;--accent:#58a6ff;--accent2:#1f6feb;
+  --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;
+  --font:'Source Sans 3',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── Top bar ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.topbar h1{font-size:16px;font-weight:600;white-space:nowrap}
+.topbar .period{font-size:13px;color:var(--text2);font-family:var(--mono)}
+.topbar .nav-btns{margin-left:auto;display:flex;gap:6px}
+.topbar .nav-btns button{background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:13px}
+.topbar .nav-btns button:hover{color:var(--text);border-color:var(--accent)}
+.dataset-select{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:13px;font-family:var(--mono);cursor:pointer}
+.dataset-select:focus{outline:none;border-color:var(--accent)}
+.dataset-select option{background:var(--surface);color:var(--text)}
+.search-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 12px;color:var(--text);font-size:13px;width:200px;font-family:var(--font)}
+.search-box:focus{outline:none;border-color:var(--accent)}
+
+/* ── Filter bar (dates + authors) ── */
+.filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-bar .filter-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.filter-date{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text);font-size:12px;font-family:var(--mono);width:130px}
+.filter-date:focus{outline:none;border-color:var(--accent)}
+.filter-date::-webkit-calendar-picker-indicator{filter:invert(0.7)}
+.filter-sep{color:var(--text2);font-size:12px}
+
+/* ── Author multi-select dropdown ── */
+.author-dropdown{position:relative;display:inline-block}
+.author-dropdown-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 28px 5px 10px;color:var(--text);font-size:12px;font-family:var(--mono);cursor:pointer;white-space:nowrap;min-width:140px;text-align:left;appearance:none;position:relative}
+.author-dropdown-btn:hover{border-color:var(--accent)}
+.author-dropdown-btn::after{content:'\25BC';position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--text2)}
+.author-dropdown-panel{display:none;position:absolute;top:100%;left:0;margin-top:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.5);min-width:220px;max-height:320px;overflow-y:auto;z-index:200;padding:4px 0}
+.author-dropdown-panel.open{display:block}
+.author-dropdown-panel .ad-item{display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;font-size:12px;transition:background .1s}
+.author-dropdown-panel .ad-item:hover{background:var(--surface2)}
+.author-dropdown-panel .ad-item input[type="checkbox"]{accent-color:var(--accent);cursor:pointer}
+.author-dropdown-panel .ad-item label{cursor:pointer;flex:1;color:var(--text);font-family:var(--mono)}
+.author-dropdown-panel .ad-item .ad-count{color:var(--text2);font-size:11px;font-family:var(--mono)}
+.author-dropdown-panel .ad-divider{border-top:1px solid var(--border);margin:4px 0}
+.filter-apply{background:var(--accent2);border:1px solid var(--accent);color:#fff;border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:var(--font);font-weight:600;transition:all .15s}
+.filter-apply:hover{background:var(--accent)}
+.filter-reset{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:var(--font);transition:all .15s}
+.filter-reset:hover{color:var(--red);border-color:var(--red)}
+
+/* ── Tag filter bar ── */
+.tag-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;max-height:42px;overflow:hidden;transition:max-height .3s ease;cursor:pointer}
+.tag-bar.expanded{max-height:600px;cursor:default}
+.tag-bar .label{font-size:12px;color:var(--text2);margin-right:4px}
+.tag-pill{font-size:11px;padding:3px 10px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s}
+.tag-pill:hover{border-color:var(--accent);color:var(--text)}
+.tag-pill.active{background:var(--accent2);border-color:var(--accent);color:#fff}
+.tag-pill .count{opacity:.6;margin-left:4px}
+.tag-reset{font-size:11px;color:var(--text2);cursor:pointer;margin-left:8px;padding:3px 8px;border:1px solid var(--border);border-radius:6px;background:transparent}
+.tag-reset:hover{color:var(--red);border-color:var(--red)}
+
+/* ── Main content ── */
+.main{flex:1;padding:24px 32px;width:100%}
+
+/* ── Overview grid ── */
+.overview-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.overview-header h2{font-size:22px;font-weight:600}
+.overview-header .stats{font-size:13px;color:var(--text2);font-family:var(--mono)}
+
+/* ── Tab bar ── */
+.tab-bar{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border)}
+.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:10px 20px;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-panel{display:none;padding-top:16px}
+.tab-panel.active{display:block}
+
+/* ── Timeline outer + toolbar ── */
+.timeline-outer{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.timeline-toolbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.tl-btn-group{display:flex;gap:0}
+.tl-btn-group .tl-btn{border-radius:0}
+.tl-btn-group .tl-btn:first-child{border-radius:6px 0 0 6px}
+.tl-btn-group .tl-btn:last-child{border-radius:0 6px 6px 0}
+.tl-btn{background:var(--surface);border:1px solid var(--border);color:var(--text2);padding:4px 12px;cursor:pointer;font-size:14px;line-height:1;transition:all .15s;font-family:var(--font)}
+.tl-btn:hover{color:var(--text);border-color:var(--accent)}
+.tl-zoom-indicator{font-size:12px;color:var(--text2);font-family:var(--mono);min-width:45px;text-align:center}
+
+/* ── Timeline split layout (sticky labels) ── */
+.timeline-scroll-area{overflow:auto;max-height:70vh;position:relative;cursor:grab}
+.timeline-scroll-area:active{cursor:grabbing}
+.timeline-inner{display:flex;min-width:fit-content}
+.timeline-labels-col{position:sticky;left:0;z-index:5;background:var(--surface);flex-shrink:0;border-right:1px solid var(--border)}
+.timeline-labels-col .tl-label{display:flex;align-items:center;justify-content:flex-end;padding:0 10px;font-size:11px;font-family:var(--mono);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .15s}
+.timeline-labels-col .tl-label:hover{color:var(--accent) !important}
+.timeline-chart-col{flex:1;min-width:0}
+.timeline-chart-col svg{display:block}
+
+.tl-path{fill:none;stroke-width:2;stroke-linecap:round;opacity:.7;cursor:pointer;transition:opacity .15s,stroke-width .15s}
+.tl-path:hover{opacity:1;stroke-width:3.5}
+.tl-dot{cursor:pointer;transition:r .15s,opacity .15s}
+.tl-dot:hover{opacity:1 !important}
+
+/* ── Timeline tooltips ── */
+.tl-tooltip{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);font-size:12px;color:var(--text);max-width:340px;overflow:hidden;transition:opacity .12s}
+.tl-tip-line,.tl-tip-commit{padding:10px 12px 10px 14px}
+.tl-tip-title{font-weight:700;font-size:13px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-tip-meta{color:var(--text2);font-family:var(--mono);font-size:11px;line-height:1.6}
+.tl-tip-hash{font-family:var(--mono);font-size:11px;color:var(--purple);margin-bottom:2px}
+.tl-tip-date{font-family:var(--mono);font-size:11px;color:var(--text2)}
+.tl-tip-author{font-size:11px;color:var(--text2);margin-bottom:6px}
+.tl-tip-msg{color:var(--text);line-height:1.5;white-space:pre-wrap;word-break:break-word;max-height:120px;overflow-y:auto;border-top:1px solid var(--border);padding-top:6px;margin-top:2px}
+
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;transition:all .15s}
+.project-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.project-card h3{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.project-card .section-badge{font-size:10px;padding:2px 6px;border-radius:4px;text-transform:uppercase;font-family:var(--mono);font-weight:600}
+.section-badge.devtools{background:#1f3d1f;color:var(--green)}
+.section-badge.module{background:#3d2f1f;color:var(--yellow)}
+.section-badge.standalone{background:#1f2d3d;color:var(--accent)}
+.pre-badge{font-size:10px;padding:2px 6px;border-radius:4px;background:#2d1f2d;color:var(--purple);font-family:var(--mono);font-weight:600;margin-left:4px}
+.project-card .purpose{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.project-card .card-meta{display:flex;gap:12px;font-size:12px;color:var(--text2);font-family:var(--mono)}
+.project-card .card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.project-card .card-tags .tag-sm{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--surface2);color:var(--text2)}
+.bar-group{display:flex;align-items:center;gap:4px}
+.mini-bar{height:10px;border-radius:2px;min-width:2px}
+.mini-bar.ins{background:var(--green)}
+.mini-bar.del{background:var(--red)}
+
+/* ── Detail view ── */
+.detail-view{display:none}
+.detail-back{font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:16px;display:inline-flex;align-items:center;gap:4px}
+.detail-back:hover{color:var(--accent)}
+.detail-header{margin-bottom:24px}
+.detail-header h2{font-size:26px;font-weight:700;margin-bottom:6px}
+.detail-header .detail-path{font-family:var(--mono);font-size:13px;color:var(--text2);margin-bottom:12px}
+.detail-header .detail-purpose{font-size:15px;line-height:1.6;color:var(--text);max-width:800px;margin-bottom:12px}
+.detail-header .detail-tags{display:flex;flex-wrap:wrap;gap:6px}
+.detail-header .detail-tags .tag-pill{cursor:default}
+
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px;margin-bottom:24px;align-items:start}
+@media(max-width:500px){.detail-grid{grid-template-columns:1fr}}
+
+.detail-panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;height:fit-content;align-self:start}
+.detail-panel h3{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-size:11px}
+
+.info-table{width:100%;border-collapse:collapse;font-size:13px}
+.info-table td{padding:5px 0;vertical-align:top}
+.info-table td:first-child{color:var(--text2);white-space:nowrap;padding-right:16px;width:130px}
+.info-table td:last-child{color:var(--text);font-family:var(--mono)}
+.info-table .dev-sub{display:block;color:var(--text2);font-size:12px}
+
+.expand-toggle{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:16px;transition:all .15s;width:100%;text-align:left;font-family:var(--font)}
+.expand-toggle:hover{border-color:var(--accent);color:var(--text)}
+.expand-toggle .chevron{display:inline-block;transition:transform .2s;font-size:11px}
+.expand-toggle.open .chevron{transform:rotate(90deg)}
+.expandable-section{overflow:hidden;max-height:0;opacity:0;transition:max-height .35s ease,opacity .25s ease,margin .25s ease;margin-bottom:0}
+.expandable-section.open{max-height:5000px;opacity:1;margin-bottom:24px}
+
+.stat-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.stat-row:last-child{border-bottom:none}
+.stat-row .val{font-family:var(--mono);color:var(--accent)}
+
+.exec-table{width:100%;border-collapse:collapse;font-size:13px}
+.exec-table th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600}
+.exec-table td{padding:6px 8px;border-bottom:1px solid var(--border)}
+.exec-table td:first-child{font-family:var(--mono);color:var(--accent);white-space:nowrap}
+
+.file-list{list-style:none}
+.file-list li{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.file-list li:last-child{border-bottom:none}
+.file-list .fname{font-family:var(--mono);color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px}
+.file-list .fcount{font-family:var(--mono);color:var(--yellow)}
+
+.commit-timeline{max-height:400px;overflow-y:auto;padding-right:4px}
+.commit-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:start}
+.commit-entry:last-child{border-bottom:none}
+.commit-entry .c-date{font-family:var(--mono);color:var(--text2)}
+.commit-entry .c-hash{font-family:var(--mono);color:var(--purple);font-size:12px}
+.commit-entry .c-msg{color:var(--text);line-height:1.4}
+
+.period-summary{font-size:14px;line-height:1.7;color:var(--text)}
+
+.dev-list{list-style:none}
+.dev-list li{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.dev-list li:last-child{border-bottom:none}
+.dev-list .dev-name{color:var(--text)}
+.dev-list .dev-commits{font-family:var(--mono);color:var(--accent)}
+
+.mono{font-family:var(--mono);font-size:12px}
+.io-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase}
+.io-badge.input{background:#1a2d1a;color:var(--green)}
+.io-badge.output{background:#2d1f1a;color:var(--yellow)}
+.io-badge.both{background:#1a1f2d;color:var(--accent)}
+.db-info .stat-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.db-info .stat-row:last-child{border-bottom:none}
+.db-info .val{color:var(--text);text-align:right;max-width:60%;word-break:break-word}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border)}
+
+/* ── AutoDoc References ── */
+.autodoc-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;transition:border-color .15s}
+.autodoc-card:hover{border-color:var(--accent)}
+.autodoc-card-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.autodoc-card-header a{font-family:var(--mono);font-size:13px;font-weight:600}
+.autodoc-type-badge{font-size:10px;padding:2px 6px;border-radius:4px;text-transform:uppercase;font-family:var(--mono);font-weight:600}
+.autodoc-type-badge.cbl{background:#1a2d2d;color:#4fc3f7}
+.autodoc-type-badge.sql{background:#1a2d1a;color:var(--green)}
+.autodoc-type-badge.ps1{background:#1a1f2d;color:var(--accent)}
+.autodoc-type-badge.bat{background:#2d1f1a;color:var(--yellow)}
+.autodoc-type-badge.psm1{background:#2d1a2d;color:var(--purple)}
+.autodoc-card .desc{font-size:12px;color:var(--text2);margin-bottom:6px}
+.autodoc-card .unc-path{font-size:11px;color:var(--text2);font-family:var(--mono);cursor:pointer;opacity:.7;transition:opacity .15s}
+.autodoc-card .unc-path:hover{opacity:1;color:var(--accent)}
+.autodoc-sub-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.autodoc-sub-table th{text-align:left;padding:3px 6px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:600}
+.autodoc-sub-table td{padding:3px 6px;border-bottom:1px solid var(--border)}
+.autodoc-sub-table td:first-child{font-family:var(--mono);color:var(--accent);white-space:nowrap}
+.mermaid-toggle{font-size:11px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:var(--mono);padding:2px 0;margin-top:4px}
+.mermaid-toggle:hover{text-decoration:underline}
+.mermaid-container{margin-top:8px;overflow-x:auto;background:var(--bg);border-radius:6px;padding:12px}
+.mermaid-container svg{max-width:100%}
+
+.hidden{display:none!important}
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="topbar">
+    <h1>Git History</h1>
+    <select class="dataset-select" id="datasetSelect"></select>
+    <input class="search-box" id="search" type="text" placeholder="Search projects...">
+    <div class="nav-btns">
+      <button onclick="history.back()" title="Back">&#8592;</button>
+      <button onclick="history.forward()" title="Forward">&#8594;</button>
+    </div>
+  </header>
+  <div class="filter-bar" id="filterBar">
+    <span class="filter-label">From</span>
+    <input type="date" class="filter-date" id="filterFrom">
+    <span class="filter-sep">&mdash;</span>
+    <span class="filter-label">To</span>
+    <input type="date" class="filter-date" id="filterTo">
+    <span class="filter-sep">|</span>
+    <span class="filter-label">Authors</span>
+    <div class="author-dropdown" id="authorDropdown">
+      <button class="author-dropdown-btn" id="authorBtn">All authors</button>
+      <div class="author-dropdown-panel" id="authorPanel"></div>
+    </div>
+    <button class="filter-apply" id="filterApply">Apply</button>
+    <button class="filter-reset" id="filterReset">Reset</button>
+  </div>
+  <div class="tag-bar" id="tagBar"></div>
+
+  <div class="main">
+    <div id="overviewView">
+      <div class="overview-header">
+        <h2>Projects</h2>
+        <span class="stats" id="overviewStats"></span>
+      </div>
+      <div class="tab-bar" id="overviewTabs">
+        <button class="tab-btn active" data-tab="panelTimeline">Timeline</button>
+        <button class="tab-btn" data-tab="panelProjects">Projects</button>
+      </div>
+      <div class="tab-panel active" id="panelTimeline">
+        <div class="timeline-outer">
+          <div class="timeline-toolbar">
+            <div class="tl-btn-group">
+              <button class="tl-btn" onclick="window._tlZoomIn()" title="Zoom In">&#43;</button>
+              <button class="tl-btn" onclick="window._tlZoomOut()" title="Zoom Out">&#8722;</button>
+              <button class="tl-btn" onclick="window._tlResetZoom()" title="Reset Zoom">&#8634;</button>
+            </div>
+            <span class="tl-zoom-indicator" id="tlZoom">100%</span>
+            <button class="tl-btn" onclick="window._tlFitToScreen()" title="Fit to Screen">&#10529;</button>
+          </div>
+          <div class="timeline-scroll-area" id="timelineContainer"></div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panelProjects">
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </div>
+
+    <div class="detail-view" id="detailView">
+      <span class="detail-back" onclick="navigateTo('')">&#8592; All projects</span>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose',
+    flowchart: { curve: 'basis', htmlLabels: true },
+    sequence: { useMaxWidth: true } });
+
+  let DATA = null;
+  let DATASETS = [];
+  let activeTags = new Set();
+  let searchQuery = '';
+  let filterDateFrom = '';
+  let filterDateTo = '';
+  let activeAuthors = new Set();
+  let allAuthors = [];
+  let authorFilterActive = false;
+
+  async function init() {
+    try {
+      const resp = await fetch('datasets.json?_=' + Date.now());
+      const manifest = await resp.json();
+      DATASETS = manifest.datasets || [];
+    } catch {
+      DATASETS = [];
+    }
+
+    const select = document.getElementById('datasetSelect');
+    if (DATASETS.length > 0) {
+      DATASETS.forEach((ds, i) => {
+        const opt = document.createElement('option');
+        opt.value = ds.file;
+        opt.textContent = `${ds.author} | ${ds.periodFrom} \u2013 ${ds.periodTo} (${ds.projectCount})`;
+        select.appendChild(opt);
+      });
+      select.addEventListener('change', () => loadDataset(select.value));
+      await loadDataset(DATASETS[0].file);
+    } else {
+      const opt = document.createElement('option');
+      opt.textContent = 'presentation-data.json';
+      opt.value = 'presentation-data.json';
+      select.appendChild(opt);
+      await loadDataset('presentation-data.json');
+    }
+  }
+
+  async function loadDataset(jsonFile) {
+    const resp = await fetch(jsonFile);
+    DATA = await resp.json();
+    (DATA.projects || []).forEach(p => {
+      if (!p.tags) p.tags = [];
+      else if (typeof p.tags === 'string') p.tags = [p.tags];
+    });
+    activeTags.clear();
+    searchQuery = '';
+    document.getElementById('search').value = '';
+
+    filterDateFrom = DATA.period.from || '';
+    filterDateTo = DATA.period.to || '';
+    document.getElementById('filterFrom').value = filterDateFrom;
+    document.getElementById('filterTo').value = filterDateTo;
+
+    extractAuthors();
+    buildAuthorDropdown();
+    buildTagBar();
+    route();
+  }
+
+  /* ── Author extraction (distinct git commit authors, case-insensitive dedup) ── */
+  function extractAuthors() {
+    const byKey = {};
+    DATA.projects.forEach(p => {
+      (p.commits || []).forEach(c => {
+        const raw = (c.author || '').trim();
+        if (!raw) return;
+        const key = raw.toLowerCase();
+        if (!byKey[key]) byKey[key] = { variants: {}, total: 0 };
+        byKey[key].variants[raw] = (byKey[key].variants[raw] || 0) + 1;
+        byKey[key].total += 1;
+      });
+    });
+    allAuthors = Object.values(byKey)
+      .map(entry => {
+        const best = Object.entries(entry.variants).sort((a, b) => b[1] - a[1])[0][0];
+        return { name: best, commits: entry.total };
+      })
+      .sort((a, b) => b.commits - a.commits);
+    activeAuthors.clear();
+  }
+
+  function buildAuthorDropdown() {
+    const panel = document.getElementById('authorPanel');
+    panel.innerHTML = '';
+
+    const allItem = document.createElement('div');
+    allItem.className = 'ad-item';
+    allItem.innerHTML = `<input type="checkbox" id="ad-all" checked><label for="ad-all" style="font-weight:600">Select All</label>`;
+    allItem.querySelector('input').addEventListener('change', function() {
+      const boxes = panel.querySelectorAll('input[data-author]');
+      boxes.forEach(b => { b.checked = this.checked; });
+      syncAuthorsFromCheckboxes();
+    });
+    panel.appendChild(allItem);
+
+    const div = document.createElement('div');
+    div.className = 'ad-divider';
+    panel.appendChild(div);
+
+    allAuthors.forEach(a => {
+      const item = document.createElement('div');
+      item.className = 'ad-item';
+      item.innerHTML = `<input type="checkbox" data-author="${esc(a.name)}" id="ad-${a.name}" checked>` +
+        `<label for="ad-${a.name}">${esc(a.name)}</label>` +
+        `<span class="ad-count">${a.commits}</span>`;
+      item.querySelector('input').addEventListener('change', function() {
+        syncAuthorsFromCheckboxes();
+        const allBox = panel.querySelector('#ad-all');
+        const total = panel.querySelectorAll('input[data-author]').length;
+        const checked = panel.querySelectorAll('input[data-author]:checked').length;
+        allBox.checked = checked === total;
+        allBox.indeterminate = checked > 0 && checked < total;
+      });
+      panel.appendChild(item);
+    });
+
+    updateAuthorBtnLabel();
+  }
+
+  function syncAuthorsFromCheckboxes() {
+    const panel = document.getElementById('authorPanel');
+    const boxes = panel.querySelectorAll('input[data-author]');
+    const checked = panel.querySelectorAll('input[data-author]:checked');
+    activeAuthors.clear();
+    checked.forEach(b => activeAuthors.add(b.dataset.author));
+    authorFilterActive = checked.length < boxes.length;
+    updateAuthorBtnLabel();
+  }
+
+  function updateAuthorBtnLabel() {
+    const btn = document.getElementById('authorBtn');
+    if (!authorFilterActive) {
+      btn.textContent = 'All authors';
+    } else if (activeAuthors.size === 0) {
+      btn.textContent = '0 of ' + allAuthors.length + ' authors';
+    } else if (activeAuthors.size === 1) {
+      btn.textContent = [...activeAuthors][0];
+    } else {
+      btn.textContent = activeAuthors.size + ' of ' + allAuthors.length + ' authors';
+    }
+  }
+
+  /* ── Filtering ── */
+  function getFilteredProjects() {
+    return DATA.projects.filter(p => {
+      if (activeTags.size > 0 && !(p.tags || []).some(t => activeTags.has(t))) return false;
+
+      if (filterDateFrom || filterDateTo) {
+        const commits = p.commits || [];
+        if (commits.length === 0) return false;
+        const hasCommitInRange = commits.some(c => {
+          if (filterDateFrom && c.date < filterDateFrom) return false;
+          if (filterDateTo && c.date > filterDateTo) return false;
+          return true;
+        });
+        if (!hasCommitInRange) return false;
+      }
+
+      if (authorFilterActive) {
+        if (activeAuthors.size === 0) return false;
+        const devNames = (p.developers || []).map(d => d.name);
+        const commitAuthors = (p.commits || []).map(c => c.author);
+        const projectAuthors = new Set([...devNames, ...commitAuthors]);
+        if (![...activeAuthors].some(a => projectAuthors.has(a))) return false;
+      }
+
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const haystack = [p.name, p.businessPurpose, p.periodSummary, ...(p.tags || []), p.relativePath].join(' ').toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ── Tag bar ── */
+  function buildTagBar() {
+    const tagCounts = {};
+    DATA.projects.forEach(p => {
+      if (!p.tags) p.tags = [];
+      else if (typeof p.tags === 'string') p.tags = [p.tags];
+      p.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+    });
+    const sorted = Object.entries(tagCounts).sort((a,b) => b[1] - a[1]);
+
+    const bar = document.getElementById('tagBar');
+    bar.innerHTML = '<span class="label">Tags &#9660;</span>';
+    bar.onclick = function(e) {
+      if (e.target.closest('.tag-pill') || e.target.closest('.tag-reset')) return;
+      bar.classList.toggle('expanded');
+      bar.querySelector('.label').innerHTML = bar.classList.contains('expanded') ? 'Tags &#9650;' : 'Tags &#9660;';
+    };
+    sorted.forEach(([tag, count]) => {
+      const pill = document.createElement('span');
+      pill.className = 'tag-pill';
+      pill.innerHTML = `${tag}<span class="count">${count}</span>`;
+      pill.onclick = () => { toggleTag(tag); };
+      pill.dataset.tag = tag;
+      bar.appendChild(pill);
+    });
+
+    const reset = document.createElement('span');
+    reset.className = 'tag-reset';
+    reset.textContent = 'Clear';
+    reset.onclick = () => { activeTags.clear(); updateTagPills(); renderOverview(); };
+    bar.appendChild(reset);
+  }
+
+  function toggleTag(tag) {
+    if (activeTags.has(tag)) activeTags.delete(tag); else activeTags.add(tag);
+    updateTagPills();
+    renderOverview();
+  }
+
+  function updateTagPills() {
+    document.querySelectorAll('.tag-bar .tag-pill').forEach(el => {
+      el.classList.toggle('active', activeTags.has(el.dataset.tag));
+    });
+  }
+
+  /* ── Tab switching ── */
+  function initTabs() {
+    document.querySelectorAll('#overviewTabs .tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#overviewTabs .tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#overviewView .tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+  }
+  initTabs();
+
+  /* ── Overview ── */
+  function renderOverview() {
+    const projects = getFilteredProjects();
+    document.getElementById('overviewStats').textContent =
+      `${projects.length} / ${DATA.projects.length} projects`;
+
+    renderTimeline(projects);
+    renderGrid(projects);
+  }
+
+  function renderGrid(projects) {
+    const grid = document.getElementById('projectGrid');
+    grid.innerHTML = '';
+
+    const maxChurn = Math.max(1, ...projects.map(p => p.stats.insertions + p.stats.deletions));
+
+    projects.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'project-card fade-in';
+      card.onclick = () => navigateTo(p.id);
+
+      const insW = Math.max(2, (p.stats.insertions / maxChurn) * 60);
+      const delW = Math.max(2, (p.stats.deletions / maxChurn) * 60);
+
+      const preBadge = p.preExisting ? `<span class="pre-badge" title="First commit: ${esc(p.firstEverDate)}">pre-existing</span>` : '';
+
+      card.innerHTML = `
+        <h3>${esc(p.name)} <span class="section-badge ${p.section}">${p.section}</span>${preBadge}</h3>
+        <div class="purpose">${esc(p.businessPurpose)}</div>
+        <div class="card-meta">
+          <span>${p.stats.commits} commits</span>
+          <span>${p.stats.firstDate || '?'}</span>
+          <div class="bar-group">
+            <div class="mini-bar ins" style="width:${insW}px" title="+${p.stats.insertions}"></div>
+            <div class="mini-bar del" style="width:${delW}px" title="-${p.stats.deletions}"></div>
+          </div>
+        </div>
+        <div class="card-tags">${(p.tags || []).map(t => `<span class="tag-sm">${esc(t)}</span>`).join('')}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  /* ── Timeline (D3) - curved river lines with sticky labels ── */
+  const TL_COLORS = [
+    '#58a6ff','#3fb950','#d29922','#f85149','#bc8cff','#f0883e','#79c0ff',
+    '#56d364','#e3b341','#ff7b72','#d2a8ff','#ffa657','#a5d6ff','#7ee787',
+    '#f2cc60','#ffa198','#e8d5ff','#ffb86c','#39d353','#db61a2'
+  ];
+
+  let _tlZoom = 1.0;
+  const TL_ZOOM_STEP = 0.25;
+  const TL_ZOOM_MIN = 0.1;
+  const TL_ZOOM_MAX = 6.0;
+  let _tlBasePxPerDay = 0;
+  let _tlContainerWidth = 0;
+
+  function _updateZoomIndicator() {
+    const el = document.getElementById('tlZoom');
+    if (el) el.textContent = Math.round(_tlZoom * 100) + '%';
+  }
+
+  window._tlZoomIn = function() {
+    _tlZoom = Math.min(TL_ZOOM_MAX, _tlZoom + TL_ZOOM_STEP);
+    _updateZoomIndicator();
+    renderTimeline(getFilteredProjects());
+  };
+  window._tlZoomOut = function() {
+    _tlZoom = Math.max(TL_ZOOM_MIN, _tlZoom - TL_ZOOM_STEP);
+    _updateZoomIndicator();
+    renderTimeline(getFilteredProjects());
+  };
+  window._tlResetZoom = function() {
+    _tlZoom = 1.0;
+    _updateZoomIndicator();
+    renderTimeline(getFilteredProjects());
+  };
+  window._tlFitToScreen = function() {
+    if (_tlBasePxPerDay > 0 && _tlContainerWidth > 0) {
+      _tlZoom = _tlContainerWidth / (_tlBasePxPerDay * _tlDays);
+      _tlZoom = Math.max(TL_ZOOM_MIN, Math.min(TL_ZOOM_MAX, _tlZoom));
+    } else {
+      _tlZoom = 1.0;
+    }
+    _updateZoomIndicator();
+    renderTimeline(getFilteredProjects());
+  };
+
+  let _tlDays = 1;
+
+  function shortName(name) {
+    const parts = name.replace(/\\/g, '/').split('/');
+    return parts[parts.length - 1] || parts[parts.length - 2] || name;
+  }
+
+  function renderTimeline(projects) {
+    const container = document.getElementById('timelineContainer');
+    container.innerHTML = '';
+
+    const active = projects
+      .filter(p => p.commits && p.commits.length > 0)
+      .map(p => {
+        const dates = p.commits.map(c => new Date(c.date));
+        return {...p, _start: d3.min(dates), _end: d3.max(dates), _span: d3.max(dates) - d3.min(dates)};
+      })
+      .sort((a, b) => b._span - a._span || a._start - b._start);
+
+    if (active.length === 0) {
+      container.innerHTML = '<div style="text-align:center;color:var(--text2);padding:24px">No commit data to display</div>';
+      return;
+    }
+
+    const laneH = 26;
+    const labelW = 200;
+    const margin = {top: 32, right: 30, bottom: 32};
+
+    const allDates = [];
+    active.forEach(p => p.commits.forEach(c => allDates.push(new Date(c.date))));
+    const ext = d3.extent(allDates);
+    _tlDays = Math.max(1, (ext[1] - ext[0]) / 86400000);
+    _tlBasePxPerDay = Math.max(6, Math.min(25, 2000 / _tlDays));
+    _tlContainerWidth = container.clientWidth - labelW;
+
+    const pxPerDay = _tlBasePxPerDay * _tlZoom;
+    const chartW = Math.max(_tlDays * pxPerDay, _tlContainerWidth);
+    const chartH = active.length * laneH;
+
+    const inner = document.createElement('div');
+    inner.className = 'timeline-inner';
+
+    const labelsCol = document.createElement('div');
+    labelsCol.className = 'timeline-labels-col';
+    labelsCol.style.width = labelW + 'px';
+
+    const labelSpacer = document.createElement('div');
+    labelSpacer.style.height = margin.top + 'px';
+    labelsCol.appendChild(labelSpacer);
+
+    active.forEach((p, i) => {
+      const color = TL_COLORS[i % TL_COLORS.length];
+      const lbl = document.createElement('div');
+      lbl.className = 'tl-label';
+      lbl.style.height = laneH + 'px';
+      lbl.style.color = color;
+      const sn = shortName(p.name);
+      lbl.textContent = sn.length > 28 ? sn.slice(0,26) + '\u2026' : sn;
+      lbl.title = p.name;
+      lbl.onclick = () => navigateTo(p.id);
+      labelsCol.appendChild(lbl);
+    });
+
+    const labelBottomSpacer = document.createElement('div');
+    labelBottomSpacer.style.height = margin.bottom + 'px';
+    labelsCol.appendChild(labelBottomSpacer);
+
+    const chartCol = document.createElement('div');
+    chartCol.className = 'timeline-chart-col';
+
+    inner.appendChild(labelsCol);
+    inner.appendChild(chartCol);
+    container.appendChild(inner);
+
+    const svg = d3.select(chartCol).append('svg')
+      .attr('width', chartW + margin.right)
+      .attr('height', chartH + margin.top + margin.bottom);
+
+    const g = svg.append('g').attr('transform', `translate(0,${margin.top})`);
+    const x = d3.scaleTime().domain(ext).range([0, chartW]).nice();
+
+    const tickInterval = _tlZoom < 0.4 ? d3.timeMonth.every(1)
+      : _tlZoom < 1 ? d3.timeWeek.every(2)
+      : _tlZoom < 2.5 ? d3.timeWeek.every(1)
+      : d3.timeDay.every(1);
+
+    g.selectAll('.lane-sep').data(active).join('line')
+      .attr('x1', 0).attr('x2', chartW)
+      .attr('y1', (_, i) => i * laneH + laneH)
+      .attr('y2', (_, i) => i * laneH + laneH)
+      .attr('stroke', 'var(--border)').attr('stroke-width', 0.5).attr('opacity', 0.3);
+
+    g.append('g').attr('transform', `translate(0,${chartH + 4})`)
+      .call(d3.axisBottom(x).ticks(tickInterval).tickFormat(d3.timeFormat(_tlZoom >= 2.5 ? '%d %b' : '%d %b %y')))
+      .selectAll('text').style('font-size', '9px').style('fill', 'var(--text2)');
+
+    const tooltip = d3.select(container).append('div')
+      .attr('class', 'tl-tooltip')
+      .style('position', 'absolute')
+      .style('pointer-events', 'none')
+      .style('opacity', 0)
+      .style('z-index', '10');
+
+    function positionTooltip(event, extraW) {
+      const rect = container.getBoundingClientRect();
+      let left = event.clientX - rect.left + container.scrollLeft + 14;
+      let top = event.clientY - rect.top + container.scrollTop - 10;
+      const tipW = extraW || 280;
+      if (left + tipW > container.scrollLeft + container.clientWidth) {
+        left = event.clientX - rect.left + container.scrollLeft - tipW - 14;
+      }
+      if (top < container.scrollTop + 8) top = container.scrollTop + 8;
+      tooltip.style('left', left + 'px').style('top', top + 'px');
+    }
+
+    const line = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveMonotoneX);
+
+    active.forEach((p, i) => {
+      const color = TL_COLORS[i % TL_COLORS.length];
+      const cy = i * laneH + laneH / 2;
+      const sortedDates = p.commits.map(c => new Date(c.date)).sort((a,b) => a - b);
+      const points = sortedDates.map(d => [x(d), cy]);
+      const fmtDate = d => d.toISOString().slice(0,10);
+      const dateFrom = fmtDate(sortedDates[0]);
+      const dateTo = fmtDate(sortedDates[sortedDates.length - 1]);
+      const ins = p.stats ? p.stats.insertions : 0;
+      const del = p.stats ? p.stats.deletions : 0;
+
+      if (points.length > 1) {
+        g.append('path')
+          .attr('d', line(points))
+          .attr('stroke', color)
+          .attr('fill', 'none')
+          .attr('stroke-width', 2.5)
+          .attr('opacity', 0.55)
+          .attr('stroke-linecap', 'round')
+          .style('cursor', 'pointer')
+          .on('mouseover', function(event) {
+            d3.select(this).attr('opacity', 1).attr('stroke-width', 4);
+            tooltip.html(
+              `<div class="tl-tip-line" style="border-left:3px solid ${color}">` +
+              `<div class="tl-tip-title">${esc(shortName(p.name))}</div>` +
+              `<div class="tl-tip-meta">${dateFrom} &rarr; ${dateTo}</div>` +
+              `<div class="tl-tip-meta">${p.commits.length} commits &middot; <span style="color:var(--green)">+${ins}</span> <span style="color:var(--red)">&minus;${del}</span></div>` +
+              `</div>`)
+              .style('opacity', 1);
+            positionTooltip(event, 240);
+          })
+          .on('mousemove', function(event) { positionTooltip(event, 240); })
+          .on('mouseout', function() {
+            d3.select(this).attr('opacity', 0.55).attr('stroke-width', 2.5);
+            tooltip.style('opacity', 0);
+          })
+          .on('click', () => navigateTo(p.id));
+      }
+
+      p.commits.forEach(c => {
+        const cx = x(new Date(c.date));
+        g.append('circle')
+          .attr('cx', cx).attr('cy', cy).attr('r', 3.5)
+          .attr('fill', color).attr('opacity', 0.9)
+          .style('cursor', 'pointer')
+          .on('mouseover', function(event) {
+            d3.select(this).attr('r', 6);
+            tooltip.html(
+              `<div class="tl-tip-commit" style="border-left:3px solid ${color}">` +
+              `<div class="tl-tip-title">${esc(shortName(p.name))}</div>` +
+              `<div class="tl-tip-hash">${esc(c.hash)}</div>` +
+              `<div class="tl-tip-date">${c.date}</div>` +
+              `<div class="tl-tip-author">${esc(c.author || 'unknown')}</div>` +
+              `<div class="tl-tip-msg">${esc(c.message)}</div>` +
+              `</div>`)
+              .style('opacity', 1);
+            positionTooltip(event, 320);
+          })
+          .on('mousemove', function(event) { positionTooltip(event, 320); })
+          .on('mouseout', function() {
+            d3.select(this).attr('r', 3.5);
+            tooltip.style('opacity', 0);
+          })
+          .on('click', () => navigateTo(p.id));
+      });
+    });
+
+    container.scrollLeft = container.scrollWidth;
+
+    let isDragging = false, startX = 0, startY = 0, scrollLX = 0, scrollTY = 0;
+    container.addEventListener('mousedown', e => {
+      isDragging = true; startX = e.pageX; startY = e.pageY;
+      scrollLX = container.scrollLeft; scrollTY = container.scrollTop;
+      container.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      container.scrollLeft = scrollLX - (e.pageX - startX);
+      container.scrollTop = scrollTY - (e.pageY - startY);
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; container.style.cursor = 'grab'; });
+
+    container.addEventListener('wheel', e => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -TL_ZOOM_STEP : TL_ZOOM_STEP;
+        _tlZoom = Math.max(TL_ZOOM_MIN, Math.min(TL_ZOOM_MAX, _tlZoom + delta));
+        _updateZoomIndicator();
+        renderTimeline(getFilteredProjects());
+      }
+    }, {passive: false});
+  }
+
+  /* ── Detail view ── */
+  function renderDetail(projectId) {
+    const p = DATA.projects.find(pr => pr.id === projectId);
+    if (!p) { navigateTo(''); return; }
+
+    const content = document.getElementById('detailContent');
+    const tagsHtml = (p.tags || []).map(t => `<span class="tag-pill">${esc(t)}</span>`).join('');
+
+    const detailPreBadge = p.preExisting ? `<span class="pre-badge" title="First commit: ${esc(p.firstEverDate)}">pre-existing</span>` : '';
+
+    const statRows = [
+      ['Commits', p.stats.commits],
+      ['First Commit', p.stats.firstDate || '-'],
+      ['Last Commit', p.stats.lastDate || '-'],
+      ['Files Changed', p.stats.filesChanged],
+      ['Insertions', `+${p.stats.insertions}`],
+      ['Deletions', `-${p.stats.deletions}`]
+    ];
+    if (p.firstEverDate && p.firstEverDate !== 'unknown') {
+      statRows.splice(1, 0, ['First Ever Commit', p.firstEverDate]);
+    }
+    const statsHtml = statRows.map(([k,v]) => `<div class="stat-row"><span>${k}</span><span class="val">${v}</span></div>`).join('');
+
+    const devsSorted = (p.developers || []).slice().sort((a,b) => b.commits - a.commits);
+    const devsInfoHtml = devsSorted.length > 0
+      ? devsSorted.map((d,i) => i === 0
+          ? `<span>${esc(d.name)}</span> <span style="color:var(--text2);font-size:12px">(${d.commits} commits)</span>`
+          : `<span class="dev-sub">${esc(d.name)} (${d.commits})</span>`
+        ).join('')
+      : '<span style="color:var(--text2)">Unknown</span>';
+
+    const infoRows = [
+      ['Developer(s)', devsInfoHtml],
+      ['Project Start', p.firstEverDate && p.firstEverDate !== 'unknown' ? p.firstEverDate : (p.stats.firstDate || '-')],
+      ['Last Change', p.stats.lastDate || '-'],
+      ['Source Files', p.stats.sourceFileCount != null ? p.stats.sourceFileCount.toLocaleString() : '-'],
+      ['Code Lines', p.stats.totalCodeLines != null ? p.stats.totalCodeLines.toLocaleString() : '-'],
+      ['Commits', p.stats.commits],
+    ];
+    const infoHtml = `<table class="info-table"><tbody>${infoRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</tbody></table>`;
+
+    const execHtml = (p.executables && p.executables.length > 0)
+      ? `<table class="exec-table"><thead><tr><th>Source File</th><th>Functionality</th></tr></thead><tbody>${
+          p.executables.map(e => `<tr><td>${esc(e.file)}</td><td>${esc(e.description)}</td></tr>`).join('')
+        }</tbody></table>`
+      : '<div style="color:var(--text2);font-size:13px">No key source files documented</div>';
+
+    const paramsHtml = (p.parameters && p.parameters.length > 0)
+      ? `<table class="exec-table"><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>${
+          p.parameters.map(pm => `<tr><td class="mono">${esc(pm.name)}</td><td class="mono">${esc(pm.type)}</td><td>${esc(pm.description)}</td></tr>`).join('')
+        }</tbody></table>`
+      : '<div style="color:var(--text2);font-size:13px">No parameters detected</div>';
+
+    const ioHtml = (p.inputOutput && p.inputOutput.length > 0)
+      ? `<table class="exec-table"><thead><tr><th>Direction</th><th>Path / Resource</th><th>Description</th></tr></thead><tbody>${
+          p.inputOutput.map(io => `<tr><td><span class="io-badge ${io.direction.toLowerCase()}">${esc(io.direction)}</span></td><td class="mono">${esc(io.resource)}</td><td>${esc(io.description)}</td></tr>`).join('')
+        }</tbody></table>`
+      : '<div style="color:var(--text2);font-size:13px">No I/O paths detected</div>';
+
+    const db = p.database || {};
+    const hasDb = db.technology && db.technology !== 'None detected' && db.technology !== 'N/A' && db.technology !== '';
+    const dbHtml = hasDb
+      ? `<div class="db-info">
+           <div class="stat-row"><span>Technology</span><span class="val mono">${esc(db.technology)}</span></div>
+           <div class="stat-row"><span>Connection</span><span class="val mono">${esc(db.connection || 'N/A')}</span></div>
+           <div class="stat-row"><span>Tables / Views</span><span class="val">${esc(db.tables || 'None detected')}</span></div>
+         </div>`
+      : '<div style="color:var(--text2);font-size:13px">No database usage detected</div>';
+
+    const topFilesHtml = (p.topFiles && p.topFiles.length > 0)
+      ? `<ul class="file-list">${p.topFiles.map(f => `<li><span class="fname" title="${esc(f.file)}">${esc(f.file)}</span><span class="fcount">${f.count}</span></li>`).join('')}</ul>`
+      : '<div style="color:var(--text2);font-size:13px">No file data</div>';
+
+    const commitsHtml = (p.commits && p.commits.length > 0)
+      ? `<div class="commit-timeline">${p.commits.map(c =>
+          `<div class="commit-entry"><span class="c-date">${esc(c.date)}</span><span class="c-hash">${esc(c.hash)}</span><span class="c-msg">${esc(c.message)}</span></div>`
+        ).join('')}</div>`
+      : '<div style="color:var(--text2);font-size:13px">No commit data</div>';
+
+    let adLinks = p.autoDocLinks || [];
+    if (!Array.isArray(adLinks)) adLinks = [adLinks];
+    let autoDocHtml = '';
+    if (adLinks.length > 0) {
+      const cardsHtml = adLinks.map((ad, idx) => {
+        const typeCls = (ad.type || '').toLowerCase();
+        const jsonFile = (ad.webUrl || '').split('file=').pop();
+        const sqlHtml = (ad.sqlTables && ad.sqlTables.length > 0)
+          ? `<table class="autodoc-sub-table"><thead><tr><th>Table</th><th>Operation</th><th>Description</th></tr></thead><tbody>${
+              ad.sqlTables.map(t => `<tr><td>${esc(t.table)}</td><td>${esc(t.operation)}</td><td>${esc(t.description || '')}</td></tr>`).join('')
+            }</tbody></table>` : '';
+        const subHtml = (ad.calledSubprograms && ad.calledSubprograms.length > 0)
+          ? `<table class="autodoc-sub-table"><thead><tr><th>Module</th><th>Description</th></tr></thead><tbody>${
+              ad.calledSubprograms.map(s => `<tr><td>${esc(s.module)}</td><td>${esc(s.description || '')}</td></tr>`).join('')
+            }</tbody></table>` : '';
+        const diagramBtns = ad.hasDiagrams
+          ? `<div style="display:flex;gap:8px;margin-top:4px;align-items:center">
+               <button class="mermaid-toggle" data-ad-idx="${idx}" onclick="toggleMermaid(this,${idx},'${esc(ad.webUrl)}')">Show diagrams</button>
+               <a class="mermaid-toggle" href="autodoc-viewer.html?file=${encodeURIComponent(jsonFile)}" target="_blank" rel="noopener" title="Open diagram viewer in new window" style="color:var(--purple)">&#10697; Open viewer</a>
+             </div>
+             <div class="mermaid-container hidden" id="mmd-${idx}"></div>` : '';
+        return `<div class="autodoc-card">
+          <div class="autodoc-card-header">
+            <a href="${esc(ad.webUrl)}" target="_blank" rel="noopener">${esc(ad.fileName)}</a>
+            ${typeCls ? `<span class="autodoc-type-badge ${typeCls}">${esc(ad.type)}</span>` : ''}
+            ${ad.system ? `<span style="font-size:11px;color:var(--text2)">[${esc(ad.system)}]</span>` : ''}
+          </div>
+          ${ad.description && ad.description !== 'No description found' ? `<div class="desc">${esc(ad.description)}</div>` : ''}
+          ${sqlHtml}${subHtml}${diagramBtns}
+        </div>`;
+      }).join('');
+      autoDocHtml = `<div class="detail-panel" style="grid-column:1/-1"><h3>AutoDoc References (${adLinks.length})</h3>${cardsHtml}</div>`;
+    }
+
+    content.innerHTML = `
+      <div class="detail-header fade-in">
+        <h2>${esc(p.name)} <span class="section-badge ${p.section}">${p.section}</span>${detailPreBadge}</h2>
+        <div class="detail-path">${esc(p.sourcePath || p.relativePath)}${p.remoteUrl ? ` &middot; <a href="${esc(p.remoteUrl)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc(p.remoteUrl)}</a>` : ''}</div>
+        <div class="detail-purpose">${esc(p.businessPurpose)}</div>
+        <div class="detail-tags">${tagsHtml}</div>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-panel"><h3>Info</h3>${infoHtml}</div>
+        <div class="detail-panel"><h3>Period Summary ${esc(p.stats.firstDate || '?')} &rarr; ${esc(p.stats.lastDate || '?')}</h3><div class="period-summary">${esc(p.periodSummary)}</div></div>
+        <div class="detail-panel"><h3>Parameters</h3>${paramsHtml}</div>
+        <div class="detail-panel"><h3>Input / Output</h3>${ioHtml}</div>
+        <div class="detail-panel"><h3>Database</h3>${dbHtml}</div>
+        ${autoDocHtml}
+      </div>
+      <button class="expand-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <span class="chevron">&#9654;</span> Statistics, Key Source Files, Top Changed Files, Commit History
+      </button>
+      <div class="expandable-section">
+        <div class="detail-grid">
+          <div class="detail-panel"><h3>Statistics</h3>${statsHtml}</div>
+          <div class="detail-panel"><h3>Key Source Files</h3>${execHtml}</div>
+          <div class="detail-panel"><h3>Top Changed Files</h3>${topFilesHtml}</div>
+        </div>
+        <div class="detail-panel" style="margin-bottom:24px"><h3>Commit History</h3>${commitsHtml}</div>
+      </div>
+    `;
+
+    gsap.killTweensOf('#detailContent .fade-in, #detailContent .detail-panel');
+    gsap.fromTo('#detailContent .fade-in', { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 });
+    gsap.fromTo('#detailContent .detail-panel', { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.08, delay: 0.15 });
+  }
+
+  /* ── Routing ── */
+  function navigateTo(hash) {
+    window.location.hash = hash ? '#' + hash : '';
+  }
+
+  function route() {
+    const hash = window.location.hash.replace('#', '');
+    const overview = document.getElementById('overviewView');
+    const detail = document.getElementById('detailView');
+
+    if (hash) {
+      overview.style.display = 'none';
+      detail.style.display = 'block';
+      renderDetail(hash);
+    } else {
+      overview.style.display = '';
+      detail.style.display = 'none';
+      renderOverview();
+    }
+  }
+
+  window.addEventListener('hashchange', route);
+
+  /* ── Search ── */
+  document.getElementById('search').addEventListener('input', function() {
+    searchQuery = this.value;
+    if (!window.location.hash) renderOverview();
+  });
+
+  /* ── Filter bar event handlers ── */
+  document.getElementById('authorBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    document.getElementById('authorPanel').classList.toggle('open');
+  });
+  document.getElementById('authorPanel').addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('click', () => {
+    document.getElementById('authorPanel').classList.remove('open');
+  });
+
+  document.getElementById('filterApply').addEventListener('click', function() {
+    filterDateFrom = document.getElementById('filterFrom').value;
+    filterDateTo = document.getElementById('filterTo').value;
+    syncAuthorsFromCheckboxes();
+    if (!window.location.hash) renderOverview();
+  });
+
+  document.getElementById('filterReset').addEventListener('click', function() {
+    if (!DATA) return;
+    filterDateFrom = DATA.period.from || '';
+    filterDateTo = DATA.period.to || '';
+    document.getElementById('filterFrom').value = filterDateFrom;
+    document.getElementById('filterTo').value = filterDateTo;
+    activeAuthors.clear();
+    authorFilterActive = false;
+    const panel = document.getElementById('authorPanel');
+    panel.querySelectorAll('input[type="checkbox"]').forEach(b => { b.checked = true; b.indeterminate = false; });
+    updateAuthorBtnLabel();
+    activeTags.clear();
+    updateTagPills();
+    searchQuery = '';
+    document.getElementById('search').value = '';
+    if (!window.location.hash) renderOverview();
+  });
+
+  document.getElementById('filterFrom').addEventListener('change', function() {
+    filterDateFrom = this.value;
+    if (!window.location.hash) renderOverview();
+  });
+  document.getElementById('filterTo').addEventListener('change', function() {
+    filterDateTo = this.value;
+    if (!window.location.hash) renderOverview();
+  });
+
+  /* ── Util ── */
+  function esc(s) {
+    if (!s) return '';
+    const d = document.createElement('div');
+    d.textContent = String(s);
+    return d.innerHTML;
+  }
+
+  window.toggleMermaid = async function(btn, idx, webUrl) {
+    const container = document.getElementById('mmd-' + idx);
+    if (!container) return;
+    if (!container.classList.contains('hidden')) {
+      container.classList.add('hidden');
+      btn.textContent = 'Show diagrams';
+      return;
+    }
+    if (container.dataset.loaded) {
+      container.classList.remove('hidden');
+      btn.textContent = 'Hide diagrams';
+      return;
+    }
+    btn.textContent = 'Loading...';
+    try {
+      const jsonUrl = webUrl.replace('/Doc/?file=', '/docs/');
+      const resp = await fetch(jsonUrl);
+      const adJson = await resp.json();
+      const diagrams = adJson.diagrams || {};
+      let mmdContent = '';
+      if (diagrams.flowMmd) {
+        const flowId = 'flow-' + idx + '-' + Date.now();
+        mmdContent += '<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--text2);margin-bottom:4px;font-family:var(--mono)">Flowchart</div>';
+        try {
+          const { svg } = await mermaid.render(flowId, diagrams.flowMmd);
+          mmdContent += svg;
+        } catch { mmdContent += '<div style="color:var(--red);font-size:12px">Failed to render flowchart</div>'; }
+        mmdContent += '</div>';
+      }
+      if (diagrams.sequenceMmd) {
+        const seqId = 'seq-' + idx + '-' + Date.now();
+        mmdContent += '<div><div style="font-size:11px;color:var(--text2);margin-bottom:4px;font-family:var(--mono)">Sequence Diagram</div>';
+        try {
+          const { svg } = await mermaid.render(seqId, diagrams.sequenceMmd);
+          mmdContent += svg;
+        } catch { mmdContent += '<div style="color:var(--red);font-size:12px">Failed to render sequence diagram</div>'; }
+        mmdContent += '</div>';
+      }
+      if (!mmdContent) mmdContent = '<div style="color:var(--text2);font-size:12px">No diagrams available</div>';
+      container.innerHTML = mmdContent;
+      container.dataset.loaded = '1';
+      container.classList.remove('hidden');
+      btn.textContent = 'Hide diagrams';
+    } catch(e) {
+      container.innerHTML = `<div style="color:var(--red);font-size:12px">Failed to load diagram data: ${e.message}</div>`;
+      container.classList.remove('hidden');
+      btn.textContent = 'Hide diagrams';
+    }
+  };
+
+  init();
+})();
+</script>
+</body>
+</html>

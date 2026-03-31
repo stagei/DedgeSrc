@@ -1,0 +1,88 @@
+{
+  "tableName": "PROREGN_PROSJEKT",
+  "futureName": "ProjectOrderHeader",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "PROSJ_ID",
+      "futureName": "ProjectOrderId",
+      "description": "Unique project order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number",
+      "foreignKey": null
+    },
+    {
+      "name": "PROSJ_NAVN",
+      "futureName": "ProjectName",
+      "description": "Name of the project",
+      "foreignKey": null
+    },
+    {
+      "name": "PROSJ_STATUS",
+      "futureName": "ProjectStatus",
+      "description": "Status of the project",
+      "foreignKey": null
+    },
+    {
+      "name": "SELGER",
+      "futureName": "SalesPersonCode",
+      "description": "Code of the sales person",
+      "foreignKey": "DBPROV_SELGER"
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "ANSATT_NR",
+      "futureName": "EmployeeNumber",
+      "description": "Employee number",
+      "foreignKey": "DBPROV_SELGER"
+    },
+    {
+      "name": "PROSJ_START_DATO",
+      "futureName": "ProjectStartDate",
+      "description": "Start date of the project",
+      "foreignKey": null
+    },
+    {
+      "name": "PROSJ_SLUTT_DATO",
+      "futureName": "ProjectEndDate",
+      "description": "End date of the project",
+      "foreignKey": null
+    },
+    {
+      "name": "DG_MAX_AVVIK",
+      "futureName": "MaxAllowedDeviation",
+      "description": "Maximum allowed deviation",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event",
+      "foreignKey": null
+    },
+    {
+      "name": "ENHETSNR",
+      "futureName": "UnitNumber",
+      "description": "Unit number",
+      "foreignKey": null
+    },
+    {
+      "name": "PRODUKT_OMR",
+      "futureName": "ProductArea",
+      "description": "Area of the product",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:33:06"
+}

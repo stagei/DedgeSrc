@@ -1,0 +1,76 @@
+{
+  "tableName": "KD_SAF_BL_P_LIN",
+  "futureName": "BlandedPartiLine",
+  "namespace": "Inventory",
+  "columns": [
+    {
+      "name": "BLAND_PARTINR",
+      "futureName": "BlendedPartyReference",
+      "description": "Reference number for the blended party",
+      "foreignKey": "KD_SAF_BL_PARTI"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNumber",
+      "description": "Line number within the order",
+      "foreignKey": null
+    },
+    {
+      "name": "PARTINR",
+      "futureName": "PartyReference",
+      "description": "Reference number for the party",
+      "foreignKey": null
+    },
+    {
+      "name": "VEKT",
+      "futureName": "Weight",
+      "description": "Weight of the item in kilograms",
+      "foreignKey": null
+    },
+    {
+      "name": "FORBRUKT_VEKT",
+      "futureName": "ConsumedWeight",
+      "description": "Weight consumed or used",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegisteringUser",
+      "description": "User who registered the entry",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "LastModifiedDate",
+      "description": "Date of last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "LastModifiedByUser",
+      "description": "User who made the last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "OMPAKKET",
+      "futureName": "Repacked",
+      "description": "Indicator for repackaged items (1 if repacked, 0 otherwise)",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED",
+      "futureName": "WarehouseLocation",
+      "description": "Warehouse location or storage place",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:20:25"
+}

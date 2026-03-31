@@ -1,0 +1,46 @@
+{
+  "tableName": "KD_FRO_URENH_TYPE",
+  "futureName": "UrenhetType",
+  "namespace": "Analyse",
+  "columns": [
+    {
+      "name": "URENHET_KODE",
+      "futureName": "UrenhetKode",
+      "description": "Code for the unit of time",
+      "foreignKey": "KD_FRO_URENHET"
+    },
+    {
+      "name": "URENHET_GRUPPE",
+      "futureName": "UrenhetGruppe",
+      "description": "Group code for the unit of time",
+      "foreignKey": "KD_FRO_URENH_GRUPP, KD_FRO_URENHET"
+    },
+    {
+      "name": "BESKRIVELSE",
+      "futureName": "Beskrivelse",
+      "description": "Description of the unit of time",
+      "foreignKey": null
+    },
+    {
+      "name": "LATIN",
+      "futureName": "Latin",
+      "description": "Latin representation of the unit of time",
+      "foreignKey": null
+    },
+    {
+      "name": "ARTGRUPPE",
+      "futureName": "Artgruppe",
+      "description": "Group code for the type of activity",
+      "foreignKey": "KD_FRO_JOURNAL, KD_FRO_SPIREANALYS, KD_LOGG_TIL_KIMEN"
+    },
+    {
+      "name": "HOEST",
+      "futureName": "Hoest",
+      "description": "Multiplier factor for the unit of time",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:08:51"
+}

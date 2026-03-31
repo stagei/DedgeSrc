@@ -1,0 +1,55 @@
+{
+  "program": "SMETEXT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:02",
+  "extraction": {
+    "sourceHash": "sha256:27371a8dbe775f5b67a9a38720411e3a65272f3fbe800e2e107d296a2f7e9331",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\smetext.cbl",
+    "actualName": "SMETEXT",
+    "program": "SMETEXT",
+    "copyElements": [
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LAG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NUM_ID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "LAGERSTED",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:02"
+  }
+}

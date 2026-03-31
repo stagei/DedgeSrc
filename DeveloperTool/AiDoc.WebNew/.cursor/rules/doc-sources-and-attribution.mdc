@@ -1,0 +1,24 @@
+---
+description: Cite sources and include RAG MCP access summary when RAG fails
+alwaysApply: true
+---
+
+# Documentation Sources and Attribution
+
+When creating or updating markdown documentation, or answering questions:
+
+## Source Citation
+
+1. **Cite sources** — Name the source (file path, RAG source like `db2_sec_guide_1213.md`, or URL).
+2. **Version and product** — For DB2 or Visual COBOL content, mention version/product (e.g. Db2 12.1 LUW, Visual COBOL 11, Micro Focus / Rocket).
+
+## RAG Fallback Reporting
+
+If RAG tools were attempted but failed (e.g. `SSL`, `client closed`, `index not found`), include a **RAG MCP access summary** table:
+
+| RAG MCP | Result |
+|---------|--------|
+| Attempted | Failed (client closed / not reachable) |
+| Answers sourced from | Local workspace files (and web search where noted) |
+
+This keeps answers traceable and makes it clear when RAG was unavailable.

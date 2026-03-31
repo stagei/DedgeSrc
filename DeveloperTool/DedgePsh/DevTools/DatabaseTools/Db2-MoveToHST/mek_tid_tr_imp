@@ -1,0 +1,12 @@
+-- Skal inn i "standard imp for 2852 og øvrige
+-- Kjørt for 2015          22/11-2022
+--
+-- Husk å sjekke om det har kommet til nye felt
+-- Husk å endre filenavn
+--
+  connect to BASISHST;
+  LOAD FROM P:\tru\mek_tidreg_trans2852_2015.IXF OF IXF INSERT INTO
+  DBM.H_MEK_TIDSREG_TRANS NONRECOVERABLE;
+  SET INTEGRITY FOR DBM.H_MEK_TIDSREG_TRANS CHECK, MATERIALIZED QUERY, STAGING, FOREIGN KEY, GENERATED COLUMN IMMEDIATE UNCHECKED;
+--
+//

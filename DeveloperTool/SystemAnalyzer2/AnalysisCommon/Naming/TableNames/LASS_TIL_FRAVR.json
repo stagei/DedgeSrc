@@ -1,0 +1,28 @@
+{
+  "tableName": "LASS_TIL_FRAVR",
+  "futureName": "OrderLineItem",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "OrderLineNumber",
+      "description": "Unique line item identifier within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "LASSNR",
+      "futureName": "ProductNumber",
+      "description": "Product number associated with the order line item",
+      "foreignKey": "A_ORDRELINJER"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the order line item was recorded or updated",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:39:40"
+}

@@ -1,0 +1,101 @@
+{
+  "program": "AABRAB14",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:23:29",
+  "extraction": {
+    "sourceHash": "sha256:cc548d112786a85caeb279ff57cfd9fe501a77dc646151a541b9bf2e139703e0",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABRAB14.CBL",
+    "actualName": "AABRAB14",
+    "program": "AABRAB14",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KEG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KRO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KEPO.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "KUNDENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_EPOST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_EGENSKAPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_EPOST",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_EGENSKAPER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_EGENSKAPER",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "AABRAB14.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABRAB14.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "AVVIK-FIL",
+        "physicalName": "AABRAB14.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABRAB14.CSV",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:23:29"
+  }
+}

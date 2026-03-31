@@ -1,0 +1,150 @@
+<UserControl x:Class="DbExplorer.Controls.LockMonitorPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Filters -->
+            <RowDefinition Height="*"/>     <!-- Data Grid -->
+            <RowDefinition Height="Auto"/>  <!-- Action Buttons -->
+        </Grid.RowDefinitions>
+        
+        <!-- Filter Section -->
+        <GroupBox Grid.Row="0" Header="Filters" Margin="0,0,0,10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="800"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Schema Filter -->
+                <TextBlock Grid.Column="0" 
+                           Text="Schema:" 
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                <ComboBox Grid.Column="1" 
+                          x:Name="SchemaComboBox"
+                          SelectedIndex="0"
+                          SelectionChanged="SchemaComboBox_SelectionChanged"
+                          ToolTip="Filter by schema (* = all)"/>
+                
+                <!-- Table Filter -->
+                <TextBlock Grid.Column="3" 
+                           Text="Table:" 
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                <ComboBox Grid.Column="4" 
+                          x:Name="TableComboBox"
+                          Width="800"
+                          SelectedIndex="0"
+                          ToolTip="Filter by table (* = all)"/>
+                
+                <!-- Options -->
+                <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <CheckBox x:Name="ShowOnlyBlockedCheckBox"
+                              Content="Show only blocked locks"
+                              VerticalAlignment="Center"
+                              Margin="0,0,15,0"/>
+                    <Button x:Name="RefreshButton"
+                            Content="🔄 Refresh"
+                            Click="RefreshButton_Click"
+                            Padding="15,5"
+                            ToolTip="Refresh lock data (F5)"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        
+        <!-- Lock Data Grid -->
+        <DataGrid Grid.Row="1" 
+                  x:Name="LocksDataGrid"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Extended"
+                  GridLinesVisibility="Horizontal"
+                  AlternatingRowBackground="{DynamicResource SystemControlBackgroundListLowBrush}"
+                  CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Schema" Binding="{Binding SchemaName}" Width="120"/>
+                <DataGridTextColumn Header="Table" Binding="{Binding TableName}" Width="180"/>
+                <DataGridTextColumn Header="Lock Mode" Binding="{Binding LockMode}" Width="80"/>
+                <DataGridTextColumn Header="Mode Description" Binding="{Binding LockModeDescription}" Width="150"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding LockStatus}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LockStatus}" Value="WAITING">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding LockStatus}" Value="HELD">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="User" Binding="{Binding AuthorizationId}" Width="120"/>
+                <DataGridTextColumn Header="Application" Binding="{Binding ApplicationName}" Width="180"/>
+                <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="150"/>
+                <DataGridTextColumn Header="Agent ID" Binding="{Binding AgentId}" Width="80"/>
+                <DataGridTextColumn Header="Severity" Binding="{Binding LockSeverity}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LockSeverity}" Value="High">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding LockSeverity}" Value="Medium">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding LockSeverity}" Value="Low">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,10,0,0">
+            <TextBlock x:Name="StatusText" 
+                       VerticalAlignment="Center" 
+                       Margin="0,0,20,0"
+                       Text="Ready"/>
+            <Button x:Name="GenerateScriptButton" 
+                    Content="📝 Generate Force Script" 
+                    Click="GenerateScript_Click"
+                    Padding="10,5"
+                    Margin="5,0"
+                    ToolTip="Generate FORCE APPLICATION script for selected locks"/>
+            <Button x:Name="ExportButton" 
+                    Content="📊 Export to CSV" 
+                    Click="ExportButton_Click"
+                    Padding="10,5"
+                    Margin="5,0"
+                    ToolTip="Export lock data to CSV"/>
+            <Button x:Name="AutoRefreshButton" 
+                    Content="⏱️ Auto-Refresh: OFF" 
+                    Click="AutoRefreshButton_Click"
+                    Padding="10,5"
+                    Margin="5,0"
+                    ToolTip="Toggle auto-refresh (every 5 seconds)"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

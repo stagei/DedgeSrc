@@ -1,0 +1,193 @@
+{
+  "provider": "POSTGRESQL",
+  "version": "18",
+  "description": "PostgreSQL 18 System Catalog Metadata - information_schema and pg_catalog reference for building and validating SQL statements. NOT loaded by application at runtime.",
+  "last_updated": "2026-01-31",
+  "purpose": "Reference file for building and validating SQL statements in postgresql_18_sql_statements.json. NOT loaded by application at runtime.",
+  "usage_notes": [
+    "This file is a REFERENCE ONLY - used by developers/AI to understand PostgreSQL system catalog structure",
+    "PostgreSQL uses information_schema (SQL standard) and pg_catalog (PG-specific)",
+    "All application SQL statements must be defined in postgresql_18_sql_statements.json, not here"
+  ],
+  "schemas": {
+    "information_schema": "SQL standard metadata views - schemas, tables, columns, routines, etc.",
+    "pg_catalog": "PostgreSQL system catalog - pg_class, pg_attribute, pg_proc, etc."
+  },
+  "catalog_tables": {
+    "information_schema.schemata": {
+      "description": "One row per schema",
+      "key_columns": ["schema_name"],
+      "columns": {
+        "catalog_name": { "type": "character varying", "description": "Database name" },
+        "schema_name": { "type": "character varying", "description": "Schema name", "is_key": true },
+        "schema_owner": { "type": "character varying", "description": "Owner of the schema" }
+      },
+      "related_to": ["information_schema.tables", "information_schema.routines"]
+    },
+    "information_schema.tables": {
+      "description": "One row per table or view",
+      "key_columns": ["table_schema", "table_name"],
+      "columns": {
+        "table_catalog": { "type": "character varying", "description": "Database name" },
+        "table_schema": { "type": "character varying", "description": "Schema name", "is_key": true },
+        "table_name": { "type": "character varying", "description": "Table or view name", "is_key": true },
+        "table_type": { "type": "character varying", "description": "BASE TABLE, VIEW, FOREIGN TABLE, etc." }
+      },
+      "related_to": ["information_schema.columns", "information_schema.table_constraints"]
+    },
+    "information_schema.columns": {
+      "description": "One row per column",
+      "key_columns": ["table_schema", "table_name", "column_name"],
+      "columns": {
+        "table_schema": { "type": "character varying", "description": "Schema name", "is_key": true },
+        "table_name": { "type": "character varying", "description": "Table name", "is_key": true },
+        "column_name": { "type": "character varying", "description": "Column name", "is_key": true },
+        "ordinal_position": { "type": "integer", "description": "Column position (1-based)" },
+        "data_type": { "type": "character varying", "description": "Data type" },
+        "character_maximum_length": { "type": "integer", "description": "Max length for character types" },
+        "numeric_precision": { "type": "integer", "description": "Precision for numeric" },
+        "numeric_scale": { "type": "integer", "description": "Scale for numeric" },
+        "is_nullable": { "type": "character varying", "description": "YES or NO" },
+        "column_default": { "type": "character varying", "description": "Default expression" }
+      },
+      "related_to": ["information_schema.tables"]
+    },
+    "information_schema.views": {
+      "description": "One row per view with definition",
+      "key_columns": ["table_schema", "table_name"],
+      "columns": {
+        "table_schema": { "type": "character varying", "description": "Schema name", "is_key": true },
+        "table_name": { "type": "character varying", "description": "View name", "is_key": true },
+        "view_definition": { "type": "character varying", "description": "View definition SQL" }
+      },
+      "related_to": ["information_schema.tables"]
+    },
+    "information_schema.routines": {
+      "description": "One row per routine (function or procedure)",
+      "key_columns": ["routine_schema", "routine_name", "specific_name"],
+      "columns": {
+        "routine_schema": { "type": "character varying", "description": "Schema name", "is_key": true },
+        "routine_name": { "type": "character varying", "description": "Routine name", "is_key": true },
+        "routine_type": { "type": "character varying", "description": "FUNCTION or PROCEDURE" },
+        "specific_name": { "type": "character varying", "description": "Specific name (overloads)", "is_key": true },
+        "data_type": { "type": "character varying", "description": "Return type for functions" }
+      },
+      "related_to": ["information_schema.parameters"]
+    },
+    "information_schema.parameters": {
+      "description": "One row per routine parameter",
+      "key_columns": ["specific_schema", "specific_name", "ordinal_position"],
+      "columns": {
+        "specific_schema": { "type": "character varying", "description": "Schema name" },
+        "specific_name": { "type": "character varying", "description": "Specific name" },
+        "ordinal_position": { "type": "integer", "description": "Parameter position (0 = return)" },
+        "parameter_name": { "type": "character varying", "description": "Parameter name" },
+        "data_type": { "type": "character varying", "description": "Data type" },
+        "parameter_mode": { "type": "character varying", "description": "IN, OUT, INOUT" }
+      },
+      "related_to": ["information_schema.routines"]
+    },
+    "information_schema.table_constraints": {
+      "description": "Primary key, unique, foreign key, check constraints",
+      "key_columns": ["constraint_schema", "constraint_name"],
+      "columns": {
+        "constraint_schema": { "type": "character varying", "description": "Schema name" },
+        "constraint_name": { "type": "character varying", "description": "Constraint name" },
+        "table_schema": { "type": "character varying", "description": "Table schema" },
+        "table_name": { "type": "character varying", "description": "Table name" },
+        "constraint_type": { "type": "character varying", "description": "PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK" }
+      },
+      "related_to": ["information_schema.key_column_usage", "information_schema.referential_constraints"]
+    },
+    "information_schema.key_column_usage": {
+      "description": "Columns participating in constraints",
+      "key_columns": ["constraint_schema", "constraint_name", "column_name"],
+      "columns": {
+        "constraint_schema": { "type": "character varying", "description": "Schema name" },
+        "constraint_name": { "type": "character varying", "description": "Constraint name" },
+        "table_schema": { "type": "character varying", "description": "Table schema" },
+        "table_name": { "type": "character varying", "description": "Table name" },
+        "column_name": { "type": "character varying", "description": "Column name" },
+        "ordinal_position": { "type": "integer", "description": "Position in key" }
+      },
+      "related_to": ["information_schema.table_constraints"]
+    },
+    "information_schema.referential_constraints": {
+      "description": "Foreign key constraints",
+      "key_columns": ["constraint_schema", "constraint_name"],
+      "columns": {
+        "constraint_schema": { "type": "character varying", "description": "Schema name" },
+        "constraint_name": { "type": "character varying", "description": "FK constraint name" },
+        "unique_constraint_schema": { "type": "character varying", "description": "Referenced PK schema" },
+        "unique_constraint_name": { "type": "character varying", "description": "Referenced constraint name" },
+        "delete_rule": { "type": "character varying", "description": "CASCADE, SET NULL, NO ACTION, etc." },
+        "update_rule": { "type": "character varying", "description": "Update rule" }
+      },
+      "related_to": ["information_schema.key_column_usage"]
+    },
+    "information_schema.sequences": {
+      "description": "One row per sequence",
+      "key_columns": ["sequence_schema", "sequence_name"],
+      "columns": {
+        "sequence_schema": { "type": "character varying", "description": "Schema name" },
+        "sequence_name": { "type": "character varying", "description": "Sequence name" },
+        "data_type": { "type": "character varying", "description": "Sequence data type" }
+      }
+    },
+    "information_schema.triggers": {
+      "description": "One row per trigger",
+      "key_columns": ["trigger_schema", "trigger_name"],
+      "columns": {
+        "trigger_schema": { "type": "character varying", "description": "Schema name" },
+        "trigger_name": { "type": "character varying", "description": "Trigger name" },
+        "event_manipulation": { "type": "character varying", "description": "INSERT, UPDATE, DELETE" },
+        "event_object_table": { "type": "character varying", "description": "Table name" },
+        "action_statement": { "type": "character varying", "description": "Trigger body" }
+      }
+    },
+    "pg_catalog.pg_class": {
+      "description": "Tables, indexes, sequences (relkind: r=table, v=view, i=index, S=sequence)",
+      "key_columns": ["oid"],
+      "columns": {
+        "oid": { "type": "oid", "description": "Object ID" },
+        "relname": { "type": "name", "description": "Relation name" },
+        "relnamespace": { "type": "oid", "description": "Schema OID" },
+        "relkind": { "type": "char", "description": "r=table, v=view, i=index, S=sequence" }
+      }
+    },
+    "pg_catalog.pg_namespace": {
+      "description": "Schemas (namespaces)",
+      "key_columns": ["oid"],
+      "columns": {
+        "oid": { "type": "oid", "description": "Namespace OID" },
+        "nspname": { "type": "name", "description": "Schema name" }
+      }
+    },
+    "pg_catalog.pg_proc": {
+      "description": "Functions and procedures",
+      "key_columns": ["oid"],
+      "columns": {
+        "oid": { "type": "oid", "description": "Procedure OID" },
+        "proname": { "type": "name", "description": "Routine name" },
+        "pronamespace": { "type": "oid", "description": "Schema OID" },
+        "prokind": { "type": "char", "description": "f=function, p=procedure, a=aggregate, w=window" }
+      }
+    },
+    "pg_catalog.pg_roles": {
+      "description": "Database roles (used for access level)",
+      "key_columns": ["oid"],
+      "columns": {
+        "oid": { "type": "oid", "description": "Role OID" },
+        "rolname": { "type": "name", "description": "Role name" },
+        "rolsuper": { "type": "bool", "description": "Superuser" },
+        "rolinherit": { "type": "bool", "description": "Inherits privileges" }
+      }
+    }
+  },
+  "critical_notes": [
+    "Use information_schema for portable metadata; use pg_catalog for PG-specific details",
+    "Routine overloads: use specific_name or (routine_schema, routine_name, specific_name)",
+    "Table type: information_schema.tables.table_type = 'BASE TABLE' or 'VIEW'",
+    "PostgreSQL has no SYSCAT.DBAUTH equivalent; use pg_roles and role membership for access level"
+  ]
+}

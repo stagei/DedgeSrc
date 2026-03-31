@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppsett av ny server</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-color: #0078d7;
+            --accent-hover: #005a9e;
+            --code-bg: #f0f0f0;
+            --note-bg: #fff8e1;
+            --note-border: #ffc107;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --accent-color: #4a9eff;
+            --accent-hover: #66b3ff;
+            --code-bg: #3a3a3a;
+            --note-bg: #3a3a2a;
+            --note-border: #ffd700;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .step {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--accent-color);
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .step h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        code {
+            background-color: var(--code-bg);
+            color: var(--text-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            word-break: break-all;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .note {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--note-border);
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        a {
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; margin-bottom: 20px;">
+            <div style="justify-self: start;">
+                <h1 style="margin: 0;">Oppsett av ny server</h1>
+            </div>
+            <div style="justify-self: end;">
+                <a href="http://t-no1batch-vm01//DevTools" target="_blank">
+                    <img src="https://www.Dedge.no/Features/Shared/img/dedge-logo.svg" alt="FK Logo"
+                        style="height: 50px;">
+                </a>
+            </div>
+        </div>
+
+        <p>Følg disse trinnene for å sette opp din nye server med nødvendig programvare og verktøy.</p>
+
+        <div class="step">
+            <h2>1. Koble til serveren med RDP</h2>
+            <p>Bruk Remote Desktop (RDP) for å koble til serveren.</p>
+        </div>
+
+        <div class="step">
+            <h2>2. Åpne kommandolinjen som administrator</h2>
+            <p>Høyreklikk på Start-menyen og velg "Kommandolinje (admin)" eller søk etter "cmd" i Windows-søkefeltet,
+                høyreklikk og velg "Kjør som administrator".</p>
+        </div>
+
+        <div class="step">
+            <h2>3. Kjør installasjonsskriptet</h2>
+            <p>Kopier og lim inn følgende sti i kommandolinjen:</p>
+            <div class="copy-container">
+                <code
+                    id="script-path">C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgePshApps\Init-Machine\Init-MachineFkm.bat</code>
+                <button class="copy-btn" onclick="copyToClipboard('script-path')">Kopier</button>
+            </div>
+            <p>Trykk Enter for å kjøre skriptet.</p>
+        </div>
+
+        <div class="step">
+            <h2>4. Følg instruksjonene på skjermen</h2>
+            <p>Skriptet vil guide deg gjennom resten av installasjonen. Følg instruksjonene som vises i kommandolinjen.
+            </p>
+        </div>
+
+        <div class="note">
+            <p><strong>Merk:</strong> Hvis du støter på problemer under installasjonen, kontakt <a
+                    href="https://teams.microsoft.com/l/chat/0/0?users=geir.helge.starholm@Dedge.no"
+                    target="_blank">Geir Helge Starholm</a> for hjelp.</p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(
+                    function () {
+                        showCopiedMessage();
+                    }
+                ).catch(err => {
+                    // Fall back to legacy method
+                    legacyCopy(text);
+                });
+            } else {
+                // Use legacy method for browsers without clipboard API
+                legacyCopy(text);
+            }
+
+            function legacyCopy(text) {
+                // Create temporary textarea
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+
+                // Select and copy
+                textarea.select();
+                document.execCommand('copy');
+
+                // Clean up
+                document.body.removeChild(textarea);
+                showCopiedMessage();
+            }
+
+            function showCopiedMessage() {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Kopiert!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+
+</html>

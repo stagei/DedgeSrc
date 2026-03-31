@@ -1,0 +1,82 @@
+{
+  "tableName": "KASS_TRANSER",
+  "futureName": "KasseTranser",
+  "namespace": "Banking",
+  "columns": [
+    {
+      "name": "avdnr",
+      "futureName": "orderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "kassenr",
+      "futureName": "cashierNumber",
+      "description": "Cashier number",
+      "foreignKey": null
+    },
+    {
+      "name": "oppgjornr",
+      "futureName": "transactionNumber",
+      "description": "Transaction number",
+      "foreignKey": "KASS_OPPGJOR"
+    },
+    {
+      "name": "transkode",
+      "futureName": "transactionCode",
+      "description": "Transaction code",
+      "foreignKey": null
+    },
+    {
+      "name": "bilagnr",
+      "futureName": "invoiceNumber",
+      "description": "Invoice number",
+      "foreignKey": "TRANSREG"
+    },
+    {
+      "name": "transtype",
+      "futureName": "transactionType",
+      "description": "Transaction type",
+      "foreignKey": null
+    },
+    {
+      "name": "belop",
+      "futureName": "amount",
+      "description": "Amount",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "timestamp",
+      "description": "Timestamp of the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerid",
+      "futureName": "userId",
+      "description": "User identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "tekst",
+      "futureName": "text",
+      "description": "Text description of the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "bank_term_id",
+      "futureName": "bankTermId",
+      "description": "Bank term identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "maskinnavn",
+      "futureName": "machineName",
+      "description": "Machine name or identifier",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:57:38"
+}

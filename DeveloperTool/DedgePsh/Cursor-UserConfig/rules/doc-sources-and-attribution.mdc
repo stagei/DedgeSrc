@@ -1,0 +1,16 @@
+---
+description: Cite sources and include RAG MCP access summary; scripts or AI do the work
+alwaysApply: true
+---
+
+# Documentation sources and attribution
+
+**Scripts are supposed to handle RAG setup and automation.** If they cannot, **the AI is supposed to do it** (run commands, edit config, produce docs). When creating or updating markdown documentation in this workspace:
+
+1. **Cite sources** – When answering from workspace files, RAG results, or the web, name the source (e.g. file path, RAG source name like `db2_sec_guide_1213.md`, or URL).
+2. **RAG MCP access summary** – If the answer was produced without using the RAG (e.g. RAG was attempted but failed), include a short **"RAG MCP access summary"** table:
+   - One row: RAG was attempted but failed (e.g. client closed, not reachable, SSL).
+   - Another: Answers came from local FAQ and related files (and web search if used).
+3. **Version and product** – For DB2 or Visual COBOL content, mention version/product when it matters (e.g. Db2 12.1 LUW, Visual COBOL 11, Micro Focus / Rocket).
+
+This keeps answers traceable and makes it clear when RAG was unavailable. Scripts do the automation where possible; the AI fills in when scripts are not possible.

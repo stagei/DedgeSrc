@@ -1,0 +1,52 @@
+{
+  "tableName": "TMS_OLIN_TRIGGER",
+  "futureName": "TmsOlinTrigger",
+  "namespace": "Data",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DivisionNumber",
+      "description": "Division number",
+      "foreignKey": "DBM.ORDRELINJER.AVDNR"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "DBM.ORDRELINJER.ORDRENR"
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineItemNumber",
+      "description": "Line item number within an order",
+      "foreignKey": "DBM.ORDRELINJER.LINJENR"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the event or operation",
+      "foreignKey": null
+    },
+    {
+      "name": "VEIING",
+      "futureName": "HandlingStatus",
+      "description": "Handling status indicator",
+      "foreignKey": null
+    },
+    {
+      "name": "BEHANDLET",
+      "futureName": "Processed",
+      "description": "Indicates if the record has been processed",
+      "foreignKey": null
+    },
+    {
+      "name": "PROGRAM",
+      "futureName": "ProgramName",
+      "description": "Name of the program or process associated with the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:03:24"
+}

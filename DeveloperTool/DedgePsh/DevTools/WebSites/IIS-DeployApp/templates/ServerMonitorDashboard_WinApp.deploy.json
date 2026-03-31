@@ -1,0 +1,34 @@
+﻿{
+  "SiteName": "ServerMonitorDashboard",
+  "PhysicalPath": "$env:OptPath\\DedgeWinApps\\ServerMonitorDashboard",
+  "AppType": "AspNetCore",
+  "DotNetDll": "ServerMonitorDashboard.dll",
+  "AppPoolName": "ServerMonitorDashboard",
+  "InstallSource": "WinApp",
+  "InstallAppName": "ServerMonitorDashboard",
+  "VirtualPath": "/ServerMonitorDashboard",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/api/IsAlive",
+  "EnableDirectoryBrowsing": false,
+  "IsRootSiteProfile": false,
+  "AllowAnonymousAccess": true,
+  "ApiPort": 8998,
+  "AdditionalPorts": [
+    { "Port": 8999, "Description": "ServerMonitor Agent API", "Direction": "Both" },
+    { "Port": 8997, "Description": "ServerMonitor TrayIcon API", "Direction": "Both" }
+  ],
+  "DedgeAuth": {
+    "AppId": "ServerMonitorDashboard",
+    "DisplayName": "Server Monitor Dashboard",
+    "Description": "Real-time server monitoring and alerting",
+    "Roles": ["User", "Admin"],
+    "TenantDomains": ["Dedge.no"],
+    "BaseUrl": "http://$env:COMPUTERNAME/ServerMonitorDashboard",
+    "Groups": {
+      "Dedge.no": ["infrastructure/monitoring"]
+    }
+  },
+  "LastDeployed": "",
+  "DeployedBy": "",
+  "ComputerName": ""
+}

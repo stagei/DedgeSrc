@@ -1,0 +1,130 @@
+{
+  "tableName": "KD_KONTRAKT",
+  "futureName": "ContractDetail",
+  "namespace": "Korn",
+  "columns": [
+    {
+      "name": "DYRKER_RECNO",
+      "futureName": "FarmerRecordNo",
+      "description": "Unique farmer record number",
+      "foreignKey": "FK_KD_KONTRAKT_FK_DYRKER"
+    },
+    {
+      "name": "KONTRAKT_RECNO",
+      "futureName": "ContractRecordNo",
+      "description": "Unique contract record number",
+      "foreignKey": "FK_KD_KONTRAKT_FK_CONTRACT"
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year of the contract or order",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTRAKT_TYPE",
+      "futureName": "ContractType",
+      "description": "Type of contract",
+      "foreignKey": "FK_KD_KONTRAKT_FK_CONTRACT_TYPE"
+    },
+    {
+      "name": "UTENOM_KONTRAKT",
+      "futureName": "OutsideContract",
+      "description": "Indicator if the order is outside a contract",
+      "foreignKey": null
+    },
+    {
+      "name": "KOMMENTAR",
+      "futureName": "Comment",
+      "description": "Additional comments or remarks",
+      "foreignKey": null
+    },
+    {
+      "name": "TRANSP_TYPE",
+      "futureName": "TransportType",
+      "description": "Type of transport",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_DATO",
+      "futureName": "RegistrationDate",
+      "description": "Date of registration",
+      "foreignKey": null
+    },
+    {
+      "name": "REG_BRUKER",
+      "futureName": "RegisteredByUser",
+      "description": "User who registered the record",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_DATO",
+      "futureName": "LastModifiedDate",
+      "description": "Date of last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "SIST_ENDR_BRUKER",
+      "futureName": "LastModifiedByUser",
+      "description": "User who made the last modification",
+      "foreignKey": null
+    },
+    {
+      "name": "WEB_DATO_IKKE",
+      "futureName": "WebDateNotSet",
+      "description": "Indicator if web date is not set",
+      "foreignKey": null
+    },
+    {
+      "name": "WEB_IKKE_GODKJ",
+      "futureName": "WebNotApproved",
+      "description": "Indicator if the web entry is not approved",
+      "foreignKey": null
+    },
+    {
+      "name": "IKKE_GODKJ_KOMM",
+      "futureName": "NotApprovedComments",
+      "description": "Comments regarding non-approval",
+      "foreignKey": null
+    },
+    {
+      "name": "STAT_AVLER",
+      "futureName": "AvailedStatus",
+      "description": "Status of availed status",
+      "foreignKey": null
+    },
+    {
+      "name": "STAT_DATO_AVLER",
+      "futureName": "AvailedDate",
+      "description": "Date of availed status",
+      "foreignKey": null
+    },
+    {
+      "name": "WEB_REGISTRERT",
+      "futureName": "WebRegistered",
+      "description": "Indicator if registered via web",
+      "foreignKey": null
+    },
+    {
+      "name": "OMMGJ_FRA_SAAKORN",
+      "futureName": "FromSaakornModification",
+      "description": "Indicator of modification from Saakorn",
+      "foreignKey": null
+    },
+    {
+      "name": "LASTCHANGED",
+      "futureName": "LastChangeDate",
+      "description": "Date of last change",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:11:54"
+}

@@ -1,0 +1,33 @@
+﻿{
+  "SiteName": "AutoDocJson",
+  "PhysicalPath": "$env:OptPath\\DedgeWinApps\\AutoDocJson",
+  "AppType": "AspNetCore",
+  "DotNetDll": "AutoDocJson.Web.dll",
+  "AppPoolName": "AutoDocJson",
+  "InstallSource": "WinApp",
+  "InstallAppName": "AutoDocJson",
+  "VirtualPath": "/AutoDocJson",
+  "ParentSite": "Default Web Site",
+  "HealthEndpoint": "/health",
+  "EnableDirectoryBrowsing": false,
+  "IsRootSiteProfile": false,
+  "AllowAnonymousAccess": true,
+  "ApiPort": 8283,
+  "DedgeAuth": {
+    "AppId": "AutoDocJson",
+    "DisplayName": "AutoDoc JSON",
+    "Description": "Automated code documentation generator",
+    "Roles": ["User", "Admin"],
+    "TenantDomains": ["Dedge.no"],
+    "BaseUrl": "http://$env:COMPUTERNAME/AutoDocJson",
+    "Groups": {
+      "Dedge.no": ["development"]
+    }
+  },
+  "AdditionalWinApps": [
+    "AutoDocJsonBatchRunner"
+  ],
+  "LastDeployed": "",
+  "DeployedBy": "",
+  "ComputerName": ""
+}

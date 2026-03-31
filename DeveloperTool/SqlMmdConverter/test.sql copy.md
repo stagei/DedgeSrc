@@ -1,0 +1,647 @@
+erDiagram
+    ActionCodes {
+        varchar ActionCode PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AdverseEvents {
+        int EventID PK
+        int TrialID "NOT NULL"
+        varchar EventType "NOT NULL"
+        datetime EventDate "NOT NULL"
+        datetime DetectedDate "NOT NULL"
+        datetime ReportDate "NOT NULL"
+        int PatientID "NOT NULL"
+        varchar EventDescription "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar Seriousness "NOT NULL"
+        varchar Causality "NOT NULL"
+        varchar Outcome "NOT NULL"
+        varchar ActionTaken "NOT NULL"
+        bit ReportedToRegionalEthicsCommittee "NOT NULL"
+        datetime RegionalEthicsCommitteeReportDate "NOT NULL"
+        bit ReportedToSLV "NOT NULL"
+        datetime SLVReportDate "NOT NULL"
+        bit ReportedToSponsor "NOT NULL"
+        datetime SponsorReportDate "NOT NULL"
+        bit FollowUpRequired "NOT NULL"
+        varchar StatusDescription "NOT NULL"
+        datetime ClosedDate "NOT NULL"
+        int ClosedByTrialPersonnelID "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Authorities {
+        int AuthorityID PK
+        varchar AuthorityType "NOT NULL"
+        varchar LegislationCountryCode "NOT NULL"
+        int OrganizationID "NOT NULL"
+        varchar LongName "NOT NULL"
+        varchar AbbriviationName "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthorityPersonnel {
+        int AuthorityPersonnelID PK
+        int AuthorityID "NOT NULL"
+        int PersonID "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthoritySteps {
+        int AuthorityStepID PK
+        int AuthorityID "NOT NULL"
+        int OrderIndex "NOT NULL"
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        int WindowBeforeDays "NOT NULL"
+        int WindowAfterDays "NOT NULL"
+        bit Required "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    AuthorityTypes {
+        varchar AuthorityType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    CountryCodes {
+        varchar CountryCode PK
+        varchar Name "NOT NULL"
+        varchar PhoneCountryCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    DeviationTypes {
+        varchar DeviationType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Documents {
+        int DocumentID PK
+        int TrialID "NOT NULL"
+        varchar DocumentType "NOT NULL"
+        varchar DocumentName "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Version "NOT NULL"
+        datetime DocumentDate "NOT NULL"
+        datetime ApprovedDate "NOT NULL"
+        int ApprovedBySponsorPersonnelID "NOT NULL"
+        int ApprovedByHospitalPersonnelID "NOT NULL"
+        varchar DocumentLocation "NOT NULL"
+        varchar FilePath "NOT NULL"
+        varchar FileFormat "NOT NULL"
+        varchar Status "NOT NULL"
+        bit IsCurrent "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    DocumentTypes {
+        varchar DocumentType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    EventTypes {
+        varchar EventType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    HospitalPersonnel {
+        int HospitalPersonnelID PK
+        int HospitalID "NOT NULL"
+        int PersonID "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        varchar UserAccessType "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Hospitals {
+        int HospitalID PK
+        int OrganizationID "NOT NULL"
+        varchar LegislativeCountryCode "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    InspectionLogs {
+        int InspectionLogID PK
+        int InspectionID "NOT NULL"
+        varchar Findings "NOT NULL"
+        bit IsCritical "NOT NULL"
+        bit IsFollowUpRequired "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Inspections {
+        int InspectionID PK
+        int TrialID "NOT NULL"
+        varchar InspectionType "NOT NULL"
+        datetime InspectionDate "NOT NULL"
+        int SponsorTrialRoleID "NOT NULL"
+        int TrialPersonnelID "NOT NULL"
+        datetime EstimatedStartDateTime "NOT NULL"
+        datetime EstimatedEndDateTime "NOT NULL"
+        datetime ActualStartDateTime "NOT NULL"
+        datetime ActualEndDateTime "NOT NULL"
+        double PlannedDuration "NOT NULL"
+        double ActualDuration "NOT NULL"
+        int FindingsCount "NOT NULL"
+        int MajorFindings "NOT NULL"
+        int MinorFindings "NOT NULL"
+        int CriticalFindings "NOT NULL"
+        bit FollowUpRequired "NOT NULL"
+        datetime FollowUpDate "NOT NULL"
+        bit FollowUpCompleted "NOT NULL"
+        bit ReportReceived "NOT NULL"
+        datetime ReportDate "NOT NULL"
+        varchar ReportLocation "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    InspectionTypes {
+        varchar InspectionType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Milestones {
+        int MilestoneID PK
+        int TrialID "NOT NULL"
+        varchar MilestoneName "NOT NULL"
+        varchar MilestoneType "NOT NULL"
+        datetime PlannedDate "NOT NULL"
+        datetime ActualDate "NOT NULL"
+        varchar Status "NOT NULL"
+        int InvolvesAuthorityID "NOT NULL"
+        int ResponsibleTrialRoleID "NOT NULL"
+        bit Critical "NOT NULL"
+        bit Completed "NOT NULL"
+        varchar TransitionPhaseCode "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    MilestoneSteps {
+        int MilestoneStepID PK
+        int MilestoneID "NOT NULL"
+        varchar ActionCode "NOT NULL"
+        int AuthorityStepID "NOT NULL"
+        int TrialRoleID "NOT NULL"
+        varchar ReferenceNumber "NOT NULL"
+        datetime SubmittedDate "NOT NULL"
+        datetime ApprovedDate "NOT NULL"
+        datetime ExpiryDate "NOT NULL"
+        varchar DocumentationLocation "NOT NULL"
+        varchar Status "NOT NULL"
+        varchar Version "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    MilestoneTypes {
+        varchar MilestoneType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    OrganizationDepartments {
+        int OrganizationDepartmentID PK
+        int OrganizationID "NOT NULL"
+        varchar DepartmentName "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Organizations {
+        int OrganizationID PK
+        varchar OrganizationNumber "NOT NULL"
+        varchar OrganizationName "NOT NULL"
+        varchar CountryCode "NOT NULL"
+        varchar Address "NOT NULL"
+        varchar PostalCode "NOT NULL"
+        varchar City "NOT NULL"
+        varchar Phone "NOT NULL"
+        varchar Email "NOT NULL"
+        varchar Website "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    PatientSchedules {
+        int PatientScheduleID PK
+        int TrialID "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Name "NOT NULL"
+        int OffsetDays "NOT NULL"
+        int WindowBeforeDays "NOT NULL"
+        int WindowAfterDays "NOT NULL"
+        int AffectedByProtocolID "NOT NULL"
+        bit Required "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Persons {
+        int PersonID PK
+        varchar FirstName "NOT NULL"
+        varchar LastName "NOT NULL"
+        varchar Title "NOT NULL"
+        varchar CountryCode "NOT NULL"
+        varchar Phone "NOT NULL"
+        varchar Mobile "NOT NULL"
+        varchar Email "NOT NULL"
+        varchar Gender "NOT NULL"
+        varchar BirthDate "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    PhaseCodes {
+        varchar PhaseCode PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Protocols {
+        int ProtocolID PK
+        int TrialID "NOT NULL"
+        varchar ProtocolReference "NOT NULL"
+        datetime EffectiveDate "NOT NULL"
+        datetime ValidFromDate "NOT NULL"
+        datetime ValidToDate "NOT NULL"
+        varchar ProtocolDescription "NOT NULL"
+        int DocumentID "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    QualityManagementReviews {
+        int QualityManagementReviewID PK
+        int TrialID "NOT NULL"
+        varchar ActivityType "NOT NULL"
+        datetime ActivityDate "NOT NULL"
+        int PerformedByTrialPersonnelID "NOT NULL"
+        varchar Scope "NOT NULL"
+        varchar Findings "NOT NULL"
+        varchar Recommendations "NOT NULL"
+        varchar ActionsRequired "NOT NULL"
+        datetime ActionDueDate "NOT NULL"
+        datetime ActionCompletedDate "NOT NULL"
+        varchar ReportLocationDescription "NOT NULL"
+        int ReportDocumentID "NOT NULL"
+        bit IsResolved "NOT NULL"
+        int ResolvedByTrialPersonnelID "NOT NULL"
+        datetime ResolvedDate "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    RoleTypes {
+        varchar RoleType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SponsorPersonnel {
+        int SponsorPersonnelID PK
+        int SponsorID "NOT NULL"
+        int PersonID "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Specialization "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Sponsors {
+        int SponsorID PK
+        int OrganizationID "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SystemFieldNameMappings {
+        varchar Name PK
+        varchar TranslationValue "NOT NULL"
+        varchar LanguageCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    SystemLogs {
+        varchar UserName "NOT NULL"
+        varchar FormName "NOT NULL"
+        varchar ControlName "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar LogMessage "NOT NULL"
+        varchar LogData "NOT NULL"
+        datetime LogDateTime "NOT NULL, DEFAULT NOW()"
+    }
+
+    SystemTableNameMappings {
+        varchar Name PK
+        varchar TranslationValue "NOT NULL"
+        varchar LanguageCode "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialDeviations {
+        int DeviationID PK
+        int TrialID "NOT NULL"
+        datetime DeviationDate "NOT NULL"
+        datetime DetectedDate "NOT NULL"
+        varchar DeviationType "NOT NULL"
+        varchar Severity "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar ImmediateAction "NOT NULL"
+        varchar RootCause "NOT NULL"
+        varchar CAPA "NOT NULL"
+        datetime CAPADueDate "NOT NULL"
+        datetime CAPACompletedDate "NOT NULL"
+        bit ReportedToRegionalEthicsCommittee "NOT NULL"
+        datetime RegionalEthicsCommitteeReportDate "NOT NULL"
+        bit ReportedToSponsor "NOT NULL"
+        datetime SponsorReportDate "NOT NULL"
+        int ResponsibleTrialRoleID "NOT NULL"
+        varchar Status "NOT NULL"
+        datetime ClosedDate "NOT NULL"
+        int ClosedByTrialPersonnelID "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPatients {
+        int PatientID PK
+        int TrialID "NOT NULL"
+        varchar PatientCode "NOT NULL"
+        datetime ScreeningDate "NOT NULL"
+        datetime EnrollmentDate "NOT NULL"
+        datetime ApprovalDate "NOT NULL"
+        datetime CompletionDate "NOT NULL"
+        datetime WithdrawalDate "NOT NULL"
+        varchar PatientStatus "NOT NULL"
+        varchar DisqualificationReason "NOT NULL"
+        int AgeAtScreening "NOT NULL"
+        varchar Gender "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPersonnel {
+        int TrialPersonnelID PK
+        int TrialID "NOT NULL"
+        varchar TrialPersonnelType "NOT NULL"
+        int HospitalPersonnelID "NOT NULL"
+        int SponsorPersonnelID "NOT NULL"
+        int AuthorityPersonnelID "NOT NULL"
+        bit IsPrimary "NOT NULL"
+        datetime StartDate "NOT NULL"
+        datetime EndDate "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialPersonnelTypes {
+        varchar TrialPersonnelType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialRoles {
+        int TrialRoleID PK
+        int TrialID "NOT NULL"
+        int TrialPersonnelID "NOT NULL"
+        varchar RoleType "NOT NULL"
+        bit IsPrimary "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    Trials {
+        int TrialID PK
+        int HospitalID "NOT NULL"
+        int SponsorID "NOT NULL"
+        varchar TrialType "NOT NULL"
+        varchar TrialTitle "NOT NULL"
+        varchar Indication "NOT NULL"
+        varchar EudraCTNumber "NOT NULL"
+        varchar ClinicalTrialsGovID "NOT NULL"
+        int PlannedEnrollment "NOT NULL"
+        int ActualEnrollment "NOT NULL"
+        int NumberScreened "NOT NULL"
+        int NumberIncluded "NOT NULL"
+        datetime PlannedStartDate "NOT NULL"
+        datetime FirstPatientInDate "NOT NULL"
+        datetime LastPatientOutDate "NOT NULL"
+        datetime DatabaseLockDate "NOT NULL"
+        datetime ReportSentDate "NOT NULL"
+        datetime ArchivingDate "NOT NULL"
+        varchar OverallStatus "NOT NULL"
+        varchar ProtocolVersion "NOT NULL"
+        int CurrentProtocolID "NOT NULL"
+        varchar CurrentPhaseCode "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    TrialTypes {
+        varchar TrialType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        varchar Instructions "NOT NULL"
+        varchar Notes "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+    UserAccessTypes {
+        varchar UserAccessType PK
+        varchar Name "NOT NULL"
+        varchar Description "NOT NULL"
+        datetime CreatedDate "NOT NULL"
+        datetime ModifiedDate "NOT NULL"
+        varchar CreatedBy "NOT NULL"
+        varchar ModifiedBy "NOT NULL"
+        bit IsDeleted "NOT NULL, DEFAULT FALSE"
+    }
+
+

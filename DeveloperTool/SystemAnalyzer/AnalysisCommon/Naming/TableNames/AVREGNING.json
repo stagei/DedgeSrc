@@ -1,0 +1,45 @@
+{
+  "tableName": "AVREGNING",
+  "futureName": "AvregningData",
+  "namespace": "Grains",
+  "columns": [
+    {
+      "name": "ordrnr",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "avdkost",
+      "futureName": "CostCenter",
+      "description": "Cost center associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "beholdning",
+      "futureName": "StockQuantity",
+      "description": "Quantity of goods in stock related to the order",
+      "foreignKey": null
+    },
+    {
+      "name": "lagernr",
+      "futureName": "WarehouseNumber",
+      "description": "Number identifying the warehouse where the goods are stored",
+      "foreignKey": {
+        "table": "Lagersted",
+        "columns": [
+          "lagersted"
+        ]
+      }
+    },
+    {
+      "name": "navn",
+      "futureName": "Name",
+      "description": "Name of the warehouse or location",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T23:37:15"
+}

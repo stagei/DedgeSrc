@@ -1,0 +1,115 @@
+{
+  "program": "ILBSKAT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:46",
+  "extraction": {
+    "sourceHash": "sha256:5a4418a75f83cee9207dbba5b292d107681348c86b62460413841e76210b0e06",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\ilbskat.cbl",
+    "actualName": "ILBSKAT",
+    "program": "ILBSKAT",
+    "copyElements": [
+      {
+        "name": "ILKK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILFI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILKT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILTT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ILBI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "PERSON_ORG_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "KUNDEKONTO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "TRANSREG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "FIRMANAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "INL",
+        "tableName": "FIRMA",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "POSTSTED",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_PNRTAB",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:46"
+  }
+}

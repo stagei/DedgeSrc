@@ -1,0 +1,49 @@
+{
+  "tableName": "BILAGNR",
+  "futureName": "BilagNr",
+  "namespace": "Invoices",
+  "columns": [
+    {
+      "name": "FIRMA",
+      "futureName": "CompanyCode",
+      "description": "Company code or identifier",
+      "foreignKey": "BILAGNR_FIR"
+    },
+    {
+      "name": "AAR",
+      "futureName": "Year",
+      "description": "Year",
+      "foreignKey": null
+    },
+    {
+      "name": "SISTE_BILAGNR",
+      "futureName": "LastBilagNumber",
+      "description": "Last bilag number",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of the record",
+      "foreignKey": [
+        "KONTO",
+        "KONTOTYPE",
+        "KUNDEKONTO",
+        "FK_LOG"
+      ]
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserIdentifier",
+      "description": "User identifier",
+      "foreignKey": [
+        "AD_BRUKER",
+        "FIRMA",
+        "FK_LOG"
+      ]
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:25:30"
+}

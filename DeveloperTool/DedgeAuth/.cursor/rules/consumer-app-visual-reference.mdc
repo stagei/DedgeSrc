@@ -1,0 +1,91 @@
+﻿---
+description: Visual structure and expected appearance of all DedgeAuth consumer apps
+alwaysApply: true
+---
+
+# Consumer App Visual Reference
+
+When asked to verify, test, or fix app appearance, use this as the authoritative reference for how each app should look.
+
+## Shared Visual Elements (All Apps)
+
+Every DedgeAuth-integrated consumer app must have:
+
+- **FK Green header/branding**: `#008942` gradient from tenant CSS
+- **Dedge logo**: Loaded from DedgeAuth tenant logo endpoint (not local files)
+- **DedgeAuth user menu**: `<div id="DedgeAuthUserMenu"></div>` — top-right dropdown with user info, app switcher, logout
+- **Tenant CSS injection**: `<style id="DedgeAuth-tenant-css">` populated dynamically by `DedgeAuth-user.js`
+- **Dark/light theme toggle**: Where applicable
+
+### CSS Load Order
+
+1. App's own local CSS (`css/site.css` or similar)
+2. DedgeAuth common CSS (`api/DedgeAuth/ui/common.css` via proxy)
+3. Tenant-specific CSS (injected into `#DedgeAuth-tenant-css` by `user.js`)
+4. DedgeAuth user menu CSS (`api/DedgeAuth/ui/user.css` via proxy)
+
+## App-Specific Visual Structure
+
+### DedgeAuth (`http://localhost/DedgeAuth/`)
+
+| Page | Key Visual Elements |
+|------|-------------------|
+| `login.html` | FK Green theme, Dedge logo, email/password form, magic link tab |
+| `admin.html` | FK Green header, Dedge logo, sidebar nav (Apps, Users, Tenants), data tables, URL mismatch banner |
+
+### DocView (`http://localhost/DocView/`)
+
+| Element | Description |
+|---------|-------------|
+| Layout | Clean document viewer with tree navigation on left, document content on right |
+| Header | FK Green gradient, Dedge logo, DedgeAuth user menu (top-right) |
+| Content | Document tree with folder/file hierarchy, document preview pane |
+
+### GenericLogHandler (`http://localhost/GenericLogHandler/`)
+
+| Element | Description |
+|---------|-------------|
+| Layout | Log aggregation dashboard with filter controls and log table |
+| Header | FK Green gradient, app title, DedgeAuth user menu (top-right) |
+| Content | Date range filters, log level filters, searchable log entries table |
+| Note | Currently runs with `DedgeAuth:Enabled: true` — requires login. If set to `false` (standalone mode), tenant CSS and logo still load via the default tenant fetch. |
+
+### ServerMonitorDashboard (`http://localhost/ServerMonitorDashboard/`)
+
+| Element | Description |
+|---------|-------------|
+| Layout | Server monitoring dashboard with metric panels |
+| Header | FK Green gradient, app title, DedgeAuth user menu (top-right) |
+| Content | Server status cards, CPU/memory/disk charts, alert indicators |
+
+### AutoDocJson (`http://localhost/AutoDocJson/`)
+
+| Element | Description |
+|---------|-------------|
+| Layout | Razor Pages app with dark theme default, dashboard + doc detail pages |
+| Dashboard | Summary cards per file type (COBOL, Batch, PowerShell, Rexx, SQL, C#), tabbed file lists |
+| Header | Navbar with FK logo, "AutoDoc Dashboard" title, theme toggle, DedgeAuth user menu |
+| Doc page | Header with FK logo, document title, type badge, theme toggle, DedgeAuth user menu, Mermaid diagrams |
+
+## Visual Verification Checklist
+
+When verifying any consumer app visually, confirm ALL of these:
+
+- [ ] FK Green branding visible (not unstyled/default Bootstrap)
+- [ ] Dedge logo displayed (not broken image)
+- [ ] DedgeAuth user menu present and functional (dropdown opens, shows user info)
+- [ ] App switcher in user menu lists other apps
+- [ ] Tenant CSS applied (check `#DedgeAuth-tenant-css` has content)
+- [ ] No JavaScript console errors related to DedgeAuth
+- [ ] Theme toggle works (if present)
+- [ ] Navigation links work (use `~/` paths, not `/` absolute paths in IIS virtual apps)
+
+## Common Visual Issues
+
+| Symptom | Likely Cause |
+|---------|-------------|
+| Completely unstyled page | `DedgeAuth-user.js` not loading tenant CSS — check proxy endpoint and `DedgeAuthUrl` |
+| Missing user menu | No `<div id="DedgeAuthUserMenu">` in HTML, or `user.js` not loaded |
+| Broken logo | Tenant has no `logo_data` in DB, or logo endpoint returning 404 |
+| White/default header | Tenant CSS not injected — check `#DedgeAuth-tenant-css` element is empty |
+| Links go to wrong app | Absolute paths (`/page`) instead of virtual-app-relative (`~/page`) |

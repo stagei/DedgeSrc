@@ -1,0 +1,40 @@
+{
+  "tableName": "FAKTURA_FEIL",
+  "futureName": "UnsuccessfulOrderRecord",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FEILMELDING",
+      "futureName": "ErrorMessage",
+      "description": "Error message describing the issue preventing the invoice from being generated",
+      "foreignKey": null
+    },
+    {
+      "name": "SYSTEM",
+      "futureName": "SystemCode",
+      "description": "Code representing the system where the error occurred",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp when the error message was recorded",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:22:16"
+}

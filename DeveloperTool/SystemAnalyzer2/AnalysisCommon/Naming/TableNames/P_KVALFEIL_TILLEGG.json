@@ -1,0 +1,112 @@
+{
+  "tableName": "P_KVALFEIL_TILLEGG",
+  "futureName": "QualityTillегging",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "avregningSTYPE",
+      "futureName": "AvregningType",
+      "description": "Type of adjustment or correction",
+      "foreignKey": null
+    },
+    {
+      "name": "kornHANDLER",
+      "futureName": "CornHandler",
+      "description": "The corn handler involved in the transaction",
+      "foreignKey": "KORNHANDLER"
+    },
+    {
+      "name": "kvalitETSFEIL",
+      "futureName": "QualityError",
+      "description": "Type of quality error encountered",
+      "foreignKey": null
+    },
+    {
+      "name": "fra_DATO",
+      "futureName": "FromDate",
+      "description": "Date from which the adjustment is applicable",
+      "foreignKey": "FRA_DATO"
+    },
+    {
+      "name": "tekST",
+      "futureName": "Text",
+      "description": "Additional text or remarks related to the quality issue",
+      "foreignKey": null
+    },
+    {
+      "name": "gir_KVALITET",
+      "futureName": "GivesQuality",
+      "description": "Indicates if quality is provided (F=For, M=Mat, I=Info)",
+      "foreignKey": null
+    },
+    {
+      "name": "proSENT",
+      "futureName": "Percentage",
+      "description": "Percentage value related to the adjustment",
+      "foreignKey": null
+    },
+    {
+      "name": "satS",
+      "futureName": "Rate",
+      "description": "Rate or factor used in the calculation",
+      "foreignKey": null
+    },
+    {
+      "name": "nullOPPGJOR",
+      "futureName": "NullOperation",
+      "description": "Indicates a null operation (if applicable)",
+      "foreignKey": null
+    },
+    {
+      "name": "brUKERID",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user performing the action",
+      "foreignKey": null
+    },
+    {
+      "name": "tidSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Timestamp of when the record was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "saAKORN_TILL",
+      "futureName": "Saaakorn",
+      "description": "Code indicating if the corn is saaakorn (1=Yes, 0=No)",
+      "foreignKey": null
+    },
+    {
+      "name": "skrives_M_0_BELOP",
+      "futureName": "WritesM0Amount",
+      "description": "Indicates if text should be written for amounts of zero (Ja/Nei)",
+      "foreignKey": null
+    },
+    {
+      "name": "prIS",
+      "futureName": "Price",
+      "description": "Price adjustment based on quality deviation",
+      "foreignKey": null
+    },
+    {
+      "name": "bare_BASISPRIS",
+      "futureName": "BareBasisPrice",
+      "description": "Indicates if only the basis price should be calculated (1=Yes, 0=No)",
+      "foreignKey": null
+    },
+    {
+      "name": "frakTTILSKUDD",
+      "futureName": "Fasketilskudd",
+      "description": "Code to handle cases where frakt tilskudd is not applicable",
+      "foreignKey": "FRAKTTILSKUDD"
+    },
+    {
+      "name": "mjoldROYE",
+      "futureName": "Mjoldroye",
+      "description": "Indicates if the quality error should be moved to kvf5_nr (1=Yes, 0=No)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:11:32"
+}

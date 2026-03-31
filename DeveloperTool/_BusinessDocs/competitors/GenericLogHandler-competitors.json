@@ -1,0 +1,56 @@
+{
+  "product": "GenericLogHandler",
+  "category": "Centralized Log Management & Analysis",
+  "searchDate": "2026-03-31",
+  "competitors": [
+    {
+      "name": "Splunk",
+      "url": "https://www.splunk.com",
+      "pricing": "~$150/GB/day (Enterprise)",
+      "keyDifference": "Extremely expensive at scale and complex to operate; GenericLogHandler is self-hosted with built-in DB2/PostgreSQL support, eliminating separate database licensing",
+      "notes": "Enterprise standard for log management and SIEM. SPL search language, ML analytics, 2,400+ integrations. High cost at scale"
+    },
+    {
+      "name": "Graylog",
+      "url": "https://graylog.com",
+      "pricing": "Free (Open) → $1,250/month+ (Enterprise/Cloud)",
+      "keyDifference": "Requires MongoDB + Elasticsearch/OpenSearch backends; GenericLogHandler uses existing DB2/PostgreSQL directly, reducing infrastructure overhead",
+      "notes": "2025 Gartner Magic Quadrant SIEM leader. Security and compliance focus. Real-time alerting, pipeline processing, dashboards"
+    },
+    {
+      "name": "ELK Stack (Elastic)",
+      "url": "https://www.elastic.co",
+      "pricing": "Free / Open Source → Elastic Cloud from $95/month",
+      "keyDifference": "Requires operating 3+ services and substantial resources; GenericLogHandler is a single app with built-in import pipeline using existing DB2/PostgreSQL",
+      "notes": "Most widely deployed open-source log management. Elasticsearch (search), Logstash (pipeline), Kibana (visualization). Memory-hungry"
+    },
+    {
+      "name": "Seq (Datalust)",
+      "url": "https://datalust.co",
+      "pricing": "Free (1 user) → $790/yr (Team) → $7,990/yr (Datacenter)",
+      "keyDifference": "Focused on structured application logs (Serilog/NLog); GenericLogHandler handles broader log import from multiple sources with alert agent",
+      "notes": "Centralized structured logging for .NET. Local data storage, unlimited retention, powerful querying, dashboards. Windows-native"
+    },
+    {
+      "name": "SigNoz",
+      "url": "https://signoz.io",
+      "pricing": "Free / Open Source (Cloud available)",
+      "keyDifference": "Uses ClickHouse and is Kubernetes-oriented; GenericLogHandler is simpler with DB2/PostgreSQL backends familiar to enterprise Windows environments",
+      "notes": "Unified observability (logs, metrics, traces). 2.5x faster than Elasticsearch, 50% fewer resources. Columnar ClickHouse datastore"
+    },
+    {
+      "name": "Grafana Loki",
+      "url": "https://grafana.com/oss/loki",
+      "pricing": "Free / Open Source",
+      "keyDifference": "Kubernetes-native with label-based indexing (no full-text); GenericLogHandler provides full-text search via DB2/PostgreSQL with dedicated dashboard and alert agent",
+      "notes": "Cost-efficient log aggregation. Indexes only labels, not full text. Pairs with Grafana for visualization. Designed for Kubernetes"
+    },
+    {
+      "name": "OpenObserve",
+      "url": "https://openobserve.ai",
+      "pricing": "Free / Open Source (Cloud available)",
+      "keyDifference": "Newer platform focused on storage efficiency; GenericLogHandler leverages existing DB2/PostgreSQL and includes purpose-built alert agent",
+      "notes": "Rust-based observability platform. ~140x lower storage costs than ELK. Logs, metrics, traces with built-in UI"
+    }
+  ]
+}

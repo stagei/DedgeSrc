@@ -1,0 +1,63 @@
+---
+description: Cross-project error/change reporting via _inbox folders
+alwaysApply: true
+---
+
+# Cross-Project Inbox Reporting
+
+When you discover an error, bug, missing feature, or needed change during work that affects files **outside** the current workspace:
+
+## Decision Flow
+
+1. Dynamically discover which git repo owns the affected file(s):
+   ```powershell
+   Get-ChildItem -Path "C:\opt\src" -Directory | Where-Object { Test-Path (Join-Path $_.FullName ".git") }
+   ```
+2. If the owning repo **is the current workspace** -- fix it directly. No report needed.
+3. If the owning repo is a **different project** under `C:\opt\src\`:
+   a. Create `<target_project>/_inbox/` if it doesn't exist
+   b. Write a report file: `_inbox/YYYYMMDD-HHMMSS_<short-slug>.md`
+   c. Run `cursor "<target_project_path>"` to open the project in Cursor
+   d. Tell the user which report was created, the full path, and what it contains
+
+## Report Template
+
+```markdown
+# [TYPE] Short Description
+
+| Field | Value |
+|---|---|
+| Source Project | <project name where issue was discovered> |
+| Target Project | <project name where fix is needed> |
+| Created | YYYY-MM-DD HH:mm |
+| Author | <$env:USERNAME> (Cursor Agent) |
+| Priority | Low / Medium / High / Critical |
+
+## Problem Description
+
+<what is wrong or missing>
+
+## Affected Files
+
+- `relative/path/to/file.ext` (line N) - description
+
+## Suggested Fix
+
+<concrete steps or code changes needed>
+
+## Context
+
+<what task triggered this discovery>
+```
+
+## Conventions
+
+- **TYPE values:** `ERROR`, `CHANGE`, `MISSING`, `IMPROVEMENT`
+- **Slug:** lowercase, hyphenated, max 50 chars (e.g. `fix-auth-token-validation`)
+- **Discovery is always dynamic** -- scan for `.git` folders at runtime, never use a cached or hardcoded repo list
+- **Do NOT add `_inbox` to `.gitignore`** -- reports should be version-controlled
+- **Priority guidelines:**
+  - `Critical` -- blocks current task or breaks production
+  - `High` -- significant bug or missing functionality
+  - `Medium` -- improvement or non-blocking change
+  - `Low` -- cosmetic, documentation, or minor cleanup

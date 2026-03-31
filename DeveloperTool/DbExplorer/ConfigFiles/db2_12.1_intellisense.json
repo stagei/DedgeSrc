@@ -1,0 +1,271 @@
+{
+  "provider": "DB2",
+  "version": "12.1",
+  "description": "DB2 12.1 IntelliSense metadata - keywords, data types, functions, and system catalog",
+  
+  "keywords": {
+    "statements": [
+      "SELECT", "INSERT", "UPDATE", "DELETE", "MERGE",
+      "CREATE", "ALTER", "DROP", "TRUNCATE", "RENAME",
+      "GRANT", "REVOKE", "COMMENT", "LOCK", "UNLOCK",
+      "BEGIN", "END", "COMMIT", "ROLLBACK", "SAVEPOINT",
+      "CALL", "RETURN", "DECLARE", "SET", "VALUES",
+      "EXPLAIN", "REFRESH", "REORG", "RUNSTATS"
+    ],
+    "clauses": [
+      "FROM", "WHERE", "GROUP BY", "HAVING", "ORDER BY",
+      "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN", "CROSS JOIN",
+      "LEFT OUTER JOIN", "RIGHT OUTER JOIN", "FULL OUTER JOIN",
+      "ON", "USING", "NATURAL",
+      "UNION", "INTERSECT", "EXCEPT", "UNION ALL",
+      "FETCH FIRST", "ROWS ONLY", "OFFSET", "LIMIT",
+      "WITH", "AS", "RECURSIVE",
+      "INTO", "VALUES", "DEFAULT VALUES",
+      "SET", "CASE", "WHEN", "THEN", "ELSE", "END",
+      "FOR UPDATE", "FOR READ ONLY", "WITH UR", "WITH CS", "WITH RS", "WITH RR"
+    ],
+    "operators": [
+      "AND", "OR", "NOT", "IN", "EXISTS", "ANY", "ALL", "SOME",
+      "BETWEEN", "LIKE", "ESCAPE",
+      "IS NULL", "IS NOT NULL",
+      "IS DISTINCT FROM", "IS NOT DISTINCT FROM",
+      "DISTINCT", "UNIQUE"
+    ],
+    "modifiers": [
+      "ASC", "DESC", "NULLS FIRST", "NULLS LAST",
+      "DISTINCT", "ALL", "TOP",
+      "CASCADE", "RESTRICT", "NO ACTION",
+      "IMMEDIATE", "DEFERRED", "INITIALLY"
+    ],
+    "constraints": [
+      "PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK", "NOT NULL",
+      "REFERENCES", "ON DELETE", "ON UPDATE",
+      "DEFAULT", "GENERATED", "IDENTITY",
+      "CONSTRAINT", "INDEX"
+    ]
+  },
+  
+  "dataTypes": {
+    "numeric": [
+      "SMALLINT", "INTEGER", "INT", "BIGINT",
+      "DECIMAL", "NUMERIC", "DEC",
+      "REAL", "FLOAT", "DOUBLE", "DOUBLE PRECISION",
+      "DECFLOAT"
+    ],
+    "string": [
+      "CHAR", "CHARACTER", "VARCHAR", "CHARACTER VARYING",
+      "CLOB", "LONG VARCHAR",
+      "GRAPHIC", "VARGRAPHIC", "DBCLOB", "LONG VARGRAPHIC"
+    ],
+    "binary": [
+      "BINARY", "VARBINARY", "BLOB", "LONG VARCHAR FOR BIT DATA"
+    ],
+    "datetime": [
+      "DATE", "TIME", "TIMESTAMP",
+      "TIMESTAMP WITH TIME ZONE"
+    ],
+    "special": [
+      "BOOLEAN", "XML", "JSON",
+      "ROWID", "DATALINK", "REFERENCE",
+      "CURSOR", "ROW"
+    ]
+  },
+  
+  "functions": {
+    "aggregate": [
+      "COUNT", "SUM", "AVG", "MIN", "MAX",
+      "STDDEV", "STDDEV_SAMP", "STDDEV_POP",
+      "VARIANCE", "VAR_SAMP", "VAR_POP",
+      "CORRELATION", "COVARIANCE",
+      "LISTAGG", "ARRAY_AGG",
+      "XMLAGG", "XMLGROUP"
+    ],
+    "string": [
+      "TRIM", "LTRIM", "RTRIM", "STRIP",
+      "SUBSTR", "SUBSTRING", "LEFT", "RIGHT",
+      "UPPER", "LOWER", "UCASE", "LCASE",
+      "LENGTH", "CHAR_LENGTH", "CHARACTER_LENGTH", "OCTET_LENGTH",
+      "CONCAT", "CONCAT_WS",
+      "REPLACE", "TRANSLATE", "INSERT",
+      "LOCATE", "POSSTR", "POSITION",
+      "LPAD", "RPAD", "REPEAT", "SPACE",
+      "CHAR", "VARCHAR", "VARCHAR_FORMAT",
+      "HEX", "UNHEX", "ASCII", "CHR",
+      "INITCAP", "SOUNDEX", "DIFFERENCE"
+    ],
+    "numeric": [
+      "ABS", "CEIL", "CEILING", "FLOOR", "ROUND", "TRUNCATE", "TRUNC",
+      "MOD", "POWER", "EXP", "LN", "LOG", "LOG10", "SQRT",
+      "SIGN", "RAND", "RANDOM",
+      "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "ATAN2",
+      "SINH", "COSH", "TANH",
+      "DEGREES", "RADIANS"
+    ],
+    "datetime": [
+      "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP",
+      "CURRENT DATE", "CURRENT TIME", "CURRENT TIMESTAMP",
+      "DATE", "TIME", "TIMESTAMP", "TIMESTAMP_FORMAT",
+      "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND", "MICROSECOND",
+      "DAYNAME", "MONTHNAME", "DAYOFWEEK", "DAYOFYEAR", "WEEK", "QUARTER",
+      "DAYS", "MIDNIGHT_SECONDS", "JULIAN_DAY",
+      "ADD_DAYS", "ADD_MONTHS", "ADD_YEARS",
+      "TIMESTAMPDIFF", "TIMESTAMPADD",
+      "LAST_DAY", "NEXT_DAY", "FIRST_DAY"
+    ],
+    "conversion": [
+      "CAST", "CONVERT",
+      "COALESCE", "NULLIF", "IFNULL", "NVL",
+      "CASE", "DECODE",
+      "TO_CHAR", "TO_DATE", "TO_NUMBER",
+      "XMLCAST", "XMLPARSE", "XMLSERIALIZE"
+    ],
+    "window": [
+      "ROW_NUMBER", "RANK", "DENSE_RANK", "NTILE",
+      "LEAD", "LAG", "FIRST_VALUE", "LAST_VALUE", "NTH_VALUE",
+      "PERCENT_RANK", "CUME_DIST", "PERCENTILE_CONT", "PERCENTILE_DISC",
+      "OVER", "PARTITION BY", "ORDER BY", "ROWS", "RANGE"
+    ],
+    "xml": [
+      "XMLELEMENT", "XMLATTRIBUTES", "XMLFOREST", "XMLCONCAT",
+      "XMLQUERY", "XMLTABLE", "XMLEXISTS",
+      "XMLNAMESPACES", "XMLDOCUMENT", "XMLPI", "XMLCOMMENT"
+    ],
+    "json": [
+      "JSON_VALUE", "JSON_QUERY", "JSON_TABLE", "JSON_EXISTS",
+      "JSON_OBJECT", "JSON_ARRAY", "JSON_ARRAYAGG", "JSON_OBJECTAGG"
+    ],
+    "system": [
+      "CURRENT_USER", "USER", "SESSION_USER", "SYSTEM_USER",
+      "CURRENT_SCHEMA", "CURRENT_PATH",
+      "IDENTITY_VAL_LOCAL", "PREVIOUS VALUE FOR",
+      "RAISE_ERROR", "DBPARTITIONNUM",
+      "GENERATE_UNIQUE", "HASH", "ENCRYPT", "DECRYPT"
+    ]
+  },
+  
+  "systemCatalog": {
+    "SYSCAT": [
+      "TABLES", "COLUMNS", "INDEXES", "INDEXCOLUSE", "KEYCOLUSE",
+      "VIEWS", "VIEWDEP",
+      "ROUTINES", "ROUTINEPARMS", "ROUTINEDEP",
+      "TRIGGERS", "TRIGDEP",
+      "PACKAGES", "PACKAGEDEP", "STATEMENTS",
+      "TABCONST", "REFERENCES", "CHECKS",
+      "SEQUENCES", "DATATYPES",
+      "SCHEMATA", "TABLESPACES",
+      "DBAUTH", "TABAUTH", "COLAUTH", "ROUTINEAUTH", "SCHEMAAUTH", "PACKAGEAUTH",
+      "ROLES", "ROLEAUTH",
+      "BUFFERPOOLS", "PARTITIONMAPS",
+      "TABDEP", "COLDIST", "COLGROUPS"
+    ],
+    "SYSIBM": [
+      "SYSDUMMY1", "DUAL",
+      "SYSTABLES", "SYSCOLUMNS", "SYSINDEXES", "SYSVIEWS",
+      "SYSROUTINES", "SYSTRIGGERS", "SYSSEQUENCES"
+    ],
+    "SYSSTAT": [
+      "TABLES", "COLUMNS", "INDEXES", "COLDIST", "COLGROUPS"
+    ],
+    "SYSIBMADM": [
+      "APPLICATIONS", "SNAPLOCK", "SNAPLOCKWAIT",
+      "DBCFG", "DBMCFG", "REG_VARIABLES",
+      "TBSP_UTILIZATION", "CONTAINER_UTILIZATION",
+      "TOP_DYNAMIC_SQL", "QUERY_PREP_COST"
+    ]
+  },
+  
+  "snippets": {
+    "selectAll": {
+      "trigger": "sel*",
+      "template": "SELECT * FROM ${1:table_name} WHERE ${2:condition}",
+      "description": "Select all columns from table"
+    },
+    "selectColumns": {
+      "trigger": "selc",
+      "template": "SELECT ${1:column1}, ${2:column2}\nFROM ${3:table_name}\nWHERE ${4:condition}",
+      "description": "Select specific columns"
+    },
+    "selectJoin": {
+      "trigger": "selj",
+      "template": "SELECT ${1:columns}\nFROM ${2:table1} t1\nINNER JOIN ${3:table2} t2 ON t1.${4:key} = t2.${5:key}\nWHERE ${6:condition}",
+      "description": "Select with join"
+    },
+    "selectCount": {
+      "trigger": "selcnt",
+      "template": "SELECT COUNT(*) AS cnt FROM ${1:table_name} WHERE ${2:condition}",
+      "description": "Count rows"
+    },
+    "selectGroupBy": {
+      "trigger": "selg",
+      "template": "SELECT ${1:column}, COUNT(*) AS cnt\nFROM ${2:table_name}\nGROUP BY ${1:column}\nORDER BY cnt DESC",
+      "description": "Group by with count"
+    },
+    "insertInto": {
+      "trigger": "ins",
+      "template": "INSERT INTO ${1:table_name} (${2:columns})\nVALUES (${3:values})",
+      "description": "Insert single row"
+    },
+    "insertSelect": {
+      "trigger": "inss",
+      "template": "INSERT INTO ${1:target_table} (${2:columns})\nSELECT ${3:columns}\nFROM ${4:source_table}\nWHERE ${5:condition}",
+      "description": "Insert from select"
+    },
+    "updateSet": {
+      "trigger": "upd",
+      "template": "UPDATE ${1:table_name}\nSET ${2:column} = ${3:value}\nWHERE ${4:condition}",
+      "description": "Update rows"
+    },
+    "deleteFrom": {
+      "trigger": "del",
+      "template": "DELETE FROM ${1:table_name}\nWHERE ${2:condition}",
+      "description": "Delete rows"
+    },
+    "merge": {
+      "trigger": "merge",
+      "template": "MERGE INTO ${1:target_table} t\nUSING ${2:source_table} s\nON t.${3:key} = s.${4:key}\nWHEN MATCHED THEN UPDATE SET ${5:column} = s.${6:column}\nWHEN NOT MATCHED THEN INSERT (${7:columns}) VALUES (${8:values})",
+      "description": "Merge (upsert)"
+    },
+    "createTable": {
+      "trigger": "crtab",
+      "template": "CREATE TABLE ${1:schema}.${2:table_name} (\n    ${3:id} INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,\n    ${4:column} VARCHAR(100),\n    PRIMARY KEY (${3:id})\n)",
+      "description": "Create table"
+    },
+    "createIndex": {
+      "trigger": "cridx",
+      "template": "CREATE INDEX ${1:index_name}\nON ${2:table_name} (${3:columns})",
+      "description": "Create index"
+    },
+    "createView": {
+      "trigger": "crvw",
+      "template": "CREATE OR REPLACE VIEW ${1:schema}.${2:view_name} AS\nSELECT ${3:columns}\nFROM ${4:table_name}\nWHERE ${5:condition}",
+      "description": "Create view"
+    },
+    "cte": {
+      "trigger": "with",
+      "template": "WITH ${1:cte_name} AS (\n    SELECT ${2:columns}\n    FROM ${3:table_name}\n    WHERE ${4:condition}\n)\nSELECT * FROM ${1:cte_name}",
+      "description": "Common Table Expression"
+    },
+    "pagination": {
+      "trigger": "page",
+      "template": "SELECT ${1:columns}\nFROM ${2:table_name}\nORDER BY ${3:column}\nOFFSET ${4:0} ROWS FETCH FIRST ${5:10} ROWS ONLY",
+      "description": "Pagination query"
+    },
+    "rowNumber": {
+      "trigger": "rownum",
+      "template": "SELECT ROW_NUMBER() OVER (ORDER BY ${1:column}) AS rn, ${2:columns}\nFROM ${3:table_name}",
+      "description": "Row number window function"
+    }
+  },
+  
+  "systemSchemas": [
+    "SYSCAT", "SYSIBM", "SYSIBMADM", "SYSSTAT", "SYSPROC", "SYSFUN", "SYSTOOLS",
+    "NULLID", "SQLJ", "DB2INST1"
+  ],
+  
+  "specialValues": [
+    "NULL", "TRUE", "FALSE", "UNKNOWN",
+    "CURRENT DATE", "CURRENT TIME", "CURRENT TIMESTAMP",
+    "CURRENT USER", "SESSION_USER", "SYSTEM_USER",
+    "CURRENT SCHEMA", "CURRENT PATH"
+  ]
+}

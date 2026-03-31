@@ -1,0 +1,65 @@
+-- 23.11.2022 lagt inn kode for dbm.h_mek_tidsreg_trans
+-- Denne Kjøres KUN for 2852 Kløfta da også de nå er i "utakt" (08.08.2019)
+-- Kjørt for 2011          11/08-2019
+-- Kjørt for 2012          10/05-2020
+-- Kjøres for 2013         20/12-2020
+-- Kjøres for 2014         18/07-2021
+-- Kjøres for 2015         08/05-2022
+-- Kjøres for 2016         12/02-2023
+-- Kjøres for 2017         17/12-2023
+-- Kjøres for 2018         24/11-2024
+-- KJØRES VHA. FKSQL.REX
+-- TAR MED AH_ORDRE-TABELLENE
+--  
+-- HUSK Å ENDRE UTPLUKK, ÅRSTALL OG FILENAVN 
+--  
+--  Lager grunnlag for load. 
+connect to BASISREG;
+--
+    EXPORT TO P:\tru\AH_ORDRE_FLYTTES_2852_2018.ixf OF IXF
+         SELECT INT(OPPRETTET_DATO/10000), AVDNR, ORDRENR, CURRENT TIMESTAMP, ' '
+          FROM DBM.AH_ORDREHODE WHERE AVDNR = 2852 AND OPPRETTET_DATO BETWEEN 20180101 AND  20181231;
+    LOAD FROM P:\tru\AH_ORDRE_FLYTTES_2852_2018.ixf OF IXF REPLACE INTO DBM.AH_ORDRE_TIL_HIST_2852 NONRECOVERABLE;
+    runstats on table dbm.ah_ordre_til_hist_2852 and indexes all;
+  EXPORT TO P:\tru\AH_ORDREH2852_2018.IXF OF IXF
+      SELECT  2018, H.*
+       FROM DBM.AH_ORDREHODE H, dbm.ah_ordre_til_hist_2852 T
+       WHERE H.AVDNR = T.AVDNR
+       AND   H.ORDRENR = T.ORDRENR
+       AND   H.AVDNR = 2852;
+  EXPORT TO P:\tru\AH_ORDREL2852_2018.IXF OF IXF
+      SELECT  2018, L.*
+      FROM DBM.AH_ORDRELINJER L, dbm.ah_ordre_til_hist_2852 T
+       WHERE L.AVDNR = T.AVDNR 
+       AND   L.ORDRENR = T.ORDRENR
+       AND   L.AVDNR = 2852;
+  EXPORT TO P:\tru\AH_VERKSTEDHODE2852_2018.IXF OF IXF
+      SELECT  2018, M.*
+      FROM DBM.H_VERKSTEDHODE M, dbm.ah_ordre_til_hist_2852 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 2852;
+  EXPORT TO P:\tru\AH_VERKSTED_TIMER2852_2018.IXF OF IXF
+      SELECT  2018, M.*
+      FROM DBM.H_VERKSTED_TIMER M,  dbm.ah_ordre_til_hist_2852 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 2852;
+  EXPORT TO P:\tru\AH_VERKSTEDTEKST2852_2018.IXF OF IXF
+      SELECT  2018, M.*
+      FROM DBM.H_VERKSTEDTEKST M,  dbm.ah_ordre_til_hist_2852 T
+      WHERE M.AVDNR = T.AVDNR
+        AND M.ORDRENR = T.ORDRENR
+       AND   M.AVDNR = 2852;
+  EXPORT TO P:\tru\H_KASS_TRANSER2852_2018.ixf OF IXF
+      SELECT 2018, K.*
+      FROM DBM.kass_transer k,  dbm.ah_ordre_til_hist_2852 T
+      WHERE k.AVDNR = T.AVDNR
+        AND k.bilagNR = T.ORDRENR;
+  EXPORT TO P:\tru\mek_tidreg_trans2852_2018.IXF OF IXF
+      SELECT 2018, a.*
+      FROM DBM.MEK_TIDSREG_TRANS A, dbm.ah_ordre_til_hist_2852 h
+      WHERE a.avdnr = h.avdnr
+      and   A.ORDRENR = h.ORDRENR
+      AND   A.AVDNR = 2852;
+//

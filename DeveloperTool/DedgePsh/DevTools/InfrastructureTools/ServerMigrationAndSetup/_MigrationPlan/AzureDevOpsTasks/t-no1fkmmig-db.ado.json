@@ -1,0 +1,420 @@
+﻿{
+  "server": "t-no1fkmmig-db",
+  "relationships": [
+    {
+      "sourceId": "t-no1fkmmig-db-VerifyDb2",
+      "targetId": "t-no1fkmmig-db-InitServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+      "targetId": "t-no1fkmmig-db-VerifyDb2",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+      "targetId": "t-no1fkmmig-db-VerifyDb2",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-RunGenerateScriptsStep1",
+      "targetId": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-RestoreDatabaseFromBackupFile",
+      "targetId": "t-no1fkmmig-db-RunGenerateScriptsStep1",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-RunGenerateScriptsStep2",
+      "targetId": "t-no1fkmmig-db-RestoreDatabaseFromBackupFile",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-VerifyDbConnection",
+      "targetId": "t-no1fkmmig-db-RunGenerateScriptsStep2",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-OrderDb2Key",
+      "targetId": "p-no1fkxprd-db-VerifyKerberosAuthFkx",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-OrderDb2Key",
+      "targetId": "t-no1fkmmig-db-VerifyDbConnection",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-MoveKeytabFile",
+      "targetId": "t-no1fkmmig-db-OrderDb2Key",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-ConfigureKerberosOnDbServer",
+      "targetId": "t-no1fkmmig-db-MoveKeytabFile",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstation",
+      "targetId": "t-no1fkmmig-db-VerifyKerberosConfigOnDbServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    },
+    {
+      "sourceId": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "targetId": "t-no1fkmmig-db-VerifyKerberosConfigOnAppServer",
+      "relationshipType": "Microsoft.VSTS.Common.Dependency-Reverse"
+    }
+  ],
+  "tasks": [
+    {
+      "taskname": "t-no1fkmmig-db-InitServer",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-InitServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør skript i cmd.exe som admin: \\dedge-server\\DedgeCommon\\Software\\DedgePshApps\\Init-Machine\\Init-MachineFkm.bat",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-InitServer"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-VerifyDb2",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-VerifyDb2",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser at automatisert installasjon av IBM Db2 12.1 Community Edition er vellykket",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-InitServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-VerifyDb2"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Installer Db2-TemplateEngine med kommandoen: Install-FkPshApp -Name 'Db2-TemplateEngine'\n\nPrerequisites Note: Db2 må være installert og fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-VerifyDb2",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-RunDb2-TemplateEngine"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-RunDb2-TemplateEngine",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2-TemplateEngine\\Db2-TemplateEngine.ps1 -DbFunction 'CreateTemporaryTestDatabase'\n\nPrerequisites Note: Db2 må være installert og fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-VerifyDb2",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-RunDb2-TemplateEngine"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-RunGenerateScriptsStep1",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-RunGenerateScriptsStep1",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n01_db2_create_database.*.sql\n01_db2_create_log_and_tablespace_folders*.bat\n02_db2_config_logs.*.sql\n03_db2_config_etc_services.*.bat\n04_db2_config_svcename.*.sql\n05_db2_generate_restore_container.*.bat\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat\n\nComment: Dette lager ett utgangspunkt for med korrekt konfigurasjon for å opprette en ny produksjonsdatabase ved migreringstidspunktet\n\nPrerequisites Note: Template engine må kjøres først for å generere skriptene",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-RunDb2-TemplateEngine",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-RunGenerateScriptsStep1"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-RestoreDatabaseFromBackupFile",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-RestoreDatabaseFromBackupFile",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Kjør scriptet 05_db2_restore_container.*.bat. Denne genererer ett skript som kan kjøres for å restore databasen fra en backup-fil\n\nPrerequisites Note: Skriptet delere 01 til 05 må kjøres først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-RunGenerateScriptsStep1",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-RestoreDatabaseFromBackupFile"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-RunGenerateScriptsStep2",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-RunGenerateScriptsStep2",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Start Db2 Clp i admin konsoll og kjør kommando: cd F:\\Db2Restore\\GenScripts.\nKjør følgende skript i rekkefølge:\n06_db2_config_nodes.*.bat\n07_db2_config_nodes.*.sql\n08_create_db_alias.*.sql\n09_db2_stop_start.*.bat\n\nFiler med suffix .sql kjøres med kommando: db2 -tvf <filnavn>\nFiler med suffix .bat kjøres direkte i db2 konsoll med filnavn kommando: <filnavn>.bat\n\nPrerequisites Note: Det genererte skriptet fra 05 må kjøres først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-RestoreDatabaseFromBackupFile",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-RunGenerateScriptsStep2"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-VerifyDbConnection",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-VerifyDbConnection",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Start Db2 Clp i admin konsoll og kjør kommando: db2 connect to <databasenavn> user DB2NT\nKjør deretter: db2 'select * from syscat.tables fetch first 1 row only'\n\nComment: Dette verifiserer at databasen er tilgjengelig og at man kan koble seg til den\n\nPrerequisites Note: Database må være gjenopprettet og konfigurert først",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-RunGenerateScriptsStep2",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-VerifyDbConnection"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-OrderDb2Key",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-OrderDb2Key",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Bestill db2key fra avdeling Leveranse via Momentum-app\n\nComment: Generer innhold for bestilling ved bruk av Db2Kerberos\\Db2Kerberos-OrderToSystemAdmin.ps1. Utdatafil som skal brukes for bestillingen vil lagres her: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmmig-db\\DB2_Kerberos_Forespørsel.txt\n\nPrerequisites Note: Kerberos autentisering må være verifisert først og databasen må fungere",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: p-no1fkxprd-db-VerifyKerberosAuthFkx; t-no1fkmmig-db-VerifyDbConnection",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-OrderDb2Key"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-MoveKeytabFile",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-MoveKeytabFile",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Flytt db2.keytab-filen mottatt på e-post fra 'Leveranse' etter fullføring av Momentum-oppgaven til mappen: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmmig-db\n\nComment: Flytt filen til: \\dedge-server\\DedgeCommon\\Software\\Config\\Db2Kerberos\\t-no1fkmmig-db\n\nPrerequisites Note: DB2-nøkkel må være bestilt først og mailen må være mottatt og filen må være plassert på mappen angitt i beskrivelsen over.",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-OrderDb2Key",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-MoveKeytabFile"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-ConfigureKerberosOnDbServer",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-ConfigureKerberosOnDbServer",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "For å fullføre Kerberos-oppsettet Kjør kommandoen: $env:OptPath\\DedgePshApps\\Db2Kerberos\\Db2Kerberos-ServerConfigDb.ps1\n\nPrerequisites Note: Keytab-fil må være tilgjengelig",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-MoveKeytabFile",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-ConfigureKerberosOnDbServer"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstation",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstation",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av db2 clp i admin konsoll og kjør kommandoen: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;\nHvis dette lykkes fungerer databasen.\n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-VerifyKerberosConfigOnDbServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstation"
+    },
+    {
+      "taskname": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+      "server": "t-no1fkmmig-db",
+      "fields": [
+        {
+          "path": "/fields/System.Title",
+          "value": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstationDbeaver",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Description",
+          "value": "Verifiser Kerberos-konfigurasjonen ved hjelp av Dbeaver og lag connection til databasen med DB2NT bruker.\nLim inn dette i Dbeaver og kjør kommandoen med Alt+X: CREATE TABLE TEST (ID INT);INSERT INTO TEST VALUES (1);SELECT * FROM TEST;DROP TABLE TEST;ROLLBACK;\nHvis dette lykkes fungerer databasen fra Dbeaver. \n\nPrerequisites Note: Kerberos-oppsett må være fullført",
+          "op": "add"
+        },
+        {
+          "path": "/fields/System.Tags",
+          "value": "Server=t-no1fkmmig-db;ServerPart=t-no1fkmmig;Template=test-db-init;default=False",
+          "op": "add"
+        },
+        {
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": "Prerequisites: t-no1fkmmig-db-VerifyKerberosConfigOnAppServer",
+          "op": "add"
+        }
+      ],
+      "id": "t-no1fkmmig-db-VerifyKerberosConfigOnFkWorkstationDbeaver"
+    }
+  ],
+  "serverPart": "t-no1fkmmig",
+  "templateName": "test-db-init"
+}

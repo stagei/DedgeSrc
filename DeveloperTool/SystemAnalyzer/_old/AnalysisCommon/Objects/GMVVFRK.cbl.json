@@ -1,0 +1,84 @@
+{
+  "program": "GMVVFRK",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:40",
+  "extraction": {
+    "sourceHash": "sha256:7d4200d84c17a888a1060027bd289f00e8d849e948c625bc0d25025d8124de64",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMVVFRK.CBL",
+    "actualName": "GMVVFRK",
+    "program": "GMVVFRK",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FRHN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMHVFRK.CPB",
+        "type": "copybook-binary"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "FRAKTKODER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARE_NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRFRHEAD_NORD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRFRHEAD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VARENAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BESKRIVELSE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:20:40"
+  }
+}

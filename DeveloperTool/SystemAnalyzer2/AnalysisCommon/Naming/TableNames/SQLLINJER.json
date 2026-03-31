@@ -1,0 +1,34 @@
+{
+  "tableName": "SQLLINJER",
+  "futureName": "LineItem",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "SYSTEM",
+      "futureName": "SystemCode",
+      "description": "Unique code identifying the system",
+      "foreignKey": "MOD"
+    },
+    {
+      "name": "MODUL",
+      "futureName": "ModuleCode",
+      "description": "Code representing a specific module",
+      "foreignKey": "MOD"
+    },
+    {
+      "name": "ID",
+      "futureName": "LineId",
+      "description": "Unique identifier for each line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJE",
+      "futureName": "LineContent",
+      "description": "Detailed content or description of the line item",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:32:56"
+}

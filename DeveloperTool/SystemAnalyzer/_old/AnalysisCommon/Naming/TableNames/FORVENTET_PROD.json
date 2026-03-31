@@ -1,0 +1,46 @@
+{
+  "tableName": "FORVENTET_PROD",
+  "futureName": "OrderLineItem",
+  "namespace": "Inventory",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": "PAKKEORDRE"
+    },
+    {
+      "name": "PAKKEORDRENR",
+      "futureName": "PackageOrderNumber",
+      "description": "Identifier for the package order",
+      "foreignKey": "PAKKEORDRE"
+    },
+    {
+      "name": "FKNR",
+      "futureName": "LineItemSequence",
+      "description": "Sequence number within a line item",
+      "foreignKey": null
+    },
+    {
+      "name": "LAGERSTED",
+      "futureName": "WarehouseCode",
+      "description": "Code for the warehouse where the item is stored",
+      "foreignKey": null
+    },
+    {
+      "name": "DATO_TIME",
+      "futureName": "OrderDateTime",
+      "description": "Date and time of the order",
+      "foreignKey": null
+    },
+    {
+      "name": "ANTALL",
+      "futureName": "Quantity",
+      "description": "Number of items ordered",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:26:35"
+}

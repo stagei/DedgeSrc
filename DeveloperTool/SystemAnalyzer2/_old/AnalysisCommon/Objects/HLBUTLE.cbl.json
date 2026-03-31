@@ -1,0 +1,351 @@
+{
+  "program": "HLBUTLE",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:51",
+  "variableFilenames": {
+    "LOGGFILE": {
+      "logicalName": "LOGGFILE",
+      "physicalVariable": "LOGGFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current_date>.CSV",
+      "description": "Constructs filename using userid and current date, logs to CSV file",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:51:46"
+    },
+    "RCFILE": {
+      "logicalName": "RCFILE",
+      "physicalVariable": "RCFIL",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+      "description": "Lagerbevegelser - ved UTLEVERING av varer. Utplukk av varekost til Visma fra Optima p� utleveringstidspunktet.",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T22:51:51"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:2bd05f77cfce997ee20e2832d389cb9d9b97f74d273b9028bbc35a68079502d3",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\HLBUTLE.CBL",
+    "actualName": "HLBUTLE",
+    "program": "HLBUTLE",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HDAFOMR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVSTK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SOH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOHA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OTID.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VIKO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VTRA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VUTP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SOLE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FHI.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BDS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AFO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ERS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FOBK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "MOL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOBE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KOBL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLG.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "L",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KONTR_BESTLIN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_TRANSER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "E",
+        "tableName": "AVDNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_ORDRELINJER_ENDR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREBEVEGELSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVDNR_MASOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AVD_FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "GMLFKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "ERSTATNINGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "T",
+        "tableName": "DATO",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "F",
+        "tableName": "PERIODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FAKTHIST04",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "B",
+        "tableName": "PERIODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DRBIDRSALG04",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVTALETYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SELGERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "DIVISJON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "ENHETSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "M_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MH_ORDRELINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "K",
+        "tableName": "S_ORDRENR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_BESTHODE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FOMR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FOMR_BEHKORR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREREGISTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_KONTERING",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FLAG_AVD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_KONTOPLAN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_TRANSER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VISMA_UTPL_TIDSPKT",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "HDAFOMR",
+      "GMAVSTK",
+      "GMASQLB"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-<current_date>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Constructs filename using userid and current date, logs to CSV file"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<dynamic>.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "Lagerbevegelser - ved UTLEVERING av varer. Utplukk av varekost til Visma fra Optima p� utleveringstidspunktet."
+      }
+    ],
+    "extractedAt": "2026-03-27T22:51:51"
+  }
+}

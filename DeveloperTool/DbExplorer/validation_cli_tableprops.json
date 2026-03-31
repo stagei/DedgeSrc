@@ -1,0 +1,163 @@
+{
+  "schema": "INL",
+  "tableName": "KONTO",
+  "columnCount": 9,
+  "columns": [
+    {
+      "columnName": "FIRMA",
+      "dataType": "DECIMAL",
+      "length": 6,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": true
+    },
+    {
+      "columnName": "KUNDEKONTO",
+      "dataType": "DECIMAL",
+      "length": 6,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": true
+    },
+    {
+      "columnName": "KONTOTYPE",
+      "dataType": "DECIMAL",
+      "length": 3,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": true
+    },
+    {
+      "columnName": "OPPRETTET_DATO",
+      "dataType": "DECIMAL",
+      "length": 8,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    },
+    {
+      "columnName": "OPPSAGT_DATO",
+      "dataType": "DECIMAL",
+      "length": 8,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    },
+    {
+      "columnName": "MERKNAD",
+      "dataType": "VARCHAR",
+      "length": 256,
+      "isNullable": true,
+      "defaultValue": "-",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    },
+    {
+      "columnName": "SALDO",
+      "dataType": "DECIMAL",
+      "length": 13,
+      "isNullable": false,
+      "defaultValue": "0.0",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    },
+    {
+      "columnName": "TIDSPUNKT",
+      "dataType": "TIMESTAMP",
+      "length": 10,
+      "isNullable": false,
+      "defaultValue": "CURRENT TIMESTAMP",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    },
+    {
+      "columnName": "BRUKERID",
+      "dataType": "CHARACTER",
+      "length": 8,
+      "isNullable": false,
+      "defaultValue": "\u0027 \u0027",
+      "comment": "",
+      "isIdentity": false,
+      "isPrimaryKey": false
+    }
+  ],
+  "primaryKeyCount": 3,
+  "primaryKeys": [
+    "FIRMA",
+    "KUNDEKONTO",
+    "KONTOTYPE"
+  ],
+  "foreignKeyCount": 5,
+  "foreignKeys": [
+    {
+      "constraintName": "KONTO_FIR",
+      "columns": "FIRMA",
+      "referencedSchema": "INL",
+      "referencedTable": "FIRMA",
+      "referencedColumns": "FIRMA",
+      "deleteRule": "R",
+      "updateRule": "A"
+    },
+    {
+      "constraintName": "KONTO_KTO_TYPE",
+      "columns": "FIRMA",
+      "referencedSchema": "INL",
+      "referencedTable": "KONTOTYPE",
+      "referencedColumns": "FIRMA",
+      "deleteRule": "R",
+      "updateRule": "A"
+    },
+    {
+      "constraintName": "KONTO_KTO_TYPE",
+      "columns": "KONTOTYPE",
+      "referencedSchema": "INL",
+      "referencedTable": "KONTOTYPE",
+      "referencedColumns": "KONTOTYPE",
+      "deleteRule": "R",
+      "updateRule": "A"
+    },
+    {
+      "constraintName": "KONTO_KUN_KTO",
+      "columns": "FIRMA",
+      "referencedSchema": "INL",
+      "referencedTable": "KUNDEKONTO",
+      "referencedColumns": "FIRMA",
+      "deleteRule": "R",
+      "updateRule": "A"
+    },
+    {
+      "constraintName": "KONTO_KUN_KTO",
+      "columns": "KUNDEKONTO",
+      "referencedSchema": "INL",
+      "referencedTable": "KUNDEKONTO",
+      "referencedColumns": "KUNDEKONTO",
+      "deleteRule": "R",
+      "updateRule": "A"
+    }
+  ],
+  "indexCount": 1,
+  "indexes": [
+    {
+      "indexName": "SQL160628090827110",
+      "uniqueRule": "Primary Key",
+      "isUnique": false,
+      "isPrimaryKey": true,
+      "columns": "FIRMA, KUNDEKONTO, KONTOTYPE",
+      "indexType": "Regular"
+    }
+  ],
+  "retrievedAt": "2025-12-13T20:28:27.6785823+01:00"
+}

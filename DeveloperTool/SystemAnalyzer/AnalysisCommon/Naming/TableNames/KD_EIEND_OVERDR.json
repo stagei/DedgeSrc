@@ -1,0 +1,82 @@
+{
+  "tableName": "KD_EIEND_OVERDR",
+  "futureName": "OverdrRecord",
+  "namespace": "Korn",
+  "columns": [
+    {
+      "name": "OverdrRecno",
+      "futureName": "OverdrRecordNumber",
+      "description": "Primary key and unique identifier for the record",
+      "foreignKey": null
+    },
+    {
+      "name": "DyrkerRecno",
+      "futureName": "DyrkerRecordNumber",
+      "description": "Foreign key referencing Dyrker (Cultivator) record number",
+      "foreignKey": "KD_DYRKER_INFO, KD_DYRKER_INFO, KD_DYRKER_LOGG, KD_DYRKER_STATUS, KD_DYRKER, KD_DYRKER, KD_EGENKONT_SAAK"
+    },
+    {
+      "name": "FraKundenr",
+      "futureName": "FromCustomerNumber",
+      "description": "Customer number of the customer from whom goods or services are provided",
+      "foreignKey": null
+    },
+    {
+      "name": "FraKundennavn",
+      "futureName": "FromCustomerName",
+      "description": "Name of the customer from whom goods or services are provided",
+      "foreignKey": null
+    },
+    {
+      "name": "TilKundenr",
+      "futureName": "ToCustomerNumber",
+      "description": "Customer number of the customer to whom goods or services are provided",
+      "foreignKey": null
+    },
+    {
+      "name": "TilKundennavn",
+      "futureName": "ToCustomerName",
+      "description": "Name of the customer to whom goods or services are provided",
+      "foreignKey": null
+    },
+    {
+      "name": "Gyldig",
+      "futureName": "Valid",
+      "description": "Indicator for whether the record is valid (1) or not (0)",
+      "foreignKey": null
+    },
+    {
+      "name": "Dato",
+      "futureName": "Date",
+      "description": "Date of the event or transaction recorded in the system",
+      "foreignKey": "AVREGNING, AVVIST, COPYSET, D3_GOLIVE_ENDR"
+    },
+    {
+      "name": "RegDato",
+      "futureName": "RegistrationDate",
+      "description": "Date when the record was registered or created",
+      "foreignKey": "KD_ANALYSE_BEST, KD_BESTILLING, KD_DELPARTI, KD_DYRKER_LOGG"
+    },
+    {
+      "name": "RegBruker",
+      "futureName": "RegisteredByUser",
+      "description": "Username or identifier of the user who registered the record",
+      "foreignKey": "KD_BESTILLING, KD_DELPARTI, KD_DYRKER_LOGG"
+    },
+    {
+      "name": "SistEndrDato",
+      "futureName": "LastModifiedDateTime",
+      "description": "Date and time when the record was last modified",
+      "foreignKey": "KD_BESTILLING, KD_DELPARTI, KD_EIENDOM_LOGG"
+    },
+    {
+      "name": "SistEndrBruker",
+      "futureName": "LastModifiedByUser",
+      "description": "Username or identifier of the user who last modified the record",
+      "foreignKey": "KD_BESTILLING, KD_DELPARTI, KD_EIENDOM_LOGG"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:01:46"
+}

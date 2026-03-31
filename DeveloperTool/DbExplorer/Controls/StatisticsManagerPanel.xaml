@@ -1,0 +1,80 @@
+<UserControl x:Class="DbExplorer.Controls.StatisticsManagerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+             Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Grid.Row="0" Header="Filters" Margin="0,0,0,10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Schema:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Grid.Column="1" x:Name="SchemaComboBox" SelectedIndex="0"/>
+                
+                <CheckBox Grid.Column="3" x:Name="ShowOnlyOutdatedCheckBox"
+                          Content="Show only outdated (>" 
+                          VerticalAlignment="Center"/>
+                <TextBox Grid.Column="4" x:Name="ThresholdDaysTextBox" Text="30" Width="50" 
+                         ToolTip="Days threshold"/>
+                
+                <Button Grid.Column="5" x:Name="RefreshButton" Content="🔄 Refresh"
+                        Click="RefreshButton_Click" Padding="10,5" HorizontalAlignment="Right"/>
+            </Grid>
+        </GroupBox>
+        
+        <DataGrid Grid.Row="1" x:Name="StatisticsDataGrid" AutoGenerateColumns="False"
+                  IsReadOnly="True" SelectionMode="Extended" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Schema" Binding="{Binding SchemaName}" Width="120"/>
+                <DataGridTextColumn Header="Table" Binding="{Binding TableName}" Width="180"/>
+                <DataGridTextColumn Header="Last Stats Update" Binding="{Binding StatsTime, StringFormat=yyyy-MM-dd HH:mm}" Width="150"/>
+                <DataGridTextColumn Header="Days Old" Binding="{Binding DaysSinceUpdate}" Width="80"/>
+                <DataGridTextColumn Header="Row Count" Binding="{Binding CardinalityEstimate, StringFormat=N0}" Width="120"/>
+                <DataGridTextColumn Header="Tablespace" Binding="{Binding TablespaceName}" Width="120"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding StatsStatus}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StatsStatus}" Value="Critical">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StatsStatus}" Value="Warning">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StatsStatus}" Value="Good">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="" Binding="{Binding StatsIcon}" Width="40"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Margin="0,0,20,0" Text="Ready"/>
+            <Button x:Name="GenerateRunstatsButton" Content="📝 Generate RUNSTATS" 
+                    Click="GenerateRunstats_Click" Padding="10,5" Margin="5,0"/>
+            <Button x:Name="ExportButton" Content="📊 Export" 
+                    Click="ExportButton_Click" Padding="10,5" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

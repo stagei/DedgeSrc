@@ -1,0 +1,33 @@
+@model string
+@{
+    var dtype = Model ?? "flow";
+}
+<div class="diagram-controls">
+    <div class="diagram-controls-left">
+        <div class="diagram-btn-group">
+            <button class="diagram-btn" onclick="zoomIn('@dtype')" data-i18n-title="diagram.zoomIn" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+            <button class="diagram-btn" onclick="zoomOut('@dtype')" data-i18n-title="diagram.zoomOut" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+            <button class="diagram-btn" onclick="resetZoom('@dtype')" data-i18n-title="diagram.resetZoom" title="Reset Zoom"><i class="bi bi-arrows-angle-contract"></i></button>
+        </div>
+        <span class="zoom-indicator" id="@(dtype)-zoom">100%</span>
+        <button class="diagram-btn" onclick="fitToScreen('@dtype')" data-i18n-title="diagram.fitToScreen" title="Fit to Screen"><i class="bi bi-arrows-fullscreen"></i></button>
+    </div>
+    <div class="diagram-controls-right">
+        <span class="diagram-control-label diagram-renderer-label" data-target="@dtype">Renderer</span>
+        <select class="diagram-renderer-select diagram-select" data-target="@dtype" title="Renderer">
+            <option value="mermaid">Mermaid</option>
+            <option value="gojs">GoJS</option>
+        </select>
+        <span class="diagram-control-label diagram-layout-label" data-target="@dtype" style="display:none">Layout</span>
+        <select class="diagram-layout-select diagram-select" data-target="@dtype" title="Layout" style="display:none">
+            <option value="layeredTD">Layered Top-Down</option>
+            <option value="layeredLR">Layered Left-Right</option>
+            <option value="force">Force-Directed</option>
+            <option value="tree">Tree</option>
+            <option value="circular">Circular</option>
+            <option value="grid">Grid</option>
+        </select>
+        <button class="diagram-btn" onclick="openInNewWindow('@dtype')" data-i18n-title="diagram.openNewWindow" title="Open in New Window"><i class="bi bi-box-arrow-up-right"></i></button>
+        <button class="diagram-btn" onclick="toggleFullscreen('@dtype')" data-i18n-title="diagram.fullscreen" title="Fullscreen"><i class="bi bi-fullscreen"></i></button>
+    </div>
+</div>

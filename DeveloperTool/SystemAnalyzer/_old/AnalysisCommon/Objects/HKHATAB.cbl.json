@@ -1,0 +1,148 @@
+{
+  "program": "HKHATAB",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:37:34",
+  "extraction": {
+    "sourceHash": "sha256:ee181396ddba0d11617eadc8f42167bd3bc30d9cb16115d29448f7b8206fd423",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\HKHATAB.CBL",
+    "actualName": "HKHATAB",
+    "program": "HKHATAB",
+    "copyElements": [
+      {
+        "name": "AVTH.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVAL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVAN.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMFTEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "HKHATAB.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "TABELLNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "A",
+        "tableName": "LEVNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "T",
+        "tableName": "TEKST",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TEKSTER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB_LINJER",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB_LINJER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB_LINJER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FK_AVANSE_TAB_LINJER",
+        "operation": "UPDATE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "HKVATAB",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMACURT",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T23:37:34"
+  }
+}

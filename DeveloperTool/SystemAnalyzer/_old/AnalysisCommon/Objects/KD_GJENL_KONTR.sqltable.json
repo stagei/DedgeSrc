@@ -1,0 +1,105 @@
+{
+  "tableName": "KD_GJENL_KONTR",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Gjenleggskontroll for såfrø",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KONTRAKT_RECNO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KONTRAKT_LIN_RECNO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "KONTROLLOR_RECNO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "AREAL_TILSKUDD",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "MERKNAD",
+        "typeName": "VARCHAR",
+        "length": 1024,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "SIST_ENDR_DATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "SIST_ENDR_BRUKER",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "KONTRAKT_LIN_RECNO",
+        "childColumn": "KONTRAKT_LIN_RECNO",
+        "parentTable": "KD_KONTRAKT_LIN",
+        "parentSchema": "DBM",
+        "parentColumn": "LINJE_RECNO"
+      },
+      {
+        "constraintName": "KONTRAKT_RECNO",
+        "childColumn": "KONTRAKT_RECNO",
+        "parentTable": "KD_KONTRAKT",
+        "parentSchema": "DBM",
+        "parentColumn": "KONTRAKT_RECNO"
+      }
+    ]
+  }
+}

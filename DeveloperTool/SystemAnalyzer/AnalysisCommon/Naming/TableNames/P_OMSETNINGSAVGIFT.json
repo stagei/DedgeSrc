@@ -1,0 +1,34 @@
+{
+  "tableName": "P_OMSETNINGSAVGIFT",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "FRA_DATO",
+      "futureName": "FromDate",
+      "description": "The start date of the sales tax period",
+      "foreignKey": null
+    },
+    {
+      "name": "SATS",
+      "futureName": "TaxRatePerKgInOre",
+      "description": "Tax rate per kilogram in ore (1 kr = 100 ore)",
+      "foreignKey": null
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the sales tax was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "AVREGNINGSTYPE",
+      "futureName": "TaxCalculationType",
+      "description": "Type of calculation used for sales tax, with a specific rule change starting January 1, 2008",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:12:55"
+}

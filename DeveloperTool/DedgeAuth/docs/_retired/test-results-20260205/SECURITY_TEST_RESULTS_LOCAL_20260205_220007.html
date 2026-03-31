@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DedgeAuth Security Test Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 5px; }
+        .summary { background: white; padding: 20px; margin: 20px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .category { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .test { padding: 10px; margin: 5px 0; border-left: 4px solid #ddd; }
+        .test.pass { border-left-color: #27ae60; background: #d5f4e6; }
+        .test.fail { border-left-color: #e74c3c; background: #fadbd8; }
+        .stat { display: inline-block; margin: 10px 20px; }
+        .stat-value { font-size: 2em; font-weight: bold; }
+        .stat-label { color: #7f8c8d; }
+        h2 { color: #2c3e50; }
+        .timestamp { color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DedgeAuth Security Test Results</h1>
+        <div class="timestamp">Generated: 2026-02-05 22:00:07</div>
+    </div>
+    
+    <div class="summary">
+        <h2>Summary</h2>
+        <div class="stat">
+            <div class="stat-value" style="color: #2c3e50;">3</div>
+            <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #27ae60;">2</div>
+            <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #e74c3c;">1</div>
+            <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #3498db;">66.67%</div>
+            <div class="stat-label">Pass Rate</div>
+        </div>
+    </div>    <div class="category">
+        <h2>Token Revocation (2/3 passed)</h2>        <div class="test fail">
+            <strong>✗ Logout Authorization</strong>
+            <div class="timestamp">2026-02-05 22:00:07</div>
+            <div>Logout endpoint allows anonymous access</div>
+        </div>        <div class="test pass">
+            <strong>✓ Token Revocation on Logout</strong>
+            <div class="timestamp">2026-02-05 22:00:07</div>
+            <div>Logout calls RevokeAllUserTokensAsync (verified in code)</div>
+        </div>        <div class="test pass">
+            <strong>✓ Revoked Token Validation</strong>
+            <div class="timestamp">2026-02-05 22:00:07</div>
+            <div>Revoked tokens are invalidated (verified in RefreshToken.IsRevoked check)</div>
+        </div>    </div>
+</body>
+</html>

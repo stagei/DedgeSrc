@@ -1,0 +1,72 @@
+﻿{
+  "program": "GMASQLD",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T23:38:36",
+  "extraction": {
+    "sourceHash": "sha256:e0838e045b02c764ec399d2da44b9f7cbd93875c4a0128e282fcf8f4abbe8a2b",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASQLD.CBL",
+    "actualName": "GMASQLD",
+    "program": "GMASQLD",
+    "copyElements": [
+      {
+        "name": "SQLCA.",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACOMP.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "SQLF.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "SQLFEIL",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACNCT",
+      "GMACOCO",
+      "GMACOMP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-28T23:38:36"
+  },
+  "variableFilenames": {
+    "VARSL-FIL": {
+      "logicalName": "VARSL-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\<dynamic>.CSV",
+      "description": "Log file path constructed with UNC path and dynamic userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:32:41"
+    },
+    "PRINTFIL": {
+      "logicalName": "PRINTFIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\",
+      "filenamePattern": "<userid>-<date>.csv",
+      "resolvedPath": "\\\\DEDGE.fk.no\\erpprog\\cobnt\\<userid>-<date>.csv",
+      "description": "Log file for SQL errors",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T19:32:45"
+    }
+  }
+}

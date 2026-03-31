@@ -1,0 +1,376 @@
+﻿{
+  "program": "FTP_SLUTT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-28T20:00:43",
+  "variableFilenames": {
+    "PRTFILE": {
+      "logicalName": "PRTFILE",
+      "physicalVariable": "BSASPRT-DIVRAPP-FILNAVN",
+      "basePath": "\\tempfk\\bruker\\",
+      "filenamePattern": "<userid>-<date>.RPT",
+      "resolvedPath": "\\tempfk\\bruker\\<dynamic>.RPT",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt, skriver importfil til temp folder",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:23"
+    },
+    "WORDFILE": {
+      "logicalName": "WORDFILE",
+      "physicalVariable": "WW-UTFILE",
+      "basePath": "\\\\tempfk\\bruker\\",
+      "filenamePattern": "<userid>-<date>.DAT",
+      "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt, skriver importfil til temp folder",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:26"
+    },
+    "PROD-FIL": {
+      "logicalName": "PROD-FIL",
+      "physicalVariable": "WW-PRODDATA",
+      "basePath": "\\\\tempfk\\bruker\\",
+      "filenamePattern": "<userid>-<date>.DAT",
+      "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:30"
+    },
+    "UTV-FIL": {
+      "logicalName": "UTV-FIL",
+      "physicalVariable": "WW-UTVDATA",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "\\tempfk\\bruker\\<userid>-<date>.TXT",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\tempfk\\bruker\\<dynamic>.TXT",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt, fil lagres i tempfk mappen for import i word",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:35"
+    },
+    "INN-FIL": {
+      "logicalName": "INN-FIL",
+      "physicalVariable": "WW-INNFIL",
+      "basePath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+      "filenamePattern": "\\tempfk\\bruker\\\\<userid>-<date>.RPT",
+      "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\tempfk\\<dynamic>.RPT",
+      "description": "Streamserver output",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:39"
+    },
+    "UT-FIL": {
+      "logicalName": "UT-FIL",
+      "physicalVariable": "WW-UTFIL",
+      "basePath": "\\\\tempfk\\bruker\\",
+      "filenamePattern": "<userid>-<date>.DAT",
+      "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+      "description": "Utskrift av tilbudsspesifikasjon maskinkontrakt, uformell filnavn",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-28T20:00:43"
+    }
+  },
+  "extraction": {
+    "sourceHash": null,
+    "sourceType": "rag",
+    "sourcePath": null,
+    "actualName": "FTP_SLUTT",
+    "program": "FTP_SLUTT",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMATEXT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "ADRNY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASUBST.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "AAADATO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "FILE",
+        "type": "copybook"
+      },
+      {
+        "name": "DSUSRVAL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "RSFDYRK.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "RSFDYRK.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SQLENV.",
+        "type": "copybook"
+      },
+      {
+        "name": "TEK.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4AR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4VE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4PR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4AP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4BA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4CO.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "D4SL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ART.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "ASE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KDL2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "RSAPR02.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": ".\\PROCESSHOLDINGFILES.PS1",
+        "type": "ps1"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSAKSJONSNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_ARTICLE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_VENDPRODNUMB",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_APPROVVEND",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_PRODUCTCAT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "MT003_BARCODE",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "AAADATO",
+      "GMASEMA",
+      "FTPSETUSER",
+      "SEND_FILE",
+      "FTP_SLUTT",
+      "FTPTRACELOGOFF",
+      "FTPTRACE",
+      "TIL_MONITOR",
+      "COPYMON",
+      "SAVEMF",
+      "GMASQLB",
+      "GMACOCO",
+      "SQLEXEC",
+      "LOGG_FELTER"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "PRTFILE",
+        "physicalName": "BSASPRT-DIVRAPP-FILNAVN",
+        "path": "\\tempfk\\bruker\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\tempfk\\bruker\\<dynamic>.RPT",
+        "filenamePattern": "<userid>-<date>.RPT",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt, skriver importfil til temp folder"
+      },
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "GMBTITP.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBTITP.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "LAASFIL",
+        "physicalName": "GMBRCKO.LAS",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.LAS",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "CSV-FIL",
+        "physicalName": "GMBRCKO.CSV",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBRCKO.CSV",
+        "assignType": "literal",
+        "operations": [
+          "UNKNOWN"
+        ]
+      },
+      {
+        "logicalName": "WORDFILE",
+        "physicalName": "WW-UTFILE",
+        "path": "\\\\tempfk\\bruker\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+        "filenamePattern": "<userid>-<date>.DAT",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt, skriver importfil til temp folder"
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "GMBFIPR2.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\GMBFIPR2.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "PROD-FIL",
+        "physicalName": "WW-PRODDATA",
+        "path": "\\\\tempfk\\bruker\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+        "filenamePattern": "<userid>-<date>.DAT",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt"
+      },
+      {
+        "logicalName": "UTV-FIL",
+        "physicalName": "WW-UTVDATA",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\tempfk\\bruker\\<dynamic>.TXT",
+        "filenamePattern": "\\tempfk\\bruker\\<userid>-<date>.TXT",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt, fil lagres i tempfk mappen for import i word"
+      },
+      {
+        "logicalName": "INN-FIL",
+        "physicalName": "WW-INNFIL",
+        "path": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\DEDGE.FK.NO\\ERPPROG\\COBNT\\tempfk\\<dynamic>.RPT",
+        "filenamePattern": "\\tempfk\\bruker\\\\<userid>-<date>.RPT",
+        "filenameDescription": "Streamserver output"
+      },
+      {
+        "logicalName": "UT-FIL",
+        "physicalName": "WW-UTFIL",
+        "path": "\\\\tempfk\\bruker\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "UNKNOWN"
+        ],
+        "resolvedPath": "\\\\tempfk\\bruker\\<dynamic>.DAT",
+        "filenamePattern": "<userid>-<date>.DAT",
+        "filenameDescription": "Utskrift av tilbudsspesifikasjon maskinkontrakt, uformell filnavn"
+      }
+    ],
+    "extractedAt": "2026-03-28T20:00:43"
+  }
+}

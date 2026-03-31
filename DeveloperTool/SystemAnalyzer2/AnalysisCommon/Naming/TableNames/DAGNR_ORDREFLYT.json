@@ -1,0 +1,60 @@
+{
+  "tableName": "DAGNR_ORDREFLYT",
+  "futureName": "OrderHeader",
+  "namespace": "FlightReservation",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Document number",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer identifier",
+      "foreignKey": [
+        "A_ORDREHODE",
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER_ENDR",
+        "AH_ORDREHODE"
+      ]
+    },
+    {
+      "name": "KODE",
+      "futureName": "Code",
+      "description": "Code identifier",
+      "foreignKey": [
+        "BEHKODER"
+      ]
+    },
+    {
+      "name": "DAGNR",
+      "futureName": "DayNumber",
+      "description": "Day number",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKERID",
+      "futureName": "UserId",
+      "description": "User identifier",
+      "foreignKey": [
+        "A_ORDREHODE_EC",
+        "A_ORDREHODE_ENDR",
+        "A_ORDRELINJER",
+        "A_ORDRELINJER_ENDR"
+      ]
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "Time stamp of the record",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:06:51"
+}

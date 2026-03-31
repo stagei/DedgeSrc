@@ -1,0 +1,110 @@
+﻿{
+  "program": "AABEHTL",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:07:09",
+  "extraction": {
+    "sourceHash": "sha256:09428949a0dce909c865539bdaaf9698cf29686d6116088ddc917e58a5c8c20c",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\AABEHTL.CBL",
+    "actualName": "AABEHTL",
+    "program": "AABEHTL",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "KAMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PIMP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "OTID.DCL.",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "KUPR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "LEV.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "FKNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "PIM_PRISER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KAMPANJE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "KUNDE_PRIS_VIRT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "OPPD_TIDSPUNKT",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_Dedge_PRISER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_Dedge_KAMPANJER",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EC_Dedge_PRISER_KUNDE",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "AABEHTL.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\AABEHTL.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T23:07:09"
+  }
+}

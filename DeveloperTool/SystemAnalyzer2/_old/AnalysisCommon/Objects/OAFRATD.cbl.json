@@ -1,0 +1,160 @@
+{
+  "program": "OAFRATD",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:22:30",
+  "extraction": {
+    "sourceHash": "sha256:a06213916d43fff22ababc1444bd4c48295b811a98ba2f27eb11dcf10788915f",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\oafratd.cbl",
+    "actualName": "OAFRATD",
+    "program": "OAFRATD",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAUTILS.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VIEW.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LESO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFVGSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFRATD.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMFPOSO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "TA7.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TSP.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PST.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "AVD.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "FRT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAVPRT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAALOGG.CPX",
+        "type": "cpx"
+      },
+      {
+        "name": "AAFMINT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "OAFRATD.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "A",
+        "tableName": "FRAKTTYPE_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FRAVR_EL_TILLEGG",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "FRAKTTYPE_NR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_FRAKTTYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TRANSP_NAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TRANSPORT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FRAVR_EL_TILLEGG",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FRAVR_EL_TILLEGG",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "FRAVR_EL_TILLEGG",
+        "operation": "DELETE"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "OAVRATD",
+      "DSFUNKS",
+      "GMFFELL",
+      "GMAMEXT",
+      "GMADATO",
+      "GMFSQLF"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:22:30"
+  }
+}

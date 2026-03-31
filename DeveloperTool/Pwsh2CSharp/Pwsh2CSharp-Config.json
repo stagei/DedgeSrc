@@ -1,0 +1,24 @@
+{
+  "aiProvider": "ollama",
+  "cursorCli": {
+    "model": "claude-sonnet-4-20250514",
+    "maxPasses": 2,
+    "force": true
+  },
+  "ollama": {
+    "url": "http://localhost:11434",
+    "model": "qwen3:8b",
+    "timeout": 300
+  },
+  "conversion": {
+    "namespace": "ConvertedScripts",
+    "targetFramework": "net10.0",
+    "emitAiTags": true
+  },
+  "protocols": {
+    "basePath": "AiProtocols",
+    "db2Protocol": "PwshToCSharp-Db2Access",
+    "scaffoldProtocol": "PwshToCSharp-ScaffoldCleanup",
+    "pipelineProtocol": "PwshToCSharp-PipelineToLinq"
+  }
+}

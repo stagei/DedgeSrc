@@ -1,0 +1,70 @@
+{
+  "tableName": "SQLFEIL",
+  "futureName": "SqlFeil",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the event or operation",
+      "foreignKey": null
+    },
+    {
+      "name": "db",
+      "futureName": "Database",
+      "description": "The name of the database used in the operation",
+      "foreignKey": "FK_LOG"
+    },
+    {
+      "name": "client",
+      "futureName": "Client",
+      "description": "The client application or user that initiated the operation",
+      "foreignKey": "OPPSTART"
+    },
+    {
+      "name": "brukerid",
+      "futureName": "UserIdentifier",
+      "description": "The identifier of the user who performed the operation",
+      "foreignKey": "AD_BRUKER"
+    },
+    {
+      "name": "sqlcode",
+      "futureName": "SqlCode",
+      "description": "The SQL error code returned by the database",
+      "foreignKey": null
+    },
+    {
+      "name": "program",
+      "futureName": "Program",
+      "description": "The name of the program or module that initiated the operation",
+      "foreignKey": "B_PROGRAMMER"
+    },
+    {
+      "name": "paragraf",
+      "futureName": "Paragraph",
+      "description": "A paragraph or section within a document, if applicable",
+      "foreignKey": "FK_LOG"
+    },
+    {
+      "name": "melding",
+      "futureName": "Message",
+      "description": "The error message or description associated with the operation",
+      "foreignKey": "FK_LOG"
+    },
+    {
+      "name": "ts_name",
+      "futureName": "TransactionSystemName",
+      "description": "The name of the transaction system involved in the operation",
+      "foreignKey": null
+    },
+    {
+      "name": "server",
+      "futureName": "Server",
+      "description": "The server where the operation was executed or the database is located",
+      "foreignKey": "OPPSTART"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:32:24"
+}

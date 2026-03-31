@@ -1,0 +1,25 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+
+  <PropertyGroup>
+    <OutputName>IIS-AutoDeploy.Tray.Setup</OutputName>
+    <Platform>x64</Platform>
+    <SuppressIces>ICE61;ICE80</SuppressIces>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+    <DefineConstants>ProductVersion=$(ProductVersion)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.*" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="6.*" />
+  </ItemGroup>
+
+  <Target Name="SignMsi" AfterTargets="Build">
+    <PropertyGroup>
+      <MsiPath>$(OutputPath)$(OutputName).msi</MsiPath>
+    </PropertyGroup>
+    <Message Importance="high" Text="Signing MSI installer: $(MsiPath)" />
+    <Exec Command="pwsh.exe -ExecutionPolicy Bypass -File &quot;dedge-server.DEDGE.fk.no\DedgeCommon\Software\DedgePshApps\DedgeSign\DedgeSign.ps1&quot; -Path &quot;$(MsiPath)&quot; -Action Add -NoConfirm"
+          Condition="Exists('$(MsiPath)')" />
+  </Target>
+
+</Project>

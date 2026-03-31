@@ -1,0 +1,212 @@
+﻿---
+description: "General --autocur operations rule for all projects (PowerShell, C#, Python). Defines autonomous run/monitor/fix/deploy cycle."
+globs:
+  - DevTools/**
+  - _Modules/**
+alwaysApply: false
+---
+
+# General --autocur Operations Rule
+
+This rule defines the autonomous run/monitor/fix/deploy/kill pattern for **any** project -- PowerShell, C#, or Python. Project-specific `.cursor/rules/` overrides take precedence when they exist.
+
+## 1. Identify the Entry Point
+
+Before starting, determine the project's **canonical script or executable**:
+
+| Technology | Entry point pattern | Example |
+|---|---|---|
+| PowerShell | Main `.ps1` script in the project folder | `Run-FullPipeline.ps1`, `Start-Import.ps1` |
+| C# / .NET | Published DLL or `.exe` in `DedgeWinApps\<AppName>\` | `MyApp.dll` via `dotnet MyApp.dll` |
+| Python | Main `.py` script in `FkPythonApps\<AppName>\` | `main.py`, `run_pipeline.py` |
+
+Look for these clues in the project folder:
+- `_install.ps1` -- often creates a scheduled task pointing at the entry script
+- `README.md` -- may document the entry point
+- `_deploy.ps1` -- shows where the app deploys to
+- `config.*.json` -- per-server configuration files
+
+## 2. Server Discovery
+
+Determine target server(s) from one of these sources (in priority order):
+
+1. **`config.*.json` files** in the project folder -- each contains a `ServerFqdn` or similar field
+2. **`_deploy.ps1`** -- the `ComputerNameList` parameter shows which servers receive the code
+3. **User instruction** -- the user may specify the server directly (e.g., `/autocur t-no1fkxtst-db`)
+
+## 3. Deploy Before Triggering
+
+The server runs deployed code, never local code. Always deploy before triggering.
+
+### PowerShell projects
+
+```powershell
+pwsh.exe -NoProfile -File "<project-folder>\_deploy.ps1"
+```
+
+The `_deploy.ps1` handles everything: scripts, dependent modules from `_Modules/`, code signing, multi-server distribution.
+
+### C# / .NET projects
+
+```powershell
+pwsh.exe -NoProfile -File "<solution-root>\Build-And-Publish.ps1"
+```
+
+This builds, publishes to the staging share (`C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\DedgeCommon\Software\DedgeWinApps\<AppName>`), then optionally deploy to IIS:
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName <AppName>
+```
+
+### Python projects
+
+```powershell
+pwsh.exe -NoProfile -File "<project-folder>\_deploy.ps1"
+```
+
+Python apps deploy to `opt\FkPythonApps\<AppName>\` on the target server.
+
+### Module-only changes
+
+If only a shared module changed (`_Modules/<ModuleName>/<ModuleName>.psm1`), the project's own `_deploy.ps1` handles it -- `Deploy-Handler` auto-resolves module dependencies. Do **not** run `_Modules\_deploy.ps1` separately unless explicitly needed.
+
+## 4. Trigger via Cursor-ServerOrchestrator
+
+All remote execution goes through the orchestrator. Set up once per session:
+
+```powershell
+. "C:\opt\src\DedgePsh\DevTools\CodingTools\Cursor-ServerOrchestrator\_helpers\_CursorAgent.ps1"
+```
+
+### PowerShell
+
+```powershell
+Invoke-ServerCommand -ServerName '<server>' `
+    -Command '%OptPath%\DedgePshApps\<AppName>\<Script>.ps1' `
+    -Arguments '<args>' `
+    -Project '<project-slug>' `
+    -Timeout <seconds>
+```
+
+### C# / .NET
+
+```powershell
+Invoke-ServerCommand -ServerName '<server>' `
+    -Command '%OptPath%\DedgeWinApps\<AppName>\<AppName>.exe' `
+    -Arguments '<args>' `
+    -Project '<project-slug>' `
+    -Timeout <seconds>
+```
+
+Or for a DLL:
+
+```powershell
+Invoke-ServerCommand -ServerName '<server>' `
+    -Command 'dotnet %OptPath%\DedgeWinApps\<AppName>\<AppName>.dll' `
+    -Arguments '<args>' `
+    -Project '<project-slug>' `
+    -Timeout <seconds>
+```
+
+### Python
+
+```powershell
+Invoke-ServerCommand -ServerName '<server>' `
+    -Command 'py -3 %OptPath%\FkPythonApps\<AppName>\<script>.py' `
+    -Arguments '<args>' `
+    -Project '<project-slug>' `
+    -Timeout <seconds>
+```
+
+### Kill a running job
+
+```powershell
+Stop-ServerProcess -ServerName '<server>' -Reason 'Stopping for fix and redeploy' -Project '<project-slug>'
+```
+
+### Check slot status
+
+```powershell
+Test-OrchestratorReady -ServerName '<server>' -Project '<project-slug>'
+```
+
+## 5. Monitor Logs
+
+### Log locations by technology
+
+| Technology | Primary log | Secondary log |
+|---|---|---|
+| PowerShell (with `Set-OverrideAppDataFolder`) | `\\<server>\opt\data\<AppName>\FkLog_YYYYMMDD.log` | `\\<server>\opt\data\AllPwshLog\FkLog_YYYYMMDD.log` |
+| PowerShell (without override) | `\\<server>\opt\data\AllPwshLog\FkLog_YYYYMMDD.log` | -- |
+| C# / .NET (Serilog) | `\\<server>\opt\data\<AppName>\Logs\*.log` | Console stdout via orchestrator |
+| Python | `\\<server>\opt\data\<AppName>\*.log` | Console stdout via orchestrator |
+| Any (orchestrator stdout) | `\\<server>\opt\data\Cursor-ServerOrchestrator\stdout_capture_<user>_<project>.txt` | -- |
+
+### Reading logs remotely
+
+**Always copy locally first** -- never read directly from UNC paths:
+
+```powershell
+$localCopy = Join-Path $env:TEMP "RemoteLog_$(Split-Path $remotePath -Leaf)"
+Copy-Item -Path $remotePath -Destination $localCopy -Force
+```
+
+### Orchestrator live stdout
+
+```powershell
+Get-ServerStdout -ServerName '<server>' -TailLines 30 -Project '<project-slug>'
+```
+
+### Monitoring cadence
+
+| Task type | Poll interval |
+|---|---|
+| Short tasks (< 5 min expected) | Every 30-60 seconds |
+| Medium tasks (5-30 min) | Every 2-3 minutes |
+| Long tasks (30 min - 2 hours) | Every 5-10 minutes |
+| Very long tasks (2+ hours) | Every 10-30 minutes |
+
+Report in chat after each check: current status, elapsed time, last meaningful log line.
+
+## 6. On Error: Fix-Deploy-Kill-Restart
+
+1. **Analyze** -- Read the error from the log, identify root cause
+2. **Fix** -- Edit the local source code to resolve the issue
+3. **Deploy** -- Run the project's `_deploy.ps1` (or `Build-And-Publish.ps1` for C#)
+4. **Kill** -- Stop the running job via `Stop-ServerProcess`
+5. **Restart** -- Re-trigger via `Invoke-ServerCommand`, using skip flags if the project supports partial restart
+
+## 7. Post-Completion Validation
+
+After the job finishes successfully:
+
+1. **Verify exit code** -- Check `Read-ResultFile` for `exitCode: 0`
+2. **Verify log** -- Confirm no `ERROR` entries after the final step
+3. **Run validation** -- If the project defines post-run validation, execute it
+4. **Send SMS** -- Notify the current user with pass/fail status
+
+## 8. Execution Logs
+
+Every `--autocur` run MUST produce a markdown execution log in:
+
+```
+<project-folder>/ExecLogs/<servername>_<yyyyMMdd-HHmmss>.md
+```
+
+Content must include: task start time, monitoring checks, errors with root cause analysis, code fixes applied, redeploy/restart actions, final status and duration.
+
+## 9. Mandatory Behaviors
+
+1. **NEVER stop and ask the user to check the log** -- the agent checks it
+2. **NEVER tell the user to run something manually** -- use orchestrator
+3. **NEVER use arbitrary retry limits** -- continue until success or deadline
+4. **NEVER lose track of progress** -- maintain a todo list
+5. **NEVER read logs directly from UNC** -- always copy locally first
+6. **Always deploy before triggering**
+7. **Always check for date rollover** -- if past midnight, check next day's log
+8. **Always send SMS on completion or critical failure**
+9. **Be proactive** -- detect errors, diagnose, fix, deploy, kill, restart
+
+## 10. Project-Specific Overrides
+
+Individual projects may provide a local `.cursor/rules/` file that overrides this general rule with custom entry points, log paths, step sequences, skip switches, known error patterns, and validation commands.

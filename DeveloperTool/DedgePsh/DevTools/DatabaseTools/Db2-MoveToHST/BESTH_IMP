@@ -1,0 +1,58 @@
+--
+-- KJØRES MOT  BASISHST på SFKERP01 slik: K:\fkavd\basishst>REXX FKSQL BESTH_IMP BASISHST log\BESTH_IMP_2020A.LOG
+-- sist KJØRes 22 JUNI   2025 MEH   
+-- sist KJØRT  15 SEPT   2024 MEH   
+-- sist KJØRT  17 DES    2023 MEH   
+-- sist KJØRT  26 FEB    2023 MEH   
+-- sist KJØRT  25 SEPT   2022 MEH   
+-- sist KJØRT  17 APRIL  2022 MEH   
+-- sist KJØRT  12 Sept   2021 MEH   
+-- sist kjøres 18 APRIL  2021 MEH
+-- sist kjøres 15 AUG    2020 MEH
+-- sist kjørt 08 DES     2019 MEH
+-- sist kjørt 04 APR     2019 MEH
+-- sist kjørt 19 AUG     2018 MEH
+-- sist kjørt 10 feb     2018 TRU
+-- sist kjørt 27 juli    2017 TRU
+-- sist kjørt 11 februar 2017 TRU
+-- sist kjørt 14 august  2016 TRU
+-- sist kjørt 14 februar 2016 TRU
+-- sist kjørt 14 august  2015 TRU
+-- sist kjørt 14 februar 2015 TRU
+-- sist kjørt 23 augustr 2014 TRU
+-- sist kjørt 16 februar 2014 TRU
+-- sist kjørt 14 februar 2014 TRU
+-- sist kjørt 29 april   2013 TRU
+-- sist kjørt 07 juli    2012 TRU
+-- sist kjørt 11 sep     2011 TRU
+-- sist kjørt 23 sep     2010 TRU
+-- sist kjørt 23 sep     2010 TRU
+--
+-- HUSK Å SJEKKE OM NYE FELTER ER KOMMET TIL SIDEN SIST  (kjør BESTH_sjekk_felter_i)
+--
+-- Endre filenavn !
+--
+ CONNECT TO BASISHST USER srv_db2  USING Database1;
+LOAD FROM P:\IMPORT\VIHA_25.ixf OF IXF INSERT INTO DBM.AH_viHODE NONRECOVERABLE;
+//
+load FROM P:\IMPORT\BTHI_H25.ixf OF IXF INSERT INTO DBM.BEST_TIL_HIST NONRECOVERABLE;
+--
+loAD FROM P:\IMPORT\BEHA_H25.ixf OF IXF INSERT INTO DBM.AH_BESTHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\BELA_H25.ixf OF IXF insert INTO DBM.AH_BESTLIN NONRECOVERABLE ;
+--
+LOAD FROM P:\IMPORT\BEH_H25.ixf OF IXF INSERT INTO DBM.H_BESTHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\BEL_H25.ixf OF IXF INSERT INTO DBM.H_BESTLIN NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIHA_H25.ixf OF IXF INSERT INTO DBM.AH_viHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VILA_H25.ixf OF IXF INSERT INTO DBM.AH_viLIN NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIH_H25.ixf OF IXF INSERT INTO DBM.H_viHODE NONRECOVERABLE;
+--
+LOAD FROM P:\IMPORT\VIL_H25.ixf OF IXF INSERT INTO DBM.H_viLIN NONRECOVERABLE;
+--
+LOAD FRom P:\IMPORT\INFA_H25.ixf OF IXF INSERT INTO DBM.H_INNGANG_FAKO NONRECOVERABLE;
+--
+//

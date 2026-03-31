@@ -1,0 +1,193 @@
+{
+  "tableName": "H_XI_ORDREMOT_LINJE",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:25",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:25",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AX_AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "KLIENT",
+        "typeName": "CHARACTER",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "RECTYP",
+        "typeName": "CHARACTER",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "ORDRENR",
+        "typeName": "CHARACTER",
+        "length": 15,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "LINJE",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "ARTIKKELNR",
+        "typeName": "CHARACTER",
+        "length": 15,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "ANTALL_BESTILT",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 3,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "ANTALL_SENDT",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 3,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "LEDIG",
+        "typeName": "CHARACTER",
+        "length": 20,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "PARTINR",
+        "typeName": "CHARACTER",
+        "length": 15,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "NOTAT",
+        "typeName": "CHARACTER",
+        "length": 30,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "ORDREJOURNALNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "LINJEJOURNALNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "SSCCNR",
+        "typeName": "DECIMAL",
+        "length": 18,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "ORDRENR24",
+        "typeName": "CHARACTER",
+        "length": 24,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 16,
+        "name": "ARTIKKELNR21",
+        "typeName": "CHARACTER",
+        "length": 21,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "XI_ORDREMOTHODE",
+        "childColumn": "AX_AVDNR",
+        "parentTable": "H_XI_ORDREMOT_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "AX_AVDNR"
+      },
+      {
+        "constraintName": "XI_ORDREMOTHODE",
+        "childColumn": "KLIENT",
+        "parentTable": "H_XI_ORDREMOT_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "KLIENT"
+      },
+      {
+        "constraintName": "XI_ORDREMOTHODE",
+        "childColumn": "ORDRENR",
+        "parentTable": "H_XI_ORDREMOT_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "ORDRENR"
+      }
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "tableName": "H_SAML_INNKJ_LIN",
+  "futureName": "LineItem",
+  "namespace": "Innkjoping",
+  "columns": [
+    {
+      "name": "AVDNR",
+      "futureName": "AvdNr",
+      "description": "Document number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDRENR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "LINJENR",
+      "futureName": "LineNr",
+      "description": "Line number within an order",
+      "foreignKey": null
+    },
+    {
+      "name": "LEVNR",
+      "futureName": "VendorNumber",
+      "description": "Supplier number",
+      "foreignKey": null
+    },
+    {
+      "name": "VHGR",
+      "futureName": "Vhgr",
+      "description": "Group code",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREDATO",
+      "futureName": "OrderDate",
+      "description": "Order date",
+      "foreignKey": null
+    },
+    {
+      "name": "ONSKETLEVDATO",
+      "futureName": "DesiredDeliveryDate",
+      "description": "Desired delivery date",
+      "foreignKey": null
+    },
+    {
+      "name": "IORDRE_12",
+      "futureName": "RequestedOrder",
+      "description": "12-digit order reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "FKA_AVDNR",
+      "futureName": "PreviousAvdNr",
+      "description": "Previous document number (foreign key)",
+      "foreignKey": "AvdNr"
+    },
+    {
+      "name": "FKA_ORDRENR",
+      "futureName": "PreviousOrderNumber",
+      "description": "Previous order identifier (foreign key)",
+      "foreignKey": "OrderNumber"
+    },
+    {
+      "name": "I_AVDNR",
+      "futureName": "InternalAvdNr",
+      "description": "Internal document number",
+      "foreignKey": null
+    },
+    {
+      "name": "I_ORDRENR",
+      "futureName": "InternalOrderNumber",
+      "description": "Internal order identifier (foreign key)",
+      "foreignKey": "OrderNumber"
+    },
+    {
+      "name": "INNKJOPER",
+      "futureName": "InnkjopOperation",
+      "description": "Operation related to purchase orders",
+      "foreignKey": null
+    },
+    {
+      "name": "ORDREKL",
+      "futureName": "OrderLetter",
+      "description": "Order letter (e.g., A, B)",
+      "foreignKey": null
+    },
+    {
+      "name": "BESTILLINGSVEI",
+      "futureName": "OrderPath",
+      "description": "Order path or route",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:34:32"
+}

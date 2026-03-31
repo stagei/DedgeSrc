@@ -1,0 +1,55 @@
+{
+  "title": "Standard COBOL Program Filter",
+  "generated": "2026-03-24 01:23:23",
+  "totalChecked": 9,
+  "totalRemoved": 0,
+  "totalRetained": 9,
+  "removed": [],
+  "retained": [
+    {
+      "program": "BLVVBVI",
+      "ragEvidence": "[1] (source: LE Run-Time Options Error Messages.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.380)\n# LE Run-Time Options Error Messages\n\nThe COBOL system can produce the following error messages while checking\nthe syntax of a parameter string specifying run-time options.\n\n---\n\n[2] (source: Portability Routines.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.419)\n# Portability Routines\n\nRestriction: This routine is supported for native COBOL only.\n\nThis rou",
+      "ollamaVerdict": "NO"
+    },
+    {
+      "program": "CC1",
+      "ragEvidence": "[1] (source: C Functions for Calling COBOL.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.355)\n# C Functions for Calling COBOL\n\nRestriction: These functions are supported for native COBOL only.\n\nThis section lists the functions that you can use from C programs to\ncall COBOL. For more information about using these functions, see the\ntopic Interfacing with C Programs.\n\n---\n\n[2] (source: ACUCOBOL-GT Library Routines.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.358)\n# ACUCOBOL-GT Library Routines\n\nThis COBOL development system provides a number of ACUCOBOL-GT library\nroutines in native and .NET COBOL code.\n\n---\n\n[3] (source: cobcall.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.376)\n# cobcall\n\nCalls a COBOL program, subprogram or entry point from C.\n\n\nRestriction: This function is supported for native COBOL only.\n\n\n## Syntax:\n\nExplain this code\n\n    #include \"cobcall.h\"\n\n    cobrtncode_t cobcall (const cobchar_t *name, int argc,\n                          cobchar_t **argv);\n\nCopy\n\n\n## Parameters:\n\n|  |  |\n|----|----|\n| `name` | A null-terminated string that specifies the name of the COBOL program to be called |\n| `argc` | The number of arguments passed in `argv` |\n| `argv` | Arguments to be passed to the COBOL program |\n\n\n## Comments:\n\nThis function is used to call the COBOL program of the specified name\nusing the arguments passed in `argv`.  Parameters are passed BY\nREFERENCE.\n\nThe result of a cobcall() is a COBOL type call as defined in the ANSI\n'74 standard and behaves in the same way as if the COBOL entry point had\nbeen called from COBOL.\n\nUsing this function is equivalent to calling a COBOL program directly\nfrom C code, using C syntax.\n\nIf the specified name is an entry point of an already loaded COBOL\nprogram, that program is called. Alternatively, if the specified name is\na C function, then that is called. Otherwise, a program with a basename\nof the specified name is searched for on disk using the following search\norder: \n\n- If the sub-program is already loaded, or is statically linked (UNIX\n  only), it is located and the search ends.\n- If COBPATH is set, the list of paths in the variable are searched, in\n  order; if COBPATH is not set, the current directory is searched.\n- On Windows platforms, if you are calling dynamic link libraries (.dll\n  files) without a specific path, the COBPATH environment variable is\n  searched.\n- The path of the calling program is searched.\n\nIf no program of the specified name can be found a run-time error is\nproduced. \n\nIf the COBOL entry point does not expect any arguments then `argc`\nshould be 0 and `argv` should be NULL.\n\n\n## Equivalent COBOL Syntax:\n\nExplain this code\n\n    call \"name\" [using ...] [returning ...]\n\nCopy\n\n\n## Example:\n\nTo call a COBOL entry point cobep with two string arguments from a C\nfunction, use either:\n\nExplain this code\n\n    cobchar_t *argv[2];\n    argv[0] = arg1;\n    argv[1] = arg2;\n    cobcall(\"cobep\", 2, argv);\n\nCopy\n\nor:\n\n    cobep(arg1, arg2);\n\nCopy\n\n---\n\n[4] (source: LE Run-Time Options Error Messages.md, from: Rocket-Visual-Cobol-Documentation-Version-11, distance=0.382)\n# LE Run-Time Options Error Messages\n\nThe COBOL system can produce the following error messages while checking\nthe syntax of a parameter string specifying run-time options.",
+      "ollamaVerdict": "OLLAMA_UNAVAILABLE"
+    },
+    {
+      "program": "DB2API",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "DSRUN",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "GMVBVFK",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "GMVXXXX",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "THE",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "YYHFKAV",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    },
+    {
+      "program": "AAMM061",
+      "ragEvidence": "",
+      "ollamaVerdict": "SKIPPED"
+    }
+  ]
+}

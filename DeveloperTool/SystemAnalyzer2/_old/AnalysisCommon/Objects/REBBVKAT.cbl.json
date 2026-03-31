@@ -1,0 +1,127 @@
+{
+  "program": "REBBVKAT",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T23:41:50",
+  "variableFilenames": {
+    "MAZE-FIL": {
+      "logicalName": "MAZE-FIL",
+      "physicalVariable": "WW-FILNAVN",
+      "basePath": "\\\\SERVER\\SHARE\\",
+      "filenamePattern": "<userid>-<date>.CSV",
+      "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+      "description": "File path and name pattern constructed from userid and date",
+      "model": "qwen2.5:7b",
+      "protocol": "Cbl-VariableFilenames",
+      "analyzedAt": "2026-03-27T23:41:50"
+    }
+  },
+  "extraction": {
+    "sourceHash": "sha256:44fbcd9882f0038e017c645d64ebd67018c9a551b95049459cab4ac627b83af5",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\REBBVKAT.CBL",
+    "actualName": "REBBVKAT",
+    "program": "REBBVKAT",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VKA1.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKA2.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKA3.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VKAT.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VGR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VHG.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "VALUE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREGRUPPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREHOVEDGRUPPER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VAREKATEGORI",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VKAT1",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VKAT2",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "VKAT3",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [
+      {
+        "logicalName": "UT-RETC-FIL",
+        "physicalName": "REBBVKAT.RC",
+        "path": "N:\\COBNT",
+        "fullPath": "N:\\COBNT\\REBBVKAT.RC",
+        "assignType": "literal",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "MAZE-FIL",
+        "physicalName": "WW-FILNAVN",
+        "path": "\\\\SERVER\\SHARE\\",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ],
+        "resolvedPath": "\\\\SERVER\\SHARE\\<userid>-YYYYMMDD.CSV",
+        "filenamePattern": "<userid>-<date>.CSV",
+        "filenameDescription": "File path and name pattern constructed from userid and date"
+      }
+    ],
+    "extractedAt": "2026-03-27T23:41:50"
+  }
+}

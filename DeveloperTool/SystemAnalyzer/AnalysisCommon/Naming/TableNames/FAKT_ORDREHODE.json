@@ -1,0 +1,46 @@
+{
+  "tableName": "FAKT_ORDREHODE",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTNR",
+      "futureName": "InvoiceNumber",
+      "description": "Invoice reference number",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTAAR",
+      "futureName": "FiscalYear",
+      "description": "Fiscal year of the invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "Department number associated with the order or invoice",
+      "foreignKey": null
+    },
+    {
+      "name": "KUNDENR",
+      "futureName": "CustomerNumber",
+      "description": "Customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "FAKTURA_TYPE",
+      "futureName": "InvoiceType",
+      "description": "Type of invoice (S for Samlefaktura, D for Dagfaktura, default is Vanlig faktura)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:20:12"
+}

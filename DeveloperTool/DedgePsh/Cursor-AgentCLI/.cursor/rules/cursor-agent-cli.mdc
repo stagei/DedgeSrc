@@ -1,0 +1,93 @@
+# Cursor Agent CLI -- Scripting Rules
+
+## When This Applies
+
+When writing PowerShell scripts that invoke the Cursor Agent CLI (`agent`) programmatically.
+
+## Critical: Windows Piping Requirement
+
+On Windows, the prompt **must be piped through stdin**. Passing it as a positional argument hangs:
+
+```powershell
+# CORRECT
+"Your prompt" | agent -p --trust --output-format json
+
+# WRONG (hangs on Windows)
+agent -p --trust "Your prompt"
+```
+
+## Critical: Use Node.js Directly
+
+The `agent` command is a `.cmd` wrapper. For reliability in scripts, resolve the Node.js binary directly:
+
+```powershell
+$agentBase = Join-Path $env:LOCALAPPDATA 'cursor-agent'
+$latest = Get-ChildItem "$agentBase\versions" -Directory |
+    Where-Object { $_.Name -match '^\d{4}\.\d{1,2}\.\d{1,2}-[a-f0-9]+$' } |
+    Sort-Object { [int]($_.Name.Split('-')[0] -replace '\.','') } -Descending |
+    Select-Object -First 1
+$nodeExe = Join-Path $latest.FullName 'node.exe'
+$indexJs = Join-Path $latest.FullName 'index.js'
+$env:CURSOR_INVOKED_AS = 'agent.cmd'
+
+$result = "prompt" | & $nodeExe $indexJs -p --trust --model "composer-2" --output-format json
+```
+
+## Always Include These Flags in Headless Mode
+
+- `-p` or `--print` -- required for non-interactive output
+- `--trust` -- skip workspace trust prompt (otherwise blocks)
+- `--output-format json` -- for programmatic parsing
+- `--model <name>` -- always specify explicitly; default may change
+
+## JSON Output Parsing
+
+```powershell
+$raw = "prompt" | & $nodeExe $indexJs -p --trust --model "composer-2" --output-format json 2>&1
+$envelope = ($raw | Out-String).Trim() | ConvertFrom-Json
+$answer   = $envelope.result       # model's text response
+$duration = $envelope.duration_ms  # API time in ms
+$session  = $envelope.session_id   # for --resume
+```
+
+## File Context Strategy
+
+- **Embed in prompt** (preferred): Read files with `Get-Content -Raw` and include in the prompt text. Reliable, no extra tool calls.
+- **Workspace reference**: Use `--workspace <path>` and mention filenames in the prompt. The agent reads files via its tools (adds latency).
+- The `@file` syntax is interactive-mode only and does NOT work with `--print`.
+
+## Auth Check Pattern
+
+Always check auth before calling the agent:
+
+```powershell
+$statusOut = & $nodeExe $indexJs status 2>&1 | Out-String
+if ($statusOut -notmatch 'Logged in') {
+    Start-Process -FilePath $nodeExe -ArgumentList $indexJs, 'login' -NoNewWindow -Wait
+}
+```
+
+## Mode Selection
+
+| Mode | Flag | Use |
+|------|------|-----|
+| Agent (default) | _(none)_ | Full tool access, can edit files and run commands |
+| Ask | `--mode ask` | Read-only analysis, no file modifications |
+| Plan | `--mode plan` | Planning mode, proposes approach without coding |
+
+Use `--mode ask` for analysis tasks. Only use default agent mode with `--force` when you intentionally want file modifications.
+
+## Model Selection for Common Tasks
+
+| Task | Recommended Model |
+|------|-------------------|
+| Quick question / simple task | `gpt-5.4-nano-low` |
+| General coding | `composer-2` |
+| Code review / analysis | `claude-4.5-sonnet` or `claude-4.6-sonnet-medium` |
+| Complex reasoning | `claude-4.6-opus-high` |
+| Maximum quality | `claude-4.6-opus-max` |
+
+## Documentation
+
+Full guide: [Cursor-Agent-CLI.md](../Cursor-Agent-CLI.md) in this folder.
+Example script: [Invoke-CursorAgent.ps1](../Invoke-CursorAgent.ps1) in this folder.

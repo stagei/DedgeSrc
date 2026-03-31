@@ -1,0 +1,758 @@
+{
+  "title": "COBOL Dependency Master",
+  "generated": "2026-03-27 22:18:05",
+  "totalPrograms": 14,
+  "programs": [
+    {
+      "program": "DOHCBLD",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHCBLD.CBL",
+      "actualName": "DOHCBLD",
+      "copyElements": [
+        {
+          "name": "CBLD.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "DSSYSINF.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMADATO.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOKSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKDSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMOD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMKOM.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCALL.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCOPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLLIN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLXTAB.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "TITP.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "FROM",
+          "type": "copybook"
+        },
+        {
+          "name": "WHERE",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC.",
+          "type": "copybook"
+        },
+        {
+          "name": "C",
+          "type": "copybook"
+        },
+        {
+          "name": "ORDER",
+          "type": "copybook"
+        },
+        {
+          "name": "MOVE",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC",
+          "type": "copybook"
+        },
+        {
+          "name": "TO",
+          "type": "copybook"
+        },
+        {
+          "name": "COMPUTE",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SYSTEM",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DELSYSTEM",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "TILTP_LOG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COBDOK_MENY",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "GMADATO",
+        "GMFSQLF"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "DOHCHK",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHCHK.CBL",
+      "actualName": "DOHCHK",
+      "copyElements": [
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACNCT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOHC.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TILTP_LOG",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COBDOK_MENY",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "B_PROGRAMMER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "FEILHANDTERT",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DOHCHK",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "DOHCHK",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "DOHSCAN",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DOHSCAN.CBL",
+      "actualName": "DOHSCAN",
+      "copyElements": [
+        {
+          "name": "PIC",
+          "type": "copybook"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMADIR.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "DOKSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKDSYS.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMOD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKMKOM.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCALL.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCOPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DOKCPY.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLLIN.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLXTAB.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "I-CALL",
+          "type": "copybook"
+        },
+        {
+          "name": "END-IF",
+          "type": "copybook"
+        },
+        {
+          "name": "INSPECT",
+          "type": "copybook"
+        },
+        {
+          "name": "ELSE",
+          "type": "copybook"
+        },
+        {
+          "name": "TO",
+          "type": "copybook"
+        },
+        {
+          "name": "REPLACING",
+          "type": "copybook"
+        },
+        {
+          "name": "IF",
+          "type": "copybook"
+        },
+        {
+          "name": "ADD",
+          "type": "copybook"
+        },
+        {
+          "name": "MOVE",
+          "type": "copybook"
+        },
+        {
+          "name": "PERFORM",
+          "type": "copybook"
+        },
+        {
+          "name": "INTO",
+          "type": "copybook"
+        },
+        {
+          "name": "VALUES",
+          "type": "copybook"
+        },
+        {
+          "name": "END-EXEC",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "TABCREATOR",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SYSTEM",
+          "operation": "UPDATE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "CALL",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPY",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "COPYSET",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODKOM",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "MODUL_LINJER",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLLINJER",
+          "operation": "DELETE"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLXTAB",
+          "operation": "DELETE"
+        }
+      ],
+      "callTargets": [
+        "GMADIR2",
+        "GMADIR",
+        "GMASQLB"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "SOURCE-FILE",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "READ"
+          ]
+        },
+        {
+          "logicalName": "LOAD-FIL",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "GMACOCO",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACOCO.CBL",
+      "actualName": "GMACOCO",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMACOCO"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMACOMP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMACOMP.CBL",
+      "actualName": "GMACOMP",
+      "copyElements": [
+        {
+          "name": "GMAAKTI.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "TBRU.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "DEFCPY.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        }
+      ],
+      "callTargets": [
+        "GMAAKTI",
+        "GMACOCO",
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMADATO",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\gmadato.cbl",
+      "actualName": "GMADATO",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [],
+      "fileIO": []
+    },
+    {
+      "program": "GMADIR",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMADIR.CBL",
+      "actualName": "GMADIR",
+      "copyElements": [
+        {
+          "name": "GMADIR.CPY.",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [],
+      "fileIO": []
+    },
+    {
+      "program": "GMADIR2",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMADIR2.cbl",
+      "actualName": "GMADIR2",
+      "copyElements": [
+        {
+          "name": "GMADIR.CPY.",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [],
+      "fileIO": []
+    },
+    {
+      "program": "GMALSQL",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMALSQL.CBL",
+      "actualName": "GMALSQL",
+      "copyElements": [
+        {
+          "name": "GMARANDO.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMARANDO"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "VARSL-FIL",
+          "physicalName": "WW-FILNAVN",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "variable",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    },
+    {
+      "program": "GMAOSNT",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMAOSNT.CBL",
+      "actualName": "GMAOSNT",
+      "copyElements": [
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [],
+      "fileIO": []
+    },
+    {
+      "program": "GMARANDO",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMARANDO.CBL",
+      "actualName": "GMARANDO",
+      "copyElements": [
+        {
+          "name": "GMARANDO.CPY",
+          "type": "copybook"
+        }
+      ],
+      "sqlOperations": [],
+      "callTargets": [],
+      "fileIO": []
+    },
+    {
+      "program": "GMASQLB",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMASQLB.CBL",
+      "actualName": "GMASQLB",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMFSQLF",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFSQLF.CBL",
+      "actualName": "GMFSQLF",
+      "copyElements": [],
+      "sqlOperations": [],
+      "callTargets": [
+        "GMFTRAP"
+      ],
+      "fileIO": []
+    },
+    {
+      "program": "GMFTRAP",
+      "sourceType": "local-cbl",
+      "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\GMFTRAP.CBL",
+      "actualName": "GMFTRAP",
+      "copyElements": [
+        {
+          "name": "DS-CNTRL.MF",
+          "type": "mf"
+        },
+        {
+          "name": "GMFTRAP.CPB",
+          "type": "copybook-binary"
+        },
+        {
+          "name": "GMACOMP.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "REQFELL.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "GMAOSNT.CPY",
+          "type": "copybook"
+        },
+        {
+          "name": "AVD.DCL",
+          "type": "sql-declare"
+        },
+        {
+          "name": "SQLF.DCL",
+          "type": "sql-declare"
+        }
+      ],
+      "sqlOperations": [
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "SELECT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "SQLFEIL",
+          "operation": "INSERT"
+        },
+        {
+          "schema": "DBM",
+          "tableName": "Z_AVDTAB",
+          "operation": "SELECT"
+        }
+      ],
+      "callTargets": [
+        "CC1",
+        "GMFFELL",
+        "GMACOMP",
+        "GMAOSNT",
+        "GMACOCO",
+        "GMALSQL",
+        "DSRUN"
+      ],
+      "fileIO": [
+        {
+          "logicalName": "UT-LOGG-FIL",
+          "physicalName": "DYNAMIC",
+          "path": "N:\\COBNT",
+          "fullPath": null,
+          "assignType": "dynamic",
+          "operations": [
+            "WRITE"
+          ]
+        }
+      ]
+    }
+  ],
+  "database": "COBDOK",
+  "db2Alias": "COBDOK",
+  "boundaryStats": {
+    "database": "COBDOK",
+    "catalogQualified": 98,
+    "programsRejected": 2,
+    "sqlOpsStripped": 7
+  }
+}

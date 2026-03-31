@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Portal - CodeMonkey by Dedge</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/api-portal.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/images/codemonkey.png" alt="CodeMonkey" class="logo" onerror="this.src='/images/logo.png'">
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/products.html" class="nav-link">Products</a>
+                <a href="/api-portal.html" class="nav-link active">API Portal</a>
+                <a href="https://github.com/yourusername/SqlMermaidErdTools" class="nav-link" target="_blank">Docs</a>
+            </div>
+            <div class="nav-brand">
+                <img src="/images/dedge.png" alt="Dedge" class="logo-dedge" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="page-header">
+        <div class="container">
+            <h1>API Access Portal</h1>
+            <p id="product-subtitle">RESTful API for SQL and Mermaid ERD conversions</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section style="padding: 4rem 0; background: var(--bg-white);">
+        <div class="container" style="max-width: 1000px;">
+            
+            <!-- API Key Section -->
+            <div class="portal-section">
+                <h2>🔑 Your API Key</h2>
+                <div id="api-key-section">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="portal-section">
+                <h2>🚀 Quick Start</h2>
+                <div class="code-example">
+                    <h3>1. Get Your API Key</h3>
+                    <p>After purchasing a Pro or Enterprise license, generate your API key below.</p>
+                    
+                    <h3>2. Make Your First Request</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>cURL</span>
+                            <button class="copy-btn" onclick="copyCode('curl-example')">Copy</button>
+                        </div>
+                        <pre id="curl-example"><code>curl -X POST "http://localhost:5001/api/v1/conversion/sql-to-mermaid" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: YOUR_API_KEY_HERE" \
+  -d '{
+    "sql": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));",
+    "includeAst": false
+  }'</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>JavaScript</span>
+                            <button class="copy-btn" onclick="copyCode('js-example')">Copy</button>
+                        </div>
+                        <pre id="js-example"><code>const response = await fetch('http://localhost:5001/api/v1/conversion/sql-to-mermaid', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'YOUR_API_KEY_HERE'
+  },
+  body: JSON.stringify({
+    sql: 'CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));',
+    includeAst: false
+  })
+});
+
+const result = await response.json();
+console.log(result.result); // Mermaid diagram</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Python</span>
+                            <button class="copy-btn" onclick="copyCode('python-example')">Copy</button>
+                        </div>
+                        <pre id="python-example"><code>import requests
+
+response = requests.post(
+    'http://localhost:5001/api/v1/conversion/sql-to-mermaid',
+    headers={'X-API-Key': 'YOUR_API_KEY_HERE'},
+    json={
+        'sql': 'CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));',
+        'includeAst': False
+    }
+)
+
+result = response.json()
+print(result['result'])  # Mermaid diagram</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Endpoints -->
+            <div class="portal-section">
+                <h2>📡 Available Endpoints</h2>
+                <div class="endpoint-list">
+                    <div class="endpoint-card">
+                        <div class="endpoint-method post">POST</div>
+                        <div class="endpoint-info">
+                            <h3>/api/v1/conversion/sql-to-mermaid</h3>
+                            <p>Convert SQL DDL to Mermaid ERD diagram</p>
+                            <div class="endpoint-params">
+                                <strong>Body:</strong> <code>{ sql: string, includeAst?: boolean }</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-card">
+                        <div class="endpoint-method post">POST</div>
+                        <div class="endpoint-info">
+                            <h3>/api/v1/conversion/mermaid-to-sql</h3>
+                            <p>Convert Mermaid ERD to SQL DDL</p>
+                            <div class="endpoint-params">
+                                <strong>Body:</strong> <code>{ mermaid: string, dialect?: string, includeAst?: boolean }</code><br>
+                                <strong>Dialects:</strong> AnsiSql, SqlServer, PostgreSql, MySql
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-card">
+                        <div class="endpoint-method post">POST</div>
+                        <div class="endpoint-info">
+                            <h3>/api/v1/conversion/generate-migration</h3>
+                            <p>Generate SQL migration from Mermaid diagram differences</p>
+                            <div class="endpoint-params">
+                                <strong>Body:</strong> <code>{ beforeMermaid: string, afterMermaid: string, dialect?: string }</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-card">
+                        <div class="endpoint-method get">GET</div>
+                        <div class="endpoint-info">
+                            <h3>/api/v1/auth/key-info</h3>
+                            <p>Get information about your API key (usage, limits, tier)</p>
+                            <div class="endpoint-params">
+                                <strong>Headers:</strong> <code>X-API-Key: YOUR_KEY</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rate Limits -->
+            <div class="portal-section">
+                <h2>⚡ Rate Limits</h2>
+                <div id="rate-limits-table">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Interactive API Tester -->
+            <div class="portal-section">
+                <h2>🧪 Interactive API Tester</h2>
+                <div class="api-tester">
+                    <div class="tester-input">
+                        <label>API Key:</label>
+                        <input type="text" id="test-api-key" placeholder="Enter your API key" class="form-input">
+                    </div>
+                    
+                    <div class="tester-input">
+                        <label>Endpoint:</label>
+                        <select id="test-endpoint" class="form-input">
+                            <option value="sql-to-mermaid">SQL to Mermaid</option>
+                            <option value="mermaid-to-sql">Mermaid to SQL</option>
+                            <option value="generate-migration">Generate Migration</option>
+                        </select>
+                    </div>
+                    
+                    <div class="tester-input">
+                        <label>Request Body (JSON):</label>
+                        <textarea id="test-body" class="form-textarea" rows="10">
+{
+  "sql": "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  email VARCHAR(100) NOT NULL\n);"
+}</textarea>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="testApiCall()">Send Request</button>
+                    
+                    <div class="tester-output" id="test-output" style="display: none;">
+                        <h4>Response:</h4>
+                        <pre id="test-result"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentation Links -->
+            <div class="portal-section">
+                <h2>📚 Documentation</h2>
+                <div class="doc-links">
+                    <a href="http://localhost:5001/swagger" target="_blank" class="doc-card">
+                        <h3>📖 Swagger UI</h3>
+                        <p>Interactive API documentation with try-it-out functionality</p>
+                    </a>
+                    <a href="https://github.com/yourusername/SqlMermaidErdTools" target="_blank" class="doc-card">
+                        <h3>💻 GitHub Repo</h3>
+                        <p>Source code, examples, and comprehensive guides</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>CodeMonkey by Dedge</h4>
+                    <p>Professional developer tools and software solutions</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mailto:support@codemonkey.dedge.no">Email Support</a></li>
+                        <li><a href="mailto:sales@codemonkey.dedge.no">Sales Inquiries</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CodeMonkey by Dedge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/api-portal.js"></script>
+</body>
+</html>
+

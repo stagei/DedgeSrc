@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tenant Isolation Test Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 5px; }
+        .summary { background: white; padding: 20px; margin: 20px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .category { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .test { padding: 10px; margin: 5px 0; border-left: 4px solid #ddd; }
+        .test.pass { border-left-color: #27ae60; background: #d5f4e6; }
+        .test.fail { border-left-color: #e74c3c; background: #fadbd8; }
+        .stat { display: inline-block; margin: 10px 20px; }
+        .stat-value { font-size: 2em; font-weight: bold; }
+        .stat-label { color: #7f8c8d; }
+        h2 { color: #2c3e50; }
+        .timestamp { color: #95a5a6; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Tenant Isolation Test Results</h1>
+        <div class="timestamp">Generated: 2026-02-05 22:05:18</div>
+    </div>
+    
+    <div class="summary">
+        <h2>Summary</h2>
+        <div class="stat">
+            <div class="stat-value" style="color: #2c3e50;">8</div>
+            <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #27ae60;">5</div>
+            <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #e74c3c;">3</div>
+            <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" style="color: #3498db;">62.5%</div>
+            <div class="stat-label">Pass Rate</div>
+        </div>
+    </div>    <div class="category">
+        <h2>API Isolation (2/2 passed)</h2>        <div class="test pass">
+            <strong>✓ User Info Endpoint</strong>
+            <div class="timestamp">2026-02-05 22:05:13</div>
+            <div>/api/auth/me returns user's tenant information (structure verified)</div>
+        </div>        <div class="test pass">
+            <strong>✓ API Tenant Enforcement</strong>
+            <div class="timestamp">2026-02-05 22:05:15</div>
+            <div>API endpoints filter data by user's tenant (application-level enforcement)</div>
+        </div>    </div>
+    <div class="category">
+        <h2>Database Isolation (0/1 passed)</h2>        <div class="test fail">
+            <strong>✗ Database Isolation</strong>
+            <div class="timestamp">2026-02-05 22:05:13</div>
+            <div>Failed to test database isolation: Cannot overwrite variable Host because it is read-only or constant.</div>
+        </div>    </div>
+    <div class="category">
+        <h2>Theme Isolation (6/3 passed)</h2>        <div class="test fail">
+            <strong>✗ Tenant A Theme Color</strong>
+            <div class="timestamp">2026-02-05 22:05:15</div>
+            <div>Could not retrieve Tenant A theme CSS</div>
+        </div>        <div class="test fail">
+            <strong>✗ Tenant B Theme Color</strong>
+            <div class="timestamp">2026-02-05 22:05:15</div>
+            <div>Could not retrieve Tenant B theme CSS</div>
+        </div>        <div class="test pass">
+            <strong>✓ Theme URL Isolation</strong>
+            <div class="timestamp">2026-02-05 22:05:18</div>
+            <div>Theme URLs are tenant-specific (/tenants/{tenant-domain}/theme.css)</div>
+        </div>    </div>
+    <div class="category">
+        <h2>Web Isolation (2/2 passed)</h2>        <div class="test pass">
+            <strong>✓ Login Page Loads</strong>
+            <div class="timestamp">2026-02-05 22:05:18</div>
+            <div>Login page loads successfully</div>
+        </div>        <div class="test pass">
+            <strong>✓ Tenant Branding</strong>
+            <div class="timestamp">2026-02-05 22:05:18</div>
+            <div>Tenant branding (logo, colors, display name) is tenant-specific</div>
+        </div>    </div>
+</body>
+</html>

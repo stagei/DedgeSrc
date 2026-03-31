@@ -1,0 +1,1032 @@
+﻿/* AutoDocJson.Web - Dashboard & App-Level Overrides
+   Theme variables come from DedgeAuth common.css and the tenant API (#DedgeAuth-tenant-css).
+   The doc viewer styling is in autodoc-shared.css. This file contains only app-specific layout and overrides.
+   Search layout follows GenericLogHandler patterns (controls-bar, panel, query-builder). */
+
+/* ========================================
+   LOCAL VARIABLE FALLBACKS
+   Used when DedgeAuth/tenant CSS does not define them.
+   ======================================== */
+:root {
+    --radius: 8px;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);
+    --accent-color: var(--accent-primary, #0369a1);
+    --accent-hover: #0284c7;
+    --bg-tertiary: var(--bg-hover, #f1f5f9);
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --error-color: #dc2626;
+}
+
+[data-theme="dark"] {
+    --bg-tertiary: var(--bg-hover, #252540);
+    --accent-hover: #3b82f6;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   DASHBOARD - Navbar
+   ======================================== */
+.autodoc-navbar {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.autodoc-navbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.autodoc-navbar .brand:hover {
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+/* ========================================
+   BUTTONS (matching GenericLogHandler)
+   ======================================== */
+.btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.btn:hover { background: var(--bg-tertiary); }
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover { background: var(--bg-secondary); }
+
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover { background: var(--bg-secondary); }
+
+/* ========================================
+   CONTROLS BAR (search filters - GLH style)
+   ======================================== */
+.controls-bar {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.controls-bar .filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.controls-bar .filter-row label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.controls-bar .filter-row input[type="text"],
+.controls-bar .filter-row select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+.controls-bar .filter-row input:focus,
+.controls-bar .filter-row select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.controls-bar .filter-row input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.search-input-row { flex: 1; min-width: 220px; }
+.search-input-row input { width: 100%; }
+
+.field-filter-row select { min-width: 150px; }
+
+/* Type preset buttons (like GLH date presets) */
+.preset-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.btn-preset {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-preset:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.btn-preset.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+/* Action buttons area in controls bar */
+.refresh-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+/* ========================================
+   SEARCH - Instant dropdown (below input)
+   ======================================== */
+.search-input-wrapper {
+    position: relative;
+}
+
+.search-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    min-width: 360px;
+}
+
+.search-dd-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+}
+
+.search-dd-item:hover {
+    background: var(--bg-tertiary);
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.search-dd-item:last-child { border-bottom: none; }
+
+.search-dd-type {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 32px;
+    text-align: center;
+    color: #fff;
+}
+
+.search-dd-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.search-dd-match {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-dd-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.search-dd-more {
+    display: block;
+    padding: 0.6rem;
+    text-align: center;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-top: 1px solid var(--border-color);
+}
+
+.search-dd-more:hover {
+    background: var(--bg-tertiary);
+    text-decoration: none;
+}
+
+/* ========================================
+   SEARCH - Search History Dropdown (GLH style)
+   ======================================== */
+.search-history-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-history-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.25rem;
+    min-width: 300px;
+    max-width: 420px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-history-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.search-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.search-history-item:hover { background: var(--bg-tertiary); }
+.search-history-item:last-of-type { border-bottom: none; }
+
+.search-history-icon {
+    color: var(--text-muted);
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.search-history-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-history-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 0.75rem;
+    white-space: nowrap;
+}
+
+.search-history-clear {
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    color: var(--error-color);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-top: 1px solid var(--border-color);
+}
+
+.search-history-clear:hover { background: var(--bg-tertiary); }
+
+/* ========================================
+   PANEL (results container - GLH style)
+   ======================================== */
+.panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.panel-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.panel-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.panel-summary {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: normal;
+}
+
+.panel-body {
+    padding: 0;
+}
+
+/* ========================================
+   DATA TABLE (results table - GLH style)
+   ======================================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.data-table tbody tr:hover { background: var(--bg-tertiary); }
+.data-table tbody tr { cursor: pointer; }
+
+.data-table a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.data-table a:hover { text-decoration: underline; }
+
+.desc-cell {
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.match-cell {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Type badges */
+.type-badge, .search-dd-type {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-align: center;
+    color: #fff;
+}
+
+.type-badge.type-sql, .search-dd-type.type-sql { background: #10b981; }
+.type-badge.type-cbl, .search-dd-type.type-cbl { background: #3b82f6; }
+.type-badge.type-bat, .search-dd-type.type-bat { background: #f59e0b; }
+.type-badge.type-ps1, .search-dd-type.type-ps1 { background: #8b5cf6; }
+.type-badge.type-rex, .search-dd-type.type-rex { background: #ef4444; }
+.type-badge.type-csharp, .search-dd-type.type-csharp { background: #06b6d4; }
+
+/* Empty state (GLH pattern) */
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.empty-state-message {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.empty-state-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   QUERY BUILDER (advanced search - GLH style)
+   ======================================== */
+.query-builder {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+.query-builder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.query-builder-header h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.query-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.query-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: relative;
+    padding: 0.75rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+}
+
+.query-row select,
+.query-row input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: inherit;
+}
+
+.query-row select:focus,
+.query-row input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.2);
+}
+
+.field-select { width: 180px; }
+.value-input { flex: 1; min-width: 200px; }
+
+.query-row-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.remove-row-btn {
+    background: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.remove-row-btn:hover { opacity: 0.8; }
+
+.add-row-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.add-row-btn:hover { background: var(--accent-hover); }
+
+.query-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.logic-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.logic-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    cursor: pointer;
+}
+
+/* ========================================
+   DASHBOARD - Card-Tabs
+   ======================================== */
+.dashboard-cardtabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.dashboard-cardtab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem 0.9rem;
+    min-width: 76px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 0.1rem;
+}
+
+.dashboard-cardtab:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.dashboard-cardtab.active {
+    border-color: var(--accent-primary);
+    background: var(--accent-primary);
+}
+
+.dashboard-cardtab .cardtab-icon {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.dashboard-cardtab.active .cardtab-icon { color: var(--bg-primary); }
+
+.dashboard-cardtab .cardtab-count {
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.dashboard-cardtab.active .cardtab-count { color: var(--bg-primary); }
+
+.dashboard-cardtab .cardtab-label {
+    font-size: 0.48rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 1.2;
+}
+
+.dashboard-cardtab.active .cardtab-label {
+    color: var(--bg-primary);
+    opacity: 0.85;
+}
+
+/* ========================================
+   DASHBOARD - File List Table
+   ======================================== */
+.file-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.file-list-table th {
+    background: var(--bg-secondary);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--accent-primary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.file-list-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.file-list-table tr:hover td { background: var(--bg-hover); }
+
+.file-list-table a {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   DASHBOARD - DedgeAuth user menu area
+   ======================================== */
+#DedgeAuthUserMenu {
+    display: flex;
+    align-items: center;
+}
+
+/* ========================================
+   SCHEDULER DROPDOWN
+   ======================================== */
+.scheduler-dropdown {
+    position: relative;
+}
+
+.scheduler-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.scheduler-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted, #888);
+    display: inline-block;
+    flex-shrink: 0;
+}
+.scheduler-status-dot.running  { background: #22c55e; animation: pulse-dot 1.5s ease-in-out infinite; }
+.scheduler-status-dot.ready    { background: #3b82f6; }
+.scheduler-status-dot.disabled { background: #f59e0b; }
+.scheduler-status-dot.error    { background: #ef4444; }
+.scheduler-status-dot.unknown  { background: var(--text-muted, #888); }
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.scheduler-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 630px;
+    background: var(--bg-secondary, #1e1e2e);
+    border: 1px solid var(--border-color, #333);
+    border-radius: var(--radius, 8px);
+    box-shadow: var(--shadow-lg);
+    z-index: 1050;
+    overflow: hidden;
+}
+
+.scheduler-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color, #333);
+    background: var(--bg-hover, #252540);
+}
+
+.scheduler-panel-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary, #f5f5f5);
+}
+
+.scheduler-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.scheduler-badge.running  { background: rgba(34,197,94,0.15); color: #22c55e; }
+.scheduler-badge.ready    { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.scheduler-badge.disabled { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.scheduler-badge.error    { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+.scheduler-info {
+    padding: 0.5rem 1rem;
+}
+
+.scheduler-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border-color, #333);
+}
+.scheduler-info-row:last-child { border-bottom: none; }
+
+.scheduler-info-label {
+    color: var(--text-muted, #888);
+    font-weight: 500;
+}
+
+.scheduler-info-value {
+    color: var(--text-primary, #f5f5f5);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-align: right;
+    word-break: break-word;
+    text-align: right;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.scheduler-actions {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color, #333);
+    flex-wrap: wrap;
+}
+
+.scheduler-actions .btn {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.94rem;
+    padding: 0.5rem 0.9rem;
+    padding: 0.35rem 0.5rem;
+    min-width: 0;
+}
+
+.scheduler-actions .btn:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.scheduler-error {
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    color: #ef4444;
+    background: rgba(239,68,68,0.08);
+    border-top: 1px solid rgba(239,68,68,0.2);
+}
+
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+/* ========================================
+   INTERACTION FILTER BAR
+   ======================================== */
+.interaction-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+.interaction-search-input {
+    flex: 0 1 260px;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.interaction-search-input:focus {
+    border-color: var(--accent-primary);
+}
+.interaction-type-btns {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+.interaction-type-btn {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.interaction-type-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+.interaction-type-btn.active {
+    background: var(--accent-primary);
+    color: #fff;
+    border-color: var(--accent-primary);
+}
+
+/* ========================================
+   GoJS DUAL RENDERER
+   ======================================== */
+.diagram-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.diagram-render-target {
+    width: 100%;
+    height: 100%;
+}
+
+.gojs-diagram-container {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+}
+
+.diagram-control-label {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-right: 4px;
+    white-space: nowrap;
+    user-select: none;
+    align-self: center;
+}
+
+.diagram-renderer-select,
+.diagram-layout-select {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.diagram-renderer-select {
+    margin-right: 10px;
+}
+
+.diagram-renderer-select:hover,
+.diagram-layout-select:hover {
+    border-color: var(--accent-primary);
+}
+
+.diagram-renderer-select:focus,
+.diagram-layout-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.2);
+}
+
+.diagram-layout-select {
+    margin-right: 10px;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .controls-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .refresh-controls {
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+
+    .query-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .field-select, .value-input {
+        width: 100%;
+        min-width: auto;
+    }
+}

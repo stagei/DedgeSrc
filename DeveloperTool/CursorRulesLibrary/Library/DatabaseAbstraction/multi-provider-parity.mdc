@@ -1,0 +1,91 @@
+---
+description: When adding new functionality for one database provider, automatically research and implement equivalent support for all other supported providers
+globs: ["ConfigFiles/*_sql_statements.json", "Controls/*.xaml.cs", "Dialogs/*.xaml.cs", "Services/*.cs"]
+alwaysApply: false
+---
+
+# Multi-Provider Parity Rule
+
+When adding or modifying a SQL statement, tab, panel, or feature for **one** database provider, you MUST extend it to **all supported providers** listed in `ConfigFiles/supported_providers.json`.
+
+## Current Supported Providers
+
+| Provider   | Config prefix        | Catalog schema             |
+|------------|----------------------|----------------------------|
+| DB2        | `db2_12.1_`          | `SYSCAT.*`                 |
+| PostgreSQL | `postgresql_18_`     | `information_schema` / `pg_catalog` |
+| SQLite     | `sqlite_3_`          | `sqlite_master` / `pragma_*` |
+
+## Mandatory Workflow
+
+### 1. Implement for the primary provider
+Write the SQL statement and wire it into the UI/service using `MetadataHandler.GetQuery(provider, version, key)`.
+
+### 2. Research equivalents for other providers
+For **each** other supported provider where the feature could apply:
+
+- Use **WebSearch** to find the equivalent catalog view or system table:
+  - DB2: `"IBM DB2 12.1 SYSCAT.<view> catalog view columns"`
+  - PostgreSQL: `"PostgreSQL 18 information_schema.<table>" OR "pg_catalog.<table>"`
+  - SQLite: `"SQLite pragma_<name>" OR "sqlite_master <feature>"`
+- Use the **db2-docs RAG** (`user-db2-docs` MCP) for DB2-specific questions.
+- If a provider does not support the concept (e.g., SQLite has no roles/grants), document that explicitly in the SQL statement JSON with a comment entry or skip gracefully in code.
+
+### 3. Align column aliases across providers
+All provider SQL statements for the same key MUST return **identical column aliases** so the UI bindings work unchanged. Example:
+
+```sql
+-- DB2
+SELECT TRIM(GRANTEE) AS GRANTEE, CONTROLAUTH, SELECTAUTH ...
+-- PostgreSQL (must match DB2 aliases)
+SELECT grantee AS GRANTEE, ... AS SELECTAUTH ...
+```
+
+### 4. Add to all config files
+Add the statement with the **same key name** to each provider's `*_sql_statements.json`:
+- `ConfigFiles/db2_12.1_sql_statements.json`
+- `ConfigFiles/postgresql_18_sql_statements.json`
+- If a `.json.temp` variant exists, update it too.
+
+### 5. Handle missing provider support gracefully
+In code, always check for null/empty from `MetadataHandler.GetQuery()` before executing:
+
+```csharp
+var sqlTemplate = _metadataHandler.GetQuery(provider, version, "GetFeatureX");
+if (string.IsNullOrEmpty(sqlTemplate))
+{
+    // Show "not available for this provider" instead of crashing
+    return;
+}
+```
+
+### 6. Test with live database (when MCP available)
+If the `user-db2-query` MCP server is available, validate DB2 statements automatically:
+
+```
+CallMcpTool: server=user-db2-query, toolName=query_db2
+arguments: { "databaseName": "<ask user>", "query": "<the new SELECT statement> FETCH FIRST 5 ROWS ONLY" }
+```
+
+- Always add `FETCH FIRST n ROWS ONLY` to test queries.
+- If the query fails, use the db2-docs RAG or WebSearch to fix the SQL before committing.
+
+## Checklist (apply to every new statement)
+
+- [ ] Statement key exists in DB2 config JSON
+- [ ] Statement key exists in PostgreSQL config JSON (or documented as N/A)
+- [ ] Column aliases match across all providers
+- [ ] Code uses `GetProviderFromConnection()` / `GetVersionFromConnection()` (never hardcoded provider)
+- [ ] Null/empty check on `GetQuery()` result with graceful fallback
+- [ ] DB2 query tested via MCP if server is reachable
+- [ ] PostgreSQL query validated via WebSearch against official docs
+
+## Version Mapping Reference
+
+The `GetVersionFromConnection()` method must return versions that match config file names:
+
+| Provider   | Config file version | Return value |
+|------------|--------------------:|-------------:|
+| DB2        |              `12.1` |       `12.1` |
+| PostgreSQL |               `18`  |         `18` |
+| SQLite     |                `3`  |          `3` |

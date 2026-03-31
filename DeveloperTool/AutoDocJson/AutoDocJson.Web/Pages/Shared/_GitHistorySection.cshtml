@@ -1,0 +1,29 @@
+@model AutoDocNew.Models.GitHistory
+
+@if (Model != null)
+{
+    <details>
+        <summary><i class="bi bi-git"></i> <span data-i18n="section.gitHistory">Git History</span></summary>
+        <table class="detail-table">
+            <tr><td data-i18n="label.lastChanged">Last Changed</td><td>@Model.LastChanged</td></tr>
+            <tr><td data-i18n="label.changedBy">Changed By</td><td>@Model.ChangedBy</td></tr>
+            <tr><td data-i18n="label.totalChanges">Total Changes</td><td>@Model.TotalChanges</td></tr>
+            <tr><td data-i18n="label.firstAdded">First Added</td><td>@Model.FirstAdded</td></tr>
+            <tr><td data-i18n="label.contributors">Contributors</td><td>@Model.Contributors</td></tr>
+            @if (Model.ContributorList?.Count > 0)
+            {
+                <tr>
+                    <td colspan="2">
+                        <table class="detail-table" style="margin-top:0.3rem">
+                            <tr><th data-i18n="table.name">Name</th><th data-i18n="table.changes">Changes</th></tr>
+                            @foreach (var c in Model.ContributorList)
+                            {
+                                <tr><td>@c.Name</td><td>@c.Changes</td></tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </table>
+    </details>
+}

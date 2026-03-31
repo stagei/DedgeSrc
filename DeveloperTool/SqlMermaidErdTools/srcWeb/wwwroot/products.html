@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - CodeMonkey by Dedge</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/images/codemonkey.png" alt="CodeMonkey" class="logo" onerror="this.src='/images/logo.png'">
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/products.html" class="nav-link active">Products</a>
+                <a href="#" onclick="showSearch()" class="nav-link">Search</a>
+                <a href="https://github.com/yourusername/SqlMermaidErdTools" class="nav-link" target="_blank">Docs</a>
+            </div>
+            <div class="nav-brand">
+                <img src="/images/dedge.png" alt="Dedge" class="logo-dedge" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Products</h1>
+            <p>Professional tools for every workflow</p>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="category-filter">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="Developer Tools">Developer Tools</button>
+                <button class="filter-btn" data-category="VS Code Extensions">VS Code Extensions</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div id="products-grid" class="products-grid-large">
+                <!-- Products loaded dynamically -->
+                <div class="loading">Loading products...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>CodeMonkey by Dedge</h4>
+                    <p>Professional developer tools and software solutions</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="/products.html#sqlmermaid-nuget">NuGet Package</a></li>
+                        <li><a href="/products.html#sqlmermaid-cli">CLI Tool</a></li>
+                        <li><a href="/products.html#sqlmermaid-vscode">VS Code Extensions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/yourusername/SqlMermaidErdTools" target="_blank">Documentation</a></li>
+                        <li><a href="https://github.com/yourusername/SqlMermaidErdTools" target="_blank">GitHub</a></li>
+                        <li><a href="mailto:support@sqlmermaid.tools">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/licenses.html">Open Source Licenses</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CodeMonkey by Dedge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="hideSearch()">&times;</span>
+            <h2>Search Products</h2>
+            <input type="text" id="search-input" class="search-input" placeholder="Search for products...">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/products.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,121 @@
+﻿# DedgeAuth Auth & Navigation Diagnostics — Auto-Run Protocol
+
+## When This Rule Triggers
+
+Run `scripts\Get-DedgeAuthDiagnostics.ps1` **immediately** (before any manual investigation) when the user reports ANY of these symptoms:
+
+- App links on login page don't work / redirect back to login
+- "401 Unauthorized" on `/api/auth/refresh`, `/api/auth/me`, or `/api/auth/create-code`
+- Login page shows but user cannot reach consumer apps
+- Auth code exchange fails
+- Redirect loop between DedgeAuth and consumer app
+- "Authenticating with Windows..." hangs
+- User says "I can't get to [app]" or "it just reloads the login page"
+- Browser console shows 401s on DedgeAuth endpoints
+- Silent re-authentication fails
+
+## How to Run
+
+```powershell
+# Against the test server (default)
+pwsh.exe -NoProfile -File "c:\opt\src\DedgeAuth\scripts\Get-DedgeAuthDiagnostics.ps1" -BaseUrl http://dedge-server -ServerName dedge-server
+
+# Against localhost (local dev)
+pwsh.exe -NoProfile -File "c:\opt\src\DedgeAuth\scripts\Get-DedgeAuthDiagnostics.ps1" -BaseUrl http://localhost
+
+# Custom output path
+pwsh.exe -NoProfile -File "c:\opt\src\DedgeAuth\scripts\Get-DedgeAuthDiagnostics.ps1" -OutputPath "C:\temp\diag.md"
+```
+
+The script writes a full markdown report to `$env:TEMP\DedgeAuth-Diagnostics.md` and prints it to stdout. **Read the report before making any changes.**
+
+## What the Script Collects (10 sections)
+
+| Section | What it checks |
+|---|---|
+| 1. Server logs | Last 60 lines of DedgeAuth.Api log (local + server), error/warning counts |
+| 2. Deployed file versions | DLL versions and timestamps across staging share, IIS install, and local |
+| 3. API endpoint health | Health, Scalar, login, me, apps, apps/tree, redirect, validate |
+| 4. Auth flow E2E | login → create-code → consumer app code exchange for all 5 apps |
+| 5. Refresh token cookies | Set-Cookie headers: Path, SameSite, HttpOnly attributes |
+| 6. Database state | Apps list via API (appId, baseUrl, active status) |
+| 7. IIS app pool state | Pool status, runtime, identity (or netstat on dev machine) |
+| 8. login.html functions | Checks for openApp, storeAccessToken, create-code, redirect fallback, same-tab nav |
+| 9. Staging vs IIS comparison | File timestamps between staging share and IIS install path — detects stale deploys |
+| 10. Summary | Actionable recommendations based on findings |
+
+## Decision Tree After Reading the Report
+
+```
+Report shows STALE files in section 9?
+  → Run: IIS-DeployApp.ps1 -SiteName DedgeAuth
+  → Then re-run diagnostics to confirm
+
+Report shows login.html missing openApp() in section 8?
+  → login.html on server is outdated
+  → Run: Build-And-Publish.ps1 then IIS-DeployApp.ps1
+
+Report shows create-code returns 401 in section 4?
+  → JWT is expired or invalid
+  → Check AccessTokenExpirationMinutes in appsettings.json
+  → Check if login actually returns a valid JWT (section 3)
+
+Report shows cookie Path is NOT /DedgeAuth in section 5?
+  → SetRefreshTokenCookie in AuthController.cs is missing Path
+  → Fix: Path = Request.PathBase.Value
+
+Report shows consumer app code exchange fails in section 4c?
+  → The consumer app's DedgeAuth.Client middleware may be outdated
+  → Rebuild consumer app: Build-And-Publish-ALL.ps1
+
+Report shows redirect endpoint returns 302 to login in section 3?
+  → No valid cookies available — expected for unauthenticated probe
+  → If cookies ARE being sent and it still redirects: check AuthController.RedirectWithCode
+
+All sections green but user still can't navigate?
+  → Browser-specific issue (popup blocker, third-party cookie policy)
+  → Test with browser_navigate in Cursor IDE browser
+  → Check browser console for JavaScript errors
+```
+
+## Key Auth Flow Reference
+
+```
+User clicks app link on DedgeAuth login page
+    │
+    ▼
+openApp() in login.html
+    │
+    ├─ JWT in localStorage → POST /api/auth/create-code
+    │   ├─ 200 → navigate same tab: AppUrl?code=CODE
+    │   └─ 401 → fallback below
+    │
+    └─ No JWT or fallback → GET /api/auth/redirect?returnUrl=AppUrl
+        ├─ Has DedgeAuth_jwt cookie → create code, 302 to AppUrl?code=CODE
+        ├─ Has refreshToken cookie → validate, create code, 302
+        └─ No auth → 302 to /DedgeAuth/login.html?returnUrl=AppUrl
+
+Consumer app receives ?code=CODE
+    │
+    ▼
+DedgeAuthTokenExtractionMiddleware
+    │
+    └─ POST /api/auth/exchange (server-to-server)
+        ├─ 200 → Set DedgeAuth_access_token cookie, 302 to clean URL
+        └─ 401 → code expired/used, redirect to login
+```
+
+## Critical Files
+
+| File | Purpose |
+|---|---|
+| `AuthController.cs` | Login, create-code, redirect, exchange, refresh, me endpoints |
+| `AuthService.cs` | Token generation, refresh token rotation, ValidateRefreshTokenUserAsync |
+| `login.html` | openApp(), storeAccessToken(), tryLocalTokenRedirect(), tryAutoKerberos() |
+| `DedgeAuthTokenExtractionMiddleware.cs` | Consumer-side: extracts ?code= and exchanges server-to-server |
+| `DedgeAuthRedirectMiddleware.cs` | Consumer-side: redirects unauthenticated to DedgeAuth login |
+| `DedgeAuthSessionValidationMiddleware.cs` | Consumer-side: validates session, records visits |
+
+## Do NOT Skip This
+
+If the user reports an auth/navigation issue, **always run the diagnostic script first**. The report takes ~15 seconds and prevents hours of manual investigation. Read the entire report before touching any code.

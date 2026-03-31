@@ -1,0 +1,130 @@
+{
+  "tableName": "P_TREKKTYPER",
+  "futureName": "TrekkType",
+  "namespace": "DBM",
+  "columns": [
+    {
+      "name": "trekkType",
+      "futureName": "TrekkType",
+      "description": "Unique type identifier for the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "trekkTypeTekst",
+      "futureName": "TrekkTypeText",
+      "description": "Description text for the trekk type",
+      "foreignKey": null
+    },
+    {
+      "name": "prioGruppe",
+      "futureName": "PriorityGroup",
+      "description": "Group identifier based on priority level",
+      "foreignKey": null
+    },
+    {
+      "name": "trekkESDriftskr",
+      "futureName": "TrekkESDriftskr",
+      "description": "Indicates if the trekk is for operational purposes (Yes/No)",
+      "foreignKey": null
+    },
+    {
+      "name": "brukerId",
+      "futureName": "UserIdentifier",
+      "description": "Unique identifier of the user associated with the record",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the trekk entry was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "forEtterMva",
+      "futureName": "PrePostVat",
+      "description": "Indicates whether VAT is calculated before (F) or after (E) the transaction",
+      "foreignKey": null
+    },
+    {
+      "name": "rapporteres",
+      "futureName": "Reported",
+      "description": "Indicates if the trekk is reported (Yes/No)",
+      "foreignKey": null
+    },
+    {
+      "name": "generert",
+      "futureName": "Generated",
+      "description": "Indicates if the data was generated automatically (Yes/No)",
+      "foreignKey": null
+    },
+    {
+      "name": "reskKode",
+      "futureName": "RiskCode",
+      "description": "Code indicating where the trekk should be recorded; L=Supplier control, K=Customer control",
+      "foreignKey": null
+    },
+    {
+      "name": "plussMinus",
+      "futureName": "PlusMinus",
+      "description": "Indicates if the value is added (Plus) or subtracted (Minus)",
+      "foreignKey": null
+    },
+    {
+      "name": "dfTillTrekk",
+      "futureName": "DfTillTrekk",
+      "description": "Amount related to a specific trekk type",
+      "foreignKey": null
+    },
+    {
+      "name": "dfVatCat",
+      "futureName": "DfVatCategory",
+      "description": "Category of VAT applicable for the trekk type",
+      "foreignKey": null
+    },
+    {
+      "name": "dfVatType",
+      "futureName": "DfVatType",
+      "description": "Type of VAT associated with the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "dfVatPercent",
+      "futureName": "DfVatPercentage",
+      "description": "Percentage of VAT applicable for the trekk type",
+      "foreignKey": null
+    },
+    {
+      "name": "dfVarekode",
+      "futureName": "ProductCode",
+      "description": "Code identifying the product related to the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "dfVare",
+      "futureName": "ProductName",
+      "description": "Name of the product associated with the trekk type",
+      "foreignKey": null
+    },
+    {
+      "name": "dfProdukt",
+      "futureName": "ProductAmount",
+      "description": "Amount or quantity of the product related to the trekk",
+      "foreignKey": null
+    },
+    {
+      "name": "dfOrgnrFakturaTrekk",
+      "futureName": "FacturaOrgNumberTrekk",
+      "description": "Organization number for the trekk related to a factura",
+      "foreignKey": null
+    },
+    {
+      "name": "dfOrgnrAvrUtbetTrekk",
+      "futureName": "RecoveryOrgNumberTrekk",
+      "description": "Organization number for the trekk related to recovery or payment",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:21:05"
+}

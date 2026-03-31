@@ -1,0 +1,127 @@
+﻿---
+description: "Command /sync-library-rules: find all projects with .mdc files and import matching rules from @Library"
+alwaysApply: true
+---
+
+# Command /sync-library-rules
+
+When the user types **`/sync-library-rules`**, automatically scan all projects under `C:\opt\src` and import missing rules from `@Library` based on project pattern/technology matches.
+
+## Goal
+
+- Find projects that already use Cursor rules/commands (`*.mdc` under `.cursor/`)
+- Detect which Library rule themes fit each project
+- Copy only missing matching rules into `.cursor/rules/`
+- Copy matching command files into `.cursor/commands/` when applicable
+- Materialize skills into `.cursor/skills/<name>/SKILL.md`
+
+## Step 1 — Discover Target Projects
+
+Use PowerShell 7:
+
+```powershell
+$sourceRoot = "C:\opt\src"
+$projects = Get-ChildItem -Path $sourceRoot -Directory -ErrorAction SilentlyContinue
+
+$targets = foreach ($p in $projects) {
+    $cursorDir = Join-Path $p.FullName ".cursor"
+    if (-not (Test-Path $cursorDir)) { continue }
+
+    $mdc = Get-ChildItem -Path $cursorDir -Recurse -Filter "*.mdc" -File -ErrorAction SilentlyContinue
+    if ($mdc.Count -gt 0) { $p }
+}
+```
+
+## Step 2 — Detect Matching Library Themes Per Project
+
+For each target project, detect themes using these signals:
+
+| Signal | Theme |
+|--------|-------|
+| `*.csproj` exists | `CSharp-WinApp` (default C#) |
+| `.csproj` contains `Microsoft.AspNetCore` | `CSharp-WebApp` |
+| `.csproj` contains `<UseWPF>true` | `WPF` |
+| `.csproj` contains `IBM.Data.Db2` / `Net.IBM.Data.Db2` | `Db2` |
+| `.csproj` contains `NLog` or `Serilog` | `Logging` |
+| `.csproj` contains `DedgeAuth` refs | `DedgeAuth` |
+| `*.ps1` exists | `PowerShell` |
+| `*.wxs` or `*.wixproj` exists | `Installer` |
+| `*.html`/`*.css`/`*.js` exists | `Web-UI` |
+| UNC paths (`\\server\`) in source files | `Server` |
+| test projects/files exist | `Testing` |
+
+Always include these baseline themes:
+
+- `Agent`
+- `Git`
+- `Documentation`
+- `Security`
+
+## Step 3 — Build Candidate Rule List
+
+For each detected theme, collect files from:
+
+- `C:\opt\src\CursorRulesLibrary\Library\<Theme>\*.mdc`
+
+For commands, use:
+
+- `C:\opt\src\CursorRulesLibrary\Library\Commands\*.mdc`
+
+## Step 4 — Compare and Import Missing Files
+
+For each project:
+
+1. Ensure folders exist:
+   - `.cursor/rules`
+   - `.cursor/commands`
+   - `.cursor/skills`
+2. Compare by filename:
+   - If missing in project -> copy from Library
+   - If exists and different content -> keep existing and report `DIFFERS` (manual review)
+   - If exists and same content -> skip
+3. Never place command files in `.cursor/rules`
+4. Convert `Library/Skills/*.mdc` to `.cursor/skills/<skill-name>/SKILL.md`
+
+## Step 5 — Execute Pattern-Based Import
+
+Use this flow (do not do blind copy of all themes):
+
+```powershell
+$libraryRoot = "C:\opt\src\CursorRulesLibrary\Library"
+
+foreach ($project in $targets) {
+    $projectRoot = $project.FullName
+    $ruleDir = Join-Path $projectRoot ".cursor\rules"
+    $commandDir = Join-Path $projectRoot ".cursor\commands"
+    New-Item -ItemType Directory -Path $ruleDir -Force | Out-Null
+    New-Item -ItemType Directory -Path $commandDir -Force | Out-Null
+
+    # 1) Detect themes from signals in projectRoot
+    # 2) Add baseline themes: Agent, Git, Documentation, Security
+    # 3) Copy only missing files from matching Library\<Theme>\*.mdc to $ruleDir
+    # 4) For commands, copy only missing Library\Commands\command-*.mdc to $commandDir
+    # 5) If file exists and hash differs, mark DIFFERS and do not overwrite
+}
+```
+
+## Step 6 — Report Results
+
+Present a compact table per project:
+
+| Project | Added Rules | Added Commands | Differing Existing | Notes |
+|---------|-------------|----------------|--------------------|-------|
+
+Then list any projects needing manual merge due to `DIFFERS`.
+
+## Step 7 — Git Actions
+
+If files changed, run:
+
+```powershell
+git add .
+git commit -m "chore(rules): sync matching Library rules and commands"
+git push
+```
+
+If some repos fail to push (missing upstream/remote), report those repos explicitly.
+

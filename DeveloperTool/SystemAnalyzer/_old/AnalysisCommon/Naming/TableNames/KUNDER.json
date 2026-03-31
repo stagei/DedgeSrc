@@ -1,0 +1,146 @@
+{
+  "tableName": "KUNDER",
+  "futureName": "Customer",
+  "namespace": "Dbm",
+  "columns": [
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of the record creation or update",
+      "foreignKey": null
+    },
+    {
+      "name": "BrukerId",
+      "futureName": "UserId",
+      "description": "Unique identifier for the user who created or modified the record",
+      "foreignKey": null
+    },
+    {
+      "name": "Kundenr",
+      "futureName": "CustomerNumber",
+      "description": "Internal customer identification number",
+      "foreignKey": [
+        "KundekoontoTest.CustomerNumber",
+        "Kundekoonto.CustomerNumber",
+        "KunderMAktivKonto.CustomerNumber"
+      ]
+    },
+    {
+      "name": "Hovedkundenr",
+      "futureName": "MainCustomerNumber",
+      "description": "Primary customer number",
+      "foreignKey": null
+    },
+    {
+      "name": "Prodnr",
+      "futureName": "ProductNumber",
+      "description": "Product identification number",
+      "foreignKey": null
+    },
+    {
+      "name": "Kundennavn",
+      "futureName": "CustomerName",
+      "description": "Full name of the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "Kundeadr",
+      "futureName": "CustomerAddress",
+      "description": "Customer's mailing address",
+      "foreignKey": null
+    },
+    {
+      "name": "Kundepostnr",
+      "futureName": "PostalCode",
+      "description": "Post code of the customer’s address",
+      "foreignKey": null
+    },
+    {
+      "name": "Kommunenr",
+      "futureName": "MunicipalityNumber",
+      "description": "The number identifying the municipality where the customer is located",
+      "foreignKey": [
+        "ZAvdtab.Region"
+      ]
+    },
+    {
+      "name": "Region",
+      "futureName": "RegionCode",
+      "description": "Geographical region code for the customer’s location",
+      "foreignKey": [
+        "ZAvdtab.Region"
+      ]
+    },
+    {
+      "name": "Krets",
+      "futureName": "DistrictNumber",
+      "description": "District number associated with the customer's location",
+      "foreignKey": null
+    },
+    {
+      "name": "Betform",
+      "futureName": "PaymentForm",
+      "description": "The form of payment used by the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "Autogrens",
+      "futureName": "AutoLimit",
+      "description": "Automatic limit for the customer’s account",
+      "foreignKey": null
+    },
+    {
+      "name": "Bankgiro",
+      "futureName": "BankAccountNumber",
+      "description": "Bank account number associated with the customer",
+      "foreignKey": [
+        "KundekoontoTest.BankGiro",
+        "Kundekoonto.BankGiro"
+      ]
+    },
+    {
+      "name": "KundeType",
+      "futureName": "CustomerType",
+      "description": "Type of customer (e.g., individual, business)",
+      "foreignKey": [
+        "KundekoontoTest.CustomerType",
+        "Kundekoonto.CustomerType"
+      ]
+    },
+    {
+      "name": "Egenfrakt",
+      "futureName": "SelfPickupFlag",
+      "description": "Indicates if the customer has self-pickup privileges",
+      "foreignKey": [
+        "ZAvdtab.Egenfrakt"
+      ]
+    },
+    {
+      "name": "KontaktFornavn",
+      "futureName": "ContactFirstName",
+      "description": "First name of the contact person for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "KontaktEtternavn",
+      "futureName": "ContactLastName",
+      "description": "Last name of the contact person for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "Bransjekode",
+      "futureName": "IndustryCode",
+      "description": "The industry code associated with the customer’s business",
+      "foreignKey": null
+    },
+    {
+      "name": "OrgForm",
+      "futureName": "OrganizationForm",
+      "description": "Type of organization (e.g., partnership, corporation)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-27T22:29:46"
+}

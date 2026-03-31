@@ -1,0 +1,34 @@
+{
+  "PIPELINE_COMPLEX": {
+    "description": "Multi-stage pipeline that could not be fully converted to LINQ",
+    "aiProtocol": "PwshToCSharp-PipelineToLinq"
+  },
+  "DB2_CONNECTION": {
+    "description": "ODBC/DSN-based DB2 connection that needs IBM.Data.Db2 conversion",
+    "aiProtocol": "PwshToCSharp-Db2Access"
+  },
+  "DB2_QUERY": {
+    "description": "DB2 DQL/DML/DDL query execution pattern",
+    "aiProtocol": "PwshToCSharp-Db2Access"
+  },
+  "PROCESS_INVOCATION": {
+    "description": "Complex process/script invocation that needs manual review",
+    "aiProtocol": "PwshToCSharp-ScaffoldCleanup"
+  },
+  "DYNAMIC_PROPERTY": {
+    "description": "Dynamic property access on PSObject/JsonElement",
+    "aiProtocol": "PwshToCSharp-ScaffoldCleanup"
+  },
+  "TYPE_COERCION": {
+    "description": "PowerShell implicit type coercion that needs explicit C# handling",
+    "aiProtocol": "PwshToCSharp-ScaffoldCleanup"
+  },
+  "UNHANDLED_CMDLET": {
+    "description": "Cmdlet with no mapping in CmdletMappings.json",
+    "aiProtocol": "PwshToCSharp-ScaffoldCleanup"
+  },
+  "UNHANDLED_AST": {
+    "description": "AST node type not supported by the mechanical converter",
+    "aiProtocol": "PwshToCSharp-ScaffoldCleanup"
+  }
+}

@@ -1,0 +1,165 @@
+---
+description: PowerShell to C# conversion mapping rules for post-conversion cleanup
+globs: ["*.cs"]
+alwaysApply: true
+---
+
+# PowerShell → C# Conversion Mapping Rules
+
+These rules govern how the Cursor Agent CLI cleanup pass transforms mechanically converted C# code into idiomatic, compilable .NET 10 code.
+
+## Module and Logging Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `Import-Module GlobalFunctions -Force` | Remove; use NLog via DI or `LogManager.GetCurrentClassLogger()` |
+| `Write-LogMessage "X" -Level INFO` | `_logger.Info("X")` |
+| `Write-LogMessage "X" -Level WARN` | `_logger.Warn("X")` |
+| `Write-LogMessage "X" -Level ERROR` | `_logger.Error("X")` |
+| `Write-LogMessage "X" -Level DEBUG` | `_logger.Debug("X")` |
+| `Write-Host "X"` | `Console.WriteLine("X")` or `_logger.Info("X")` depending on context |
+| `Write-Output "X"` | `Console.WriteLine("X")` for pipeline-less scripts; return value for functions |
+| `Write-Warning "X"` | `_logger.Warn("X")` |
+| `Write-Error "X"` | `_logger.Error("X")` or `throw new InvalidOperationException("X")` |
+| `Send-Sms -Receiver $num -Message $msg` | `await _smsService.SendAsync(number, message)` with `ISmsService` interface |
+
+## File and IO Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `Get-Content -LiteralPath $p -Raw` | `await File.ReadAllTextAsync(path, Encoding.UTF8)` |
+| `Get-Content -LiteralPath $p -Raw -Encoding UTF8` | `await File.ReadAllTextAsync(path, Encoding.UTF8)` |
+| `Set-Content -LiteralPath $p -Value $v` | `await File.WriteAllTextAsync(path, value, Encoding.UTF8)` |
+| `Get-Content ... \| ConvertFrom-Json` | `JsonSerializer.Deserialize<T>(json, jsonOptions)` |
+| `ConvertTo-Json -Depth N` | `JsonSerializer.Serialize(obj, jsonOptions)` with `WriteIndented = true` |
+| `Test-Path -LiteralPath $p` | `File.Exists(path)` or `Directory.Exists(path)` |
+| `New-Item -ItemType Directory -Path $p -Force` | `Directory.CreateDirectory(path)` |
+| `Get-ChildItem -LiteralPath $p -Recurse -File` | `Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories)` |
+| `Get-ChildItem -LiteralPath $p -Directory` | `Directory.EnumerateDirectories(path)` |
+| `Remove-Item -LiteralPath $p -Force` | `File.Delete(path)` or `Directory.Delete(path, recursive)` |
+| `Join-Path $a $b` | `Path.Combine(a, b)` |
+| `Split-Path $p -Parent` | `Path.GetDirectoryName(path)` |
+| `Split-Path $p -Leaf` | `Path.GetFileName(path)` |
+| `Resolve-Path -LiteralPath $p` | `Path.GetFullPath(path)` |
+
+## JSON Options Standard
+
+```csharp
+private static readonly JsonSerializerOptions JsonOptions = new()
+{
+    WriteIndented = true,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+};
+```
+
+## HTTP and REST Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `Invoke-RestMethod -Uri $url -Method Get` | `await _httpClient.GetFromJsonAsync<T>(url)` |
+| `Invoke-RestMethod -Uri $url -Method Post -Body $b -ContentType 'application/json'` | `await _httpClient.PostAsJsonAsync(url, body)` |
+| `Invoke-WebRequest -Uri $url ...` | `await _httpClient.SendAsync(request)` for full control |
+| `$resp.Content \| ConvertFrom-Json` | Response is already deserialized with `GetFromJsonAsync<T>` |
+
+Use `IHttpClientFactory` via DI. Named clients for different base URLs.
+
+## Process Execution Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `& pwsh.exe @args` | `Process.Start(psi)` with `ProcessStartInfo` |
+| `Start-Process -FilePath $exe -ArgumentList $args -Wait` | `process.WaitForExitAsync()` |
+| `$LASTEXITCODE` | `process.ExitCode` |
+
+## Data Structure Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `@{}` (hashtable) | `Dictionary<string, object>` or typed class |
+| `[ordered]@{}` | `Dictionary<string, object>` preserving insertion order, or typed record |
+| `[System.Collections.ArrayList]::new()` | `List<T>` with concrete type |
+| `[System.Collections.Generic.HashSet[string]]::new()` | `HashSet<string>(StringComparer.OrdinalIgnoreCase)` |
+| `[PSCustomObject]@{ Key = Value }` | Typed class or anonymous object |
+| `$array += $item` | `list.Add(item)` — never use array concatenation in C# |
+
+## Control Flow Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `foreach ($item in $collection)` | `foreach (var item in collection)` |
+| `$collection \| ForEach-Object { ... }` | `collection.Select(x => ...).ToList()` or `foreach` |
+| `$collection \| Where-Object { ... }` | `collection.Where(x => ...).ToList()` |
+| `$collection \| Sort-Object Property` | `collection.OrderBy(x => x.Property).ToList()` |
+| `$collection \| Select-Object -First N` | `collection.Take(n)` |
+| `$collection \| Group-Object Property` | `collection.GroupBy(x => x.Property)` |
+| `$collection \| Measure-Object -Sum` | `collection.Sum(x => x.Value)` |
+| `try { ... } catch { Write-Warning $_.Exception.Message }` | `try { ... } catch (Exception ex) { _logger.Warn(ex.Message); }` |
+| `$ErrorActionPreference = 'Stop'` | Remove; C# throws by default |
+
+## String Mappings
+
+| PowerShell | C# Replacement |
+|---|---|
+| `"Hello $($variable)"` | `$"Hello {variable}"` |
+| `$str -match 'pattern'` | `Regex.IsMatch(str, "pattern")` |
+| `$str -replace 'old','new'` | `Regex.Replace(str, "old", "new")` |
+| `$str -split ','` | `str.Split(',')` |
+| `$str.Trim()` | `str?.Trim()` (null-safe) |
+| `[string]::IsNullOrWhiteSpace($s)` | `string.IsNullOrWhiteSpace(s)` |
+
+## Encoding
+
+| PowerShell | C# Replacement |
+|---|---|
+| `-Encoding UTF8` | `Encoding.UTF8` |
+| `-Encoding windows-1252` / `cp1252` | `Encoding.GetEncoding(1252)` (register with `Encoding.RegisterProvider(CodePagesEncodingProvider.Instance)`) |
+
+## Parameter to Property Mapping
+
+PowerShell `param()` blocks become constructor parameters or configuration classes:
+
+```csharp
+// PowerShell:
+// param([string]$SourceRoot = 'C:\opt\data', [int]$MaxIterations = 5)
+
+public class AnalysisOptions
+{
+    public string SourceRoot { get; set; } = @"C:\opt\data";
+    public int MaxIterations { get; set; } = 5;
+}
+```
+
+Bind from `appsettings.json` via `IOptions<AnalysisOptions>`.
+
+## Script-Level Variables
+
+PowerShell `$script:variable` becomes private class fields:
+
+```csharp
+// PowerShell: $script:cache = @{}
+private readonly Dictionary<string, object> _cache = new();
+```
+
+## Required Using Statements
+
+Every converted file should include at minimum:
+
+```csharp
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using NLog;
+```
+
+## .csproj Package References
+
+Generated projects must include:
+
+```xml
+<PackageReference Include="NLog" Version="5.*" />
+<PackageReference Include="NLog.Extensions.Logging" Version="5.*" />
+<PackageReference Include="System.Text.Encoding.CodePages" Version="9.*" />
+```

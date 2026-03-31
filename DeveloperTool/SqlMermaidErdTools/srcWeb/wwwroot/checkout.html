@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - CodeMonkey by Dedge</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/images/codemonkey.png" alt="CodeMonkey" class="logo" onerror="this.src='/images/logo.png'">
+            </div>
+            <div style="flex: 1;"></div>
+            <div class="nav-brand">
+                <img src="/images/dedge.png" alt="Dedge" class="logo-dedge" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </nav>
+
+    <section style="padding: 4rem 0; min-height: 60vh;">
+        <div class="container" style="max-width: 800px;">
+            <h1 style="text-align: center; margin-bottom: 2rem;">Complete Your Purchase</h1>
+            
+            <div id="checkout-details" class="product-card" style="max-width: 600px; margin: 0 auto;">
+                <h2 style="margin-bottom: 1rem;">Order Summary</h2>
+                <div id="order-summary">Loading...</div>
+                
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <strong>Note:</strong> This is a demo checkout page. In production, you would integrate with Stripe Checkout or Stripe Payment Elements here.
+                    </p>
+                    
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.125rem; margin-bottom: 0.75rem;">To Complete Stripe Integration:</h3>
+                        <ol style="margin-left: 1.5rem;">
+                            <li>Install Stripe.NET SDK: <code>dotnet add package Stripe.net</code></li>
+                            <li>Set your Stripe secret key in <code>appsettings.json</code></li>
+                            <li>Update <code>products.json</code> with real Stripe Price IDs</li>
+                            <li>Implement webhook handler for payment confirmation</li>
+                            <li>Set up license key generation and delivery</li>
+                        </ol>
+                    </div>
+
+                    <button onclick="window.location.href='/products.html'" class="btn btn-primary" style="width: 100%;">
+                        Return to Products
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 CodeMonkey by Dedge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product');
+        const tier = urlParams.get('tier');
+        const email = urlParams.get('email');
+
+        // Display order summary
+        document.getElementById('order-summary').innerHTML = `
+            <p><strong>Product:</strong> ${productId}</p>
+            <p><strong>License Tier:</strong> ${tier}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p style="margin-top: 1rem; color: var(--success-color);">✓ Ready for payment processing</p>
+        `;
+    </script>
+</body>
+</html>
+

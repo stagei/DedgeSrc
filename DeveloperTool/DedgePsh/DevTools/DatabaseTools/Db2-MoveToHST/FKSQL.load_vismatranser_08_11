@@ -1,0 +1,73 @@
+CONNECT TO basishst 
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.7
+ SQL authorization ID   = SRV_ERP1
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT TO BASISHST USER srv_db2  USING          
+
+   Database Connection Information
+
+ Database server        = DB2/NT64 9.7.7
+ SQL authorization ID   = SRV_DB2
+ Local database alias   = BASISHST
+
+
+***** SQLCODE: 0 *****
+ 
+
+load FROM P:\TRU\VISMA_TRANSER_08_11.del of del REPLACE INTO DBM.VISMA_TRANSER_08_11 NONRECOVERABLE
+SQL3039W  The memory available to LOAD for DATA BUFFER prohibits full LOAD 
+parallelism.  Load parallelism of "3" will be used
+
+SQL3109N  The utility is beginning to load data from file 
+"P:\TRU\VISMA_TRANSER_08_11.del".
+
+SQL3500W  The utility is beginning the "LOAD" phase at time "11.08.2013 
+10.27.56.352440".
+
+SQL3519W  Begin Load Consistency Point. Input record count = "0".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3110N  The utility has completed processing.  "165568373" rows were read 
+from the input file.
+
+SQL3519W  Begin Load Consistency Point. Input record count = "165568373".
+
+SQL3520W  Load Consistency Point was successful.
+
+SQL3515W  The utility has finished the "LOAD" phase at time "11.08.2013 
+11.51.03.019327".
+
+SQL3500W  The utility is beginning the "BUILD" phase at time "11.08.2013 
+11.51.03.082925".
+
+SQL3213I  The indexing mode is "REBUILD".
+
+SQL3515W  The utility has finished the "BUILD" phase at time "11.08.2013 
+13.10.29.511988".
+
+
+Number of rows read         = 165568373
+Number of rows skipped      = 0
+Number of rows loaded       = 165568373
+Number of rows rejected     = 0
+Number of rows deleted      = 0
+Number of rows committed    = 165568373
+
+
+***** SQLCODE: 0 *****
+ 
+
+CONNECT RESET
+
+***** SQLCODE: 0 *****
+ 
+

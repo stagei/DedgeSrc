@@ -1,0 +1,164 @@
+{
+  "program": "LDHUTST",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:50",
+  "extraction": {
+    "sourceHash": "sha256:778bf8ee086c48fd9e6335046f6d3f1fb7cb76334c51c694825880924cd1bdb9",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\LDHUTST.CBL",
+    "actualName": "LDHUTST",
+    "program": "LDHUTST",
+    "copyElements": [
+      {
+        "name": "ADB.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TBRU.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BIL.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "UTS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "TCAUTS.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMASEMA.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMACNCT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LDSI.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "LDHUTST.CPB",
+        "type": "copybook-binary"
+      },
+      {
+        "name": "DSRUNNER.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DSSYSINF.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DS-CNTRL.MF",
+        "type": "mf"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TELEFON",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TCA_UTSTYR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TCA_UTSTYR",
+        "operation": "DELETE"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BILNR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TCA_UTSTYR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TCA_UTSTYR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "TYPESYSTEM",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "TCA",
+        "tableName": "BILUTSTYR",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BILNAVN",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "Z_BILER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "TCA",
+        "tableName": "BILUTSTYR",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "TCA",
+        "tableName": "BILUTSTYR",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "M2M",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "BRUKERID",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "AD_BRUKER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "TILGBRUKER",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [
+      "GMACOCO",
+      "LDVUTST",
+      "GMFFELL",
+      "GMAMEXT",
+      "LDASIGN",
+      "GMACNCT",
+      "GMASEMA",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:50"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "tableName": "VERKSTEDHODE",
+  "futureName": "VerkstedHode",
+  "namespace": "Legacy",
+  "columns": [
+    {
+      "name": "ORDRNR",
+      "futureName": "OrderNumber",
+      "description": "Unique order identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "AVDNRKORREKTIVTILADENR",
+      "futureName": "CorrectiveActionAvdNr",
+      "description": "Associated corrective action department number",
+      "foreignKey": {
+        "table": "DBM.AVD",
+        "column": "AVDNR"
+      }
+    },
+    {
+      "name": "LVRSTDNRKORREKTIVTILADENR",
+      "futureName": "CorrectiveActionLocationAvdNr",
+      "description": "Associated corrective action location department number",
+      "foreignKey": {
+        "table": "DBM.AVD",
+        "column": "AVDNR"
+      }
+    },
+    {
+      "name": "LVRSTDNRKORREKTIVTILADELAGE",
+      "futureName": "CorrectiveActionLocationCode",
+      "description": "Associated corrective action location code",
+      "foreignKey": null
+    },
+    {
+      "name": "FKNR",
+      "futureName": "FacilityNumber",
+      "description": "Facility number or identifier",
+      "foreignKey": {
+        "table": "DBM.FAKTORDREHODE",
+        "column": "FKNR"
+      }
+    },
+    {
+      "name": "AVDNRKORREKTIVTILADELAGE",
+      "futureName": "CorrectiveActionLocationAvdNr",
+      "description": "Associated corrective action location department number (repeated)",
+      "foreignKey": null
+    },
+    {
+      "name": "KODRINNSYNKONTRAKSJON",
+      "futureName": "InspectionContractCode",
+      "description": "Code related to inspection contract",
+      "foreignKey": null
+    },
+    {
+      "name": "LVRSTDNRKORREKTIVTILADENR",
+      "futureName": "CorrectiveActionLocationStorageAreaAvdNr",
+      "description": "Associated corrective action location storage area department number",
+      "foreignKey": {
+        "table": "DBM.AVD",
+        "column": "AVDNR"
+      }
+    },
+    {
+      "name": "LVRSTDNRKORREKTIVTILADELAGENR",
+      "futureName": "CorrectiveActionLocationStorageAreaCode",
+      "description": "Associated corrective action location storage area code",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTRAKSJONSKODE",
+      "futureName": "ContractCode",
+      "description": "Code related to contract",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T03:26:47"
+}

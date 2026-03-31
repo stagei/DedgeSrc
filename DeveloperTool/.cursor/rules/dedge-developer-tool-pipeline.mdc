@@ -1,0 +1,68 @@
+---
+description: >-
+  Dedge DeveloperTool conversion, rebranding, business documentation, and C# screenshot pipeline.
+  Use when editing convertapps.json, all-projects.json, Convert-AppsToDedge.ps1, Capture-CSharpAppScreenshots.ps1,
+  or anything under _BusinessDocs under C:/opt/src/DedgeSrc/DeveloperTool.
+globs:
+  - "**/DeveloperTool/convertapps.json"
+  - "**/DeveloperTool/all-projects.json"
+  - "**/DeveloperTool/Convert-AppsToDedge.ps1"
+  - "**/DeveloperTool/Capture-CSharpAppScreenshots.ps1"
+  - "**/DeveloperTool/_BusinessDocs/**"
+  - "**/DeveloperTool/PIPELINE-CONTINUATION-STATE.md"
+  - "**/DeveloperTool/Dedge-Conversion-And-Documentation-Pipeline.md"
+alwaysApply: false
+---
+
+# Dedge DeveloperTool — pipeline rule
+
+**Root folder:** `C:\opt\src\DedgeSrc\DeveloperTool`  
+**Principle:** Original sources under `C:\opt\src\` stay read-only for this workflow; all rebranded trees and portfolio docs are produced **here**.
+
+## Authoritative docs (read these for full detail)
+
+| Document | Purpose |
+|----------|---------|
+| `Dedge-Conversion-And-Documentation-Pipeline.md` | Mermaid-heavy end-to-end explanation |
+| `PIPELINE-CONTINUATION-STATE.md` | Resume checkpoint, open issues, quick commands |
+| `_BusinessDocs/screenshots/CSharp-README.md` | C#-only screenshot scope and script usage |
+
+**Cursor user skill (orchestration):** `%USERPROFILE%\.cursor\skills\dedge-product-docs\SKILL.md` (trigger phrase: `/dedgedocs`).
+
+## Configuration files
+
+- **`convertapps.json`** — Array `projects[]`: `name`, `currentPath` (source), `copyToPath` (under DeveloperTool). **Only** this file drives `Convert-AppsToDedge.ps1`.
+- **`all-projects.json`** — Catalog for documentation: `totalProjects`, `projects[]` with `name`, `category`, `path`, `stack`, `description`. Keep in sync when adding products (counts and narrative).
+
+## Phase 1 — Copy and rebrand (executable)
+
+```text
+pwsh.exe -NoProfile -File .\Convert-AppsToDedge.ps1
+# Optional: -DryRun
+```
+
+Per project entry:
+
+1. Delete previous `copyToPath`, then **robocopy** from `currentPath` (excludes `.git`, `bin`, `obj`, `node_modules`, etc.).
+2. **Text transforms** on non-binary files (≤10 MB): `UncRules` (UNC → `DedgeSystemTools\Folders\...`), then `ContentRules` (regex: Fk/FK/Felleskjøpet → Dedge, emails, URLs, asset names).
+3. **Rename** files and directories (`RenameRules`, deepest dirs first).
+4. **Binary icon:** copy `DbExplorer\Resources\dEdge.ico` over every `dedge.ico` in the tree.
+
+Logs: `Convert-AppsToDedge_yyyyMMdd_HHmmss.log` next to the script.
+
+## Phase 2–5 — Documentation (agent / manual)
+
+1. **Competitors** — `_BusinessDocs/competitors/{Product}-competitors.md` + `.json` (often skip if file exists).
+2. **Per-product business MD** — `_BusinessDocs/{Product}.md` (plain English, Mermaid; skip if exists).
+3. **Master portfolio** — `Dedge-Business-Portfolio.md`.
+4. **Screenshots** — `_BusinessDocs/screenshots/` (subfolders per product); C# web apps: `Capture-CSharpAppScreenshots.ps1` (excludes PowerShell suites). See continuation state for known Edge/screenshot issues.
+
+## DedgePsh layout (after convert)
+
+- `DedgePsh\` — CodingTools copy at root + `_Modules\` + `DevTools\{AdminTools, AI, AzureTools, …}\` via separate `convertapps.json` entries.
+
+## Agent constraints
+
+- Do **not** edit `currentPath` sources to apply Dedge branding; run the conversion script so `copyToPath` receives changes.
+- Prefer **pwsh.exe** (PowerShell 7+) for all script invocations.
+- When adding a product: update **both** JSON files, run convert, then add/refresh docs.

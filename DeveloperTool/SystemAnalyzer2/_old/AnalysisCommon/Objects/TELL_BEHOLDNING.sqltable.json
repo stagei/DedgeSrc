@@ -1,0 +1,177 @@
+{
+  "tableName": "TELL_BEHOLDNING",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T23:12:24",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T23:12:24",
+    "fetchMethod": "mcp-http",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "AVDNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "TELLENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "FKNR",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "LAGERSTED",
+        "typeName": "DECIMAL",
+        "length": 7,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "LEVNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "LEVVARENR",
+        "typeName": "CHARACTER",
+        "length": 15,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "PLASSNR",
+        "typeName": "CHARACTER",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "KURANSGRAD_AVD",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "BEHOLDNING",
+        "typeName": "DECIMAL",
+        "length": 13,
+        "scale": 3,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "BEHOLDNING_TELLET",
+        "typeName": "DECIMAL",
+        "length": 13,
+        "scale": 3,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "AVVIK",
+        "typeName": "DECIMAL",
+        "length": 13,
+        "scale": 3,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "ARSAK",
+        "typeName": "CHARACTER",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 12,
+        "name": "KOMMENTAR",
+        "typeName": "VARCHAR",
+        "length": 100,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "BRUKER",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "SIGNATUR",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "TELL_HODE",
+        "childColumn": "AVDNR",
+        "parentTable": "TELL_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "AVDNR"
+      },
+      {
+        "constraintName": "TELL_HODE",
+        "childColumn": "TELLENR",
+        "parentTable": "TELL_HODE",
+        "parentSchema": "DBM",
+        "parentColumn": "TELLENR"
+      }
+    ]
+  }
+}

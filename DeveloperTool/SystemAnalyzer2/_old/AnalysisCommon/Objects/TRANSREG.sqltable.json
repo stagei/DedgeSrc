@@ -1,0 +1,167 @@
+{
+  "tableName": "TRANSREG",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:22:11",
+  "db2Metadata": {
+    "schemas": [
+      "INL"
+    ],
+    "type": "T",
+    "tableRemarks": "",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:22:11",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "FIRMA",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "KUNDEKONTO",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "KONTOTYPE",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "TRANSTYPE",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "BILAGNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "BILAGDATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "RENTEDATO",
+        "typeName": "DECIMAL",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "BELOP",
+        "typeName": "DECIMAL",
+        "length": 13,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "MERKNAD",
+        "typeName": "VARCHAR",
+        "length": 256,
+        "scale": 0,
+        "nullable": true,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      }
+    ],
+    "explicitForeignKeys": [
+      {
+        "constraintName": "TRANSREG_FIR",
+        "childColumn": "FIRMA",
+        "parentTable": "FIRMA",
+        "parentSchema": "INL",
+        "parentColumn": "FIRMA"
+      },
+      {
+        "constraintName": "TRANSREG_KTO",
+        "childColumn": "FIRMA",
+        "parentTable": "KUNDEKONTO",
+        "parentSchema": "INL",
+        "parentColumn": "FIRMA"
+      },
+      {
+        "constraintName": "TRANSREG_KTO",
+        "childColumn": "KUNDEKONTO",
+        "parentTable": "KUNDEKONTO",
+        "parentSchema": "INL",
+        "parentColumn": "KUNDEKONTO"
+      },
+      {
+        "constraintName": "TRANSREG_TT",
+        "childColumn": "FIRMA",
+        "parentTable": "TRANSTYPE",
+        "parentSchema": "INL",
+        "parentColumn": "FIRMA"
+      },
+      {
+        "constraintName": "TRANSREG_TT",
+        "childColumn": "TRANSTYPE",
+        "parentTable": "TRANSTYPE",
+        "parentSchema": "INL",
+        "parentColumn": "TRANSTYPE"
+      },
+      {
+        "constraintName": "KONTO_KTO_TYPE",
+        "childColumn": "FIRMA",
+        "parentTable": "KONTOTYPE",
+        "parentSchema": "INL",
+        "parentColumn": "FIRMA"
+      },
+      {
+        "constraintName": "KONTO_KTO_TYPE",
+        "childColumn": "KONTOTYPE",
+        "parentTable": "KONTOTYPE",
+        "parentSchema": "INL",
+        "parentColumn": "KONTOTYPE"
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "tableName": "SIGN_KTO_FORR",
+  "futureName": "OrderHeader",
+  "namespace": "Orders",
+  "columns": [
+    {
+      "name": "SIGNATUR",
+      "futureName": "Signature",
+      "description": "The unique signature identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "KONTO_FRA",
+      "futureName": "FromAccount",
+      "description": "The account number of the sender",
+      "foreignKey": "SIGN_KTO_VHGR"
+    },
+    {
+      "name": "KONTO_TIL",
+      "futureName": "ToAccount",
+      "description": "The account number of the recipient",
+      "foreignKey": "SIGN_KTO_VHGR"
+    },
+    {
+      "name": "AVDNR",
+      "futureName": "DepartmentNumber",
+      "description": "The department number associated with the order",
+      "foreignKey": null
+    },
+    {
+      "name": "FORRETNINGSOMR",
+      "futureName": "BusinessArea",
+      "description": "The business area or division of the order",
+      "foreignKey": "H_VERKSTEDHODE"
+    },
+    {
+      "name": "TIDSPUNKT",
+      "futureName": "Timestamp",
+      "description": "The timestamp when the signature was recorded",
+      "foreignKey": null
+    },
+    {
+      "name": "BRUKER",
+      "futureName": "User",
+      "description": "The user who performed the action",
+      "foreignKey": "A_BESTHODE"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T02:43:53"
+}

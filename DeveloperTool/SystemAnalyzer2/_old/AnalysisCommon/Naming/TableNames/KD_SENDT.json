@@ -1,0 +1,34 @@
+{
+  "tableName": "KD_SENDT",
+  "futureName": "SendDocumentHeader",
+  "namespace": "Documents",
+  "columns": [
+    {
+      "name": "kontraktRecno",
+      "futureName": "ContractRecordNumber",
+      "description": "Unique record number of the contract",
+      "foreignKey": "H_ORDREHODE, KD_BESTILLING, KD_DELPARTI, KD_FORGROEDE, KD_KASSE, KD_KONT_LIN_LOGG, KD_KONT_ORDRE, KD_KONTRAKT_LIN, KD_KONTRAKT_LIN"
+    },
+    {
+      "name": "utsendelsesType",
+      "futureName": "SendingType",
+      "description": "Type of sending",
+      "foreignKey": null
+    },
+    {
+      "name": "tidspunkt",
+      "futureName": "Timestamp",
+      "description": "Time and date when the document was sent",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_FRAKT_OLINJER, A_KORRIGERINGER, A_ORDREHODE_EC, A_ORDREHODE_ENDR"
+    },
+    {
+      "name": "bruker",
+      "futureName": "User",
+      "description": "Username or identifier of the user who initiated the sending",
+      "foreignKey": "A_BESTHODE, A_BESTHODE, A_BESTHODE, A_BESTLIN, A_BESTLIN, A_KORRIGERINGER, A_VIHODE, A_VILIN, ADR_ID"
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T01:24:21"
+}

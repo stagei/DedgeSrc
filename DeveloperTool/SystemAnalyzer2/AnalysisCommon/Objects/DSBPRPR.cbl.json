@@ -1,0 +1,126 @@
+{
+  "program": "DSBPRPR",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:20:39",
+  "extraction": {
+    "sourceHash": "sha256:7f64b9913f47940c707e07d1d8a1c15e43b393c57f5068fd53065998a2598553",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\DSBPRPR.CBL",
+    "actualName": "DSBPRPR",
+    "program": "DSBPRPR",
+    "copyElements": [
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DRE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PTR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PSE.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "PSR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "SLG.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "GMAPRTR.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GMAOSNT.CPY",
+        "type": "copybook"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "DBM",
+        "tableName": "DBPROV_TRANS",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DBPROV_SELGER",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SELGER_AVT_TYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DBPROV_STRUKT",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "DBPROV_TRANS",
+        "operation": "INSERT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "AVTALETYPE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "SELGERE",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "(UNQUALIFIED)",
+        "tableName": "SELGER_TEAM",
+        "operation": "SELECT"
+      }
+    ],
+    "callTargets": [],
+    "fileIO": [
+      {
+        "logicalName": "PARAM",
+        "physicalName": "PARFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "READ"
+        ]
+      },
+      {
+        "logicalName": "LOGGFILE",
+        "physicalName": "LOGGFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      },
+      {
+        "logicalName": "RCFILE",
+        "physicalName": "RCFIL",
+        "path": "N:\\COBNT",
+        "fullPath": null,
+        "assignType": "variable",
+        "operations": [
+          "WRITE"
+        ]
+      }
+    ],
+    "extractedAt": "2026-03-27T22:20:39"
+  }
+}

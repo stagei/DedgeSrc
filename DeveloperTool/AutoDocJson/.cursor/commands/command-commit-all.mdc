@@ -1,0 +1,67 @@
+﻿---
+description: When user says /commitAll, dynamically discover and git add, commit, push all DedgeAuth-related projects
+alwaysApply: true
+---
+
+# Command /commitAll
+
+When the user requests **`/commitAll`** (or "command /commitAll", "commit all", "commit all projects"), **dynamically discover** all DedgeAuth-related repositories and run git add, commit, and push in each one.
+
+## Step 1: Discover Repositories
+
+Search `C:\opt\src` for `DedgeAuth*.dll` files to find all projects that reference DedgeAuth. Resolve each to its git repo root:
+
+```powershell
+$repos = Get-ChildItem -Path 'C:\opt\src' -Recurse -Filter 'DedgeAuth*.dll' -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.FullName -notmatch '\\(\.git|node_modules)\\' } |
+    ForEach-Object {
+        $dir = $_.DirectoryName
+        while ($dir -and -not (Test-Path (Join-Path $dir '.git') -PathType Container)) {
+            $dir = Split-Path $dir -Parent
+        }
+        $dir
+    } |
+    Where-Object { $_ } |
+    Sort-Object -Unique
+
+# Always include DedgePsh (infrastructure scripts, no DedgeAuth DLLs but part of ecosystem)
+$DedgePsh = 'C:\opt\src\DedgePsh'
+if ((Test-Path $DedgePsh) -and $repos -notcontains $DedgePsh) {
+    $repos += $DedgePsh
+}
+```
+
+This ensures new consumer apps are automatically included when they reference `DedgeAuth.Client`.
+
+## Step 2: Process Each Repo
+
+For each discovered repo (alphabetical order):
+
+1. **Change directory** – `Set-Location <repo root>`.
+2. **Check for changes** – `git status`. If working tree is clean, skip this repo.
+3. **Stage** – `git add -A`.
+4. **Generate commit message** – From that repo's changes (`git diff --staged --stat`). The message must describe **what changed in this project only**.
+5. **Commit** – `git commit -m "message"`. Do **not** add Co-authored-by, Cursor attribution, or any trailer.
+6. **Push** – `git push`. Do NOT proceed to the next repo until the push succeeds.
+7. **Verify** – `git status` must show `Your branch is up to date with 'origin/...'`.
+
+Repeat for each repo. If any step fails (e.g. push rejected), resolve before proceeding or report and stop.
+
+## Rules
+
+- `/commitAll` **always means**: add + commit + push for **every** repo with changes. All three steps are mandatory per repo.
+- **One commit per repo** – Each repository gets its own commit with a relevant message.
+- **Do not** use the same generic message for all repos.
+- **Skip** repos with no changes.
+- **NEVER skip the push step.** Every commit MUST be followed by `git push`.
+- Process repos alphabetically for predictable ordering.
+
+## Example (per repo)
+
+```powershell
+Set-Location C:\opt\src\DedgeAuth
+git add -A
+git commit -m "Descriptive message for this repo's changes"
+git push
+git status   # Verify: "Your branch is up to date"
+```

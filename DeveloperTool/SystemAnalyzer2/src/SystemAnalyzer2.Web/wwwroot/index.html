@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SystemAnalyzer</title>
+  <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+  <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+  <style id="DedgeAuth-tenant-css"></style>
+  <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+  <link rel="stylesheet" href="css/app.css" />
+  <script>
+    function getPreferredTheme(){var s=localStorage.getItem('sa-theme');if(s)return s;return window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}
+    function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('sa-theme',t)}
+    setTheme(getPreferredTheme());
+  </script>
+</head>
+<body>
+  <header>
+    <h1>SystemAnalyzer</h1>
+    <label for="aliasSelect">Analysis</label>
+    <select id="aliasSelect"></select>
+    <a id="viewerLink" href="viewer.html">Viewer</a>
+    <a id="graphLink" href="graph.html">Graph</a>
+    <a id="presentLink" href="present.html">Present</a>
+    <div style="flex:1"></div>
+    <div id="DedgeAuthUserMenu"></div>
+  </header>
+  <main>
+    <div class="card">
+      <h3>Welcome</h3>
+      <p>Use the analysis selector to open the latest alias output from <code>C:\opt\src\DedgeSrc\DedgeSystemTools\Folders\Opt\data\SystemAnalyzer</code>.</p>
+    </div>
+    <div class="card">
+      <h3>Start New Analysis (Admin)</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="newAlias" placeholder="Alias (e.g. KD_Korn)" />
+        <input id="allJsonPath" placeholder="Server path to all.json" style="min-width:300px" />
+        <span class="or-divider">or</span>
+        <label class="file-picker">
+          <input type="file" id="allJsonFile" accept=".json" />
+          <span id="fileLabel">Choose file...</span>
+        </label>
+        <button id="startBtn">Start</button>
+      </div>
+      <details class="options-toggle">
+        <summary>Options</summary>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:8px">
+          <label style="font-size:13px;display:flex;align-items:center;gap:4px">
+            <input type="checkbox" id="skipRagPhases" /> Skip RAG phases (5,6)
+          </label>
+          <label style="font-size:13px;display:flex;align-items:center;gap:4px">
+            <input type="checkbox" id="skipClassification" /> Skip classification
+          </label>
+        </div>
+      </details>
+      <pre id="jobResult" style="margin-top:10px"></pre>
+    </div>
+  </main>
+  <script src="api/DedgeAuth/ui/user.js"></script>
+  <script type="module" src="js/index.js"></script>
+</body>
+</html>

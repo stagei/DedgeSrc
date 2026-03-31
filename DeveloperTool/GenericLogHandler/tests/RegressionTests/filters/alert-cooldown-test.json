@@ -1,0 +1,9 @@
+{
+  "Name": "Regression: COOLDOWN_TEST Alert",
+  "Description": "Tests cooldown enforcement. Threshold=1 triggers immediately on first cycle. CooldownMinutes=9999 means second evaluation cycle must skip it. Verify only 1 alert_history row.",
+  "FilterJson": "{\"AlertId\":\"DB_CONN_LOST\",\"Levels\":[\"ERROR\",\"FATAL\"]}",
+  "IsAlertEnabled": true,
+  "AlertConfig": "{\"Type\":\"webhook\",\"Endpoint\":\"http://localhost:8110/api/Logs/ingest\",\"Method\":\"POST\",\"ThresholdCount\":1,\"TimeWindowMinutes\":99999,\"CooldownMinutes\":9999,\"IsActive\":true,\"IncludeEntries\":true,\"MaxEntriesToInclude\":10}",
+  "IsShared": true,
+  "Category": "regression-test"
+}

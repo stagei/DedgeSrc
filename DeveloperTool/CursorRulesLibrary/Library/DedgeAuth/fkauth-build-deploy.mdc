@@ -1,0 +1,88 @@
+﻿---
+description: Build, publish, and IIS deploy patterns for DedgeAuth and consumer apps
+alwaysApply: true
+---
+
+# DedgeAuth Build and Deploy
+
+## App Inventory
+
+| App | Source Path | DotNetDll | ApiPort | IIS Path |
+|-----|------------|-----------|---------|----------|
+| **DedgeAuth** (server) | `C:\opt\src\DedgeAuth` | `DedgeAuth.Api.dll` | 8100 | `/DedgeAuth` |
+| **DocView** | `C:\opt\src\DocView` | `DocView.dll` | 8282 | `/DocView` |
+| **GenericLogHandler** | `C:\opt\src\GenericLogHandler` | `GenericLogHandler.WebApi.dll` | 8110 | `/GenericLogHandler` |
+| **ServerMonitorDashboard** | `C:\opt\src\ServerMonitor` | `ServerMonitorDashboard.dll` | 8998 | `/ServerMonitorDashboard` |
+| **AutoDocJson** | `C:\opt\src\AutoDocJson` | `AutoDocJson.Web.dll` | 5280 | `/AutoDocJson` |
+| **GrainPriceListWeb** | `C:\opt\src\GrainPriceList` | `GrainPriceListWeb.dll` | 5123 | `/GrainPriceListWeb` |
+
+All apps reference `DedgeAuth.Client` and run as IIS virtual applications under `Default Web Site` on port 80.
+
+## Publish: Single App
+
+From the app's project root:
+```powershell
+.\Build-And-Publish.ps1
+```
+
+## Publish: All Apps at Once
+
+From the DedgeAuth project root:
+```powershell
+.\Build-And-Publish-ALL.ps1             # Build DedgeAuth first, then all consumer apps
+.\Build-And-Publish-ALL.ps1 -DryRun     # Show what would be built without building
+.\Build-And-Publish-ALL.ps1 -SkipDedgeAuth # Only rebuild consumer apps
+```
+
+## IIS Deploy: Single App
+
+After publishing, deploy to IIS:
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-DeployApp.ps1" -SiteName <AppName>
+```
+
+## IIS Deploy: All Apps
+
+```powershell
+pwsh.exe -NoProfile -File "C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\IIS-RedeployAll.ps1"
+```
+
+## /publish Command (per-app)
+
+When the user requests `/publish`, perform these two steps:
+1. `.\Build-And-Publish.ps1` (from the current project root)
+2. `IIS-DeployApp.ps1 -SiteName <ThisAppName>`
+
+Do NOT run `Build-And-Publish-ALL.ps1` or `IIS-RedeployAll.ps1` unless explicitly asked.
+
+## Publish Profiles (.pubxml)
+
+- `WebApp-FileSystem.pubxml` -- ASP.NET Core web apps (IIS-hosted)
+- `WinApp-FileSystem.pubxml` -- background services / console apps
+- Always set BOTH `PublishUrl` and `PublishDir` to the same UNC staging path
+- Do NOT create or suggest Web Deploy (MSDeploy) profiles
+
+## Deploy Templates
+
+Location: `C:\opt\src\DedgePsh\DevTools\WebSites\IIS-DeployApp\templates\`
+Naming: `<SiteName>_<InstallSource>.deploy.json`
+
+Deploy steps: Teardown existing -> Install files -> Create app pool -> Create virtual app -> Generate web.config -> Set permissions -> Start -> Health check
+
+## Auto-Deploy After Major Changes
+
+After a **major change** (DedgeAuth.Client, middleware, multiple consumer apps):
+
+1. `.\Build-And-Publish-ALL.ps1`
+2. `IIS-RedeployAll.ps1`
+3. Verify all apps via health checks
+
+## Impact Rules
+
+| Change | Action |
+|--------|--------|
+| DedgeAuth.Client | Rebuild ALL consumer apps (`Build-And-Publish-ALL.ps1`) |
+| DedgeAuth wwwroot CSS/JS | Rebuild DedgeAuth only; consumers fetch via proxy |
+| Tenant branding | Update `tenants` table; no rebuild |
+| Deploy templates | Run `IIS-DeployApp\_deploy.ps1` to sync to servers |
+| Single consumer app | Rebuild that app, then `IIS-DeployApp.ps1 -SiteName <Name>` |

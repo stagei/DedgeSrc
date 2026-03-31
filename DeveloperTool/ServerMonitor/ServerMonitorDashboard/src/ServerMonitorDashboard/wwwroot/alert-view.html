@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle.alertView">Alert Details - ServerMonitor</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 0. Local Dedge fallback CSS (works when DedgeAuth server is offline) -->
+    <link rel="stylesheet" href="css/DedgeAuth-fallback.css">
+        <!-- 1. Local App CSS (loaded first) -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- 2. DedgeAuth Common CSS (enforces consistent theming) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/common.css">
+    
+    <!-- 3. Tenant-specific CSS (injected via API) -->
+    <style id="DedgeAuth-tenant-css"></style>
+    
+    <!-- 4. User menu component (loaded last) -->
+    <link rel="stylesheet" href="api/DedgeAuth/ui/user.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .alert-view-header {
+            background: linear-gradient(to right, #008942 0%, #008942 35%, #ffffff 50%, #008942 65%, #008942 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .alert-view-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .header-logo {
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .alert-view-container {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--bg-primary);
+        }
+        
+        .alert-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .alert-card-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .alert-card-header.critical {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+            border-left: 4px solid #ef4444;
+        }
+        
+        .alert-card-header.warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .alert-card-header.info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .severity-icon {
+            font-size: 2.5rem;
+        }
+        
+        .alert-header-content {
+            flex: 1;
+        }
+        
+        .alert-header-content h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+        
+        .alert-header-content .server-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .alert-card-body {
+            padding: 2rem;
+        }
+        
+        .alert-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .alert-section h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .alert-message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .alert-details {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .metadata-item {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .metadata-key {
+            color: var(--text-muted);
+            font-weight: 500;
+            min-width: 120px;
+        }
+        
+        .metadata-value {
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+        }
+        
+        .alert-timestamp {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .alert-timestamp .time-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-primary);
+        }
+        
+        .loading-state, .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: #008942;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #006d35;
+        }
+        
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Raw block styling */
+        .raw-block {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="alert-view-header">
+        <div id="DedgeAuthHeader" data-app-title="ServerMonitor Dashboard" data-home-url="index.html"></div>
+        <h1><span>🚨</span> <span data-i18n="alertView.title">Alert Details</span></h1>
+        <div class="header-actions">
+            <button class="btn btn-outline" onclick="copyToClipboard()"><span>📋</span> <span data-i18n="button.copy">Copy</span></button>
+            <a class="btn btn-primary" id="dashboardLink" href="index.html"><span>📊</span> <span data-i18n="alertView.openDashboard">Open Dashboard</span></a>
+        </div>
+        <!-- DedgeAuth User Menu -->
+        <div id="DedgeAuthUserMenu"></div>
+            <div id="DedgeAuthThemePill"></div>
+    </header>
+    
+    <div class="alert-view-container">
+        <div class="alert-card" id="alertCard">
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p data-i18n="message.loadingDetails">Loading alert details...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="api/DedgeAuth/ui/user.js"></script>
+    <script src="api/DedgeAuth/ui/i18n.js"></script>
+    <script>
+        // Initialize theme
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const serverName = urlParams.get('server');
+        const alertId = urlParams.get('alertId');
+        
+        let currentAlert = null;
+        
+        // Update dashboard link
+        if (serverName) {
+            document.getElementById('dashboardLink').href = `index.html?server=${encodeURIComponent(serverName)}`;
+        }
+        
+        async function loadAlert() {
+            const card = document.getElementById('alertCard');
+            
+            if (!serverName) {
+                showError('No server specified');
+                return;
+            }
+            
+            try {
+                // Fetch snapshot from server
+                const response = await fetch(`api/snapshot/${encodeURIComponent(serverName)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load snapshot: ${response.status}`);
+                }
+                
+                const snapshot = await response.json();
+                const alerts = snapshot.alerts || [];
+                
+                if (alerts.length === 0) {
+                    showError('No alerts found on this server');
+                    return;
+                }
+                
+                // Find the specific alert or show the most recent one
+                let alert;
+                if (alertId) {
+                    alert = alerts.find(a => a.id === alertId);
+                    if (!alert) {
+                        // Alert not found by ID, show most recent
+                        alert = alerts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                        console.log(`Alert ${alertId} not found, showing most recent alert`);
+                    }
+                } else {
+                    // No alertId, show most recent alert
+                    alert = alerts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+                }
+                
+                currentAlert = alert;
+                renderAlert(alert, serverName);
+                
+            } catch (error) {
+                console.error('Error loading alert:', error);
+                showError(error.message);
+            }
+        }
+        
+        function renderAlert(alert, server) {
+            const card = document.getElementById('alertCard');
+            const severity = (alert.severity || 'info').toString().toLowerCase();
+            const sevClass = severity === 'critical' || severity === '2' ? 'critical' :
+                            severity === 'warning' || severity === '1' ? 'warning' : 'info';
+            
+            const sevDisplay = severity === '2' ? 'Critical' :
+                              severity === '1' ? 'Warning' :
+                              severity === '0' ? 'Informational' :
+                              severity.charAt(0).toUpperCase() + severity.slice(1);
+            
+            const sevIcon = sevClass === 'critical' ? '🔴' :
+                           sevClass === 'warning' ? '🟠' : '🔵';
+            
+            const timestamp = new Date(alert.timestamp);
+            const timeAgo = getTimeAgo(timestamp);
+            
+            let metadataHtml = '';
+            if (alert.metadata && Object.keys(alert.metadata).length > 0) {
+                const items = Object.entries(alert.metadata)
+                    .filter(([key]) => !key.startsWith('_') && key !== 'Db2RawBlock')
+                    .map(([key, value]) => `
+                        <div class="metadata-item">
+                            <span class="metadata-key">${escapeHtml(key)}:</span>
+                            <span class="metadata-value">${escapeHtml(String(value || ''))}</span>
+                        </div>
+                    `).join('');
+                
+                if (items) {
+                    metadataHtml = `
+                        <div class="alert-section">
+                            <h3>Metadata</h3>
+                            <div class="metadata-grid">${items}</div>
+                        </div>
+                    `;
+                }
+                
+                // Raw block for DB2 entries
+                if (alert.metadata.Db2RawBlock) {
+                    metadataHtml += `
+                        <div class="alert-section">
+                            <h3>Raw DB2 Entry</h3>
+                            <div class="alert-details raw-block">${escapeHtml(alert.metadata.Db2RawBlock)}</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            card.innerHTML = `
+                <div class="alert-card-header ${sevClass}">
+                    <span class="severity-icon">${sevIcon}</span>
+                    <div class="alert-header-content">
+                        <h2>${escapeHtml(alert.category || 'Alert')}</h2>
+                        <div class="server-info">
+                            <strong>${escapeHtml(server)}</strong> • ${sevDisplay}
+                            ${alert.id ? ` • ID: ${escapeHtml(alert.id.substring(0, 8))}...` : ''}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-body">
+                    <div class="alert-section">
+                        <h3>Message</h3>
+                        <div class="alert-message">${escapeHtml(alert.message || 'No message')}</div>
+                    </div>
+                    
+                    ${alert.details ? `
+                    <div class="alert-section">
+                        <h3>Details</h3>
+                        <div class="alert-details">${escapeHtml(alert.details)}</div>
+                    </div>
+                    ` : ''}
+                    
+                    ${metadataHtml}
+                </div>
+                
+                <div class="alert-timestamp">
+                    <span>🕐 <span class="time-value">${timestamp.toLocaleString()}</span></span>
+                    <span>(${timeAgo})</span>
+                    ${alert.id ? `<span style="margin-left: auto;">ID: <span class="time-value">${escapeHtml(alert.id)}</span></span>` : ''}
+                </div>
+            `;
+        }
+        
+        function showError(message) {
+            const card = document.getElementById('alertCard');
+            card.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">❌</div>
+                    <p>${escapeHtml(message)}</p>
+                    <a class="btn btn-primary" href=".">Go to Dashboard</a>
+                </div>
+            `;
+        }
+        
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'just now';
+            if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
+            if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+            return `${Math.floor(seconds / 86400)} days ago`;
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+        
+        function copyToClipboard() {
+            if (!currentAlert) return;
+            
+            const text = `# Alert: ${currentAlert.message || 'No message'}
+
+**Server:** ${serverName}
+**Severity:** ${currentAlert.severity}
+**Category:** ${currentAlert.category || '-'}
+**Time:** ${new Date(currentAlert.timestamp).toLocaleString()}
+${currentAlert.id ? `**Alert ID:** ${currentAlert.id}` : ''}
+
+## Details
+${currentAlert.details || 'No details'}
+
+## Metadata
+${currentAlert.metadata ? Object.entries(currentAlert.metadata)
+    .filter(([key]) => !key.startsWith('_'))
+    .map(([key, value]) => `- **${key}:** ${value}`)
+    .join('\n') : 'No metadata'}
+`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show brief feedback
+                const btn = document.querySelector('.btn-outline');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                setTimeout(() => btn.innerHTML = originalText, 2000);
+            });
+        }
+        
+        // Load alert on page load
+        loadAlert();
+    </script>
+    <script src="api/DedgeAuth/ui/header.js" defer></script>
+</body>
+</html>

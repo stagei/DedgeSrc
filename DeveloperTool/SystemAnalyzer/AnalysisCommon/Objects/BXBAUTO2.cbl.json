@@ -1,0 +1,81 @@
+{
+  "program": "BXBAUTO2",
+  "elementType": "cbl",
+  "lastUpdated": "2026-03-27T22:51:37",
+  "extraction": {
+    "sourceHash": "sha256:e574908c4d6fbf61b0893dd83b71a2ac5efc5b61477b337f1def2a53b1c0685a",
+    "sourceType": "local-cbl",
+    "sourcePath": "C:\\opt\\data\\VisualCobol\\Sources\\cbl\\BXBAUTO2.CBL",
+    "actualName": "BXBAUTO2",
+    "program": "BXBAUTO2",
+    "copyElements": [
+      {
+        "name": "CURT.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "B912.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "GLAOINN.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "BIAAUTO.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "DEFCPY.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "REQFELL.CPY",
+        "type": "copybook"
+      },
+      {
+        "name": "VAR.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "VAVA.DCL",
+        "type": "sql-declare"
+      },
+      {
+        "name": "BEHA.DCL",
+        "type": "sql-declare"
+      }
+    ],
+    "sqlOperations": [
+      {
+        "schema": "B",
+        "tableName": "FKNR_TIL",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "H_FLYTT_BEHOLD",
+        "operation": "SELECT"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "A_BESTHODE",
+        "operation": "UPDATE"
+      },
+      {
+        "schema": "DBM",
+        "tableName": "EDI_BESTHODE",
+        "operation": "INSERT"
+      }
+    ],
+    "callTargets": [
+      "GMACURT",
+      "BIAAUTO",
+      "GLAOINN",
+      "D01B912",
+      "GMFTRAP"
+    ],
+    "fileIO": [],
+    "extractedAt": "2026-03-27T22:51:37"
+  }
+}

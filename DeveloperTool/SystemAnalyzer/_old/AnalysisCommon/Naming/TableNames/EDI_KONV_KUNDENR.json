@@ -1,0 +1,58 @@
+{
+  "tableName": "EDI_KONV_KUNDENR",
+  "futureName": "CustomerMapping",
+  "namespace": "DataMappings",
+  "columns": [
+    {
+      "name": "KundenrFra",
+      "futureName": "CustomerNumberFrom",
+      "description": "The customer number from the origin system",
+      "foreignKey": null
+    },
+    {
+      "name": "KundenrTil",
+      "futureName": "CustomerNumberTo",
+      "description": "The customer number in the target system",
+      "foreignKey": null
+    },
+    {
+      "name": "KundenrFka",
+      "futureName": "PreviousCustomerNumber",
+      "description": "The previous customer identifier",
+      "foreignKey": null
+    },
+    {
+      "name": "EmailAdr",
+      "futureName": "AlternateEmail",
+      "description": "An alternate email address for the customer",
+      "foreignKey": null
+    },
+    {
+      "name": "EdiFaktura",
+      "futureName": "InvoiceIndicator",
+      "description": "Indicates if this record relates to an invoice (EDI context)",
+      "foreignKey": null
+    },
+    {
+      "name": "KundenrLev",
+      "futureName": "BillingCustomerNumber",
+      "description": "The customer number for billing purposes",
+      "foreignKey": null
+    },
+    {
+      "name": "Tidspunkt",
+      "futureName": "Timestamp",
+      "description": "The timestamp of when this record was created or last modified",
+      "foreignKey": null
+    },
+    {
+      "name": "EdiBestilling",
+      "futureName": "OrderIndicator",
+      "description": "Indicates if this record relates to an order (EDI context)",
+      "foreignKey": null
+    }
+  ],
+  "model": "qwen2.5:7b",
+  "protocol": "Naming-TableNames",
+  "analyzedAt": "2026-03-28T00:16:00"
+}

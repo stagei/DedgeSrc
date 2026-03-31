@@ -1,0 +1,441 @@
+{
+  "tableName": "P_KORNHANDLER",
+  "elementType": "sqltable",
+  "lastUpdated": "2026-03-27T22:51:16",
+  "db2Metadata": {
+    "schemas": [
+      "DBM"
+    ],
+    "type": "T",
+    "tableRemarks": "Kornhandlere - Produsentavregn.",
+    "fetchedFrom": "BASISTST",
+    "fetchedAt": "2026-03-27T22:51:16",
+    "fetchMethod": "odbc",
+    "columns": [
+      {
+        "colNo": 0,
+        "name": "KORNHANDLER",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 1,
+        "name": "NAVN",
+        "typeName": "CHARACTER",
+        "length": 40,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 2,
+        "name": "ADRESSE",
+        "typeName": "CHARACTER",
+        "length": 40,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 3,
+        "name": "POSTNR",
+        "typeName": "DECIMAL",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 4,
+        "name": "AKTIV",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 5,
+        "name": "TELEFONNR",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 6,
+        "name": "FAKSNR",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 7,
+        "name": "ORGANISASJONSNR",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 8,
+        "name": "KONTONR",
+        "typeName": "DECIMAL",
+        "length": 11,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 9,
+        "name": "RENTE_DGR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 10,
+        "name": "RENTE_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 11,
+        "name": "GEBYR_BEL",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Gebyr ved direkte utbetaling"
+      },
+      {
+        "colNo": 12,
+        "name": "MIN_UTBET_BEL",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 13,
+        "name": "UTBFORSINK_DGR",
+        "typeName": "DECIMAL",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 14,
+        "name": "REM_TYPE",
+        "typeName": "CHARACTER",
+        "length": 3,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 15,
+        "name": "MORARENTE_DGR",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 16,
+        "name": "MORARENTE_SATS",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 17,
+        "name": "BILAGSART",
+        "typeName": "CHARACTER",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 18,
+        "name": "MAX_TT_PROS_SAVARE",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Maksimalt tillegg/trekk i % for SÅVARE-tillegg."
+      },
+      {
+        "colNo": 19,
+        "name": "K_RNTFT_SAVARE",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kredit rentefot (%) for SÅVARE. Beregnes på forsinket oppgjør etter 1/10."
+      },
+      {
+        "colNo": 20,
+        "name": "K_RNTFT_UTS_SAVARE",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Kredit rentefot (%) ved uts. oppgj. for SÅVARE. Beregnes på forsinket oppgjør fra 1/10 til oppgjørsdato."
+      },
+      {
+        "colNo": 21,
+        "name": "D_RNTFT_SAKORN",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Debet rentefot (%) for SÅKORN ved rente på forskudd."
+      },
+      {
+        "colNo": 22,
+        "name": "D_RNTFT_SAFRO",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": "Debet rentefot (%) for SÅFRØ ved rente på forskudd."
+      },
+      {
+        "colNo": 23,
+        "name": "N_OPPGJDATO_SAKO_V",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Normal oppgjørsdato for vårkorn (SÅKORN)."
+      },
+      {
+        "colNo": 24,
+        "name": "N_OPPGJDATO_FRO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Normal oppgjørsdato for frø (SÅVARE)."
+      },
+      {
+        "colNo": 25,
+        "name": "MAX_FREM_KJ_UTSAED",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Maksimalt antall fremmede kjerner i utsæd."
+      },
+      {
+        "colNo": 26,
+        "name": "MAX_FREM_KJ_SAKORN",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Maksimalt antall fremmede kjerner i såkorn."
+      },
+      {
+        "colNo": 27,
+        "name": "BRUKERID",
+        "typeName": "CHARACTER",
+        "length": 8,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 28,
+        "name": "TIDSPUNKT",
+        "typeName": "TIMESTAMP",
+        "length": 10,
+        "scale": 6,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 29,
+        "name": "KNR_PNR",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 30,
+        "name": "TELEFONNR_SAAKORN_1",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 31,
+        "name": "TELEFONNR_SAAKORN_2",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 32,
+        "name": "TELEFONNR_SAAFRO_1",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 33,
+        "name": "TELEFONNR_SAAFRO_2",
+        "typeName": "DECIMAL",
+        "length": 9,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 34,
+        "name": "OPPGJBREV_NR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 35,
+        "name": "TREKKOPPDRAG_NR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 36,
+        "name": "MINSTEFRAKT_VEKT",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 37,
+        "name": "PROSENT_FROAVLERLAG",
+        "typeName": "DECIMAL",
+        "length": 5,
+        "scale": 2,
+        "nullable": false,
+        "remarks": ""
+      },
+      {
+        "colNo": 38,
+        "name": "AVVIKENDE_PRISDATO",
+        "typeName": "DATE",
+        "length": 4,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Benyttes for behandlingskoder med AVVIKENDE_DATO_PRIS = J"
+      },
+      {
+        "colNo": 39,
+        "name": "SALG_ANNEN_KH",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kornhandlernr som umiddelbart kjøper alt salgskorn"
+      },
+      {
+        "colNo": 40,
+        "name": "SALG_ANNEN_KH_LEVNR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Levrandørnr hos Kornhandler som umiddelbart kjøper alt salgskorn"
+      },
+      {
+        "colNo": 41,
+        "name": "ANT_DAGER_UTBET",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Antall virkedager fra oppgjørsdato til utbetaling"
+      },
+      {
+        "colNo": 42,
+        "name": "AVDNR_PRIS_ANNEN_KH",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Avdnr. for les av basispris ved umiddelbart kjøp av salgskorn"
+      },
+      {
+        "colNo": 43,
+        "name": "VENTE_DAGER_AVREGNING",
+        "typeName": "DECIMAL",
+        "length": 2,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Minste antall dager mellom mottak og avregning, nytt ses. 2013"
+      },
+      {
+        "colNo": 44,
+        "name": "REDUSERT_TERMINTILLEGG",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Hvis det skal kunne beregnes redusert termintillegg, nytt ses. 2013"
+      },
+      {
+        "colNo": 45,
+        "name": "TIL_DATAFLYT",
+        "typeName": "CHARACTER",
+        "length": 1,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "J Hvis kornhandlers avregninger skal overføres Dataflyt for akt. produsenter/koder"
+      },
+      {
+        "colNo": 46,
+        "name": "SALG_ANNEN_KH_KUNDENR",
+        "typeName": "DECIMAL",
+        "length": 6,
+        "scale": 0,
+        "nullable": false,
+        "remarks": "Kundenr hos Kornhandler som umiddelbart kjøper alt salgskorn (For bruk i D365FO"
+      }
+    ],
+    "explicitForeignKeys": []
+  }
+}
