@@ -65,5 +65,12 @@ if (!DedgeAuthOpts.Enabled)
 app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapGet("/health", () => Results.Ok(new { ok = true }));
+app.MapGet("/api/version", () =>
+{
+    var asm = typeof(Program).Assembly;
+    var ver = asm.GetName().Version?.ToString() ?? "unknown";
+    var info = System.Reflection.CustomAttributeExtensions.GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>(asm)?.InformationalVersion ?? ver;
+    return Results.Ok(new { version = info, assembly = asm.GetName().Name, started = System.Diagnostics.Process.GetCurrentProcess().StartTime.ToString("o") });
+});
 
 app.Run();

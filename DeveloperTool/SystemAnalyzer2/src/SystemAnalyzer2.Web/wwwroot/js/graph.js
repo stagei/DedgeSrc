@@ -1,4 +1,4 @@
-import { initAliasSelect, getAliasFromUrl, setAliasInLink } from "./shared.js";
+import { initAliasSelect, getAliasFromUrl, setAliasInLink, loadVersionBadge } from "./shared.js";
 
 const mermaid = window.mermaid;
 if (mermaid) {
@@ -3689,6 +3689,7 @@ async function init() {
   alias = await initAliasSelect("aliasSelect");
   setAliasInLink("viewerLink", "viewer.html", alias);
   setAliasInLink("presentLink", "present.html", alias);
+  loadVersionBadge();
 
   setProgress(10, "Loading core data…");
   await yieldToUI(100);

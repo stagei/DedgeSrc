@@ -16,6 +16,16 @@ export async function loadAnalyses() {
   return Array.isArray(payload.analyses) ? payload.analyses : [];
 }
 
+export async function loadVersionBadge(elementId = "versionBadge") {
+  try {
+    const r = await fetch("api/version");
+    if (!r.ok) return;
+    const d = await r.json();
+    const el = document.getElementById(elementId);
+    if (el) { el.textContent = `v${d.version}`; el.title = `Server: ${d.assembly} v${d.version}, started ${d.started}`; }
+  } catch { /* ignore */ }
+}
+
 export async function initAliasSelect(selectId) {
   const list = await loadAnalyses();
   const sel = document.getElementById(selectId);
